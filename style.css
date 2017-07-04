@@ -1,0 +1,76 @@
+.nowrap {
+  white-space: nowrap ;
+}
+
+.well {
+	border-radius:0px;
+}
+
+.navbar{
+	background-color: white;
+}
+
+.toptable{
+	font-size:15px;
+
+}
+
+.infoContainer{
+	display: flex;
+	margin-bottom:20px;
+	/*justify-content: center;*/
+	align-items: center;
+}
+  
+.infoFloater{
+	text-align:center;
+	background-color:rgb(217, 232, 248);
+	display:inline-block;
+	vertical-align: middle;
+	padding:3px;
+	margin:5px;
+}
+
+.toptable tr{
+	border:solid;
+	border-width:1px;
+}
+
+.toptable th{
+	padding:10px;
+	/*padding-top:3px;*/
+}
+
+.toptable td{
+	padding:10px;
+	/*padding-left:20px;*/
+	
+}
+
+.head_left{
+	font-size:15px;
+	font-weight:bold;
+	margin-top:5px;
+	text-align:left;
+}
+
+.ratingtable td{
+	font-size:15px;
+}
+
+.confirmation{
+	font-size:10px;
+	/*color:green;*/
+	padding:0;
+	text-align:center;
+}
+
+.searchresulttable td{
+	padding-left:20px;
+	font-size:15px;
+}
+
+.searchresulttable th{
+	font-size:15px;
+}
+
