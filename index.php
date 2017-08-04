@@ -411,7 +411,7 @@ IDEEN
 		Kommentare
 	</div>
 
-	<div class="col-md-10 well" >
+	<div class="col-md-10 well" id="commentsection">
 
 		<?php
 		//Richtige Dropdown-Auswahl der Sortierung auswählen
