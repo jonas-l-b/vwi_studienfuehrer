@@ -411,7 +411,7 @@ IDEEN
 		Kommentare
 	</div>
 
-	<div class="col-md-10 well" >
+	<div class="col-md-10 well" id="commentsection">
 
 		<?php
 		//Richtige Dropdown-Auswahl der Sortierung auswählen
@@ -451,7 +451,7 @@ IDEEN
 		}
 		?>
 		
-		<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
+		<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>#commentsection" method="post">
 		<label>Sortieren nach: &nbsp </label>
 		<select class="form-control" name="commentorder" id="commentorder">
 			<option value="date_newFirst" <?php echo $date_new ?>>Datum (Neuste zuerst)</option>
