@@ -125,6 +125,11 @@ $(function(){
   ];
   $('.suchen-autocomplete').autocomplete({
     serviceUrl: 'search-autocomplete-api.php',
+	autoSelectFirst: true,
+	groupBy: 'category',
+	paramName: 'query',
+	type: "GET",
+	//dataType: 'text',
 	containerclass: "suchcontainer",
     onSelect: function (suggestion) {
     // some function here
