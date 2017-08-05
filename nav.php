@@ -48,12 +48,12 @@ echo "
 				<ul class=\"nav navbar-nav\">
 					<li><a href=\"tree.php\">Übersicht Studienführer</a></li>
 					<li><a href=\"http://www.vwi-karlsruhe.de\">vwi-karlsruhe.de</a></li>
-					".$admin."
+					$admin
 				</ul>
 				
 				<ul class=\"nav navbar-nav navbar-right\">
 					<li>
-						<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\"><span class=\"glyphicon glyphicon-user\"></span> Hallo ".$name."!</a>
+						<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\"><span class=\"glyphicon glyphicon-user\"></span> Hallo $name!</a>
 						<ul class=\"dropdown-menu\">
 							<li><a href=\"userProfile.php\">Profil</a></li>
 							<li><a href=\"logout.php\">Logout</a></li>
