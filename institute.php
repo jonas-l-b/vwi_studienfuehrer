@@ -22,7 +22,7 @@ include "connect.php";
 		$institute_id = strval ($_GET['institute_id']);
 	}
 	else{
-		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_institute_in_url';</SCRIPT>");
+		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_institute_in_url';</SCRIPT>");
 	}
 	
 	//Moduldatensatz laden
