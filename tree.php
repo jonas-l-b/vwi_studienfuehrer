@@ -728,7 +728,13 @@ include "connect.php";
 	</div>
 	
 </div>
-
+<script src="res/lib/jquery.simplePagination.js"></script>
+<script>
+	//Startet Pagination
+	$(document).ready(function() {
+		$(".searchresulttable").simplePagination();
+	});
+</script>
 </body>
 </html>
 
