@@ -59,7 +59,7 @@ include "connect.php";
 	
 	//subjects
 	$sql = "
-		SELECT subject_name, subjects.code AS subject_code
+		SELECT DISTINCT subject_name, subjects.code AS subject_code
 		FROM subjects
 		JOIN subjects_lecturers ON subjects.ID = subjects_lecturers.subject_ID
 		JOIN lecturers ON subjects_lecturers.lecturer_ID = lecturers.lecturer_ID
