@@ -57,8 +57,6 @@ if (isset($_POST['btn-login'])) {
 
 }
 ?>
-<!DOCTYPE html>
-<html>
 <body>
 <div class="container">
 	<h1>Willkommen zum Studienführer!</h1>
@@ -86,7 +84,7 @@ if (isset($_POST['btn-login'])) {
 			<input type="password" class="form-control" placeholder="Passwort" name="password" required />
 			</div>
 			
-			<a href="#myModal" data-toggle="modal">Passwort vergessen?</a>
+			<a href="#" id="openPWRModal">Passwort vergessen?</a>
 			
 			<hr>
 			
@@ -105,7 +103,7 @@ if (isset($_POST['btn-login'])) {
 </div>
 
 <!-- End of page. Modal für Passwort vergessen -->
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="passwortvergessenmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	<div class="modal-content">
 	<div class="modal-header">
@@ -118,7 +116,7 @@ if (isset($_POST['btn-login'])) {
 				<p>Trage hier die E-Mail-Adresse ein, mit der du dich registriert hast:</p>
 				
 				<div class="form-group">
-					<input type="email" class="form-control" placeholder="E-Mail-Adresse" name="email" autofocus required />
+					<input type="email" class="form-control" id="PWrecoveryEmailInput" placeholder="E-Mail-Adresse" name="email" required />
 				</div>
 			
 				<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
@@ -129,6 +127,15 @@ if (isset($_POST['btn-login'])) {
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
-
+<script>
+	$('#passwortvergessenmodal').on('shown.bs.modal', function () {
+		$("#PWrecoveryEmailInput").focus(); //fokussiert den email input automatisch
+	});
+	$('#openPWRModal').click(function () {
+		$('#passwortvergessenmodal').modal({
+			show: true						//triggert das öffnen des modals
+		});
+	});
+</script>
 </body>
 </html>

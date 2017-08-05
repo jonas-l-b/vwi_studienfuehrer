@@ -12,11 +12,6 @@ include "saveSubjectToVariable.php";
 
 include "sumVotes.php";
 
-?>
-
-<!DOCTYPE html>
-
-<?php
 /*
 TO DO
 - Passwort ändern in Profil checken
@@ -25,7 +20,7 @@ TO DO
 - Nach Sortieren bei der richtigen Position rauskommen ODER: Sortieren mit AJAX
 - Bei Bewerten Slider implementieren
 
-- PW vergessen Fokus (direkt Mail eintippen können ohne Klicken)
+- PW vergessen Fokus (direkt Mail eintippen können ohne Klicken) - DONE
 - Auch mit username anmelden
 
 - Userverwaltung (Favouriten, meine Bewertungen, Konto löschen)
@@ -46,7 +41,6 @@ IDEEN
 */
 ?>
 
-<html>
 <body>
 
 <?php include "nav.php" ?>
