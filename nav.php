@@ -124,7 +124,7 @@ $(function(){
     { value: 'Zimbabwean dollar', data: 'ZWD' },
   ];
   $('.suchen-autocomplete').autocomplete({
-    lookup: currencies,
+    serviceUrl: 'search-autocomplete-api.php',
 	containerclass: "suchcontainer",
     onSelect: function (suggestion) {
     // some function here
