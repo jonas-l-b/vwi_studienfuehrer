@@ -212,7 +212,7 @@ if(isset($_POST['btn-signup'])) {
 			</div>
 			
 			<hr>
-			
+			<?php /*Hier wäre es sinnvoll noch ein ReCAPTCHA von Google einzubauen */ ?>
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary" name="btn-signup">
 					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Account erstellen
@@ -222,6 +222,7 @@ if(isset($_POST['btn-signup'])) {
 		</form>
     </div>
 </div>
+<?php /*Die folgenden Skripte implementieren die Strength-Meter Bar des Password Inputs. Basis für die Berechnung der Stärke ist die zxcvbn library*/ ?>
 <script type="text/javascript" src="res/lib/zxcvbn.js"></script>
 <script type="text/javascript" src="res/lib/zxcvbn-bootstrap-strength-meter.js"></script>
 <script type="text/javascript">
