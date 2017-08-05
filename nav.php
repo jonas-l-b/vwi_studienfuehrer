@@ -83,20 +83,6 @@ echo "
 					<li><a href="https://www.vwi-karlsruhe.de" target="_blank">vwi-karlsruhe.de</a></li>
 					<?php echo $admin;?>
 				</ul>
-				
-				<div id="searchfield">
-					<form class="navbar-form navbar-left">
-					  <div class="input-group">
-						<input type="text" class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
-						<div class="input-group-btn">
-						  <button class="btn btn-default" type="submit">
-							<i class="glyphicon glyphicon-search"></i>
-						  </button>
-						</div>
-					  </div>
-					</form>
-				</div>
-				
 				<ul class="nav navbar-nav navbar-right">
 					<li>
 						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;"><span class="glyphicon glyphicon-user"></span> Hallo <?php echo $name;?>!</a>
@@ -105,34 +91,37 @@ echo "
 							<li><a href="logout.php">Logout</a></li>
 						</ul>
 					</li>		
-				</ul>
+				</ul>				
+				<div id="searchfield">
+					<form action="tree.php" method="get" class="navbar-form">
+					  <div style="display:table;" class="input-group">
+						<input type="text"  class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
+						<!--<span style="width: 1%;" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>-->
+						<div style="width:1%" class="input-group-btn">
+						  <button class="btn btn-default">
+							<i class="glyphicon glyphicon-search"></i>
+						  </button>
+						</div>
+					  </div>
+					</form>
+				</div>
 			</div>
 		</div>
 </nav>
 <script>
 $(function(){
-  var currencies = [
-    { value: 'Afghan afghani', data: 'AFN' },
-    { value: 'Albanian lek', data: 'ALL' },
-    { value: 'Algerian dinar', data: 'DZD' },
-    { value: 'European euro', data: 'EUR' },
-    { value: 'Angolan kwanza', data: 'AOA' },
-    { value: 'East Caribbean dollar', data: 'XCD' },
-    { value: 'Vietnamese dong', data: 'VND' },
-    { value: 'Yemeni rial', data: 'YER' },
-    { value: 'Zambian kwacha', data: 'ZMK' },
-    { value: 'Zimbabwean dollar', data: 'ZWD' },
-  ];
   $('.suchen-autocomplete').autocomplete({
     serviceUrl: 'search-autocomplete-api.php',
 	autoSelectFirst: true,
 	groupBy: 'category',
 	paramName: 'query',
 	type: "GET",
-	//dataType: 'text',
 	containerclass: "suchcontainer",
     onSelect: function (suggestion) {
-    // some function here
+		if(suggestion.data.dest != "")
+			window.location.href = suggestion.data.dest;
+		else
+			$('.suchen-autocomplete').val("Übersicht Startseite");
     }
   });
 });
