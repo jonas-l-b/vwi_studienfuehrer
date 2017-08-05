@@ -185,7 +185,11 @@ if(isset($_POST['btn-signup'])) {
 			</div>
 			
 			<div class="form-group">
-			<input <?php if(isset($hightlight_upass)) echo $hightlight_upass ?> type="password" class="form-control" placeholder="Passwort" name="password" required  />
+			<input id="userpassword" <?php if(isset($hightlight_upass)) echo $hightlight_upass ?> type="password" class="form-control" placeholder="Passwort" name="password" required  />
+			</div>
+			
+			<div class="progress">
+				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
 			
 			<div class="form-group">
@@ -218,6 +222,14 @@ if(isset($_POST['btn-signup'])) {
 		</form>
     </div>
 </div>
-
+<script type="text/javascript" src="res/lib/zxcvbn.js"></script>
+<script type="text/javascript" src="res/lib/zxcvbn-bootstrap-strength-meter.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#StrengthProgressBar").zxcvbnProgressBar({ 
+			  passwordInput: "#userpassword",
+			  ratings: ["Lieber weitertippen", "Immer noch recht schwach", "Langsam wird's ok", "Stark!", "Unfassbar stark"] });
+	});
+</script>
 </body>
 </html>
