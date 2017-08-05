@@ -229,7 +229,7 @@ if(isset($_POST['btn-signup'])) {
 	$(document).ready(function () {
 		$("#StrengthProgressBar").zxcvbnProgressBar({ 
 			  passwordInput: "#userpassword",
-			  ratings: ["Lieber weitertippen", "Immer noch recht schwach", "Langsam wird's ok", "Stark!", "Unfassbar stark"] });
+			  ratings: ["Lieber weitertippen", "Immer noch recht schwach", "Ok", "Stark!", "Unfassbar stark"] });
 	});
 </script>
 </body>
