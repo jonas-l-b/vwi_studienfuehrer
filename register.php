@@ -167,54 +167,55 @@ if(isset($_POST['btn-signup'])) {
 			}
 			?>
 			  
-			<div class="form-group">
+			<div class="form-group has-feedback">
 			<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" required  />
 			</div>
 			
-			<div class="form-group">
+			<div class="form-group has-feedback">
 			<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" required  />
 			</div>
 			
-			<div class="form-group">
-			<input <?php if(isset($highlight_username)) echo $highlight_username ?> value="<?php if(isset($memorey_username)) echo $memorey_username ?>" type="text" class="form-control" placeholder="Benutzername" name="username" required  />
+			<div class="form-group has-feedback <?php if(isset($highlight_username)) echo 'has-error' ?>">
+			<input value="<?php if(isset($memorey_username)) echo $memorey_username ?>" type="text" class="form-control" placeholder="Benutzername" name="username" aria-describedby="helpBlock" required  />
+			<span id="helpBlock" class="help-block">Bitte gib einen Nutzernamen als dein Pseudonym ein. Benutze nicht dein U-Kürzel!</span>
 			</div>
 			
-			<div class="form-group">
-			<input <?php if(isset($highlight_email)) echo $highlight_email ?> value="<?php if(isset($memorey_email)) echo $memorey_email ?>" type="email" class="form-control" placeholder="E-Mail-Adresse" name="email" required  />
+			<div class="form-group has-feedback <?php if(isset($highlight_email)) echo 'has-error' ?>">
+			<input value="<?php if(isset($memorey_email)) echo $memorey_email ?>" type="email" class="form-control" placeholder="E-Mail-Adresse" name="email" required  />
 			<span id="check-e"></span>
 			</div>
 			
-			<div class="form-group">
-			<input id="userpassword" <?php if(isset($hightlight_upass)) echo $hightlight_upass ?> type="password" class="form-control" placeholder="Passwort" name="password" required  />
+			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
+			<input id="userpassword" type="password" class="form-control" placeholder="Passwort" name="password" required  />
 			</div>
 			
 			<div class="progress">
 				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
 			
-			<div class="form-group">
+			<div class="form-group has-feedback">
 			<input value="<?php if(isset($memorey_degree)) echo $memorey_degree ?>" type="text" class="form-control" placeholder="Studiengang" name="degree" required  />
 			</div>
 			
-			<div class="form-group">
+			<div class="form-group has-feedback">
 				<select class="form-control" name="advance" required>
 					<option value="bachelor">Bachelor</option>
 					<option value="master" <?php if(isset($memorey_advance))if($memorey_advance == "master") echo "selected" ?> >Master</option>
 				</select>
 			</div>
 			
-			<div class="form-group">
+			<div class="form-group has-feedback">
 			<input value="<?php if(isset($memorey_semester)) echo $memorey_semester ?>" type="text" class="form-control" placeholder="Fachsemester" name="semester" required  />
 			</div>
 			
-			<div class="checkbox">
+			<div class="checkbox has-feedback">
 				<label><input type="checkbox" name="info" value="yes" <?php if(isset($memorey_info))if($memorey_info == "yes") echo "checked" ?> >Ich möchte über speziell für mich interessante Events informiert werden. Das können beispielsweise Einladungen zu (kostenlosen) Events wie Workshops, Vorträgen oder Fallstudien sein, die die Hochschulgruppe VWI-ESTIEM Karlsruhe zusammen mit Unternehmen veranstaltet.</label>
 			</div>
 			
 			<hr>
 			<?php /*Hier wäre es sinnvoll noch ein ReCAPTCHA von Google einzubauen */ ?>
 			<div class="form-group">
-				<button type="submit" class="btn btn-primary" name="btn-signup">
+				<button id="submitbutton" type="submit" class="btn btn-primary disabled" name="btn-signup">
 					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Account erstellen
 				</button> 
 				<a href="login.php" class="btn btn-default" style="float:right;">Zum Login</a>
@@ -222,14 +223,28 @@ if(isset($_POST['btn-signup'])) {
 		</form>
     </div>
 </div>
-<?php /*Die folgenden Skripte implementieren die Strength-Meter Bar des Password Inputs. Basis für die Berechnung der Stärke ist die zxcvbn library*/ ?>
+<?php /*Die folgenden Skripte implementieren die Strength-Meter Bar des Password Inputs. Basis für die Berechnung der Stärke ist die zxcvbn library.
+		Außerdem berechnen wir, ob das Input Form als ganzes abgeschickt werden darf.*/ ?>
 <script type="text/javascript" src="res/lib/zxcvbn.js"></script>
 <script type="text/javascript" src="res/lib/zxcvbn-bootstrap-strength-meter.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
+		var userInputs = new Array();
+		userInputs.push("studienführer");
 		$("#StrengthProgressBar").zxcvbnProgressBar({ 
 			  passwordInput: "#userpassword",
-			  ratings: ["Lieber weitertippen", "Immer noch recht schwach", "Ok", "Stark!", "Unfassbar stark"] });
+			  ratings: ["Weitertippen", "Immer noch recht schwach", "Ok", "Stark!", "Unfassbar stark"],
+			  userInputs: userInputs });
+		$( "#userpassword" ).change(function() {
+		  if(typeof $( "#userpassword" ).val()!== "undefined"){
+		      var result = zxcvbn($( "#userpassword" ).val(), userInputs);
+			  if(result.score>=2){
+				$( "#submitbutton" ).removeClass( "disabled" );  
+			  }else{
+				$( "#submitbutton" ).addClass( "disabled" );
+			  }  
+		  }
+		});	
 	});
 </script>
 </body>
