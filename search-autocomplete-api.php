@@ -56,7 +56,7 @@ if (isset($_GET['query'])){
 	$count = 0;
 	
 	$statement = $con->prepare("SELECT name, abbr, institute_ID FROM institutes WHERE abbr LIKE ? OR name LIKE ? ORDER BY abbr LIMIT 5");
-	$statement->bind_param('s', $query, $query);
+	$statement->bind_param('ss', $query, $query);
 	$statement->execute();
 	$institutes = $statement->get_result();
 	while(($row = mysqli_fetch_assoc($institutes)) && $count<2){
