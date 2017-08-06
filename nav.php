@@ -116,6 +116,7 @@ $(function(){
 	groupBy: 'category',
 	paramName: 'query',
 	type: "GET",
+	maxHeight: 400,
 	containerclass: "suchcontainer",
     onSelect: function (suggestion) {
 		if(suggestion.data.dest != "")
