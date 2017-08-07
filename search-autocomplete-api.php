@@ -106,6 +106,9 @@ if (isset($_GET['query'])){
 	if($anything){
 		$result = rtrim($result, ',');
 	}else{
+		if($_GET['query'] == "Übersicht Startseite")
+		$result .= '{ "value" :"Wechseln zu Startseite...", "data": {"dest":""} }';
+		else
 		$result .= '{ "value" :"Keine Ergebnisse", "data": {"dest":""} }';
 	}	
 	
