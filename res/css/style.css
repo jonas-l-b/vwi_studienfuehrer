@@ -74,3 +74,8 @@
 	font-size:15px;
 }
 
+.table td, .table th, .table tr,.table div{
+    height: 85px !important;
+	overflow-y: hidden;
+}
+
