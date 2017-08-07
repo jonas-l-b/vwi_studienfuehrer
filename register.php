@@ -11,6 +11,7 @@ if (isset($_SESSION['userSession'])!="") {
 }
 require_once 'connect.php';
 
+$success = false;
 if(isset($_POST['btn-signup'])) {
  
 	$firstName = strip_tags($_POST['first_name']);
@@ -82,6 +83,7 @@ if(isset($_POST['btn-signup'])) {
 			$msg = "<div class='alert alert-success'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Erfolgreich registiert! Wir haben einen Aktivierungslink an die angegebene E-Mail-Adresse gesendet.
 			</div>";
+			$success = true;
 		}else {
 			$msg = "<div class='alert alert-danger'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Beim Registieren ist ein Fehler aufgetreten! Bitte wende dich an VWI-ESTIEM Karlsruhe.
@@ -158,11 +160,18 @@ if(isset($_POST['btn-signup'])) {
 </div>
 <div class="signin-form">
 	<div class="container">
+		<?php
+			if (isset($msg) && $success){
+				echo $msg;
+				echo '<a href="login.php" class="btn btn-default" style="float:center;">Zum Login</a>';
+			} 
+			if (!isset($msg)||!$success):
+		?>
 		<form class="form-signin" method="post" id="register-form">
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
 			
 			<?php
-			if (isset($msg)) {
+			if (isset($msg) && !$success) {
 				echo $msg;
 			}
 			?>
@@ -216,6 +225,9 @@ if(isset($_POST['btn-signup'])) {
 				<a href="login.php" class="btn btn-default" style="float:right;">Zum Login</a>
 			</div>
 		</form>
+		<?php
+			endif;
+		?>
     </div>
 </div>
 
