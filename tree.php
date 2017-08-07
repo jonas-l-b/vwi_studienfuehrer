@@ -362,7 +362,7 @@ include "connect.php";
 			foreach($data as $item){
 				$content .= "
 					<tr>
-						<td><a href=\"index.php?subject=".$item['subject_code']."\" target=\"blank\">".$item['subject_name']."</a></td>
+						<td><a href=\"index.php?subject=".$item['subject_code']."\" target=\"_blank\">".$item['subject_name']."</a></td>
 						<td>".$item['modul_types']."</td>
 						<td>".$item['part_of_modules']."</td>
 						<td>".$item['levels']."</td>
@@ -499,7 +499,7 @@ include "connect.php";
 							WHERE modules.name = '".$modules['module_name']."'
 						");
 						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
-							$content .= "<li><a target=\"blank\" href=\"index.php?subject=".$subjects['subject_code']."\">".$subjects['subject_name']."</a></li>";
+							$content .= "<li><a target=\"_blank\" href=\"index.php?subject=".$subjects['subject_code']."\">".$subjects['subject_name']."</a></li>";
 						}
 						$content .= "</ul>";
 						$content .= "</li>";

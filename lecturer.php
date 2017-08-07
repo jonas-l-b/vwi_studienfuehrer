@@ -51,7 +51,7 @@ include "connect.php";
 	$result = mysqli_query($con,$sql);
 	$subjects = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$subjects .= "<a href=\"index.php?subject=".$row['subject_code']."\" target=\"blank\">".$row['subject_name']."</a><br>";
+		$subjects .= "<a href=\"index.php?subject=".$row['subject_code']."\" target=\"_blank\">".$row['subject_name']."</a><br>";
 	}
 	$subjects = substr($subjects, 0, -4);
 	?>

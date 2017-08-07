@@ -177,7 +177,7 @@ if($userRow['admin']==0){
 			?>
 			<div class="form-group">
 				<label>Institut</label>
-				<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
+				<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="_blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
 				<select name="institute_select" class="form-control" required>
 					<?php echo $insti_selection ?>
 				</select>
