@@ -34,3 +34,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="res/lib/jquery.autocomplete.js"></script>
 </head>
+
+<?php
+	//Steht hier nur zum Testen:
+	require_once  __DIR__.'/Autoloader.php';
+?>
