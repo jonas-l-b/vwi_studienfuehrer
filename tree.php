@@ -7,13 +7,9 @@ include "header.php";
 include "connect.php";
 
 ?>
-
-<!DOCTYPE html>
-
-<html>
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="treeWelcome">
 	<h3>Willkommen zum Studienführer</h3>
