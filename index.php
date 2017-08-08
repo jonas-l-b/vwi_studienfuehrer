@@ -12,33 +12,6 @@ include "saveSubjectToVariable.php";
 
 include "sumVotes.php";
 
-/*
-TO DO
-- Passwort ändern in Profil checken
-
-- Haken Comments vertikal mittig
-- Nach Sortieren bei der richtigen Position rauskommen ODER: Sortieren mit AJAX
-- Bei Bewerten Slider implementieren
-
-- PW vergessen Fokus (direkt Mail eintippen können ohne Klicken) - DONE
-- Auch mit username anmelden
-
-- Userverwaltung (Favouriten, meine Bewertungen, Konto löschen)
-
-- icon verbessern (done?)
-
-- Ergebnistabelle mit Scrollen?
-- Pagination?
-
-- User Semester automatisch updaten?
-
-- Index: Gesamtbewertung mittig!
-
-IDEEN
-- Kommentare bewerten (s. ibash)
-- nur mit kit-Mail registrieren können
-- nach Veranstaltungsnummer suchen
-*/
 ?>
 
 <body>
