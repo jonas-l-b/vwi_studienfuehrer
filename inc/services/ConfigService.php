@@ -47,7 +47,8 @@
 		* externe Instanzierung verbieten
 		*/
 	   protected function __construct() {
-			$this->configs = require_once('../../../config.php');		//PATH TO CONFIG FILE
+			$configs = require_once __DIR__.'../../../../config.php';		//PATH TO CONFIG FILE
+			$this->configs = $configs;
 	   }
 	   
 	   public function getConfigs(){
