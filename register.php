@@ -50,35 +50,14 @@ if(isset($_POST['btn-signup'])) {
 	if ($count==0 && $count2==0) {
 		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash')";
 		if ($con->query($query)) {
-			//Send mail
-			$to      = $email;
-			$subject = 'Aktivierung deines Studienführer-Accounts (VWI-ESTIEM Karlsrhe)'; // Give the email a subject 
-
+			$subject = 'Aktivierung deines Studienführer-Accounts'; // Give the email a subject 
 			$message="
-			<html>
-			<head>
-			<title>Erfolgreiche Registierung!</title>
-			</head>
-			<body>
-			<div style=\"font-family:calibri\">
-			<p>Hallo ".$firstName.",</p>
 			<p>vielen Dank für deine Registrierung!</p>
 			<p>Dein Account wurde erstellt. Um ihn zu aktivieren, klicke bitte auf diesen Link:<br>
 			http://app.vwi-karlsruhe.de/studienfuehrer/verify.php?email=".$email."&hash=".$hash."</p>
-			<p>Viel Spaß mit dem Studienführer,<br>
-			Deine VWI-ESTIEM Hochschulgruppe</p>
-			<br><br>
-			<p></p>
-			</div>
-			</body>
-			</html>
 			";
-			$headers = "From: VWI-ESTIEM Karlsruhe" . "\r\n";
-			//$headers .= "MIME-Version: 1.0" . "\r\n";
-			$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-			if (mail($to, $subject, $message, $headers)){
-				//echo "Mail sent";
-			}
+			$mailService = EmailService::getService();
+			$mailService->sendEmail($email, $firstName, $subject, $message);
 			
 			$msg = "<div class='alert alert-success'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Erfolgreich registiert! Wir haben einen Aktivierungslink an die angegebene E-Mail-Adresse gesendet.

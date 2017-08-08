@@ -38,4 +38,5 @@
 <?php
 	//Steht hier nur zum Testen:
 	require_once  __DIR__.'/Autoloader.php';
+	EmailService::getService();
 ?>

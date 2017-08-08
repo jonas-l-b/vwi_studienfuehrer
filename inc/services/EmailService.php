@@ -2,7 +2,7 @@
 
 	/*Verschickt Emails*/
 	
-	class EmailService implements Service{
+	class EmailService{
 		/**
 		* instance
 		*
@@ -44,21 +44,21 @@
 		*/
 	   protected function __construct() {
 		   new PHPMailerAutoload();
-		   $mail = new PHPMailer();
+		   $this->mail = new PHPMailer();
 		   
-		   $mail->SMTPDebug = 3;			//Gibt starke Debugging Ausgaben aus - für Realease Deaktivieren (später auf 2 vgl. Homepage2016)
-		   $mail->setLanguage('de');
-		   $mail->IsSendmail();
-           $mail->Host = "REPLACE WITH HOST";
-           $mail->Port = "PEPLACE WITH PORT";
-           $mail->SMTPSecure = "ssl";
-           $mail->SMTPAuth = true;
-           $mail->Username = "REPLACE WITH USERNAME";
-           $mail->Password = "REPLACE WiTH PASSWORD";
-           $mail->From       = "REPLACE WITH EMAIL-ADDRESS";
-           $mail->FromName   = "Studienführer - VWI-ESTIEM-Karlsruhe e.V.";
-           $mail->CharSet =  'UTF-8';  
-		   $mail->isHTML(true);
+		   $this->mail->SMTPDebug = 3;			//Gibt starke Debugging Ausgaben aus - für Realease Deaktivieren (später auf 2 vgl. Homepage2016)
+		   $this->mail->setLanguage('de');
+		   $this->mail->IsSendmail();
+           $this->mail->Host = "smtp.1und1.de";
+           $this->mail->Port = "465";
+           $this->mail->SMTPSecure = "ssl";
+           $this->mail->SMTPAuth = true;
+           $this->mail->Username = "bewerbung@vwi-karlsruhe.de";
+           $this->mail->Password = "INSERT PASSWORD HIER";
+           $this->mail->From       = "bewerbung@vwi-karlsruhe.de";
+           $this->mail->FromName   = "Studienführer - VWI-ESTIEM-Karlsruhe e.V.";
+           $this->mail->CharSet =  'UTF-8';  
+		   $this->mail->isHTML(true);
 	   }
 	   
 	   
@@ -68,9 +68,9 @@
 		* Sendet eine Email an den Nutzer. Gibt ein gewisses Format vor
 		*/
 	   public function sendEmail($toEmail, $userName, $subject, $body){
-		   $mail->AddAddress($toEmail, $userName);
-		   $mail->Subject = $subject;
-		   $mail->Body = "
+		   $this->mail->AddAddress($toEmail, $userName);
+		   $this->mail->Subject = $subject;
+		   $this->mail->Body = "
 			<html>
 				<header>
 					<style>
@@ -79,12 +79,12 @@
 				</header>
 				<body>
 					<div style=\"font-family:calibri\">
-						<h1>$subject</h1>
+						<h2>$subject</h2>
 						<p>Hallo $userName,</p>
 						$body
 						<p>Viel Spaß mit dem Studienführer,<br>
 						Deine VWI-ESTIEM Hochschulgruppe Karlsruhe</p>
-						<br><br>".'
+						".'
 						<p style="font-size:.8em;">
 							____________________________________<br />
 							<strong>Studienführer VWI-ESTIEM Karlsruhe</strong><br />
@@ -100,7 +100,7 @@
 				</body>
 			</html>
 			';
-		   if(!$mail->Send()){
+		   if(!$this->mail->Send()){
 			   return false;
 		   }else{
 			   return true;
