@@ -57,12 +57,13 @@ if(isset($_POST['btn-signup'])) {
 			http://app.vwi-karlsruhe.de/studienfuehrer/verify.php?email=".$email."&hash=".$hash."</p>
 			";
 			$mailService = EmailService::getService();
-			$mailService->sendEmail($email, $firstName, $subject, $message);
+			if($mailService->sendEmail($email, $firstName, $subject, $message)){
+					$success = true;
+			}
 			
 			$msg = "<div class='alert alert-success'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Erfolgreich registiert! Wir haben einen Aktivierungslink an die angegebene E-Mail-Adresse gesendet.
 			</div>";
-			$success = true;
 		}else {
 			$msg = "<div class='alert alert-danger'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Beim Registieren ist ein Fehler aufgetreten! Bitte wende dich an VWI-ESTIEM Karlsruhe.
