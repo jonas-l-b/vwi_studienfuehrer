@@ -5,7 +5,7 @@
 	Händelt alles vom eingeloggt bleiben bis etc pp*/
 	
 	
-	class SessionService{
+	class SessionService implements Service{
 		/**
 		* instance
 		*

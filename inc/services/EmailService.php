@@ -2,7 +2,7 @@
 
 	/*Verschickt Emails*/
 	
-	class EmailService{
+	class EmailService implements Service{
 		/**
 		* instance
 		*
@@ -84,12 +84,22 @@
 						$body
 						<p>Viel Spaß mit dem Studienführer,<br>
 						Deine VWI-ESTIEM Hochschulgruppe Karlsruhe</p>
-						<br><br>
-						<p></p>
+						<br><br>".'
+						<p style="font-size:.8em;">
+							____________________________________<br />
+							<strong>Studienführer VWI-ESTIEM Karlsruhe</strong><br />
+							<a href="mailto:studienführer@vwi-karlsruhe.de"/>studienführer@vwi-karlsruhe</a><br />
+							<br />
+							<strong>VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</strong><br />
+							Büro: 123456789 / Fax: 123456789 <br />
+							Waldhornstraße 27<br />
+							76131 Karlsruhe<br />
+							<a href="https://www.vwi-karlsruhe.de" target="_blank">www.vwi-karlsruhe.de</a>
+						</p>
 					</div>
 				</body>
 			</html>
-			";
+			';
 		   if(!$mail->Send()){
 			   return false;
 		   }else{
