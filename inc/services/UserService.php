@@ -4,7 +4,7 @@
 	
 	Händelt alles von Benutzergruppenmanagement bis persönliche Information*/
 	
-	class UserService implements Service{
+	class UserService{
 		/**
 		* instance
 		*

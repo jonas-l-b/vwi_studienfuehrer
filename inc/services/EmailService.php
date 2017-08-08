@@ -46,16 +46,17 @@
 		   new PHPMailerAutoload();
 		   $this->mail = new PHPMailer();
 		   
+		   $configs = ConfigService::getService()->getConfigs();
 		   $this->mail->SMTPDebug = 3;			//Gibt starke Debugging Ausgaben aus - für Realease Deaktivieren (später auf 2 vgl. Homepage2016)
 		   $this->mail->setLanguage('de');
 		   $this->mail->IsSendmail();
-           $this->mail->Host = "smtp.1und1.de";
-           $this->mail->Port = "465";
+           $this->mail->Host = $configs['email_host'];
+           $this->mail->Port = $configs['email_port'];
            $this->mail->SMTPSecure = "ssl";
            $this->mail->SMTPAuth = true;
-           $this->mail->Username = "bewerbung@vwi-karlsruhe.de";
-           $this->mail->Password = "INSERT PASSWORD HIER";
-           $this->mail->From       = "bewerbung@vwi-karlsruhe.de";
+           $this->mail->Username = $configs['email_username'];
+           $this->mail->Password = $configs['email_password'];
+           $this->mail->From       = $configs['email_username'];
            $this->mail->FromName   = "Studienführer - VWI-ESTIEM-Karlsruhe e.V.";
            $this->mail->CharSet =  'UTF-8';  
 		   $this->mail->isHTML(true);

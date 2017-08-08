@@ -1,13 +1,14 @@
 <?php
 
-/*
-*	Abstrakte Service Klasse erzwingt Teile der Singleton Struktur
-*
-*
-*/
-
-abstract class Service{
-	/**
+	/*Diese Klasse wird der Config-Service. 
+	
+	Händelt alles von Benutzergruppenmanagement bis persönliche Information*/
+	
+	class ConfigService{
+		
+		private $configs;
+		
+		/**
 		* instance
 		*
 		* Statische Variable, um die aktuelle (einzige!) Instanz dieser Klasse zu halten
@@ -38,5 +39,21 @@ abstract class Service{
 		*
 		* Kopieren der Service-Instanz von aussen ebenfalls verbieten
 		*/
-	   protected function __clone() {};
-}
+	   protected function __clone() {}
+	 
+	   /**
+		* constructor
+		*
+		* externe Instanzierung verbieten
+		*/
+	   protected function __construct() {
+			$this->configs = require_once('../../../config.php');		//PATH TO CONFIG FILE
+	   }
+	   
+	   public function getConfigs(){
+		   return $this->configs;
+	   }
+	   
+	}
+
+?>

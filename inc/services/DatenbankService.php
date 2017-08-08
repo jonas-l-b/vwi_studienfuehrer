@@ -4,7 +4,7 @@
 	
 	Nimmt eine Verbindung mit der Datenbank auf*/
 	
-	class DatenbankService implements Service{
+	class DatenbankService{
 		/**
 		* instance
 		*
