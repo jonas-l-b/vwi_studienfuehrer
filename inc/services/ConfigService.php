@@ -2,7 +2,7 @@
 
 	/*Diese Klasse wird der Config-Service. 
 	
-	Händelt alles von Benutzergruppenmanagement bis persönliche Information*/
+	Händelt alle festen Konstanten, die nicht auf Github öffentlich gemacht werden dürfen und andere Variable Attribute der Software*/
 	
 	class ConfigService{
 		
