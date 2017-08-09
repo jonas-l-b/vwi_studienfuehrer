@@ -413,8 +413,8 @@ include "connect.php";
 					<thead>
 						<tr>
 							<th>Veranstaltung</th>
-							<th>Modultyp</th>
-							<th>Teil der Module</th>
+							<th>Typ</th>
+							<th>Beinhaltet in</th>
 							<th>Level</th>
 							<th>ECTS</th>
 							<th>Dozent</th>
