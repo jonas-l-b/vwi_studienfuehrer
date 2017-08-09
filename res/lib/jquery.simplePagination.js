@@ -81,14 +81,27 @@
 				$rows.hide();
 				$rows.slice((from-1), to).show();
 
-				of.innerHTML = from + ' bis ' + to + ' von ' + $rows.length + ' Einträgen';
+				of.innerHTML = '<strong>'+from+'</strong>' + ' bis ' + '<strong>'+to+'</strong>' + ' von ' + '<strong>'+$rows.length+'</strong>' + ' Einträgen';
 
 				if ($rows.length <= settings.perPage) {
 					$(container).hide();
 				} else {
 					$(container).show();
 				}
+				
+				//alert("to: "+to+", of: "+$rows.length);
+				if(from==1){
+					$(bPrevious).hide();
+				} else{
+					$(bPrevious).show();
+				}
+				if(to==$rows.length){
+					$(bNext).hide();
+				} else{
+					$(bNext).show();
+				}
 			}
+			
 		});
 
 	}
