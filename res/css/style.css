@@ -75,7 +75,8 @@
 }
 
 .searchresulttable td, .searchresulttable th, .searchresulttable tr,.searchresulttable div{
-    height: 85px !important;
-	overflow-y: hidden;
+    height: 73px !important;
+	overflow-y:auto;
 }
+
 
