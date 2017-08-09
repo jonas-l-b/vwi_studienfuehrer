@@ -729,10 +729,12 @@ include "connect.php";
 	
 </div>
 <script src="res/lib/jquery.simplePagination.js"></script>
+<script src="res/lib/jquery.nicescroll-master/jquery.nicescroll.js"></script>
 <script>
 	//Startet Pagination
 	$(document).ready(function() {
 		$(".searchresulttable").simplePagination();
+		$( "td" ).children().niceScroll();
 	});
 </script>
 </body>
