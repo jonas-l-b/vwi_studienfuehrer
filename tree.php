@@ -304,10 +304,10 @@ include "connect.php";
 			while($row = mysqli_fetch_assoc($result)){
 				switch($row['name']){
 					case "bachelor_basic":
-						$levels .= "Bachelor: Kernprog."."<br>";
+						$levels .= "Kernprog."."<br>";
 						break;
 					case "bachelor":
-						$levels .= "Bachelor: Vertiefung"."<br>";
+						$levels .= "Vertiefung"."<br>";
 						break;
 					case "master":
 						$levels .= "Master"."<br>";
@@ -371,7 +371,7 @@ include "connect.php";
 						<td><div>".$item['part_of_modules']."</div></td>
 						<td><div>".$item['levels']."</div></td>
 						<td><div>".$item['ECTS']."</div></td>
-						<td><div>".$item['lecturers']."</div></td>
+						<td><div><p style=\"white-space: nowrap;\">".$item['lecturers']."<p></div></td>
 						<td><div>".$item['semester']."</div></td>
 						<td><div>".$item['language']."</div></td>
 						<td><div>".$item[$orderBy]." %</div></td>
