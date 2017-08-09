@@ -1,5 +1,13 @@
 <?php
-
+	
+	
+	/*NOCHT NICHT IMPLEMENTIERT - HIER NUR "ROHBAU"*/
+	
+	
+	
+	
+	
+	
 	/*Diese Klasse wird der DatenbankService. 
 	
 	Nimmt eine Verbindung mit der Datenbank auf*/

@@ -1,5 +1,17 @@
 <?php
 
+
+
+	
+	/*NOCHT NICHT IMPLEMENTIERT - HIER NUR "ROHBAU"*/
+	
+	
+	
+	
+	
+	
+
+
 	/*Diese Klasse wird der User-Service. 
 	
 	Händelt alles von Benutzergruppenmanagement bis persönliche Information*/

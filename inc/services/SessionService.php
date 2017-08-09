@@ -1,5 +1,16 @@
 <?php
 
+	
+	
+	/*NOCHT NICHT IMPLEMENTIERT - HIER NUR "ROHBAU"*/
+	
+	
+	
+	
+	
+	
+
+
 	/*Diese Klasse wird der Session-Service. 
 	
 	Händelt alles vom eingeloggt bleiben bis etc pp*/
