@@ -588,11 +588,11 @@ include "sumVotes.php";
 	</div>
 	
 	<!--Anzeige falls noch kein Rating vorhanden-->
-	<div class="noRating" <?php echo $displayNoRatings ?>>
+	<div class="noRatingBox" <?php echo $displayNoRatings ?>>
 		<br>
-		<h2 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h2>
+		<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
 		<div style="text-align:center">
-			<button style="font-size:20px" type="button" a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
+			<button style="font-size:20px" type="button" a href="#myModal" role="button" class="btn noRatingButton" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
 		</div>
 	</div>
 </div>
