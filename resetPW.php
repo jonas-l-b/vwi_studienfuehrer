@@ -52,8 +52,6 @@ if(isset($_GET['recoverhash'])){
 }
 
 ?>
-
-<html>
 <body>
 
 <div class="container">
@@ -61,10 +59,22 @@ if(isset($_GET['recoverhash'])){
 	<h3>Passwort ändern</h3>
 	<p>Trage hier dein gewünschtes neues Passwort ein und bestätige mit dem Button:</p>
 	
-	<form class="form-signin" method="post" id="login-form">
+	<form class="form-signin" method="post" id="pw-recovery-form">
 
-		<div class="form-group">
-		<input type="password" class="form-control" placeholder="Passwort" name="password" required />
+		<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
+				<input id="password" type="password" class="form-control" placeholder="Passwort" name="password" data-pw="pw" data-pw-error="Dein neues Passwort ist noch nicht stark genug! Benutze am besten mehrere Wörter, Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen. " required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block with-errors"></div>
+		</div>
+			
+		<!-- FUNKTIONIERT HIER NOCH NICHT AUS UNGEKLÄRTEN GRÜNDEN!<div class="progress">
+			<div id="StrengthProgressBar" class="progress-bar"></div>
+		</div>-->
+			
+		<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
+			<input id="userpassword2" type="password" class="form-control" placeholder="Passwort erneut eingeben" data-match="#password" name="password2" required data-error="Die Eingaben stimmen nicht überein." />
+			<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+			<div class="help-block with-errors"></div>
 		</div>
 		
 		<div class="form-group">
@@ -74,7 +84,34 @@ if(isset($_GET['recoverhash'])){
 
 </div>
 
-
+<script type="text/javascript" src="res/lib/zxcvbn.js"></script>
+<script type="text/javascript" src="res/lib/zxcvbn-bootstrap-strength-meter.js"></script>
+<script type="text/javascript" src="res/lib/bootstrap-validator/validator.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		var userInputs = new Array();
+		userInputs.push("studienführer");
+		$("#StrengthProgressBar").zxcvbnProgressBar({ 
+			  passwordInput: "#userpassword",
+			  ratings: ["Weitertippen", "Immer noch recht schwach", "Ok", "Stark!", "Unfassbar stark"],
+			  userInputs: userInputs });
+		$('#pw-recovery-form').validator({
+			custom: {
+				'pw': function($el) {
+					var result = zxcvbn($el.val(), userInputs);
+				    if(result.score>=2){
+					  return false;  
+				    }else{
+					  return true;
+				    } 
+				}
+			},
+			errors: {
+				pw: 'Deine Passwortstärke muss mindestens "OK" sein!'
+			}
+		});
+	});
+</script>
 
 </body>
 </html>

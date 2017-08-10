@@ -167,50 +167,84 @@ if(isset($_POST['btn-signup'])) {
 			}
 			?>
 			  
-			<div class="form-group">
-			<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" required  />
+			<div class="form-group has-feedback">
+				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="form-group">
-			<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" required  />
+			<div class="form-group has-feedback">
+				<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="form-group">
-			<input <?php if(isset($highlight_username)) echo $highlight_username ?> value="<?php if(isset($memorey_username)) echo $memorey_username ?>" type="text" class="form-control" placeholder="Benutzername" name="username" required  />
+			<div class="form-group has-feedback <?php if(isset($highlight_username)) echo 'has-error' ?>">
+				<input value="<?php if(isset($memorey_username)) echo $memorey_username ?>" 
+					type="text" pattern="^[a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ]+$" 
+					maxlength="30" class="form-control" placeholder="Benutzername" name="username" aria-describedby="helpBlock" 
+					data-error="Dein Benutzername muss zwischen 5 und 30 Zeichen lang sein. Erlaubt sind Ziffern 0-9 und Buchstaben a-Z, Umlaute und das kleine und (jetzt auch) das große ẞ." required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block">Benutze nicht dein U-Kürzel.</div>
+				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="form-group">
-			<input <?php if(isset($highlight_email)) echo $highlight_email ?> value="<?php if(isset($memorey_email)) echo $memorey_email ?>" type="email" class="form-control" placeholder="E-Mail-Adresse" name="email" required  />
-			<span id="check-e"></span>
+			<div class="form-group has-feedback <?php if(isset($highlight_email)) echo 'has-error' ?>">
+				<input value="<?php if(isset($memorey_email)) echo $memorey_email ?>" type="email" pattern="^u[a-z][a-z][a-z][a-z]@student.kit.edu$" class="form-control" placeholder="E-Mail-Adresse" name="email" required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block">Gib eine deine U-Kürzel E-Mail-Adresse ein. Zum Beispiel: uxxxx@student.kit.edu</div>
+				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="form-group">
-			<input <?php if(isset($hightlight_upass)) echo $hightlight_upass ?> type="password" class="form-control" placeholder="Passwort" name="password" required  />
+			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
+				<input id="userpassword" type="password" class="form-control" placeholder="Passwort" name="password" data-pw="pw" data-pw-error="Deine Passwortstärke muss mindestens 'OK!' sein!" required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="form-group">
-			<input value="<?php if(isset($memorey_degree)) echo $memorey_degree ?>" type="text" class="form-control" placeholder="Studiengang" name="degree" required  />
+			<div class="progress">
+				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
 			
-			<div class="form-group">
+			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
+				<input id="userpassword2" type="password" class="form-control" placeholder="Passwort erneut eingeben" data-match="#userpassword" name="password2" required data-error="Die Eingaben stimmen nicht überein." />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block with-errors"></div>
+			</div>
+			
+			<div class="form-group has-feedback">
+				<input value="<?php if(isset($memorey_degree)) echo $memorey_degree ?>" type="text" class="form-control" placeholder="Studiengang" name="degree" required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block with-errors"></div>
+			</div>
+			
+			<div class="form-group has-feedback">
 				<select class="form-control" name="advance" required>
 					<option value="bachelor">Bachelor</option>
 					<option value="master" <?php if(isset($memorey_advance))if($memorey_advance == "master") echo "selected" ?> >Master</option>
 				</select>
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 			</div>
 			
-			<div class="form-group">
-			<input value="<?php if(isset($memorey_semester)) echo $memorey_semester ?>" type="text" class="form-control" placeholder="Fachsemester" name="semester" required  />
+			<div class="form-group has-feedback">
+				<input value="<?php if(isset($memorey_semester)) echo $memorey_semester ?>" type="number" max="18" min="1" step="1" class="form-control" placeholder="Fachsemester" name="semester" required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="checkbox">
+			<div class="checkbox has-feedback">
 				<label><input type="checkbox" name="info" value="yes" <?php if(isset($memorey_info))if($memorey_info == "yes") echo "checked" ?> >Ich möchte über speziell für mich interessante Events informiert werden. Das können beispielsweise Einladungen zu (kostenlosen) Events wie Workshops, Vorträgen oder Fallstudien sein, die die Hochschulgruppe VWI-ESTIEM Karlsruhe zusammen mit Unternehmen veranstaltet.</label>
 			</div>
 			
-			<hr>
+			<div class="checkbox has-feedback">
+				<label><input type="checkbox" name="nutzungsbedingungen" 
+				value="yes">Hiermit bestätigst du, dass du unsere <a href="#" data-toggle="modal" data-target="#bedingungenModal">Datenschutzerklärung, Nutzungsbedingungen und Gemeinschaftsstandards</a> gelesen hast und diese akzeptierst.</label>
+			</div>
 			
+			<hr>
+			<?php /*Hier wäre es sinnvoll noch ein ReCAPTCHA von Google einzubauen */ ?>
 			<div class="form-group">
-				<button type="submit" class="btn btn-primary" name="btn-signup">
+				<button id="submitbutton" type="submit" class="btn btn-primary disabled" name="btn-signup">
 					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Account erstellen
 				</button> 
 				<a href="login.php" class="btn btn-default" style="float:right;">Zum Login</a>
@@ -219,5 +253,57 @@ if(isset($_POST['btn-signup'])) {
     </div>
 </div>
 
+<!-- Bedingungen Modal -->
+<div id="bedingungenModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Unsere Regeln</h4>
+      </div>
+      <div class="modal-body">
+        <p>Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. Lorem Ipsum Dolor. </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<?php /*Die folgenden Skripte implementieren die Strength-Meter Bar des Password Inputs. Basis für die Berechnung der Stärke ist die zxcvbn library.
+		Außerdem berechnen wir, ob das Input Form als ganzes abgeschickt werden darf.*/ ?>
+<script type="text/javascript" src="res/lib/zxcvbn.js"></script>
+<script type="text/javascript" src="res/lib/zxcvbn-bootstrap-strength-meter.js"></script>
+<script type="text/javascript" src="res/lib/bootstrap-validator/validator.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		var userInputs = new Array();
+		userInputs.push("studienführer");
+		$("#StrengthProgressBar").zxcvbnProgressBar({ 
+			  passwordInput: "#userpassword",
+			  ratings: ["Weitertippen", "Immer noch recht schwach", "Ok", "Stark!", "Unfassbar stark"],
+			  userInputs: userInputs });
+		$('#register-form').validator({
+			custom: {
+				'pw': function($el) {
+					var result = zxcvbn($el.val(), userInputs);
+				    if(result.score>=2){
+					  return false;  
+				    }else{
+					  return true;
+				    } 
+				}
+			},
+			errors: {
+				pw: 'Deine Passwortstärke muss mindestens "OK" sein!'
+			}
+		});
+	});
+</script>
 </body>
 </html>

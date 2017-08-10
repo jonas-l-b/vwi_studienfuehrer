@@ -218,9 +218,28 @@ include "sumVotes.php";
 	?>
 	</div>
 	
-	<div style="margin-bottom:15px">
-		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
-	</div>
+	
+	<?php
+		$sql_modal="
+			SELECT *
+			FROM ratings
+			WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
+		";
+		
+		$result_modal = mysqli_query($con,$sql_modal);
+		if(mysqli_num_rows($result_modal)>=1){
+			?>
+			<p style="text-align:center">Vielen Dank für Deine Bewertung!</p>
+			<?php
+		}else{
+			?>
+			<div style="margin-bottom:15px">
+				<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
+			</div>
+			<?php
+		}
+	?>
+	
 
 <!--	
 	<table class="toptable">
@@ -588,11 +607,11 @@ include "sumVotes.php";
 	</div>
 	
 	<!--Anzeige falls noch kein Rating vorhanden-->
-	<div class="noRating" <?php echo $displayNoRatings ?>>
+	<div class="noRatingBox" <?php echo $displayNoRatings ?>>
 		<br>
-		<h2 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h2>
+		<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
 		<div style="text-align:center">
-			<button style="font-size:20px" type="button" a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
+			<button style="font-size:20px" type="button" a href="#myModal" role="button" class="btn noRatingButton" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
 		</div>
 	</div>
 </div>
@@ -610,21 +629,12 @@ include "sumVotes.php";
 	<div class="modal-body">
 		<?php
 		
-		$sql_modal="
-			SELECT *
-			FROM ratings
-			WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
-		";
-		
-		$result_modal = mysqli_query($con,$sql_modal);
-		
 		if(mysqli_num_rows($result_modal)>=1){
 			echo "<h3>Du hast diese Veranstaltung bereits bewertet!</h3>
 				<br>
 				<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" aria-hidden=\"true\">Schließen</button>
 			";
-			exit;
-		}
+		}else{
 		
 		?>
 		
@@ -762,6 +772,8 @@ include "sumVotes.php";
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
-
+<?php
+		} //Ende von Modal Eingabe
+?>
 </body>
 </html>
