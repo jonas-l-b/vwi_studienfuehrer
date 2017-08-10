@@ -51,7 +51,12 @@ include "connect.php";
 	
 	/*Suchmasken-Einträge vorbereiten (für erstes Aufrufen der Seite; werden nach Button-Betätigung wieder modifiziert)*/
 	//checkboxes
-	$array_types = array("BWL", "VWL", "INFO", "OR", "ING", "Sonstige");
+	$q = mysqli_query($con,"SELECT * FROM moduletypes");
+	$array_types = array();
+	while($row = mysqli_fetch_assoc($q)){
+		$array_types[] .= $row['name'];
+	}
+
 	foreach($array_types as $type){
 		$checkbox[$type] = "checked";		
 	}
@@ -99,7 +104,6 @@ include "connect.php";
 		
 		/*Suchmasken-Einträge wieder einfügen*/
 		//Checkboxes
-		$array_types = array("BWL", "VWL", "INFO", "OR", "ING", "Sonstige");
 		foreach($array_types as $type){
 			$checkbox[$type] = "";		
 		}
