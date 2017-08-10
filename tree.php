@@ -572,8 +572,9 @@ include "connect.php";
 						
 									<!--
 									VORSICHT!
-									Folgender Code erstellt Checkboxen dynamisch. Funktioniert allerdings nur
-									zwischen 1 und 12 Checkboxen	bez. Spalten (col-md-x). Sollte aber eigentlich genügen.
+									Folgender Code erstellt Checkboxen dynamisch. Funktioniert allerdings (kontrolliert) nur
+									bis zu 12 Checkboxen wegen der Spaltenaufteilung (col-md-x), siehe switch unten.
+									Sollte aber eigentlich genügen.
 									-->
 									
 									<?php
@@ -605,8 +606,9 @@ include "connect.php";
 									<div class="col-md-<?php echo($columnSize)?>">
 										<?php
 										for ($j = 1; $j <= count($array_types); $j++) {
-											$i = $j-1; //Nicht einfach "$j = 0; $j < count($array_types)" damit Modulus-Operation funktioniert
-											if(isset($checkbox[$array_types[$i]])){ //Bereit Checkboxfüllen vor
+											$i = $j-1; //Nicht einfach "$j = 0; $j < count($array_types)" damit Modulus-Operation unten funktioniert
+											
+											if(isset($checkbox[$array_types[$i]])){ //Bereitet Checkboxfüllen vor
 												$checked = $checkbox[$array_types[$i]];
 											} else{
 												$checked = "";
