@@ -24,8 +24,13 @@ if($userRow['admin']==0){
 	<hr>
 	
 	<?php
-	$modulTypes = array("BWL", "VWL", "INFO", "OR", "ING", "Sonstige");
+	$q = mysqli_query($con,"SELECT * FROM moduletypes");
+	$modulTypes = array();
+	while($row = mysqli_fetch_assoc($q)){
+		$modulTypes[] .= $row['name'];
+	}
 		
+	//Wenn Veranstaltung löschen gedrückt wird
 	foreach ($modulTypes as $type) {
 		if (isset($_POST['btn-deleteSubject-'.$type.''])){
 
@@ -51,7 +56,6 @@ if($userRow['admin']==0){
 	
 	<div class="row">
 		<?php
-		$modulTypes = array("BWL", "VWL", "INFO", "OR", "ING", "Sonstige");
 		
 		foreach ($modulTypes as $type) {
 			$sql = "

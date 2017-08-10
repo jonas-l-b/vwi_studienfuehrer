@@ -51,7 +51,12 @@ include "connect.php";
 	
 	/*Suchmasken-Einträge vorbereiten (für erstes Aufrufen der Seite; werden nach Button-Betätigung wieder modifiziert)*/
 	//checkboxes
-	$array_types = array("BWL", "VWL", "INFO", "OR", "ING", "Sonstige");
+	$q = mysqli_query($con,"SELECT * FROM moduletypes");
+	$array_types = array();
+	while($row = mysqli_fetch_assoc($q)){
+		$array_types[] .= $row['name'];
+	}
+
 	foreach($array_types as $type){
 		$checkbox[$type] = "checked";		
 	}
@@ -99,7 +104,6 @@ include "connect.php";
 		
 		/*Suchmasken-Einträge wieder einfügen*/
 		//Checkboxes
-		$array_types = array("BWL", "VWL", "INFO", "OR", "ING", "Sonstige");
 		foreach($array_types as $type){
 			$checkbox[$type] = "";		
 		}
@@ -552,7 +556,8 @@ include "connect.php";
 						<div class="row">
 							<label class="control-label col-md-4">Modul-Typ:</label>
 							<div class="col-md-8">
-								<div class="row">
+								<div class="row">	
+						<!--	
 									<div class="col-md-6">
 										<div class="checkbox"><label><input type="checkbox" name="modulType[]" value="BWL" <?php if(isset($checkbox['BWL'])) echo $checkbox['BWL']?> >BWL</label></div>
 										<div class="checkbox"><label><input type="checkbox" name="modulType[]" value="VWL" <?php if(isset($checkbox['VWL'])) echo $checkbox['VWL']?>>VWL</label></div>
@@ -562,6 +567,60 @@ include "connect.php";
 										<div class="checkbox"><label><input type="checkbox" name="modulType[]" value="OR" <?php if(isset($checkbox['OR'])) echo $checkbox['OR']?>>OR</label></div>
 										<div class="checkbox"><label><input type="checkbox" name="modulType[]" value="ING" <?php if(isset($checkbox['ING'])) echo $checkbox['ING']?>>ING</label></div>
 										<div class="checkbox"><label><input type="checkbox" name="modulType[]" value="Sonstige" <?php if(isset($checkbox['Sonstige'])) echo $checkbox['Sonstige']?>>Sonstige</label></div>
+									</div>
+						-->
+						
+									<!--
+									VORSICHT!
+									Folgender Code erstellt Checkboxen dynamisch. Funktioniert allerdings nur
+									zwischen 1 und 12 Checkboxen	bez. Spalten (col-md-x). Sollte aber eigentlich genügen.
+									-->
+									
+									<?php
+									$columnSize = "";
+									switch(count($array_types)){
+										case 1:
+										case 2:
+										case 3:
+										$columnSize = 12;
+										break;
+										case 4:
+										case 5:
+										case 6:
+										$columnSize = 6;
+										break;
+										case 7:
+										case 8:
+										case 9:
+										$columnSize = 4;
+										break;
+										case 10:
+										case 11:
+										case 12:
+										$columnSize = 3;
+										break;
+									}
+									?>
+									
+									<div class="col-md-<?php echo($columnSize)?>">
+										<?php
+										for ($j = 1; $j <= count($array_types); $j++) {
+											$i = $j-1; //Nicht einfach "$j = 0; $j < count($array_types)" damit Modulus-Operation funktioniert
+											if(isset($checkbox[$array_types[$i]])){ //Bereit Checkboxfüllen vor
+												$checked = $checkbox[$array_types[$i]];
+											} else{
+												$checked = "";
+											}
+											
+											echo("
+												<div class=\"checkbox\"><label><input type=\"checkbox\" name=\"modulType[]\" value=\"".$array_types[$i]."\"".$checked." >".$array_types[$i]."</label></div>
+											");
+											
+											if(($j%3)==0){ //Fängt eine neue Spalte nach drei Einträgen an
+												echo("</div><div class=\"col-md-".$columnSize."\">");
+											}
+										}	
+										?>
 									</div>
 								</div>
 							</div>
