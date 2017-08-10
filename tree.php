@@ -308,10 +308,10 @@ include "connect.php";
 			while($row = mysqli_fetch_assoc($result)){
 				switch($row['name']){
 					case "bachelor_basic":
-						$levels .= "Bachelor: Kernprog."."<br>";
+						$levels .= "Kernprog."."<br>";
 						break;
 					case "bachelor":
-						$levels .= "Bachelor: Vertiefung"."<br>";
+						$levels .= "Vertiefung"."<br>";
 						break;
 					case "master":
 						$levels .= "Master"."<br>";
@@ -370,15 +370,15 @@ include "connect.php";
 			foreach($data as $item){
 				$content .= "
 					<tr>
-						<td><a href=\"index.php?subject=".$item['subject_code']."\" target=\"blank\">".$item['subject_name']."</a></td>
-						<td>".$item['modul_types']."</td>
-						<td>".$item['part_of_modules']."</td>
-						<td>".$item['levels']."</td>
-						<td>".$item['ECTS']."</td>
-						<td>".$item['lecturers']."</td>
-						<td>".$item['semester']."</td>
-						<td>".$item['language']."</td>
-						<td>".$item[$orderBy]." %</td>
+						<td><div><a href=\"index.php?subject=".$item['subject_code']."\" target=\"blank\">".$item['subject_name']."</a></div></td>
+						<td><div>".$item['modul_types']."</div></td>
+						<td><div>".$item['part_of_modules']."</div></td>
+						<td><div>".$item['levels']."</div></td>
+						<td><div>".$item['ECTS']."</div></td>
+						<td><div><p style=\"white-space: nowrap;\">".$item['lecturers']."<p></div></td>
+						<td><div>".$item['semester']."</div></td>
+						<td><div>".$item['language']."</div></td>
+						<td><div>".$item[$orderBy]." %</div></td>
 					</tr>
 				";
 			}
@@ -386,7 +386,7 @@ include "connect.php";
 			$orderByHeader = "";
 			switch($orderBy){
 				case "overall":
-					$orderByHeader = "Gesamtbewertung";
+					$orderByHeader = "Gesamtwertung";
 					break;
 				case "crit1":
 					$orderByHeader = "Kriterium 1";
@@ -417,8 +417,8 @@ include "connect.php";
 					<thead>
 						<tr>
 							<th>Veranstaltung</th>
-							<th>Modultyp</th>
-							<th>Teil der Module</th>
+							<th>Typ</th>
+							<th>Beinhaltet in</th>
 							<th>Level</th>
 							<th>ECTS</th>
 							<th>Dozent</th>
@@ -572,8 +572,9 @@ include "connect.php";
 						
 									<!--
 									VORSICHT!
-									Folgender Code erstellt Checkboxen dynamisch. Funktioniert allerdings nur
-									zwischen 1 und 12 Checkboxen	bez. Spalten (col-md-x). Sollte aber eigentlich genügen.
+									Folgender Code erstellt Checkboxen dynamisch. Funktioniert allerdings (kontrolliert) nur
+									bis zu 12 Checkboxen wegen der Spaltenaufteilung (col-md-x), siehe switch unten.
+									Sollte aber eigentlich genügen.
 									-->
 									
 									<?php
@@ -605,8 +606,9 @@ include "connect.php";
 									<div class="col-md-<?php echo($columnSize)?>">
 										<?php
 										for ($j = 1; $j <= count($array_types); $j++) {
-											$i = $j-1; //Nicht einfach "$j = 0; $j < count($array_types)" damit Modulus-Operation funktioniert
-											if(isset($checkbox[$array_types[$i]])){ //Bereit Checkboxfüllen vor
+											$i = $j-1; //Nicht einfach "$j = 0; $j < count($array_types)" damit Modulus-Operation unten funktioniert
+											
+											if(isset($checkbox[$array_types[$i]])){ //Bereitet Checkboxfüllen vor
 												$checked = $checkbox[$array_types[$i]];
 											} else{
 												$checked = "";
@@ -745,7 +747,7 @@ include "connect.php";
 				<span><strong>Sortieren nach</strong></span>
 				
 				<select class="form-control" name="orderBy">
-					<option value="overall" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Gesamtbewertung</option>
+					<option value="overall" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Gesamtwertung</option>
 					<option value="crit1" <?php if(isset($sortSelection['crit1'])) echo $sortSelection['crit1']?>>Bewertung Veranstaltung</option>
 					<option value="crit2" <?php if(isset($sortSelection['crit2'])) echo $sortSelection['crit2']?>>Bewertung Aufwand</option>
 					<option value="crit3" <?php if(isset($sortSelection['crit3'])) echo $sortSelection['crit3']?>>Bewertung Kriterium 3</option>
@@ -787,7 +789,15 @@ include "connect.php";
 	</div>
 	
 </div>
-
+<script src="res/lib/jquery.simplePagination.js"></script>
+<script src="res/lib/jquery.nicescroll-master/jquery.nicescroll.js"></script>
+<script>
+	//Startet Pagination
+	$(document).ready(function() {
+		$(".searchresulttable").simplePagination();
+		$( "td" ).children().niceScroll();
+	});
+</script>
 </body>
 </html>
 

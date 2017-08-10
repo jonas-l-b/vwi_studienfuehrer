@@ -8,9 +8,6 @@ include "connect.php";
 
 ?>
 
-<!DOCTYPE html>
-
-<html>
 <body>
 
 <?php include "nav.php" ?>
