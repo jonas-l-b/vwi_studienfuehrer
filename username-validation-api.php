@@ -10,8 +10,8 @@ header('Content-type: application/json');
 include "connect.php";
 
 if (isset($_GET['username'])){
-	$statement1 = $con->prepare("SELECT * FROM users WHERE username = ?");
-	$statement1->bind_param('s', $_GET['username']);
+	$statement1 = $con->prepare("SELECT * FROM users WHERE LOWER(username) = ?");
+	$statement1->bind_param('s', strtolower($_GET['username']));
 	$statement1->execute();
 	$users = $statement1->get_result();
 	if($row = mysqli_fetch_assoc($users)){
