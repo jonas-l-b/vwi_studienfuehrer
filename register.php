@@ -168,13 +168,13 @@ if(isset($_POST['btn-signup'])) {
 			?>
 			  
 			<div class="form-group has-feedback">
-				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" required  />
+				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" id="bad1" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
 			
 			<div class="form-group has-feedback">
-				<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" required  />
+				<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" id="bad2" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
@@ -183,7 +183,7 @@ if(isset($_POST['btn-signup'])) {
 				<input value="<?php if(isset($memorey_username)) echo $memorey_username ?>" 
 					type="text" pattern="^[a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ]+$" 
 					maxlength="30" class="form-control" placeholder="Benutzername" name="username" aria-describedby="helpBlock" data-username="username" data-username-error="Der Benutzername ist leider schon vergeben."
-					data-error="Dein Benutzername muss zwischen 5 und 30 Zeichen lang sein. Erlaubt sind Ziffern 0-9 und Buchstaben a-Z, Umlaute und das kleine und (jetzt auch) das große ẞ." required  />
+					data-error="Dein Benutzername muss zwischen 5 und 30 Zeichen lang sein. Erlaubt sind Ziffern 0-9 und Buchstaben a-Z, Umlaute und das kleine und (jetzt auch) das große ẞ." id="bad3" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block">Benutze nicht dein U-Kürzel.</div>
 				<div class="help-block"></div>
@@ -198,7 +198,7 @@ if(isset($_POST['btn-signup'])) {
 			</div>
 			
 			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
-				<input id="userpassword" type="password" class="form-control" placeholder="Passwort" name="password" data-pw="pw" data-pw-error="Deine Passwortstärke muss mindestens 'OK!' sein!" required  />
+				<input id="userpassword" type="password" class="form-control" placeholder="Passwort" name="password" data-pw="pw" data-pw-error="Deine Passwortstärke muss mindestens 'Mittelmäßig!' sein!" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
@@ -283,11 +283,19 @@ if(isset($_POST['btn-signup'])) {
 <script type="text/javascript" src="res/lib/bootstrap-validator/validator.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
-		var userInputs = new Array();
-		userInputs.push("studienführer");
+		var userInputs = ["studienführer", "vwi", "estiem", "wiwi", "wing", "hochschulgruppe", "hsg"];
+		$( '#bad1' ).blur(function() {
+		  userInputs.push($('#bad1').val());
+		});
+		$( '#bad2' ).blur(function() {
+		  userInputs.push($('#bad2').val());
+		});
+		$( '#bad3' ).blur(function() {
+		  userInputs.push($('#bad3').val());
+		});
 		$("#StrengthProgressBar").zxcvbnProgressBar({ 
 			  passwordInput: "#userpassword",
-			  ratings: ["Weitertippen", "Immer noch recht schwach", "Ok", "Stark!", "Unfassbar stark"],
+			  ratings: ["Weitertippen", "Immer noch recht schwach", "Mittelmäßig", "Stark!", "Unfassbar stark"],
 			  userInputs: userInputs });
 		$('#register-form').validator({
 			custom: {
@@ -319,7 +327,7 @@ if(isset($_POST['btn-signup'])) {
 				}
 			},
 			errors: {
-				pw: 'Deine Passwortstärke muss mindestens "OK" sein!', 
+				pw: 'Deine Passwortstärke muss mindestens "Mittelmäßig" sein!', 
 				username: 'Der Benutzername ist leider schon vergeben.'
 			}
 		});
