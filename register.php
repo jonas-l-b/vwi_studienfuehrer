@@ -182,10 +182,11 @@ if(isset($_POST['btn-signup'])) {
 			<div class="form-group has-feedback <?php if(isset($highlight_username)) echo 'has-error' ?>">
 				<input value="<?php if(isset($memorey_username)) echo $memorey_username ?>" 
 					type="text" pattern="^[a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ]+$" 
-					maxlength="30" class="form-control" placeholder="Benutzername" name="username" aria-describedby="helpBlock" 
+					maxlength="30" class="form-control" placeholder="Benutzername" name="username" aria-describedby="helpBlock" data-username="username" data-username-error="Der Benutzername ist leider schon vergeben."
 					data-error="Dein Benutzername muss zwischen 5 und 30 Zeichen lang sein. Erlaubt sind Ziffern 0-9 und Buchstaben a-Z, Umlaute und das kleine und (jetzt auch) das große ẞ." required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block">Benutze nicht dein U-Kürzel.</div>
+				<div class="help-block"></div>
 				<div class="help-block with-errors"></div>
 			</div>
 			
@@ -297,10 +298,29 @@ if(isset($_POST['btn-signup'])) {
 				    }else{
 					  return true;
 				    } 
+				},
+				'username': function($el) {
+					$.ajax({
+						type: "GET",
+						url: "username-validation-api.php",
+						dataType: "text", 
+						data: { username: $el.val() }
+					}).done(function (res) {
+						if(res==="{ok: true}"){
+							$el.next().next().next().text('Der Benutzername ist leider schon vergeben.');
+							$el.parent().addClass('has-error');
+							return false;
+						}else{
+							$el.next().next().next().text('');
+							$el.parent().removeClass('has-error');
+							return true;
+						}
+					});
 				}
 			},
 			errors: {
-				pw: 'Deine Passwortstärke muss mindestens "OK" sein!'
+				pw: 'Deine Passwortstärke muss mindestens "OK" sein!', 
+				username: 'Der Benutzername ist leider schon vergeben.'
 			}
 		});
 	});
