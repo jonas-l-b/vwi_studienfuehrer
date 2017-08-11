@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
 	<title>Studienführer VWI-ESTIEM Karlsruhe</title>
+	<!-- DIESER 404 funktioniert erst, wenn er im Root des Servers liegt -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="apple-mobile-web-app-title" content="Studienführer-VWI-ESTIEM">
@@ -35,7 +36,17 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="res/lib/jquery.autocomplete.js"></script>
 </head>
+<body>
 
-<?php
-	
-?>
+<div style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 30%; margin: auto; padding:25px;">
+	<div align="center" style="margin:auto;">
+		<a href="http://vwi-karlsruhe.de/" target="_blank"><img src="pictures/logo.png" style="width:150px;"></a>
+		<br><br>
+		
+		<p><h2>Seite nicht gefunden</h2><p>
+		<p>Wir ham gsucht und gsucht aber wir nix finden :(</p>
+	</div>
+</div>
+</body>
+</html>
+<!-- IE needs 512+ bytes: https://blogs.msdn.microsoft.com/ieinternals/2010/08/18/friendly-http-error-pages/ -->

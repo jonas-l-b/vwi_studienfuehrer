@@ -72,8 +72,6 @@ if ($m == "no_admin"){
 }
 
 ?>
-
-<html>
 <body>
 
 <div style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 30%; margin: auto; padding:25px;">
