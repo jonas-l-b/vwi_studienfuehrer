@@ -482,12 +482,12 @@ include "connect.php";
 		for($x = 0; $x <= 2; $x++) {
 			$content .= "<li><label class=\"tree-toggler nav-header treetop\" style=\"color:rgb(0, 51, 153)\"><strong>".$array[$x][0]."</strong></label>";
 			
-				$content .= "<ul class=\"nav nav-list tree\">";
+				$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
 				$result = mysqli_query($con,"SELECT * FROM moduletypes");
 				while($modulTypes = mysqli_fetch_assoc($result)){ //Modultyp
 					$content .= "<li><label class=\"tree-toggler nav-header\">".$modulTypes['name']."</label>";
 					
-					$content .= "<ul class=\"nav nav-list tree\">";
+					$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
 					$result2 = mysqli_query($con,"
 						SELECT modules.name AS module_name, levels.name AS level_name, type
 						FROM modules
@@ -498,7 +498,7 @@ include "connect.php";
 					while($modules = mysqli_fetch_assoc($result2)){ //Modulname
 						$content .= "<li><label class=\"tree-toggler nav-header\">".$modules['module_name']."</label>";
 						
-						$content .= "<ul class=\"nav nav-list tree\">";
+						$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
 						$result3 = mysqli_query($con,"
 							SELECT subject_name, subjects.code AS subject_code, modules.name AS module_name
 							FROM subjects
@@ -535,9 +535,6 @@ include "connect.php";
 			$('label.tree-toggler').click(function () {
 				$(this).parent().children('ul.tree').toggle(300);
 			});
-		});
-		$(document).ready(function () {
-		$('label.tree-toggler').parent().children('ul.tree').toggle(300);
 		});
 		</script>
 	</div>
