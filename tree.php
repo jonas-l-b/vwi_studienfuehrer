@@ -31,14 +31,14 @@ include "connect.php";
 	$displayButtonSearch = "";
 	
 	
-	if (isset($_POST['btn-toTree'])){ //Wenn Baum-Button geklickt
+	if (isset($_GET['btn-toTree'])){ //Wenn Baum-Button geklickt
 		$displayTree = "";
 		$displaySearch = "style=\"display:none\"";
 		
 		$displayButtonTree = "disabled";
 	}
 	
-	if (isset($_POST['btn-toSearch'])){ //Wenn Suche-Button geklickt
+	if (isset($_GET['btn-toSearch'])){ //Wenn Suche-Button geklickt
 		$displayTree = "style=\"display:none\"";
 		$displaySearch = "";
 		
