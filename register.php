@@ -147,9 +147,6 @@ if(isset($_POST['btn-signup'])) {
 	$con->close();
 }
 ?>
-
-<!DOCTYPE html>
-<html>
 <body>
 <div class="container">
 	<h1>Willkommen zum Studienführer!</h1>
@@ -158,7 +155,7 @@ if(isset($_POST['btn-signup'])) {
 </div>
 <div class="signin-form">
 	<div class="container">
-		<form class="form-signin" method="post" id="register-form">
+		<form class="form-signin" method="post" id="register-form" action="register.php">
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
 			
 			<?php
@@ -238,14 +235,14 @@ if(isset($_POST['btn-signup'])) {
 			</div>
 			
 			<div class="checkbox has-feedback">
-				<label><input type="checkbox" name="nutzungsbedingungen" 
+				<label><input type="checkbox" name="nutzungsbedingungen" id="bedingungen"  
 				value="yes">Hiermit bestätigst du, dass du unsere <a href="#" data-toggle="modal" data-target="#bedingungenModal">Datenschutzerklärung, Nutzungsbedingungen und Gemeinschaftsstandards</a> gelesen hast und diese akzeptierst.</label>
 			</div>
 			
 			<hr>
 			<?php /*Hier wäre es sinnvoll noch ein ReCAPTCHA von Google einzubauen */ ?>
 			<div class="form-group">
-				<button id="submitbutton" type="submit" class="btn btn-primary disabled" name="btn-signup">
+				<button id="submitbutton" class="btn btn-primary" name="btn-signup">
 					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Account erstellen
 				</button> 
 				<a href="login.php" class="btn btn-default" style="float:right;">Zum Login</a>
@@ -276,6 +273,9 @@ if(isset($_POST['btn-signup'])) {
 </div>
 
 
+<div id="snackbar">Du musst unsere Bedingungen akzeptieren bevor du dich registrieren kannst!</div>
+
+
 <?php /*Die folgenden Skripte implementieren die Strength-Meter Bar des Password Inputs. Basis für die Berechnung der Stärke ist die zxcvbn library.
 		Außerdem berechnen wir, ob das Input Form als ganzes abgeschickt werden darf.*/ ?>
 <script type="text/javascript" src="res/lib/zxcvbn.js"></script>
@@ -283,6 +283,7 @@ if(isset($_POST['btn-signup'])) {
 <script type="text/javascript" src="res/lib/bootstrap-validator/validator.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
+		
 		var userInputs = ["studienführer", "vwi", "estiem", "wiwi", "wing", "hochschulgruppe", "hsg"];
 		$( '#bad1' ).blur(function() {
 		  userInputs.push($('#bad1').val());
@@ -330,6 +331,20 @@ if(isset($_POST['btn-signup'])) {
 				pw: 'Deine Passwortstärke muss mindestens "Mittelmäßig" sein!', 
 				username: 'Der Benutzername ist leider schon vergeben.'
 			}
+		});
+		
+		$( "#submitbutton" ).click(function() {
+		  if($( "#submitbutton" ).hasClass('disabled')==false){
+			if($( "#bedingungen:checked").length > 0){
+				$( "#register-form" ).submit();  
+			}else{
+				var x = document.getElementById("snackbar")
+				// Add the "show" class to DIV
+				x.className = "show";
+				// After 3 seconds, remove the show class from DIV
+				setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+			}
+		  }
 		});
 	});
 </script>
