@@ -467,7 +467,7 @@ include "connect.php";
 
 	<h4 align="center">Wie möchtest du deine Veranstaltung finden?</h4>
 	<div align="center">
-		<form method="post">
+		<form method="get">
 			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toTree" <?php echo $displayButtonTree ?>>Veranstaltung aus Verzeichnis wählen</button>
 			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toSearch" <?php echo $displayButtonSearch ?>>Veranstaltungen nach Kriterien durchsuchen</button>
 		</form>
