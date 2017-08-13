@@ -1,8 +1,10 @@
 .noRatingBox{
 	padding:5px;
-	background-color:rgb(255, 179, 102);
+	background-color:rgb(209, 224, 224);
 	width:80%;
 	margin:auto;
+	border-bottom: 6px solid orange;
+	border-top: 6px solid orange;
 }
 
 .noRatingText{
