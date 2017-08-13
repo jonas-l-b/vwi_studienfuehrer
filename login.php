@@ -1,11 +1,16 @@
 <?php
+//Must be first thing
+session_start();
+
+?>
+
+<?php
 
 include "header.php";
 
 ?>
 
 <?php
-session_start();
 require_once 'connect.php';
 
 if (isset($_SESSION['userSession'])!="") {
@@ -42,7 +47,7 @@ if (isset($_POST['btn-login'])) {
 				<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Dieser Account wurde noch nicht aktiviert!
 				</div>";
 		}else{
-			$_SESSION['userSession'] = $row['user_ID'];
+			$_SESSION['userSession'] = $row['user_ID']; //Startet session: Speichert in globale Variable $_SESSION['userSession'] die user ID des gerade Einloggenden
 			//header('Location: tree.php');
 			echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 		}
