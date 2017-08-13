@@ -7,6 +7,6 @@ return array(
     'email_port' => '',
     'db_user' => '',
     'db_password' => '',
-    'db_database' => '',
-    'db_url' => '',
+    'db_database' => 'studienfuehrer',
+    'db_url' => 'root',
 );
