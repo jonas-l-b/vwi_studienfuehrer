@@ -511,6 +511,13 @@ include "sumVotes.php";
 				$join = mysqli_query($con,$sql2);
 				$rows = mysqli_fetch_assoc($join);
 				
+				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeugen
+				$creator = "display:none;";
+				if($comments['user_ID'] == $userRow['user_ID']){
+					$creator = "";
+				}
+				
+				
 				echo "
 					<div class=\"well\" style=\"background-color:white; border-radius:none\">
 						<div class=\"media\">
@@ -522,7 +529,10 @@ include "sumVotes.php";
 								<p> ".$comments['comment']." </p>
 								".$recommend."
 								<hr style=\"margin:10px\">
-								<div style=\"font-size:10px\">".$rows['username']." &#124; ".$comments['time_stamp']."</div>
+								<div style=\"font-size:10px\">
+									".$rows['username']." &#124; ".$comments['time_stamp']."
+									<span style=\"float:right; ".$creator."\"><img src=\"pictures/edit.png\" title=\"Bearbeiten oder Löschen\" style=\"width:15px;height:15px;\"></span>
+								</div>
 							</div>
 						</div>
 					</div>
