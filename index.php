@@ -760,7 +760,7 @@ include "sumVotes.php";
 			</div>
 			<div class="form-group">
 				<label for="comment">Inhalt:</label>
-				<textarea name="comment" class="form-control" rows="5" required></textarea>
+				<textarea name="comment" class="form-control" rows="5" placeholder="Was möchtest du sonst noch loswerden? Was ist besonders an dieser Veranstaltung, das durch deine Bewertung oben nicht wirklich wiedergegeben wird? Hast du wertvolle Tipps, die du weitergeben möchstest?"required></textarea>
 			</div>
 			
 			<hr>
