@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 13. Aug 2017 um 10:13
+-- Erstellungszeit: 13. Aug 2017 um 15:31
 -- Server-Version: 10.1.16-MariaDB
 -- PHP-Version: 5.6.24
 
@@ -255,8 +255,7 @@ CREATE TABLE `ratings` (
   `crit4` varchar(100) NOT NULL,
   `crit5` varchar(100) NOT NULL,
   `recommendation` tinyint(1) NOT NULL,
-  `comment_title` varchar(100) NOT NULL,
-  `comment_body` varchar(5000) NOT NULL,
+  `comment` varchar(5000) NOT NULL,
   `comment_rating` int(100) NOT NULL,
   `user_ID` int(10) NOT NULL,
   `time_stamp` varchar(100) NOT NULL
@@ -266,10 +265,10 @@ CREATE TABLE `ratings` (
 -- Daten für Tabelle `ratings`
 --
 
-INSERT INTO `ratings` (`ID`, `subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment_title`, `comment_body`, `comment_rating`, `user_ID`, `time_stamp`) VALUES
-(1, 5, '7', '6', '7', '5', '6', 1, 'Super interessant!', 'Sehr interessant, endlich mal etwas ING! Jetzt trau&#39; ich mich schon eher, mich Ingenieur zu schimpfen.', 2, 2, '2017-06-08 22:09:56'),
-(2, 5, '5', '4', '5', '6', '4', 0, 'Unrau wow, Grauterin eher mau', 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', -1, 1, '2017-06-08 22:13:06'),
-(5, 2, '2', '2', '2', '2', '2', 0, 'Lorem', 'Ipsum', 0, 2, '2017-08-09 00:46:52');
+INSERT INTO `ratings` (`ID`, `subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`) VALUES
+(1, 5, '7', '6', '7', '5', '6', 1, 'Sehr interessant, endlich mal etwas ING! Jetzt trau&#39; ich mich schon eher, mich Ingenieur zu schimpfen.', 2, 2, '2017-06-08 22:09:56'),
+(2, 5, '5', '4', '5', '6', '4', 0, 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', -1, 1, '2017-06-08 22:13:06'),
+(5, 2, '2', '2', '2', '2', '2', 0, 'Ipsum', 0, 2, '2017-08-09 00:46:52');
 
 -- --------------------------------------------------------
 

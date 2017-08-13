@@ -519,8 +519,7 @@ include "sumVotes.php";
 								<p class=\"nowrap confirmation\" id=\"".$comments['ID']."confirmation\"></p>
 							</div>
 							<div class=\"media-body\">
-								<h4 class=\"media-heading textbold\">".$comments['comment_title']."</h4>
-								<p> ".$comments['comment_body']." </p>
+								<p> ".$comments['comment']." </p>
 								".$recommend."
 								<hr style=\"margin:10px\">
 								<div style=\"font-size:10px\">".$rows['username']." &#124; ".$comments['time_stamp']."</div>
@@ -755,11 +754,6 @@ include "sumVotes.php";
 			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 			
 			<div class="form-group">
-				<label for="usr">Titel:</label>
-				<input name="title" type="text" class="form-control" required>
-			</div>
-			<div class="form-group">
-				<label for="comment">Inhalt:</label>
 				<textarea name="comment" class="form-control" rows="5" placeholder="Was möchtest du sonst noch loswerden? Was ist besonders an dieser Veranstaltung, das durch deine Bewertung oben nicht wirklich wiedergegeben wird? Hast du wertvolle Tipps, die du weitergeben möchstest?"required></textarea>
 			</div>
 			
