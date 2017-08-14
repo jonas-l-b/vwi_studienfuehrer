@@ -228,18 +228,16 @@ include "sumVotes.php";
 		
 		$result_modal = mysqli_query($con,$sql_modal);
 		if(mysqli_num_rows($result_modal)>=1){
-			?>
-			<p style="text-align:center">Vielen Dank für Deine Bewertung!</p>
-			<?php
+			$ratingButtonText = "Bereits bewertet - Danke!";
+			$ratingButtonDisabled = "disabled";
 		}else{
-			?>
-			<div style="margin-bottom:15px">
-				<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
-			</div>
-			<?php
+			$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 		}
 	?>
-	
+	<div style="margin-bottom:15px">
+		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
+	</div>
+
 
 <!--	
 	<table class="toptable">
