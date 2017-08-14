@@ -21,3 +21,11 @@
 	font-weight:normal;
 	border-radius:0;
 }
+
+.editButton{
+	width:20px;
+	height:20px;
+	background-color:white;
+	border:none;
+	margin-right:5px;
+}
