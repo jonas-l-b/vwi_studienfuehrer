@@ -533,6 +533,7 @@ include "sumVotes.php";
 									".$rows['username']." &#124; ".$comments['time_stamp']."
 									<span style=\"float:right; ".$displayEdit."\">
 										<button type=\"button\" a href=\"#editModal\" role=\"button\" class=\"editButton\" data-toggle=\"modal\"> <span style=\"font-size:15px\" class=\"glyphicon glyphicon-pencil\"></span></button>
+										<button type=\"button\" a href=\"#deleteModal\" role=\"button\" class=\"editButton\" data-toggle=\"modal\"> <span style=\"font-size:15px\" class=\"glyphicon glyphicon-trash\"></span></button>
 									</span>
 								</div>
 							</div>
@@ -790,6 +791,30 @@ include "sumVotes.php";
 			<hr>
 			
 			<button type="submit" class="btn btn-primary">Bewertung ändern</button>
+		</form>
+		
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+<!-- Modal zum Löschen einer Bewertung-->
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Bewertung löschen für: <?php echo $subjectData['subject_name'] ?></h2>
+	</div>
+	<div class="modal-body">
+		
+		<form action="rating_delete.php?subject=<?php echo $subject?>" method="POST">
+		
+			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Willst du deine Bewertung wirklich löschen?</p>
+			<p> Das beinhaltet deine eigentliche Bewertung und den Kommentar, den du abgegeben hast.<br>
+			<span style="color:red">Dieser Schritt kann nicht rückgängig gemacht werden.</span></p>
+
+			<button type="submit" class="btn btn-danger">Bewertung unwiderruflich löschen</button>
 		</form>
 		
 		</div><!-- End of Modal body -->
