@@ -228,18 +228,16 @@ include "sumVotes.php";
 		
 		$result_modal = mysqli_query($con,$sql_modal);
 		if(mysqli_num_rows($result_modal)>=1){
-			?>
-			<p style="text-align:center">Vielen Dank für Deine Bewertung!</p>
-			<?php
+			$ratingButtonText = "Bereits bewertet - Danke!";
+			$ratingButtonDisabled = "disabled";
 		}else{
-			?>
-			<div style="margin-bottom:15px">
-				<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
-			</div>
-			<?php
+			$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 		}
 	?>
-	
+	<div style="margin-bottom:15px">
+		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
+	</div>
+
 
 <!--	
 	<table class="toptable">
@@ -827,155 +825,145 @@ include "sumVotes.php";
 <!-- Maybe include slider instead of likert: http://foundation.zurb.com/sites/docs/v/5.5.3/components/range_slider.html -->
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
-	<div class="modal-content">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Bewertung für: <?php echo $subjectData['subject_name'] ?></h2>
-	</div>
-	<div class="modal-body">
-		<?php
-		
-		if(mysqli_num_rows($result_modal)>=1){
-			echo "<h3>Du hast diese Veranstaltung bereits bewertet!</h3>
-				<br>
-				<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" aria-hidden=\"true\">Schließen</button>
-			";
-		}else{
-		
-		?>
-		
-		<form action="rating_submit.php?subject=<?php echo $subject?>" method="POST">
-		
-			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
-			
-			<br>
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">Bewertung für: <?php echo $subjectData['subject_name'] ?></h2>
+			</div>
+			<div class="modal-body">
+				<form action="rating_submit.php?subject=<?php echo $subject?>" method="POST">
+				
+					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
+					
+					<br>
 
-			<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
-			
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr schlecht</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" required></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr gut</p>
-			</div>
+					<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
+					
+					<div class="col-md-3">
+						<p style="font-style:italic">Sehr schlecht</p>
+					</div>
+					<div class="col-md-6">
+						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" required></label>
+						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1"></label>
+						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1"></label>
+						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1"></label>
+						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1"></label>
+						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1"></label>
+						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1"></label>
+					</div>
+					<div class="col-md-3">
+					<p style="font-style:italic">Sehr gut</p>
+					</div>
 
-			<br><br><br>
+					<br><br><br>
 
-			<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
+					<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
 
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
+					<div class="col-md-3">
+						<p style="font-style:italic">Sehr unangemessen</p>
+					</div>
+					<div class="col-md-6">
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" required></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2"></label>
+					</div>
+					<div class="col-md-3">
+					<p style="font-style:italic">Sehr angemessen</p>
+					</div>
+					
+					<br><br><br>
 
-			<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
+					<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
 
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr schlecht</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr gut</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
+					<div class="col-md-3">
+						<p style="font-style:italic">Sehr schlecht</p>
+					</div>
+					<div class="col-md-6">
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" required></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3"></label>
+					</div>
+					<div class="col-md-3">
+					<p style="font-style:italic">Sehr gut</p>
+					</div>
+					
+					<br><br><br>
+					
+					<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
 
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
+					<div class="col-md-3">
+						<p style="font-style:italic">Sehr unangemessen</p>
+					</div>
+					<div class="col-md-6">
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" required></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4"></label>
+					</div>
+					<div class="col-md-3">
+					<p style="font-style:italic">Sehr angemessen</p>
+					</div>
+					
+					<br><br><br>
+					
+					<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
 
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
-			
-			<label class="radio-inline"><input type="radio" name="recommendation" value='1' required>Ja</label>
-			<label class="radio-inline"><input type="radio" name="recommendation" value='0'>Nein</label>
-						
-			<br>
-			<hr>
-			
-			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
-			
-			<div class="form-group">
-				<textarea name="comment" class="form-control" rows="5" placeholder="Was möchtest du sonst noch loswerden? Was ist besonders an dieser Veranstaltung, das durch deine Bewertung oben nicht wirklich wiedergegeben wird? Hast du wertvolle Tipps, die du weitergeben möchstest?"required></textarea>
-			</div>
-			
-			<hr>
-			
-			<button type="submit" class="btn btn-primary">Bewertung abschicken</button>
-		</form>
-		
-		</div><!-- End of Modal body -->
-	</div><!-- End of Modal content -->
+					<div class="col-md-3">
+						<p style="font-style:italic">Sehr unangemessen</p>
+					</div>
+					<div class="col-md-6">
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" required></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5"></label>
+						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5"></label>
+					</div>
+					<div class="col-md-3">
+					<p style="font-style:italic">Sehr angemessen</p>
+					</div>
+					
+					<br><br><br>
+					
+					<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
+					
+					<label class="radio-inline"><input type="radio" name="recommendation" value='1' required>Ja</label>
+					<label class="radio-inline"><input type="radio" name="recommendation" value='0'>Nein</label>
+								
+					<br>
+					<hr>
+					
+					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
+					
+					<div class="form-group">
+						<label for="usr">Titel:</label>
+						<input name="title" type="text" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="comment">Inhalt:</label>
+						<textarea name="comment" class="form-control" rows="5" required></textarea>
+					</div>
+					
+					<hr>
+					
+					<button type="submit" class="btn btn-primary">Bewertung abschicken</button>
+				</form>
+			</div><!-- End of Modal body -->
+		</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
-<?php
-		} //Ende von Modal Eingabe
-?>
 
 </body>
 </html>
