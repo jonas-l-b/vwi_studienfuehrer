@@ -29,7 +29,7 @@ $sql="
 ";
 
 if ($con->query($sql) == TRUE) {
-	echo 'erfolgreich';
+	//echo 'erfolgreich';
 }
 	
 echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='index.php?subject=$subject';</SCRIPT>");
