@@ -530,8 +530,8 @@ include "sumVotes.php";
 								<div style=\"font-size:10px\">
 									".$rows['username']." &#124; ".$comments['time_stamp']."
 									<span style=\"float:right; ".$displayEdit."\">
-										<button type=\"button\" a href=\"#editModal\" role=\"button\" class=\"editButton\" data-toggle=\"modal\"> <span style=\"font-size:15px\" class=\"glyphicon glyphicon-pencil\"></span></button>
-										<button type=\"button\" a href=\"#deleteModal\" role=\"button\" class=\"editButton\" data-toggle=\"modal\"> <span style=\"font-size:15px\" class=\"glyphicon glyphicon-trash\"></span></button>
+										<button type=\"button\" a href=\"#editModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
+										<button type=\"button\" a href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
 									</span>
 								</div>
 							</div>
