@@ -29,3 +29,9 @@
 	font-size:15px;
 }
 
+.favouriteStar{
+	color:grey;
+	font-size:35px;
+	padding:0;
+	background-color:white;
+}

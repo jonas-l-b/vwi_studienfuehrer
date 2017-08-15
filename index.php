@@ -236,7 +236,17 @@ include "sumVotes.php";
 	?>
 	<div style="margin-bottom:15px">
 		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
+		<span id="favIcon" class="btn glyphicon glyphicon-star-empty favouriteStar"></span>
 	</div>
+	
+	<script>
+	$(document).ready(function(){
+		$("#favIcon").click(function(){
+			$("#favIcon").attr("style", "color:rgb(255, 204, 0)");
+			$("#favIcon").attr("class", "btn glyphicon glyphicon-star favouriteStar");
+		});
+	});
+	</script>
 
 
 <!--	
