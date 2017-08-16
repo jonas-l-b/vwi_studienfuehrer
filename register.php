@@ -183,7 +183,7 @@ if(isset($_POST['btn-signup'])) {
 					data-error="Dein Benutzername muss zwischen 5 und 30 Zeichen lang sein. Erlaubt sind Ziffern 0-9 und Buchstaben a-Z, Umlaute und das kleine und (jetzt auch) das große ẞ." id="bad3" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block">Benutze nicht dein U-Kürzel. 
-					<a href="#" data-toggle="popoverUKUERZEL" title="Benutze kein U-Kürzel als Nutzernamen." data-content="U-Kürzel sind (entgegen der häufigen Annahme) nicht anonym. Zum Beispiel kann in ILIAS jeder Administrator einer Gruppe mit den geeigneten Rechten ein U-Kürzel einem Namen und einer Matrikelnummer zuordnen. Wir möchten, dass du den Studienführer anonym nutzen kannst, wähle daher einen Nutzernamen, indem dein U-Kürzel am besten nicht vorkommt.">
+					<a href="#" data-trigger="focus" data-toggle="popoverUKUERZEL" title="Benutze kein U-Kürzel als Nutzernamen." data-content="U-Kürzel sind (entgegen der häufigen Annahme) nicht anonym. Zum Beispiel kann in ILIAS jeder Administrator einer Gruppe mit den geeigneten Rechten ein U-Kürzel einem Namen und einer Matrikelnummer zuordnen. Wir möchten, dass du den Studienführer anonym nutzen kannst, wähle daher einen Nutzernamen, indem dein U-Kürzel am besten nicht vorkommt.">
 						<span class="glyphicon glyphicon-question-sign"></span>
 					</a>
 				</div>
@@ -195,7 +195,7 @@ if(isset($_POST['btn-signup'])) {
 				<input value="<?php if(isset($memorey_email)) echo $memorey_email ?>" type="email" pattern="^u[a-z][a-z][a-z][a-z]@student.kit.edu$" class="form-control" placeholder="E-Mail-Adresse" name="email" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block">Gib eine deine U-Kürzel E-Mail-Adresse ein. Zum Beispiel: uxxxx@student.kit.edu
-					<a href="#" data-toggle="popoverEMAIL" title="Benutze deine Studierendenemailadresse." data-content="Der Studienführer soll nur für Studierende des KIT zur Verfügung stehen. Wir können diesen Status am leichtesten über deine u-Email-Adresse verifizieren.">
+					<a href="#" data-toggle="popoverEMAIL" data-trigger="focus" title="Benutze deine Studierendenemailadresse." data-content="Der Studienführer soll nur für Studierende des KIT zur Verfügung stehen. Wir können diesen Status am leichtesten über deine u-Email-Adresse verifizieren.">
 						<span class="glyphicon glyphicon-question-sign"></span>
 					</a>
 				</div>
