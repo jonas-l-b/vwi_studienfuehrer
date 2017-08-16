@@ -194,11 +194,38 @@ include "sumVotes.php";
 	}
 	?>
 
-	<!--Überschrift und Info-->
+	<!--Überschrift und Info und FavIcon-->
+	<?php
+	//Check favourite status
+	$result = mysqli_query($con, "SELECT * FROM favourites");
+	if(mysqli_num_rows($result) >= 1){
+		$favClass = "glyphicon glyphicon-star favouriteStar";
+		$favColor = "rgb(255, 204, 0)";
+	} else{
+		$favClass = "glyphicon glyphicon-star-empty favouriteStar";
+		$favColor = "grey";
+	}
+	?>
+	
 	<div style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<h1> <?php echo $subjectData['subject_name'] ?> <span id="favIcon" class="glyphicon glyphicon-star-empty favouriteStar"></span> </h1>
-		
+		<h1> <?php echo $subjectData['subject_name'] ?> <span id="favIcon" style="color:<?php echo $favColor ?>" class="<?php echo $favClass ?>"></span> </h1>
 	</div>
+
+	<script>
+	$(document).ready(function(){
+		$("#favIcon").click(function(){
+			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
+				$("#favIcon").attr("style", "color:rgb(255, 204, 0)");
+				$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
+				$.post( "favourties_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );
+			} else{
+				$("#favIcon").attr("style", "color:grey");
+				$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+				$.post( "favourties_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );			
+			}
+		});
+	});
+	</script>
 	
 	<div class="infoContainer">
 	<?php
@@ -238,17 +265,6 @@ include "sumVotes.php";
 	<div style="margin-bottom:15px">
 		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
 	</div>
-	
-	<script>
-	$(document).ready(function(){
-		$("#favIcon").click(function(){
-			$("#favIcon").attr("style", "color:rgb(255, 204, 0)");
-			$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
-		});
-	});
-	$.post( "favourties_newEntry.php" );
-	</script>
-
 
 <!--	
 	<table class="toptable">

@@ -30,8 +30,8 @@
 }
 
 .favouriteStar{
-	color:grey;
 	font-size:30px;
 	padding:0;
 	background-color:white;
+	cursor: pointer; cursor: hand;
 }
