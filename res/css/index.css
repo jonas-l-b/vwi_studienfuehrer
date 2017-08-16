@@ -21,3 +21,11 @@
 	font-weight:normal;
 	border-radius:0;
 }
+
+.editTrashButton{
+	background-color:white;
+	border:none;
+	margin-right:5px;
+	font-size:15px;
+}
+
