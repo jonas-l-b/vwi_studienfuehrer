@@ -606,6 +606,7 @@ include "sumVotes.php";
 								xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
 								xmlhttp.send();
 							}
+							isRunning = false;
 						}
 					};
 				
