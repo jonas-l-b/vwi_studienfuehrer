@@ -12,6 +12,7 @@ include "connect.php";
 <?php include "nav.php" ?>
 
 <div class="container" style="margin-top:60px">
+	
 	<?php
 	$displayShow = "";
 	$displayEdit = "style=\"display:none\"";
@@ -63,87 +64,98 @@ include "connect.php";
 		$displayEdit = "style=\"display:none\"";
 	}
 	?>
-	
-	
-	<h2><?php echo $userRow['first_name']." ".$userRow['last_name']?></h2>
-	<hr>
-	<?php if(isset($msg)) echo $msg?>
-	<div <?php echo $displayShow?>>
-		<table class="table" style="border-top:solid; border-top-color:white">
-			<tbody>
-				<tr>
-					<th>Benutzername:</th>
-					<td><?php echo $userRow['username']?></td>
-				</tr>
-				<tr>
-					<th>E-Mail:</th>
-					<td><?php echo $u_email?></td>
-				</tr>
-				<tr>
-					<th>Studiengang:</th>
-					<td><?php echo $u_degree?></td>
-				</tr>
-				<tr>
-					<th>Fortschritt:</th>
-					<td><?php echo ucfirst($u_advance)?></td>
-				</tr>
-				<tr>
-					<th>Fachsemester:</th>
-					<td><?php echo $u_semester?></td>
-				</tr>
-			</tbody>
-		</table>
-		<form method="post">
-			<button type="submit" class="btn btn-primary" name="btn-edit">Daten bearbeiten</button>
-			<button type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
-		</form>
+	<div class="row">
+		<div class="col-md-2">
+			<ul class="userProfileMenu">
+			  <li><a class="active" href="userProfile.php">Profil</a></li>
+			  <li><a href="#news">Favoriten</a></li>
+			</ul>
+		</div>
 	</div>
 	
-	<div <?php echo $displayEdit?>>
-		<form method="post">
-			<table class="table" style="border-top:solid; border-top-color:white">
-				<tbody>
-					<tr>
-						<th>E-Mail:</th>
-						<td>
-							<div class="form-group">
-								<input value="<?php echo $userRow['email']?>" name="email" type="text" class="form-control" placeholder="E-Mail" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>Studiengang:</th>
-						<td>
-							<div class="form-group">
-								<input value="<?php echo $userRow['degree']?>" name="degree" type="text" class="form-control" placeholder="Studiengang" required />
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>Fortschritt:</th>
-						<td>
-							<div class="form-group">
-								<select name="advance" class="form-control" required>
-									<option value="bachelor" <?php if (ucfirst($userRow['advance'])=="Bachelor") echo "selected"?>>Bachelor</option>
-									<option value="master" <?php if (ucfirst($userRow['advance'])=="Master") echo "selected"?>>Master</option>
-								</select>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>Fachsemester:</th>
-						<td>
-							<div class="form-group">
-								<input value="<?php echo $userRow['semester']?>" name="semester" type="text" class="form-control" placeholder="Fachsemester" required />
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+	<div class="row">
+		<div class="col-md-10">
+			<h2><?php echo $userRow['first_name']." ".$userRow['last_name']?></h2>
+			<hr>
+			<?php if(isset($msg)) echo $msg?>
+			<div <?php echo $displayShow?>>
+				<table class="table" style="border-top:solid; border-top-color:white">
+					<tbody>
+						<tr>
+							<th>Benutzername:</th>
+							<td><?php echo $userRow['username']?></td>
+						</tr>
+						<tr>
+							<th>E-Mail:</th>
+							<td><?php echo $u_email?></td>
+						</tr>
+						<tr>
+							<th>Studiengang:</th>
+							<td><?php echo $u_degree?></td>
+						</tr>
+						<tr>
+							<th>Fortschritt:</th>
+							<td><?php echo ucfirst($u_advance)?></td>
+						</tr>
+						<tr>
+							<th>Fachsemester:</th>
+							<td><?php echo $u_semester?></td>
+						</tr>
+					</tbody>
+				</table>
+				<form method="post">
+					<button type="submit" class="btn btn-primary" name="btn-edit">Daten bearbeiten</button>
+					<button type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
+				</form>
+			</div>
 			
-			<button type="submit" class="btn btn-primary" name="btn-save">Änderungen speichern</button>
-			<button type="submit" class="btn btn-primary" name="btn-cancel">Abbrechen</button>
-		</form>
+			<div <?php echo $displayEdit?>>
+				<form method="post">
+					<table class="table" style="border-top:solid; border-top-color:white">
+						<tbody>
+							<tr>
+								<th>E-Mail:</th>
+								<td>
+									<div class="form-group">
+										<input value="<?php echo $userRow['email']?>" name="email" type="text" class="form-control" placeholder="E-Mail" required />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>Studiengang:</th>
+								<td>
+									<div class="form-group">
+										<input value="<?php echo $userRow['degree']?>" name="degree" type="text" class="form-control" placeholder="Studiengang" required />
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>Fortschritt:</th>
+								<td>
+									<div class="form-group">
+										<select name="advance" class="form-control" required>
+											<option value="bachelor" <?php if (ucfirst($userRow['advance'])=="Bachelor") echo "selected"?>>Bachelor</option>
+											<option value="master" <?php if (ucfirst($userRow['advance'])=="Master") echo "selected"?>>Master</option>
+										</select>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>Fachsemester:</th>
+								<td>
+									<div class="form-group">
+										<input value="<?php echo $userRow['semester']?>" name="semester" type="text" class="form-control" placeholder="Fachsemester" required />
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<button type="submit" class="btn btn-primary" name="btn-save">Änderungen speichern</button>
+					<button type="submit" class="btn btn-primary" name="btn-cancel">Abbrechen</button>
+				</form>
+			</div>
+		</div>
 	</div>
 
 </div>
@@ -160,6 +172,7 @@ include "connect.php";
 		<p id="pwrecovery"></p>
 			<form action="recoverPW.php" method="POST">
 				<p>Mit einem Klick auf den Button schicken wir dir eine E-Mail an die Adresse, mit der du dich registriert hast. Mit ihr kannst du dein Passwort ändern.</p>
+				<br>
 				
 				<div class="form-group" style="display:none">
 					<input value="<?php echo $u_email?>" type="email" class="form-control" name="email" />
