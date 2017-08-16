@@ -11,8 +11,9 @@ if (isset($_SESSION['userSession'])!="") {
 }
 require_once 'connect.php';
 
+$msg1 = "";
+
 if(isset($_POST['btn-signup'])) {
- 
 	$firstName = strip_tags($_POST['first_name']);
 	$lastName = strip_tags($_POST['last_name']);
 	$username = strip_tags($_POST['username']);
@@ -46,7 +47,7 @@ if(isset($_POST['btn-signup'])) {
 	$check_username = $con->query("SELECT username FROM users WHERE username='$username'");
 	$count2=$check_username->num_rows;
 	
-	if ($count==0 && $count2==0) {
+	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
 		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash')";
 		if ($con->query($query)) {
 			//Send mail
@@ -88,6 +89,23 @@ if(isset($_POST['btn-signup'])) {
 			</div>";
 		}
 	}else {
+		if(strtolower($username) == strtolower(explode("@", $email, 2)[0])){
+			$msg1 .= "<div class='alert alert-danger'>
+			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Verwende nicht dein U-Kürzel als deinen Nutzernamen!
+			</div>";
+			$memorey_firstName = $firstName;
+			$memorey_lastName = $lastName;
+			//$memorey_username = $username;
+			$memorey_email = $email;
+			$memorey_degree = $degree;
+			$memorey_advance = $advance;
+			$memorey_semester = $semester;
+			$memorey_info = $info;
+			
+			$highlight_username = "style=\"background-color:rgb(242, 222, 222)\"";
+			//$highlight_email = "style=\"background-color:rgb(242, 222, 222)\"";
+			$hightlight_upass = "style=\"background-color:rgb(242, 222, 222)\"";
+		}
 		if($count>0 AND $count2!==0){
 			$msg = "<div class='alert alert-danger'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Diese E-Mail-Adresse wird bereits verwendet! Bitte korrigiere die hervorgehobenen Felder - das Passwort muss aus Sicherheitsgründen erneut eingegeben werden.
@@ -160,7 +178,7 @@ if(isset($_POST['btn-signup'])) {
 			
 			<?php
 			if (isset($msg)) {
-				echo $msg;
+				echo $msg . $msg1;
 			}
 			?>
 			  
