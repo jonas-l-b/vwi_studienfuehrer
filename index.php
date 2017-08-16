@@ -531,74 +531,78 @@ include "sumVotes.php";
 			
 			<!-- Farbänderung bei Kommentarbewertung -->
 			<script>
+			var isRunning = false;
 			function colorChange(id) {
-				// Check, ob User Kommentar bereits bewertet hat
-				if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-					xmlhttp=new XMLHttpRequest();
-				}else{// AJAX mit IE6, IE5
-					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				
-				xmlhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						if (this.responseText.trim() == true){
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'red';
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Bereits <br> bewertet';
-							setTimeout(function() {
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = '';
-							}, 3000);
-							document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
-							document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
-							document.getElementById(id.substring(0, id.length - 2) + 'up').style.color = 'lightgrey';
-							document.getElementById(id.substring(0, id.length - 2) + 'do').style.color = 'lightgrey';
-						} else{
-							// Frontend ändern
-							if (id.substring(id.length - 2, id.length) == 'do') {
-								document.getElementById(id).style.color = 'red';
-								document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - 1;
-								document.getElementById(id).onclick = '';
-								document.getElementById(id).style.cursor = 'default';
-								document.getElementById(id.substring(0, id.length - 2) + 'up').onclick = '';
-								document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
-							} else {
-								document.getElementById(id).style.color = 'green';
-								document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - (-1);
-								document.getElementById(id).onclick = '';
-								document.getElementById(id).style.cursor = 'default';
-								document.getElementById(id.substring(0, id.length - 2) + 'do').onclick = '';
-								document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
-							}
-							
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'green';
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Gewertet';
-							
-							setTimeout(function() {
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').remove();
-							}, 3000);
-							
-							//Datenbank aktualisieren
-							if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-								xmlhttp=new XMLHttpRequest();
-							}else{// AJAX mit IE6, IE5
-								xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-							}
-							
-							var commentID = id.substring(0, id.length - 2);
-							var userID = <?php echo $userRow['user_ID']; ?>;
-							var subjectID = <?php echo $subjectData['ID']; ?>;
-							var ratingDirection = id.substring(id.length - 2, id.length);
-							
-							xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
-							xmlhttp.send();
-						}
+				if(isRunning==false){
+					isRunning = true;
+					// Check, ob User Kommentar bereits bewertet hat
+					if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
+						xmlhttp=new XMLHttpRequest();
+					}else{// AJAX mit IE6, IE5
+						xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 					}
-				};
-			
-				var commentID = id.substring(0, id.length - 2);
-				var userID = <?php echo $userRow['user_ID']; ?>;
+					
+					xmlhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							if (this.responseText.trim() == true){
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'red';
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Bereits <br> bewertet';
+								setTimeout(function() {
+									document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = '';
+								}, 3000);
+								document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
+								document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
+								document.getElementById(id.substring(0, id.length - 2) + 'up').style.color = 'lightgrey';
+								document.getElementById(id.substring(0, id.length - 2) + 'do').style.color = 'lightgrey';
+							} else{
+								// Frontend ändern
+								if (id.substring(id.length - 2, id.length) == 'do') {
+									document.getElementById(id).style.color = 'red';
+									document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - 1;
+									document.getElementById(id).onclick = '';
+									document.getElementById(id).style.cursor = 'default';
+									document.getElementById(id.substring(0, id.length - 2) + 'up').onclick = '';
+									document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
+								} else {
+									document.getElementById(id).style.color = 'green';
+									document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - (-1);
+									document.getElementById(id).onclick = '';
+									document.getElementById(id).style.cursor = 'default';
+									document.getElementById(id.substring(0, id.length - 2) + 'do').onclick = '';
+									document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
+								}
+								
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'green';
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Gewertet';
+								
+								setTimeout(function() {
+									document.getElementById(id.substring(0, id.length - 2) + 'confirmation').remove();
+								}, 3000);
+								
+								//Datenbank aktualisieren
+								if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
+									xmlhttp=new XMLHttpRequest();
+								}else{// AJAX mit IE6, IE5
+									xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+								}
+								
+								var commentID = id.substring(0, id.length - 2);
+								var userID = <?php echo $userRow['user_ID']; ?>;
+								var subjectID = <?php echo $subjectData['ID']; ?>;
+								var ratingDirection = id.substring(id.length - 2, id.length);
+								
+								xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
+								xmlhttp.send();
+							}
+						}
+					};
 				
-				xmlhttp.open("GET","checkExistence.php?commentID="+commentID+"&userID="+userID,true);
-				xmlhttp.send();
+					var commentID = id.substring(0, id.length - 2);
+					var userID = <?php echo $userRow['user_ID']; ?>;
+					
+					xmlhttp.open("GET","checkExistence.php?commentID="+commentID+"&userID="+userID,true);
+					xmlhttp.send();
+				}
 			}
 			</script>	
 		</div>
