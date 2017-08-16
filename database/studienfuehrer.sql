@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 14. Aug 2017 um 04:22
+-- Erstellungszeit: 16. Aug 2017 um 03:04
 -- Server-Version: 10.1.16-MariaDB
 -- PHP-Version: 5.6.24
 
@@ -43,7 +43,27 @@ INSERT INTO `commentratings` (`ID`, `subject_ID`, `comment_ID`, `user_ID`, `rati
 (1, '5', '1', '2', '1', '2017-06-08 22:10:24'),
 (2, '5', '1', '1', '1', '2017-06-08 22:13:17'),
 (3, '5', '2', '1', '-1', '2017-06-08 22:13:19'),
-(4, '2', '5', '1', '1', '2017-08-13 23:40:29');
+(4, '2', '5', '1', '1', '2017-08-13 23:40:29'),
+(7, '5', '2', '2', '1', '2017-08-15 22:44:24');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `favourites`
+--
+
+CREATE TABLE `favourites` (
+  `ID` int(10) NOT NULL,
+  `user_ID` int(10) NOT NULL,
+  `subject_ID` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `favourites`
+--
+
+INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
+(22, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -268,8 +288,7 @@ CREATE TABLE `ratings` (
 --
 
 INSERT INTO `ratings` (`ID`, `subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
-(2, 5, '5', '4', '5', '6', '4', 0, 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', -1, 1, '2017-06-08 22:13:06', ''),
-(7, 2, '5', '2', '2', '2', '2', 1, 'sdfghj', 0, 2, '', ''),
+(2, 5, '5', '4', '5', '6', '4', 0, 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', 0, 1, '2017-06-08 22:13:06', ''),
 (8, 2, '5', '2', '2', '2', '2', 0, 'adfsadf', 0, 1, '2017-08-14 00:41:01', ''),
 (10, 5, '7', '4', '6', '5', '7', 1, 'Super ING-Fach, sehr empfehlenswert!', 0, 2, '2017-08-14 12:20:56', '2017-08-14 12:21:23');
 
@@ -403,6 +422,12 @@ ALTER TABLE `commentratings`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indizes für die Tabelle `favourites`
+--
+ALTER TABLE `favourites`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indizes für die Tabelle `institutes`
 --
 ALTER TABLE `institutes`
@@ -485,7 +510,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT für Tabelle `commentratings`
 --
 ALTER TABLE `commentratings`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT für Tabelle `favourites`
+--
+ALTER TABLE `favourites`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT für Tabelle `institutes`
 --
