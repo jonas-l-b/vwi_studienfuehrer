@@ -606,8 +606,8 @@ include "sumVotes.php";
 								xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
 								xmlhttp.send();
 							}
-							isRunning = false;
 						}
+						isRunning = false;
 					};
 				
 					var commentID = id.substring(0, id.length - 2);
