@@ -6,8 +6,8 @@ $pass = '';
 $db = 'studienfuehrer';
 $con = mysqli_connect('localhost', $user, $pass, $db) or die("Unable to connect to database!");
 $con->set_charset("utf8");
-/*
 
+/*
 $user = 'YOUR USER';
 $pass = 'YOUR PASSWORD';
 $db = 'YOUR DATABSE';

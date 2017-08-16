@@ -40,12 +40,12 @@ if($userRow['admin']==0){
 		$instituteSelection[$row['institute_ID']] = "";
 	}
 
-	if (isset($_POST['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
+	if (isset($_GET['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
 		//Show form
 		$display = "";
 		
 		//Get lecturer selection
-		$editID = strip_tags($_POST['select']);
+		$editID = strip_tags($_GET['select']);
 		
 		/*Get data for form values*/
 		//data query
@@ -135,7 +135,7 @@ if($userRow['admin']==0){
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
-	<form class="form-inline" method="POST">
+	<form class="form-inline" method="GET">
 		<div class="form-group">
 			<select name="select" class="form-control" required>
 				<?php echo $selection ?>
