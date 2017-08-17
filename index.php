@@ -197,7 +197,7 @@ include "sumVotes.php";
 	<!--Überschrift und Info und FavIcon-->
 	<?php
 	//Check favourite status
-	$result = mysqli_query($con, "SELECT * FROM favourites");
+	$result = mysqli_query($con, "SELECT * FROM favourites WHERE user_ID = '".$userRow['user_ID']."' AND subject_id = '".$subjectData['ID']."'");
 	if(mysqli_num_rows($result) >= 1){
 		$favClass = "glyphicon glyphicon-star favouriteStar";
 		$favColor = "rgb(255, 204, 0)";

@@ -66,14 +66,14 @@ include "connect.php";
 	<br>
 	
 	<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#home">Benutzerdaten</a></li>
-		<li><a data-toggle="tab" href="#menu1">Favoriten</a></li>
+		<li class="active"><a data-toggle="tab" href="#userData">Benutzerdaten</a></li>
+		<li><a data-toggle="tab" href="#favourites">Favoriten</a></li>
 	<!--<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
 		<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
 	</ul>
 
 	<div class="tab-content">
-		<div id="home" class="tab-pane fade in active">
+		<div id="userData" class="tab-pane fade in active">
 			<br>
 			<?php if(isset($msg)) echo $msg?>
 			<div <?php echo $displayShow?>>
@@ -146,9 +146,63 @@ include "connect.php";
 				</form>
 			</div>
 		</div>
-		<div id="menu1" class="tab-pane fade">
-			<h3>Menu 1</h3>
-			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		<div id="favourites" class="tab-pane fade">
+			<br>
+			
+			<?php
+			//Check favourite status
+			$sql="
+				SELECT favourites.ID as favID, subject_ID, subject_name, code
+				FROM favourites
+				JOIN subjects on favourites.subject_id = subjects.ID
+				WHERE user_id = '".$userRow['user_ID']."'
+			";
+			$result = mysqli_query($con, $sql);
+			
+			while($row = mysqli_fetch_assoc($result)){
+			?>
+				<p>
+				<span id="favIcon<?php echo $row['favID']?>" style="color:rgb(255, 204, 0)" class="glyphicon glyphicon-star favouriteStar"></span>
+				<a href="index.php?subject=<?php echo $row['code']?>"><?php echo $row['subject_name']?></a>
+				</p>
+			<?php
+			}
+			
+			/*
+			
+			if(mysqli_num_rows($result) >= 1){
+				$favClass = "glyphicon glyphicon-star favouriteStar";
+				$favColor = "rgb(255, 204, 0)";
+			} else{
+				$favClass = "glyphicon glyphicon-star-empty favouriteStar";
+				$favColor = "grey";
+			}*/
+			?>
+			
+			
+			
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Firstname</th>
+						<th>Lastname</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>John</td>
+						<td>Doe</td>
+					</tr>
+					<tr>
+						<td>Mary</td>
+						<td>Moe</td>
+					</tr>
+					<tr>
+						<td>July</td>
+						<td>Dooley</td>
+					</tr>
+				</tbody>
+			  </table>
 		</div>
 	<!--<div id="menu2" class="tab-pane fade">
 			<h3>Menu 2</h3>
