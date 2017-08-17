@@ -243,7 +243,7 @@ if(isset($_POST['btn-signup'])) {
 			</div>
 			
 			<div class="form-group has-feedback">
-				<select class="form-control" name="advance" required>
+				<select class="form-control" name="advance" required style="-moz-appearance: none;-webkit-appearance: none;appearance: none;">
 					<option value="bachelor">Bachelor</option>
 					<option value="master" <?php if(isset($memorey_advance))if($memorey_advance == "master") echo "selected" ?> >Master</option>
 				</select>
