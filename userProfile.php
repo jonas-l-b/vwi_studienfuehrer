@@ -18,7 +18,6 @@ include "connect.php";
 	$displayEdit = "style=\"display:none\"";
 	
 	//Müssen vorher schon gezogen werden, damit sie beim ÄNDERN geändert werden können; sonst werden Änderungen nicht direkt angezeigt
-	$u_email = $userRow['email'];
 	$u_degree = $userRow['degree'];
 	$u_advance = $userRow['advance'];
 	$u_semester = $userRow['semester'];
@@ -33,14 +32,13 @@ include "connect.php";
 		$displayEdit = "style=\"display:none\"";
 		
 		//Daten aus Form ziehen
-		$email = strip_tags($_POST['email']);
 		$degree = strip_tags($_POST['degree']);
 		$advance = strip_tags($_POST['advance']);
 		$semester = strip_tags($_POST['semester']);
 		
 		$q1 = mysqli_query($con,"
 			UPDATE users
-			SET email = '".$email."', degree = '".$degree."', advance = '".$advance."', semester = '".$semester."'
+			SET degree = '".$degree."', advance = '".$advance."', semester = '".$semester."'
 			WHERE user_ID = '".$userRow['user_ID']."'
 		");
 		
@@ -52,7 +50,6 @@ include "connect.php";
 			";
 			
 			//Hier ändern, damit Änderungen direkt nach Speichern angezeigt werden (nicht erst nach refresh)
-			$u_email = $email;
 			$u_degree = $degree;
 			$u_advance = $advance;
 			$u_semester = $semester;
@@ -64,19 +61,20 @@ include "connect.php";
 		$displayEdit = "style=\"display:none\"";
 	}
 	?>
-	<div class="row">
-		<div class="col-md-2">
-			<ul class="userProfileMenu">
-			  <li><a class="active" href="userProfile.php">Profil</a></li>
-			  <li><a href="#news">Favoriten</a></li>
-			</ul>
-		</div>
-	</div>
+
+	<h2><?php echo $userRow['first_name']." ".$userRow['last_name']?></h2>
+	<br>
 	
-	<div class="row">
-		<div class="col-md-10">
-			<h2><?php echo $userRow['first_name']." ".$userRow['last_name']?></h2>
-			<hr>
+	<ul class="nav nav-tabs">
+		<li class="active"><a data-toggle="tab" href="#home">Benutzerdaten</a></li>
+		<li><a data-toggle="tab" href="#menu1">Favoriten</a></li>
+	<!--<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+		<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
+	</ul>
+
+	<div class="tab-content">
+		<div id="home" class="tab-pane fade in active">
+			<br>
 			<?php if(isset($msg)) echo $msg?>
 			<div <?php echo $displayShow?>>
 				<table class="table" style="border-top:solid; border-top-color:white">
@@ -87,7 +85,7 @@ include "connect.php";
 						</tr>
 						<tr>
 							<th>E-Mail:</th>
-							<td><?php echo $u_email?></td>
+							<td><?php echo $userRow['email']?></td>
 						</tr>
 						<tr>
 							<th>Studiengang:</th>
@@ -111,16 +109,8 @@ include "connect.php";
 			
 			<div <?php echo $displayEdit?>>
 				<form method="post">
-					<table class="table" style="border-top:solid; border-top-color:white">
+					<table class="table dataChangeTable" style="border-top:solid; border-top-color:white">
 						<tbody>
-							<tr>
-								<th>E-Mail:</th>
-								<td>
-									<div class="form-group">
-										<input value="<?php echo $userRow['email']?>" name="email" type="text" class="form-control" placeholder="E-Mail" required />
-									</div>
-								</td>
-							</tr>
 							<tr>
 								<th>Studiengang:</th>
 								<td>
@@ -144,7 +134,7 @@ include "connect.php";
 								<th>Fachsemester:</th>
 								<td>
 									<div class="form-group">
-										<input value="<?php echo $userRow['semester']?>" name="semester" type="text" class="form-control" placeholder="Fachsemester" required />
+										<input value="<?php echo $userRow['semester']?>" type="number" max="18" min="1" step="1" name="semester" type="text" class="form-control" placeholder="Fachsemester" required />
 									</div>
 								</td>
 							</tr>
@@ -156,7 +146,26 @@ include "connect.php";
 				</form>
 			</div>
 		</div>
+		<div id="menu1" class="tab-pane fade">
+			<h3>Menu 1</h3>
+			<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		</div>
+	<!--<div id="menu2" class="tab-pane fade">
+			<h3>Menu 2</h3>
+			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+		</div>
+		<div id="menu3" class="tab-pane fade">
+			<h3>Menu 3</h3>
+			<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		</div>
+	-->
 	</div>
+	
+	
+	
+	
+	
+
 
 </div>
 
