@@ -32,7 +32,9 @@ CREATE TABLE `commentratings` (
   `comment_ID` varchar(100) NOT NULL,
   `user_ID` varchar(100) NOT NULL,
   `rating_direction` varchar(100) NOT NULL,
-  `time_stamp` varchar(100) NOT NULL
+  `time_stamp` varchar(100) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY (`subject_ID`, `comment_ID`, `user_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -395,12 +397,6 @@ INSERT INTO `users` (`user_ID`, `admin`, `first_name`, `last_name`, `username`, 
 --
 -- Indizes der exportierten Tabellen
 --
-
---
--- Indizes für die Tabelle `commentratings`
---
-ALTER TABLE `commentratings`
-  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indizes für die Tabelle `institutes`
