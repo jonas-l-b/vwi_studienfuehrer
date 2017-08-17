@@ -944,10 +944,6 @@ include "sumVotes.php";
 					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 					
 					<div class="form-group">
-						<label for="usr">Titel:</label>
-						<input name="title" type="text" class="form-control" required>
-					</div>
-					<div class="form-group">
 						<label for="comment">Inhalt:</label>
 						<textarea name="comment" class="form-control" rows="5" required></textarea>
 					</div>
