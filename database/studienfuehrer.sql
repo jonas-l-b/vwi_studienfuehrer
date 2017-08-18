@@ -33,7 +33,6 @@ CREATE TABLE `commentratings` (
   `user_ID` varchar(100) NOT NULL,
   `rating_direction` varchar(100) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`),
   UNIQUE KEY (`subject_ID`, `comment_ID`, `user_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
