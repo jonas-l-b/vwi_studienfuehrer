@@ -146,64 +146,70 @@ include "connect.php";
 				</form>
 			</div>
 		</div>
+		
 		<div id="favourites" class="tab-pane fade">
 			<br>
 			
 			<?php
-			//Check favourite status
 			$sql="
-				SELECT favourites.ID as favID, subject_ID, subject_name, code
+				SELECT DISTINCT modules.type AS module_type
 				FROM favourites
 				JOIN subjects on favourites.subject_id = subjects.ID
-				WHERE user_id = '".$userRow['user_ID']."'
-			";
+				JOIN subjects_modules on subjects.ID = subjects_modules.subject_ID
+				JOIN modules on subjects_modules.module_ID = modules.module_id
+				WHERE favourites.user_id = '".$userRow['user_ID']."'
+				ORDER BY modules.type
+			";			
 			$result = mysqli_query($con, $sql);
 			
-			while($row = mysqli_fetch_assoc($result)){
-			?>
-				<p>
-				<span id="favIcon<?php echo $row['favID']?>" style="color:rgb(255, 204, 0)" class="glyphicon glyphicon-star favouriteStar"></span>
-				<a href="index.php?subject=<?php echo $row['code']?>"><?php echo $row['subject_name']?></a>
-				</p>
-			<?php
+			while($modules = mysqli_fetch_assoc($result)){
+				echo ("<h4>".$modules['module_type']."</h4>");
+				
+				$sql2="
+					SELECT subjects.ID AS subject_id, subject_name, subjects.code AS subject_code, modules.type AS module_type, modules.name AS module_name, modules.module_id AS module_id
+					FROM favourites
+					JOIN subjects on favourites.subject_id = subjects.ID
+					JOIN subjects_modules on subjects.ID = subjects_modules.subject_ID
+					JOIN modules on subjects_modules.module_ID = modules.module_id
+					WHERE favourites.user_id = '".$userRow['user_ID']."'
+					ORDER BY modules.type, modules.name
+				";
+				$result2 = mysqli_query($con, $sql2);
+				
+				while($subject = mysqli_fetch_assoc($result2)){
+					if($subject['module_type'] == $modules['module_type']){
+						?>
+						<p>
+						<span id="<?php echo $subject['subject_id']?>" style="color:rgb(255, 204, 0)" class="glyphicon glyphicon-star favouriteStar"></span>
+						<a href="index.php?subject=<?php echo $subject['subject_code']?>"><?php echo $subject['subject_name']?></a>
+						(<a href="module.php?module_id=<?php echo $subject['module_id']?>"><?php echo $subject['module_name']?></a>)
+						</p>
+						<?php
+					}
+				}
 			}
-			
-			/*
-			
-			if(mysqli_num_rows($result) >= 1){
-				$favClass = "glyphicon glyphicon-star favouriteStar";
-				$favColor = "rgb(255, 204, 0)";
-			} else{
-				$favClass = "glyphicon glyphicon-star-empty favouriteStar";
-				$favColor = "grey";
-			}*/
 			?>
 			
+			<script>
+			$(document).ready(function(){
+				$(".favouriteStar").click(function(){
+					if($(this).attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
+						$(this).attr("style", "color:rgb(255, 204, 0)");
+						$(this).attr("class", "glyphicon glyphicon-star favouriteStar");
+						$.post( "favourties_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
+					} else{
+						$(this).attr("style", "color:grey");
+						$(this).attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+						$.post( "favourties_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
+					}
+				});
+			});
+			</script>
+		</div>	
 			
+
+		
 			
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Firstname</th>
-						<th>Lastname</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>John</td>
-						<td>Doe</td>
-					</tr>
-					<tr>
-						<td>Mary</td>
-						<td>Moe</td>
-					</tr>
-					<tr>
-						<td>July</td>
-						<td>Dooley</td>
-					</tr>
-				</tbody>
-			  </table>
-		</div>
 	<!--<div id="menu2" class="tab-pane fade">
 			<h3>Menu 2</h3>
 			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>

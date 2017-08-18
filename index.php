@@ -208,18 +208,18 @@ include "sumVotes.php";
 	?>
 	
 	<div style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<h1> <?php echo $subjectData['subject_name'] ?> <span id="favIcon" style="color:<?php echo $favColor ?>" class="<?php echo $favClass ?>"></span> </h1>
+		<h1> <?php echo $subjectData['subject_name'] ?> <span id="favIcon" style="color:<?php echo $favColor ?>; font-size:30px;" class="<?php echo $favClass ?>"></span> </h1>
 	</div>
 
 	<script>
 	$(document).ready(function(){
 		$("#favIcon").click(function(){
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
-				$("#favIcon").attr("style", "color:rgb(255, 204, 0)");
+				$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:30px;");
 				$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
 				$.post( "favourties_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );
 			} else{
-				$("#favIcon").attr("style", "color:grey");
+				$("#favIcon").attr("style", "color:grey; font-size:30px;");
 				$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
 				$.post( "favourties_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );			
 			}
