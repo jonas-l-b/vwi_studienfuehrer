@@ -40,7 +40,7 @@ if (isset($_POST['btn-login'])) {
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
 	$res = $stmt->get_result();
-	if($res == null || $res->fetch_assoc()['login_failures']<5){
+	if($res == null || $res->fetch_assoc()['login_failures']< ConfigService::getService()->getConfig('login_tries_before_blocking')){
 		 
 		$query = $con->query("SELECT user_ID, email, password, active FROM users WHERE email='$email'");
 		$row=$query->fetch_array();
