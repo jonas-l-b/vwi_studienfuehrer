@@ -159,8 +159,7 @@ if(isset($_POST['btn-signup'])) {
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
 			
 			<?php
-			if (isset($msg)) {
-				echo $msg . $msg1;
+			
 	
 			if (isset($msg) && $success){
 				echo $msg;
@@ -168,9 +167,9 @@ if(isset($_POST['btn-signup'])) {
 			} 
 			if (!isset($msg)||!$success):
 	
-        if (isset($msg) && !$success) {
-          echo $msg;
-        }
+			if (isset($msg) && !$success) {
+			  echo $msg . $msg1;
+			}
 		?>
 			  
 			<div class="form-group has-feedback">
