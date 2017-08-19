@@ -17,7 +17,7 @@ if($userRow['admin']==0){
 <html>
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<h2>Dozent, Institut oder Modul löschen</h2>

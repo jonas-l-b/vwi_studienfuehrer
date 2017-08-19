@@ -1,20 +1,13 @@
 <?php
 
+//Steht hier nur zum Testen:
+	require_once  __DIR__.'/Autoloader.php';
+//TEST ENDE
 
-$user = 'root';
-$pass = '';
-$db = 'studienfuehrer';
-$con = mysqli_connect('localhost', $user, $pass, $db) or die("Unable to connect to database!");
+$configs = ConfigService::getService()->getConfigs();
+$user = $configs['db_user'];
+$pass = $configs['db_password'];
+$db = $configs['db_database'];
+$con = mysqli_connect($configs['db_url'], $user, $pass, $db) or die("Kann keine Verbindung mit der Datenbank herstellen.");
 $con->set_charset("utf8");
-
-/*
-$user = 'YOUR USER';
-$pass = 'YOUR PASSWORD';
-$db = 'YOUR DATABSE';
-$con = mysqli_connect('YOUR LINK', $user, $pass, $db) or die("Unable to connect to database!");
-$con->set_charset("utf8");
-*/
-
-//if($con) echo ("<br> Sucessfully connected to database $db."); //CHECK
-
 ?>

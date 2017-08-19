@@ -72,13 +72,11 @@ if ($m == "no_admin"){
 }
 
 ?>
-
-<html>
 <body>
 
 <div style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 30%; margin: auto; padding:25px;">
 	<div align="center" style="margin:auto;">
-		<a href="http://vwi-karlsruhe.de/" target="blank"><img src="pictures/logo.png" style="width:150px;"></a>
+		<a href="http://vwi-karlsruhe.de/" target="_blank"><img src="pictures/logo.png" style="width:150px;"></a>
 		<br><br>
 		<?php echo $msg ?>
 	</div>
