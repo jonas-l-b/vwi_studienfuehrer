@@ -11,14 +11,15 @@ $user_id = filter_var($_POST['user_id'], FILTER_SANITIZE_STRING);
 $subject_id = filter_var($_POST['subject_id'], FILTER_SANITIZE_STRING);
 
 
-$sql="
+$stmt = $con->prepare("
 	INSERT INTO favourites (user_ID, subject_ID)
-	VALUES ('$user_id', '$subject_id');
-";
+	VALUES (?,?);
+");
+$stmt->bind_param("ss", $user_id, $subject_id);
+$stmt->execute();
 
-if(mysqli_query($con, $sql)){
-	//echo "Erfolg";
-}
+$stmt->close();
+$con->close();
 
 
 
