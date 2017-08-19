@@ -40,7 +40,7 @@ if (isset($_POST['btn-login'])) {
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
 	$res = $stmt->get_result();
-	if($res == null || $res->fetch_assoc()['login_failures']<25){
+	if($res == null || $res->fetch_assoc()['login_failures']<5){
 		 
 		$query = $con->query("SELECT user_ID, email, password, active FROM users WHERE email='$email'");
 		$row=$query->fetch_array();
@@ -71,7 +71,7 @@ if (isset($_POST['btn-login'])) {
 	}else{
 		$disable = true;
 		$msg = "<div class='alert alert-danger'>
-				<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Sie haben zu oft versucht sich anzumelden. Kontaktieren Sie unseren Administrator.
+				<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Du hast zu oft versucht, dich anzumelden und dabei ein falsches Passwort verwendet. Bitte setze dein Passwort jetzt zurück.
 				</div>";
 	}
 }
