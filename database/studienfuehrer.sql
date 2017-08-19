@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 13. Aug 2017 um 10:13
--- Server-Version: 10.1.16-MariaDB
--- PHP-Version: 5.6.24
+-- Erstellungszeit: 19. Aug 2017 um 16:36
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 7.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,17 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `studienfuehrer`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `anti_brute_force`
+--
+
+CREATE TABLE `anti_brute_force` (
+  `login_failures` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -393,6 +404,12 @@ INSERT INTO `users` (`user_ID`, `admin`, `first_name`, `last_name`, `username`, 
 --
 -- Indizes der exportierten Tabellen
 --
+
+--
+-- Indizes für die Tabelle `anti_brute_force`
+--
+ALTER TABLE `anti_brute_force`
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indizes für die Tabelle `commentratings`
