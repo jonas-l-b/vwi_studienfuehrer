@@ -171,22 +171,48 @@ include "connect.php";
 					JOIN subjects on favourites.subject_id = subjects.ID
 					JOIN subjects_modules on subjects.ID = subjects_modules.subject_ID
 					JOIN modules on subjects_modules.module_ID = modules.module_id
-					WHERE favourites.user_id = '".$userRow['user_ID']."'
+					WHERE favourites.user_id = '".$userRow['user_ID']."' AND modules.type = '".$modules['module_type']."'
 					ORDER BY modules.type, modules.name
 				";
 				$result2 = mysqli_query($con, $sql2);
+						
+				$i = 1;
 				
 				while($subject = mysqli_fetch_assoc($result2)){
-					if($subject['module_type'] == $modules['module_type']){
-						?>
-						<p>
-						<span id="<?php echo $subject['subject_id']?>" style="color:rgb(255, 204, 0)" class="glyphicon glyphicon-star favouriteStar"></span>
-						<a href="index.php?subject=<?php echo $subject['subject_code']?>"><?php echo $subject['subject_name']?></a>
-						(<a href="module.php?module_id=<?php echo $subject['module_id']?>"><?php echo $subject['module_name']?></a>)
-						</p>
-						<?php
+					if($i==1){
+						$help[$i][1] = $subject['subject_id'];
+						$help[$i][2] = $subject['subject_code'];
+						$help[$i][3] = $subject['subject_name'];
+						$help[$i][4] = $subject['module_id'];
+						$help[$i][5] = $subject['module_name'];
+						
+						$i++;
+					} elseif($subject['subject_id'] != $help[$i-1][1]){
+						$help[$i][1] = $subject['subject_id'];
+						$help[$i][2] = $subject['subject_code'];
+						$help[$i][3] = $subject['subject_name'];
+						$help[$i][4] = $subject['module_id'];
+						$help[$i][5] = $subject['module_name'];
+						
+						$i++;	
+					}elseif($subject['subject_id'] == $help[$i-1][1]){ //Fügt Modul der vorangegangenen Veranstaltung zu anstatt Veranstaltung erneut zu listen
+						$help[$i-1][5] = $help[$i-1][5].", ".$subject['module_name'];
 					}
 				}
+				
+				for($j=1; $j<$i; $j++){
+					?>
+					<p>
+					<span id="<?php echo $help[$j][1]?>" style="color:rgb(255, 204, 0)" class="glyphicon glyphicon-star favouriteStar"></span>
+					<a href="index.php?subject=<?php echo $help[$j][2]?>"><?php echo $help[$j][3]?></a>
+					<!--(<a href="module.php?module_id=<?php echo $help[$j][4]?>"><?php echo $help[$j][5]?></a>)-->
+					(<span><?php echo $help[$j][5]?></span>) <!--FIX LINK!-->
+					</p>
+					<?php
+				}
+					
+				$i=1;
+				//unset($help);			
 			}
 			?>
 			
