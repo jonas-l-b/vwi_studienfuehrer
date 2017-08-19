@@ -55,6 +55,10 @@
 		   return $this->configs;
 	   }
 	   
+	   public function getConfig($key){
+		   return $this->configs[$key];
+	   }
+	   
 	}
 
 ?>
