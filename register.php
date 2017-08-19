@@ -183,13 +183,13 @@ if(isset($_POST['btn-signup'])) {
 			?>
 			  
 			<div class="form-group has-feedback">
-				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" id="bad1" required  />
+				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" id="bad1" data-error="Gib deinen Vornamen ein." required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
 			
 			<div class="form-group has-feedback">
-				<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" id="bad2" required  />
+				<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" id="bad2" data-error="Gib deinen Nachnamen ein." required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
@@ -221,7 +221,7 @@ if(isset($_POST['btn-signup'])) {
 			</div>
 			
 			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
-				<input id="userpassword" type="password" class="form-control" placeholder="Passwort" name="password" data-pw="pw" data-pw-error="Deine Passwortstärke muss mindestens 'Mittelmäßig!' sein!" required  />
+				<input id="userpassword" type="password" class="form-control" placeholder="Passwort" name="password" data-pw="pw" data-pw-error="Deine Passwortstärke muss mindestens 'Mittelmäßig' sein!" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
@@ -237,7 +237,7 @@ if(isset($_POST['btn-signup'])) {
 			</div>
 			
 			<div class="form-group has-feedback">
-				<input value="<?php if(isset($memorey_degree)) echo $memorey_degree ?>" type="text" class="form-control" placeholder="Studiengang" name="degree" required  />
+				<input value="<?php if(isset($memorey_degree)) echo $memorey_degree ?>" type="text" class="form-control" placeholder="Studiengang" name="degree" data-error="Gib deinen Studiengang ein!" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
