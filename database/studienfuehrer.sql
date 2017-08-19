@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Aug 2017 um 03:04
--- Server-Version: 10.1.16-MariaDB
--- PHP-Version: 5.6.24
+-- Erstellungszeit: 19. Aug 2017 um 11:45
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 7.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,8 +32,7 @@ CREATE TABLE `commentratings` (
   `comment_ID` varchar(100) NOT NULL,
   `user_ID` varchar(100) NOT NULL,
   `rating_direction` varchar(100) NOT NULL,
-  `time_stamp` varchar(100) NOT NULL,
-  UNIQUE KEY (`subject_ID`, `comment_ID`, `user_ID`)
+  `time_stamp` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -64,7 +63,9 @@ CREATE TABLE `favourites` (
 --
 
 INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
-(22, 2, 5);
+(26, 2, 5),
+(27, 2, 4),
+(28, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -420,13 +421,15 @@ INSERT INTO `users` (`user_ID`, `admin`, `first_name`, `last_name`, `username`, 
 -- Indizes für die Tabelle `commentratings`
 --
 ALTER TABLE `commentratings`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `subject_ID` (`subject_ID`,`comment_ID`,`user_ID`);
 
 --
 -- Indizes für die Tabelle `favourites`
 --
 ALTER TABLE `favourites`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `user_ID` (`user_ID`,`subject_ID`);
 
 --
 -- Indizes für die Tabelle `institutes`
@@ -516,7 +519,7 @@ ALTER TABLE `commentratings`
 -- AUTO_INCREMENT für Tabelle `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT für Tabelle `institutes`
 --
