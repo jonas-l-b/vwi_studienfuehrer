@@ -9,7 +9,7 @@ include "connect.php";
 ?>
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<?php

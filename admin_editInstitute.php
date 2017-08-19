@@ -13,11 +13,9 @@ if($userRow['admin']==0){
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_admin';</SCRIPT>");
 }
 ?>
-
-<html>
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<h2>Institut bearbeiten</h2>
