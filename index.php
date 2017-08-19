@@ -217,11 +217,11 @@ include "sumVotes.php";
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
 				$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:30px;");
 				$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
-				$.post( "favourties_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );
+				$.post( "favourites_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );
 			} else{
 				$("#favIcon").attr("style", "color:grey; font-size:30px;");
 				$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
-				$.post( "favourties_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );			
+				$.post( "favourites_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );			
 			}
 		});
 	});

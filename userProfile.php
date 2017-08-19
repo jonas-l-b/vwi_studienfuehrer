@@ -196,11 +196,11 @@ include "connect.php";
 					if($(this).attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
 						$(this).attr("style", "color:rgb(255, 204, 0)");
 						$(this).attr("class", "glyphicon glyphicon-star favouriteStar");
-						$.post( "favourties_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
+						$.post( "favourites_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
 					} else{
 						$(this).attr("style", "color:grey");
 						$(this).attr("class", "glyphicon glyphicon-star-empty favouriteStar");
-						$.post( "favourties_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
+						$.post( "favourites_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
 					}
 				});
 			});
