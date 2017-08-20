@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="res/css/autocomplete.css">
 	<link rel="stylesheet" href="res/css/index.css">
 	<link rel="stylesheet" href="res/lib/bootstrap-combobox/css/bootstrap-combobox.css">
+	<link rel="stylesheet" href="res/css/snackbar.css">
 	<link rel="shortcut icon" href="pictures/logo_studienfuehrer.ico"/><!-- das erste ist moeglicherweise redundant - noch checken -->
 	<link rel="apple-touch-icon" sizes="57x57" href="pictures/logo/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="pictures/logo/apple-icon-60x60.png">

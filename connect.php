@@ -2,6 +2,7 @@
 
 //Steht hier nur zum Testen:
 	require_once  __DIR__.'/Autoloader.php';
+	require __DIR__ . '/vendor/autoload.php';
 //TEST ENDE
 
 $configs = ConfigService::getService()->getConfigs();
