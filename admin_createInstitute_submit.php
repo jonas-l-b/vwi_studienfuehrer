@@ -28,6 +28,7 @@ if (mysqli_num_rows($result1)==0){
 	";
 
 	mysqli_query($con,$sql2);
+	$logger->info("Neues Institut hinzugefügt: $inst_name $inst_abbr von User: $userID" );
 
 	$insti_new_selection = "";
 
