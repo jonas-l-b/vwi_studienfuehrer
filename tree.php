@@ -7,13 +7,9 @@ include "header.php";
 include "connect.php";
 
 ?>
-
-<!DOCTYPE html>
-
-<html>
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="treeWelcome">
 	<h3>Willkommen zum Studienführer</h3>
@@ -507,7 +503,7 @@ include "connect.php";
 							WHERE modules.name = '".$modules['module_name']."'
 						");
 						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
-							$content .= "<li><a target=\"blank\" href=\"index.php?subject=".$subjects['subject_code']."\">".$subjects['subject_name']."</a></li>";
+							$content .= "<li><a target=\"_blank\" href=\"index.php?subject=".$subjects['subject_code']."\">".$subjects['subject_name']."</a></li>";
 						}
 						$content .= "</ul>";
 						$content .= "</li>";

@@ -11,6 +11,7 @@ if (isset($_SESSION['userSession'])!="") {
 }
 require_once 'connect.php';
 
+$success = false;
 if(isset($_POST['btn-signup'])) {
  
 	$firstName = strip_tags($_POST['first_name']);
@@ -49,34 +50,15 @@ if(isset($_POST['btn-signup'])) {
 	if ($count==0 && $count2==0) {
 		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash')";
 		if ($con->query($query)) {
-			//Send mail
-			$to      = $email;
-			$subject = 'Aktivierung deines Studienführer-Accounts (VWI-ESTIEM Karlsrhe)'; // Give the email a subject 
-
+			$subject = 'Aktivierung deines Studienführer-Accounts'; // Give the email a subject 
 			$message="
-			<html>
-			<head>
-			<title>Erfolgreiche Registierung!</title>
-			</head>
-			<body>
-			<div style=\"font-family:calibri\">
-			<p>Hallo ".$firstName.",</p>
 			<p>vielen Dank für deine Registrierung!</p>
 			<p>Dein Account wurde erstellt. Um ihn zu aktivieren, klicke bitte auf diesen Link:<br>
 			http://app.vwi-karlsruhe.de/studienfuehrer/verify.php?email=".$email."&hash=".$hash."</p>
-			<p>Viel Spaß mit dem Studienführer,<br>
-			Deine VWI-ESTIEM Hochschulgruppe</p>
-			<br><br>
-			<p></p>
-			</div>
-			</body>
-			</html>
 			";
-			$headers = "From: VWI-ESTIEM Karlsruhe" . "\r\n";
-			//$headers .= "MIME-Version: 1.0" . "\r\n";
-			$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-			if (mail($to, $subject, $message, $headers)){
-				//echo "Mail sent";
+			$mailService = EmailService::getService();
+			if($mailService->sendEmail($email, $firstName, $subject, $message)){
+					$success = true;
 			}
 			
 			$msg = "<div class='alert alert-success'>
@@ -158,11 +140,18 @@ if(isset($_POST['btn-signup'])) {
 </div>
 <div class="signin-form">
 	<div class="container">
+		<?php
+			if (isset($msg) && $success){
+				echo $msg;
+				echo '<a href="login.php" class="btn btn-default" style="float:center;">Zum Login</a>';
+			} 
+			if (!isset($msg)||!$success):
+		?>
 		<form class="form-signin" method="post" id="register-form">
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
 			
 			<?php
-			if (isset($msg)) {
+			if (isset($msg) && !$success) {
 				echo $msg;
 			}
 			?>
@@ -250,6 +239,9 @@ if(isset($_POST['btn-signup'])) {
 				<a href="login.php" class="btn btn-default" style="float:right;">Zum Login</a>
 			</div>
 		</form>
+		<?php
+			endif;
+		?>
     </div>
 </div>
 

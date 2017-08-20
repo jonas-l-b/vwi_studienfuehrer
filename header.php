@@ -1,5 +1,5 @@
 <!Doctype html>
-<html>
+<html lang="de">
 <head>
 	<title>Studienführer VWI-ESTIEM Karlsruhe</title>
 	<meta charset="utf-8">
@@ -36,3 +36,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="res/lib/jquery.autocomplete.js"></script>
 </head>
+
+<?php
+	
+?>
