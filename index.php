@@ -16,7 +16,7 @@ include "sumVotes.php";
 
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<?php
@@ -194,11 +194,65 @@ include "sumVotes.php";
 	}
 	?>
 
-	<!--Überschrift und Info-->
-	<div style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<h1> <?php echo $subjectData['subject_name'] ?> </h1>
-	</div>
+	<!--Überschrift und Info und FavIcon-->
+	<?php
+	//Check favourite status
+	$result = mysqli_query($con, "SELECT * FROM favourites WHERE user_ID = '".$userRow['user_ID']."' AND subject_id = '".$subjectData['ID']."'");
+	if(mysqli_num_rows($result) >= 1){
+		$favClass = "glyphicon glyphicon-star favouriteStar";
+		$favColor = "rgb(255, 204, 0)";
+	} else{
+		$favClass = "glyphicon glyphicon-star-empty favouriteStar";
+		$favColor = "grey";
+	}
+	?>
 	
+	<div class="row" style="margin-bottom:20px; padding:20px 20px 0px 0px;">
+		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
+		</div>
+		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px;" class="<?php echo $favClass ?>"></span> </h1>
+		</div>
+	</div>
+
+	<script>
+	$(document).ready(function(){
+		$("#favIcon").click(function(){
+			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
+				$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:30px;");
+				$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
+				$.post( "favourites_newEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
+				  .done(function() {
+					$('#snackbarFavAddSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
+				  })
+				  .fail(function() {
+					$('#snackbarFavAddFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
+				  });
+			} else{
+				$("#favIcon").attr("style", "color:grey; font-size:30px;");
+				$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+				$.post( "favourites_removeEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"} )
+				 .done(function() {
+					$('#snackbarFavRemSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
+				  })
+				 .fail(function() {
+					$('#snackbarFavRemFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
+				});
+			}
+		});
+	});
+	</script>
+	
+
 	<div class="infoContainer">
 	<?php
 	$box = array(
@@ -237,7 +291,6 @@ include "sumVotes.php";
 	<div style="margin-bottom:15px">
 		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
 	</div>
-
 
 <!--	
 	<table class="toptable">
@@ -956,6 +1009,13 @@ include "sumVotes.php";
 		</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
+
+
+<div class="snackbar" id="snackbarFavAddSuccess">Wir haben die Veranstaltung deinen Favoriten hinzugefügt.</div>
+<div class="snackbar" id="snackbarFavRemSuccess">Wir haben die Veranstaltung aus deinen Favoriten entfernt.</div>
+<div class="snackbar" id="snackbarFavAddFail">Wir konnten die Veranstaltung leider nicht deinen Favoriten hinzufügen. Bitte überprüfe deine Internetverbindung.</div>
+<div class="snackbar" id="snackbarFavRemFail">Wir konnten die Veranstaltung leider nicht aus deinen Favoriten entfernen. Bitte überprüfe deine Internetverbindung.</div>
+
 
 </body>
 </html>

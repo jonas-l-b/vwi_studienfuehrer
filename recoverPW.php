@@ -40,61 +40,26 @@ if (mysqli_num_rows($result)==0){
 	$to = $email;
 	
 	if($recoverType=="change"){
-		$subject = 'Änderung deines Studienführer-Passworts (VWI-ESTIEM Karlsrhe)';
+		$subject = 'Änderung deines Studienführer-Passworts';
 
 		$message="
-		<html>
-		<head>
-		<title>Passwortänderung</title>
-		</head>
-		<body>
-		<div style=\"font-family:calibri\">
-		<p>Hallo ".$row['first_name'].",</p>
 		<p>Um dein Passwort zu ändern, klicke auf diesen Link und folge den Anweisungen:<br>
 		http://app.vwi-karlsruhe.de/studienfuehrer/resetPW.php?recoverhash=".$recoverhash."</p>
 		<p>Falls du diese Mail nicht angefordert hast oder du dein Passwort doch nicht ändern willst, ignoriere diese Mail einfach.<p>
-		<p>Viele Grüße,<br>
-		Deine VWI-ESTIEM Hochschulgruppe</p>
-		<br><br>
-		<p></p>
-		</div>
-		</body>
-		</html>
 		";
 	} else{
-		$subject = 'Wiederherstellung deines Studienführer-Passworts (VWI-ESTIEM Karlsrhe)';
+		$subject = 'Wiederherstellung deines Studienführer-Passworts';
 
 		$message="
-		<html>
-		<head>
-		<title>Passwortwiederherstellung</title>
-		</head>
-		<body>
-		<div style=\"font-family:calibri\">
-		<p>Hallo ".$row['first_name'].",</p>
 		<p>Um dein Passwort zurückzusetzen, klicke auf diesen Link und folge den Anweisungen:<br>
 		http://app.vwi-karlsruhe.de/studienfuehrer/resetPW.php?recoverhash=".$recoverhash."</p>
 		<p>Falls du diese Mail nicht angefordert hast oder dir dein Passwort inzwischen wieder eingefallen ist, ignoriere diese Mail einfach.<p>
-		<p>Viele Grüße,<br>
-		Deine VWI-ESTIEM Hochschulgruppe</p>
-		<br><br>
-		<p></p>
-		</div>
-		</body>
-		</html>
 		";
-	}
-	
-	$headers = "From: VWI-ESTIEM Karlsruhe" . "\r\n";
-	//$headers .= "MIME-Version: 1.0" . "\r\n";
-	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-	
-	if (mail($to, $subject, $message, $headers)){
-		//echo "Mail sent";
-	}
+	}	
+	$mailService = EmailService::getService();
+	$mailService->sendEmail($email, $row['first_name'], $subject, $message);
 }
 ?>
-<html>
 <body>
 
 <div style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 30%; margin: auto; padding:25px;">
