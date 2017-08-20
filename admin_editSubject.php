@@ -178,7 +178,7 @@ if($userRow['admin']==0){
 	<?php
 	$result1 = mysqli_query($con,"SELECT * FROM subjects");
 	
-	$selection = "";
+	$selection = "<option></option>";
 	while($row1 = mysqli_fetch_assoc($result1)){
 		$selection .= "<option value=".$row1['ID']." ".$subjectSelection[$row1['ID']].">".$row1['subject_name']." [".$row1['identifier']."]</option>";
 	}	
@@ -187,7 +187,7 @@ if($userRow['admin']==0){
 	<?php if(isset($msg)) echo $msg ?>
 	<form class="form-inline" method="GET">
 		<div class="form-group">
-			<select name="select" class="form-control" required>
+			<select class="combobox" name="select" class="form-control input-large" required>
 				<?php echo $selection ?>
 			</select>
 		</div>
@@ -328,6 +328,10 @@ if($userRow['admin']==0){
 
 
 </div>
-
+<script>
+	$(document).ready(function(){
+		$('.combobox').combobox();
+	});
+</script>
 </body>
 </html>

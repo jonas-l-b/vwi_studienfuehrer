@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="res/css/admin.css">
 	<link rel="stylesheet" href="res/css/autocomplete.css">
 	<link rel="stylesheet" href="res/css/index.css">
+	<link rel="stylesheet" href="res/lib/bootstrap-combobox/css/bootstrap-combobox.css">
 	<link rel="shortcut icon" href="pictures/logo_studienfuehrer.ico"/><!-- das erste ist moeglicherweise redundant - noch checken -->
 	<link rel="apple-touch-icon" sizes="57x57" href="pictures/logo/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="pictures/logo/apple-icon-60x60.png">
@@ -34,6 +35,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="res/lib/jquery.autocomplete.js"></script>
+	<script src="res/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
 </head>
 
 <?php
