@@ -185,14 +185,17 @@ if($userRow['admin']==0){
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
-	<form class="form-inline" method="GET">
-		<div class="form-group">
-			<select class="combobox" name="select" class="form-control input-large" required>
-				<?php echo $selection ?>
-			</select>
-		</div>
-		<button type="submit" class="btn btn-primary" name="btn-edit">Diese Veranstaltung bearbeiten</button>
-	</form>
+	
+	<!-- COMBOBOX -->
+	
+	<?php
+		
+		$loader = new Twig_Loader_Filesystem('templates');
+		$twig = new Twig_Environment($loader, array(
+			'cache' => 'templates/cache',
+		));
+	
+	?>
 	
 	<div <?php echo $display ?>>
 	
@@ -325,13 +328,6 @@ if($userRow['admin']==0){
 		</form>
 	</div>
 
-
-
 </div>
-<script>
-	$(document).ready(function(){
-		$('.combobox').combobox();
-	});
-</script>
 </body>
 </html>
