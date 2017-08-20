@@ -13,7 +13,6 @@
 	
 	$logger = new Logger('studienfuehrer_logger');
 	$logger->pushHandler(new StreamHandler(__DIR__.'/logs/studienfuehrer.log', Logger::DEBUG));
-	$logger->info('Neue Studienfuehrer Session');
 //TEST ENDE
 
 $configs = ConfigService::getService()->getConfigs();
@@ -24,6 +23,5 @@ if(!$con = mysqli_connect($configs['db_url'], $user, $pass, $db)){
   $logger->info('Kann keine Verbindung mit der Datenbank herstellen.');
   die("Kann keine Verbindung mit der Datenbank herstellen.");
 }
-$logger->info('Verbindung mit Datenbank hergestellt.');
 $con->set_charset("utf8");
 ?>
