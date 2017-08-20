@@ -1,7 +1,10 @@
 <form class="form-inline" method="GET">
 		<div class="form-group">
 			<select class="combobox" name="select" class="form-control input-large" required>
-				{{ selection }}
+				<option></option>
+				{% for row in rows %}
+				<option value="{{row.id}}" {{row.selected}}>{{row.subject_name}} [{{row.identifier}}]</option>
+				{% endfor %}
 			</select>
 		</div>
 		<button type="submit" class="btn btn-primary" name="btn-edit">Diese Veranstaltung bearbeiten</button>

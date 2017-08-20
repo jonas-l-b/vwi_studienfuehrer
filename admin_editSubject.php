@@ -179,9 +179,15 @@ if($userRow['admin']==0){
 	$result1 = mysqli_query($con,"SELECT * FROM subjects");
 	
 	$selection = "<option></option>";
+	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
-		$selection .= "<option value=".$row1['ID']." ".$subjectSelection[$row1['ID']].">".$row1['subject_name']." [".$row1['identifier']."]</option>";
-	}	
+		array_push($rows, array(
+								"id"=>$row1['ID'],
+								"subject_name"=>$row1['subject_name'],
+								"identifier"=>$row1['identifier'],
+								"selected"=>$subjectSelection[$row1['ID']]
+								));
+	}
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
@@ -189,13 +195,7 @@ if($userRow['admin']==0){
 	<!-- COMBOBOX -->
 	
 	<?php
-		
-		$loader = new Twig_Loader_Filesystem('templates');
-		$twig = new Twig_Environment($loader, array(
-			'cache' => 'templates/cache',
-		));
-		echo $twig->render('admin_combobox.template.html', array('selection' => $selection));
-	
+		echo $twig->render('admin_combobox.template.html', array('rows' => $rows));
 	?>
 	
 	<div <?php echo $display ?>>

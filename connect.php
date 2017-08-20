@@ -3,6 +3,11 @@
 //Steht hier nur zum Testen:
 	require_once  __DIR__.'/Autoloader.php';
 	require __DIR__ . '/vendor/autoload.php';
+	$loader = new Twig_Loader_Filesystem('templates');
+	$twig = new Twig_Environment($loader, array(
+		//'cache' => 'templates/cache',
+		'cache' => false,
+	));
 //TEST ENDE
 
 $configs = ConfigService::getService()->getConfigs();
