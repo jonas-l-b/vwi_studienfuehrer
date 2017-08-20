@@ -152,21 +152,24 @@ if($userRow['admin']==0){
 	
 	$result1 = mysqli_query($con,$sql1);
 	
-	$selection = "";
+	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
-		$selection .= "<option value=".$row1['module_ID']." ".$moduleSelection[$row1['module_ID']].">".$row1['name']." [".$row1['code']."]</option>";
+		array_push($rows, array(
+								"id"=>$row1['module_ID'],
+								"subject_name"=>$row1['name'],
+								"identifier"=>'['.$row1['code'].']',
+								"selected"=>$moduleSelection[$row1['module_ID']]
+								));
 	}	
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
-	<form class="form-inline" method="GET">
-		<div class="form-group">
-			<select name="select" class="form-control" required>
-				<?php echo $selection ?>
-			</select>
-		</div>
-		<button type="submit" class="btn btn-primary" name="btn-edit">Dieses Modul bearbeiten</button>
-	</form>
+	
+	<?php
+		echo $twig->render('admin_combobox.template.html', 
+							array(	'rows' => $rows,
+									'buttontext' => 'Dieses Modul bearbeiten'));
+	?>
 	
 	<div <?php echo $display ?>>
 	

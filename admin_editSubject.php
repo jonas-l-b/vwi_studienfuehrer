@@ -178,13 +178,12 @@ if($userRow['admin']==0){
 	<?php
 	$result1 = mysqli_query($con,"SELECT * FROM subjects");
 	
-	$selection = "<option></option>";
 	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
 		array_push($rows, array(
 								"id"=>$row1['ID'],
 								"subject_name"=>$row1['subject_name'],
-								"identifier"=>$row1['identifier'],
+								"identifier"=>'['.$row1['identifier'].']',
 								"selected"=>$subjectSelection[$row1['ID']]
 								));
 	}
@@ -195,7 +194,9 @@ if($userRow['admin']==0){
 	<!-- COMBOBOX -->
 	
 	<?php
-		echo $twig->render('admin_combobox.template.html', array('rows' => $rows));
+		echo $twig->render('admin_combobox.template.html', 
+							array(	'rows' => $rows,
+									'buttontext' => 'Diese Veranstaltung bearbeiten'));
 	?>
 	
 	<div <?php echo $display ?>>
