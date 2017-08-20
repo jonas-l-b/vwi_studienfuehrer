@@ -194,6 +194,7 @@ if($userRow['admin']==0){
 		$twig = new Twig_Environment($loader, array(
 			'cache' => 'templates/cache',
 		));
+		echo $twig->render('admin_combobox.template.html', array('selection' => $selection));
 	
 	?>
 	
