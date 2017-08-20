@@ -222,16 +222,37 @@ include "sumVotes.php";
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
 				$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:30px;");
 				$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
-				$.post( "favourites_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );
+				$.post( "favourites_newEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
+				  .done(function() {
+					$('#snackbarFavAddSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
+				  })
+				  .fail(function() {
+					$('#snackbarFavAddFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
+				  });
 			} else{
 				$("#favIcon").attr("style", "color:grey; font-size:30px;");
 				$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
-				$.post( "favourites_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: "<?php echo $subjectData['ID'] ?>"} );			
+				$.post( "favourites_removeEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"} )
+				 .done(function() {
+					$('#snackbarFavRemSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
+				  })
+				 .fail(function() {
+					$('#snackbarFavRemFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
+				});
 			}
 		});
 	});
 	</script>
 	
+
 	<div class="infoContainer">
 	<?php
 	$box = array(
@@ -992,6 +1013,13 @@ include "sumVotes.php";
 		</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
+
+
+<div class="snackbar" id="snackbarFavAddSuccess">Wir haben die Veranstaltung deinen Favoriten hinzugefügt.</div>
+<div class="snackbar" id="snackbarFavRemSuccess">Wir haben die Veranstaltung aus deinen Favoriten entfernt.</div>
+<div class="snackbar" id="snackbarFavAddFail">Wir konnten die Veranstaltung leider nicht deinen Favoriten hinzufügen. Bitte überprüfe deine Internetverbindung.</div>
+<div class="snackbar" id="snackbarFavRemFail">Wir konnten die Veranstaltung leider nicht aus deinen Favoriten entfernen. Bitte überprüfe deine Internetverbindung.</div>
+
 
 </body>
 </html>
