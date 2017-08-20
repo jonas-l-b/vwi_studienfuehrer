@@ -215,15 +215,42 @@ include "connect.php";
 			
 			<script>
 			$(document).ready(function(){
+				var numberOfSnackbars = 0;
 				$(".favouriteStar").click(function(){
+					var tempNumSnack = numberOfSnackbars++;
+					var g=document.createElement('div');
+					g.className='snackbar';
+					g.setAttribute("id", "snackbarNumero" + tempNumSnack);
+					$('body').append(g);
+					var link = $(this).next();
 					if($(this).attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
 						$(this).attr("style", "color:rgb(255, 204, 0)");
 						$(this).attr("class", "glyphicon glyphicon-star favouriteStar");
-						$.post( "favourites_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
+						$.post( "favourites_newEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} )
+						.done(function() {
+							$('#snackbarNumero' + tempNumSnack).text('Die Veranstaltung '+link.text()+' wurde wieder zu deinen Favoriten hinzugefügt.').addClass('show');
+							setTimeout(function(){ $('#snackbarNumero' + tempNumSnack).removeClass('show'); }, 3000);
+						  })
+						  .fail(function() {
+							$(this).attr("style", "color:grey");
+							$(this).attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+							$('#snackbarNumero' + tempNumSnack).text('Die Veranstaltung '+link.text()+' konnte nicht wieder zu deinen Favoriten hinzugefügt werden.').addClass('show');
+							setTimeout(function(){ $('#snackbarNumero' + tempNumSnack).removeClass('show'); }, 3000);
+						  });
 					} else{
 						$(this).attr("style", "color:grey");
 						$(this).attr("class", "glyphicon glyphicon-star-empty favouriteStar");
-						$.post( "favourites_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} );
+						$.post( "favourites_removeEntry.php", {user_id: "<?php echo $userRow['user_ID'] ?>", subject_id: this.id} )
+						.done(function() {
+							$('#snackbarNumero' + tempNumSnack).text('Die Veranstaltung '+link.text()+' wurde erfolgreich aus deinen Favoriten entfernt.').addClass('show');
+							setTimeout(function(){ $('#snackbarNumero' + tempNumSnack).removeClass('show'); }, 3000);
+						  })
+						 .fail(function() {
+							$(this).attr("style", "color:rgb(255, 204, 0)");
+							$(this).attr("class", "glyphicon glyphicon-star favouriteStar");
+							$('#snackbarNumero' + tempNumSnack).text('Die Veranstaltung '+link.text()+' konnte nicht aus deinen Favoriten entfernt werden.').addClass('show');
+							setTimeout(function(){ $('#snackbarNumero' + tempNumSnack).removeClass('show'); }, 3000);
+						});
 					}
 				});
 			});
@@ -289,6 +316,7 @@ $('.nav-tabs a').on('shown.bs.tab', function (e) {
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
+
 
 </body>
 </html>
