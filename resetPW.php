@@ -28,16 +28,14 @@ if(isset($_GET['recoverhash'])){
 		
 		$sql2="
 			UPDATE users
-			SET password = '".$hashed_password."'
+			SET password = '".$hashed_password."', recoverhash = ''
 			WHERE recoverhash = '".$recoverhash."';
 		";
 		
-		//Destroy recoverhash to prevent multiple usuage
 		$sql3="
-			UPDATE users
-			SET recoverhash = ''
-			WHERE recoverhash = '".$recoverhash."';
-		";
+			DELETE FROM anti_brute_force
+			WHERE user_id = " . $result->fetch_row()['user_ID'] . ";";
+
 		
 		if ($con->query($sql2)) {
 			if ($con->query($sql3)) {

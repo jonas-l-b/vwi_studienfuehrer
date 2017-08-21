@@ -499,13 +499,12 @@ include "sumVotes.php";
 			
 			<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
 			<label>Sortieren nach: &nbsp </label>
-			<select class="form-control" name="commentorder" id="commentorder">
+			<select class="form-control" name="commentorder" id="commentorder" onchange="this.form.submit()">
 				<option value="date_newFirst" <?php echo $date_new ?>>Datum (Neuste zuerst)</option>
 				<option value="date_newLast" <?php echo $date_old ?>>Datum (Älteste zuerst)</option>
 				<option value="rating_bestFirst" <?php echo $rating_best ?>>Bewertung (Beste zuerst)</option>
 				<option value="rating_worstFirst" <?php echo $rating_worst ?>>Bewertung (Schlechteste zuerst)</option>
 			</select>
-			<button type="submit" class="btn btn-primary" >Sortieren</button>
 			</form>
 			
 			<br>
