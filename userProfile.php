@@ -166,13 +166,13 @@ include "connect.php";
 				echo ("<h4>".$modules['module_type']."</h4>");
 				
 				$sql2="
-					SELECT subjects.ID AS subject_id, subject_name, subjects.code AS subject_code, modules.type AS module_type, modules.name AS module_name, modules.module_id AS module_id
+					SELECT DISTINCT subjects.ID AS subject_id, subject_name, subjects.code AS subject_code, modules.type AS module_type, modules.name AS module_name, modules.module_id AS module_id
 					FROM favourites
 					JOIN subjects on favourites.subject_id = subjects.ID
 					JOIN subjects_modules on subjects.ID = subjects_modules.subject_ID
 					JOIN modules on subjects_modules.module_ID = modules.module_id
 					WHERE favourites.user_id = '".$userRow['user_ID']."' AND modules.type = '".$modules['module_type']."'
-					ORDER BY modules.type, modules.name
+					ORDER BY subject_name, subjects.ID
 				";
 				$result2 = mysqli_query($con, $sql2);
 						
