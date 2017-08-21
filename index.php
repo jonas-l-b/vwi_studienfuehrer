@@ -212,7 +212,7 @@ include "sumVotes.php";
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
 		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px;" class="<?php echo $favClass ?>"></span> </h1>
+			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
 
@@ -220,12 +220,12 @@ include "sumVotes.php";
 	$(document).ready(function(){
 		$("#favIcon").click(function(){
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
-				$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:30px;");
-				$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
 				$.post( "favourites_newEntry.php", {
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
 				  .done(function() {
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
 					$('#snackbarFavAddSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
 				  })
@@ -234,12 +234,12 @@ include "sumVotes.php";
 					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
 				  });
 			} else{
-				$("#favIcon").attr("style", "color:grey; font-size:30px;");
-				$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
 				$.post( "favourites_removeEntry.php", {
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"} )
 				 .done(function() {
+					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
 					$('#snackbarFavRemSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
 				  })
@@ -564,9 +564,15 @@ include "sumVotes.php";
 				
 				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeugen
 				$displayEdit = "display:none;";
+				
+				//Auskommentiert, da noch diskutiert werden muss!
+				//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
+				
+				/*
 				if($comments['user_ID'] == $userRow['user_ID']){
 					$displayEdit = "";
 				}
+				*/
 				
 				
 				echo "
