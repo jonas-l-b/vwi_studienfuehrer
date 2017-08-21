@@ -194,11 +194,65 @@ include "sumVotes.php";
 	}
 	?>
 
-	<!--Überschrift und Info-->
-	<div style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<h1> <?php echo $subjectData['subject_name'] ?> </h1>
-	</div>
+	<!--Überschrift und Info und FavIcon-->
+	<?php
+	//Check favourite status
+	$result = mysqli_query($con, "SELECT * FROM favourites WHERE user_ID = '".$userRow['user_ID']."' AND subject_id = '".$subjectData['ID']."'");
+	if(mysqli_num_rows($result) >= 1){
+		$favClass = "glyphicon glyphicon-star favouriteStar";
+		$favColor = "rgb(255, 204, 0)";
+	} else{
+		$favClass = "glyphicon glyphicon-star-empty favouriteStar";
+		$favColor = "grey";
+	}
+	?>
 	
+	<div class="row" style="margin-bottom:20px; padding:20px 20px 0px 0px;">
+		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
+		</div>
+		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
+		</div>
+	</div>
+
+	<script>
+	$(document).ready(function(){
+		$("#favIcon").click(function(){
+			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
+				$.post( "favourites_newEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
+				  .done(function() {
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
+					$('#snackbarFavAddSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
+				  })
+				  .fail(function() {
+					$('#snackbarFavAddFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
+				  });
+			} else{
+				$.post( "favourites_removeEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"} )
+				 .done(function() {
+					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+					$('#snackbarFavRemSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
+				  })
+				 .fail(function() {
+					$('#snackbarFavRemFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
+				});
+			}
+		});
+	});
+	</script>
+	
+
 	<div class="infoContainer">
 	<?php
 	$box = array(
@@ -237,7 +291,6 @@ include "sumVotes.php";
 	<div style="margin-bottom:15px">
 		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
 	</div>
-
 
 <!--	
 	<table class="toptable">
@@ -508,6 +561,19 @@ include "sumVotes.php";
 				$join = mysqli_query($con,$sql2);
 				$rows = mysqli_fetch_assoc($join);
 				
+				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeugen
+				$displayEdit = "display:none;";
+				
+				//Auskommentiert, da noch diskutiert werden muss!
+				//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
+				
+				/*
+				if($comments['user_ID'] == $userRow['user_ID']){
+					$displayEdit = "";
+				}
+				*/
+				
+				
 				echo "
 					<div class=\"well\" style=\"background-color:white; border-radius:none\">
 						<div class=\"media\">
@@ -516,11 +582,16 @@ include "sumVotes.php";
 								<p class=\"nowrap confirmation\" id=\"".$comments['ID']."confirmation\"></p>
 							</div>
 							<div class=\"media-body\">
-								<h4 class=\"media-heading textbold\">".$comments['comment_title']."</h4>
-								<p> ".$comments['comment_body']." </p>
+								<p> ".$comments['comment']." </p>
 								".$recommend."
 								<hr style=\"margin:10px\">
-								<div style=\"font-size:10px\">".$rows['username']." &#124; ".$comments['time_stamp']."</div>
+								<div style=\"font-size:10px\">
+									".$rows['username']." &#124; ".$comments['time_stamp']."
+									<span style=\"float:right; ".$displayEdit."\">
+										<button type=\"button\" a href=\"#editModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
+										<button type=\"button\" a href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -612,8 +683,199 @@ include "sumVotes.php";
 		</div>
 	</div>
 </div>
+
+<!-- Modal für Bewertungsänderung-->
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Bewertungsänderung für: <?php echo $subjectData['subject_name'] ?></h2>
+	</div>
+	<div class="modal-body">
 	
-<!-- End of page. Modal for Rating -->
+		<?php
+		/*Datenbankabfrage, um bestehende Werte ins Modal einzutragen*/
+		$sql="
+			SELECT * FROM ratings
+			WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
+		";
+		$result = mysqli_query($con,$sql);
+		$ratingData = mysqli_fetch_assoc($result);
+		
+		//Rating
+		for ($i = 1; $i <= 5; $i++) {
+			for ($j = 1; $j <= 7; $j++) {
+				if($ratingData['crit'.$i] == $j){
+					$crit[$i][$j] = "checked";
+				} else{
+					$crit[$i][$j] = "";
+				}
+			}
+		}
+		//Recommendation
+		if($ratingData['recommendation'] == 1){
+			$recom1 = "checked";
+			$recom0 = "";
+		} else{
+			$recom1 = "";
+			$recom0 = "checked";
+		}
+		
+		?>
+	
+		<form action="rating_change.php?subject=<?php echo $subject?>" method="POST">
+		
+			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
+			
+			<br>
+
+			<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
+			
+			<div class="col-md-3">
+				<p style="font-style:italic">Sehr schlecht</p>
+			</div>
+			<div class="col-md-6">
+				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" <?php echo $crit[1][1]?> required></label>
+				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1" <?php echo $crit[1][2]?>></label>
+				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1" <?php echo $crit[1][3]?>></label>
+				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1" <?php echo $crit[1][4]?>></label>
+				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1" <?php echo $crit[1][5]?>></label>
+				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1" <?php echo $crit[1][6]?>></label>
+				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1" <?php echo $crit[1][7]?>></label>
+			</div>
+			<div class="col-md-3">
+			<p style="font-style:italic">Sehr gut</p>
+			</div>
+
+			<br><br><br>
+
+			<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
+
+			<div class="col-md-3">
+				<p style="font-style:italic">Sehr unangemessen</p>
+			</div>
+			<div class="col-md-6">
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" <?php echo $crit[2][1]?> required></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2" <?php echo $crit[2][2]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2" <?php echo $crit[2][3]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2" <?php echo $crit[2][4]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2" <?php echo $crit[2][5]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2" <?php echo $crit[2][6]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2" <?php echo $crit[2][7]?>></label>
+			</div>
+			<div class="col-md-3">
+			<p style="font-style:italic">Sehr angemessen</p>
+			</div>
+			
+			<br><br><br>
+
+			<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
+
+			<div class="col-md-3">
+				<p style="font-style:italic">Sehr schlecht</p>
+			</div>
+			<div class="col-md-6">
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" <?php echo $crit[3][1]?> required></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3" <?php echo $crit[3][2]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3" <?php echo $crit[3][3]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3" <?php echo $crit[3][4]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3" <?php echo $crit[3][5]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3" <?php echo $crit[3][6]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3" <?php echo $crit[3][7]?>></label>
+			</div>
+			<div class="col-md-3">
+			<p style="font-style:italic">Sehr gut</p>
+			</div>
+			
+			<br><br><br>
+			
+			<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
+
+			<div class="col-md-3">
+				<p style="font-style:italic">Sehr unangemessen</p>
+			</div>
+			<div class="col-md-6">
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" <?php echo $crit[4][1]?> required></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4" <?php echo $crit[4][2]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4" <?php echo $crit[4][3]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4" <?php echo $crit[4][4]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4" <?php echo $crit[4][5]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4" <?php echo $crit[4][6]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4" <?php echo $crit[4][7]?>></label>
+			</div>
+			<div class="col-md-3">
+			<p style="font-style:italic">Sehr angemessen</p>
+			</div>
+			
+			<br><br><br>
+			
+			<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
+
+			<div class="col-md-3">
+				<p style="font-style:italic">Sehr unangemessen</p>
+			</div>
+			<div class="col-md-6">
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" <?php echo $crit[5][1]?> required></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5" <?php echo $crit[5][2]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5" <?php echo $crit[5][3]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5" <?php echo $crit[5][4]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5" <?php echo $crit[5][5]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5" <?php echo $crit[5][6]?>></label>
+				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5" <?php echo $crit[5][7]?>></label>
+			</div>
+			<div class="col-md-3">
+			<p style="font-style:italic">Sehr angemessen</p>
+			</div>
+			
+			<br><br><br>
+			
+			<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
+			
+			<label class="radio-inline"><input type="radio" name="recommendation" value='1'<?php echo $recom1?> required>Ja</label>
+			<label class="radio-inline"><input type="radio" name="recommendation" value='0'<?php echo $recom0?>>Nein</label>
+						
+			<br>
+			<hr>
+			
+			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
+			
+			<div class="form-group">
+				<textarea name="comment" class="form-control" rows="5" required><?php echo $ratingData['comment'] ?></textarea>
+			</div>
+			
+			<hr>
+			
+			<button type="submit" class="btn btn-primary">Bewertung ändern</button>
+		</form>
+		
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+<!-- Modal zum Löschen einer Bewertung-->
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Bewertung löschen für: <?php echo $subjectData['subject_name'] ?></h2>
+	</div>
+		<div class="modal-body">
+			<form action="rating_delete.php?subject=<?php echo $subject?>" method="POST">
+				<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Willst du deine Bewertung wirklich löschen?</p>
+				<p> Das beinhaltet deine eigentliche Bewertung und den Kommentar, den du abgegeben hast.<br>
+				<span style="color:red">Dieser Schritt kann nicht rückgängig gemacht werden.</span></p>
+				<button type="submit" class="btn btn-danger">Bewertung unwiderruflich löschen</button>
+			</form>
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+
+<!-- Modal für Bewertung -->
 <!-- Maybe include slider instead of likert: http://foundation.zurb.com/sites/docs/v/5.5.3/components/range_slider.html -->
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -740,10 +1002,6 @@ include "sumVotes.php";
 					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 					
 					<div class="form-group">
-						<label for="usr">Titel:</label>
-						<input name="title" type="text" class="form-control" required>
-					</div>
-					<div class="form-group">
 						<label for="comment">Inhalt:</label>
 						<textarea name="comment" class="form-control" rows="5" required></textarea>
 					</div>
@@ -756,5 +1014,13 @@ include "sumVotes.php";
 		</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
+
+
+<div class="snackbar" id="snackbarFavAddSuccess">Wir haben die Veranstaltung deinen Favoriten hinzugefügt.</div>
+<div class="snackbar" id="snackbarFavRemSuccess">Wir haben die Veranstaltung aus deinen Favoriten entfernt.</div>
+<div class="snackbar" id="snackbarFavAddFail">Wir konnten die Veranstaltung leider nicht deinen Favoriten hinzufügen. Bitte überprüfe deine Internetverbindung.</div>
+<div class="snackbar" id="snackbarFavRemFail">Wir konnten die Veranstaltung leider nicht aus deinen Favoriten entfernen. Bitte überprüfe deine Internetverbindung.</div>
+
+
 </body>
 </html>

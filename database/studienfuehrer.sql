@@ -53,7 +53,30 @@ CREATE TABLE `commentratings` (
 INSERT INTO `commentratings` (`ID`, `subject_ID`, `comment_ID`, `user_ID`, `rating_direction`, `time_stamp`) VALUES
 (1, '5', '1', '2', '1', '2017-06-08 22:10:24'),
 (2, '5', '1', '1', '1', '2017-06-08 22:13:17'),
-(3, '5', '2', '1', '-1', '2017-06-08 22:13:19');
+(3, '5', '2', '1', '-1', '2017-06-08 22:13:19'),
+(4, '2', '5', '1', '1', '2017-08-13 23:40:29'),
+(7, '5', '2', '2', '1', '2017-08-15 22:44:24');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `favourites`
+--
+
+CREATE TABLE `favourites` (
+  `ID` int(10) NOT NULL,
+  `user_ID` int(10) NOT NULL,
+  `subject_ID` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `favourites`
+--
+
+INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
+(26, 2, 5),
+(27, 2, 4),
+(28, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -266,21 +289,21 @@ CREATE TABLE `ratings` (
   `crit4` varchar(100) NOT NULL,
   `crit5` varchar(100) NOT NULL,
   `recommendation` tinyint(1) NOT NULL,
-  `comment_title` varchar(100) NOT NULL,
-  `comment_body` varchar(5000) NOT NULL,
+  `comment` varchar(5000) NOT NULL,
   `comment_rating` int(100) NOT NULL,
   `user_ID` int(10) NOT NULL,
-  `time_stamp` varchar(100) NOT NULL
+  `time_stamp` varchar(100) NOT NULL,
+  `time_stamp_change` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `ratings`
 --
 
-INSERT INTO `ratings` (`ID`, `subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment_title`, `comment_body`, `comment_rating`, `user_ID`, `time_stamp`) VALUES
-(1, 5, '7', '6', '7', '5', '6', 1, 'Super interessant!', 'Sehr interessant, endlich mal etwas ING! Jetzt trau&#39; ich mich schon eher, mich Ingenieur zu schimpfen.', 2, 2, '2017-06-08 22:09:56'),
-(2, 5, '5', '4', '5', '6', '4', 0, 'Unrau wow, Grauterin eher mau', 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', -1, 1, '2017-06-08 22:13:06'),
-(5, 2, '2', '2', '2', '2', '2', 0, 'Lorem', 'Ipsum', 0, 2, '2017-08-09 00:46:52');
+INSERT INTO `ratings` (`ID`, `subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
+(2, 5, '5', '4', '5', '6', '4', 0, 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', 0, 1, '2017-06-08 22:13:06', ''),
+(8, 2, '5', '2', '2', '2', '2', 0, 'adfsadf', 0, 1, '2017-08-14 00:41:01', ''),
+(10, 5, '7', '4', '6', '5', '7', 1, 'Super ING-Fach, sehr empfehlenswert!', 0, 2, '2017-08-14 12:20:56', '2017-08-14 12:21:23');
 
 -- --------------------------------------------------------
 
@@ -415,7 +438,15 @@ ALTER TABLE `anti_brute_force`
 -- Indizes für die Tabelle `commentratings`
 --
 ALTER TABLE `commentratings`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `subject_ID` (`subject_ID`,`comment_ID`,`user_ID`);
+
+--
+-- Indizes für die Tabelle `favourites`
+--
+ALTER TABLE `favourites`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `user_ID` (`user_ID`,`subject_ID`);
 
 --
 -- Indizes für die Tabelle `institutes`
@@ -500,7 +531,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT für Tabelle `commentratings`
 --
 ALTER TABLE `commentratings`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT für Tabelle `favourites`
+--
+ALTER TABLE `favourites`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT für Tabelle `institutes`
 --
@@ -540,7 +576,7 @@ ALTER TABLE `moduletypes`
 -- AUTO_INCREMENT für Tabelle `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT für Tabelle `subjects`
 --
