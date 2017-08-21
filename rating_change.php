@@ -23,8 +23,10 @@ $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
 $nameID = $userRow['user_ID'];
 
 $sql="
-	INSERT INTO `ratings` (`subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
-	VALUES ('$subjectData[ID]', '$criterion1', '$criterion2', '$criterion3', '$criterion4', '$criterion5', '$recommendation', '$comment', 0, '$nameID', now())";
+	UPDATE ratings
+	SET crit1 = '$criterion1', crit2 = '$criterion2', crit3 = '$criterion3', crit4 = '$criterion4', crit5 = '$criterion5', recommendation = '$recommendation', comment = '$comment', time_stamp_change = now()
+	WHERE subject_ID = '$subjectData[ID]' AND user_ID = '$nameID';
+";
 
 if ($con->query($sql) == TRUE) {
 	//echo 'erfolgreich';
