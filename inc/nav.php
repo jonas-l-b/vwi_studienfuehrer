@@ -82,7 +82,6 @@ echo "
 					<li><a href="tree.php">Übersicht Studienführer</a></li>
 					<li><a href="https://www.vwi-karlsruhe.de" target="_blank">vwi-karlsruhe.de</a></li>
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
-					<li id="dummy"></li>
 					<?php echo $admin;?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -112,6 +111,7 @@ echo "
 			</div>
 		</div>
 </nav>
+<div id="dummy"></div>
 <script>
 $(function(){
   $('.suchen-autocomplete').autocomplete({
