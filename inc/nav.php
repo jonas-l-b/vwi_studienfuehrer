@@ -81,6 +81,8 @@ echo "
 				<ul class="nav navbar-nav">
 					<li><a href="tree.php">Übersicht Studienführer</a></li>
 					<li><a href="https://www.vwi-karlsruhe.de" target="_blank">vwi-karlsruhe.de</a></li>
+					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
+					<li id="dummy"></li>
 					<?php echo $admin;?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -127,5 +129,15 @@ $(function(){
 			$('.suchen-autocomplete').val("Übersicht Startseite");
     }
   });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+	$("#contact").click(function(){
+		$('#dummy').load("contactModal.php",function(result){
+			$('#contactModal').modal({show:true});
+		});
+	});
 });
 </script>
