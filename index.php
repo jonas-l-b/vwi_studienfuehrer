@@ -564,9 +564,15 @@ include "sumVotes.php";
 				
 				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeugen
 				$displayEdit = "display:none;";
+				
+				//Auskommentiert, da noch diskutiert werden muss!
+				//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
+				
+				/*
 				if($comments['user_ID'] == $userRow['user_ID']){
 					$displayEdit = "";
 				}
+				*/
 				
 				
 				echo "
