@@ -220,12 +220,12 @@ include "sumVotes.php";
 	$(document).ready(function(){
 		$("#favIcon").click(function(){
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
-				$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:30px;");
-				$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
 				$.post( "favourites_newEntry.php", {
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
 				  .done(function() {
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:30px;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
 					$('#snackbarFavAddSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
 				  })
@@ -234,12 +234,12 @@ include "sumVotes.php";
 					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
 				  });
 			} else{
-				$("#favIcon").attr("style", "color:grey; font-size:30px;");
-				$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
 				$.post( "favourites_removeEntry.php", {
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"} )
 				 .done(function() {
+					$("#favIcon").attr("style", "color:grey; font-size:30px;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
 					$('#snackbarFavRemSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
 				  })
