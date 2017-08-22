@@ -18,13 +18,12 @@ if (isset($_GET['subject'])){
 		
 		
 		/*Datenbankabfrage, um bestehende Werte ins Modal einzutragen*/
-		$sql="
-			SELECT * FROM ratings
-			WHERE ratings.user_ID = '$userID' AND ratings.subject_ID = (SELECT ID FROM subjects WHERE subjects.code = '$subject');
-		";
-		$result = mysqli_query($con,$sql);
+		$statement1 = $con->prepare("SELECT * FROM ratings
+			WHERE ratings.user_ID = ? AND ratings.subject_ID = (SELECT ID FROM subjects WHERE subjects.code = ?);");
+		$statement1->bind_param('ss', $userID, $subject);
+		$statement1->execute();
+		$result = $statement1->get_result();
 		$ratingData = mysqli_fetch_assoc($result);
-		var_dump($subject);
 		//Rating
 		for ($i = 1; $i <= 5; $i++) {
 			for ($j = 1; $j <= 7; $j++) {
