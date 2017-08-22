@@ -344,7 +344,6 @@ include "sumVotes.php";
 													'crit3'=> $crit3Prozent,
 													'crit4'=> $crit4Prozent,
 													'crit5'=> $crit5Prozent,
-													'crit1'=> $crit5Prozent,
 													)
 								));
 				?>

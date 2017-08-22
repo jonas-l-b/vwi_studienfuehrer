@@ -49,8 +49,8 @@ if (isset($_GET['subject'])){
 									'form_target' => 'rating_change.php',
 									'button_text' => 'Bewertung ändern',
 									'isChecked' => $crit,
-									'weiterempfehlen_ja' => $recom1,
-									'weiterempfehlen_nein' => $recom0,
+									'weiterempfehlen_ja' => $recom0,
+									'weiterempfehlen_nein' => $recom1,
 									'kommentar' => $ratingData['comment'],
 								));
 	}else{
