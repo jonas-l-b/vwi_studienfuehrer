@@ -21,11 +21,11 @@ if (isset($_GET['kommentar'])){
 	if($row = mysqli_fetch_assoc($users)){
 		echo $twig->render('bewertungen.template.html', 
 							array(	'rating' => array(
-													'crit1'=> $row['crit1'],
-													'crit2'=> $row['crit2'],
-													'crit3'=> $row['crit3'],
-													'crit4'=> $row['crit4'],
-													'crit5'=> $row['crit5'],
+													'crit1'=> round($row['crit1']/7*100),
+													'crit2'=> round($row['crit2']/7*100),
+													'crit3'=> round($row['crit3']/7*100),
+													'crit4'=> round($row['crit4']/7*100),
+													'crit5'=> round($row['crit5']/7*100),
 													)
 								));
 	}else{

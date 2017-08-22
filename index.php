@@ -375,11 +375,12 @@ include "sumVotes.php";
 				<?php
 					echo $twig->render('bewertungen.template.html', 
 							array(	'rating' => array(
-													'crit1'=> $crit1/$crit1Total,
-													'crit2'=> $crit2/$crit2Total,
-													'crit3'=> $crit3/$crit3Total,
-													'crit4'=> $crit4/$crit4Total,
-													'crit5'=> $crit5/$crit5Total,
+													'crit1'=> $crit1Prozent,
+													'crit2'=> $crit2Prozent,
+													'crit3'=> $crit3Prozent,
+													'crit4'=> $crit4Prozent,
+													'crit5'=> $crit5Prozent,
+													'crit1'=> $crit5Prozent,
 													)
 								));
 				?>
