@@ -1,4 +1,4 @@
-<form action="rating_submit.php?subject={{subject}}" method="POST">
+<form action="{{form_target}}?subject={{subject}}" method="POST">
 				
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
 	
@@ -10,13 +10,9 @@
 		<p style="font-style:italic">Sehr schlecht</p>
 	</div>
 	<div class="col-md-6">
-		<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" required></label>
-		<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1"></label>
-		<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1"></label>
-		<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1"></label>
-		<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1"></label>
-		<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1"></label>
-		<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1"></label>
+		{% for key,value in isChecked[1] %}
+			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key + 1}}' name="criterion1" {{ value }} required></label>
+		{% endfor %}
 	</div>
 	<div class="col-md-3">
 	<p style="font-style:italic">Sehr gut</p>
@@ -30,13 +26,9 @@
 		<p style="font-style:italic">Sehr unangemessen</p>
 	</div>
 	<div class="col-md-6">
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" required></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2"></label>
+		{% for key,value in isChecked[2] %}
+			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key + 1}}' name="criterion2" {{ value }} required></label>
+		{% endfor %}
 	</div>
 	<div class="col-md-3">
 	<p style="font-style:italic">Sehr angemessen</p>
@@ -50,13 +42,9 @@
 		<p style="font-style:italic">Sehr schlecht</p>
 	</div>
 	<div class="col-md-6">
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" required></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3"></label>
+		{% for key,value in isChecked[3] %}
+			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key + 1}}' name="criterion3" {{ value }} required></label>
+		{% endfor %}
 	</div>
 	<div class="col-md-3">
 	<p style="font-style:italic">Sehr gut</p>
@@ -70,13 +58,9 @@
 		<p style="font-style:italic">Sehr unangemessen</p>
 	</div>
 	<div class="col-md-6">
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" required></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4"></label>
+		{% for key,value in isChecked[4] %}
+			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key + 1}}' name="criterion4" {{ value }} required></label>
+		{% endfor %}
 	</div>
 	<div class="col-md-3">
 	<p style="font-style:italic">Sehr angemessen</p>
@@ -90,13 +74,9 @@
 		<p style="font-style:italic">Sehr unangemessen</p>
 	</div>
 	<div class="col-md-6">
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" required></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5"></label>
-		<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5"></label>
+		{% for key,value in isChecked[5] %}
+			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key + 1}}' name="criterion5" {{ value }} required></label>
+		{% endfor %}
 	</div>
 	<div class="col-md-3">
 	<p style="font-style:italic">Sehr angemessen</p>
@@ -106,8 +86,8 @@
 	
 	<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
 	
-	<label class="radio-inline"><input type="radio" name="recommendation" value='1' required>Ja</label>
-	<label class="radio-inline"><input type="radio" name="recommendation" value='0'>Nein</label>
+	<label class="radio-inline"><input type="radio" name="recommendation" value='1' {{weiterempfehlen_ja}} required>Ja</label>
+	<label class="radio-inline"><input type="radio" name="recommendation" value='0' {{weiterempfehlen_nein}}>Nein</label>
 				
 	<br>
 	<hr>
@@ -116,10 +96,10 @@
 	
 	<div class="form-group">
 		<label for="comment">Inhalt:</label>
-		<textarea name="comment" class="form-control" rows="5" required></textarea>
+		<textarea name="comment" class="form-control" rows="5" required>{{kommentar}}</textarea>
 	</div>
 	
 	<hr>
 	
-	<button type="submit" class="btn btn-primary">Bewertung abschicken</button>
+	<button type="submit" class="btn btn-primary">{{button_text}}</button>
 </form>
