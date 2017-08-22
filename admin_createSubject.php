@@ -52,7 +52,7 @@ if($userRow['admin']==0){
 					VALUES ('$subject_name', '$code', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
-				$logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit $code von User: $userID" );
+				$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit $code von User: $userID" );
 			}
 			
 			//Verbindungseinträge vorbereiten
