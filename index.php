@@ -289,7 +289,7 @@ include "sumVotes.php";
 		}
 	?>
 	<div style="margin-bottom:15px">
-		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
+		<button <?php echo $displayRatings ?> type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
 	</div>
 
 <!--	
@@ -545,7 +545,7 @@ include "sumVotes.php";
 							$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
 						  }
 						});
-				}			
+				}	
 			</script>
 			
 			<!-- Farbänderung bei Kommentarbewertung -->
@@ -628,7 +628,7 @@ include "sumVotes.php";
 		<br>
 		<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
 		<div style="text-align:center">
-			<button style="font-size:20px" type="button" a href="#myModal" role="button" class="btn noRatingButton" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
+			<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
 		</div>
 	</div>
 </div>
@@ -826,7 +826,7 @@ include "sumVotes.php";
 
 <!-- Modal für Bewertung -->
 <!-- Maybe include slider instead of likert: http://foundation.zurb.com/sites/docs/v/5.5.3/components/range_slider.html -->
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="jetztBewertenModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -834,131 +834,7 @@ include "sumVotes.php";
 				<h2 class="modal-title">Bewertung für: <?php echo $subjectData['subject_name'] ?></h2>
 			</div>
 			<div class="modal-body">
-				<form action="rating_submit.php?subject=<?php echo $subject?>" method="POST">
-				
-					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
-					
-					<br>
-
-					<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
-					
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr schlecht</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" required></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr gut</p>
-					</div>
-
-					<br><br><br>
-
-					<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr unangemessen</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr angemessen</p>
-					</div>
-					
-					<br><br><br>
-
-					<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr schlecht</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr gut</p>
-					</div>
-					
-					<br><br><br>
-					
-					<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr unangemessen</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr angemessen</p>
-					</div>
-					
-					<br><br><br>
-					
-					<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr unangemessen</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr angemessen</p>
-					</div>
-					
-					<br><br><br>
-					
-					<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
-					
-					<label class="radio-inline"><input type="radio" name="recommendation" value='1' required>Ja</label>
-					<label class="radio-inline"><input type="radio" name="recommendation" value='0'>Nein</label>
-								
-					<br>
-					<hr>
-					
-					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
-					
-					<div class="form-group">
-						<label for="comment">Inhalt:</label>
-						<textarea name="comment" class="form-control" rows="5" required></textarea>
-					</div>
-					
-					<hr>
-					
-					<button type="submit" class="btn btn-primary">Bewertung abschicken</button>
-				</form>
+				<div id="bewertungAbgebenForm"></div>
 			</div><!-- End of Modal body -->
 		</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
@@ -975,7 +851,7 @@ include "sumVotes.php";
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Restliche Bewertung</h4>
+        <h4 class="modal-title">So hat der Nutzer sonst gewertet:</h4>
       </div>
       <div class="modal-body">
 		<div id="commentStats"></div>
@@ -986,6 +862,20 @@ include "sumVotes.php";
     </div>
   </div>
 </div>
+
+<script>
+	var bewertenLaden = function(){
+			$('#jetztBewertenModal').modal('show');
+			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+			$('#bewertungAbgebenForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>&filling=false", function( response, status, xhr ) {
+			  if ( status == "error" ) {
+				$('#bewertungAbgebenForm').html('<strong>Daten können nicht geladen werden.</strong>');
+			  }
+			});
+	}
+	$('#jetztBewertenButton').click(bewertenLaden);
+	$('#jetztBewertenButton2').click(bewertenLaden);				
+</script>
 
 </body>
 </html>
