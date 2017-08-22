@@ -19,7 +19,7 @@ if (isset($_GET['kommentar'])){
 	$statement1->execute();
 	$users = $statement1->get_result();
 	if($row = mysqli_fetch_assoc($users)){
-		echo $twig->render('bewertung_zu_kommentar_modal.template.html', 
+		echo $twig->render('bewertungen.template.html', 
 							array(	'rating' => array(
 													'crit1'=> $row['crit1'],
 													'crit2'=> $row['crit2'],

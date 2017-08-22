@@ -373,7 +373,7 @@ include "sumVotes.php";
 			
 			<div class="col-md-8">
 				<?php
-					echo $twig->render('bewertung_zu_kommentar_modal.template.html', 
+					echo $twig->render('bewertungen.template.html', 
 							array(	'rating' => array(
 													'crit1'=> $crit1/$crit1Total,
 													'crit2'=> $crit2/$crit2Total,
