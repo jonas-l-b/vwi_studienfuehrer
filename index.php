@@ -372,83 +372,17 @@ include "sumVotes.php";
 			</div>
 			
 			<div class="col-md-8">
-				<table class="ratingtable" style="width:100%">
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Vorlesung</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit1Prozent ?>%">
-									<?php echo $crit1Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Aufwand für gute Note</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit2Prozent ?>%">
-									<?php echo $crit2Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium3</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit3Prozent ?>%">
-									<?php echo $crit3Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium4</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit4Prozent ?>%">
-									<?php echo $crit4Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium5</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit5Prozent ?>%">
-									<?php echo $crit5Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				</table>
+				<?php
+					echo $twig->render('bewertung_zu_kommentar_modal.template.html', 
+							array(	'rating' => array(
+													'crit1'=> $crit1/$crit1Total,
+													'crit2'=> $crit2/$crit2Total,
+													'crit3'=> $crit3/$crit3Total,
+													'crit4'=> $crit4/$crit4Total,
+													'crit5'=> $crit5/$crit5Total,
+													)
+								));
+				?>
 			</div>
 		</div>
 		
@@ -588,9 +522,10 @@ include "sumVotes.php";
 								<hr style=\"margin:10px\">
 								<div style=\"font-size:10px\">
 									".$rows['username']." &#124; ".$comments['time_stamp']."
-									<span style=\"float:right; ".$displayEdit."\">
-										<button type=\"button\" a href=\"#editModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
-										<button type=\"button\" a href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
+									<span style=\"float:right;\">
+										<button type=\"button\" style=\"".$displayEdit."\" href=\"#editModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
+										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
+										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\"></span></button>
 									</span>
 								</div>
 							</div>
@@ -599,6 +534,13 @@ include "sumVotes.php";
 				";
 			}
 			?>
+			<!-- Zeig Stats zu Kommentar -->
+			<script>
+				function showStats(id){
+						$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function(result){
+						});
+				}			
+			</script>
 			
 			<!-- Farbänderung bei Kommentarbewertung -->
 			<script>
@@ -1022,6 +964,22 @@ include "sumVotes.php";
 <div class="snackbar" id="snackbarFavAddFail">Wir konnten die Veranstaltung leider nicht deinen Favoriten hinzufügen. Bitte überprüfe deine Internetverbindung.</div>
 <div class="snackbar" id="snackbarFavRemFail">Wir konnten die Veranstaltung leider nicht aus deinen Favoriten entfernen. Bitte überprüfe deine Internetverbindung.</div>
 
+<div id="commentsStatsModal" tabindex="-1" aria-hidden="true" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Restliche Bewertung</h4>
+      </div>
+      <div class="modal-body">
+		<div id="commentStats"></div>
+	  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
