@@ -215,42 +215,6 @@ include "sumVotes.php";
 			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
-
-	<script>
-	$(document).ready(function(){
-		$("#favIcon").click(function(){
-			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
-				$.post( "favourites_newEntry.php", {
-					user_id: "<?php echo $userRow['user_ID'] ?>", 
-					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
-				  .done(function() {
-					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
-					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
-					$('#snackbarFavAddSuccess').addClass('show');
-					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
-				  })
-				  .fail(function() {
-					$('#snackbarFavAddFail').addClass('show');
-					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
-				  });
-			} else{
-				$.post( "favourites_removeEntry.php", {
-					user_id: "<?php echo $userRow['user_ID'] ?>", 
-					subject_id: "<?php echo $subjectData['ID'] ?>"} )
-				 .done(function() {
-					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
-					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
-					$('#snackbarFavRemSuccess').addClass('show');
-					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
-				  })
-				 .fail(function() {
-					$('#snackbarFavRemFail').addClass('show');
-					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
-				});
-			}
-		});
-	});
-	</script>
 	
 
 	<div class="infoContainer">
@@ -711,6 +675,39 @@ include "sumVotes.php";
 </div>
 
 <script>
+$(document).ready(function(){
+		$("#favIcon").click(function(){
+			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
+				$.post( "favourites_newEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
+				  .done(function() {
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
+					$('#snackbarFavAddSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
+				  })
+				  .fail(function() {
+					$('#snackbarFavAddFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
+				  });
+			} else{
+				$.post( "favourites_removeEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"} )
+				 .done(function() {
+					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+					$('#snackbarFavRemSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
+				  })
+				 .fail(function() {
+					$('#snackbarFavRemFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
+				});
+			}
+		});
+	
 	var bewertenLaden = function(){
 			$('#jetztBewertenModal').modal('show');
 			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
@@ -733,7 +730,7 @@ include "sumVotes.php";
 			});
 	}
 	$('.editButtonIdentificationClass').click(aendernLaden);
-
+});
 </script>
 
 </body>
