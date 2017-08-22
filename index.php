@@ -537,7 +537,12 @@ include "sumVotes.php";
 			<!-- Zeig Stats zu Kommentar -->
 			<script>
 				function showStats(id){
-						$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function(result){
+						$('#commentsStatsModal').modal('show');
+						$('#commentStats').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+						$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function( response, status, xhr ) {
+						  if ( status == "error" ) {
+							$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
+						  }
 						});
 				}			
 			</script>
