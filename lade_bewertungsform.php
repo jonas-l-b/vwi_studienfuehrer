@@ -13,19 +13,18 @@ include "connect.php";
 if (isset($_GET['subject'])){
 	
 	$subject = $_GET['subject'];
+	$userID = $userRow['user_ID'];
 	if(isset($_GET['filled'])){
 		
 		
 		/*Datenbankabfrage, um bestehende Werte ins Modal einzutragen*/
 		$sql="
 			SELECT * FROM ratings
-			LEFT JOIN subjects
-			ON ratings.subject_ID = subjects.ID
-			WHERE user_ID = '".$userRow['user_ID']." AND code = ".$subject."';
+			WHERE ratings.user_ID = '$userID' AND ratings.subject_ID = (SELECT ID FROM subjects WHERE subjects.code = '$subject');
 		";
 		$result = mysqli_query($con,$sql);
 		$ratingData = mysqli_fetch_assoc($result);
-		
+		var_dump($subject);
 		//Rating
 		for ($i = 1; $i <= 5; $i++) {
 			for ($j = 1; $j <= 7; $j++) {
@@ -49,8 +48,8 @@ if (isset($_GET['subject'])){
 									'form_target' => 'rating_change.php',
 									'button_text' => 'Bewertung ändern',
 									'isChecked' => $crit,
-									'weiterempfehlen_ja' => $recom0,
-									'weiterempfehlen_nein' => $recom1,
+									'weiterempfehlen_ja' => $recom1,
+									'weiterempfehlen_nein' => $recom0,
 									'kommentar' => $ratingData['comment'],
 								));
 	}else{
