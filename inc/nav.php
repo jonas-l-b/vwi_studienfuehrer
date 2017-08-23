@@ -87,8 +87,8 @@ echo "
 					<li>
 						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;"><span class="glyphicon glyphicon-user"></span> Hallo <?php echo $name;?>!</a>
 						<ul class="dropdown-menu">
-							<li><a href="userProfile.php">Profil</a></li>
-							<li><a href="userProfile.php#favourites">Favoriten</a></li>
+							<li><a id="linkToUserProfile" href="userProfile.php">Profil</a></li>
+							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten</a></li>
 							<li class="divider"></li>
 							<li><a href="logout.php">Logout</a></li>
 						</ul>
