@@ -38,6 +38,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="res/lib/jquery.autocomplete.js"></script>
 	<script src="res/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
+	<script src="res/js/script.js"></script>
 </head>
 
 <?php

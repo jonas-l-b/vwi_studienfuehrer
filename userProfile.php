@@ -336,7 +336,7 @@ $('#linkToUserProfile').click(function(event){
 		<h2 class="modal-title">Profil löschen</h2> <!-- Dynamisch Name anpassen! -->
 	</div>
 	<div class="modal-body">
-		<p id="pwrecovery"></p>
+		<p></p>
 			<form action="recoverPW.php" method="POST">
 				<div id="ersterTeilLoeschen">
 					<p><strong>Vorsicht! Das Löschen deines Profils ist eine destruktive Aktion und kann <u>nicht</u> rückgängig gemacht werden.</strong></p>
@@ -354,13 +354,16 @@ $('#linkToUserProfile').click(function(event){
 					<p style="font-family: monospace;" id="deleteSentence">Konto löschen. Bewertungen anonymisiert behalten.</p>
 					<input type="text" class="form-control" id="uds">
 					<br />
-					<button class="deleteAbbrechenButton" data-toggle="modal" class="btn btn-primary" >Abbrechen</button>
+					<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
 					<button id="deleteButton" style="float:right" class="btn btn-danger" disabled>Konto löschen</button>
 				</div>
-				<div "deleteLaden"></div>
+				<div id="deleteLaden"></div>
 				<div id="zweiterTeilLoeschen" style="display:none">
-					<button class="deleteAbbrechenButton" data-toggle="modal" class="btn btn-primary" >Abbrechen</button>
-					<button id="finalDeleteButton" style="float:right" type="submit" class="btn btn-danger" disabled>Aktion ausführen</button>
+					<p>Bitte gib noch einmal dein Passwort ein, um die Aktion zu bestätigen.</p>
+					<input type="password" class="form-control" id="upassword">
+					<br />
+					<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
+					<button id="finalDeleteButton" style="float:right" class="btn btn-danger">Aktion ausführen</button>
 				</div>
 			</form>
 			<script>
@@ -399,8 +402,21 @@ $('#linkToUserProfile').click(function(event){
 					});
 					$('#deleteButton').click(function(event){
 						event.preventDefault();
-						$('#ersterTeilLoeschen').fadeOut();
-						insertLoader('#deleteLaden');
+						$('#ersterTeilLoeschen').fadeOut(400);
+						setTimeout(function(){
+							insertLoader('#deleteLaden');
+							setTimeout(function(){
+								$('#deleteLaden').hide();
+								$('#zweiterTeilLoeschen').fadeIn();
+							}, 1000);
+						}, 400);
+					});
+					$('#finalDeleteButton').click(function(event){
+						event.preventDefault();
+						$('#zweiterTeilLoeschen').fadeOut(400);
+						setTimeout(function(){
+							$('#deleteLaden').show();
+						}, 400);
 					});
 				});
 			</script>
