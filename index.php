@@ -215,42 +215,6 @@ include "sumVotes.php";
 			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
-
-	<script>
-	$(document).ready(function(){
-		$("#favIcon").click(function(){
-			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
-				$.post( "favourites_newEntry.php", {
-					user_id: "<?php echo $userRow['user_ID'] ?>", 
-					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
-				  .done(function() {
-					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
-					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
-					$('#snackbarFavAddSuccess').addClass('show');
-					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
-				  })
-				  .fail(function() {
-					$('#snackbarFavAddFail').addClass('show');
-					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
-				  });
-			} else{
-				$.post( "favourites_removeEntry.php", {
-					user_id: "<?php echo $userRow['user_ID'] ?>", 
-					subject_id: "<?php echo $subjectData['ID'] ?>"} )
-				 .done(function() {
-					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
-					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
-					$('#snackbarFavRemSuccess').addClass('show');
-					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
-				  })
-				 .fail(function() {
-					$('#snackbarFavRemFail').addClass('show');
-					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
-				});
-			}
-		});
-	});
-	</script>
 	
 
 	<div class="infoContainer">
@@ -289,7 +253,7 @@ include "sumVotes.php";
 		}
 	?>
 	<div style="margin-bottom:15px">
-		<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
+		<button <?php echo $displayRatings ?> type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
 	</div>
 
 <!--	
@@ -372,83 +336,17 @@ include "sumVotes.php";
 			</div>
 			
 			<div class="col-md-8">
-				<table class="ratingtable" style="width:100%">
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Vorlesung</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit1Prozent ?>%">
-									<?php echo $crit1Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Aufwand für gute Note</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit2Prozent ?>%">
-									<?php echo $crit2Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium3</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit3Prozent ?>%">
-									<?php echo $crit3Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium4</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit4Prozent ?>%">
-									<?php echo $crit4Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium5</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit5Prozent ?>%">
-									<?php echo $crit5Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				</table>
+				<?php
+					echo $twig->render('bewertungen.template.html', 
+							array(	'rating' => array(
+													'crit1'=> $crit1Prozent,
+													'crit2'=> $crit2Prozent,
+													'crit3'=> $crit3Prozent,
+													'crit4'=> $crit4Prozent,
+													'crit5'=> $crit5Prozent,
+													)
+								));
+				?>
 			</div>
 		</div>
 		
@@ -564,15 +462,17 @@ include "sumVotes.php";
 				
 				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeugen
 				$displayEdit = "display:none;";
+				$editClassIdentifier = "";
 				
 				//Auskommentiert, da noch diskutiert werden muss!
 				//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
 				
-				/*
+				
 				if($comments['user_ID'] == $userRow['user_ID']){
 					$displayEdit = "";
+					$editClassIdentifier = "editButtonIdentificationClass";
 				}
-				*/
+				
 				
 				
 				echo "
@@ -588,9 +488,10 @@ include "sumVotes.php";
 								<hr style=\"margin:10px\">
 								<div style=\"font-size:10px\">
 									".$rows['username']." &#124; ".$comments['time_stamp']."
-									<span style=\"float:right; ".$displayEdit."\">
-										<button type=\"button\" a href=\"#editModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
-										<button type=\"button\" a href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
+									<span style=\"float:right;\">
+										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
+										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
+										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\"></span></button>
 									</span>
 								</div>
 							</div>
@@ -599,6 +500,18 @@ include "sumVotes.php";
 				";
 			}
 			?>
+			<!-- Zeig Stats zu Kommentar -->
+			<script>
+				function showStats(id){
+						$('#commentsStatsModal').modal('show');
+						$('#commentStats').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+						$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function( response, status, xhr ) {
+						  if ( status == "error" ) {
+							$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
+						  }
+						});
+				}	
+			</script>
 			
 			<!-- Farbänderung bei Kommentarbewertung -->
 			<script>
@@ -680,7 +593,7 @@ include "sumVotes.php";
 		<br>
 		<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
 		<div style="text-align:center">
-			<button style="font-size:20px" type="button" a href="#myModal" role="button" class="btn noRatingButton" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
+			<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
 		</div>
 	</div>
 </div>
@@ -694,162 +607,7 @@ include "sumVotes.php";
 		<h2 class="modal-title">Bewertungsänderung für: <?php echo $subjectData['subject_name'] ?></h2>
 	</div>
 	<div class="modal-body">
-	
-		<?php
-		/*Datenbankabfrage, um bestehende Werte ins Modal einzutragen*/
-		$sql="
-			SELECT * FROM ratings
-			WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
-		";
-		$result = mysqli_query($con,$sql);
-		$ratingData = mysqli_fetch_assoc($result);
-		
-		//Rating
-		for ($i = 1; $i <= 5; $i++) {
-			for ($j = 1; $j <= 7; $j++) {
-				if($ratingData['crit'.$i] == $j){
-					$crit[$i][$j] = "checked";
-				} else{
-					$crit[$i][$j] = "";
-				}
-			}
-		}
-		//Recommendation
-		if($ratingData['recommendation'] == 1){
-			$recom1 = "checked";
-			$recom0 = "";
-		} else{
-			$recom1 = "";
-			$recom0 = "checked";
-		}
-		
-		?>
-	
-		<form action="rating_change.php?subject=<?php echo $subject?>" method="POST">
-		
-			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
-			
-			<br>
-
-			<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
-			
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr schlecht</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" <?php echo $crit[1][1]?> required></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1" <?php echo $crit[1][2]?>></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1" <?php echo $crit[1][3]?>></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1" <?php echo $crit[1][4]?>></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1" <?php echo $crit[1][5]?>></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1" <?php echo $crit[1][6]?>></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1" <?php echo $crit[1][7]?>></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr gut</p>
-			</div>
-
-			<br><br><br>
-
-			<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" <?php echo $crit[2][1]?> required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2" <?php echo $crit[2][2]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2" <?php echo $crit[2][3]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2" <?php echo $crit[2][4]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2" <?php echo $crit[2][5]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2" <?php echo $crit[2][6]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2" <?php echo $crit[2][7]?>></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-
-			<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr schlecht</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" <?php echo $crit[3][1]?> required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3" <?php echo $crit[3][2]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3" <?php echo $crit[3][3]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3" <?php echo $crit[3][4]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3" <?php echo $crit[3][5]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3" <?php echo $crit[3][6]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3" <?php echo $crit[3][7]?>></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr gut</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" <?php echo $crit[4][1]?> required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4" <?php echo $crit[4][2]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4" <?php echo $crit[4][3]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4" <?php echo $crit[4][4]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4" <?php echo $crit[4][5]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4" <?php echo $crit[4][6]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4" <?php echo $crit[4][7]?>></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" <?php echo $crit[5][1]?> required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5" <?php echo $crit[5][2]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5" <?php echo $crit[5][3]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5" <?php echo $crit[5][4]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5" <?php echo $crit[5][5]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5" <?php echo $crit[5][6]?>></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5" <?php echo $crit[5][7]?>></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
-			
-			<label class="radio-inline"><input type="radio" name="recommendation" value='1'<?php echo $recom1?> required>Ja</label>
-			<label class="radio-inline"><input type="radio" name="recommendation" value='0'<?php echo $recom0?>>Nein</label>
-						
-			<br>
-			<hr>
-			
-			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
-			
-			<div class="form-group">
-				<textarea name="comment" class="form-control" rows="5" required><?php echo $ratingData['comment'] ?></textarea>
-			</div>
-			
-			<hr>
-			
-			<button type="submit" class="btn btn-primary">Bewertung ändern</button>
-		</form>
-		
+		<div id="bewertungAendernForm"></div>
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
@@ -878,7 +636,7 @@ include "sumVotes.php";
 
 <!-- Modal für Bewertung -->
 <!-- Maybe include slider instead of likert: http://foundation.zurb.com/sites/docs/v/5.5.3/components/range_slider.html -->
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="jetztBewertenModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -886,131 +644,7 @@ include "sumVotes.php";
 				<h2 class="modal-title">Bewertung für: <?php echo $subjectData['subject_name'] ?></h2>
 			</div>
 			<div class="modal-body">
-				<form action="rating_submit.php?subject=<?php echo $subject?>" method="POST">
-				
-					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
-					
-					<br>
-
-					<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
-					
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr schlecht</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" required></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1"></label>
-						<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr gut</p>
-					</div>
-
-					<br><br><br>
-
-					<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr unangemessen</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr angemessen</p>
-					</div>
-					
-					<br><br><br>
-
-					<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr schlecht</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr gut</p>
-					</div>
-					
-					<br><br><br>
-					
-					<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr unangemessen</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr angemessen</p>
-					</div>
-					
-					<br><br><br>
-					
-					<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
-
-					<div class="col-md-3">
-						<p style="font-style:italic">Sehr unangemessen</p>
-					</div>
-					<div class="col-md-6">
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" required></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5"></label>
-						<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5"></label>
-					</div>
-					<div class="col-md-3">
-					<p style="font-style:italic">Sehr angemessen</p>
-					</div>
-					
-					<br><br><br>
-					
-					<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
-					
-					<label class="radio-inline"><input type="radio" name="recommendation" value='1' required>Ja</label>
-					<label class="radio-inline"><input type="radio" name="recommendation" value='0'>Nein</label>
-								
-					<br>
-					<hr>
-					
-					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
-					
-					<div class="form-group">
-						<label for="comment">Inhalt:</label>
-						<textarea name="comment" class="form-control" rows="5" required></textarea>
-					</div>
-					
-					<hr>
-					
-					<button type="submit" class="btn btn-primary">Bewertung abschicken</button>
-				</form>
+				<div id="bewertungAbgebenForm"></div>
 			</div><!-- End of Modal body -->
 		</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
@@ -1022,6 +656,81 @@ include "sumVotes.php";
 <div class="snackbar" id="snackbarFavAddFail">Wir konnten die Veranstaltung leider nicht deinen Favoriten hinzufügen. Bitte überprüfe deine Internetverbindung.</div>
 <div class="snackbar" id="snackbarFavRemFail">Wir konnten die Veranstaltung leider nicht aus deinen Favoriten entfernen. Bitte überprüfe deine Internetverbindung.</div>
 
+<div id="commentsStatsModal" tabindex="-1" aria-hidden="true" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">So hat der Nutzer sonst gewertet:</h4>
+      </div>
+      <div class="modal-body">
+		<div id="commentStats"></div>
+	  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+		$("#favIcon").click(function(){
+			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
+				$.post( "favourites_newEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
+				  .done(function() {
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
+					$('#snackbarFavAddSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
+				  })
+				  .fail(function() {
+					$('#snackbarFavAddFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
+				  });
+			} else{
+				$.post( "favourites_removeEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"} )
+				 .done(function() {
+					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+					$('#snackbarFavRemSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
+				  })
+				 .fail(function() {
+					$('#snackbarFavRemFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
+				});
+			}
+		});
+	
+	var bewertenLaden = function(){
+			$('#jetztBewertenModal').modal('show');
+			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+			$('#bewertungAbgebenForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>", function( response, status, xhr ) {
+			  if ( status == "error" ) {
+				$('#bewertungAbgebenForm').html('<strong>Daten können nicht geladen werden.</strong>');
+			  }
+			});
+	}
+	$('#jetztBewertenButton').click(bewertenLaden);
+	$('#jetztBewertenButton2').click(bewertenLaden);
+	
+	var aendernLaden = function(){
+			$('#editModal').modal('show');
+			$('#bewertungAendernForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+			$('#bewertungAendernForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>&filled=true", function( response, status, xhr ) {
+			  if ( status == "error" ) {
+				$('#bewertungAendernForm').html('<strong>Daten können nicht geladen werden.</strong>');
+			  }
+			});
+	}
+	$('.editButtonIdentificationClass').click(aendernLaden);
+});
+</script>
 
 </body>
 </html>
