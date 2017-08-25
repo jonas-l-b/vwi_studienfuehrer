@@ -49,13 +49,10 @@
 			}      
 		});
 		$('#uds').keyup(function(){
-			console.log("haha1");
 			if(this.value == currentSentence){
 				$('#deleteButton').prop("disabled", false);
-				console.log("a");
 			}else{
 				$('#deleteButton').prop("disabled", true);
-				console.log("b");
 			}
 		});
 		$('.deleteAbbrechenButton').click(function(event){
@@ -75,6 +72,7 @@
 		});
 		$('#finalDeleteButton').click(function(event){
 			event.preventDefault();
+			$('#deleteModalClose').hide();
 			$('#zweiterTeilLoeschen').fadeOut(400);
 			setTimeout(function(){
 				$('#deleteLaden').show();

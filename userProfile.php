@@ -332,7 +332,7 @@ $('#linkToUserProfile').click(function(event){
 	<div class="modal-dialog">
 	<div class="modal-content">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<button type="button" class="close" id="deleteModalClose" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h2 class="modal-title">Profil löschen</h2> <!-- Dynamisch Name anpassen! -->
 		</div>
 		<div id="deleteModalBody" class="modal-body">
@@ -345,7 +345,7 @@ $('#linkToUserProfile').click(function(event){
 	$(document).ready(function() {
 		var deleteLaden = function(){
 				$('#deleteProfileModal').modal('show');
-				$('#deleteModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+				insertLoader('#deleteModalBody');
 				$('#deleteModalBody').load("delete-user-api.php?getDeleteModal=true", function( response, status, xhr ) {
 				  if ( status == "error" ) {
 					$('#deleteModalBody').html('<strong>Daten können nicht geladen werden. Bitte versuche es erneut.</strong>');
