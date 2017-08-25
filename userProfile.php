@@ -104,7 +104,7 @@ include "connect.php";
 				<form method="post">
 					<button type="submit" class="btn btn-primary" name="btn-edit">Daten bearbeiten</button>
 					<button type="button" href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
-					<button style="float:right;" type="button" href="#deleteProfileModal" role="button" class="btn btn-danger" data-toggle="modal">Profil löschen</button>
+					<button style="float:right;" type="button" id="deleteProfileButton" role="button" class="btn btn-danger">Profil löschen</button>
 				</form>
 			</div>
 			
@@ -331,99 +331,29 @@ $('#linkToUserProfile').click(function(event){
 <div id="deleteProfileModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	<div class="modal-content">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Profil löschen</h2> <!-- Dynamisch Name anpassen! -->
-	</div>
-	<div class="modal-body">
-		<p></p>
-			<form action="recoverPW.php" method="POST">
-				<div id="ersterTeilLoeschen">
-					<p><strong>Vorsicht! Das Löschen deines Profils ist eine destruktive Aktion und kann <u>nicht</u> rückgängig gemacht werden.</strong></p>
-					<p>
-						Deine Veranstaltungsbewertungen können anonymisiert erhalten bleiben, wenn du das möchtest. 
-						Du hast nach dem Löschen deines Profils keine Möglichkeit mehr diese Daten zu bearbeiten oder zu löschen. 
-						Es gibt aber auch keine Verbindung zu deinen personenspezifischen Daten mehr, da diese vollständig gelöscht werden.
-					</p>
-					<div class="checkbox">
-					  <label><input id="bewertungenBehalten" type="checkbox" checked>Meine bisherigen Bewertungen anonymisieren und weiterhin der Platform zur Verfügung stellen.</label>
-					</div>
-					<p>
-						Um sicherzustellen, dass du weißt, was du hier tust, tippe bitte folgenden Satz in das Eingabefeld:
-					</p>				
-					<p style="font-family: monospace;" id="deleteSentence">Konto löschen. Bewertungen anonymisiert behalten.</p>
-					<input type="text" class="form-control" id="uds">
-					<br />
-					<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
-					<button id="deleteButton" style="float:right" class="btn btn-danger" disabled>Konto löschen</button>
-				</div>
-				<div id="deleteLaden"></div>
-				<div id="zweiterTeilLoeschen" style="display:none">
-					<p>Bitte gib noch einmal dein Passwort ein, um die Aktion zu bestätigen.</p>
-					<input type="password" class="form-control" id="upassword">
-					<br />
-					<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
-					<button id="finalDeleteButton" style="float:right" class="btn btn-danger">Aktion ausführen</button>
-				</div>
-			</form>
-			<script>
-				$(document).ready(function() {
-					var currentSentence = "Konto löschen. Bewertungen anonymisiert behalten.";
-					$('#bewertungenBehalten').change(function() {
-						if(this.checked) {
-							$('#deleteSentence').text('Konto unwiderruflich löschen. Bewertungen anonymisieren.');
-							currentSentence = "Konto unwiderruflich löschen. Bewertungen anonymisieren.";
-							$('#deleteButton').prop("disabled", true);
-							$('#uds').prop("value", "");
-						}else{
-							var returnVal = confirm("Bist du dir sicher? (Andere könnten von deinen Bewertungen immer noch profitieren.)");
-							$(this).prop("checked", !returnVal);
-							if(returnVal){
-								$('#deleteSentence').text('Konto und Bewertungen unwiderruflich löschen.');
-								currentSentence = "Konto und Bewertungen unwiderruflich löschen.";
-								$('#deleteButton').prop("disabled", true);
-								$('#uds').prop("value", "");
-							}
-						}      
-					});
-					$('#uds').keyup(function(){
-						console.log("haha1");
-						if(this.value == currentSentence){
-							$('#deleteButton').prop("disabled", false);
-							console.log("a");
-						}else{
-							$('#deleteButton').prop("disabled", true);
-							console.log("b");
-						}
-					});
-					$('.deleteAbbrechenButton').click(function(event){
-						event.preventDefault();
-						$('#deleteProfileModal').modal("hide");
-					});
-					$('#deleteButton').click(function(event){
-						event.preventDefault();
-						$('#ersterTeilLoeschen').fadeOut(400);
-						setTimeout(function(){
-							insertLoader('#deleteLaden');
-							setTimeout(function(){
-								$('#deleteLaden').hide();
-								$('#zweiterTeilLoeschen').fadeIn();
-							}, 1000);
-						}, 400);
-					});
-					$('#finalDeleteButton').click(function(event){
-						event.preventDefault();
-						$('#zweiterTeilLoeschen').fadeOut(400);
-						setTimeout(function(){
-							$('#deleteLaden').show();
-						}, 400);
-					});
-				});
-			</script>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h2 class="modal-title">Profil löschen</h2> <!-- Dynamisch Name anpassen! -->
+		</div>
+		<div id="deleteModalBody" class="modal-body">
+		
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
-
+<script>
+	$(document).ready(function() {
+		var deleteLaden = function(){
+				$('#deleteProfileModal').modal('show');
+				$('#deleteModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+				$('#deleteModalBody').load("delete-user-api.php?getDeleteModal=true", function( response, status, xhr ) {
+				  if ( status == "error" ) {
+					$('#deleteModalBody').html('<strong>Daten können nicht geladen werden. Bitte versuche es erneut.</strong>');
+				  }
+				});
+		}
+		$('#deleteProfileButton').click(deleteLaden);
+	});
+</script>
 </body>
 </html>
