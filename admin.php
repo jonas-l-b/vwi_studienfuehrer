@@ -176,6 +176,14 @@ $('.nav-tabs a').on('shown.bs.tab', function (e) {
 		window.location.hash = e.target.hash; //Polyfill for old browsers
 	}
 })
+
+$('#linkToAdminEdit').click(function(event){
+ 	$('.nav-tabs a[href="#modifyData"]').tab('show');
+});
+$('#linkToAdminMessages').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#messages"]').tab('show');
+});
 </script>
 
 </body>

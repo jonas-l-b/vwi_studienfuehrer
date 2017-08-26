@@ -7,8 +7,8 @@ if($userRow['admin']!=0){
 		<li>
 			<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\">Admin</a>
 			<ul class=\"dropdown-menu\">
-				<li><a href=\"admin.php\">Daten bearbeiten</a></li>
-				<li><a href=\"admin.php#messages\">Nachrichten</a></li>
+				<li><a id=\"linkToAdminEdit\" href=\"admin.php\">Daten bearbeiten</a></li>
+				<li><a id=\"linkToAdminMessages\" href=\"admin.php#messages\">Nachrichten</a></li>
 			</ul>
 		</li>
 	";
