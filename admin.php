@@ -128,13 +128,13 @@ if($userRow['admin']==0){
 						?>
 						<div class="message" id="<?php echo ("message_id_".$row['message_id']) ?>">
 							<span class="symbol glyphicon <?php echo $glyphicon1 ?>"></span>
-							<span class="text">Empfangen: <?php echo $row['time_stamp'] ?><?php echo $lastRead ?></span>
-							<?php echo $glyphicon2Line ?>
-							<?php echo $assignedToLine ?>
+							<span class="text">Empfangen: <?php echo $row['time_stamp'] ?><span class="lastRead"><?php echo $lastRead ?></span></span>
+							<span class="assignedToGlyphicon"> <?php echo $glyphicon2Line ?> </span>
+							<span class="assignedTo"> <?php echo $assignedToLine ?> </span>
 						</div>
 						<?php
 					}
-					?>				
+					?>					
 				</div>
 
 				<div id="Fehler" class="tabcontent">
@@ -224,8 +224,17 @@ if($userRow['admin']==0){
 			
 			<script>
 			$(document).ready(function(){
-				$(".message").click(function(){ //Open Message
+				var m_id = "";
+				
+				//Open Message
+				$(".message").click(function(){
+					//Für andere Funktion speichern
+					m_id = $(this).attr('id');
+					
+					//Nachricht Zeit zum Laden geben
 					$("#messageDetail").html("Nachricht wird geladen...");
+					
+					//Nachricht laden
 					$.ajax({
 						url: "admin_loadMessage.php",
 						type: "post",
@@ -238,13 +247,60 @@ if($userRow['admin']==0){
 						}
 					});
 					
+					//Anzeige
 					$("#inbox").hide();
 					$("#messageContent").show();
+					
+					/*Update Inbox*/
+					var this_save = this;
+					//last read
+					$(this).find(".lastRead").html("<br>Zuletzt gelesen: <strong><?php echo $userRow['username'] ?></strong>");
+					//assigned to glyphicon
+					$.ajax({
+						url: "admin_updateInbox1.php",
+						type: "post",
+						data: {message_id: $(this).attr('id')} ,
+						success: function (data) {
+							var output = "<span class=\"symbol glyphicon glyphicon-" + data + "\"></span>";
+							$(this_save).find(".assignedToGlyphicon").html(output); //Hier stimmt noch was nicht!
+						}
+					});
+					//assigned to
+					$.ajax({
+						url: "admin_updateInbox2.php",
+						type: "post",
+						data: {message_id: $(this).attr('id')} ,
+						success: function (data) {
+							var output = "<span class=\"text\">Wird bearbeitet von:<br><strong>" + data + "</strong></span>";
+							$(this_save).find(".assignedTo").html(output);
+						}
+					});
 				});
-				$("#backToInbox").click(function(){ //Open Inbox
+				
+				//Nachricht-zuweisen-Button
+				$('#messageDetail').on('click', '#assignButton', function() {
+					$.ajax({
+						url: "admin_assignMessage.php",
+						type: "post",
+						data: $("#assignForm").serialize() + "&message_id=" + m_id,
+						success: function (data) {
+							alert("Erfolgreich zugewiesen!");
+							var output = "<span class=\"text\">Wird bearbeitet von:<br><strong>" + data + "</strong></span>";
+							$(this_save).find(".assignedTo").html(output);
+						},
+						error: function() {
+							alert("Error!");
+						}
+					});
+				});
+				
+				//Open Inbox
+				$("#backToInbox").click(function(){
 					$("#inbox").show();
 					$("#messageContent").hide();
 				});
+				
+				
 			});	
 			</script>
 		

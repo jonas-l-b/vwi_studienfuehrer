@@ -53,7 +53,7 @@ $sql = "
 	JOIN users ON messages.assigned_to_id = users.user_ID
 	WHERE message_id = '".$message_id."'
 ";
-$result= mysqli_query($con, $sql);
+$result = mysqli_query($con, $sql);
 $assigned_to = mysqli_fetch_assoc($result);
 if(mysqli_num_rows($result) == 0){
 	$assigned_to_name = "<i>nicht zugewiesen</i>";
@@ -62,10 +62,16 @@ if(mysqli_num_rows($result) == 0){
 }
 
 //dropdown
-$options = "<option value=\"".$userRow['user_ID']."\">-- mir selbst --</option>";
+$row1 = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM messages WHERE message_id = '".$message_id."'"));
+if($row1['assigned_to_id'] != $userRow['user_ID']){
+	$options = "<option value=\"".$userRow['user_ID']."\">-- mir selbst --</option>";
+} else{
+	$options = "";
+}
+
 $result = mysqli_query($con, "SELECT * FROM users WHERE admin = 1");
 while($row = mysqli_fetch_assoc($result)){
-	if($row['user_ID'] != $userRow['user_ID']){
+	if($row['user_ID'] != $userRow['user_ID'] AND $row['user_ID'] != $row1['assigned_to_id']){
 		$options .= "<option value=\"".$row['user_ID']."\">".$row['username']."</option>";
 	}
 }
@@ -96,16 +102,16 @@ switch($message['message_type']){
 $messageDetail = "
 	<p>Von: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
 	<p>Zuletzt gelesen von: <strong>".$last_read['username']."</strong><span style=\"float:right\"> ".$message['read_last_time_stamp']."</span></p>
-	<p>Wird derzeit bearbeitet von: <strong>".$assigned_to_name."</strong></p>
-	<form name=\"myForm\" role=\"form\" class=\"form-inline\">
+	<p>Wird derzeit bearbeitet von: <strong>".$assigned_to_name."</strong><span style=\"float:right\"> ".$message['assigned_to_time_stamp']."</span></p>
+	<form id=\"assignForm\" role=\"form\" class=\"form-inline\">
 		<div class=\"form-group\">
 			<label>Diese Nachricht
-				<select id=\"cband\" class=\"form-control\">
+				<select name=\"assign_to_id\" class=\"form-control\">
 					".$options."
 				</select>
 			</label>
 		</div>
-		<button class=\"btn btn-default\">Zuweisen</button>
+		<button class=\"btn btn-default\" id=\"assignButton\">Zuweisen</button>
 	</form>
 	<hr>
 	<p>Typ: <strong>".$type."</strong></p>
