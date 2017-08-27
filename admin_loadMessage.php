@@ -87,17 +87,36 @@ $message = mysqli_fetch_assoc(mysqli_query($con, $sql));
 switch($message['message_type']){
 	case "bug":
 		$type = "Bug";
+		$modalMessage = "Wurde der Bug erfolgreich behoben?";
 		break;
 	case "mistake":
 		$type = "Fehler";
+		$modalMessage = "Wurde der Fehler erfolgreich behoben?";
 		break;
 	case "question":
 		$type = "Frage";
+		$modalMessage = "Kann die Frage zufriedenstellend beantwortet werden?";
 		break;
 	case "feedback":
 		$type = "Feedback";
+		$modalMessage = "Wurde das Feedback entsprechend weitergeleitet?";
 		break;
 }
+
+//Button-Message
+if ($message['answer_required'] == 1){
+	$additionalComment = "
+		<p>Der Nutzer hat um eine Antwort gebeten und wird durch das Markieren dieser Nachricht als bearbeitet automatisch durch eine E-Mail benachrichtigt. Da diese Benachrichtigung nur beinhaltet ist, dass die Nachricht bearbeitet wurde und ob diese Bearbeitung von Erfolg gekrönt war, kannst du hier noch weitere Informationen hinzufügen:</p>
+		<div class=\"form-group\">
+			<textarea name=\"finishComment\" class=\"form-control\" rows=\"5\"></textarea>
+		</div>
+	";
+	$buttonMessage = "Nachricht jetzt als bearbeitet markieren und Benachrichtigung an Nutzer verschicken";
+} else{
+	$additionalComment = "";
+	$buttonMessage = "Nachricht jetzt als bearbeitet markieren";
+}
+
 
 $messageDetail = "
 	<p>Von: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
@@ -117,7 +136,35 @@ $messageDetail = "
 	<p>Typ: <strong>".$type."</strong></p>
 	<p>".$message['comment']."</p>
 	<hr>
-	<button type=\"button\" class=\"btn btn-primary\">Diese Nachricht als bearbeitet markieren!</button>
+	<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\">Diese Nachricht als bearbeitet markieren</button>
+
+	<!-- Modal -->
+	<div class=\"modal fade\" id=\"finishModal\" role=\"dialog\">
+	<div class=\"modal-dialog\">
+
+	<!-- Modal content-->
+	<div class=\"modal-content\">
+	<div class=\"modal-header\">
+		<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>
+		<h4 class=\"modal-title\">Nachricht als bearbeitet markieren</h4>
+	</div>
+	<div id=\"finishModalBody\" class=\"modal-body\">
+		<form id=\"finishForm\" role=\"form\">
+			<div class=\"form-group\">
+				<label>".$modalMessage."</label>
+				<select name=\"processedSuccess\" class=\"form-control\">
+					<option value=\"1\">Ja</option>
+					<option value=\"2\">Nein</option>
+				</select>
+			</div>
+			".$additionalComment."
+			<button class=\"btn btn-primary\" id=\"finishButton\">".$buttonMessage."</button>
+		</form>
+	</div>
+	</div>
+	  
+	</div>
+	</div>
 ";
 
 echo $messageDetail;

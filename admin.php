@@ -80,7 +80,7 @@ if($userRow['admin']==0){
 					<p style="font-size:20px"><span id="open" style="font-weight:bold">Offen</span> | <span id="closed" style="color:lightgrey" >Bearbeitet</span></p>
 					
 					<?php
-					$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = 'bug'");
+					$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = 'bug' AND processed = 0");
 					
 					while($row = mysqli_fetch_assoc($result)){
 						
@@ -287,6 +287,23 @@ if($userRow['admin']==0){
 							alert("Erfolgreich zugewiesen!");
 							var output = "<span class=\"text\">Wird bearbeitet von:<br><strong>" + data + "</strong></span>";
 							$(this_save).find(".assignedTo").html(output);
+						},
+						error: function() {
+							alert("Error!");
+						}
+					});
+				});
+				
+				//Nachricht-bearbeitet-Button
+				$('#messageDetail').on('click', '#finishButton', function() {
+					
+					$.ajax({
+						url: "admin_finishMessage.php",
+						type: "post",
+						data: $("#finishForm").serialize() + "&message_id=" + m_id,
+						success: function (data) {
+							alert(data);
+							$(this_save).find("#finishModalBody").html("Super, weiter so!");
 						},
 						error: function() {
 							alert("Error!");
