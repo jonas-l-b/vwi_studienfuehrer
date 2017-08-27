@@ -67,6 +67,7 @@ div.tab button.active {
 	height:70px;
 	padding:15px;
 	display:flex; align-items: center;
+	border-bottom: solid lightgrey 1px;
 }
 
 .symbol{
@@ -80,3 +81,8 @@ div.tab button.active {
 }
 
 /*INBOX ENDE*/
+
+.messageDetail{
+	border: solid 1px lightgrey;
+	padding:15px;
+}

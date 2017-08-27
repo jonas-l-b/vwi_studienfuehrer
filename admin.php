@@ -60,93 +60,195 @@ if($userRow['admin']==0){
 		
 		<div id="messages" class="tab-pane fade">
 			<br>
-			<div class="tab">
-				<button class="tablinks active" onclick="openInbox(event, 'Bugs')">Bugs <span class="badge">5</span></button>
-				<button class="tablinks" onclick="openInbox(event, 'Fehler')">Fehler <span class="badge">5</span></button>
-				<button class="tablinks" onclick="openInbox(event, 'Fragen')">Fragen <span class="badge">5</span></button>
-				<button class="tablinks" onclick="openInbox(event, 'Feedback')">Feedback <span class="badge">5</span></button>
-				<button class="tablinks" onclick="openInbox(event, 'Kommentare')">Kommentare <span class="badge">5</span></button>
-			</div>
+			<div id="inbox">  <!-- inbox START -->
+				<div class="tab">
+					<?php //Zählt Werte für Badges
+					$types = array("bug", "mistake", "question", "feedback", "comment");
+					for($i = 0; $i < count($types); $i++) {
+						$badge[$types[$i]] = mysqli_num_rows(mysqli_query($con, "SELECT * FROM messages WHERE message_type = '".$types[$i]."'"));
+					}
+					?>
+				
+					<button class="tablinks active" onclick="changeInbox(event, 'Bugs')">Bugs <span class="badge"><?php echo $badge['bug']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'Fehler')">Fehler <span class="badge"><?php echo $badge['mistake']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'Fragen')">Fragen <span class="badge"><?php echo $badge['question']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'Feedback')">Feedback <span class="badge"><?php echo $badge['feedback']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'Kommentare')">Kommentare <span class="badge"><?php echo $badge['comment']?></span></button>
+				</div>
 
-			<div id="Bugs" class="tabcontent" style="display:block">
-				<p style="font-size:20px"><span id="open" style="font-weight:bold">Offen</span> | <span id="closed" style="color:lightgrey" >Bearbeitet</span></p>
-				
-				<div class="message" style="border-bottom: solid lightgrey 1px;">
-					<span class="symbol glyphicon glyphicon-envelope"></span>
-					<span class="text">Empfangen: 22.08.2017<br></span>
-				</div>
-				
-				<div class="message" style="border-bottom: solid lightgrey 1px;">
-					<span class="symbol glyphicon glyphicon-list-alt"></span>
-					<span class="text">Empfangen: 22.08.2017<br>Zuletzt gelesen: <strong>der_albert</strong></span>
-					<span class="symbol glyphicon glyphicon glyphicon-user"></span>
-					<span class="text">Wird bearbeitet von:<br><strong>der_albert</strong></span>
-				</div>
-				
-				<div class="message" style="border-bottom: solid lightgrey 1px;">
-					<span class="symbol glyphicon glyphicon-list-alt"></span>
-					<span class="text">Empfangen: 22.08.2017<br>Zuletzt gelesen: <strong>der_albert</strong></span>
-					<span class="symbol glyphicon glyphicon glyphicon-question-sign"></span>
-					<span class="text">Wird bearbeitet von:<br><strong><i>nicht zugewiesen</i></strong></span>
-				</div>
-			</div>
+				<div id="Bugs" class="tabcontent" style="display:block">
+					<p style="font-size:20px"><span id="open" style="font-weight:bold">Offen</span> | <span id="closed" style="color:lightgrey" >Bearbeitet</span></p>
+					
+					<?php
+					$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = 'bug'");
+					
+					while($row = mysqli_fetch_assoc($result)){
+						
+						//Glyphicon 1
+						if($row['read_last_id']=="0"){
+							$glyphicon1 = "glyphicon-envelope";
+						} else{
+							$glyphicon1 = "glyphicon-list-alt";
+						}
+						
+						//Zuletzt gelesen
+						if($row['read_last_id']=="0"){
+							$lastRead = "";
+						} else{
+							$result2 = mysqli_query($con, "SELECT username FROM users WHERE user_ID = '".$row['read_last_id']."'");
+							$user = mysqli_fetch_assoc($result2);
+							$lastRead = "<br>Zuletzt gelesen: <strong>".$user['username']."</strong>";
+						}
 
-			<div id="Fehler" class="tabcontent">
-				<p style="font-size:20px"><span id="open" style="color:lightgrey">Offen</span> | <span id="closed" style="font-weight:bold" >Bearbeitet</span></p>
-				
-				<div class="message" style="border-bottom: solid lightgrey 1px;">
-					<span class="symbol glyphicon glyphicon-ok-circle"></span>
-					<span class="text">Als gelöst markiert von:<br><strong>der_albert</strong></span>
-					<span class="symbol glyphicon glyphicon glyphicon-send"></span>
-					<span class="text">Antwort verschickt am:<br><strong>11.08.17</strong></span>
-				</div>
-				
-				<div class="message" style="border-bottom: solid lightgrey 1px;">
-					<span class="symbol glyphicon glyphicon-remove-circle"></span>
-					<span class="text">Als ungelöst markiert von:<br><strong>der_albert</strong></span>
-					<span class="symbol glyphicon glyphicon glyphicon-send"></span>
-					<span class="text">Antwort verschickt am:<br><strong>11.08.17</strong></span>
-				</div>
-				
-			</div>
+						//Glyphicon 
+						if($row['read_last_id']=="0"){
+							$glyphicon2Line = "";
+						} else{					
+							if($row['assigned_to_id']=="0"){
+								$glyphicon2Line = "<span class=\"symbol glyphicon glyphicon glyphicon-question-sign\"></span>";
+							} else{
+								$glyphicon2Line = "<span class=\"symbol glyphicon glyphicon glyphicon-user\"></span>";
+							}
+						}
+						
+						//Zugewiesen
+						if($row['read_last_id']=="0"){
+							$assignedToLine = "";
+						} else{
+							if($row['assigned_to_id']=="0"){
+								$assignedTo = "<i>nicht zugewiesen</i>";
+							} else{
+								$result3 = mysqli_query($con, "SELECT username FROM users WHERE user_ID = '".$row['assigned_to_id']."'");
+								$user2 = mysqli_fetch_assoc($result3);
+								$assignedTo = $user2['username'];
+							}
+							$assignedToLine = "<span class=\"text\">Wird bearbeitet von:<br><strong>".$assignedTo."</strong></span>";
+						}
 
-			<div id="Fragen" class="tabcontent">
-				tbd
-			</div>
+						?>
+						<div class="message" id="<?php echo ("message_id_".$row['message_id']) ?>">
+							<span class="symbol glyphicon <?php echo $glyphicon1 ?>"></span>
+							<span class="text">Empfangen: <?php echo $row['time_stamp'] ?><?php echo $lastRead ?></span>
+							<?php echo $glyphicon2Line ?>
+							<?php echo $assignedToLine ?>
+						</div>
+						<?php
+					}
+					?>				
+				</div>
+
+				<div id="Fehler" class="tabcontent">
+					<p style="font-size:20px"><span id="open" style="color:lightgrey">Offen</span> | <span id="closed" style="font-weight:bold" >Bearbeitet</span></p>
+					
+					<div class="message" style="border-bottom: solid lightgrey 1px;">
+						<span class="symbol glyphicon glyphicon-ok-circle"></span>
+						<span class="text">Als gelöst markiert von:<br><strong>der_albert</strong></span>
+						<span class="symbol glyphicon glyphicon glyphicon-send"></span>
+						<span class="text">Antwort verschickt am:<br><strong>11.08.17</strong></span>
+					</div>
+					
+					<div class="message" style="border-bottom: solid lightgrey 1px;">
+						<span class="symbol glyphicon glyphicon-remove-circle"></span>
+						<span class="text">Als ungelöst markiert von:<br><strong>der_albert</strong></span>
+						<span class="symbol glyphicon glyphicon glyphicon-send"></span>
+						<span class="text">Antwort verschickt am:<br><strong>11.08.17</strong></span>
+					</div>
+					
+				</div>
+
+				<div id="Fragen" class="tabcontent">
+					<p style="font-size:20px"><span id="open" style="font-weight:bold">Offen</span> | <span id="closed" style="color:lightgrey" >Bearbeitet</span></p>
+					
+					<div class="message" style="border-bottom: solid lightgrey 1px;">
+						<span class="symbol glyphicon glyphicon-envelope"></span>
+						<span class="text">Empfangen: 22.08.2017<br></span>
+					</div>
+					
+					<div class="message" style="border-bottom: solid lightgrey 1px;">
+						<span class="symbol glyphicon glyphicon-list-alt"></span>
+						<span class="text">Empfangen: 22.08.2017<br>Zuletzt gelesen: <strong>der_albert</strong></span>
+						<span class="symbol glyphicon glyphicon glyphicon-user"></span>
+						<span class="text">Wird bearbeitet von:<br><strong>der_albert</strong></span>
+					</div>
+					
+					<div class="message" style="border-bottom: solid lightgrey 1px;">
+						<span class="symbol glyphicon glyphicon-list-alt"></span>
+						<span class="text">Empfangen: 22.08.2017<br>Zuletzt gelesen: <strong>der_albert</strong></span>
+						<span class="symbol glyphicon glyphicon glyphicon-question-sign"></span>
+						<span class="text">Wird bearbeitet von:<br><strong><i>nicht zugewiesen</i></strong></span>
+					</div>
+				</div>
+				
+				<div id="Feedback" class="tabcontent">
+					tbd
+				</div>
+				
+				<div id="Kommentare" class="tabcontent">
+					tbd
+				</div>
+				
+				<script>
+				function changeInbox(evt, type) {
+					// Declare all variables
+					var i, tabcontent, tablinks;
+
+					// Get all elements with class="tabcontent" and hide them
+					tabcontent = document.getElementsByClassName("tabcontent");
+					for (i = 0; i < tabcontent.length; i++) {
+						tabcontent[i].style.display = "none";
+					}
+
+					// Get all elements with class="tablinks" and remove the class "active"
+					tablinks = document.getElementsByClassName("tablinks");
+					for (i = 0; i < tablinks.length; i++) {
+						tablinks[i].className = tablinks[i].className.replace(" active", "");
+					}
+
+					// Show the current tab, and add an "active" class to the link that opened the tab
+					document.getElementById(type).style.display = "block";
+					evt.currentTarget.className += " active";
+				}
+				</script>
+			</div> <!-- inbox END -->
 			
-			<div id="Feedback" class="tabcontent">
-				tbd
-			</div>
+			<div id="messageContent" style="display:none"> <!-- message START -->
+				<button type="button" class="btn btn-default" id="backToInbox">
+					<span class="glyphicon glyphicon-menu-left"></span> Zurück zum Posteingang
+				</button>
+				
+				<br><br>
+				
+				<div class="messageDetail" id="messageDetail">
+				</div>
+			</div> <!-- message END -->
 			
-			<div id="Kommentare" class="tabcontent">
-				tbd
-			</div>
-		</div>
+			<script>
+			$(document).ready(function(){
+				$(".message").click(function(){ //Open Message
+					$("#messageDetail").html("Nachricht wird geladen...");
+					$.ajax({
+						url: "admin_loadMessage.php",
+						type: "post",
+						data: {message_id: $(this).attr('id')} ,
+						success: function (data) {
+						   $("#messageDetail").html(data);
+						},
+						error: function() {
+						   $("#messageDetail").html("Die Nachricht konnte nicht geladen werden!");
+						}
+					});
+					
+					$("#inbox").hide();
+					$("#messageContent").show();
+				});
+				$("#backToInbox").click(function(){ //Open Inbox
+					$("#inbox").show();
+					$("#messageContent").hide();
+				});
+			});	
+			</script>
 		
-		<script>
-		function openInbox(evt, type) {
-			// Declare all variables
-			var i, tabcontent, tablinks;
-
-			// Get all elements with class="tabcontent" and hide them
-			tabcontent = document.getElementsByClassName("tabcontent");
-			for (i = 0; i < tabcontent.length; i++) {
-				tabcontent[i].style.display = "none";
-			}
-
-			// Get all elements with class="tablinks" and remove the class "active"
-			tablinks = document.getElementsByClassName("tablinks");
-			for (i = 0; i < tablinks.length; i++) {
-				tablinks[i].className = tablinks[i].className.replace(" active", "");
-			}
-
-			// Show the current tab, and add an "active" class to the link that opened the tab
-			document.getElementById(type).style.display = "block";
-			evt.currentTarget.className += " active";
-		}
-		</script>
-			
-
+		</div> <!-- messages END -->
 		
 			
 	<!--<div id="menu2" class="tab-pane fade">
