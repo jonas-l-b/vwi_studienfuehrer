@@ -9,39 +9,28 @@ include "connect.php";
 <?php
 
 $processedSuccess = $_POST['processedSuccess'];
-$finishComment = $_POST['finishComment'];
+if(!empty($_POST['finishComment'])){
+	$finishComment = $_POST['finishComment'];
+}
+$finishCommentAdmin = $_POST['finishCommentAdmin'];
 $message_id = substr($_POST['message_id'],11);
 
-$sql = "
-	UPDATE messages
-	SET processed = $processedSuccess, processed_by_id = ".$userRow['user_ID'].", processed_comment = '$finishComment', processed_time_stamp = now()
-	WHERE message_id = '".$message_id."'
-";
+if(isset($finishComment)){
+	$sql = "
+		UPDATE messages
+		SET processed = $processedSuccess, processed_by_id = ".$userRow['user_ID'].", processed_comment = '$finishComment', processed_comment_for_admins = '$finishCommentAdmin', processed_time_stamp = now()
+		WHERE message_id = '".$message_id."'
+	";
+} else{
+	$sql = "
+		UPDATE messages
+		SET processed = $processedSuccess, processed_by_id = ".$userRow['user_ID'].", processed_comment_for_admins = '$finishCommentAdmin', processed_time_stamp = now()
+		WHERE message_id = '".$message_id."'
+	";
+}
 
 if(mysqli_query($con, $sql)){
 	echo "Erfolgreich markiert!";
 }
-
-/*
-$sql = "
-	UPDATE messages
-	SET assigned_to_id = $assign_to_id, assigned_to_time_stamp = now()
-	WHERE message_id = '".$message_id."'
-";
-
-//Get assigned name
-$sql2 = "
-	SELECT username
-	FROM users
-	WHERE user_ID = '".$assign_to_id."'
-";
-$result = mysqli_query($con, $sql2);
-$assigned_to = mysqli_fetch_assoc($result);
-
-if(mysqli_query($con, $sql)){
-	echo $assigned_to['username'];
-}
-*/
-
 
 ?>

@@ -79,7 +79,7 @@ if($userRow['admin']==0){
 				<?php
 				for($i = 0; $i < count($types); $i++) {
 				?>
-					<div id="<?php echo $types[$i] ?>" class="tabcontent" style="display:block">
+					<div id="<?php echo $types[$i] ?>" class="tabcontent" style="display:none">
 						<div class="openMessages"> <!-- open START -->
 						<p style="font-size:20px"><span class="open1" style="font-weight:bold">Offen</span> | <span class="closed1" style="color:lightgrey; cursor: pointer; cursor: hand;" >Bearbeitet</span></p>
 							<?php
@@ -223,6 +223,8 @@ if($userRow['admin']==0){
 			
 			<script>
 			$(document).ready(function(){
+				$('#bug').css('display', 'block'); //Alle Tabs sind anfangs ausgeblendet; das sorgt dafür, dass Bugs eingeblendet ist
+				
 				var m_id = "";
 				
 				//Open Message
@@ -295,7 +297,6 @@ if($userRow['admin']==0){
 				
 				//Nachricht-bearbeitet-Button
 				$('#messageDetail').on('click', '#finishButton', function() {
-					
 					$.ajax({
 						url: "admin_finishMessage.php",
 						type: "post",
@@ -307,6 +308,9 @@ if($userRow['admin']==0){
 						error: function() {
 							alert("Error!");
 						}
+					});
+					$(document).ajaxStop(function (){
+						location.reload();
 					});
 				});
 				
