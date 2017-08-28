@@ -94,7 +94,7 @@
 					</select>
 				</div>
 				
-				<div class="checkbox" style="display:none">
+				<div name="answer" class="checkbox" style="display:none">
 					<label id="answer"></label>
 				</div>
 				<!--
@@ -264,7 +264,7 @@ $("#submitButton").one('click', function(){
         url: "contact_submit.php",
         data: $("#contactForm").serialize(),
         success: function(data) {
-			alert(data);	
+			//alert(data);	
 			if(data.trim() == "erfolg"){
 				$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 			}
