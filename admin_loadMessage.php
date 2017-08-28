@@ -110,7 +110,44 @@ if($processed['processed'] == 0){
 		$additionalComment = "";
 		$buttonMessage = "Nachricht jetzt als bearbeitet markieren";
 	}
+	
+	//mistakePart
+	if($message['message_type'] == "mistake"){
+		
+	switch($message['area']){
+		case "subject":
+			$area = "Veranstaltung";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM subjects WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['subject_name'];
+			break;
+		case "module":
+			$area = "Modul";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM modules WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['name'];
+			break;
+		case "lecturer":
+			$area = "Dozent";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM lecturers WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['last_name'].", ".$row['first_name'];
+			break;
+		case "institute":
+			$area = "Institut";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM institutes WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['name'];
+			break;
+		case "other":
+			$area = "Sonstige";
+			$name = "";
+			break;
+	}
 
+		$mistakePart = "
+			<p>Bereich des Fehlers: <strong>".$area."".$name."</strong></p>
+		";
+	}else{
+	$mistakePart = "";	
+	}
+	
 
 	$messageDetail = "
 		<p>Von: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
@@ -128,6 +165,8 @@ if($processed['processed'] == 0){
 		</form>
 		<hr>
 		<p>Typ: <strong>".$type."</strong></p>
+		".$mistakePart."
+		<p><strong><u>Nachricht</u>:</strong></p>
 		<p>".$message['comment']."</p>
 		<hr>
 		<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\">Diese Nachricht als bearbeitet markieren</button>
@@ -230,6 +269,43 @@ if($processed['processed'] == 0){
 		$commentAdmin = "<i>Kein Kommentar hinterlassen.</i>";
 	}
 	
+	//mistakePart
+	if($message['message_type'] == "mistake"){
+		
+	switch($message['area']){
+		case "subject":
+			$area = "Veranstaltung";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM subjects WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['subject_name'];
+			break;
+		case "module":
+			$area = "Modul";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM modules WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['name'];
+			break;
+		case "lecturer":
+			$area = "Dozent";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM lecturers WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['last_name'].", ".$row['first_name'];
+			break;
+		case "institute":
+			$area = "Institut";
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM institutes WHERE '".$message['object_id']."'"));
+			$name = " &#8212; ".$row['name'];
+			break;
+		case "other":
+			$area = "Sonstige";
+			$name = "";
+			break;
+	}
+
+		$mistakePart = "
+			<p>Bereich des Fehlers: <strong>".$area."".$name."</strong></p>
+		";
+	}else{
+	$mistakePart = "";	
+	}
+	
 	$messageDetail = "
 		<p>Von: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
 		<p>Als bearbeitet markiert von: <strong>".$processed_by['username']."</strong><span style=\"float:right\"> ".$message['processed_time_stamp']."</span></p>
@@ -237,6 +313,8 @@ if($processed['processed'] == 0){
 		
 		<hr>
 		<p>Typ: <strong>".$type."</strong></p>
+		".$mistakePart."
+		<p><strong><u>Nachricht</u>:</strong></p>
 		<p>".$message['comment']."</p>
 		".$line."
 		".$commentator."
