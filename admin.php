@@ -279,7 +279,8 @@ if($userRow['admin']==0){
 				});
 				
 				//Nachricht-zuweisen-Button
-				$('#messageDetail').on('click', '#assignButton', function() {
+				$('#messageDetail').on('click', '#assignButton', function(e) {
+					e.preventDefault();
 					$.ajax({
 						url: "admin_assignMessage.php",
 						type: "post",

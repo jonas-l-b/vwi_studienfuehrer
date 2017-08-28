@@ -118,7 +118,7 @@ if($processed['processed'] == 0){
 		<p>Wird derzeit bearbeitet von: <strong>".$assigned_to_name."</strong><span style=\"float:right\"> ".$message['assigned_to_time_stamp']."</span></p>
 		<form id=\"assignForm\" role=\"form\" class=\"form-inline\">
 			<div class=\"form-group\">
-				<label>Diese Nachricht
+				<label><span class=\"glyphicon glyphicon-arrow-right\"></span> Diese Nachricht
 					<select name=\"assign_to_id\" class=\"form-control\">
 						".$options."
 					</select>
