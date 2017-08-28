@@ -76,65 +76,112 @@ if($userRow['admin']==0){
 					<button class="tablinks" onclick="changeInbox(event, 'Kommentare')">Kommentare <span class="badge"><?php echo $badge['comment']?></span></button>
 				</div>
 
-				<div id="Bugs" class="tabcontent" style="display:block">
-					<p style="font-size:20px"><span id="open" style="font-weight:bold">Offen</span> | <span id="closed" style="color:lightgrey" >Bearbeitet</span></p>
-					
-					<?php
-					$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = 'bug' AND processed = 0");
-					
-					while($row = mysqli_fetch_assoc($result)){
-						
-						//Glyphicon 1
-						if($row['read_last_id']=="0"){
-							$glyphicon1 = "glyphicon-envelope";
-						} else{
-							$glyphicon1 = "glyphicon-list-alt";
-						}
-						
-						//Zuletzt gelesen
-						if($row['read_last_id']=="0"){
-							$lastRead = "";
-						} else{
-							$result2 = mysqli_query($con, "SELECT username FROM users WHERE user_ID = '".$row['read_last_id']."'");
-							$user = mysqli_fetch_assoc($result2);
-							$lastRead = "<br>Zuletzt gelesen: <strong>".$user['username']."</strong>";
-						}
-
-						//Glyphicon 
-						if($row['read_last_id']=="0"){
-							$glyphicon2Line = "";
-						} else{					
-							if($row['assigned_to_id']=="0"){
-								$glyphicon2Line = "<span class=\"symbol glyphicon glyphicon glyphicon-question-sign\"></span>";
-							} else{
-								$glyphicon2Line = "<span class=\"symbol glyphicon glyphicon glyphicon-user\"></span>";
-							}
-						}
-						
-						//Zugewiesen
-						if($row['read_last_id']=="0"){
-							$assignedToLine = "";
-						} else{
-							if($row['assigned_to_id']=="0"){
-								$assignedTo = "<i>nicht zugewiesen</i>";
-							} else{
-								$result3 = mysqli_query($con, "SELECT username FROM users WHERE user_ID = '".$row['assigned_to_id']."'");
-								$user2 = mysqli_fetch_assoc($result3);
-								$assignedTo = $user2['username'];
-							}
-							$assignedToLine = "<span class=\"text\">Wird bearbeitet von:<br><strong>".$assignedTo."</strong></span>";
-						}
-
-						?>
-						<div class="message" id="<?php echo ("message_id_".$row['message_id']) ?>">
-							<span class="symbol glyphicon <?php echo $glyphicon1 ?>"></span>
-							<span class="text">Empfangen: <?php echo $row['time_stamp'] ?><span class="lastRead"><?php echo $lastRead ?></span></span>
-							<span class="assignedToGlyphicon"> <?php echo $glyphicon2Line ?> </span>
-							<span class="assignedTo"> <?php echo $assignedToLine ?> </span>
-						</div>
+				<div id="bugs" class="tabcontent" style="display:block">
+					<div class="openMessages"> <!-- open START -->
+					<p style="font-size:20px"><span class="open1" style="font-weight:bold">Offen</span> | <span class="closed1" style="color:lightgrey; cursor: pointer; cursor: hand;" >Bearbeitet</span></p>
 						<?php
-					}
-					?>					
+						//1. Schleife für alle Kategorien machen
+						//2. Auch für Bearbeitet
+						//3. JS, um switchen zu können
+						
+						//Offen
+						$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = 'bug' AND processed = 0");
+						while($row = mysqli_fetch_assoc($result)){
+							
+							//Glyphicon 1
+							if($row['read_last_id']=="0"){
+								$glyphicon1 = "glyphicon-envelope";
+							} else{
+								$glyphicon1 = "glyphicon-list-alt";
+							}
+							
+							//Zuletzt gelesen
+							if($row['read_last_id']=="0"){
+								$lastRead = "";
+							} else{
+								$result2 = mysqli_query($con, "SELECT username FROM users WHERE user_ID = '".$row['read_last_id']."'");
+								$user = mysqli_fetch_assoc($result2);
+								$lastRead = "<br>Zuletzt gelesen: <strong>".$user['username']."</strong>";
+							}
+
+							//Glyphicon 
+							if($row['read_last_id']=="0"){
+								$glyphicon2Line = "";
+							} else{					
+								if($row['assigned_to_id']=="0"){
+									$glyphicon2Line = "<span class=\"symbol glyphicon glyphicon glyphicon-question-sign\"></span>";
+								} else{
+									$glyphicon2Line = "<span class=\"symbol glyphicon glyphicon glyphicon-user\"></span>";
+								}
+							}
+							
+							//Zugewiesen
+							if($row['read_last_id']=="0"){
+								$assignedToLine = "";
+							} else{
+								if($row['assigned_to_id']=="0"){
+									$assignedTo = "<i>nicht zugewiesen</i>";
+								} else{
+									$result3 = mysqli_query($con, "SELECT username FROM users WHERE user_ID = '".$row['assigned_to_id']."'");
+									$user2 = mysqli_fetch_assoc($result3);
+									$assignedTo = $user2['username'];
+								}
+								$assignedToLine = "<span class=\"text\">Wird bearbeitet von:<br><strong>".$assignedTo."</strong></span>";
+							}
+
+							?>
+							<div class="message" id="<?php echo ("message_id_".$row['message_id']) ?>">
+								<span class="symbol glyphicon <?php echo $glyphicon1 ?>"></span>
+								<span class="text">Empfangen: <?php echo $row['time_stamp'] ?><span class="lastRead"><?php echo $lastRead ?></span></span>
+								<span class="assignedToGlyphicon"> <?php echo $glyphicon2Line ?> </span>
+								<span class="assignedTo"> <?php echo $assignedToLine ?> </span>
+							</div>
+							<?php
+						}
+						?>
+					</div> <!-- open END -->
+					
+					<div class="closedMessages" style="display:none"> <!-- closed START -->
+						<p style="font-size:20px"><span class="open2" style="color:lightgrey; cursor: pointer; cursor: hand;">Offen</span> | <span class="closed2" style="font-weight:bold" >Bearbeitet</span></p>
+							
+						<?php
+						$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = 'bug' AND (processed = 1 OR processed = 2)");
+						while($row = mysqli_fetch_assoc($result)){
+
+							//Glyphicon 1
+							if($row['processed']=="1"){
+								$glyphicon1 = "glyphicon-ok-circle";
+								$solved = "gelöst";
+							} elseif($row['processed']=="2"){
+								$glyphicon1 = "glyphicon-remove-circle";
+								$solved = "ungelöst";
+							}
+							
+							//Gelöst von
+							$result2 = mysqli_query($con, "SELECT username FROM users WHERE user_ID = '".$row['processed_by_id']."'");
+							$processed_by = mysqli_fetch_assoc($result2);
+							
+							//Versandt
+							if($row['answer_required']=="1"){
+								$glyphicon2 = "<span class=\"symbol glyphicon glyphicon glyphicon-send\"></span>";
+								$answerDate = "<span class=\"text\">Antwort verschickt am:<br><strong>".substr($row['processed_time_stamp'],10)."</strong></span>";
+							} else{
+								$glyphicon2 = "";
+								$answerDate = "";
+							}
+						
+							?>
+							<div class="message" id="<?php echo ("message_id_".$row['message_id']) ?>">
+								<span class="symbol glyphicon <?php echo $glyphicon1 ?>"></span>
+								<span class="text">Als <?php echo $solved ?> markiert von:<br><strong><?php echo $processed_by['username'] ?></strong></span>
+								<?php echo $glyphicon2 ?>
+								<?php echo $answerDate ?>
+							</div>
+							<?php
+						}
+						?>
+					</div> <!-- closed END -->
+					
 				</div>
 
 				<div id="Fehler" class="tabcontent">
@@ -317,6 +364,15 @@ if($userRow['admin']==0){
 					$("#messageContent").hide();
 				});
 				
+				//Switch between open and closed
+				$('.closed1').click(function(){
+					$(this).closest('.tabcontent').find('.openMessages').hide();
+					$(this).closest('.tabcontent').find('.closedMessages').show();
+				});
+				$('.open2').click(function(){
+					$(this).closest('.tabcontent').find('.openMessages').show();
+					$(this).closest('.tabcontent').find('.closedMessages').hide();
+				});
 				
 			});	
 			</script>
