@@ -27,8 +27,8 @@ if($userRow['admin']==0){
 <ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#modifyData">Daten bearbeiten</a></li>
 		<li><a data-toggle="tab" href="#messages">Nachrichten</a></li>
-	<!--<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-		<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
+		<li><a data-toggle="tab" href="#notifications">Benachrichigungen</a></li>
+	<!--<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
 	</ul>
 
 	<div class="tab-content">
@@ -125,7 +125,7 @@ if($userRow['admin']==0){
 										$user2 = mysqli_fetch_assoc($result3);
 										$assignedTo = $user2['username'];
 									}
-									$assignedToLine = "<span class=\"text\">Wird bearbeitet von:<br><strong>".$assignedTo."</strong></span>";
+									$assignedToLine = "<span class=\"text\">Wird bearbeitet von:<br><strong><span class=\"changeAssignedTo\">".$assignedTo."</span></strong></span>";
 								}
 
 								?>
@@ -287,8 +287,9 @@ if($userRow['admin']==0){
 						data: $("#assignForm").serialize() + "&message_id=" + m_id,
 						success: function (data) {
 							alert("Erfolgreich zugewiesen!");
-							var output = "<span class=\"text\">Wird bearbeitet von:<br><strong>" + data + "</strong></span>";
-							$(this_save).find(".assignedTo").html(output);
+							alert(data);
+							//var output = "<span class=\"text\">Wird bearbeitet von:<br><strong>" + data + "</strong></span>";
+							$(this_save).find(".changeAssignedTo").html(data); //FUNKTIONIERT NICHT
 						},
 						error: function() {
 							alert("Error!");
@@ -337,11 +338,80 @@ if($userRow['admin']==0){
 		</div> <!-- messages END -->
 		
 			
-	<!--<div id="menu2" class="tab-pane fade">
-			<h3>Menu 2</h3>
-			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+	<div id="notifications" class="tab-pane fade">
+			<h3>Nachrichten</h3>
+			<p>Diese Administratoren werden benachrichtigt, wenn neue Nachrichten empfangen werden oder wenn andere ihnen Nachrichten zuweisen:</p>
+			<?php
+			$sql = "
+				SELECT *
+				FROM users
+				LEFT OUTER JOIN admin_notifications ON users.user_ID = admin_notifications.admin_id
+				WHERE users.admin = 1 AND admin_notifications.admin_id IS NULL
+			";
+			$result = mysqli_query($con, $sql);
+			$messageDisplay = "style=\"display:none\"";
+			if(mysqli_num_rows($result)==0){
+				$addDisplay = "style=\"display:none\"";
+				$messageDisplay = "";
+			}else{
+				$options = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
+				while($row = mysqli_fetch_assoc($result)){
+					$options .= "<option value=\"".$row['user_ID']."\">".$row['first_name']." ".$row['last_name']." (".$row['username'].")</option>";
+				}
+			}
+			?>
+			<p <?php echo $messageDisplay ?>><i>(Es gibt keine Admins, die nicht benachrichtigt werden.)</i></p>
+			<div <?php if(isset($addDisplay)) echo $addDisplay ?>>
+				<form action="admin_notifications_submit.php" method="post" class="form-inline">
+					<div class="form-group">
+						<label>Administrator 
+							<select name="admin_id" class="form-control" required>
+								<?php echo $options ?>
+							</select>
+						</label>	
+					</div>
+					<button class="btn btn-default" id="assignButton">Hinzufügen</button>
+				</form>
+			</div>
+			<br>
+			
+			<?php
+			$sql = "
+				SELECT *
+				FROM admin_notifications
+				JOIN users ON admin_notifications.admin_id = users.user_ID
+				WHERE type = 'messages'
+			";
+			$result = mysqli_query($con, $sql);
+			while($row = mysqli_fetch_assoc($result)){
+				echo "<p style=\"font-size:25px\"><span id=\"".$row['admin_id']."\" class=\"glyphiconDelete glyphicon glyphicon-minus-sign\" style=\"color:red; cursor: pointer; cursor: hand;\"></span> ".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+			}
+			?>
+			
+			<script>
+			$(document).ready(function(){
+				$(".glyphiconDelete").click(function(){
+					var help_this = this;
+					$.ajax({
+						url: "admin_notifications_delete.php",
+						type: "post",
+						data: {admin_id: $(this).attr('id')} ,
+						success: function (data) {
+							$(help_this).closest("p").fadeOut();
+							location.reload();
+						},
+						error: function() {
+						   alert("Beim Löschen ist ein Fehler aufgetreten!");
+						}
+					});
+					
+				});
+			});
+			
+			</script>
+			
 		</div>
-		<div id="menu3" class="tab-pane fade">
+	<!--<div id="menu3" class="tab-pane fade">
 			<h3>Menu 3</h3>
 			<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		</div>
