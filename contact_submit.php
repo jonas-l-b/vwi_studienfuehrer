@@ -45,6 +45,47 @@ $sql = "
 
 if(mysqli_query($con,$sql)){
 	echo "erfolg";
+	
+	//E-Mail-Benachrichtigungen verschicken
+	$sql = "
+		SELECT *
+		FROM admin_notifications
+		JOIN users on users.user_ID = admin_notifications.admin_id
+		WHERE type = 'messages'
+	";
+	
+	$result = mysqli_query($con, $sql);
+	while($row = mysqli_fetch_assoc($result)){
+		$subject = "[Studienführer: Benachrichtigung] Neue Nachricht für Admins eingegangen";
+		
+		switch($reason){
+			case "bug":
+				$type = "Bug";
+				break;
+			case "mistake":
+				$type = "Fehler";
+				break;
+			case "question":
+				$type = "Frage";
+				break;
+			case "feedback":
+				$type = "Feedback";
+				break;
+		}
+		
+		$body = "
+			<p>Ein Benutzer hat eine Nachricht an die Administratoren geschickt:</p>
+			<br>
+			<p>Datum: ".now()."</p>
+			<p>Typ: ".$type."</p>
+			<p><u>Nachricht</u>:<br> ".$comment."</p>
+			<br>
+			<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.
+		";
+		
+		EmailService::getService()->sendEmail($row['email'], $row['username'], $subject, $body);
+	}
+	
 }
 
 ?>
