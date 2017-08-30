@@ -286,7 +286,15 @@ $('.nav-tabs a').on('shown.bs.tab', function (e) {
 	} else {
 		window.location.hash = e.target.hash; //Polyfill for old browsers
 	}
-})
+});
+
+$('#linkToUserFavorites').click(function(event){
+	$('.nav-tabs a[href="#favourites"]').tab('show')
+});
+$('#linkToUserProfile').click(function(event){
+	event.preventDefault();
+	$('.nav-tabs a[href="#userData"]').tab('show')
+});
 </script>
 
 <!-- End of page. Modal für Passwort vergessen -->

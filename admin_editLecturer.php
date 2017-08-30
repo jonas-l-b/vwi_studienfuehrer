@@ -13,8 +13,6 @@ if($userRow['admin']==0){
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_admin';</SCRIPT>");
 }
 ?>
-
-<html>
 <body>
 
 <?php include "inc/nav.php" ?>
@@ -128,21 +126,24 @@ if($userRow['admin']==0){
 	
 	$result1 = mysqli_query($con,$sql1);
 	
-	$selection = "";
+	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
-		$selection .= "<option value=".$row1['lecturer_ID']." ".$lecturerSelection[$row1['lecturer_ID']].">".$row1['last_name'].", ".$row1['first_name']." (".$row1['institute_abbr'].")</option>";
+		array_push($rows, array(
+								"id"=>$row1['lecturer_ID'],
+								"subject_name"=>$row1['last_name'].", ".$row1['first_name'],
+								"identifier"=>'('.$row1['institute_abbr'].')',
+								"selected"=>$lecturerSelection[$row1['lecturer_ID']]
+								));
 	}	
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
-	<form class="form-inline" method="GET">
-		<div class="form-group">
-			<select name="select" class="form-control" required>
-				<?php echo $selection ?>
-			</select>
-		</div>
-		<button type="submit" class="btn btn-primary" name="btn-edit">Diesen Dozent bearbeiten</button>
-	</form>
+	
+	<?php
+		echo $twig->render('admin_combobox.template.html', 
+							array(	'rows' => $rows,
+									'buttontext' => 'Diesen Dozenten bearbeiten'));
+	?>
 	
 	<div <?php echo $display ?>>
 	
