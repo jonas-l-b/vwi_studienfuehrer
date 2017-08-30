@@ -35,7 +35,7 @@ if(mysqli_query($con, $sql)){
 	//Antwort per E-Mail an Benutzer schicken
 	$subject = "[Studienführer: Benachrichtigung] Deine Nachricht wurde bearbeitet";
 	
-	$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM messages WHERE message_id = '".$message_id."'"));
+	$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM messages JOIN users ON messages.sender_id = users.user_ID WHERE message_id = '".$message_id."'"));
 	
 	switch($processedSuccess){
 		case 1:
