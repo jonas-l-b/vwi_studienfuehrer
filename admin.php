@@ -286,8 +286,8 @@ if($userRow['admin']==0){
 						type: "post",
 						data: $("#assignForm").serialize() + "&message_id=" + m_id,
 						success: function (data) {
-							alert("Erfolgreich zugewiesen!");
-							alert(data);
+							alert("Erfolgreich zugewiesen (Refresh, dass das auch angezeigt wird)!");
+							//alert(data);
 							//var output = "<span class=\"text\">Wird bearbeitet von:<br><strong>" + data + "</strong></span>";
 							$(this_save).find(".changeAssignedTo").html(data); //FUNKTIONIERT NICHT
 						},
