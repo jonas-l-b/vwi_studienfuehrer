@@ -75,11 +75,11 @@ if(mysqli_query($con,$sql)){
 		
 		$body = "
 			<p>Ein Benutzer hat eine Nachricht an die Administratoren geschickt:</p>
-			<br>
+			<hr>
 			<p>Datum: ".now()."</p>
 			<p>Typ: ".$type."</p>
 			<p><u>Nachricht</u>:<br> ".$comment."</p>
-			<br>
+			<hr>
 			<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.
 		";
 		
