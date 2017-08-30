@@ -31,6 +31,44 @@ if(isset($finishComment)){
 
 if(mysqli_query($con, $sql)){
 	echo "Erfolgreich markiert!";
+	
+	//Antwort per E-Mail an Benutzer schicken
+	$subject = "[Studienführer: Benachrichtigung] Deine Nachricht wurde bearbeitet";
+	
+	$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM messages WHERE message_id = '".$message_id."'"));
+	
+	switch($processedSuccess){
+		case 1:
+			$erfolg = "Erfolgreich";
+			break;
+		case 2:
+			$erfolg = "Nicht Erfolgreich";
+			break;
+	}
+	
+	if(isset($finishComment)){
+		$passage = " und folgende Nachricht für dich hinterlassen:"
+		$mes = "<p>".$finishComment."</p>"
+	}else{
+		$passage = "."
+		$mes = "";
+	}
+
+	$body = "
+		<p>Ein Administrator hat deine Nachricht bearbeitet:</p>
+		<hr>
+		<p><strong>Deine Nachricht an uns</strong>:</p>
+		<p><i>Gesendet am: row['time_stamp']</i></p>
+		<p>".$comment."</p>
+		<hr>
+		<p>Der Administrator hat die Bearbeitung deiner Nachricht als <i>".$erfolg."</i> markiert".$passage."</p>
+		".$mes."
+		<hr>
+		<p>Falls du noch weitere Fragen oder Anmerkungen hast, kannst du dich gerne wieder an uns wenden. Benutze dazu bitte erneut das Kontaktformular auf der Webseite und antworte nicht auf diese Mail (da diese nicht ankommen würde).</p>
+	";
+	
+	EmailService::getService()->sendEmail($row['email'], $row['username'], $subject, $body);
+
 }
 
 ?>
