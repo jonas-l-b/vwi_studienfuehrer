@@ -3,68 +3,20 @@
 //Admin im Menü
 $admin = "";
 if($userRow['admin']!=0){
-	$admin = "<li><a href=\"admin.php\">Admin</a></li>";
+	$admin = "
+		<li>
+			<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\">Admin</a>
+			<ul class=\"dropdown-menu\">
+				<li><a id=\"linkToAdminEdit\" href=\"admin.php\">Daten bearbeiten</a></li>
+				<li><a id=\"linkToAdminMessages\" href=\"admin.php#messages\">Nachrichten</a></li>
+			</ul>
+		</li>
+	";
 }
 
 //Name
 $name = $userRow['first_name'];
-/*	
-echo "
-	<nav class=\"navbar navbar-default navbar-fixed-top\">
-		<div class=\"container\">
 
-			<ul class=\"nav navbar-nav\">
-				<li><a href=\"tree.php\">Übersicht Studienführer</a></li>
-				<li><a href=\"http://www.vwi-karlsruhe.de\">vwi-karlsruhe.de</a></li>
-				".$admin."
-			</ul>
-			
-			<ul class=\"nav navbar-nav navbar-right\">
-				<li>
-					<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\"><span class=\"glyphicon glyphicon-user\"></span> Hallo ".$name."!</a>
-					<ul class=\"dropdown-menu\">
-						<li><a href=\"userProfile.php\">Profil</a></li>
-						<li><a href=\"logout.php\">Logout</a></li>
-					</ul>
-				</li>		
-			</ul>
-			
-		</div>
-	</nav>
-";
-
-echo "
-	<nav class=\"navbar navbar-default navbar-fixed-top\">
-		<div class=\"container\">
-		    <div class=\"navbar-header\">
-			  <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#myNavbar\">
-				<span class=\"icon-bar\"></span>
-				<span class=\"icon-bar\"></span>
-				<span class=\"icon-bar\"></span>                        
-			  </button>
-			</div>
-			
-			<div class=\"collapse navbar-collapse\" id=\"myNavbar\">
-				<ul class=\"nav navbar-nav\">
-					<li><a href=\"tree.php\">Übersicht Studienführer</a></li>
-					<li><a href=\"http://www.vwi-karlsruhe.de\">vwi-karlsruhe.de</a></li>
-					$admin
-				</ul>
-				
-				<ul class=\"nav navbar-nav navbar-right\">
-					<li>
-						<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\"><span class=\"glyphicon glyphicon-user\"></span> Hallo $name!</a>
-						<ul class=\"dropdown-menu\">
-							<li><a href=\"userProfile.php\">Profil</a></li>
-							<li><a href=\"logout.php\">Logout</a></li>
-						</ul>
-					</li>		
-				</ul>
-			</div>
-		</div>
-	</nav>
-";
-*/
 ?>
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -81,6 +33,7 @@ echo "
 				<ul class="nav navbar-nav">
 					<li><a href="tree.php">Übersicht Studienführer</a></li>
 					<li><a href="https://www.vwi-karlsruhe.de" target="_blank">vwi-karlsruhe.de</a></li>
+					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
 					<?php echo $admin;?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -110,6 +63,7 @@ echo "
 			</div>
 		</div>
 </nav>
+<div id="dummy"></div>
 <script>
 $(function(){
   $('.suchen-autocomplete').autocomplete({
@@ -127,5 +81,15 @@ $(function(){
 			$('.suchen-autocomplete').val("Übersicht Startseite");
     }
   });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+	$("#contact").click(function(){
+		$('#dummy').load("contactModal.php",function(result){
+			$('#contactModal').modal({show:true});
+		});
+	});
 });
 </script>
