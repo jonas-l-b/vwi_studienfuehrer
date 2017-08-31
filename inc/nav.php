@@ -64,7 +64,20 @@ $name = $userRow['first_name'];
 			</div>
 		</div>
 </nav>
-<div id="dummy"></div>
+<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Kontakt</h2>
+	</div>
+		<div class="modal-body">
+			<div id="contactModalBody"></div>
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
 <script>
 $(function(){
   $('.suchen-autocomplete').autocomplete({
@@ -88,9 +101,13 @@ $(function(){
 <script>
 $(document).ready(function(){
 	$("#contact").click(function(){
-		$('#dummy').load("contactModal.php",function(result){
-			$('#contactModal').modal({show:true});
-		});
-	});
+						$('#contactModal').modal('show');
+						$('#contactModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+						$('#contactModalBody').load("contactModal.php", function( response, status, xhr ) {
+						  if ( status == "error" ) {
+							$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
+						  }
+						});
+	});	
 });
 </script>

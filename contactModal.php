@@ -1,113 +1,101 @@
-<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-	<div class="modal-content">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Kontakt</h2>
+<form action="/" id="contactForm">
+
+	<?php
+	include "connect.php";
+	
+	$result = mysqli_query($con, "SELECT * FROM subjects ORDER BY subject_name");
+	$subjects = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
+	while($row = mysqli_fetch_assoc($result)){
+		$subjects .= "<option value=\"".$row['ID']."\">".$row['subject_name']."</option>";
+	}				
+	
+	$result = mysqli_query($con, "SELECT * FROM modules ORDER BY name");
+	$modules = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
+	while($row = mysqli_fetch_assoc($result)){
+		$modules .= "<option value=\"".$row['module_ID']."\">".$row['name']."</option>";
+	}
+	
+	$result = mysqli_query($con, "SELECT * FROM lecturers ORDER BY last_name");
+	$lecturers = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
+	while($row = mysqli_fetch_assoc($result)){
+		$lecturers .= "<option value=\"".$row['lecturer_ID']."\">".$row['last_name'].", ".$row['first_name']."</option>";
+	}
+	
+	$result = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
+	$institutes = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
+	while($row = mysqli_fetch_assoc($result)){
+		$institutes .= "<option value=\"".$row['institute_ID']."\">".$row['name']."</option>";
+	}
+	
+	?>
+
+	<div class="form-group">
+		<label>Um was geht es denn?</label>
+		<select id="reason" name="reason" class="form-control" required>
+			<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
+			<option value="bug">Ich möchte einen (funktionalen) Bugs melden</option>
+			<option id="mistake" value="mistake">Ich möchte einen (inhaltlichen) Fehler melden</option>
+			<option value="question">Ich möchte eine Frage stellen</option>
+			<option value="feedback">Ich möchte Feedback/Verbesserungsvorschläge geben</option>
+		</select>
 	</div>
-		<div class="modal-body">
-			<form action="/" id="contactForm">
-			
-				<?php
-				include "connect.php";
-				
-				$result = mysqli_query($con, "SELECT * FROM subjects ORDER BY subject_name");
-				$subjects = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
-				while($row = mysqli_fetch_assoc($result)){
-					$subjects .= "<option value=\"".$row['ID']."\">".$row['subject_name']."</option>";
-				}				
-				
-				$result = mysqli_query($con, "SELECT * FROM modules ORDER BY name");
-				$modules = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
-				while($row = mysqli_fetch_assoc($result)){
-					$modules .= "<option value=\"".$row['module_ID']."\">".$row['name']."</option>";
-				}
-				
-				$result = mysqli_query($con, "SELECT * FROM lecturers ORDER BY last_name");
-				$lecturers = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
-				while($row = mysqli_fetch_assoc($result)){
-					$lecturers .= "<option value=\"".$row['lecturer_ID']."\">".$row['last_name'].", ".$row['first_name']."</option>";
-				}
-				
-				$result = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
-				$institutes = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
-				while($row = mysqli_fetch_assoc($result)){
-					$institutes .= "<option value=\"".$row['institute_ID']."\">".$row['name']."</option>";
-				}
-				
-				?>
-			
-				<div class="form-group">
-					<label>Um was geht es denn?</label>
-					<select id="reason" name="reason" class="form-control" required>
-						<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
-						<option value="bug">Ich möchte einen (funktionalen) Bugs melden</option>
-						<option id="mistake" value="mistake">Ich möchte einen (inhaltlichen) Fehler melden</option>
-						<option value="question">Ich möchte eine Frage stellen</option>
-						<option value="feedback">Ich möchte Feedback/Verbesserungsvorschläge geben</option>
-					</select>
-				</div>
-				
-				<div id="area" style="display:none" class="form-group">
-					<label>Wo findest sich der Fehler?</label>
-					<select name="area" class="form-control" required>
-						<option disabled selected value style="display:none"> -- Bitte wählen -- </option>
-						<option value="subject">Veranstaltung</option>
-						<option value="module">Modul</option>
-						<option value="lecturer">Dozent</option>
-						<option value="institute">Institut</option>
-						<option value="other">Sonstige</option>
-					</select>
-				</div>				
-				
-				<div id="subject" style="display:none" class="form-group">
-					<label>Welche Veranstaltung betrifft es?</label>
-					<select name="subject_id" class="form-control" required>
-						<?php echo $subjects ?>
-					</select>
-				</div>
-				
-				<div id="module" style="display:none" class="form-group">
-					<label>Welches Modul betrifft es?</label>
-					<select name="module_id" class="form-control" required>
-						<?php echo $modules ?>
-					</select>
-				</div>
-				
-				<div id="lecturer" style="display:none" class="form-group">
-					<label>Welchen Dozenten betrifft es?</label>
-					<select name="lecturer_id" class="form-control" required>
-						<?php echo $lecturers ?>
-					</select>
-				</div>
-				
-				<div id="institute" style="display:none" class="form-group">
-					<label>Welches Institut betrifft es?</label>
-					<select name="institute_id" class="form-control" required>
-						<?php echo $institutes ?>
-					</select>
-				</div>
-				
-				<div name="answer" class="checkbox" style="display:none">
-					<label id="answer"></label>
-				</div>
-				<!--
-				Ich möchte informiert werden, wenn Fehler/Bug behoben wurde
-				Frage: ausblenden
-				Ich möchte gerne eine Antwort erhalten.-->
-				
-				<div class="form-group">
-					<label>Kommentar:</label>
-					<textarea name="comment" id="comment" class="form-control" rows="5" required></textarea>
-				</div>
+	
+	<div id="area" style="display:none" class="form-group">
+		<label>Wo findest sich der Fehler?</label>
+		<select name="area" class="form-control" required>
+			<option disabled selected value style="display:none"> -- Bitte wählen -- </option>
+			<option value="subject">Veranstaltung</option>
+			<option value="module">Modul</option>
+			<option value="lecturer">Dozent</option>
+			<option value="institute">Institut</option>
+			<option value="other">Sonstige</option>
+		</select>
+	</div>				
+	
+	<div id="subject" style="display:none" class="form-group">
+		<label>Welche Veranstaltung betrifft es?</label>
+		<select name="subject_id" class="form-control" required>
+			<?php echo $subjects ?>
+		</select>
+	</div>
+	
+	<div id="module" style="display:none" class="form-group">
+		<label>Welches Modul betrifft es?</label>
+		<select name="module_id" class="form-control" required>
+			<?php echo $modules ?>
+		</select>
+	</div>
+	
+	<div id="lecturer" style="display:none" class="form-group">
+		<label>Welchen Dozenten betrifft es?</label>
+		<select name="lecturer_id" class="form-control" required>
+			<?php echo $lecturers ?>
+		</select>
+	</div>
+	
+	<div id="institute" style="display:none" class="form-group">
+		<label>Welches Institut betrifft es?</label>
+		<select name="institute_id" class="form-control" required>
+			<?php echo $institutes ?>
+		</select>
+	</div>
+	
+	<div name="answer" class="checkbox" style="display:none">
+		<label id="answer"></label>
+	</div>
+	<!--
+	Ich möchte informiert werden, wenn Fehler/Bug behoben wurde
+	Frage: ausblenden
+	Ich möchte gerne eine Antwort erhalten.-->
+	
+	<div class="form-group">
+		<label>Kommentar:</label>
+		<textarea name="comment" id="comment" class="form-control" rows="5" required></textarea>
+	</div>
 
-				<button id="submitButton" class="btn btn-primary">Nachricht abschicken</button>
-			</form>
-		</div><!-- End of Modal body -->
-	</div><!-- End of Modal content -->
-	</div><!-- End of Modal dialog -->
-</div><!-- End of Modal -->
-
+	<button id="submitButton" class="btn btn-primary">Nachricht abschicken</button>
+</form>
+	
 
 <script>
 $("#reason").change(function() {
