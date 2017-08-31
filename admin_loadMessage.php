@@ -95,6 +95,10 @@ if($processed['processed'] == 0){
 			$type = "Feedback";
 			$modalMessage = "Wurde das Feedback entsprechend weitergeleitet?";
 			break;
+		case "comment":
+			$type = "Kommentar";
+			$modalMessage = "Konnte ein Lösung gefunden werden?";
+			break;
 	}
 
 	//Button-Message
@@ -143,6 +147,23 @@ if($processed['processed'] == 0){
 
 		$mistakePart = "
 			<p>Bereich des Fehlers: <strong>".$area."".$name."</strong></p>
+		";
+	}elseif($message['message_type'] == "comment"){
+		$sql = "
+			SELECT *, ratings.ID as rating_ID
+			FROM ratings
+			JOIN subjects ON ratings.subject_ID = subjects.ID
+			WHERE ratings.ID = '".$message['comment_id']."'
+		";
+		
+		$result = mysqli_query($con, $sql);
+		$row = mysqli_fetch_assoc($result);
+				
+		$mistakePart = "
+			<p><u>Kommentar-ID</u>: ".$row['rating_ID']."</p>
+			<p><u>Veranstaltung</u>: ".$row['subject_name']."</p>
+			<p><u>Text</u>: ".$row['comment']."</p>
+			<hr>
 		";
 	}else{
 	$mistakePart = "";	
@@ -250,6 +271,10 @@ if($processed['processed'] == 0){
 		case "feedback":
 			$type = "Feedback";
 			break;
+		case "comment":
+			$type = "Kommentar";
+			$modalMessage = "Konnte ein Lösung gefunden werden?";
+			break;
 	}
 	//processed_comment
 	if($message['processed_comment'] != ""){
@@ -266,7 +291,7 @@ if($processed['processed'] == 0){
 	if($message['processed_comment_for_admins'] != ""){
 		$commentAdmin = "<p>".$message['processed_comment_for_admins']."</p>";
 	} else{
-		$commentAdmin = "<i>Kein Kommentar hinterlassen.</i>";
+		$commentAdmin = "<i>Admin hat keinen Kommentar hinterlassen.</i>";
 	}
 	
 	//mistakePart
@@ -301,6 +326,23 @@ if($processed['processed'] == 0){
 
 		$mistakePart = "
 			<p>Bereich des Fehlers: <strong>".$area."".$name."</strong></p>
+		";
+	}elseif($message['message_type'] == "comment"){
+		$sql = "
+			SELECT *, ratings.ID as rating_ID
+			FROM ratings
+			JOIN subjects ON ratings.subject_ID = subjects.ID
+			WHERE ratings.ID = '".$message['comment_id']."'
+		";
+		
+		$result = mysqli_query($con, $sql);
+		$row = mysqli_fetch_assoc($result);
+				
+		$mistakePart = "
+			<p><u>Kommentar-ID</u>: ".$row['rating_ID']."</p>
+			<p><u>Veranstaltung</u>: ".$row['subject_name']."</p>
+			<p><u>Text</u>: ".$row['comment']."</p>
+			<hr>
 		";
 	}else{
 	$mistakePart = "";	

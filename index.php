@@ -459,17 +459,18 @@ include "sumVotes.php";
 				$join = mysqli_query($con,$sql2);
 				$rows = mysqli_fetch_assoc($join);
 				
-				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeugen
+				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeigen
 				$displayEdit = "display:none;";
 				$editClassIdentifier = "";
+				$displayReport ="";
 				
-				//Auskommentiert, da noch diskutiert werden muss!
+				//displayEdit auskommentiert, da noch diskutiert werden muss!
 				//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
-				
 				
 				if($comments['user_ID'] == $userRow['user_ID']){
 					$displayEdit = "";
 					$editClassIdentifier = "editButtonIdentificationClass";
+					$displayReport = "display:none;";
 				}
 				
 				
@@ -487,10 +488,13 @@ include "sumVotes.php";
 								<hr style=\"margin:10px\">
 								<div style=\"font-size:10px\">
 									".$rows['username']." &#124; ".$comments['time_stamp']."
-									<span style=\"float:right;\">
-										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
+									<span style=\"float:right; ".$displayEdit."\">
+										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
 										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
 										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\"></span></button>
+									</span>
+									<span style=\"float:right; ".$displayReport."\">
+										<button type=\"button\" role=\"button\" data-toggle=\"modal\" data-id=\"".$comments['ID']."\" class=\"editTrashButton reportButton\" title=\"Kommentar melden\"> <span class=\"glyphicon glyphicon-exclamation-sign\"></span></button>
 									</span>
 								</div>
 							</div>
@@ -632,6 +636,59 @@ include "sumVotes.php";
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
 
+<!-- Scrpit und Modal zum Melden einer Bewertung-->
+<script>
+$(document).ready(function(){
+	$(".reportButton").click(function(){
+		$("#commentId").val($(this).data('id'));
+		$('#reportCommentModal').modal({show:true});
+	});
+	
+	$("#reportForm").submit(function(e){
+
+    $.ajax({
+        type: "POST",
+        url: "report_submit.php",
+        data: $("#reportForm").serialize(),
+        success: function(data) {
+			if(data.trim() == "erfolg"){
+				$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+			}
+		}
+    });
+	
+	e.preventDefault();
+
+	});
+});
+</script>
+
+<div id="reportCommentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Kommentar melden</h2>
+	</div>
+		<div class="modal-body">
+			<form action="/" id="reportForm">
+				<input type="hidden" name ="commentId" id="commentId" />
+
+				<div class="form-group">
+					<label>Warum möchtest du diesen Kommentar melden?</label>
+					<textarea name="comment" id="comment" class="form-control" placeholder="Hilf uns zu verstehen, warum du diesen Kommentar unangebracht findest." rows="5" required></textarea>
+				</div>
+				
+				<div name="answer" class="checkbox">
+					<label id="answer"><input name="answer" type="checkbox">Ich möchte gerne eine Antwort erhalten</label>
+				</div>
+				
+				<button id="submitCommentReport" type="submit" class="btn btn-primary">Nachricht abschicken</button>
+			</form>
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
 
 <!-- Modal für Bewertung -->
 <!-- Maybe include slider instead of likert: http://foundation.zurb.com/sites/docs/v/5.5.3/components/range_slider.html -->
