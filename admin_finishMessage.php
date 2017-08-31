@@ -59,7 +59,7 @@ if(mysqli_query($con, $sql)){
 			<p>Ein Administrator hat deine Nachricht bearbeitet:</p>
 			<hr>
 			<p><strong>Deine Nachricht an uns</strong>:</p>
-			<p><i>Gesendet am: row['time_stamp']</i></p>
+			<p><i>Gesendet am: ".$row['time_stamp']."</i></p>
 			<p>".$row['comment']."</p>
 			<hr>
 			<p>Der Administrator hat die Bearbeitung deiner Nachricht als <i>".$erfolg."</i> markiert".$passage."</p>
