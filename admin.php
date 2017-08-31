@@ -384,7 +384,7 @@ if($userRow['admin']==0){
 			";
 			$result = mysqli_query($con, $sql);
 			while($row = mysqli_fetch_assoc($result)){
-				echo "<p style=\"font-size:25px\"><span id=\"".$row['admin_id']."\" class=\"glyphiconDelete glyphicon glyphicon-minus-sign\" style=\"color:red; cursor: pointer; cursor: hand;\"></span> ".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+				echo "<p style=\"font-size:25px; display:flex; align-items: center;\"><span id=\"".$row['admin_id']."\" class=\"glyphiconDelete glyphicon glyphicon-minus-sign\" title=\"Diesen Admin nicht mehr benachrichtigen\" style=\"color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
 			}
 			?>
 			
