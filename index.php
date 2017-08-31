@@ -12,6 +12,41 @@ include "saveSubjectToVariable.php";
 
 include "sumVotes.php";
 
+
+function time_elapsed_string($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'Jahr',
+        'm' => 'Monat',
+        'w' => 'Woche',
+        'd' => 'Tag',
+        'h' => 'Stunde',
+        'i' => 'Minute',
+        's' => 'Sekunde',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+			if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
+			}
+			else {
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
+			}
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
+}
+
 ?>
 
 <body>
@@ -487,7 +522,7 @@ include "sumVotes.php";
 								".$recommend."
 								<hr style=\"margin:10px\">
 								<div style=\"font-size:10px\">
-									".$rows['username']." &#124; ".$comments['time_stamp']."
+									".$rows['username']." &#124; ". time_elapsed_string($comments['time_stamp'])."
 									<span style=\"float:right;\">
 										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
 										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
