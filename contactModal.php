@@ -1,9 +1,3 @@
-<?php include "header.php" ?>
-
-
-<button type="button" a href="#contactModal" role="button" data-toggle="modal">Modal</button>
-									
-
 <div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	<div class="modal-content">
@@ -258,21 +252,18 @@ $("#submitButton").one('click', function(){
 	
 	
 	$("#contactForm").submit(function(e){
-
-    $.ajax({
-        type: "POST",
-        url: "contact_submit.php",
-        data: $("#contactForm").serialize(),
-        success: function(data) {
-			//alert(data);	
-			if(data.trim() == "erfolg"){
-				$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+		$.ajax({
+			type: "POST",
+			url: "contact_submit.php",
+			data: $("#contactForm").serialize(),
+			success: function(data) {
+				//alert(data);	
+				if(data.trim() == "erfolg"){
+					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+				}
 			}
-		}
-    });
-	
-	e.preventDefault();
-
+		});
+		e.preventDefault();
 	});
 });
 </script>
