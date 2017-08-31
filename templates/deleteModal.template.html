@@ -1,5 +1,5 @@
 <p></p>
-<form action="recoverPW.php" method="POST">
+<form method="POST">
 	<div id="ersterTeilLoeschen">
 		<p><strong>Vorsicht! Das Löschen deines Profils ist eine destruktive Aktion und kann <u>nicht</u> rückgängig gemacht werden.</strong></p>
 		<p>
@@ -8,13 +8,13 @@
 			Es gibt aber auch keine Verbindung zu deinen personenspezifischen Daten mehr, da diese vollständig gelöscht werden.
 		</p>
 		<div class="checkbox">
-		  <label><input id="bewertungenBehalten" type="checkbox" checked>Meine bisherigen Bewertungen anonymisieren und weiterhin der Platform zur Verfügung stellen.</label>
+		  <label><input name="anonymisieren" id="bewertungenBehalten" type="checkbox" checked>Meine bisherigen Bewertungen anonymisieren und weiterhin der Platform zur Verfügung stellen.</label>
 		</div>
 		<p>
 			Um sicherzustellen, dass du weißt, was du hier tust, tippe bitte folgenden Satz in das Eingabefeld:
 		</p>				
-		<p style="font-family: monospace;" id="deleteSentence">Konto löschen. Bewertungen anonymisiert behalten.</p>
-		<input type="text" class="form-control" id="uds">
+		<p style="font-family: monospace;" id="deleteSentence">{{ dsAnon }}</p>
+		<input name="userDeleteSentence" type="text" class="form-control" id="uds">
 		<br />
 		<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
 		<button id="deleteButton" style="float:right" class="btn btn-danger" disabled>Konto löschen</button>
@@ -22,27 +22,61 @@
 	<div id="deleteLaden"></div>
 	<div id="zweiterTeilLoeschen" style="display:none">
 		<p>Bitte gib noch einmal dein Passwort ein, um die Aktion zu bestätigen.</p>
-		<input type="password" class="form-control" id="upassword">
+		<input name="password" type="password" class="form-control" id="upassword">
 		<br />
 		<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
 		<button id="finalDeleteButton" style="float:right" class="btn btn-danger">Aktion ausführen</button>
 	</div>
 </form>
+
+
+
+<div id="connectionFailModalError" style="display:none" class="alert alert-warning">
+  <strong>Warnung!</strong> Leider ist ein Fehler beim Verbindungsaufbau auftreten. Es ist nicht klar, ob deine Anfrage erfolgreich verlaufen ist, oder nicht. Bitte lade die Seite neu und versuche es gegebenenfalls noch einmal.
+</div>
+<div id="FormFailModalError" style="display:none" class="alert alert-danger">
+  <strong>Achtung!</strong> Bei deinen Eingaben ist ein Fehler aufgetreten. Lade die Seite neu und versuche es noch einmal.
+</div>
+<div id="PWFailModalError" style="display:none" class="alert alert-danger">
+  <strong>Achtung!</strong> Dein Passwort war leider falsch. Bitte lade die Seite neu und versuche es noch einmal.
+</div>
+<div id="deleteProfileSuccessMessageAnon" style="display:none" class="alert alert-success">
+  <strong>Erfolg!</strong> Dein Profil wurde erfolgreich gelöscht. Deine bisherigen Bewertungen wurden anonymisiert.
+</div>
+<div id="deleteProfileSuccessMessageAll" style="display:none" class="alert alert-success">
+  <strong>Erfolg!</strong> Dein Profil wurde erfolgreich gelöscht. Deine bisherigen Bewertungen wurden gelöscht.
+</div>
+<div id="generalSuccessMessage" style="display:none">
+	<p>
+		Wir haben dir soeben noch eine Bestätigungsemail zugeschickt. Wir finden es schade, dass du uns verlässt. Vielleicht sieht man sich ja aber noch einmal wieder. Wir freuen uns jederzeit dich zurück bei uns begrüßen zu dürfen!
+	</p>
+	<p>
+		Liebe Grüße<br />
+		Deine VWI-ESTIEM Hochschulgruppe Karlsruhe
+	</p>
+	<button id="leaveToVWIButton" type="button" class="btn btn-primary btn-block">Seite verlassen</button>
+</div>
+<div id="generalFailMessage" style="display:none">
+	<button id="reloadPageButton" type="button" class="btn btn-primary btn-block">Seite neu laden</button>
+</div>
+
+
+
 <script>
 	$(document).ready(function() {
-		var currentSentence = "Konto löschen. Bewertungen anonymisiert behalten.";
+		var currentSentence = "{{ dsAnon }}";
 		$('#bewertungenBehalten').change(function() {
 			if(this.checked) {
-				$('#deleteSentence').text('Konto unwiderruflich löschen. Bewertungen anonymisieren.');
-				currentSentence = "Konto unwiderruflich löschen. Bewertungen anonymisieren.";
+				$('#deleteSentence').text('{{ dsAnon }}');
+				currentSentence = "{{ dsAnon }}";
 				$('#deleteButton').prop("disabled", true);
 				$('#uds').prop("value", "");
 			}else{
 				var returnVal = confirm("Bist du dir sicher? (Andere könnten von deinen Bewertungen immer noch profitieren.)");
 				$(this).prop("checked", !returnVal);
 				if(returnVal){
-					$('#deleteSentence').text('Konto und Bewertungen unwiderruflich löschen.');
-					currentSentence = "Konto und Bewertungen unwiderruflich löschen.";
+					$('#deleteSentence').text('{{ dsAll }}');
+					currentSentence = "{{ dsAll }}";
 					$('#deleteButton').prop("disabled", true);
 					$('#uds').prop("value", "");
 				}
@@ -72,10 +106,46 @@
 		});
 		$('#finalDeleteButton').click(function(event){
 			event.preventDefault();
+			$('#deleteProfileModal').on('hide.bs.modal', function(e) {
+			   e.preventDefault();
+			   alert('Ein Abbrechen ist leider nicht mehr möglich.');
+		    });
 			$('#deleteModalClose').hide();
 			$('#zweiterTeilLoeschen').fadeOut(400);
 			setTimeout(function(){
 				$('#deleteLaden').show();
+				$.ajax({
+				  method: "POST",
+				  url: "delete-user-api.php",
+				  data: { userDeleteSentence: $('#uds').value, password: $('#upassword').value, anonymisieren: $('#bewertungenBehalten').value, deleteUser: true}
+				})
+				  .done(function( msg ) {
+					$('#deleteLaden').hide();
+					if(msg == "formFail"){
+						$('#FormFailModalError').show();
+						$('#generalFailMessage').show();
+					}else if(msg == "pwFail"){
+						$('#PWFailModalError').show();
+						$('#generalFailMessage').show();
+					}else if(msg == "successAll"){
+						$('#deleteProfileSuccessMessageAll').show();
+						$('#generalSuccessMessage').show();
+					}else if(msg == "successAnon"){
+						$('#deleteProfileSuccessMessageAnon').show();
+						$('#generalSuccessMessage').show();
+					}
+					$('#reloadPageButton').click(function(){
+						 location.reload();
+					});
+					$('#leaveToVWIButton').click(function(){
+						 window.location='https://www.vwi-karlsruhe.de';
+					});
+				  })
+				  .fail(function(error){
+					 $('#deleteLaden').hide();
+					 $('#connectionFailModalError').show();
+					 $('#generalFailMessage').show();
+				  });
 			}, 400);
 		});
 	});

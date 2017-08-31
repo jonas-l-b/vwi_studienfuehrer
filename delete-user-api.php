@@ -2,14 +2,22 @@
 
 include('connect.php');
 
+$dsAnon = 'Konto unwiderruflich löschen. Bewertungen anonymisieren.';
+$dsAll = 'Konto und Bewertungen unwiderruflich löschen.';
+
 if(isset($_GET['getDeleteModal'])){
 	echo $twig->render('deleteModal.template.html', 
-							array());
-}else if (isset($_GET['deleteUser'])){
-	if(isset($_POST['yyy'])&&isset($_POST['yyy'])&&isset($_POST['yyy'])&&isset($_POST['yyy'])){
-		echo "ok";
+							array( 'dsAnon' => $dsAnon, 
+									'dsAll' => $dsAll)
+						);
+}else if (isset($_POST['deleteUser'])){
+	if(isset($_POST['password'])&&isset($_POST['anonymisieren'])&&isset($_POST['userDeleteSentence'])){
+		echo "pwFail";
 	}else{
-		echo "{form : 'error'}";
+		echo "successAnon";
 	}
-}else exit();
+}else {
+	echo "Keine Zugriffserlaubnis";
+	exit();
+}
 ?>
