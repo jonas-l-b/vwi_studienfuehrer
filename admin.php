@@ -442,6 +442,10 @@ $('#linkToAdminMessages').click(function(event){
  	event.preventDefault();
  	$('.nav-tabs a[href="#messages"]').tab('show');
 });
+$('#linkToAdminNotifications').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#notifications"]').tab('show');
+});
 </script>
 
 </body>
