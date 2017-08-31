@@ -25,21 +25,21 @@ if (isset($_POST['btn-login'])) {
 	$password = $con->real_escape_string($password);
 	
 	$stmt = $con->prepare(" INSERT INTO anti_brute_force (user_id, login_failures)
-							SElECT user_ID, 1 
+							SELECT user_ID, 1 
 							FROM users 
 							WHERE email = ? 
 							ON DUPLICATE KEY UPDATE login_failures = login_failures + 1");
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
 	
-	$stmt = $con->prepare(" SELECT login_failures
+	$stmt1 = $con->prepare(" SELECT login_failures
 							FROM anti_brute_force
 							LEFT JOIN users
 							ON anti_brute_force.user_id = users.user_ID
 							WHERE users.email = ?");
-	$stmt->bind_param("s", $email);
-	$stmt->execute();
-	$res = $stmt->get_result();
+	$stmt1->bind_param("s", $email);
+	$stmt1->execute();
+	$res = $stmt1->get_result();
 	if($res == null || $res->fetch_assoc()['login_failures']< ConfigService::getService()->getConfig('login_tries_before_blocking')){
 		 
 		$query = $con->query("SELECT user_ID, email, password, active FROM users WHERE email='$email'");
@@ -103,7 +103,7 @@ if (isset($_POST['btn-login'])) {
 				<input type="password" class="form-control" placeholder="Passwort" name="password" required />
 			</div>
 			
-			<a href="#" id="openPWRModal">Passwort vergessen?</a>
+			<a href="#" id="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
 			
 			<hr>
 			

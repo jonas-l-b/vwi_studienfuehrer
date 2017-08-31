@@ -27,14 +27,15 @@ if(isset($_GET['recoverhash'])){
 		$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 		
 		$sql2="
+			DELETE FROM anti_brute_force
+			WHERE user_id = (SELECT user_ID FROM users WHERE recoverhash = '".$recoverhash."');
+		";
+		
+		$sql3="
 			UPDATE users
 			SET password = '".$hashed_password."', recoverhash = ''
 			WHERE recoverhash = '".$recoverhash."';
 		";
-		
-		$sql3="
-			DELETE FROM anti_brute_force
-			WHERE user_id = " . $result->fetch_row()['user_ID'] . ";";
 
 		
 		if ($con->query($sql2)) {

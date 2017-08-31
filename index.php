@@ -488,7 +488,7 @@ include "sumVotes.php";
 								<hr style=\"margin:10px\">
 								<div style=\"font-size:10px\">
 									".$rows['username']." &#124; ".$comments['time_stamp']."
-									<span style=\"float:right; ".$displayEdit."\">
+									<span style=\"float:right;\">
 										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
 										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
 										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\"></span></button>
