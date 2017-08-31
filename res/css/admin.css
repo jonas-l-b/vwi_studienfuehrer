@@ -87,3 +87,7 @@ div.tab button.active {
 	border: solid 1px lightgrey;
 	padding:15px;
 }
+
+.highlightedBadge{
+	background-color: gold;
+}

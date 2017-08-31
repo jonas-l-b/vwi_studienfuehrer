@@ -69,11 +69,11 @@ if($userRow['admin']==0){
 					}
 					?>
 				
-					<button class="tablinks active" onclick="changeInbox(event, 'bug')">Bugs <span class="badge"><?php echo $badge['bug']?></span></button>
-					<button class="tablinks" onclick="changeInbox(event, 'mistake')">Fehler <span class="badge"><?php echo $badge['mistake']?></span></button>
-					<button class="tablinks" onclick="changeInbox(event, 'question')">Fragen <span class="badge"><?php echo $badge['question']?></span></button>
-					<button class="tablinks" onclick="changeInbox(event, 'feedback')">Feedback <span class="badge"><?php echo $badge['feedback']?></span></button>
-					<button class="tablinks" onclick="changeInbox(event, 'comment')">Kommentare <span class="badge"><?php echo $badge['comment']?></span></button>
+					<button class="tablinks active" onclick="changeInbox(event, 'bug')">Bugs <span class="badge <?php if($badge['bug']!=0) echo "highlightedBadge"?>"><?php echo $badge['bug']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'mistake')">Fehler <span class="badge <?php if($badge['mistake']!=0) echo "highlightedBadge"?>"><?php echo $badge['mistake']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'question')">Fragen <span class="badge <?php if($badge['question']!=0) echo "highlightedBadge"?>"><?php echo $badge['question']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'feedback')">Feedback <span class="badge <?php if($badge['feedback']!=0) echo "highlightedBadge"?>"><?php echo $badge['feedback']?></span></button>
+					<button class="tablinks" onclick="changeInbox(event, 'comment')">Kommentare <span class="badge <?php if($badge['comment']!=0) echo "highlightedBadge"?>"><?php echo $badge['comment']?></span></button>
 				</div>
 
 				<?php
