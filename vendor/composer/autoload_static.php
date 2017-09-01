@@ -14,10 +14,12 @@ class ComposerStaticInitd9e1308c75fe97034d17f5ed89206e20
         'T' => 
         array (
             'Twig\\' => 5,
+            'TijsVerkoyen\\CssToInlineStyles\\' => 31,
         ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\CssSelector\\' => 30,
         ),
     );
 
@@ -26,9 +28,17 @@ class ComposerStaticInitd9e1308c75fe97034d17f5ed89206e20
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
         ),
+        'TijsVerkoyen\\CssToInlineStyles\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\CssSelector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/css-selector',
         ),
     );
 
