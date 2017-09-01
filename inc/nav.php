@@ -101,13 +101,13 @@ $(function(){
 <script>
 $(document).ready(function(){
 	$("#contact").click(function(){
-						$('#contactModal').modal('show');
-						$('#contactModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
-						$('#contactModalBody').load("contactModal.php", function( response, status, xhr ) {
-						  if ( status == "error" ) {
-							$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
-						  }
-						});
+		$('#contactModal').modal('show');
+		$('#contactModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+		$('#contactModalBody').load("contactModal.php", function( response, status, xhr ) {
+		  if ( status == "error" ) {
+			$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
+		  }
+		});
 	});	
 });
 </script>

@@ -360,7 +360,7 @@ if($userRow['admin']==0){
 				}
 			}
 			?>
-			<p <?php echo $messageDisplay ?>><i>(Es gibt keine Admins, die nicht benachrichtigt werden.)</i></p>
+			<p <?php echo $messageDisplay ?>><i>(Admin hinzufügen deaktiviert: Es gibt keine weiteren Admins in der Datenbank, die nicht benachrichtigt werden.)</i></p>
 			<div <?php if(isset($addDisplay)) echo $addDisplay ?>>
 				<form action="admin_notifications_submit.php" method="post" class="form-inline">
 					<div class="form-group">

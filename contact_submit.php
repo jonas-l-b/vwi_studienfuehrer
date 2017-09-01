@@ -47,42 +47,39 @@ if(mysqli_query($con,$sql)){
 	echo "erfolg";
 	
 	//E-Mail-Benachrichtigungen verschicken
+	$subject = "[Studienführer: Benachrichtigung] Neue Nachricht für Admins eingegangen";
+		
+	switch($reason){
+		case "bug":
+			$type = "Bug";
+			break;
+		case "mistake":
+			$type = "Fehler";
+			break;
+		case "question":
+			$type = "Frage";
+			break;
+		case "feedback":
+			$type = "Feedback";
+			break;
+	}
+	$body = "
+		<p>Ein Benutzer hat eine Nachricht an die Administratoren geschickt:</p>
+		<hr>
+		<p>Typ: ".$type."</p>
+		<p><u>Nachricht</u>:<br> ".$comment."</p>
+		<hr>
+		<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.
+	";
+	
 	$sql = "
 		SELECT *
 		FROM admin_notifications
 		JOIN users on users.user_ID = admin_notifications.admin_id
 		WHERE type = 'messages'
 	";
-	
 	$result = mysqli_query($con, $sql);
-	while($row = mysqli_fetch_assoc($result)){
-		$subject = "[Studienführer: Benachrichtigung] Neue Nachricht für Admins eingegangen";
-		
-		switch($reason){
-			case "bug":
-				$type = "Bug";
-				break;
-			case "mistake":
-				$type = "Fehler";
-				break;
-			case "question":
-				$type = "Frage";
-				break;
-			case "feedback":
-				$type = "Feedback";
-				break;
-		}
-		
-		$body = "
-			<p>Ein Benutzer hat eine Nachricht an die Administratoren geschickt:</p>
-			<hr>
-			<p>Datum: ".now()."</p>
-			<p>Typ: ".$type."</p>
-			<p><u>Nachricht</u>:<br> ".$comment."</p>
-			<hr>
-			<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.
-		";
-		
+	while($row = mysqli_fetch_assoc($result)){		
 		EmailService::getService()->sendEmail($row['email'], $row['username'], $subject, $body);
 	}
 	
