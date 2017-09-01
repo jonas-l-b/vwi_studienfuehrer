@@ -69,7 +69,7 @@ if(mysqli_query($con,$sql)){
 		<p>Typ: ".$type."</p>
 		<p><u>Nachricht</u>:<br> ".$comment."</p>
 		<hr>
-		<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.
+		<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du <a href=\"admin.php#notifications\">hier</a> in die Liste eingetragen wurdest.
 	";
 	
 	$sql = "
