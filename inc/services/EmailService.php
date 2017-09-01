@@ -72,8 +72,12 @@
 	   public function sendEmail($toEmail, $userName, $subject, $body){
 		   $this->mail->AddAddress($toEmail, $userName);
 		   $this->mail->Subject = $subject;
-		   $htmlWithoutCSS = "
+		   $htmlWithoutCSS = '
 			<html>
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				</head>
+				'."
 				<body>
 					<div>
 						<h2>$subject</h2>
