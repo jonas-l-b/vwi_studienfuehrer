@@ -84,7 +84,7 @@ if($userRow['admin']==0){
 						<p style="font-size:20px"><span class="open1" style="font-weight:bold">Offen</span> | <span class="closed1" style="color:lightgrey; cursor: pointer; cursor: hand;" >Bearbeitet</span></p>
 							<?php
 							//Offen
-							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND processed = 0");
+							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND processed = 0 ORDER BY time_stamp DESC");
 							while($row = mysqli_fetch_assoc($result)){
 								
 								//Glyphicon 1
@@ -144,7 +144,7 @@ if($userRow['admin']==0){
 							<p style="font-size:20px"><span class="open2" style="color:lightgrey; cursor: pointer; cursor: hand;">Offen</span> | <span class="closed2" style="font-weight:bold" >Bearbeitet</span></p>
 								
 							<?php
-							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND (processed = 1 OR processed = 2)");
+							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND (processed = 1 OR processed = 2 ORDER BY time_stamp DESC)");
 							while($row = mysqli_fetch_assoc($result)){
 
 								//Glyphicon 1
