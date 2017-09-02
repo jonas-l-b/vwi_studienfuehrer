@@ -34,8 +34,8 @@ if(isset($_GET['getDeleteModal'])){
 			if($userRow['admin'] != "0"){
 				if(trim($_POST['userDeleteSentence']) == $dsAnon && $_POST['anonymisieren'] == "on"){
 					if(		$con->query("DELETE FROM favourites WHERE user_ID=".$userRow['user_ID']) === true
-						//&&	$con->query("DELETE FROM anti_brute_force WHERE user_id=".$userRow['user_ID']) === true
-						//&&	$con->query("DELETE FROM messages WHERE sender_id=".$userRow['user_ID']) === true 			//Vorbereitung für anderen Branch.
+						&&	$con->query("DELETE FROM anti_brute_force WHERE user_id=".$userRow['user_ID']) === true
+						&&	$con->query("UPDATE messages SET answer_required='0'  WHERE sender_id=".$userRow['user_ID']) === true 			//Vorbereitung für anderen Branch.
 							){
 						if($con->query("UPDATE users SET first_name='Gelöschter', last_name='Nutzer', username='Profil deaktiviert', email='', password='', active='0', degree='', advance='', semester='',info='no',hash='',recoverhash='' WHERE user_ID=".$userRow['user_ID']) === true){
 							echo "successAnon";
@@ -50,8 +50,8 @@ if(isset($_GET['getDeleteModal'])){
 					sendDeletionMail(true);
 				}else if(trim($_POST['userDeleteSentence']) == $dsAll && $_POST['anonymisieren'] == "off"){
 					if(		$con->query("DELETE FROM favourites WHERE user_ID=".$userRow['user_ID']) === true 
-						//&&	$con->query("DELETE FROM anti_brute_force WHERE user_id=".$userRow['user_ID']) === true 
-						//&&	$con->query("DELETE FROM messages WHERE sender_id=".$userRow['user_ID']) === true 			//Vorbereitung für anderen Branch.
+						&&	$con->query("DELETE FROM anti_brute_force WHERE user_id=".$userRow['user_ID']) === true 
+						&&	$con->query("UPDATE messages SET answer_required='0' WHERE sender_id=".$userRow['user_ID']) === true 			//Vorbereitung für anderen Branch.
 						&&	$con->query("DELETE FROM commentratings WHERE user_ID=".$userRow['user_ID']) === true 			//Ratings zu Comments des gelöschten User werden noch nicht gelöscht (Tote Daten. Später kümmern.)
 						&&	$con->query("DELETE FROM ratings WHERE user_ID=".$userRow['user_ID']) === true 
 					  ){
