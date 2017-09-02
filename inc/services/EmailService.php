@@ -1,6 +1,7 @@
 <?php
 
 	/*Verschickt Emails*/
+	use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 	
 	class EmailService{
 		/**
@@ -71,22 +72,22 @@
 	   public function sendEmail($toEmail, $userName, $subject, $body){
 		   $this->mail->AddAddress($toEmail, $userName);
 		   $this->mail->Subject = $subject;
-		   $this->mail->Body = "
+		   $htmlWithoutCSS = '
+		    <!DOCTYPE HTML>
 			<html>
-				<header>
-					<style>
-					
-					</style>
-				</header>
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+				</head>
+				'."
 				<body>
-					<div style=\"font-family:calibri\">
+					<div>
 						<h2>$subject</h2>
 						<p>Hallo $userName,</p>
 						$body
 						<p>Viel Spaß mit dem Studienführer,<br>
 						Deine VWI-ESTIEM Hochschulgruppe Karlsruhe</p>
 						".'
-						<p style="font-size:.8em;">
+						<p class="signature">
 							____________________________________<br />
 							<strong>Studienführer VWI-ESTIEM Karlsruhe</strong><br />
 							<a href="mailto:studienführer@vwi-karlsruhe.de"/>studienführer@vwi-karlsruhe</a><br />
@@ -101,6 +102,11 @@
 				</body>
 			</html>
 			';
+		   $cssToInlineStyles = new CssToInlineStyles();
+		   $this->mail->Body = $cssToInlineStyles->convert(
+				$htmlWithoutCSS,
+				file_get_contents(__DIR__ . '/../../res/css/emails.css')
+			);
 		   if(!$this->mail->Send()){
 			   return false;
 		   }else{
