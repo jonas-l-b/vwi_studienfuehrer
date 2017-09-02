@@ -114,10 +114,16 @@
 			$('#zweiterTeilLoeschen').fadeOut(400);
 			setTimeout(function(){
 				$('#deleteLaden').show();
+				var checkbox;
+				if($('#bewertungenBehalten').is(":checked")){
+					checkbox = "on";
+				}else{
+					checkbox = "off";
+				}
 				$.ajax({
 				  method: "POST",
 				  url: "delete-user-api.php",
-				  data: { userDeleteSentence: $('#uds').value, password: $('#upassword').value, anonymisieren: $('#bewertungenBehalten').value, deleteUser: true}
+				  data: { userDeleteSentence: $('#uds').val(), password: $('#upassword').val(), anonymisieren: checkbox, deleteUser: true}
 				})
 				  .done(function( msg ) {
 					$('#deleteLaden').hide();
