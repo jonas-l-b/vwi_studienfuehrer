@@ -34,6 +34,12 @@
 <div id="connectionFailModalError" style="display:none" class="alert alert-warning">
   <strong>Warnung!</strong> Leider ist ein Fehler beim Verbindungsaufbau auftreten. Es ist nicht klar, ob deine Anfrage erfolgreich verlaufen ist, oder nicht. Bitte lade die Seite neu und versuche es gegebenenfalls noch einmal.
 </div>
+<div id="adminErrorFail" style="display:none" class="alert alert-warning">
+  <strong>Warnung!</strong> Deine Benutzergruppe steht über der eines normalen Benutzers. Du bist also ein Admin oder ein Super-Admin. Diese Accounts dürfen nicht einfach gelöscht werden! <strong> Vorgang abgebrochen. </strong>
+</div>
+<div id="dbErrorFail" style="display:none" class="alert alert-warning">
+  <strong>Warnung!</strong> Etwas ist schief gelaufen. Ein Administrator wurde benachrichtigt. Wir werden deine restlichen Daten nun händisch aus der Datenbank löschen und dir Bescheid geben, sobald wir fertig sind. 
+</div>
 <div id="FormFailModalError" style="display:none" class="alert alert-danger">
   <strong>Achtung!</strong> Bei deinen Eingaben ist ein Fehler aufgetreten. Lade die Seite neu und versuche es noch einmal.
 </div>
@@ -64,6 +70,12 @@
 
 <script>
 	$(document).ready(function() {
+		var isDone = false;
+		function showProcessAlert(){
+			if(!isDone){
+				alert('Ein Abbrechen ist leider nicht mehr möglich.');
+			}
+		}
 		var currentSentence = "{{ dsAnon }}";
 		$('#bewertungenBehalten').change(function() {
 			if(this.checked) {
@@ -108,8 +120,15 @@
 			event.preventDefault();
 			$('#deleteProfileModal').on('hide.bs.modal', function(e) {
 			   e.preventDefault();
-			   alert('Ein Abbrechen ist leider nicht mehr möglich.');
+			   showProcessAlert();
 		    });
+			$(window).bind('beforeunload', function(e){
+				var confirmationMessage = 'Du kannst den begonnenen Prozess nicht mehr abbrechen. '
+										+ 'Möchtest du nicht lieber kurz hier bleiben und auf das Ergebnis warten?';
+
+				(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+				return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+			});
 			$('#deleteModalClose').hide();
 			$('#zweiterTeilLoeschen').fadeOut(400);
 			setTimeout(function(){
@@ -139,6 +158,15 @@
 					}else if(msg == "successAnon"){
 						$('#deleteProfileSuccessMessageAnon').show();
 						$('#generalSuccessMessage').show();
+					}else if(msg == "adminError"){
+						$('#adminErrorFail').show();
+						$('#generalFailMessage').show();
+					}else if(msg == "dbFail"){
+						$('#dbErrorFail').show();
+						$('#generalFailMessage').show();
+					}else{
+						$('#dbErrorFail').show();
+						$('#generalFailMessage').show();
 					}
 					$('#reloadPageButton').click(function(){
 						 location.reload();
@@ -146,11 +174,16 @@
 					$('#leaveToVWIButton').click(function(){
 						 window.location='https://www.vwi-karlsruhe.de';
 					});
+					alert(msg);
 				  })
 				  .fail(function(error){
 					 $('#deleteLaden').hide();
 					 $('#connectionFailModalError').show();
 					 $('#generalFailMessage').show();
+				  })
+				  .always(function(){
+					isDone = true;
+					$(window).unbind('beforeunload');
 				  });
 			}, 400);
 		});

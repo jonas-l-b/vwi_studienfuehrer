@@ -14,7 +14,7 @@ if (isset($_SESSION['userSession'])!="") {
 	exit;
 }
 
-if (isset($_POST['btn-login'])) {
+if (isset($_POST['btn-login']) && $_POST['password'] != "") {
  
 	$email = strip_tags($_POST['email']);
 	$password = strip_tags($_POST['password']);
