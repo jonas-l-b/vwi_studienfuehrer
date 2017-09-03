@@ -31,7 +31,7 @@ if(isset($_GET['getDeleteModal'])){
 		$password = strip_tags($_POST['password']);
 		$password = $con->real_escape_string($password);
 		if (password_verify($password, $userRow['password'])){
-			if($userRow['admin'] != "0"){
+			if($userRow['admin'] == "0"){
 				if(trim($_POST['userDeleteSentence']) == $dsAnon && $_POST['anonymisieren'] == "on"){
 					if(		$con->query("DELETE FROM favourites WHERE user_ID=".$userRow['user_ID']) === true
 						&&	$con->query("DELETE FROM anti_brute_force WHERE user_id=".$userRow['user_ID']) === true
