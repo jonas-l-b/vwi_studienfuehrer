@@ -104,7 +104,7 @@ include "connect.php";
 				<form method="post">
 					<button type="submit" class="btn btn-primary" name="btn-edit">Daten bearbeiten</button>
 					<button type="button" href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
-					<button style="float:right;" type="button" id="deleteProfileButton" role="button" class="btn btn-danger">Profil löschen</button>
+					<button style="float:right;" type="button" id="deleteProfileButton" role="button" class="btn btn-danger<?php if($userRow['admin']!='0') echo ' disabled" data-toggle="tooltip" title="Nur `normale` Nutzer können ihr Profil löschen. Gibt zunächst deine Admin-Rechte ab.'; ?>">Profil löschen</button>
 				</form>
 			</div>
 			
@@ -343,6 +343,7 @@ $('#linkToUserProfile').click(function(event){
 </div><!-- End of Modal -->
 <script>
 	$(document).ready(function() {
+	<?php if($userRow['admin']=='0'):?>
 		var deleteLaden = function(){
 				$('#deleteProfileModal').modal('show');
 				insertLoader('#deleteModalBody');
@@ -353,6 +354,9 @@ $('#linkToUserProfile').click(function(event){
 				});
 		}
 		$('#deleteProfileButton').click(deleteLaden);
+	<?php else:  ?>
+		$('[data-toggle="tooltip"]').tooltip();
+	<?php endif; ?>
 	});
 </script>
 </body>
