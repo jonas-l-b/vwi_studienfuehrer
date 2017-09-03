@@ -118,7 +118,7 @@ if($userRow['admin']==0){
 	<!-- COMBOBOX -->
 	
 	<?php
-		echo $twig->render('admin_combobox.template.html', 
+		echo $twig->render('admin_edit_auswahl_form.template.html', 
 							array(	'rows' => $rows,
 									'buttontext' => 'Dieses Institut bearbeiten'));
 	?>

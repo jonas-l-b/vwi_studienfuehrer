@@ -166,7 +166,7 @@ if($userRow['admin']==0){
 	<?php if(isset($msg)) echo $msg ?>
 	
 	<?php
-		echo $twig->render('admin_combobox.template.html', 
+		echo $twig->render('admin_edit_auswahl_form.template.html', 
 							array(	'rows' => $rows,
 									'buttontext' => 'Dieses Modul bearbeiten'));
 	?>
