@@ -63,15 +63,15 @@ if(mysqli_query($con,$sql)){
 			$type = "Feedback";
 			break;
 	}
-	$body = "
-		<p>Ein Benutzer hat eine Nachricht an die Administratoren geschickt:</p>
+	$body = "nosig
+		<span>ein Benutzer hat eine Nachricht an die Administratoren geschickt:</span>
 		<hr>
-		<p>Typ: ".$type."</p>
-		<p><u>Nachricht</u>:<br> ".$comment."</p>
+		<p>Betreff: <strong>".$type."</strong></p>
+		<span>".$comment."</span>
 		<hr>
-		<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du <a href=\"admin.php#notifications\">hier</a> in die Liste eingetragen wurdest.
+		<span class='foo'><a href=\"app.vwi-karlsruhe.de/studienfuehrer/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"app.vwi-karlsruhe.de/studienfuehrer/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
 	";
-	
+
 	$sql = "
 		SELECT *
 		FROM admin_notifications

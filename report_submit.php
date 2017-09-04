@@ -27,13 +27,13 @@ if(mysqli_query($con,$sql)){
 	
 	//E-Mail-Benachrichtigungen verschicken
 	$subject = "[Studienführer: Benachrichtigung] Neue Nachricht für Admins eingegangen";
-	$body = "
-		<p>Ein Benutzer hat eine Nachricht an die Administratoren geschickt:</p>
+	$body = "nosig
+		<span>ein Benutzer hat eine Nachricht an die Administratoren geschickt:</span>
 		<hr>
-		<p>Typ: Kommentar</p>
-		<p><u>Nachricht</u>:<br> ".$comment."</p>
+		<p>Betreff: <strong>Kommentar</strong></p>
+		<span>".$comment."</span>
 		<hr>
-		<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.
+		<span class='foo'><a href=\"app.vwi-karlsruhe.de/studienfuehrer/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"app.vwi-karlsruhe.de/studienfuehrer/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
 	";
 	
 	$sql = "

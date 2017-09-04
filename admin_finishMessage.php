@@ -12,7 +12,12 @@ $processedSuccess = $_POST['processedSuccess'];
 if(!empty($_POST['finishComment'])){
 	$finishComment = $_POST['finishComment'];
 }
-$finishCommentAdmin = $_POST['finishCommentAdmin'];
+if(!empty($_POST['finishCommentAdmin'])){
+	$finishCommentAdmin = $_POST['finishCommentAdmin'];
+}else{
+	$finishCommentAdmin = "";
+}
+
 $message_id = substr($_POST['message_id'],11);
 
 if(isset($finishComment)){
@@ -49,23 +54,23 @@ if(mysqli_query($con, $sql)){
 		
 		if(isset($finishComment)){
 			$passage = " und folgende Nachricht für dich hinterlassen:";
-			$mes = "<p>".$finishComment."</p>";
+			$mes = "<span>".$finishComment."</span>";
 		}else{
 			$passage = ".";
 			$mes = "";
 		}
 
 		$body = "
-			<p>Ein Administrator hat deine Nachricht bearbeitet:</p>
+			<span>ein Administrator hat deine Nachricht bearbeitet:</span>
 			<hr>
-			<p><strong>Deine Nachricht an uns</strong>:</p>
-			<p><i>Gesendet am: ".$row['time_stamp']."</i></p>
-			<p>".$row['comment']."</p>
+			<p>Diese Nachricht hast du uns am ".$row['time_stamp']." gesendet:</p>
+			<span>".$row['comment']."</span>
 			<hr>
 			<p>Der Administrator hat die Bearbeitung deiner Nachricht als <i>".$erfolg."</i> markiert".$passage."</p>
 			".$mes."
 			<hr>
-			<p>Falls du noch weitere Fragen oder Anmerkungen hast, kannst du dich gerne wieder an uns wenden. Benutze dazu bitte erneut das Kontaktformular auf der Webseite und antworte nicht auf diese Mail (da diese nicht ankommen würde).</p>
+			<p>Falls du noch weitere Fragen oder Anmerkungen hast, kannst du dich gerne wieder an uns wenden. Benutze dazu bitte erneut das Kontaktformular auf der Webseite und antworte <u>nicht</u> auf diese Mail (da diese nicht ankommen würde).</p>
+			<br>
 		";
 		
 		EmailService::getService()->sendEmail($row['email'], $row['username'], $subject, $body);

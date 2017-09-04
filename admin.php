@@ -144,7 +144,7 @@ if($userRow['admin']==0){
 							<p style="font-size:20px"><span class="open2" style="color:lightgrey; cursor: pointer; cursor: hand;">Offen</span> | <span class="closed2" style="font-weight:bold" >Bearbeitet</span></p>
 								
 							<?php
-							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND (processed = 1 OR processed = 2 ORDER BY time_stamp DESC)");
+							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND (processed = 1 OR processed = 2) ORDER BY time_stamp DESC");
 							while($row = mysqli_fetch_assoc($result)){
 
 								//Glyphicon 1
@@ -299,17 +299,19 @@ if($userRow['admin']==0){
 				
 				//Nachricht-bearbeitet-Button
 				$('#messageDetail').on('click', '#finishButton', function() {
-					$.ajax({
-						url: "admin_finishMessage.php",
-						type: "post",
-						data: $("#finishForm").serialize() + "&message_id=" + m_id,
-						success: function (data) {
-							alert(data);
-							$(this_save).find("#finishModalBody").html("Super, weiter so!");
-						},
-						error: function() {
-							alert("Error!");
-						}
+					$("#finishForm").submit(function(){
+						$.ajax({
+							url: "admin_finishMessage.php",
+							type: "post",
+							data: $("#finishForm").serialize() + "&message_id=" + m_id,
+							success: function (data) {
+								alert(data);
+								$(this_save).find("#finishModalBody").html("Super, weiter so!");
+							},
+							error: function(data) {
+								alert(data);
+							}
+						});
 					});
 					$(document).ajaxStop(function (){
 						location.reload();

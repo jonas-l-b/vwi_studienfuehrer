@@ -33,7 +33,7 @@
 		<label>Um was geht es denn?</label>
 		<select id="reason" name="reason" class="form-control" required>
 			<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
-			<option value="bug">Ich möchte einen (funktionalen) Bugs melden</option>
+			<option value="bug">Ich möchte einen (funktionalen) Bug melden</option>
 			<option id="mistake" value="mistake">Ich möchte einen (inhaltlichen) Fehler melden</option>
 			<option value="question">Ich möchte eine Frage stellen</option>
 			<option value="feedback">Ich möchte Feedback/Verbesserungsvorschläge geben</option>
@@ -101,7 +101,7 @@
 $("#reason").change(function() {
 	if($('#reason option:selected').val() == "bug"){
 		$('.checkbox').show();
-		$('#answer').html("<input name=\"answer\" type=\"checkbox\">Ich möchte informiert werden, wenn der Bug behoben wurde");
+		$('#answer').html("<input name=\"answer\" type=\"checkbox\" checked>Ich möchte informiert werden, wenn der Bug behoben wurde");
 		$('#subject').attr("style", "display:none")
 		$('#comment').attr("placeholder", "Bitte beschreibe möglichst genau, wie der Bug entsteht, indem du die einzelnen Schritte aufzählst, die zum Bug führen. Je genauer die Beschreibung, desto schneller können wir den Bug beheben!");
 		$('#area').attr("style", "display:none");
@@ -118,7 +118,7 @@ $("#reason").change(function() {
 	
 	if($('#reason option:selected').val() == "mistake"){
 		$('.checkbox').show();
-		$('#answer').html("<input name=\"answer\" type=\"checkbox\">Ich möchte informiert werden, wenn der Fehler behoben wurde");
+		$('#answer').html("<input name=\"answer\" type=\"checkbox\" checked>Ich möchte informiert werden, wenn der Fehler behoben wurde");
 		$('#comment').attr("placeholder", "");
 		$('#area').attr("style", "")
 		$("#area :input").prop('required');
@@ -215,7 +215,7 @@ $("#reason").change(function() {
 	
 	if($('#reason option:selected').val() == "feedback"){
 		$('.checkbox').show();
-		$('#answer').html("<input name=\"answer\" type=\"checkbox\">Ich möchte gerne eine Antwort erhalten");
+		$('#answer').html("<input name=\"answer\" type=\"checkbox\" checked>Ich möchte gerne eine Antwort erhalten");
 		$('#subject').attr("style", "display:none")
 		$('#comment').attr("placeholder", "Was machen wir gut, was lässt sich noch verbessern? Welche Funktionen vermisst du? All das kann hier rein :)");
 		$('#area').attr("style", "display:none");

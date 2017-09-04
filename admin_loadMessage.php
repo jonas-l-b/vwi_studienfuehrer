@@ -106,7 +106,7 @@ if($processed['processed'] == 0){
 		$additionalComment = "
 			<div class=\"form-group\">
 				<label>Nachricht an Nutzer:</label>
-				<textarea name=\"finishComment\" class=\"form-control\" placeholder=\"Der Nutzer hat um eine Antwort gebeten und wird durch das Markieren dieser Nachricht als bearbeitet automatisch durch eine E-Mail benachrichtigt. Da diese Benachrichtigung nur beinhaltet ist, dass die Nachricht bearbeitet wurde und ob diese Bearbeitung von Erfolg gekrönt war, kannst du hier noch weitere Informationen hinzufügen.\"rows=\"5\"></textarea>
+				<textarea required name=\"finishComment\" class=\"form-control\" placeholder=\"Der Nutzer hat um eine Antwort gebeten und wird durch das Markieren dieser Nachricht als bearbeitet automatisch durch eine E-Mail benachrichtigt. Da diese Benachrichtigung nur beinhaltet ist, dass die Nachricht bearbeitet wurde und ob diese Bearbeitung von Erfolg gekrönt war, kannst du hier noch weitere Informationen hinzufügen.\"rows=\"5\"></textarea>
 			</div>
 		";
 		$buttonMessage = "Nachricht jetzt als bearbeitet markieren und Benachrichtigung an Nutzer verschicken";

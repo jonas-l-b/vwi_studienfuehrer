@@ -47,14 +47,14 @@ if(mysqli_query($con, $sql)){
 				$type = "Feedback";
 				break;
 		}
-		
-		$body = "
-			<p>Ein Administrator hat dir eine Nachricht zugewiesen:</p>
+	
+		$body = "nosig
+			<span>ein Administrator hat dir eine Nachricht zugewiesen:</span>
 			<hr>
-			<p>Typ: ".$type."</p>
-			<p><u>Nachricht</u>:<br> ".$row['comment']."</p>
+			<p>Betreff: <strong>".$type."</strong></p>
+			<span>".$row['comment']."</span>
 			<hr>
-			<a href=\"admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.
+			<span class='foo'><a href=\"app.vwi-karlsruhe.de/studienfuehrer/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.</span>
 		";
 		
 		EmailService::getService()->sendEmail($assigned_to['email'], $assigned_to['username'], $subject, $body);
