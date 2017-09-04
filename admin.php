@@ -381,6 +381,7 @@ if($userRow['admin']==0){
 				FROM admin_notifications
 				JOIN users ON admin_notifications.admin_id = users.user_ID
 				WHERE type = 'messages'
+				ORDER BY users.first_name
 			";
 			$result = mysqli_query($con, $sql);
 			while($row = mysqli_fetch_assoc($result)){
@@ -407,7 +408,6 @@ if($userRow['admin']==0){
 					
 				});
 			});
-			
 			</script>
 			
 		</div>
@@ -415,35 +415,187 @@ if($userRow['admin']==0){
 		<br>
 			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
 			<div class="row">
+				<!-- Admin-->
+				<?php
+				//Vorbereitung Super-Admins
+				if($userRow['super_admin'] == 1){
+					$displayDeleteGlyphicon = "";
+				}else{
+					$displayDeleteGlyphicon = "display:none";
+				}
+				?>
+				
+				
 				<div class="col-md-6">
 					<h3>Admins</h3>
+					
+					<?php if($userRow['super_admin'] == 1){ ?>
+						<?php
+						$sql = "
+							SELECT *
+							FROM users
+							WHERE admin = 0
+						";
+						$result = mysqli_query($con, $sql);
+
+						$options = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
+						while($row = mysqli_fetch_assoc($result)){
+							$options .= "<option value=\"".$row['user_ID']."\">".$row['first_name']." ".$row['last_name']." (".$row['username'].")</option>";
+						}
+						?>
+						
+						<div>
+							<form action="admin_addAdmin_submit.php" method="post" class="form-inline">
+								<div class="form-group">
+									<label> 
+										<select name="user_id" class="form-control" required>
+											<?php echo $options ?>
+										</select>
+									</label>	
+								</div>
+								<button class="btn btn-default" id="assignButton">Admin-Rechte zuweisen</button>
+							</form>
+						</div>
+						<br>
+					<?php } ?>
+					
 					<?php
 						$sql = "
 								SELECT *
 								FROM users
 								WHERE admin = 1 AND super_admin != 1
+								ORDER BY first_name
 						";
 						$result = mysqli_query($con, $sql);
 						while($row = mysqli_fetch_assoc($result)){
-							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['user_ID']."\" class=\"glyphiconDeleteAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['user_ID']."\" class=\"glyphiconDeleteAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"".$displayDeleteGlyphicon."; color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
 						}
 					?>
 				</div>
+				
+				<!-- Super-Admin-->
 				<div class="col-md-6">
 					<h3>Super-Admins</h3>
+					
+					<?php if($userRow['super_admin'] == 1){ ?>
+						<?php
+						$sql = "
+							SELECT *
+							FROM users
+							WHERE super_admin = 0 AND admin = 1
+						";
+						$result = mysqli_query($con, $sql);
+
+						$options = "<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>";
+						while($row = mysqli_fetch_assoc($result)){
+							$options .= "<option value=\"".$row['user_ID']."\">".$row['first_name']." ".$row['last_name']." (".$row['username'].")</option>";
+						}
+						?>
+						
+						<div>
+							<form action="admin_addSuperAdmin_submit.php" method="post" class="form-inline">
+								<div class="form-group">
+									<label> 
+										<select name="user_id" class="form-control" required>
+											<?php echo $options ?>
+										</select>
+									</label>	
+								</div>
+								<button class="btn btn-default" id="assignButton">Super-Admin-Rechte zuweisen</button>
+							</form>
+						</div>
+						<br>
+					<?php } ?>
+					
 					<?php
 						$sql = "
 								SELECT *
 								FROM users
 								WHERE admin = 1 AND super_admin = 1
+								ORDER BY first_name
 						";
 						$result = mysqli_query($con, $sql);
 						while($row = mysqli_fetch_assoc($result)){
-							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['user_ID']."\" class=\"glyphiconDeleteAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span data-id=\"".$row['user_ID']."\" class=\"glyphiconDeleteSuperAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"".$displayDeleteGlyphicon."; color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
 						}
 					?>
 				</div>
 			</div>
+			
+			<script>
+			$(document).ready(function(){
+				$(".glyphiconDeleteAdmin").click(function(){
+					var help_this = this;
+					$.ajax({
+						url: "admin_admin_delete.php",
+						type: "post",
+						data: {user_id: $(this).attr('id')} ,
+						success: function (data) {
+							//alert(data);
+							$(help_this).closest("p").fadeOut();
+							location.reload();
+						},
+						error: function() {
+						   alert("Beim Löschen ist ein Fehler aufgetreten!");
+						}
+					});
+				});
+				
+				$(".glyphiconDeleteSuperAdmin").click(function(){
+					var help_this = this;
+					$("#superAdminId").val($(this).data('id'));
+					$('#deleteSuperAdminModal').modal({show:true});
+				});
+							
+				$("#deleteSuperAdminForm").submit(function(e){
+					$.ajax({
+						type: "POST",
+						url: "admin_superadmin_delete_submit.php",
+						data: $("#deleteSuperAdminForm").serialize(),
+						success: function(data) {
+							//alert(data);
+							if(data.trim()=="erfolg"){
+								location.reload();
+							}else{
+								alert("Bei der Aktualisierung der Datenbank ist ein Fehler aufgetreten!");
+							}
+
+						}
+					});
+					e.preventDefault();
+				});
+			});
+			</script>
+			
+			<div id="deleteSuperAdminModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h2 class="modal-title">Rechte entziehen</h2>
+				</div>
+					<div class="modal-body">
+						<form action="/" id="deleteSuperAdminForm">
+							<input type="hidden" name ="superAdminId" id="superAdminId" />
+
+							<p>Möchtest du diesem Nutzer nur die Rechte als Super-Admin oder auch die Rechte als normaler Admin entziehen?</p>
+							
+							<select class="form-control" name="deleteAim">
+								<option value="deleteSuperOnly">Nur Super-Admin-Rechte entziehen</option>
+								<option value="deleteBoth">Admin- und Super-Admin-Rechte entziehen</option>
+							</select>
+							
+							<br>
+							
+							<button class="btn btn-primary" type="submit" >Rechte jetzt entziehen</button>
+
+							
+						</form>
+					</div><!-- End of Modal body -->
+				</div><!-- End of Modal content -->
+				</div><!-- End of Modal dialog -->
+			</div><!-- End of Modal -->
+			
 		</div>
 	</div>
 </div>
