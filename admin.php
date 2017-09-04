@@ -28,7 +28,7 @@ if($userRow['admin']==0){
 		<li class="active"><a data-toggle="tab" href="#modifyData">Daten bearbeiten</a></li>
 		<li><a data-toggle="tab" href="#messages">Nachrichten</a></li>
 		<li><a data-toggle="tab" href="#notifications">Benachrichigungen</a></li>
-	<!--<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
+		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -411,11 +411,10 @@ if($userRow['admin']==0){
 			</script>
 			
 		</div>
-	<!--<div id="menu3" class="tab-pane fade">
+		<div id="adminList" class="tab-pane fade">
 			<h3>Menu 3</h3>
 			<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		</div>
-	-->
 	</div>
 </div>
 
@@ -445,6 +444,10 @@ $('#linkToAdminMessages').click(function(event){
 $('#linkToAdminNotifications').click(function(event){
  	event.preventDefault();
  	$('.nav-tabs a[href="#notifications"]').tab('show');
+});
+$('#linkToAdminList').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#adminList"]').tab('show');
 });
 </script>
 
