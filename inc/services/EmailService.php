@@ -72,6 +72,14 @@
 	   public function sendEmail($toEmail, $userName, $subject, $body){
 		   $this->mail->AddAddress($toEmail, $userName);
 		   $this->mail->Subject = $subject;
+		   
+		   if(substr($body,0,5) == "nosig"){
+			   $sigDisplay = "style=\"display:none\"";
+			   $body = substr($body,6,strlen($body));
+		   }else{
+			   $sigDisplay = "";
+		   }
+		   
 		   $htmlWithoutCSS = '
 		    <!DOCTYPE HTML>
 			<html>
@@ -81,9 +89,9 @@
 				'."
 				<body>
 					<div>
-						<h2>$subject</h2>
 						<p>Hallo $userName,</p>
 						$body
+						<span ".$sigDisplay.">
 						<p>Viel Spaß mit dem Studienführer,<br>
 						Deine VWI-ESTIEM Hochschulgruppe Karlsruhe</p>
 						".'
@@ -98,6 +106,7 @@
 							76131 Karlsruhe<br />
 							<a href="https://www.vwi-karlsruhe.de" target="_blank">www.vwi-karlsruhe.de</a>
 						</p>
+						<span>
 					</div>
 				</body>
 			</html>
