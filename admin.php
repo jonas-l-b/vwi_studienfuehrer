@@ -384,7 +384,7 @@ if($userRow['admin']==0){
 			";
 			$result = mysqli_query($con, $sql);
 			while($row = mysqli_fetch_assoc($result)){
-				echo "<p style=\"font-size:25px; display:flex; align-items: center;\"><span id=\"".$row['admin_id']."\" class=\"glyphiconDelete glyphicon glyphicon-minus-sign\" title=\"Diesen Admin nicht mehr benachrichtigen\" style=\"color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+				echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['admin_id']."\" class=\"glyphiconDelete glyphicon glyphicon-minus-sign\" title=\"Diesen Admin nicht mehr benachrichtigen\" style=\"color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
 			}
 			?>
 			
@@ -412,8 +412,38 @@ if($userRow['admin']==0){
 			
 		</div>
 		<div id="adminList" class="tab-pane fade">
-			<h3>Menu 3</h3>
-			<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		<br>
+			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
+			<div class="row">
+				<div class="col-md-6">
+					<h3>Admins</h3>
+					<?php
+						$sql = "
+								SELECT *
+								FROM users
+								WHERE admin = 1 AND super_admin != 1
+						";
+						$result = mysqli_query($con, $sql);
+						while($row = mysqli_fetch_assoc($result)){
+							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['user_ID']."\" class=\"glyphiconDeleteAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+						}
+					?>
+				</div>
+				<div class="col-md-6">
+					<h3>Super-Admins</h3>
+					<?php
+						$sql = "
+								SELECT *
+								FROM users
+								WHERE admin = 1 AND super_admin = 1
+						";
+						$result = mysqli_query($con, $sql);
+						while($row = mysqli_fetch_assoc($result)){
+							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['user_ID']."\" class=\"glyphiconDeleteAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"color:red; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+						}
+					?>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
