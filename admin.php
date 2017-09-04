@@ -262,8 +262,8 @@ if($userRow['admin']==0){
 						type: "post",
 						data: {message_id: $(this).attr('id')} ,
 						success: function (data) {
-							var output = "<span class=\"symbol glyphicon glyphicon-" + data + "\"></span>";
-							$(this_save).find(".assignedToGlyphicon").html(output); //Hier stimmt noch was nicht!
+							var output = "<span class=\"symbol glyphicon glyphicon-" + data.trim() + "\"></span>";
+							$(this_save).find(".assignedToGlyphicon").html(output);
 						}
 					});
 					//assigned to
