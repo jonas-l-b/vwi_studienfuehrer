@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 02. Sep 2017 um 13:19
--- Server-Version: 10.1.13-MariaDB
--- PHP-Version: 7.0.6
+-- Erstellungszeit: 04. Sep 2017 um 07:49
+-- Server-Version: 10.1.26-MariaDB
+-- PHP-Version: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -105,8 +107,7 @@ INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
 (39, 2, 2),
 (46, 2, 1),
 (78, 2, 6),
-(79, 2, 8),
-(82, 2, 5);
+(79, 2, 8);
 
 -- --------------------------------------------------------
 
@@ -264,7 +265,7 @@ INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`
 (95, 2, -1, 'question', '', 0, 0, 1, 'joij aosfjoa söfajsdfoö af', '2017-08-31 16:07:16', 2, '2017-08-31 16:07:25', 0, '', 1, 2, '', '', '2017-08-31 16:07:29'),
 (96, 4, -1, 'mistake', 'lecturer', 7, 0, 0, 'jjoj saodfjöa sdjföasdif aösdij föaoij döajdsi öfaoi döjf öodijfa', '2017-08-31 23:37:01', 2, '2017-08-31 23:37:25', 2, '2017-08-31 23:37:34', 0, 0, '', '', ''),
 (97, 5, -1, 'mistake', 'subject', 8, 0, 1, 'A wie B? Das macht doch keinen Sinn!', '2017-09-01 03:12:57', 2, '2017-09-01 03:13:59', 0, '', 1, 2, 'Das stimmt. Wir werden das gleich umbenennen!', '', '2017-09-01 03:14:24'),
-(98, 2, -1, 'bug', '', 0, 0, 0, 'hjklöä#', '2017-09-01 03:57:10', 2, '2017-09-01 12:01:03', 0, '', 0, 0, '', '', ''),
+(98, 2, -1, 'bug', '', 0, 0, 0, 'hjklöä#', '2017-09-01 03:57:10', 2, '2017-09-04 15:32:58', 0, '', 1, 2, '', 'fff', '2017-09-04 15:33:02'),
 (99, 2, -1, 'comment', '', 0, 2, 0, 'kk', '2017-09-01 04:19:47', 0, '', 0, '', 0, 0, '', '', ''),
 (100, 2, -1, 'bug', '', 0, 0, 0, 'BUG!', '2017-09-01 04:22:38', 5, '2017-09-01 04:38:11', 0, '', 1, 5, '', 'xx', '2017-09-01 04:38:14'),
 (101, 5, -1, 'mistake', 'module', 5, 0, 0, 'Info ist an sich fehlerhaft.', '2017-09-01 04:28:05', 5, '2017-09-01 04:29:42', 5, '2017-09-01 04:29:46', 0, 0, '', '', ''),
@@ -491,6 +492,7 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 CREATE TABLE `users` (
   `user_ID` int(11) NOT NULL,
   `admin` int(10) NOT NULL,
+  `super_admin` int(10) NOT NULL,
   `first_name` varchar(60) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -509,12 +511,12 @@ CREATE TABLE `users` (
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`user_ID`, `admin`, `first_name`, `last_name`, `username`, `email`, `password`, `active`, `degree`, `advance`, `semester`, `info`, `hash`, `recoverhash`) VALUES
-(1, 0, 'Charles', 'Carmichael', 'charly123', 'charles.carmichael@gmail.com', '$2y$10$/sGQy6yKCJyzdI1UDBGsDeNfxbpHek3.3K84ZOsuc6QbWmcRAKzQG', 1, 'wiwi', 'bachelor', '5', 'yes', '', ''),
-(2, 1, 'Albert', 'Einstein', 'der_albert', 'albert.einstein@student.kit.edu', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, 'Physik', 'bachelor', '5', 'yes', '2ca65f58e35d9ad45bf7f3ae5cfd08f1', ''),
-(3, 1, 'test', 'admin', 'test_admin', 'asdfg', 'asdfg', 1, 'asdfg', 'sdfg', 'sdfg', 'sdfgh', 'sdfgh', ''),
-(4, 0, 'Jonas', 'Bakker', 'jonasl', 'ueehp@student.kit.edu', '$2y$10$5pOoJs18an2j6vsnAepDmOKqLCFkagrVYN3E2UKE2YlzTvZSr8iEW', 1, 'wing', 'bachelor', '6', 'no', 'eeb69a3cb92300456b6a5f4162093851', ''),
-(5, 1, 'Julian', 'Germek', 'juliangermek', 'uvdbh@student.kit.edu', '$2y$10$ttFFsys2NZ9qkMxRlETuYe/AVZBr7Fj31mWBfFbNYt/frGEjnKmia', 1, 'wiwi', 'bachelor', '1', 'no', '1ff1de774005f8da13f42943881c655f', '');
+INSERT INTO `users` (`user_ID`, `admin`, `super_admin`, `first_name`, `last_name`, `username`, `email`, `password`, `active`, `degree`, `advance`, `semester`, `info`, `hash`, `recoverhash`) VALUES
+(1, 0, 0, 'Charles', 'Carmichael', 'charly123', 'charles.carmichael@gmail.com', '$2y$10$/sGQy6yKCJyzdI1UDBGsDeNfxbpHek3.3K84ZOsuc6QbWmcRAKzQG', 1, 'wiwi', 'bachelor', '5', 'yes', '', ''),
+(2, 1, 1, 'Albert', 'Einstein', 'der_albert', 'albert.einstein@student.kit.edu', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, 'Physik', 'bachelor', '5', 'yes', '2ca65f58e35d9ad45bf7f3ae5cfd08f1', ''),
+(3, 1, 0, 'test', 'admin', 'test_admin', 'asdfg', 'asdfg', 1, 'asdfg', 'sdfg', 'sdfg', 'sdfgh', 'sdfgh', ''),
+(4, 0, 0, 'Jonas', 'Bakker', 'jonasl', 'ueehp@student.kit.edu', '$2y$10$5pOoJs18an2j6vsnAepDmOKqLCFkagrVYN3E2UKE2YlzTvZSr8iEW', 1, 'wing', 'bachelor', '6', 'no', 'eeb69a3cb92300456b6a5f4162093851', ''),
+(5, 1, 0, 'Julian', 'Germek', 'juliangermek', 'uvdbh@student.kit.edu', '$2y$10$ttFFsys2NZ9qkMxRlETuYe/AVZBr7Fj31mWBfFbNYt/frGEjnKmia', 1, 'wiwi', 'bachelor', '1', 'no', '1ff1de774005f8da13f42943881c655f', '');
 
 --
 -- Indizes der exportierten Tabellen
@@ -709,7 +711,8 @@ ALTER TABLE `subjects_modules`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
