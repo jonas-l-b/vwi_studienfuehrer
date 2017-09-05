@@ -17,7 +17,7 @@ $sql = "
 ";
 
 if(mysqli_query($con,$sql)){
-	echo "<SCRIPT LANGUAGE='JavaScript'>window.location.href='admin.php#adminList';</SCRIPT>";
+	$db_logger->info("Nutzer ".$userRow['username']." hat gerade den Nutzer mit user_ID ".$user_id." Admin-Rechte zugeschrieben.");
 }else{
 	echo "Beim Eintragen ist ein Problem aufgetreten.";
 }
