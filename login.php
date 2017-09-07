@@ -43,8 +43,52 @@ if (isset($_POST['btn-login'])) {
 				</div>";
 		}else{
 			$_SESSION['userSession'] = $row['user_ID'];
-			//header('Location: tree.php');
-			echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
+			//Set cookie if remember me checked
+			$check = $_POST['rememberMe'];
+			if($check == "on"){
+				$series = hash("sha256", (rand(0,1000)));
+				$token = hash("sha256", (rand(0,1000)));
+				?><script>setCookie("<?php echo $series ?>","<?php echo $token ?>",30);</script><?php
+			}
+			
+			//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
+			
+			?><script>
+			function setCookie(svalue,tvalue,exdays) {
+				var d = new Date();
+				d.setTime(d.getTime() + (exdays*24*60*60*1000));
+				var expires = "expires=" + d.toGMTString();
+				document.cookie = "series" + "=" + svalue + ";" + "token" + "=" + tvalue + ";" + expires + ";path=/";
+			}
+
+			function getCookie(cname) {
+				var name = cname + "=";
+				var decodedCookie = decodeURIComponent(document.cookie);
+				var ca = decodedCookie.split(';');
+				for(var i = 0; i < ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0) == ' ') {
+						c = c.substring(1);
+					}
+					if (c.indexOf(name) == 0) {
+						return c.substring(name.length, c.length);
+					}
+				}
+				return "";
+			}
+
+			function checkCookie() {
+				var user=getCookie("username");
+				if (user != "") {
+					alert("Welcome again " + user);
+				} else {
+				   user = prompt("Please enter your name:","");
+				   if (user != "" && user != null) {
+					   setCookie("username", user, 30);
+				   }
+				}
+			}
+			</script><?php
 		}
 	}else{
 		$msg = "<div class='alert alert-danger'>
@@ -82,6 +126,26 @@ if (isset($_POST['btn-login'])) {
 			
 			<div class="form-group">
 			<input type="password" class="form-control" placeholder="Passwort" name="password" required />
+			</div>
+			
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="rememberMe" id="rememberMe"> Eingeloggt bleiben
+					<a href="#" data-trigger="focus" data-toggle="popoverRememberMe" title="Hierzu wird ein Cookie auf deiner Festplatte gespeichert." data-content="Falls du dich innerhalb von 30 Tagen nicht wieder einloggst, wird dieser Cookie ungültig und du musst dich erneut einloggen. Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du unsere Verwendung von Cookies.">
+						<span class="glyphicon glyphicon-question-sign"></span>
+					</a>
+					<script>
+					$(document).ready(function () {
+						$('[data-toggle="popoverRememberMe"]').popover();
+						
+						$('#rememberMe').change(function() {
+							if ($(this).prop('checked')) {
+								alert("Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du unsere Verwendung von Cookies."); //checked
+							}
+						});
+					});
+					</script>
+				</label>
 			</div>
 			
 			<a href="#" id="openPWRModal">Passwort vergessen?</a>
