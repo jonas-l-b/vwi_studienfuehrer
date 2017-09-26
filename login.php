@@ -22,9 +22,8 @@ function setCookie(svalue,tvalue,uvalue,exdays) {
 	$.ajax({
 		url: "setCookieInDB.php",
 		type: "post",
-		data: {series: svalue, token: tvalue, user_id: uvalue} ,
-		success: function (data) {
-			alert(data);
+		data: {series: svalue, token: tvalue, user_id: uvalue},
+		success: function (data){
 		},
 		error: function() {
 			alert("error");
@@ -133,9 +132,7 @@ if (isset($_POST['btn-login'])) {
 			$_SESSION['userSession'] = $row['user_ID'];
 			
 			//Set cookie if remember me checked
-			echo "elseschleife<br>";
 			if(isset($_POST['rememberMe'])){
-				echo "checkbox on";
 				$series = hash("sha256", (rand(0,1000)));
 				$token = hash("sha256", (rand(0,1000)));
 				
@@ -156,7 +153,7 @@ if (isset($_POST['btn-login'])) {
 				<?php
 			}
 			
-			//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
+			echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			
 			?>
 			<?php
