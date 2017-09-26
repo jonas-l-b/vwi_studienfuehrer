@@ -10,10 +10,6 @@ require_once 'connect.php';
 ?>
 
 <script>
-function deleteCookie(){
-	document.cookie = "vwistudi_series=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
-
 function setCookie(svalue,tvalue,uvalue,exdays) {
 	var d = new Date();
 	d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -52,22 +48,14 @@ function getCookie(cname) {
     return "";
 }
 
-function checkCookie() {
-    var series=getCookie("vwistudi_series");
-	var token=getCookie("vwistudi_token");
-    if (series != "") {
-        alert("Saved series is: " + series + "Saved token is: " + token);
-    } else {
-       alert ("no cookie");
-    }
-}
 </script>
 
 <?php
+//Weiterleiten, falls bereits eingeloggt
 if (isset($_SESSION['userSession'])!="") {
-	//header('Location: tree.php');
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 	exit;
+//Checken, ob valider Cookie existiert und ggfls. einloggen
 }else{
 	if(isset($_COOKIE["vwistudi_series"]) && isset($_COOKIE["vwistudi_token"]) && isset($_COOKIE["vwistudi_user"])){
 		$cSeries = $_COOKIE["vwistudi_series"];
@@ -76,14 +64,22 @@ if (isset($_SESSION['userSession'])!="") {
 		
 		$result = mysqli_query($con, "SELECT * FROM remember_me WHERE series = '$cSeries' AND token = '$cToken' AND user_id = '$cUser'");
 		if(mysqli_num_rows($result) == 1){
-			echo "LOGIN!";
+			//echo "LOGIN!";
+			$_SESSION['userSession'] = $cUser;
+			if (isset($_GET['url'])) {
+				$url = $_GET['url'];
+				//echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='$url';</SCRIPT>"); //FUNKTIONIERT NOCH NICHT!
+				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>"); 
+			}else{
+				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
+			}
 		}elseif(mysqli_num_rows($result) > 1){
 			echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=cookie_error';</SCRIPT>");
 		}else{
 			//Besucht ein Nutzer, der eingeloggt bleibt, die Seite, wird $series behalten und $token geändert.
 			//So kann man mit einem gestohlenen Cookie sich nur so lange einloggen, bis der eigentliche Nutzer das tut (und den token ändert)
 			//Wird hier nun ein Cookie präsentiert, der zwar eine Entsprechung von series und user_id in der Datenbank hat, dessen token aber nicht übereinstimmt, so ist der Cookie wahrscheinlich gestohlen
-			$theft = mysqli_query($con, "SELECT * FROM remember_me WHERE series = '$cSeries' AND user_id = '$cUser'");
+			$theft = mysqli_query($con, "SELECT * FROM remember_me WHERE series = '$cSeries' AND user_id = '$cUser' AND token != '$cToken'");
 			if(mysqli_num_rows($theft) != 0){
 
 				$subject = "[VWI-Studienführer] Jemand hat versucht, sich in deinen Studienführer-Account einzuloggen";
@@ -108,9 +104,6 @@ if (isset($_SESSION['userSession'])!="") {
 }
 
 if (isset($_POST['btn-login'])) {
-	
-	
- 
 	$email = strip_tags($_POST['email']);
 	$password = strip_tags($_POST['password']);
 	 
@@ -190,8 +183,6 @@ if (isset($_POST['btn-login'])) {
 </div>
 <div class="signin-form">
 	<div class="container">
-		<button onclick="checkCookie()">Click me</button>
-		<button onclick="deleteCookie()">Delete</button>
 		<form class="form-signin" method="post" id="login-form">
 			<h3 class="form-signin-heading">Hier einloggen:</h3><hr />
 			
@@ -213,7 +204,7 @@ if (isset($_POST['btn-login'])) {
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" name="rememberMe" id="rememberMe"> Eingeloggt bleiben
-					<a href="#" data-trigger="focus" data-toggle="popoverRememberMe" title="Um eingeloggt zu bleiben wird ein Cookie auf deiner Festplatte gespeichert." data-content="Nach 30 Tagen wird dieser Cookie ungültig und du musst dich erneut einloggen. Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du die Verwendung der nötigen Cookies. Cookies können jederzeit über deinen Browser gelöscht werden.">
+					<a href="#" data-trigger="focus" data-toggle="popoverRememberMe" title="Um eingeloggt zu bleiben wird ein Cookie auf deiner Festplatte gespeichert." data-content="Nach 30 Tagen wird dieser Cookie ungültig und du musst dich erneut einloggen. Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du die Verwendung der nötigen Cookies. Loggst du dich aus, werden die Cookies gelöscht. Cookies können außerdem jederzeit über deinen Browser gelöscht werden.">
 						<span class="glyphicon glyphicon-question-sign"></span>
 					</a>
 					<script>
