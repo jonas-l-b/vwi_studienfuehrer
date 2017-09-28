@@ -278,7 +278,7 @@ CREATE TABLE `ratings` (
   `crit4` varchar(100) NOT NULL,
   `crit5` varchar(100) NOT NULL,
   `recommendation` tinyint(1) NOT NULL,
-  `comment` varchar(5000) NOT NULL,
+  `comment` varchar(2500) NOT NULL,
   `comment_rating` int(100) NOT NULL,
   `user_ID` int(10) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
