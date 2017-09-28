@@ -1003,9 +1003,29 @@ include "sumVotes.php";
 					<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 					
 					<div class="form-group">
-						<label for="comment">Inhalt:</label>
-						<textarea name="comment" class="form-control" rows="5" required></textarea>
+						<textarea id ="comment" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Maximal 2500 Zeichen" required></textarea>
 					</div>
+					
+					<div id="commentWarning"></div>
+					
+					<script>
+
+					$('#comment').on("propertychange input textInput", function() {
+		
+						if($('#comment').val().length < 2000){
+							$('#commentWarning').html("");
+						}else if($('#comment').val().length >= 2000 && $('#comment').val().length < 2400){	
+							$('#commentWarning').css('color', 'black');
+							$('#commentWarning').html("Noch " + (2500 - $('#comment').val().length) + " Zeichen übrig");
+						}else{
+							$('#commentWarning').css('color', 'red');
+							$('#commentWarning').html("Noch " + (2500 - $('#comment').val().length) + " Zeichen übrig");
+						}
+					});
+					
+					</script>
+					
+
 					
 					<hr>
 					
