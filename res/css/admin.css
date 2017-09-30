@@ -91,3 +91,7 @@ div.tab button.active {
 .highlightedBadge{
 	background-color: gold;
 }
+
+.glyphicon-minus-sign {
+  transition: color .3s;
+}
