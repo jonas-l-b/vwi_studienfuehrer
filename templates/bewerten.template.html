@@ -95,21 +95,22 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 	
 	<div class="form-group">
-		<textarea id ="comment" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Maximal 2500 Zeichen" required>{{ kommentar }}</textarea>
+		{% set rand = random() %}
+		<textarea id ="comment{{ rand }}" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Maximal 2500 Zeichen" required>{{ kommentar }}</textarea>
 	</div>
 	
 	<div id="commentWarning"></div>
 					
 	<script>
-	$('#comment').on("propertychange input textInput", function() {
-		if($('#comment').val().length < 2000){
+	$('#comment{{ rand }}').on("propertychange input textInput", function() {
+		if($('#comment{{ rand }}').val().length < 2000){
 			$('#commentWarning').html("");
-		}else if($('#comment').val().length >= 2000 && $('#comment').val().length < 2400){	
+		}else if($('#comment{{ rand }}').val().length >= 2000 && $('#comment{{ rand }}').val().length < 2400){	
 			$('#commentWarning').css('color', 'black');
-			$('#commentWarning').html("Noch " + (2500 - $('#comment').val().length) + " Zeichen übrig");
+			$('#commentWarning').html("Noch " + (2500 - $('#comment{{ rand }}').val().length) + " Zeichen übrig");
 		}else{
 			$('#commentWarning').css('color', 'red');
-			$('#commentWarning').html("Noch " + (2500 - $('#comment').val().length) + " Zeichen übrig");
+			$('#commentWarning').html("Noch " + (2500 - $('#comment{{ rand }}').val().length) + " Zeichen übrig");
 		}
 	});				
 	</script>
