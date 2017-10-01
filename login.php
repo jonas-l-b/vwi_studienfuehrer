@@ -29,6 +29,10 @@ if (isset($_POST['btn-login'])) {
 							FROM users 
 							WHERE email = ? 
 							ON DUPLICATE KEY UPDATE login_failures = login_failures + 1");
+	if($stmt == false){
+		echo ("<SCRIPT LANGUAGE='JavaScript'>alert('Datenbank falsch eingebunden. Überprüfe Datenbankstruktur.');</SCRIPT>");
+		exit;
+	}
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
 	
