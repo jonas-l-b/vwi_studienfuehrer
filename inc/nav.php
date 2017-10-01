@@ -10,6 +10,8 @@ if($userRow['admin']!=0){
 				<li><a id=\"linkToAdminEdit\" href=\"admin.php\">Daten bearbeiten</a></li>
 				<li><a id=\"linkToAdminMessages\" href=\"admin.php#messages\">Nachrichten</a></li>
 				<li><a id=\"linkToAdminNotifications\" href=\"admin.php#notifications\">Benachrichtigungen</a></li>
+				<li><a id=\"linkToAdminList\" href=\"admin.php#adminList\">Admin-Liste</a></li>
+				
 			</ul>
 		</li>
 	";
