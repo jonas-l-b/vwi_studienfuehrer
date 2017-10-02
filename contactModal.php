@@ -90,8 +90,24 @@
 	
 	<div class="form-group">
 		<label>Kommentar:</label>
-		<textarea name="comment" id="comment" class="form-control" rows="5" required></textarea>
+		<textarea name="comment" id="comment" class="form-control" rows="5" maxlength="5000" placeholder="Maximal 5000 Zeichen" required></textarea>
 	</div>
+	
+	<p id="commentWarning"></p>
+	
+	<script>
+	$('#comment').on("propertychange input textInput", function() {
+		if($('#comment').val().length < 4500){
+			$('#commentWarning').html("");
+		}else if($('#comment').val().length >= 4500 && $('#comment').val().length < 4900){	
+			$('#commentWarning').css('color', 'black');
+			$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
+		}else{
+			$('#commentWarning').css('color', 'red');
+			$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
+		}
+	});				
+	</script>
 
 	<button id="submitButton" class="btn btn-primary">Nachricht abschicken</button>
 </form>
