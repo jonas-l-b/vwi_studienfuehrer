@@ -2,4 +2,6 @@
 	margin:0px;
 }
 
-/*.favouriteStar in index.css*/
+.favouriteStar{
+	cursor: pointer; cursor: hand;
+}
