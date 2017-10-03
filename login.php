@@ -2,6 +2,10 @@
 
 include "header.php";
 
+//Für testzwecke:
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 ?>
 
 <?php
@@ -17,11 +21,8 @@ $disable = false;
 
 if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
-	$email = strip_tags($_POST['email']);
-	$password = strip_tags($_POST['password']);
-	 
-	$email = $con->real_escape_string($email);
-	$password = $con->real_escape_string($password);
+	$email = $_POST['email'];
+	$password = $_POST['password'];
 	
 	$stmt = $con->prepare(" INSERT INTO anti_brute_force (user_id, login_failures)
 							SELECT user_ID, 1 
@@ -29,11 +30,13 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 							WHERE email = ? 
 							ON DUPLICATE KEY UPDATE login_failures = login_failures + 1");
 	if($stmt == false){
-		echo ("<SCRIPT LANGUAGE='JavaScript'>alert('Datenbank falsch eingebunden. Überprüfe Datenbankstruktur.');</SCRIPT>");
+		$error = $con->errno . ' ' . $con->error;
+		echo $error; // 1054 Unknown column 'foo' in 'field list'
 		exit;
 	}
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
+	$stmt->close();
 	
 	$stmt1 = $con->prepare(" SELECT login_failures
 							FROM anti_brute_force
@@ -43,6 +46,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	$stmt1->bind_param("s", $email);
 	$stmt1->execute();
 	$res = $stmt1->get_result();
+	$stmt1->close();
 	if($res == null || $res->fetch_assoc()['login_failures']< ConfigService::getService()->getConfig('login_tries_before_blocking')){
 		 
 		$query = $con->query("SELECT user_ID, email, password, active FROM users WHERE email='$email'");
