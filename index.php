@@ -526,7 +526,7 @@ function time_elapsed_string($datetime, $full = false) {
 									<span style=\"float:right;\">
 										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
 										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
-										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\"></span></button>
+										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\" title=\"Einzelbewertung anzeigen\" ></span></button>
 									</span>
 									<span style=\"float:right; ".$displayReport."\">
 										<button type=\"button\" role=\"button\" data-toggle=\"modal\" data-id=\"".$comments['ID']."\" class=\"editTrashButton reportButton\" title=\"Kommentar melden\"> <span class=\"glyphicon glyphicon-exclamation-sign\"></span></button>
@@ -711,8 +711,24 @@ $(document).ready(function(){
 
 				<div class="form-group">
 					<label>Warum möchtest du diesen Kommentar melden?</label>
-					<textarea name="comment" id="comment" class="form-control" placeholder="Hilf uns zu verstehen, warum du diesen Kommentar unangebracht findest." rows="5" required></textarea>
+					<textarea name="comment" id="comment" class="form-control" maxlength="5000" placeholder="Hilf uns zu verstehen, warum du diesen Kommentar unangebracht findest." rows="5" required></textarea>
 				</div>
+				
+				<p id ="commentWarning"></p>
+				
+				<script>
+				$('#comment').on("propertychange input textInput", function() {
+					if($('#comment').val().length < 4500){
+						$('#commentWarning').html("");
+					}else if($('#comment').val().length >= 4500 && $('#comment').val().length < 4900){	
+						$('#commentWarning').css('color', 'black');
+						$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
+					}else{
+						$('#commentWarning').css('color', 'red');
+						$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
+					}
+				});				
+				</script>
 				
 				<div name="answer" class="checkbox">
 					<label id="answer"><input name="answer" type="checkbox">Ich möchte gerne eine Antwort erhalten</label>
@@ -752,7 +768,7 @@ $(document).ready(function(){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">So hat der Nutzer sonst gewertet:</h4>
+        <h4 class="modal-title">Einzelbewertung</h4>
       </div>
       <div class="modal-body">
 		<div id="commentStats"></div>
