@@ -2,6 +2,10 @@
 
 include "header.php";
 
+//Für testzwecke:
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 ?>
 
 <?php
@@ -101,72 +105,93 @@ if (isset($_SESSION['userSession'])!="") {
 		}
 	}
 }
+$disable = false;
 
-if (isset($_POST['btn-login'])) {
-	$email = strip_tags($_POST['email']);
-	$password = strip_tags($_POST['password']);
-	 
-	$email = $con->real_escape_string($email);
-	$password = $con->real_escape_string($password);
-	 
-	$query = $con->query("SELECT user_ID, email, password FROM users WHERE email='$email'");
-	$row=$query->fetch_array();
-	 
-	$count = $query->num_rows; // if email/password are correct returns must be 1 row
- 
-	if (password_verify($password, $row['password']) && $count==1) {
-		
-		$sql="
-			SELECT *
-			FROM users
-			WHERE email = '".$email."';
-		";
-		$result = mysqli_query($con,$sql);
-		$row2 = mysqli_fetch_assoc($result);
-		
-		if($row2['active'] == 0){
-			$msg = "<div class='alert alert-danger'>
-				<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Dieser Account wurde noch nicht aktiviert!
-				</div>";
-		}else{
-			$_SESSION['userSession'] = $row['user_ID'];
-			
-			//Set cookie if remember me checked
-			if(isset($_POST['rememberMe'])){
-				$series = hash("sha256", (rand(0,1000)));
-				$token = hash("sha256", (rand(0,1000)));
-				
-				?>
-				<!--Infos unsichtbar speichern, um sie so JS übergeben zu können-->
-				<span id="series" style="display:none"><?php echo $series ?></span>
-				<span id="token" style="display:none"><?php echo $token ?></span>
-				<span id="user-id" style="display:none"><?php echo $row['user_ID'] ?></span>
+if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
-				<script>
-				var s = $('#series').text();
-				var t = $('#token').text();
-				var u = $('#user-id').text();
-				
-				setCookie(s,t,u,30);
-				</script>
-				
-				<?php
-			}
-			
-			echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
-			
-			?>
-			<?php
-		}
-	}else{
-		$msg = "<div class='alert alert-danger'>
-			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Benutzername und Passwort stimmen nicht überein!
-			</div>";
-		$memory_mail = $email;
+	$email = $_POST['email'];
+	$password = $_POST['password'];
+	
+	$stmt = $con->prepare(" INSERT INTO anti_brute_force (user_id, login_failures)
+							SELECT user_ID, 1 
+							FROM users 
+							WHERE email = ? 
+							ON DUPLICATE KEY UPDATE login_failures = login_failures + 1");
+	if($stmt == false){
+		$error = $con->errno . ' ' . $con->error;
+		echo $error; // 1054 Unknown column 'foo' in 'field list'
+		exit;
 	}
+	$stmt->bind_param("s", $email);
+	$stmt->execute();
+	$stmt->close();
+	
+	$stmt1 = $con->prepare(" SELECT login_failures
+							FROM anti_brute_force
+							LEFT JOIN users
+							ON anti_brute_force.user_id = users.user_ID
+							WHERE users.email = ?");
+	$stmt1->bind_param("s", $email);
+	$stmt1->execute();
+	$res = $stmt1->get_result();
+	$stmt1->close();
+	if($res == null || $res->fetch_assoc()['login_failures']< ConfigService::getService()->getConfig('login_tries_before_blocking')){
+		 
+		$query = $con->query("SELECT user_ID, email, password, active FROM users WHERE email='$email'");
+		$row=$query->fetch_array();
+		 
+		$count = $query->num_rows; // if email/password are correct returns must be 1 row
+	 
+		if (password_verify($password, $row['password']) && $count==1) {
+			
+			$con->query("DELETE FROM anti_brute_force WHERE user_id = ". $row['user_ID']);
+			
+			if($row['active'] == 0){
+				$msg = "<div class='alert alert-danger'>
+					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Dieser Account wurde noch nicht aktiviert!
+					</div>";
+			}else{
+				$_SESSION['userSession'] = $row['user_ID'];
+				//header('Location: tree.php');
+				
+				//Set cookie if remember me checked
+				if(isset($_POST['rememberMe'])){
+					$series = hash("sha256", (rand(0,1000)));
+					$token = hash("sha256", (rand(0,1000)));
+					
+					?>
+					<!--Infos unsichtbar speichern, um sie so JS übergeben zu können-->
+					<span id="series" style="display:none"><?php echo $series ?></span>
+					<span id="token" style="display:none"><?php echo $token ?></span>
+					<span id="user-id" style="display:none"><?php echo $row['user_ID'] ?></span>
 
-	$con->close();
+					<script>
+					var s = $('#series').text();
+					var t = $('#token').text();
+					var u = $('#user-id').text();
+					
+					setCookie(s,t,u,30);
+					</script>
+					
+					<?php
+				}
+				
+				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
+			}
+		}else{
+			$msg = "<div class='alert alert-danger'>
+				<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Email und Passwort stimmen nicht überein!
+				</div>";
+			$memory_mail = $email;
+		}
 
+		$con->close();
+	}else{
+		$disable = true;
+		$msg = "<div class='alert alert-danger'>
+				<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Du hast zu oft versucht, dich anzumelden und dabei ein falsches Passwort verwendet. Bitte setze dein Passwort jetzt zurück.
+				</div>";
+	}
 }
 ?>
 
@@ -190,12 +215,12 @@ if (isset($_POST['btn-login'])) {
 			?>
 			
 			<div class="form-group">
-			<input value="<?php if(isset($memory_mail)) echo $memory_mail ?>" type="email" class="form-control" placeholder="E-Mail" name="email" required />
+				<input value="<?php if(isset($memory_mail)) echo $memory_mail ?>" type="email" class="form-control" placeholder="E-Mail" name="email" required />
 			<span id="check-e"></span>
 			</div>
 			
 			<div class="form-group">
-			<input type="password" class="form-control" placeholder="Passwort" name="password" required />
+				<input type="password" class="form-control" placeholder="Passwort" name="password" required />
 			</div>
 			
 			<div class="checkbox">
@@ -221,7 +246,7 @@ if (isset($_POST['btn-login'])) {
 				</label>
 			</div>
 			
-			<a href="#" id="openPWRModal">Passwort vergessen?</a>
+			<a href="#" id="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
 			
 			<hr>
 			

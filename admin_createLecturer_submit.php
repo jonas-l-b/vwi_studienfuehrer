@@ -30,6 +30,7 @@ if (mysqli_num_rows($result1)==0){
 		VALUES ('$first_name', '$last_name', '$userID', now());
 	";
 	mysqli_query($con,$sql2);
+	$db_logger->info("Neuer Dozent hinzugefügt: $first_name $last_name von User: $userID" );
 
 	//Add connection to lecturers_institutes (Verbindung zuerst ist wichtig, damit beim Hinzufügen zur Auswahl im nächsten Schritt auch der richtige (neuste) Dozent ausgewählt wird. Andernfalls ist ihm ja noch kein Institut zugewiesen!)
 	$result = mysqli_query($con,"SELECT * FROM lecturers ORDER BY time_stamp DESC LIMIT 1");

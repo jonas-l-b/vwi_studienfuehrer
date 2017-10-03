@@ -102,21 +102,26 @@ if($userRow['admin']==0){
 	
 	$result1 = mysqli_query($con,$sql1);
 	
-	$selection = "";
+	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
-		$selection .= "<option value=".$row1['institute_ID']." ".$instituteSelection[$row1['institute_ID']].">".$row1['name']." (".$row1['abbr'].")</option>";
+		array_push($rows, array(
+								"id"=>$row1['institute_ID'],
+								"subject_name"=>$row1['name'],
+								"identifier"=>'('.$row1['abbr'].')',
+								"selected"=>$instituteSelection[$row1['institute_ID']]
+								));
 	}	
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
-	<form class="form-inline" method="GET">
-		<div class="form-group">
-			<select name="select" class="form-control" required>
-				<?php echo $selection ?>
-			</select>
-		</div>
-		<button type="submit" class="btn btn-primary" name="btn-edit">Dieses Institut bearbeiten</button>
-	</form>
+	
+	<!-- COMBOBOX -->
+	
+	<?php
+		echo $twig->render('admin_edit_auswahl_form.template.html', 
+							array(	'rows' => $rows,
+									'buttontext' => 'Dieses Institut bearbeiten'));
+	?>
 	
 	<div <?php echo $display ?>>
 	
