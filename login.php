@@ -13,11 +13,10 @@ if (isset($_SESSION['userSession'])!="") {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 	exit;
 }
-
 $disable = false;
 
-if (isset($_POST['btn-login'])) {
-	
+if (isset($_POST['btn-login']) && $_POST['password'] != "") {
+
 	$email = strip_tags($_POST['email']);
 	$password = strip_tags($_POST['password']);
 	 

@@ -103,7 +103,8 @@ include "connect.php";
 				</table>
 				<form method="post">
 					<button type="submit" class="btn btn-primary" name="btn-edit">Daten bearbeiten</button>
-					<button type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
+					<button type="button" href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
+					<button style="float:right;" type="button" id="deleteProfileButton" role="button" class="btn btn-danger<?php if($userRow['admin']!='0') echo ' disabled" data-toggle="tooltip" title="Nur `normale` Nutzer können ihr Profil löschen. Gibt zunächst deine Admin-Rechte ab.'; ?>">Profil löschen</button>
 				</form>
 			</div>
 			
@@ -326,5 +327,37 @@ $('#linkToUserProfile').click(function(event){
 </div><!-- End of Modal -->
 
 
+<!-- End of page. Modal für Profil löschen -->
+<div id="deleteProfileModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" id="deleteModalClose" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h2 class="modal-title">Profil löschen</h2> <!-- Dynamisch Name anpassen! -->
+		</div>
+		<div id="deleteModalBody" class="modal-body">
+		
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+<script>
+	$(document).ready(function() {
+	<?php if($userRow['admin']=='0'):?>
+		var deleteLaden = function(){
+				$('#deleteProfileModal').modal('show');
+				insertLoader('#deleteModalBody');
+				$('#deleteModalBody').load("delete-user-api.php?getDeleteModal=true", function( response, status, xhr ) {
+				  if ( status == "error" ) {
+					$('#deleteModalBody').html('<strong>Daten können nicht geladen werden. Bitte versuche es erneut.</strong>');
+				  }
+				});
+		}
+		$('#deleteProfileButton').click(deleteLaden);
+	<?php else:  ?>
+		$('[data-toggle="tooltip"]').tooltip();
+	<?php endif; ?>
+	});
+</script>
 </body>
 </html>
