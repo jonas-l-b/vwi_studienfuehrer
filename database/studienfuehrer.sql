@@ -391,6 +391,26 @@ INSERT INTO `ratings` (`ID`, `subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `remember_me`
+--
+
+CREATE TABLE `remember_me` (
+  `id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `series` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `remember_me`
+--
+
+INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
+(1, 2, '43c727ee4fc7250574d2ef90cfa16626388a10e1b30d36ece1c272953ad2ed9e', '70d432707ec2478670d5b36a95d5b1000cb9c3ef6ea1fb7be14b060775723d03');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `subjects`
 --
 

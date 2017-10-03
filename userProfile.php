@@ -202,7 +202,7 @@ include "connect.php";
 				for($j=1; $j<$i; $j++){
 					?>
 					<p>
-					<span id="<?php echo $help[$j][1]?>" style="color:rgb(255, 204, 0)" class="glyphicon glyphicon-star favouriteStar"></span>
+					<span id="<?php echo $help[$j][1]?>" style="color:rgb(255, 204, 0)" title="Klicken, um als Favorit an- oder abzuwählen" class="glyphicon glyphicon-star favouriteStar"></span>
 					<a href="index.php?subject=<?php echo $help[$j][2]?>"><?php echo $help[$j][3]?></a>
 					(<?php echo $help[$j][4]?>)
 					</p>
