@@ -6,10 +6,7 @@ include 'connect.php';
 $dsAnon = 'Konto unwiderruflich löschen. Bewertungen anonymisieren.';
 $dsAll = 'Konto und Bewertungen unwiderruflich löschen.';
 
-$userEmail = $userRow['email'];
-$user_first_name = $userRow['first_name'];
-
-function sendDeletionMail($Anon){
+function sendDeletionMail($Anon, $userRow){
 	$body = "<p>Wir haben dein Profil gelöscht. Dabei haben wir deine Bewertungen ";
 	if(!$Anon){
 		$body .= "nicht anonymisiert, sondern restlos gelöscht.";
@@ -17,7 +14,7 @@ function sendDeletionMail($Anon){
 		$body .= "anonymisiert. Dadurch können Studierende auch weiterhin von deinen Kommentaren profitieren. Sie können deinem Profil aber nicht mehr zugeordnet werden.</p>";
 	}
 	$body .= "<p> Wir finden es schade, dich gehen zu sehen. Vielleicht sieht man sich ja doch noch mal wieder. Gerne kannst du uns mitteilen, warum du dich gegen uns entschieden hast. Kontaktiere dafür einfach studienführer@vwi-karlsruhe.de.</p>";
-	EmailService::getService()->sendEmail($userRow['email'],$userRow['first_name'] , "Löschung deines Studienführer-Profils", $body);
+	EmailService::getService()->sendEmail($userRow['email'],$userRow['first_name'], "Löschung deines Studienführer-Profils", $body);
 }
 
 
@@ -33,6 +30,7 @@ if(isset($_GET['getDeleteModal'])){
 		if (password_verify($password, $userRow['password'])){
 			if($userRow['admin'] == "0"){
 				if(trim($_POST['userDeleteSentence']) == $dsAnon && $_POST['anonymisieren'] == "on"){
+					sendDeletionMail(true, $userRow);
 					if(		$con->query("DELETE FROM favourites WHERE user_ID=".$userRow['user_ID']) === true
 						&&	$con->query("DELETE FROM anti_brute_force WHERE user_id=".$userRow['user_ID']) === true
 						&&	$con->query("UPDATE messages SET answer_required='0'  WHERE sender_id=".$userRow['user_ID']) === true 			//Vorbereitung für anderen Branch.
@@ -47,8 +45,8 @@ if(isset($_GET['getDeleteModal'])){
 					}
 					session_destroy();
 					unset($_SESSION['userSession']);
-					sendDeletionMail(true);
 				}else if(trim($_POST['userDeleteSentence']) == $dsAll && $_POST['anonymisieren'] == "off"){
+					sendDeletionMail(false, $userRow);
 					if(		$con->query("DELETE FROM favourites WHERE user_ID=".$userRow['user_ID']) === true 
 						&&	$con->query("DELETE FROM anti_brute_force WHERE user_id=".$userRow['user_ID']) === true 
 						&&	$con->query("UPDATE messages SET answer_required='0' WHERE sender_id=".$userRow['user_ID']) === true 			//Vorbereitung für anderen Branch.
@@ -65,7 +63,6 @@ if(isset($_GET['getDeleteModal'])){
 					  }
 					session_destroy();
 					unset($_SESSION['userSession']);
-					sendDeletionMail(false);
 				}else{
 					echo "formFail";
 				}
