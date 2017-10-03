@@ -1,7 +1,7 @@
 <?php
 
-include "sessionsStart.php";
-include('connect.php');
+include 'sessionsStart.php';
+include 'connect.php';
 
 $dsAnon = 'Konto unwiderruflich löschen. Bewertungen anonymisieren.';
 $dsAll = 'Konto und Bewertungen unwiderruflich löschen.';
@@ -17,7 +17,7 @@ function sendDeletionMail($Anon){
 		$body .= "anonymisiert. Dadurch können Studierende auch weiterhin von deinen Kommentaren profitieren. Sie können deinem Profil aber nicht mehr zugeordnet werden.</p>";
 	}
 	$body .= "<p> Wir finden es schade, dich gehen zu sehen. Vielleicht sieht man sich ja doch noch mal wieder. Gerne kannst du uns mitteilen, warum du dich gegen uns entschieden hast. Kontaktiere dafür einfach studienführer@vwi-karlsruhe.de.</p>";
-	EmailService::getService()->sendEmail($userEmail,$user_first_name , "Löschung deines Studienführer-Profils", $body);
+	EmailService::getService()->sendEmail($userRow['email'],$userRow['first_name'] , "Löschung deines Studienführer-Profils", $body);
 }
 
 
