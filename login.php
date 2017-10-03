@@ -160,6 +160,29 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 			}else{
 				$_SESSION['userSession'] = $row['user_ID'];
 				//header('Location: tree.php');
+				
+				//Set cookie if remember me checked
+				if(isset($_POST['rememberMe'])){
+					$series = hash("sha256", (rand(0,1000)));
+					$token = hash("sha256", (rand(0,1000)));
+					
+					?>
+					<!--Infos unsichtbar speichern, um sie so JS übergeben zu können-->
+					<span id="series" style="display:none"><?php echo $series ?></span>
+					<span id="token" style="display:none"><?php echo $token ?></span>
+					<span id="user-id" style="display:none"><?php echo $row['user_ID'] ?></span>
+
+					<script>
+					var s = $('#series').text();
+					var t = $('#token').text();
+					var u = $('#user-id').text();
+					
+					setCookie(s,t,u,30);
+					</script>
+					
+					<?php
+				}
+				
 				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}
 		}else{
@@ -167,35 +190,6 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 				<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Email und Passwort stimmen nicht überein!
 				</div>";
 			$memory_mail = $email;
-		}else{
-			$_SESSION['userSession'] = $row['user_ID'];
-			
-			//Set cookie if remember me checked
-			if(isset($_POST['rememberMe'])){
-				$series = hash("sha256", (rand(0,1000)));
-				$token = hash("sha256", (rand(0,1000)));
-				
-				?>
-				<!--Infos unsichtbar speichern, um sie so JS übergeben zu können-->
-				<span id="series" style="display:none"><?php echo $series ?></span>
-				<span id="token" style="display:none"><?php echo $token ?></span>
-				<span id="user-id" style="display:none"><?php echo $row['user_ID'] ?></span>
-
-				<script>
-				var s = $('#series').text();
-				var t = $('#token').text();
-				var u = $('#user-id').text();
-				
-				setCookie(s,t,u,30);
-				</script>
-				
-				<?php
-			}
-			
-			echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
-			
-			?>
-			<?php
 		}
 
 		$con->close();
