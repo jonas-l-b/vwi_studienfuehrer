@@ -71,6 +71,20 @@ if ($m == "no_admin"){
 	";
 }
 
+if ($m == "cookie_error"){
+	$msg = "Bei deinem automatischen Login ist ein Fehler aufgetreten. Lösche deine Cookies über das Browser-Menü und versuche erneut, dich einzuloggen. Solltest du weiterhin Probleme haben, wende dich direkt an die VWI-ESTIEM Hochschulgruppe.";
+}
+
+if ($m == "cookie_theft"){
+	$msg = "Du bist entweder Opfer eines Cookie-Räubers geworden und hast selbst nicht an dich halten können. Wir haben alle mit diesem Nutzer verbundenen Auto-Login-Daten gelöscht, sodass eine erneute Anmeldung erforderlich ist (Krümelmonster: Der Cookie ist wertlos!). Solltest du Fragen haben, wende dich direkt an die VWI-ESTIEM Hochschulgruppe.";
+}
+
+if ($m == "cookie_theft_error"){
+	$msg = "Du bist entweder Opfer eines Cookie-Räubers geworden und hast selbst nicht an dich halten können. Leider ist beim Löschen der mit diesem Nutzer verbundenen Auto-Login-Daten ein Fehler aufgetreten. Lösche deine Cookies über das Browser-Menü und melde dich erneut mit der Eingeloggt-bleiben-Funktion beim Studienführer an, um deine Daten zu überschreiben (Krümelmonster: Der Cookie ist dennoch wertlos!). Solltest du Fragen haben, wende dich direkt an die VWI-ESTIEM Hochschulgruppe.";
+}
+
+
+
 ?>
 <body>
 
