@@ -111,13 +111,6 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-  /*Alternative aus Master:
-	$email = strip_tags($_POST['email']);
-	$password = strip_tags($_POST['password']);
-	 
-	$email = $con->real_escape_string($email);
-	$password = $con->real_escape_string($password);
-  */
 	
 	$stmt = $con->prepare(" INSERT INTO anti_brute_force (user_id, login_failures)
 							SELECT user_ID, 1 
