@@ -16,7 +16,15 @@ include "connect.php";
 </div>
 
 <div class="container" style="margin-top:20px">
-	<?php
+
+<?php
+	if(isset($_GET['suchfeld']) && $_GET['suchfeld'] != 'Übersicht Startseite'){
+		echo 	'<div class="alert alert-warning alert-dismissable fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				  <strong>Hinweis!</strong> Leider konnten wir für deine Suche keine Ergebnisse finden.
+				</div>';
+	}
+
 	/*Vorbereitung*/
 	//Hide all
 	$displayTree = "style=\"display:none\"";
