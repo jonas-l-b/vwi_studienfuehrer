@@ -1,10 +1,36 @@
 <form action="{{form_target}}?subject={{subject}}" method="POST">
-				
-	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
+	
+	<script>
+	//Slider
+	$('input[type="range"]').on("change mousemove", function () {
+		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
+
+		$(this).css('background-image',
+					'-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + val + ', #2d5699), '
+					+ 'color-stop(' + val + ', #d3d3db)'
+					+ ')'
+					);
+		$('span.'+$(this).attr('class')).html($(this).val());
+	});
+
+
+	</script>
+
+	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
 	
 	<br>
 
-	<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
+	<p>Wie bewertest du die Vorlesung ingesamt?</p>
+	<input type="range" class="slider1" min="0" max="10" step="1" value="5">
+	<span class="slider1">5</span>
+	<br><br>
+	
+	<p>Wie relevant war die Vorlesung für die Klausur?</p>
+	<input type="range" class="slider2" min="0" max="10" step="1" value="5">
+	<span class="slider2">5</span>
+	<br><br>
+	
 	
 	<div class="col-md-3">
 		<p style="font-style:italic">Sehr schlecht</p>
