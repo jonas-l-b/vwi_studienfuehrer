@@ -19,17 +19,61 @@
 
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
 	
-	<br>
-
-	<p>Wie bewertest du die Vorlesung ingesamt?</p>
-	<input type="range" class="slider1" min="0" max="10" step="1" value="5">
-	<span class="slider1">5</span>
-	<br><br>
+	{% for key,value in lectureItems %}
+		<p>{{value}}</p>
+		<input type="range" class="sliderLecture{{key}}" min="0" max="10" step="1" value="5">
+		<span class="sliderLecture{{key}}">5</span>
+		<br><br>
+	{% endfor %}
 	
-	<p>Wie relevant war die Vorlesung für die Klausur?</p>
-	<input type="range" class="slider2" min="0" max="10" step="1" value="5">
-	<span class="slider2">5</span>
-	<br><br>
+	<br>
+	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Klausur</p>
+	
+	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
+	<select id="type" class="form-control" style="width:80%" id="sel1">
+		<option>Schriftlich</option>
+		<option>Mündlich</option>
+		<option value="other">Sonstige</option>
+	</select>
+	<br>
+	<textarea class="form-control" style="width:80%; display:none" rows="3" id="comment" placeholder="Wie genau wurdest du geprüft?"></textarea>
+	
+	<script>
+	//Geht noch nicht!
+	$("#type").change(function() {
+		if($('#type option:selected').val() == "other"){
+			$("#comment").show();
+		}
+	}
+	
+	</script>
+	
+	{% for key,value in examItems %}
+		<p>{{value}}</p>
+		<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="5">
+		<span class="sliderExam{{key}}">5</span>
+		<br><br>
+	{% endfor %}
+	
+	{% for key,value in examItems2 %}
+		<p>{{value}}</p>
+		<span>{{examItems2Labels[key][0]}}</span>
+		<input type="range" style="width:60%" class="slider{{key}}" min="-5" max="5" step="1" value="0">
+		<span>{{examItems2Labels[key][1]}}</span>
+		<br><br>
+	{% endfor %}
+	
+	<br>
+	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung insgesamt</p>
+	
+	{% for key,value in generalItems %}
+		<p>{{value}}</p>
+		<input type="range" class="sliderGeneral{{key}}" min="0" max="10" step="1" value="5">
+		<span class="sliderGeneral{{key}}">5</span>
+		<br><br>
+	{% endfor %}
+
+	
 	
 	
 	<div class="col-md-3">

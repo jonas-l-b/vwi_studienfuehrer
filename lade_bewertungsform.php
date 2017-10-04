@@ -57,11 +57,45 @@ if (isset($_GET['subject'])){
 				$crit[$i][$j] = "";
 			}
 		}
+		
+		$lectureItems = array(
+			"Wie bewertest du die Vorlesung ingesamt?",
+			"Wie relevant war die Vorlesung für die Klausur?",
+			"Wie interessant fadest du die Vorlesung?",
+			"Wie war die Qualität der Vorlesungsmaterialien?",
+		);
+		
+		$examItems = array(
+			"Wie bewertest du die Klausur ingesamt?",
+			"Wie aufwändig fandest du die Klausurvorbereitung?",
+			"Wie fair war die Klausur gestellt?",
+			"Wie groß war der Zeitdruck während der Klausur?",
+		);
+		
+		$examItems2 = array(
+			"Ging es eher um die Reproduktion von Auswendigelerntem oder den Transfer von Wissen?",
+			"Handelte es sich eher um quantitative oder um qualitative Aufgaben?",
+		);
+		$examItems2Labels = array(
+			array("Reproduktion", "Transfer"),
+			array("Quantitativ", "Qualitativ")
+		);
+		
+		$generalItems = array(
+			"Wie bewertest du die Veranstaltung ingesamt?",
+			"Würdest du de Veranstaltung weiterempfehlen?",
+		);
+		
 		echo $twig->render('bewerten.template.html', 
 							array(	'subject' => $subject,
 									'form_target' => 'rating_submit.php',
 									'button_text' => 'Bewertung abschicken',
 									'isChecked' => $crit,
+									'lectureItems' => $lectureItems,
+									'examItems' => $examItems,
+									'examItems2' => $examItems2,
+									'examItems2Labels' => $examItems2Labels,
+									'generalItems' => $generalItems,
 								));
 	}
 }else{
