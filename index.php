@@ -342,6 +342,23 @@ function time_elapsed_string($datetime, $full = false) {
 
 		<div class="col-md-10 well">
 			<?php
+			$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+			$row = mysqli_fetch_assoc($result);
+			?>
+			<div class="container">
+				<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
+					<span><?php echo round($row['AVG(general0)'], 3); ?></span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					</div>
+				</div>
+			</div>
+			<p align="center">Gesamtbewertung</p>
+			
+			<br>
+			
+			<?php
 			$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
 			$row = mysqli_fetch_assoc($result);
 			$yes = $row['value_sum'];
@@ -352,26 +369,7 @@ function time_elapsed_string($datetime, $full = false) {
 			$total = $row['value_count'];
 			?>
 			
-			<span style="font-size:20px"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</span>
-			
-			<br>
-			
-			<?php
-			$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
-			$row = mysqli_fetch_assoc($result);
-			?>
-		
-			<div class="container">
-				<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
-					<span><?php echo round($row['AVG(general0)'], 3); ?></span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-			</div>
-
-			<p align="center">Gesamtbewertung</p>
+			<span style="font-size:20px;"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</span>
 			
 			<hr>
 
@@ -412,7 +410,7 @@ function time_elapsed_string($datetime, $full = false) {
 		
 		<!--Kommentare-->
 		<div class="col-md-2 head_left">
-			Kommentare
+			Kommentare und Einzelbewertungen
 		</div>
 
 		<div class="col-md-10 well" id="commentsection">
