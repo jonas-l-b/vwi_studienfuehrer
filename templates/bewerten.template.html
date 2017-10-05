@@ -13,8 +13,7 @@
 					);
 		$('span.'+$(this).attr('class')).html($(this).val());
 	});
-
-
+	
 	</script>
 
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
@@ -30,37 +29,45 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Klausur</p>
 	
 	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
-	<select id="type" class="form-control" style="width:80%" id="sel1">
+	<select id="examType" class="form-control" style="width:80%" id="sel1">
+		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
 		<option>Schriftlich</option>
 		<option>Mündlich</option>
 		<option value="other">Sonstige</option>
 	</select>
 	<br>
-	<textarea class="form-control" style="width:80%; display:none" rows="3" id="comment" placeholder="Wie genau wurdest du geprüft?"></textarea>
+	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!"></textarea>
 	
 	<script>
-	//Geht noch nicht!
-	$("#type").change(function() {
-		if($('#type option:selected').val() == "other"){
-			$("#comment").show();
+	$("#examType").on('change', function() {
+		if($('#examType option:selected').val() == "other"){
+			$("#examDetails").show();
+			$(".examItems").hide();
 		}
-	}
-	
+		if($('#examType option:selected').val() != "other"){
+			$("#examDetails").hide();
+			$(".examItems").show();
+		}
+	})
 	</script>
 	
 	{% for key,value in examItems %}
-		<p>{{value}}</p>
-		<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="5">
-		<span class="sliderExam{{key}}">5</span>
-		<br><br>
+		<div style="display:none" class="examItems">
+			<p>{{value}}</p>
+			<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="5">
+			<span class="sliderExam{{key}}">5</span>
+			<br><br>
+		</div>
 	{% endfor %}
 	
 	{% for key,value in examItems2 %}
-		<p>{{value}}</p>
-		<span>{{examItems2Labels[key][0]}}</span>
-		<input type="range" style="width:60%" class="slider{{key}}" min="-5" max="5" step="1" value="0">
-		<span>{{examItems2Labels[key][1]}}</span>
-		<br><br>
+		<div style="display:none" class="examItems">
+			<p>{{value}}</p>
+			<span>{{examItems2Labels[key][0]}}</span>
+			<input type="range" style="width:60%" class="slider{{key}}" min="-5" max="5" step="1" value="0">
+			<span>{{examItems2Labels[key][1]}}</span>
+			<br><br>
+		</div>
 	{% endfor %}
 	
 	<br>
@@ -74,86 +81,6 @@
 	{% endfor %}
 
 	
-	
-	
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr schlecht</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[1] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion1" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr gut</p>
-	</div>
-
-	<br><br><br>
-
-	<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr unangemessen</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[2] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion2" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr angemessen</p>
-	</div>
-	
-	<br><br><br>
-
-	<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr schlecht</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[3] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion3" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr gut</p>
-	</div>
-	
-	<br><br><br>
-	
-	<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr unangemessen</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[4] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion4" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr angemessen</p>
-	</div>
-	
-	<br><br><br>
-	
-	<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr unangemessen</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[5] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion5" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr angemessen</p>
-	</div>
-	
-	<br><br><br>
-	
 	<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
 	
 	<label class="radio-inline"><input type="radio" name="recommendation" value='1' {{weiterempfehlen_ja}} required>Ja</label>
@@ -166,7 +93,7 @@
 	
 	<div class="form-group">
 		{% set rand = random() %}
-		<textarea id ="comment{{ rand }}" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Maximal 2500 Zeichen" required>{{ kommentar }}</textarea>
+		<textarea id ="comment{{ rand }}" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Was gibt es sonst interessantes über die Veranstaltung festzuhalten? Speziell sind natürlich Dinge interessant, die du nicht über die Fragen oben ausdrücken konntest!" required>{{ kommentar }}</textarea>
 	</div>
 	
 	<div id="commentWarning"></div>

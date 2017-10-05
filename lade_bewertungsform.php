@@ -83,7 +83,6 @@ if (isset($_GET['subject'])){
 		
 		$generalItems = array(
 			"Wie bewertest du die Veranstaltung ingesamt?",
-			"Würdest du de Veranstaltung weiterempfehlen?",
 		);
 		
 		echo $twig->render('bewerten.template.html', 
