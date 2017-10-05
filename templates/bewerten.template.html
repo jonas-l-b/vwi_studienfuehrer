@@ -144,6 +144,8 @@ $("#submitButton").click(function(){
 	var recommendation = $('input:radio[name="recommendation"]:checked').val()
 	var comment = $('#ratingComment').val();
 	
+	var subject = getUrlParameter('subject');
+	
 	$("#ratingForm").submit(function(e){
 		$.ajax({
 			type: "POST",
@@ -163,7 +165,8 @@ $("#submitButton").click(function(){
 				examText: examText,
 				general0: general0,
 				recommendation: recommendation,
-				comment: comment
+				comment: comment,
+				subject: subject
 			},
 			success: function(data) {
 				alert(data);
@@ -173,4 +176,20 @@ $("#submitButton").click(function(){
 	});
 	
 });
+
+//Function for getting URL params
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
 </script>

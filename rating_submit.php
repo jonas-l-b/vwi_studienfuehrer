@@ -1,15 +1,16 @@
 <?php
-/*
-include "header.php";
-*/
+
+//include "header.php";
+
 include "sessionsStart.php";
 
 include "connect.php";
 
+/*
 include "saveSubjectToVariable.php";
 
 include "loadSubjectData.php";
-
+*/
 ?>
 
 <?php
@@ -32,12 +33,27 @@ $general0 = filter_var($_POST['general0'], FILTER_SANITIZE_STRING);
 $recommendation = filter_var($_POST['recommendation'], FILTER_SANITIZE_STRING);
 $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
 
+//-----Get subject ID start
+$subject = filter_var($_POST['subject'], FILTER_SANITIZE_STRING);
+$result = mysqli_query($con,"SELECT * FROM subjects WHERE code = '$subject'");
+$num = mysqli_num_rows($result);
+
+if ($num >= 1 ) { // Check, ob Datensatz existiert (ist der Fall, wenn mindestens ein Ergebnis zurückgegeben wird)
+	$subjectData = mysqli_fetch_assoc($result);
+} else {
+	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_subject_in_db';</SCRIPT>");
+}
+//-----Get subject ID end
+
+$nameID = $userRow['user_ID'];
+
 $sql="
-	INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
-	VALUES ('$subjectData[ID]', '$criterion1', '$criterion2', '$criterion3', '$criterion4', '$criterion5', '$recommendation', '$comment', 0, '$nameID', now())";
+	INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
+	VALUES ('$subjectData[ID]', '$lecture0', '$lecture1', '$lecture2', '$lecture3', '$exam0', '$exam1', '$exam2', '$exam3', '$exam4', '$exam5', '$examText', '$general0', '$recommendation', '$comment', 0, '$nameID', now())
+";
 
 if ($con->query($sql) == TRUE) {
-	//echo 'erfolgreich';
+	echo 'erfolgreich';
 }
 
 /*
