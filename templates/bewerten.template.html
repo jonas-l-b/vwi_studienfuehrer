@@ -13,8 +13,9 @@
 					);
 		$('span.'+$(this).attr('class')).html($(this).val());
 	});
-	
 	</script>
+	
+	<!--<button type="button" id="button" class="btn">Give value!</button>-->
 
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
 	
@@ -116,3 +117,11 @@
 	
 	<button type="submit" class="btn btn-primary">{{button_text}}</button>
 </form>
+
+<script>
+//send to DP
+var Lecture0 = $(".sliderLecture"+0).val();
+alert(Lecture0);
+
+
+</script>
