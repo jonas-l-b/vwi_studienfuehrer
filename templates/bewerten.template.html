@@ -1,4 +1,4 @@
-<form action="{{form_target}}?subject={{subject}}" method="POST">
+<form id="ratingForm" action="{{form_target}}?subject={{subject}}" method="POST">
 	
 	<script>
 	//Slider
@@ -30,10 +30,10 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Klausur</p>
 	
 	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
-	<select id="examType" class="form-control" style="width:80%" id="sel1">
+	<select id="examType" class="form-control" style="width:80%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
-		<option>Schriftlich</option>
-		<option>Mündlich</option>
+		<option value="written">Schriftlich</option>
+		<option value="oral">Mündlich</option>
 		<option value="other">Sonstige</option>
 	</select>
 	<br>
@@ -44,10 +44,13 @@
 		if($('#examType option:selected').val() == "other"){
 			$("#examDetails").show();
 			$(".examItems").hide();
+			$("#examDetails").prop('required',true);
 		}
 		if($('#examType option:selected').val() != "other"){
 			$("#examDetails").hide();
 			$(".examItems").show();
+			$("#examType :input").prop('required',null);
+			$("#examDetails").prop('required',false);
 		}
 	})
 	</script>
@@ -93,8 +96,7 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 	
 	<div class="form-group">
-		{% set rand = random() %}
-		<textarea id ="comment{{ rand }}" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Was gibt es sonst interessantes über die Veranstaltung festzuhalten? Speziell sind natürlich Dinge interessant, die du nicht über die Fragen oben ausdrücken konntest!" required>{{ kommentar }}</textarea>
+		<textarea id="ratingComment" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Was gibt es sonst interessantes über die Veranstaltung festzuhalten? Speziell sind natürlich Dinge interessant, die du nicht über die Fragen oben ausdrücken konntest!" required>{{ kommentar }}</textarea>
 	</div>
 	
 	<div id="commentWarning"></div>
@@ -115,13 +117,60 @@
 	
 	<hr>
 	
-	<button type="submit" class="btn btn-primary">{{button_text}}</button>
+	<button id="submitButton" type="submit" class="btn btn-primary">{{button_text}}</button>
 </form>
 
 <script>
 //send to DP
-var Lecture0 = $(".sliderLecture"+0).val();
-alert(Lecture0);
+$("#submitButton").click(function(){
+	var lecture0 = $(".sliderLecture"+0).val();
+	var lecture1 = $(".sliderLecture"+1).val();
+	var lecture2 = $(".sliderLecture"+2).val();
+	var lecture3 = $(".sliderLecture"+3).val();
+	
+	var examType = $('#examType option:selected').val();
 
+	var exam0 = $(".sliderExam"+0).val();
+	var exam1 = $(".sliderExam"+1).val();
+	var exam2 = $(".sliderExam"+2).val();
+	var exam3 = $(".sliderExam"+3).val();
+	var exam4 = $(".slider"+0).val();
+	var exam5 = $(".slider"+1).val();
 
+	var examText = $('#examDetails').val();
+
+	var general0 = $(".slider"+0).val();
+
+	var recommendation = $('input:radio[name="recommendation"]:checked').val()
+	var comment = $('#ratingComment').val();
+	
+	$("#ratingForm").submit(function(e){
+		$.ajax({
+			type: "POST",
+			url: "rating_submit.php",
+			data: {
+				lecture0: lecture0,
+				lecture1: lecture1,
+				lecture2: lecture2,
+				lecture3: lecture3,
+				examType: examType,
+				exam0: exam0,
+				exam1: exam1,
+				exam2: exam2,
+				exam3: exam3,
+				exam4: exam4,
+				exam5: exam5,
+				examText: examText,
+				general0: general0,
+				recommendation: recommendation,
+				comment: comment
+			},
+			success: function(data) {
+				alert(data);
+			}
+		});
+		e.preventDefault();
+	});
+	
+});
 </script>
