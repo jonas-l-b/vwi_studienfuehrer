@@ -154,6 +154,7 @@ function time_elapsed_string($datetime, $full = false) {
 	?>
 	
 	<?php
+//EVENTUELL OBSOLET
 	//Berechnungen für Bewertungsübersicht
 	$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
 	
@@ -273,19 +274,20 @@ function time_elapsed_string($datetime, $full = false) {
 	
 	
 	<?php
-		$sql_modal="
-			SELECT *
-			FROM ratings
-			WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
-		";
-		
-		$result_modal = mysqli_query($con,$sql_modal);
-		if(mysqli_num_rows($result_modal)>=1){
-			$ratingButtonText = "Bereits bewertet - Danke!";
-			$ratingButtonDisabled = "disabled";
-		}else{
-			$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
-		}
+	//Bereits bewertet?
+	$sql_modal="
+		SELECT *
+		FROM ratings
+		WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
+	";
+	
+	$result_modal = mysqli_query($con,$sql_modal);
+	if(mysqli_num_rows($result_modal)>=1){
+		$ratingButtonText = "Bereits bewertet - Danke!";
+		$ratingButtonDisabled = "disabled";
+	}else{
+		$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
+	}
 	?>
 	<div style="margin-bottom:15px">
 		<button <?php echo $displayRatings ?> type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
@@ -352,37 +354,60 @@ function time_elapsed_string($datetime, $full = false) {
 			
 			<span style="font-size:20px"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</span>
 			
-			<hr>
-
-			<div class="col-md-4">
+			<br>
 			
-				<div class="container">
-					<div class="c100 p<?php echo $overallProzent ?>" >
-						<span><?php echo $overallProzent ?><?php if ($overallProzent != "-") echo "%" ?></span>
-						<div class="slice">
-							<div class="bar"></div>
-							<div class="fill"></div>
-						</div>
+			<?php
+			$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+			$row = mysqli_fetch_assoc($result);
+			?>
+		
+			<div class="container">
+				<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
+					<span><?php echo round($row['AVG(general0)'], 3); ?></span>
+					<div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
 					</div>
 				</div>
+			</div>
 
-				<p align="center">Gesamt</p>
-				
+			<p align="center">Gesamtbewertung</p>
+			
+			<hr>
+
+			<?php
+			$items = array("lecture0", "lecture1", "lecture2", "lecture3");
+			foreach($items as $key => $item){
+				$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+				$row = mysqli_fetch_assoc($result);
+				$lecture[$key] = round($row['AVG('.$item.')'],2);			
+			}
+			
+			$items = array("exam0", "exam1", "exam2", "exam3");
+			foreach($items as $key => $item){
+				$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+				$row = mysqli_fetch_assoc($result);
+				$exam[$key] = round($row['AVG('.$item.')'],2);			
+			}
+			
+			//wieder ohne twig. Schleife für einzelne Balken. Tabs wie in admin Menü für schriftl. mündl.
+			
+			
+			echo $twig->render('bewertungen.template.html', 
+					array(	'rating' => array(
+											'lecture0'=> $lecture[0],
+											'lecture1'=> $lecture[1],
+											'lecture2'=> $lecture[2],
+											'lecture3'=> $lecture[3],
+											'exam0'=> $exam[0],
+											'exam1'=> $exam[1],
+											'exam2'=> $exam[2],
+											'exam3'=> $exam[3],
+											)
+						));
+			?>
 			</div>
 			
-			<div class="col-md-8">
-				<?php
-					echo $twig->render('bewertungen.template.html', 
-							array(	'rating' => array(
-													'crit1'=> $crit1Prozent,
-													'crit2'=> $crit2Prozent,
-													'crit3'=> $crit3Prozent,
-													'crit4'=> $crit4Prozent,
-													'crit5'=> $crit5Prozent,
-													)
-								));
-				?>
-			</div>
 		</div>
 		
 		<!--Kommentare-->

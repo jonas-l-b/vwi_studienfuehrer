@@ -48,12 +48,12 @@ if ($num >= 1 ) { // Check, ob Datensatz existiert (ist der Fall, wenn mindesten
 $nameID = $userRow['user_ID'];
 
 $sql="
-	INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
-	VALUES ('$subjectData[ID]', '$lecture0', '$lecture1', '$lecture2', '$lecture3', '$exam0', '$exam1', '$exam2', '$exam3', '$exam4', '$exam5', '$examText', '$general0', '$recommendation', '$comment', 0, '$nameID', now())
+	INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
+	VALUES ('$subjectData[ID]', '$lecture0', '$lecture1', '$lecture2', '$lecture3', '$examType', '$exam0', '$exam1', '$exam2', '$exam3', '$exam4', '$exam5', '$examText', '$general0', '$recommendation', '$comment', 0, '$nameID', now())
 ";
 
 if ($con->query($sql) == TRUE) {
-	echo 'erfolgreich';
+	echo 'erfolg';
 }
 
 /*
