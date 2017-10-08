@@ -155,6 +155,7 @@ function time_elapsed_string($datetime, $full = false) {
 	
 	<?php
 //EVENTUELL OBSOLET
+
 	//Berechnungen für Bewertungsübersicht
 	$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
 	
@@ -165,7 +166,7 @@ function time_elapsed_string($datetime, $full = false) {
 	if (mysqli_num_rows($result) == 0){ //Falls noch keine Bewertungen vorhanden
 		$displayRatings = "style=\"display:none\"";
 		$displayNoRatings = "";
-	}
+	}/*
 	else{ //Falls Bewertungen vorhanden
 		//Crit1
 		$result = mysqli_query($con,"SELECT SUM(crit1) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
@@ -228,6 +229,7 @@ function time_elapsed_string($datetime, $full = false) {
 		if($overallProzent > 50) $overallColor = "orange";
 		if($overallProzent > 80) $overallColor = "green";
 	}
+	*/
 	?>
 
 	<!--Überschrift und Info und FavIcon-->
@@ -374,36 +376,177 @@ function time_elapsed_string($datetime, $full = false) {
 			<hr>
 
 			<?php
+			//Lecture
 			$items = array("lecture0", "lecture1", "lecture2", "lecture3");
 			foreach($items as $key => $item){
 				$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 				$row = mysqli_fetch_assoc($result);
 				$lecture[$key] = round($row['AVG('.$item.')'],2);			
 			}
+			$lectureHeadings = array("Overall-Score", "Klausurrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
 			
-			$items = array("exam0", "exam1", "exam2", "exam3");
-			foreach($items as $key => $item){
-				$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
-				$row = mysqli_fetch_assoc($result);
-				$exam[$key] = round($row['AVG('.$item.')'],2);			
+			//Exam
+			$items = array("exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
+			$examType = array("written", "oral", "other");
+			for($i=0;$i<count($examType);$i++){
+				foreach($items as $key => $item){
+					$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = '".$examType[$i]."'");
+					$row = mysqli_fetch_assoc($result);
+					$exam[$i][$key] = round($row['AVG('.$item.')'],2);
+				}
+				$examRight0[$i] = 0;
+				$examLeft0[$i] = 0;
+				if($exam[$i][4]>0){
+					$examRight0[$i] = $exam[$i][4];
+				}elseif($exam[$i][4]<0){
+					$examLeft0[$i] = abs($exam[$i][4]);
+				}
+				
+				$examRight1[$i] = 0;
+				$examLeft1[$i] = 0;
+				if($exam[$i][4]>0){
+					$examRight1[$i] = $exam[$i][4];
+				}elseif($exam[$i][4]<0){
+					$examLeft1[$i] = abs($exam[$i][4]);
+				}	
 			}
-			
-			//wieder ohne twig. Schleife für einzelne Balken. Tabs wie in admin Menü für schriftl. mündl.
-			
-			
-			echo $twig->render('bewertungen.template.html', 
-					array(	'rating' => array(
-											'lecture0'=> $lecture[0],
-											'lecture1'=> $lecture[1],
-											'lecture2'=> $lecture[2],
-											'lecture3'=> $lecture[3],
-											'exam0'=> $exam[0],
-											'exam1'=> $exam[1],
-											'exam2'=> $exam[2],
-											'exam3'=> $exam[3],
-											)
-						));
+			$examHeadings = array("Overall-Score", "Aufwand", "Fairness", "Zeitdruck");
+						
 			?>
+			<h4><strong>Vorlesung</strong></h4>
+			<br>
+			<table class="ratingtable" style="width:100%">
+				<?php
+				for($i=0;$i<count($lectureHeadings);$i++){
+					?>			
+					<tr>
+						<td valign="top" style="width:30%">
+							<span><?php echo $lectureHeadings[$i] ?></span>
+						</td>
+						<td valign="center" style="width:70%">
+							<div style="font-size:15px; font-weight:bold; line-height:2">
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i]*10 ?>%">
+										<?php echo $lecture[$i] ?>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+			</table>
+			
+			<hr>
+			<h4><strong>Klausur</strong></h4>
+			<br>
+			
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#written">Schriftlich</a></li>
+				<li><a data-toggle="tab" href="#oral">Mündlich</a></li>
+				<li><a data-toggle="tab" href="#other">Sonstige</a></li>
+			</ul>
+			
+			<div class="tab-content">
+			<br>
+			<?php
+			for($j=0;$j<count($examType);$j++){
+				?>
+				<div id="<?php echo $examType[$j] ?>" class="tab-pane fade">
+					
+					<table class="ratingtable" style="width:100%">
+						<?php
+						for($i=0;$i<count($examHeadings);$i++){
+							?>			
+							<tr>
+								<td valign="top" style="width:30%">
+									<span><?php echo $lectureHeadings[$i] ?></span>
+								</td>
+								<td valign="center" style="width:70%">
+									<div style="font-size:15px; font-weight:bold; line-height:2">
+										<div class="progress">
+											<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i]*10 ?>%">
+												<?php echo $exam[$j][$i] ?>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<?php
+						}
+						?>
+					</table>
+					
+					<table class="ratingtable" style="width:100%">
+						<tr>
+							<td valign="top" style="width:15%">
+								<span>Qualitativ</span>
+							</td>
+							
+							<td valign="center" style="width:35%">
+								<div style="font-size:15px; font-weight:bold; line-height:2">
+									<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 1px;">
+										<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examLeft0[$j]*10 ?>%"></div>
+									</div>
+								</div>
+							</td>
+							
+							<td valign="center" style="width:35%">
+								<div style="font-size:15px; font-weight:bold; line-height:2">
+									<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0">
+										<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight0[$j]*10 ?>%"></div>
+									</div>
+								</div>
+							</td>
+							
+							<td valign="top" style="width:15%">
+								<span style="float: right">Quantitativ</span>
+							</td>
+						</tr>
+						<!-- ------------------------------------ -->
+						<tr>
+							<td valign="top" style="width:15%">
+								<span>Reproduktion</span>
+							</td>
+							
+							<td valign="center" style="width:35%">
+								<div style="font-size:15px; font-weight:bold; line-height:2">
+									<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 1px;">
+										<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examLeft1[$j]*10 ?>%"></div>
+									</div>
+								</div>
+							</td>
+							
+							<td valign="center" style="width:35%">
+								<div style="font-size:15px; font-weight:bold; line-height:2">
+									<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0">
+										<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight1[$j]*10 ?>%"></div>
+									</div>
+								</div>
+							</td>
+							
+							<td valign="top" style="width:15%">
+								<span style="float: right">Transfer</span>
+							</td>
+						</tr>
+					</table>
+				
+				</div>
+				<?php
+			}?>
+			</div>
+
+			<script>
+			$('#written').addClass("in active");
+			
+			</script>
+			
+			
+			
+			
+			
+			
 			</div>
 			
 		</div>
