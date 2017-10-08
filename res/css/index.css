@@ -29,6 +29,17 @@
 	font-size:15px;
 }
 
+.otherTab{
+	max-height: 260px;
+	overflow:auto;
+}
+
+.otherComment{
+	background-color:white;
+	padding:10px;
+	border: solid 1px lightgrey;
+}
+
 /*Slider*/
 input[type="range"]{
     -webkit-appearance: none;
