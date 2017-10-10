@@ -310,7 +310,7 @@ function time_elapsed_string($datetime, $full = false) {
 				$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 				$row = mysqli_fetch_assoc($result);
 				?>
-				<span style="float:right; font-size:20px;">Gesamt: <?php echo round($row['AVG(general0)'], 1) ?></span>
+				<span style="float:right; font-size:20px;">Gesamtbewertung: <?php echo round($row['AVG(general0)'], 1) ?> / 10</span>
 				<hr>
 			
 
@@ -394,10 +394,10 @@ function time_elapsed_string($datetime, $full = false) {
 					<div class="col-md-6">
 						<h4><strong>Klausur</strong></h4>
 						
-						<ul class="nav nav-tabs">
-							<li class="written" ><a data-toggle="tab" href="#written">Schriftlich <span id="writtenBadge" class="badge"><?php echo $writtenBadge ?></span></a></li>
-							<li class="oral" ><a data-toggle="tab" href="#oral">Mündlich <span id="oralBadge" class="badge"><?php echo $oralBadge ?></span></a></li>
-							<li class="other" ><a data-toggle="tab" href="#other">Sonstige <span id="otherBadge" class="badge"><?php echo $otherBadge ?></span></a></li>
+						<ul class="nav nav-pills">
+							<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" class="badge"><?php echo $writtenBadge ?></span></a></li>
+							<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" class="badge"><?php echo $oralBadge ?></span></a></li>
+							<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" class="badge"><?php echo $otherBadge ?></span></a></li>
 						</ul>
 						
 						<div class="tab-content">
