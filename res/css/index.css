@@ -69,7 +69,7 @@ input[type='range']::-webkit-slider-thumb {
 	cursor: pointer; cursor: hand;
 }
 
-/*Progress bar (Bewertung)*/
+/*Progress bar (für Bewertung)*/
 .progress{
 	background-color:white;
 	border: solid lightgrey 1px;

@@ -503,7 +503,7 @@ function time_elapsed_string($datetime, $full = false) {
 											<tr>
 												<td valign="center" style="width:50%">
 													<div style="font-size:15px; font-weight:bold; line-height:2">
-														<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 1px;">
+														<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
 															<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examLeft[$i][$j]*10 ?>%"></div>
 														</div>
 													</div>
@@ -511,7 +511,7 @@ function time_elapsed_string($datetime, $full = false) {
 												
 												<td valign="center" style="width:50%">
 													<div style="font-size:15px; font-weight:bold; line-height:2">
-														<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0">
+														<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
 															<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight[$i][$j]*10 ?>%"></div>
 														</div>
 													</div>
