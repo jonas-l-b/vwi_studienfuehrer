@@ -627,7 +627,11 @@ function time_elapsed_string($datetime, $full = false) {
 				
 				while($comments = mysqli_fetch_assoc($result)){
 					
-					$recommend = "<p style=\"font-weight:bold; font-size:12px\"> <img src=\"pictures/greentick.png\" style=\"width:12px;height:12px;\"> Der Kommentator würde diese Veranstaltung empfehlen.</p>";
+					$recommend = "
+						<div>
+							<img src=\"pictures/greentick.png\" style=\"width:12px;height:12px;vertical-align:middle; margin-bottom:1.5px;\">
+							<span style=\"font-weight:bold; font-size:12px\">Der Kommentator würde diese Veranstaltung empfehlen.</span>
+						</div>";
 					if ($comments['recommendation'] == 0) $recommend = "";
 					
 					$sql2 = "
