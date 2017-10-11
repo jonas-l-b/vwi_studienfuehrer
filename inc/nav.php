@@ -34,8 +34,8 @@ $name = $userRow['first_name'];
 			
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
+					<li><a href="https://www.vwi-karlsruhe.de" target="_blank"><img style="vertical-align:middle; height:40px; margin-top:-14px; padding-top:2px; margin-bottom:-5px;" src="pictures/logo.png"></a></li>
 					<li><a href="tree.php">Übersicht Studienführer</a></li>
-					<li><a href="https://www.vwi-karlsruhe.de" target="_blank">vwi-karlsruhe.de</a></li>
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
 					<?php echo $admin;?>
 				</ul>
