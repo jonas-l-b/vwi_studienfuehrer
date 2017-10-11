@@ -422,9 +422,7 @@ function time_elapsed_string($datetime, $full = false) {
 												<td valign="center" style="width:70%">
 													<div style="font-size:15px; font-weight:bold; line-height:2">
 														<div class="progress">
-															<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i]*10 ?>%">
-
-															</div>
+															<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i]*10 ?>%"></div>
 														</div>
 													</div>
 												</td>
@@ -912,7 +910,7 @@ $(document).ready(function(){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Einzelbewertung</h4>
+        <h4 class="modal-title"><strong>Einzelbewertung</strong></h4>
       </div>
       <div class="modal-body">
 		<div id="commentStats"></div>
