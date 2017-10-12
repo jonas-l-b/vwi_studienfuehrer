@@ -71,8 +71,8 @@ if (isset($_SESSION['userSession'])!="") {
 			$_SESSION['userSession'] = $cUser;
 			if (isset($_GET['url'])) {
 				$url = $_GET['url'];
-				//echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='$url';</SCRIPT>"); //FUNKTIONIERT NOCH NICHT!
-				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>"); 
+				echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='".basename($url)."';</SCRIPT>"); //NUR UNTER LOCALHOST GETESTET
+				//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}else{
 				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}
