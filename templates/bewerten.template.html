@@ -21,8 +21,8 @@
 	
 	{% for key,value in lectureItems %}
 		<p>{{value}}</p>
-		<input type="range" class="sliderLecture{{key}}" min="0" max="10" step="1" value="5">
-		<span class="sliderLecture{{key}}">5</span>
+		<input type="range" class="sliderLecture{{key}}" min="0" max="10" step="1" value="{{lectureValues[key]}}">
+		<span class="sliderLecture{{key}}">{{lectureValues[key]}}</span>
 		<br><br>
 	{% endfor %}
 	
@@ -32,12 +32,12 @@
 	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
 	<select id="examType" class="form-control" style="width:80%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
-		<option value="written">Schriftlich</option>
-		<option value="oral">Mündlich</option>
-		<option value="other">Sonstige</option>
+		<option value="written" {{typeWritten}}>Schriftlich</option>
+		<option value="oral" {{typeOral}}>Mündlich</option>
+		<option value="other" {{typeOther}}>Sonstige</option>
 	</select>
 	<br>
-	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!"></textarea>
+	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
 	
 	<script>
 	$("#examType").on('change', function() {
@@ -53,13 +53,28 @@
 			$("#examDetails").prop('required',false);
 		}
 	})
+	
+	//Gleicher Code. Nötig, damit alles richtig angezeigt wird, wenn Kommentar bearbeitet wird
+	$( document ).ready(function() {
+		if($('#examType option:selected').val() == "other"){
+			$("#examDetails").show();
+			$(".examItems").hide();
+			$("#examDetails").prop('required',true);
+		}
+		if($('#examType option:selected').val() == "written" || '#examType option:selected').val() == "oral"){
+			$("#examDetails").hide();
+			$(".examItems").show();
+			$("#examType :input").prop('required',null);
+			$("#examDetails").prop('required',false);
+		}
+	});
 	</script>
 	
 	{% for key,value in examItems %}
 		<div style="display:none" class="examItems">
 			<p>{{value}}</p>
-			<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="5">
-			<span class="sliderExam{{key}}">5</span>
+			<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="{{examValues[key]}}">
+			<span class="sliderExam{{key}}">{{examValues[key]}}</span>
 			<br><br>
 		</div>
 	{% endfor %}
@@ -68,7 +83,7 @@
 		<div style="display:none" class="examItems">
 			<p>{{value}}</p>
 			<span>{{examItems2Labels[key][0]}}</span>
-			<input type="range" style="width:60%" class="slider{{key}}" min="-10" max="10" step="1" value="0">
+			<input type="range" style="width:60%" class="slider{{key}}" min="-10" max="10" step="1" value="{{examValues2[key]}}">
 			<span>{{examItems2Labels[key][1]}}</span>
 			<br><br>
 		</div>
@@ -79,8 +94,8 @@
 	
 	{% for key,value in generalItems %}
 		<p>{{value}}</p>
-		<input type="range" class="sliderGeneral{{key}}" min="0" max="10" step="1" value="5">
-		<span class="sliderGeneral{{key}}">5</span>
+		<input type="range" class="sliderGeneral{{key}}" min="0" max="10" step="1" value="{{general0}}">
+		<span class="sliderGeneral{{key}}">{{general0}}</span>
 		<br><br>
 	{% endfor %}
 
@@ -96,7 +111,7 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 	
 	<div class="form-group">
-		<textarea id="ratingComment" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Was gibt es sonst interessantes über die Veranstaltung festzuhalten? Speziell sind natürlich Dinge interessant, die du nicht über die Fragen oben ausdrücken konntest!" required>{{ kommentar }}</textarea>
+		<textarea id="ratingComment" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Was gibt es sonst interessantes über die Veranstaltung festzuhalten? Speziell sind natürlich Dinge interessant, die du nicht über die Fragen oben ausdrücken konntest!" required>{{comment}}</textarea>
 	</div>
 	
 	<div id="commentWarning"></div>
