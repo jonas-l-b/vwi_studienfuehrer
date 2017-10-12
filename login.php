@@ -284,7 +284,6 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 				<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
 			</form>
 		
-		
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
