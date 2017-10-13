@@ -47,35 +47,27 @@ if ($num >= 1 ) { // Check, ob Datensatz existiert (ist der Fall, wenn mindesten
 
 $nameID = $userRow['user_ID'];
 
-$sql="
-	INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
-	VALUES ('$subjectData[ID]', '$lecture0', '$lecture1', '$lecture2', '$lecture3', '$examType', '$exam0', '$exam1', '$exam2', '$exam3', '$exam4', '$exam5', '$examText', '$general0', '$recommendation', '$comment', 0, '$nameID', now())
-";
-
-if ($con->query($sql) == TRUE) {
-	echo 'erfolg';
+//Check ob Eintrag eingetragen oder geändert werden soll
+$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '$subjectData[ID]' AND user_ID = '$nameID'");
+if(mysqli_num_rows($result) == 1){
+	$sql="
+		UPDATE ratings
+		SET lecture0 = '$lecture0', lecture1 = '$lecture1', lecture2 = '$lecture3', examType = '$examType', exam0 = '$exam0', exam1 = '$exam1', exam3 = '$exam3', exam4 = '$exam4', exam5 = '$exam5', examText = '$examText', recommendation = '$recommendation', comment = '$comment', time_stamp_change = now()
+		WHERE subject_ID = '$subjectData[ID]' AND user_ID = '$nameID';
+	";
+	if ($con->query($sql) == TRUE) {
+		echo 'change';
+	}
+}elseif(mysqli_num_rows($result) == 0){
+	$sql="
+		INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
+		VALUES ('$subjectData[ID]', '$lecture0', '$lecture1', '$lecture2', '$lecture3', '$examType', '$exam0', '$exam1', '$exam2', '$exam3', '$exam4', '$exam5', '$examText', '$general0', '$recommendation', '$comment', 0, '$nameID', now())
+	";
+	if ($con->query($sql) == TRUE) {
+		echo 'erfolg';
+	}
+}else{
+	echo "errorM";
+	exit;
 }
-
-/*
-$criterion1 = filter_var($_POST['criterion1'], FILTER_SANITIZE_STRING);
-$criterion2 = filter_var($_POST['criterion2'], FILTER_SANITIZE_STRING);
-$criterion3 = filter_var($_POST['criterion3'], FILTER_SANITIZE_STRING);
-$criterion4 = filter_var($_POST['criterion4'], FILTER_SANITIZE_STRING);
-$criterion5 = filter_var($_POST['criterion5'], FILTER_SANITIZE_STRING);
-$recommendation = filter_var($_POST['recommendation'], FILTER_SANITIZE_STRING);
-$comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
-$nameID = $userRow['user_ID'];
-
-$sql="
-	INSERT INTO `ratings` (`subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
-	VALUES ('$subjectData[ID]', '$criterion1', '$criterion2', '$criterion3', '$criterion4', '$criterion5', '$recommendation', '$comment', 0, '$nameID', now())";
-
-if ($con->query($sql) == TRUE) {
-	//echo 'erfolgreich';
-}
-	
-echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='index.php?subject=$subject';</SCRIPT>");
-*/
-
-
 ?>
