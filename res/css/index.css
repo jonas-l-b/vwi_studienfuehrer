@@ -28,3 +28,55 @@
 	margin-right:5px;
 	font-size:15px;
 }
+
+.otherTab{
+	max-height: 260px;
+	overflow:auto;
+}
+
+.otherComment{
+	background-color:white;
+	padding:10px;
+	border: solid 1px lightgrey;
+}
+
+/*Slider*/
+input[type="range"]{
+    -webkit-appearance: none;
+    -moz-apperance: none;
+    border-radius: 6px;
+    height: 8px;
+	width: 80%;
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        color-stop(0.5, #2d5699),
+        color-stop(0.5, #C5C5C5)
+    );
+	outline: none;
+	/*cursor: pointer; cursor: hand;*/
+	display:inline-block; margin-right:5px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background-color: #E9E9E9;
+    border: 1px solid #CECECE;
+    height: 20px;
+    width: 20px;
+	border-radius: 50%;
+	cursor: pointer; cursor: hand;
+}
+
+/*Progress bar (für Bewertung)*/
+.progress{
+	background-color:white;
+	border: solid lightgrey 1px;
+	height:15px;
+}
+
+.progress-bar{
+	
+}
+

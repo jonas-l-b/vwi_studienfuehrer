@@ -1,88 +1,106 @@
-<form action="{{form_target}}?subject={{subject}}" method="POST">
-				
-	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
+<form id="ratingForm" action="{{form_target}}?subject={{subject}}" method="POST">
+	
+	<script>
+	//Slider
+	$('input[type="range"]').on("change mousemove", function () {
+		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
+
+		$(this).css('background-image',
+					'-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + val + ', #2d5699), '
+					+ 'color-stop(' + val + ', #d3d3db)'
+					+ ')'
+					);
+		$('span.'+$(this).attr('class')).html($(this).val());
+	});
+	</script>
+	
+	<!--<button type="button" id="button" class="btn">Give value!</button>-->
+
+	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
+	
+	{% for key,value in lectureItems %}
+		<p>{{value}}</p>
+		<input type="range" class="sliderLecture{{key}}" min="0" max="10" step="1" value="{{lectureValues[key]}}">
+		<span class="sliderLecture{{key}}">{{lectureValues[key]}}</span>
+		<br><br>
+	{% endfor %}
 	
 	<br>
-
-	<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
+	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Klausur</p>
 	
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr schlecht</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[1] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion1" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr gut</p>
-	</div>
-
-	<br><br><br>
-
-	<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr unangemessen</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[2] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion2" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr angemessen</p>
-	</div>
+	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
+	<select id="examType" class="form-control" style="width:80%" required>
+		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
+		<option value="written" {{typeWritten}}>Schriftlich</option>
+		<option value="oral" {{typeOral}}>Mündlich</option>
+		<option value="other" {{typeOther}}>Sonstige</option>
+	</select>
+	<br>
+	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
 	
-	<br><br><br>
+	<script>
+	$("#examType").on('change', function() {
+		if($('#examType option:selected').val() == "other"){
+			$("#examDetails").show();
+			$(".examItems").hide();
+			$("#examDetails").prop('required',true);
+		}
+		if($('#examType option:selected').val() != "other"){
+			$("#examDetails").hide();
+			$(".examItems").show();
+			$("#examType :input").prop('required',null);
+			$("#examDetails").prop('required',false);
+		}
+	})
+	
+	//Gleicher Code. Nötig, damit alles richtig angezeigt wird, wenn Kommentar bearbeitet wird
+	/*
+	$(document).one('ready', function () {
+		if($('#examType option:selected').val() == "other"){
+			$("#examDetails").show();
+			$(".examItems").hide();
+			$("#examDetails").prop('required',true);
+		}
+		if($('#examType option:selected').val() == "written" || '#examType option:selected').val() == "oral"){
+			$("#examDetails").hide();
+			$(".examItems").show();
+			$("#examType :input").prop('required',null);
+			$("#examDetails").prop('required',false);
+		}
+	});
+	*/
+	</script>
+	
+	{% for key,value in examItems %}
+		<div style="display:none" class="examItems">
+			<p>{{value}}</p>
+			<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="{{examValues[key]}}">
+			<span class="sliderExam{{key}}">{{examValues[key]}}</span>
+			<br><br>
+		</div>
+	{% endfor %}
+	
+	{% for key,value in examItems2 %}
+		<div style="display:none" class="examItems">
+			<p>{{value}}</p>
+			<span>{{examItems2Labels[key][0]}}</span>
+			<input type="range" style="width:60%" class="slider{{key}}" min="-10" max="10" step="1" value="{{examValues2[key]}}">
+			<span>{{examItems2Labels[key][1]}}</span>
+			<br><br>
+		</div>
+	{% endfor %}
+	
+	<br>
+	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung insgesamt</p>
+	
+	{% for key,value in generalItems %}
+		<p>{{value}}</p>
+		<input type="range" class="sliderGeneral{{key}}" min="0" max="10" step="1" value="{{general0}}">
+		<span class="sliderGeneral{{key}}">{{general0}}</span>
+		<br><br>
+	{% endfor %}
 
-	<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr schlecht</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[3] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion3" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr gut</p>
-	</div>
-	
-	<br><br><br>
-	
-	<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr unangemessen</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[4] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion4" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr angemessen</p>
-	</div>
-	
-	<br><br><br>
-	
-	<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
-
-	<div class="col-md-3">
-		<p style="font-style:italic">Sehr unangemessen</p>
-	</div>
-	<div class="col-md-6">
-		{% for key,value in isChecked[5] %}
-			<label class="radio-inline" style="vertical-align:top"><input type="radio" value='{{key}}' name="criterion5" {{ value }} required></label>
-		{% endfor %}
-	</div>
-	<div class="col-md-3">
-	<p style="font-style:italic">Sehr angemessen</p>
-	</div>
-	
-	<br><br><br>
 	
 	<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
 	
@@ -95,8 +113,7 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
 	
 	<div class="form-group">
-		{% set rand = random() %}
-		<textarea id ="comment{{ rand }}" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Maximal 2500 Zeichen" required>{{ kommentar }}</textarea>
+		<textarea id="ratingComment" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Was gibt es sonst interessantes über die Veranstaltung festzuhalten? Speziell sind natürlich Dinge interessant, die du nicht über die Fragen oben ausdrücken konntest!" required>{{comment}}</textarea>
 	</div>
 	
 	<div id="commentWarning"></div>
@@ -117,5 +134,92 @@
 	
 	<hr>
 	
-	<button type="submit" class="btn btn-primary">{{button_text}}</button>
+	<button id="submitButton" type="submit" class="btn btn-primary">{{button_text}}</button>
 </form>
+
+<script>
+//send to DP
+$("#submitButton").click(function(){
+	var lecture0 = $(".sliderLecture"+0).val();
+	var lecture1 = $(".sliderLecture"+1).val();
+	var lecture2 = $(".sliderLecture"+2).val();
+	var lecture3 = $(".sliderLecture"+3).val();
+	
+	var examType = $('#examType option:selected').val();
+
+	var exam0 = $(".sliderExam"+0).val();
+	var exam1 = $(".sliderExam"+1).val();
+	var exam2 = $(".sliderExam"+2).val();
+	var exam3 = $(".sliderExam"+3).val();
+	var exam4 = $(".slider"+0).val();
+	var exam5 = $(".slider"+1).val();
+
+	var examText = $('#examDetails').val();
+
+	var general0 = $(".sliderGeneral"+0).val();
+
+	var recommendation = $('input:radio[name="recommendation"]:checked').val()
+	var comment = $('#ratingComment').val();
+	
+	var subject = getUrlParameter('subject');
+	
+	$("#ratingForm").submit(function(e){
+		$.ajax({
+			type: "POST",
+			url: "rating_submit.php",
+			data: {
+				lecture0: lecture0,
+				lecture1: lecture1,
+				lecture2: lecture2,
+				lecture3: lecture3,
+				examType: examType,
+				exam0: exam0,
+				exam1: exam1,
+				exam2: exam2,
+				exam3: exam3,
+				exam4: exam4,
+				exam5: exam5,
+				examText: examText,
+				general0: general0,
+				recommendation: recommendation,
+				comment: comment,
+				subject: subject
+			},
+			success: function(data) {
+				//alert(data);
+				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
+					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Vielen Dank für deine Bewertung!</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+				}else if(data.trim().substr(0,6) == "errorM"){
+					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Fehler! Es befinden sich mehrere Bewertungen von dir zu dieser Veranstaltung in der Datenbank. Bitte wende dich an VWI-ESTIEM Karlsruhe.</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary btn-dismiss\" data-dismiss=\"modal\">Schließen</button>");
+				}else if(data.trim().substr(0,6) == "change"){
+					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Bewertung wurde erfolgreich geändert!</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+				}else{
+					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung deiner Bewertung ist ein Fehler aufgetreten. Bitte wende dich an VWI-ESTIEM Karlsruhe.</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary btn-dismiss\" data-dismiss=\"modal\">Schließen</button>");
+				}
+			}
+		});
+		e.preventDefault();
+	});
+});
+
+function reload() {
+    location.reload();
+}
+
+
+//Function for getting URL params
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+</script>

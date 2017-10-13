@@ -1,52 +1,9 @@
 <?php
-
 include "sessionsStart.php";
-
 include "header.php";
-
 include "connect.php";
-
 include "saveSubjectToVariable.php";
-
-//include "loadSubjectData.php";
-
 include "sumVotes.php";
-
-
-function time_elapsed_string($datetime, $full = false) {
-    $now = new DateTime;
-    $ago = new DateTime($datetime);
-    $diff = $now->diff($ago);
-
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
-
-    $string = array(
-        'y' => 'Jahr',
-        'm' => 'Monat',
-        'w' => 'Woche',
-        'd' => 'Tag',
-        'h' => 'Stunde',
-        'i' => 'Minute',
-        's' => 'Sekunde',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-			if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
-				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
-			}
-			else {
-				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
-			}
-        } else {
-            unset($string[$k]);
-        }
-    }
-
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
-}
-
 ?>
 
 <body>
@@ -54,8 +11,9 @@ function time_elapsed_string($datetime, $full = false) {
 <?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
+	<!--Überschirft, Veranstaltungsinfos und Favourite Icon Start-->
 	<?php
-	//Get subject data
+	/*Infos aus DB ziehen*/
 	$sqlBody = "
 		FROM subjects
 		JOIN subjects_lecturers ON subjects.ID = subjects_lecturers.subject_ID
@@ -154,10 +112,10 @@ function time_elapsed_string($datetime, $full = false) {
 	?>
 	
 	<?php
-	//Berechnungen für Bewertungsübersicht
+	//Vorbereiten: Variablen, die dafür sorgen, dass der Bewertungsteil nur angezeigt wird, wenn auch Bewertungen vorhanden sind;
+	//andernfalls wird der Jetzt-bewerten-Teil angezeigt
 	$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
 	
-	//Diese Variablen sorgen dafür, dass der Bewertungsteil nur angezeigt wird, wenn auch Bewertungen vorhanden sind; andernfalls wird der Jetzt-bewerten-Teil angezeigt
 	$displayRatings = "";
 	$displayNoRatings = "style=\"display:none\"";
 	
@@ -165,73 +123,10 @@ function time_elapsed_string($datetime, $full = false) {
 		$displayRatings = "style=\"display:none\"";
 		$displayNoRatings = "";
 	}
-	else{ //Falls Bewertungen vorhanden
-		//Crit1
-		$result = mysqli_query($con,"SELECT SUM(crit1) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit1 = $row['value_sum'];
-
-		$result = mysqli_query($con,"SELECT COUNT(crit1) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit1Total = $row['value_count'];
-
-		$crit1Prozent = round(($crit1 / ($crit1Total*7) ) * 100);
-
-		//Crit2
-		$result = mysqli_query($con,"SELECT SUM(crit2) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit2 = $row['value_sum'];
-
-		$result = mysqli_query($con,"SELECT COUNT(crit2) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit2Total = $row['value_count'];
-
-		$crit2Prozent = round(($crit2 / ($crit2Total*7) ) * 100);
-
-		//Crit3
-		$result = mysqli_query($con,"SELECT SUM(crit3) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit3 = $row['value_sum'];
-
-		$result = mysqli_query($con,"SELECT COUNT(crit3) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit3Total = $row['value_count'];
-
-		$crit3Prozent = round(($crit3 / ($crit3Total*7) ) * 100);
-
-		//Crit4
-		$result = mysqli_query($con,"SELECT SUM(crit4) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit4 = $row['value_sum'];
-
-		$result = mysqli_query($con,"SELECT COUNT(crit4) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit4Total = $row['value_count'];
-
-		$crit4Prozent = round(($crit4 / ($crit4Total*7) ) * 100);
-
-		//Crit5
-		$result = mysqli_query($con,"SELECT SUM(crit5) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit5 = $row['value_sum'];
-
-		$result = mysqli_query($con,"SELECT COUNT(crit5) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-		$row = mysqli_fetch_assoc($result);
-		$crit5Total = $row['value_count'];
-
-		$crit5Prozent = round(($crit5 / ($crit5Total*7) ) * 100);
-
-		//Overall
-		$overallProzent = round(($crit1Prozent+$crit2Prozent+$crit3Prozent+$crit4Prozent+$crit5Prozent)/5);
-		$overallColor = "red";
-		if($overallProzent > 50) $overallColor = "orange";
-		if($overallProzent > 80) $overallColor = "green";
-	}
 	?>
-
-	<!--Überschrift und Info und FavIcon-->
+	
 	<?php
-	//Check favourite status
+	//Favourites: Check favourite status
 	$result = mysqli_query($con, "SELECT * FROM favourites WHERE user_ID = '".$userRow['user_ID']."' AND subject_id = '".$subjectData['ID']."'");
 	if(mysqli_num_rows($result) >= 1){
 		$favClass = "glyphicon glyphicon-star favouriteStar";
@@ -271,21 +166,21 @@ function time_elapsed_string($datetime, $full = false) {
 	?>
 	</div>
 	
-	
 	<?php
-		$sql_modal="
-			SELECT *
-			FROM ratings
-			WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
-		";
-		
-		$result_modal = mysqli_query($con,$sql_modal);
-		if(mysqli_num_rows($result_modal)>=1){
-			$ratingButtonText = "Bereits bewertet - Danke!";
-			$ratingButtonDisabled = "disabled";
-		}else{
-			$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
-		}
+	//Bereits bewertet für Bewerten-Button
+	$sql_modal="
+		SELECT *
+		FROM ratings
+		WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
+	";
+	
+	$result_modal = mysqli_query($con,$sql_modal);
+	if(mysqli_num_rows($result_modal)>=1){
+		$ratingButtonText = "Bereits bewertet - Danke!";
+		$ratingButtonDisabled = "disabled";
+	}else{
+		$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
+	}
 	?>
 	<div style="margin-bottom:15px">
 		<button <?php echo $displayRatings ?> type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
@@ -332,300 +227,19 @@ function time_elapsed_string($datetime, $full = false) {
 	</table>
 -->
 
-	<!--Bewertungsübersicht-->
-	<div <?php echo $displayRatings ?>>
-		<div class="col-md-2 head_left">
-			Gesamtbewertung
-		</div>
-
-		<div class="col-md-10 well">
-			<?php
-			$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-			$row = mysqli_fetch_assoc($result);
-			$yes = $row['value_sum'];
-			if ($yes == "") $yes = 0;
-			
-			$result = mysqli_query($con,"SELECT COUNT(recommendation) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-			$row = mysqli_fetch_assoc($result);
-			$total = $row['value_count'];
-			?>
-			
-			<span style="font-size:20px"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</span>
-			
-			<hr>
-
-			<div class="col-md-4">
-			
-				<div class="container">
-					<div class="c100 p<?php echo $overallProzent ?>" >
-						<span><?php echo $overallProzent ?><?php if ($overallProzent != "-") echo "%" ?></span>
-						<div class="slice">
-							<div class="bar"></div>
-							<div class="fill"></div>
-						</div>
-					</div>
-				</div>
-
-				<p align="center">Gesamt</p>
-				
-			</div>
-			
-			<div class="col-md-8">
-				<?php
-					echo $twig->render('bewertungen.template.html', 
-							array(	'rating' => array(
-													'crit1'=> $crit1Prozent,
-													'crit2'=> $crit2Prozent,
-													'crit3'=> $crit3Prozent,
-													'crit4'=> $crit4Prozent,
-													'crit5'=> $crit5Prozent,
-													)
-								));
-				?>
-			</div>
-		</div>
-		
-		<!--Kommentare-->
-		<div class="col-md-2 head_left">
-			Kommentare
-		</div>
-
-		<div class="col-md-10 well" id="commentsection">
-
-			<?php
-			//Richtige Dropdown-Auswahl der Sortierung auswählen
-			
-			$date_new = "";
-			$date_old = "";
-			$rating_best = "selected";
-			$rating_worst = "";
-			
-			if (isset($_GET['sortBy'])){
-				switch($_GET['sortBy']){
-					case "dateDESC":
-						$date_new = "selected";
-						$date_old = "";
-						$rating_best = "";
-						$rating_worst = "";
-						break;
-					case "dateASC":
-						$date_new = "";
-						$date_old = "selected";
-						$rating_best = "";
-						$rating_worst = "";
-						break;
-					case "ratingASC":
-						$date_new = "";
-						$date_old = "";
-						$rating_best = "selected";
-						$rating_worst = "";
-						break;
-					case "ratingDESC":
-						$date_new = "";
-						$date_old = "";
-						$rating_best = "";
-						$rating_worst = "selected";
-						break;
-				}
-			}
-			?>
-			
-			<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
-			<label>Sortieren nach: &nbsp </label>
-			<select class="form-control" name="commentorder" id="commentorder" onchange="this.form.submit()">
-				<option value="date_newFirst" <?php echo $date_new ?>>Datum (Neuste zuerst)</option>
-				<option value="date_newLast" <?php echo $date_old ?>>Datum (Älteste zuerst)</option>
-				<option value="rating_bestFirst" <?php echo $rating_best ?>>Bewertung (Beste zuerst)</option>
-				<option value="rating_worstFirst" <?php echo $rating_worst ?>>Bewertung (Schlechteste zuerst)</option>
-			</select>
-			</form>
-			
-			<br>
-		
-			<?php
-			//Datenabfrage für Kommentare
-			
-			$orderBy = "comment_rating";
-			$orderDirection = "DESC";
-			
-			if (isset($_GET['sortBy'])){
-				switch($_GET['sortBy']){
-					case "dateDESC":
-						$orderBy = "time_stamp";
-						$orderDirection = "DESC";
-						break;
-					case "dateASC":
-						$orderBy = "time_stamp";
-						$orderDirection = "ASC";
-						break;
-					case "ratingASC":
-						$orderBy = "comment_rating";
-						$orderDirection = "DESC";
-						break;
-					case "ratingDESC":
-						$orderBy = "comment_rating";
-						$orderDirection = "ASC";
-						break;
-				}
-			}
-			
-			$sql = "
-				SELECT * FROM ratings
-				WHERE subject_ID = '".$subjectData['ID']."'
-				ORDER BY ".$orderBy." ".$orderDirection."";
-			
-			$result = mysqli_query($con,$sql);
-			
-			if (mysqli_num_rows($result) == 0){
-				echo "Noch keine Kommentare vorhanden.";
-			}
-			
-			while($comments = mysqli_fetch_assoc($result)){
-				
-				$recommend = "<p style=\"font-weight:bold; font-size:12px\"> <img src=\"pictures/greentick.png\" style=\"width:12px;height:12px;\"> Der Kommentator würde diese Veranstaltung empfehlen.</p>";
-				if ($comments['recommendation'] == 0) $recommend = "";
-				
-				$sql2 = "
-					SELECT *
-					FROM ratings
-					JOIN users ON ratings.user_ID = users.user_ID
-					WHERE ID = '".$comments['ID']."';
-				";
-				$join = mysqli_query($con,$sql2);
-				$rows = mysqli_fetch_assoc($join);
-				
-				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeigen
-				$displayEdit = "display:none;";
-				$editClassIdentifier = "";
-				$displayReport ="";
-				
-				//displayEdit auskommentiert, da noch diskutiert werden muss!
-				//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
-				
-				if($comments['user_ID'] == $userRow['user_ID']){
-					$displayEdit = "";
-					$editClassIdentifier = "editButtonIdentificationClass";
-					$displayReport = "display:none;";
-				}
-				
-				
-				
-				echo "
-					<div class=\"well\" style=\"background-color:white; border-radius:none\">
-						<div class=\"media\">
-							<div class=\"media-left\">
-								<p style=\"white-space: nowrap; padding-right:10px;\"><span style=\"font-weight:bold; cursor: pointer; cursor: hand;\" onclick=\"colorChange(this.id)\" id=\"".$comments['ID']."do\"> &minus; </span><span style=\"padding-right:3px;\" id=\"".$comments['ID']."\">".$comments['comment_rating']."</span><span style=\"font-weight:bold; cursor: pointer; cursor: hand;\" onclick=\"colorChange(this.id)\" id=\"".$comments['ID']."up\">+</span></p>
-								<p class=\"nowrap confirmation\" id=\"".$comments['ID']."confirmation\"></p>
-							</div>
-							<div class=\"media-body\">
-								<p> ".$comments['comment']." </p>
-								".$recommend."
-								<hr style=\"margin:10px\">
-								<div style=\"font-size:10px\">
-									".$rows['username']." &#124; ". time_elapsed_string($comments['time_stamp'])."
-									<span style=\"float:right;\">
-										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
-										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
-										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\" title=\"Einzelbewertung anzeigen\" ></span></button>
-									</span>
-									<span style=\"float:right; ".$displayReport."\">
-										<button type=\"button\" role=\"button\" data-toggle=\"modal\" data-id=\"".$comments['ID']."\" class=\"editTrashButton reportButton\" title=\"Kommentar melden\"> <span class=\"glyphicon glyphicon-exclamation-sign\"></span></button>
-									</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				";
-			}
-			?>
-			<!-- Zeig Stats zu Kommentar -->
-			<script>
-				function showStats(id){
-						$('#commentsStatsModal').modal('show');
-						$('#commentStats').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
-						$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function( response, status, xhr ) {
-						  if ( status == "error" ) {
-							$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
-						  }
-						});
-				}	
-			</script>
-			
-			<!-- Farbänderung bei Kommentarbewertung -->
-			<script>
-			function colorChange(id) {
-				// Check, ob User Kommentar bereits bewertet hat
-				if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-					xmlhttp=new XMLHttpRequest();
-				}else{// AJAX mit IE6, IE5
-					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				
-				xmlhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						if (this.responseText.trim() == true){
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'red';
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Bereits <br> bewertet';
-							setTimeout(function() {
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = '';
-							}, 3000);
-							document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
-							document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
-							document.getElementById(id.substring(0, id.length - 2) + 'up').style.color = 'lightgrey';
-							document.getElementById(id.substring(0, id.length - 2) + 'do').style.color = 'lightgrey';
-						} else{
-							// Frontend ändern
-							if (id.substring(id.length - 2, id.length) == 'do') {
-								document.getElementById(id).style.color = 'red';
-								document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - 1;
-								document.getElementById(id).onclick = '';
-								document.getElementById(id).style.cursor = 'default';
-								document.getElementById(id.substring(0, id.length - 2) + 'up').onclick = '';
-								document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
-							} else {
-								document.getElementById(id).style.color = 'green';
-								document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - (-1);
-								document.getElementById(id).onclick = '';
-								document.getElementById(id).style.cursor = 'default';
-								document.getElementById(id.substring(0, id.length - 2) + 'do').onclick = '';
-								document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
-							}
-							
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'green';
-							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Gewertet';
-							
-							setTimeout(function() {
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').remove();
-							}, 3000);
-							
-							//Datenbank aktualisieren
-							if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-								xmlhttp=new XMLHttpRequest();
-							}else{// AJAX mit IE6, IE5
-								xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-							}
-							
-							var commentID = id.substring(0, id.length - 2);
-							var userID = <?php echo $userRow['user_ID']; ?>;
-							var subjectID = <?php echo $subjectData['ID']; ?>;
-							var ratingDirection = id.substring(id.length - 2, id.length);
-							
-							xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
-							xmlhttp.send();
-						}
-					}
-				};
-			
-				var commentID = id.substring(0, id.length - 2);
-				var userID = <?php echo $userRow['user_ID']; ?>;
-				
-				xmlhttp.open("GET","checkExistence.php?commentID="+commentID+"&userID="+userID,true);
-				xmlhttp.send();
-			}
-			</script>	
-		</div>
-	</div>
+	<?php
+	$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
 	
+	//Diese Variablen sorgen dafür, dass der Bewertungsteil nur angezeigt wird, wenn auch Bewertungen vorhanden sind; andernfalls wird der Jetzt-bewerten-Teil angezeigt
+	$displayRatings = "";
+	$displayNoRatings = "style=\"display:none\"";
+	
+	if (mysqli_num_rows($result) == 0){ //Falls noch keine Bewertungen vorhanden
+		$displayRatings = "style=\"display:none\"";
+		$displayNoRatings = "";
+	}
+	?>
+
 	<!--Anzeige falls noch kein Rating vorhanden-->
 	<div class="noRatingBox" <?php echo $displayNoRatings ?>>
 		<br>
@@ -634,7 +248,388 @@ function time_elapsed_string($datetime, $full = false) {
 			<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
 		</div>
 	</div>
+	<!--Überschirft, Veranstaltungsinfos und Favourite Icon Ende-->
+
+	<!--Bewertungsübersicht Start-->
+	<div <?php echo $displayRatings ?>>
+		<div class="row">
+			<div class="col-md-2 head_left">
+				Gesamtbewertung
+			</div>
+
+			<div class="col-md-10 well">
+				<?php
+				$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
+				$row = mysqli_fetch_assoc($result);
+				$yes = $row['value_sum'];
+				if ($yes == "") $yes = 0;
+				
+				$result = mysqli_query($con,"SELECT COUNT(recommendation) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
+				$row = mysqli_fetch_assoc($result);
+				$total = $row['value_count'];
+				?>
+				<span style="font-size:20px;"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</span>
+				
+				<?php
+				$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+				$row = mysqli_fetch_assoc($result);
+				?>
+				<span style="float:right; font-size:20px;">Gesamtbewertung: <?php echo round($row['AVG(general0)'], 1) ?> / 10</span>
+				<hr>
+			
+
+				<div class="row">
+					<div class="col-md-6">
+						<?php
+						//Lecture
+						$items = array("lecture0", "lecture1", "lecture2", "lecture3");
+						foreach($items as $key => $item){
+							$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+							$row = mysqli_fetch_assoc($result);
+							$lecture[$key] = round($row['AVG('.$item.')'],1);			
+						}
+						$lectureHeadings = array("Overall-Score", "Klausurrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
+						
+						//Exam
+						$items = array("exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
+						$examType = array("written", "oral");
+						for($i=0;$i<count($examType);$i++){
+							foreach($items as $key => $item){
+								$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = '".$examType[$i]."'");
+								$row = mysqli_fetch_assoc($result);
+								$exam[$i][$key] = round($row['AVG('.$item.')'],1);
+							}
+							$examRight0[$i] = 0;
+							$examLeft0[$i] = 0;
+							if($exam[$i][4]>0){
+								$examRight[0][$i] = $exam[$i][4];
+							}elseif($exam[$i][4]<0){
+								$examLeft[0][$i] = abs($exam[$i][4]);
+							}
+							
+							$examRight1[$i] = 0;
+							$examLeft1[$i] = 0;
+							if($exam[$i][5]>0){
+								$examRight[1][$i] = $exam[$i][5];
+							}elseif($exam[$i][5]<0){
+								$examLeft[1][$i] = abs($exam[$i][5]);
+							}	
+						}
+						$examHeadings = array("Overall-Score", "Aufwand", "Fairness", "Zeitdruck");
+						
+						$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'written'"));
+						$writtenBadge = $row['COUNT(examType)'];
+						$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'oral'"));
+						$oralBadge = $row['COUNT(examType)'];
+						$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'"));
+						$otherBadge = $row['COUNT(examType)'];
+									
+						?>
+						<h4><strong>Vorlesung</strong></h4>
+						<br>
+						<div style="height: 42px;"></div>
+						<table class="ratingtable" style="width:100%">
+							<?php
+							for($i=0;$i<count($lectureHeadings);$i++){
+								?>			
+								<tr>
+									<td>
+										<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i] ?></span>
+										<span style="float:right; margin-right:3px;"><?php echo $lecture[$i] ?></span>
+									</td>
+								</tr>
+								
+								<tr>
+									<td valign="center" style="width:70%">
+										<div style="font-size:15px; font-weight:bold; line-height:2">
+											<div class="progress">
+												<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i]*10 ?>%">
+
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+								<?php
+							}
+							?>
+						</table>
+					</div>
+					<div class="col-md-6">
+						<h4><strong>Klausur</strong></h4>
+						
+						<ul class="nav nav-pills">
+							<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" class="badge"><?php echo $writtenBadge ?></span></a></li>
+							<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" class="badge"><?php echo $oralBadge ?></span></a></li>
+							<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" class="badge"><?php echo $otherBadge ?></span></a></li>
+						</ul>
+						
+						<div class="tab-content">
+							<br>
+							<?php
+							for($j=0;$j<count($examType);$j++){
+								?>
+								<div id="<?php echo $examType[$j] ?>" class="tab-pane fade">
+									
+									<table class="ratingtable" style="width:100%">
+										<?php
+										for($i=0;$i<count($examHeadings);$i++){
+											?>
+											<tr>
+												<td>
+													<span style="float:left; margin-left:3px;"><?php echo $examHeadings[$i] ?></span>
+													<span style="float:right; margin-right:3px;"><?php echo $exam[$j][$i] ?></span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td valign="center" style="width:70%">
+													<div style="font-size:15px; font-weight:bold; line-height:2">
+														<div class="progress">
+															<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i]*10 ?>%"></div>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<?php
+										}
+										?>
+									</table>
+									
+									<br>
+									
+									<table class="ratingtable" style="width:100%">
+										<?php
+										$examHeadingTwo = array(array("Reproduktion", "Transfer"), array("Qualitativ", "Quantitativ"));
+										for($i=0;$i<2;$i++){
+											?>
+											<tr>
+												<td>
+													<span style="float:left; margin-left:3px;"><?php echo $examHeadingTwo[$i][0] ?></span>
+												</td>
+												<td>
+													<span style="float:right; margin-right:3px;"><?php echo $examHeadingTwo[$i][1] ?></span>
+												</td>
+											</tr>
+											
+											<tr>
+												<td valign="center" style="width:50%">
+													<div style="font-size:15px; font-weight:bold; line-height:2">
+														<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+															<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examLeft[$i][$j]*10 ?>%"></div>
+														</div>
+													</div>
+												</td>
+												
+												<td valign="center" style="width:50%">
+													<div style="font-size:15px; font-weight:bold; line-height:2">
+														<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+															<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight[$i][$j]*10 ?>%"></div>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<?php
+										}?>
+									</table>	
+								</div>
+								<?php
+							}?>
+						
+							<div id="other" class="tab-pane fade otherTab">
+								<?php
+								$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
+								while($row = mysqli_fetch_assoc($result)){
+									?>
+									<p class="otherComment"><?php echo $row['examText'] ?></p>
+									<?php
+								}
+								?>
+							</div>
+						</div>
+					</div>
+
+					<script>
+					written = $('#writtenBadge').text();
+					oral = $('#oralBadge').text();
+					other = $('#otherBadge').text();
+					var max = Math.max(written, oral, other);
+					
+					switch (true){
+						case written == max:
+							$('li.written').addClass("active");
+							$('#written').addClass("in active");
+							break;
+						case oral == max:
+							$('li.oral').addClass("active");
+							$('#oral').addClass("in active");
+							break;
+						case other == max:
+							$('li.other').addClass("active");
+							$('#other').addClass("in active");
+							break;
+					}
+					</script>
+
+<!--
+					<?php
+					$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+					$row = mysqli_fetch_assoc($result);
+					?>
+					
+					<div style="display:inline-block">
+						<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
+							<span><?php echo round($row['AVG(general0)'], 1) ?></span>
+							<div class="slice">
+								<div class="bar"></div>
+								<div class="fill"></div>
+							</div>
+						</div>
+					</div>
+					<p align="center">Gesamtbewertung</p>	
+-->
+				</div>
+			</div>
+			<!--Bewertungsübersicht Ende-->	
+			
+			<!--Kommentare Start-->
+			<div class="col-md-2 head_left">
+				Kommentare und Einzelbewertungen
+			</div>
+
+			<div class="col-md-10 well" id="commentsection">
+
+				<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
+				<label>Sortieren nach: &nbsp </label>
+				<select class="form-control" name="commentorder" id="commentorder" <!--onchange="this.form.submit()"-->>
+					<option value="date_newFirst">Datum (Neuste zuerst)</option>
+					<option value="date_newLast">Datum (Älteste zuerst)</option>
+					<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
+					<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
+				</select>
+				</form>
+				
+				<br>
+				
+				<!--Für Übergabe an JS-->
+				<span id="hiddenSubjectId" style="display:none"><?php echo $subjectData['ID']?></span>
+				<span id="hiddenUserId" style="display:none"><?php echo $userRow['user_ID']?></span>
+				
+				<div id="commentDiv">
+					<?php
+					include "loadComments.php";
+					?>
+				</div>
+				
+				<script>
+				$('#commentorder').change(function () {
+					//$('#commentDiv').html($('#commentorder').val());
+
+					$.ajax({
+						type: "POST",
+						url: "loadComments.php",
+						data: {order: $('#commentorder').val(), subject_id: $('#hiddenSubjectId').html(), user_id: $('#hiddenUserId').html()},
+						success: function(data) {
+							$('#commentDiv').html(data);
+							//$('#commentDiv').html("hey");
+							//alert(data);
+						}
+					});
+				});
+				</script>
+				
+				<!-- Zeig Stats zu Kommentar -->
+				<script>
+					function showStats(id){
+							$('#commentsStatsModal').modal('show');
+							$('#commentStats').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+							$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function( response, status, xhr ) {
+							  if ( status == "error" ) {
+								$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
+							  }
+							});
+					}	
+				</script>
+				
+				<!-- Farbänderung bei Kommentarbewertung -->
+				<script>
+				function colorChange(id) {
+					// Check, ob User Kommentar bereits bewertet hat
+					if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
+						xmlhttp=new XMLHttpRequest();
+					}else{// AJAX mit IE6, IE5
+						xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+					}
+					
+					xmlhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							if (this.responseText.trim() == true){
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'red';
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Bereits <br> bewertet';
+								setTimeout(function() {
+									document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = '';
+								}, 3000);
+								document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
+								document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
+								document.getElementById(id.substring(0, id.length - 2) + 'up').style.color = 'lightgrey';
+								document.getElementById(id.substring(0, id.length - 2) + 'do').style.color = 'lightgrey';
+							} else{
+								// Frontend ändern
+								if (id.substring(id.length - 2, id.length) == 'do') {
+									document.getElementById(id).style.color = 'red';
+									document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - 1;
+									document.getElementById(id).onclick = '';
+									document.getElementById(id).style.cursor = 'default';
+									document.getElementById(id.substring(0, id.length - 2) + 'up').onclick = '';
+									document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
+								} else {
+									document.getElementById(id).style.color = 'green';
+									document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - (-1);
+									document.getElementById(id).onclick = '';
+									document.getElementById(id).style.cursor = 'default';
+									document.getElementById(id.substring(0, id.length - 2) + 'do').onclick = '';
+									document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
+								}
+								
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'green';
+								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Gewertet';
+								
+								setTimeout(function() {
+									document.getElementById(id.substring(0, id.length - 2) + 'confirmation').remove();
+								}, 3000);
+								
+								//Datenbank aktualisieren
+								if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
+									xmlhttp=new XMLHttpRequest();
+								}else{// AJAX mit IE6, IE5
+									xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+								}
+								
+								var commentID = id.substring(0, id.length - 2);
+								var userID = <?php echo $userRow['user_ID']; ?>;
+								var subjectID = <?php echo $subjectData['ID']; ?>;
+								var ratingDirection = id.substring(id.length - 2, id.length);
+								
+								xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
+								xmlhttp.send();
+							}
+						}
+					};
+				
+					var commentID = id.substring(0, id.length - 2);
+					var userID = <?php echo $userRow['user_ID']; ?>;
+					
+					xmlhttp.open("GET","checkExistence.php?commentID="+commentID+"&userID="+userID,true);
+					xmlhttp.send();
+				}
+				</script>
+			</div>
+			<!--Kommentare Ende-->
+		</div>
+	</div>
 </div>
+
+
 
 <!-- Modal für Bewertungsänderung-->
 <div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -642,7 +637,7 @@ function time_elapsed_string($datetime, $full = false) {
 	<div class="modal-content">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Bewertungsänderung für: <?php echo $subjectData['subject_name'] ?></h2>
+		<h4 class="modal-title">Bewertungsänderung für:<br><strong><?php echo $subjectData['subject_name'] ?></strong></h4>
 	</div>
 	<div class="modal-body">
 		<div id="bewertungAendernForm"></div>
@@ -657,7 +652,7 @@ function time_elapsed_string($datetime, $full = false) {
 	<div class="modal-content">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Bewertung löschen für: <?php echo $subjectData['subject_name'] ?></h2>
+		<h4 class="modal-title">Bewertung löschen für:<br><strong><?php echo $subjectData['subject_name'] ?></strong></h4>
 	</div>
 		<div class="modal-body">
 			<form action="rating_delete.php?subject=<?php echo $subject?>" method="POST">
@@ -768,7 +763,7 @@ $(document).ready(function(){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Einzelbewertung</h4>
+        <h4 class="modal-title"><strong>Einzelbewertung</strong></h4>
       </div>
       <div class="modal-body">
 		<div id="commentStats"></div>
