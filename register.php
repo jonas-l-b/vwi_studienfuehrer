@@ -105,7 +105,7 @@ if(isset($_POST['btn-signup'])) {
 			//$highlight_email = "style=\"background-color:rgb(242, 222, 222)\"";
 			$hightlight_upass = "style=\"background-color:rgb(242, 222, 222)\"";
 		}
-		if($count>0 AND $count2!==0){
+		if($count>0 AND $count2==0){
 			$msg = "<div class='alert alert-danger'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Diese E-Mail-Adresse wird bereits verwendet! Bitte korrigiere die hervorgehobenen Felder - das Passwort muss aus Sicherheitsgründen erneut eingegeben werden.
 			</div>";
