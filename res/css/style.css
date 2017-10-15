@@ -194,11 +194,24 @@
   color: #000;
 }
 
+.menu .nav >li >ul >li >a:hover {
+  transform: scale(1.1);
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px; /* future proofing */
+}
+
+.menu .nav >li >ul >li >a {
+  transition: all .2s ease-in-out;
+}
+
 .menu .nav >li >a:hover:before {
   visibility: visible;
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
 }
+
+
 
 .menu .nav >li >a:before {
   content: "";
