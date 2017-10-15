@@ -24,13 +24,15 @@ $name = $userRow['first_name'];
 <nav class="navbar navbar-default navbar-fixed-top menu">
 	<div class="container">
 		    <div class="navbar-header">
+			  <a id="menulogohandy" class="navbar-brand" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+				</a>
 			  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>                        
 			  </button>
 			</div>
-			<a class="navbar-brand" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="Dispute Bills">
+			<a id="menulogo" class="navbar-brand" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
 				</a>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
@@ -65,7 +67,7 @@ $name = $userRow['first_name'];
 			</div>
 		</div>
 </nav>
-<div style="margin-top:110px;"></div>
+<div class="aftermenu"></div>
 <div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	<div class="modal-content">

@@ -165,7 +165,8 @@
 	}
 }
 
-.navbar-brand {
+@media screen and (min-width: 768px) {
+   .navbar-brand {
   padding: 0px;
 }
 .navbar-brand>img {
@@ -217,4 +218,33 @@
 .menu .navbar-toggle {
   padding: 10px;
   margin: 25px 15px 25px 0;
+} 
+#menulogo{
+		display:block;
+	}
+#menulogohandy{
+		display:none;
+	}
+.aftermenu{
+	margin-top:110px;
 }
+}
+
+@media screen and (max-width: 767px){
+	#menulogo{
+		display:none;
+	}
+	#menulogohandy{
+		display:block;
+		height: 50px;
+	}
+	#menulogohandy>img{
+		height: 30px;
+		margin-left:50%;
+	}
+	.aftermenu{
+		margin-top:60px;
+	}
+}
+
+
