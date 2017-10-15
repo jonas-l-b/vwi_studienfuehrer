@@ -507,7 +507,7 @@ include "sumVotes.php";
 					<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
 					<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
 				</select>
-				<span id="load" style="display:none">&nbsp&nbsp&nbsp Laden...</span>
+				<span class="loader" id="load" style="display:none; padding-left: 5em;"><div></div></span>
 				</form>
 				
 				
