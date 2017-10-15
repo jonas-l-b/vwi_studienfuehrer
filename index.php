@@ -507,7 +507,9 @@ include "sumVotes.php";
 					<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
 					<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
 				</select>
+				<span id="load" style="display:none">&nbsp&nbsp&nbsp Laden...</span>
 				</form>
+				
 				
 				<br>
 				
@@ -523,16 +525,18 @@ include "sumVotes.php";
 				
 				<script>
 				$('#commentorder').change(function () {
-					//$('#commentDiv').html($('#commentorder').val());
+					$('#load').fadeIn();
 
 					$.ajax({
 						type: "POST",
 						url: "loadComments.php",
 						data: {order: $('#commentorder').val(), subject_id: $('#hiddenSubjectId').html(), user_id: $('#hiddenUserId').html()},
 						success: function(data) {
-							$('#commentDiv').html(data);
-							//$('#commentDiv').html("hey");
-							//alert(data);
+							$('#load').fadeOut();
+							$('#commentDiv').fadeOut(function() {
+								$('#commentDiv').html(data);
+								$('#commentDiv').fadeIn();
+							});
 						}
 					});
 				});
