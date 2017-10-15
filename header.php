@@ -39,6 +39,11 @@
 	<script src="res/lib/jquery.autocomplete.js"></script>
 	<script src="res/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
 	<script src="res/js/script.js"></script>
+	<?php
+		if(isset($_GET['tour'])&&$_GET['tour']=="true"){
+			echo '<link rel="stylesheet" href="res/lib/bootstrap-tour.min.css"><script src="res/lib/bootstrap-tour.min.js"></script>';
+		}
+	?>
 </head>
 
 <?php

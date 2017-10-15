@@ -11,7 +11,7 @@ include "connect.php";
 
 <?php include "inc/nav.php" ?>
 
-<div class="treeWelcome">
+<div id="welcome" class="treeWelcome">
 	<h3>Willkommen zum Studienführer</h3>
 </div>
 
@@ -462,7 +462,7 @@ include "connect.php";
 	?>
 
 	<h4 align="center">Wie möchtest du deine Veranstaltung finden?</h4>
-	<div align="center">
+	<div id="optionen" align="center">
 		<form method="get">
 			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toTree" <?php echo $displayButtonTree ?>>Veranstaltung aus Verzeichnis wählen</button>
 			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toSearch" <?php echo $displayButtonSearch ?>>Veranstaltungen nach Kriterien durchsuchen</button>
@@ -791,6 +791,13 @@ include "connect.php";
 		$( "td" ).children().niceScroll();
 	});
 </script>
+
+<?php
+	if(isset($_GET['tour'])&&$_GET['tour']=="true"){
+		echo '<script src="res/js/tree-tour.js"></script>';
+	}
+?>
+
 </body>
 </html>
 
