@@ -195,10 +195,18 @@
 }
 
 .menu .nav >li >ul >li >a:hover {
-  transform: scale(1.1);
+  /*transform: scale(1.05);
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
-  border-radius: 10px; /* future proofing */
+  border-radius: 10px;*/
+}
+
+.menu .nav >li >ul >li >a:hover span{
+  transform: scale(1.1);
+}
+
+.menu .nav >li >ul >li >a span{
+  transition: all .2s ease-in-out;
 }
 
 .menu .nav >li >ul >li >a {
@@ -210,8 +218,6 @@
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
 }
-
-
 
 .menu .nav >li >a:before {
   content: "";

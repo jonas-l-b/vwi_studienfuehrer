@@ -44,10 +44,10 @@ $name = $userRow['first_name'];
 					<li>
 						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;"><span class="glyphicon glyphicon-user"></span> Hallo <?php echo $name;?>! <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a id="linkToUserProfile" href="userProfile.php">Profil</a></li>
-							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten</a></li>
+							<li><a id="linkToUserProfile" href="userProfile.php">Profil <span class="pull-right"><span class="glyphicon glyphicon-list-alt"></span></span></a></li>
+							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten <span class="pull-right"><span class="glyphicon glyphicon-star"></span></span></a></li>
 							<li class="divider"></li>
-							<li><a href="logout.php">Logout</a></li>
+							<li><a href="logout.php">Logout <span class="pull-right"><span class="glyphicon glyphicon-log-out"></span></span></a></li>
 						</ul>
 					</li>		
 				</ul>				
