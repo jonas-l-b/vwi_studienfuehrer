@@ -474,10 +474,10 @@ function time_elapsed_string($datetime, $full = false) {
 						
 							<div id="other" class="tab-pane fade otherTab">
 								<?php
-								$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
+								$result = mysqli_query($con, "SELECT ID, examText FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
 								while($row = mysqli_fetch_assoc($result)){
 									?>
-									<p class="otherComment"><?php echo $row['examText'] ?></p>
+									<p class="otherComment"><?php echo $row['examText'] ?> <a href="#bewertungMitID<?php echo $row['ID'] ?>" data-comment-id="<?php echo $row['ID'] ?>"  class="sonstigesZuCommentLink"><span class="pull-right"><span class="glyphicon glyphicon-comment"></span></span></a></p>
 									<?php
 								}
 								?>
@@ -659,13 +659,13 @@ function time_elapsed_string($datetime, $full = false) {
 					
 					echo "
 						<div class=\"well\" style=\"background-color:white; border-radius:none\">
-							<div class=\"media\">
+							<div id=\"bewertungMitID".$comments['ID']."\" class=\"media einzelKommentar\">
 								<div class=\"media-left\">
 									<p style=\"white-space: nowrap; padding-right:10px;\"><span style=\"font-weight:bold; cursor: pointer; cursor: hand;\" onclick=\"colorChange(this.id)\" id=\"".$comments['ID']."do\"> &minus; </span><span style=\"padding-right:3px;\" id=\"".$comments['ID']."\">".$comments['comment_rating']."</span><span style=\"font-weight:bold; cursor: pointer; cursor: hand;\" onclick=\"colorChange(this.id)\" id=\"".$comments['ID']."up\">+</span></p>
 									<p class=\"nowrap confirmation\" id=\"".$comments['ID']."confirmation\"></p>
 								</div>
 								<div class=\"media-body\">
-									<p> ".$comments['comment']." </p>
+									<p><span id=\"ausrufezeichen".$comments['ID']."\" class=\"ausrufezeichen glyphicon glyphicon-exclamation-sign pull-right\"></span> ".$comments['comment']." </p>
 									".$recommend."
 									<hr style=\"margin:10px\">
 									<div style=\"font-size:10px\">
@@ -978,6 +978,12 @@ $(document).ready(function(){
 			});
 	}
 	$('.editButtonIdentificationClass').click(aendernLaden);
+	
+	$('.sonstigesZuCommentLink').click(function(){
+		setTimeout(function(){
+			$('.ausrufezeichen').fadeOut();
+		}, 3000);
+	});
 });
 </script>
 

@@ -79,6 +79,22 @@
 	overflow-y:hidden;
 }
 
+.sonstigesZuCommentLink{
+	color: lightgrey;
+}
+
+.sonstigesZuCommentLink:hover {
+	color: black;
+}
+
+.einzelKommentar:target .ausrufezeichen{
+   display: block;
+   color: gold;
+}
+.einzelKommentar .ausrufezeichen{
+   display: none;
+}
+
 .loader{
 	position:relative;
 }
