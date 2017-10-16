@@ -252,11 +252,16 @@ function time_elapsed_string($datetime, $full = false) {
 	</div>
 	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
 
+	<div>
+		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['semester'] ?></p>
+		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['language'] ?></p>
+	</div>
+	
 	<div class="infoContainer">
 	<?php
 	$box = array(
-		array("Modultyp", "Teil der Module", "Level", "ECTS", "Dozent", "Semester", "Sprache"),
-		array($module_types, $part_of_modules, $levels, $subjectData['subject_ECTS'], $lecturers, $subjectData['semester'], $subjectData['language'])
+		array("Modultyp", "Teil der Module", "Level", "ECTS", "Dozent"),
+		array($module_types, $part_of_modules, $levels, $subjectData['subject_ECTS'], $lecturers)
 	);
 
 	for ($x = 0; $x <= ((count($box, COUNT_RECURSIVE)-2)/2)-1; $x++) {
