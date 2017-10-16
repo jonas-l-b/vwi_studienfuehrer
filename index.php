@@ -979,11 +979,12 @@ $(document).ready(function(){
 	}
 	$('.editButtonIdentificationClass').click(aendernLaden);
 	
-	$('.sonstigesZuCommentLink').click(function(){
+	// Noch verbuggt. Funktioniert nur 1 mal
+	/*$('.sonstigesZuCommentLink').click(function(){
 		setTimeout(function(){
 			$('.ausrufezeichen').fadeOut();
 		}, 3000);
-	});
+	});*/
 });
 </script>
 
