@@ -797,10 +797,6 @@ include "connect.php";
 	$(document).ready(function() {
 		$(".searchresulttable").simplePagination();
 		$( "td" ).children().niceScroll();
-	});
-</script>
-<script>
-	$(document).ready(function(){
 		$('#treebutton').click(function(){
 			$('#treebutton').addClass('disabled');
 			$('#searchbutton').removeClass('disabled');
