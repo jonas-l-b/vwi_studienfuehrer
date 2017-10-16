@@ -324,7 +324,7 @@ function time_elapsed_string($datetime, $full = false) {
 							$row = mysqli_fetch_assoc($result);
 							$lecture[$key] = round($row['AVG('.$item.')'],1);			
 						}
-						$lectureHeadings = array("Overall-Score", "Klausurrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
+						$lectureHeadings = array("Overall-Score", "Prüfungsrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
 						
 						//Exam
 						$items = array("exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
@@ -392,7 +392,7 @@ function time_elapsed_string($datetime, $full = false) {
 						</table>
 					</div>
 					<div class="col-md-6">
-						<h4><strong>Klausur</strong></h4>
+						<h4><strong>Prüfung</strong></h4>
 						
 						<ul class="nav nav-pills">
 							<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" class="badge"><?php echo $writtenBadge ?></span></a></li>
