@@ -395,9 +395,9 @@ function time_elapsed_string($datetime, $full = false) {
 						<h4><strong>Prüfung</strong></h4>
 						
 						<ul class="nav nav-pills">
-							<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" class="badge"><?php echo $writtenBadge ?></span></a></li>
-							<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" class="badge"><?php echo $oralBadge ?></span></a></li>
-							<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" class="badge"><?php echo $otherBadge ?></span></a></li>
+							<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" data-number-of-reviews="<?php echo $writtenBadge ?>" class="badge"><?php echo $writtenBadge ?></span></a></li>
+							<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" data-number-of-reviews="<?php echo $oralBadge ?>" class="badge"><?php echo $oralBadge ?></span></a></li>
+							<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" data-number-of-reviews="<?php echo $otherBadge ?>" class="badge"><?php echo $otherBadge ?></span></a></li>
 						</ul>
 						
 						<div class="tab-content">
@@ -924,6 +924,14 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
+		if($('#writtenBadge').attr('data-number-of-reviews')==0){
+			if($('#oralBadge').attr('data-number-of-reviews')==0){
+				$('[href=#otherBadge]').tab('show');
+			}else{
+				$('[href=#oralBadge]').tab('show');
+			}
+		}
+	
 		$("#favIcon").click(function(){
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
 				$.post( "favourites_newEntry.php", {
