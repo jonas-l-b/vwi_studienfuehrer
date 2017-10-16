@@ -802,10 +802,14 @@ include "connect.php";
 <script>
 	$(document).ready(function(){
 		$('#treebutton').click(function(){
+			$('#treebutton').addClass('disabled');
+			$('#searchbutton').removeClass('disabled');
 			$('#searchSide').hide();
 			$('#treeSide').show();
 		});
 		$('#searchbutton').click(function(){
+			$('#searchbutton').addClass('disabled');
+			$('#treebutton').removeClass('disabled');
 			$('#treeSide').hide();
 			$('#searchSide').show();
 		});
