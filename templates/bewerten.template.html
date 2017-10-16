@@ -1,20 +1,5 @@
 <form id="ratingForm" action="{{form_target}}?subject={{subject}}" method="POST">
 	
-	<script>
-	//Slider
-	$('input[type="range"]').on("change mousemove", function () {
-		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
-
-		$(this).css('background-image',
-					'-webkit-gradient(linear, left top, right top, '
-					+ 'color-stop(' + val + ', #2d5699), '
-					+ 'color-stop(' + val + ', #d3d3db)'
-					+ ')'
-					);
-		$('span.'+$(this).attr('class')).html($(this).val());
-	});
-	</script>
-	
 	<!--<button type="button" id="button" class="btn">Give value!</button>-->
 
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
@@ -222,4 +207,30 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+</script>
+
+<script>
+	//Slider
+	$('input[type="range"]').on("change mousemove", function () {
+		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
+
+		$(this).css('background-image',
+					'-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + val + ', #2d5699), '
+					+ 'color-stop(' + val + ', #d3d3db)'
+					+ ')'
+					);
+		$('span.'+$(this).attr('class')).html($(this).val());
+	});
+	$('input[type="range"]').each(function () {
+		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
+
+		$(this).css('background-image',
+					'-webkit-gradient(linear, left top, right top, '
+					+ 'color-stop(' + val + ', #2d5699), '
+					+ 'color-stop(' + val + ', #d3d3db)'
+					+ ')'
+					);
+		$('span.'+$(this).attr('class')).html($(this).val());
+	});
 </script>
