@@ -53,7 +53,7 @@ function time_elapsed_string($datetime, $full = false) {
 
 <?php include "inc/nav.php" ?>
 
-<div class="container" style="margin-top:60px">
+<div class="container">
 	<?php
 	//Get subject data
 	$sqlBody = "
@@ -242,8 +242,8 @@ function time_elapsed_string($datetime, $full = false) {
 	}
 	?>
 	
-	<div class="row" style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+	<div class="row">
+		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11" style="border-bottom: 1px solid #dedede;">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
 		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
