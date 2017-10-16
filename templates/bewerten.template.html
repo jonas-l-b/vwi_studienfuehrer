@@ -12,7 +12,7 @@
 	{% endfor %}
 	
 	<br>
-	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Klausur</p>
+	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Prüfung</p>
 	
 	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
 	<select id="examType" class="form-control" style="width:80%" required>
@@ -37,24 +37,23 @@
 			$("#examType :input").prop('required',null);
 			$("#examDetails").prop('required',false);
 		}
-	})
+	});
 	
 	//Gleicher Code. Nötig, damit alles richtig angezeigt wird, wenn Kommentar bearbeitet wird
-	/*
-	$(document).one('ready', function () {
+	
+	$(document).ready(function () {
 		if($('#examType option:selected').val() == "other"){
 			$("#examDetails").show();
 			$(".examItems").hide();
 			$("#examDetails").prop('required',true);
 		}
-		if($('#examType option:selected').val() == "written" || '#examType option:selected').val() == "oral"){
+		if($('#examType option:selected').val() == "written" || $('#examType option:selected').val() == "oral"){
 			$("#examDetails").hide();
 			$(".examItems").show();
 			$("#examType :input").prop('required',null);
 			$("#examDetails").prop('required',false);
 		}
 	});
-	*/
 	</script>
 	
 	{% for key,value in examItems %}
