@@ -738,18 +738,59 @@ include "connect.php";
 			
 			<div class="row"><div class="control-group"> <div class="controls form-inline">
 				<span><strong>Sortieren nach</strong></span>
-				
+	<!--			
 				<select class="form-control" name="orderBy">
+					<option disabled>Bewertung insgesamt</option>
 					<option value="overall" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Gesamtwertung</option>
-					<option value="crit1" <?php if(isset($sortSelection['crit1'])) echo $sortSelection['crit1']?>>Bewertung Veranstaltung</option>
-					<option value="crit2" <?php if(isset($sortSelection['crit2'])) echo $sortSelection['crit2']?>>Bewertung Aufwand</option>
-					<option value="crit3" <?php if(isset($sortSelection['crit3'])) echo $sortSelection['crit3']?>>Bewertung Kriterium 3</option>
-					<option value="crit4" <?php if(isset($sortSelection['crit4'])) echo $sortSelection['crit4']?>>Bewertung Kriterium 4</option>
+					<option value="recommendations" <?php if(isset($sortSelection['recommendations'])) echo $sortSelection['recommendations']?>>Veranstaltungsempfehlungen</option>
+					<option disabled>Vorlesung</option>
+					<option value="crit1" <?php if(isset($sortSelection['crit1'])) echo $sortSelection['crit1']?>>Overall Vorlesung</option>
+					<option value="crit2" <?php if(isset($sortSelection['crit2'])) echo $sortSelection['crit2']?>>Prüfungsrelevanz</option>
+					<option value="crit3" <?php if(isset($sortSelection['crit3'])) echo $sortSelection['crit3']?>>Interessantheit</option>
+					<option value="crit4" <?php if(isset($sortSelection['crit4'])) echo $sortSelection['crit4']?>>Qualität der Arbeitsmaterialien</option>
+					<option disabled>Prüfung</option>
 					<option value="crit5" <?php if(isset($sortSelection['crit5'])) echo $sortSelection['crit5']?>>Bewertung Kriterium 5</option>
-					<option value="recommendations" <?php if(isset($sortSelection['recommendations'])) echo $sortSelection['recommendations']?>>Anzahl Veranstaltungsempfehlungen</option>
+					
 					<option value="commentCount" <?php if(isset($sortSelection['commentCount'])) echo $sortSelection['commentCount']?>>Anzahl abgegebene Kommentare</option>
 				</select>
+		-->
+				<select class="form-control" id="sortArea" name="orderBy">
+					<option value="overall" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Bewertung insgesamt</option>
+					<option value="lecture" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Vorlesung</option>
+					<option value="exam" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Prüfung</option>
+				</select>
+		
+				<select class="form-control treeSort" id="sortOverall" name="orderBy">
+					<option value="overallRating" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Gesamtbewertung</option>
+					<option value="recoms" <?php if(isset($sortSelection['overall'])) echo $sortSelection['overall']?>>Veranstaltungsempfehlungen</option>
+				</select>
 				
+				<select class="form-control treeSort" id="sortLecture" style="display:none" name="orderBy">
+					<option value="crit1" <?php if(isset($sortSelection['crit1'])) echo $sortSelection['crit1']?>>Overall Vorlesung</option>
+					<option value="crit2" <?php if(isset($sortSelection['crit2'])) echo $sortSelection['crit2']?>>Prüfungsrelevanz</option>
+					<option value="crit3" <?php if(isset($sortSelection['crit3'])) echo $sortSelection['crit3']?>>Interessantheit</option>
+					<option value="crit4" <?php if(isset($sortSelection['crit4'])) echo $sortSelection['crit4']?>>Qualität der Arbeitsmaterialien</option>				
+				</select>
+				
+				<select class="form-control treeSort" id="sortExamType" style="display:none" name="orderBy">
+					<option value="written" <?php if(isset($sortSelection['crit1'])) echo $sortSelection['crit1']?>>Schriftlich</option>
+					<option value="oral" <?php if(isset($sortSelection['crit2'])) echo $sortSelection['crit2']?>>Mündlich</option>
+					<option value="other" <?php if(isset($sortSelection['crit3'])) echo $sortSelection['crit3']?>>Sonstige</option>			
+				</select>
+
+				<select class="form-control treeSort" id="sortExamItem" style="display:none" name="orderBy">
+					<option value="crit1" <?php if(isset($sortSelection['crit1'])) echo $sortSelection['crit1']?>>Overall Prüfung</option>
+					<option value="crit2" <?php if(isset($sortSelection['crit2'])) echo $sortSelection['crit2']?>>Aufwand</option>
+					<option value="crit3" <?php if(isset($sortSelection['crit3'])) echo $sortSelection['crit3']?>>Fairness</option>
+					<option value="crit4" <?php if(isset($sortSelection['crit4'])) echo $sortSelection['crit4']?>>Zeitdruck</option>
+					<option value="crit3" <?php if(isset($sortSelection['crit3'])) echo $sortSelection['crit3']?>>Reproduktion/Transfer</option>
+					<option value="crit4" <?php if(isset($sortSelection['crit4'])) echo $sortSelection['crit4']?>>Qualitativ/Quantiativ</option>						
+				</select>
+				
+				<select class="form-control treeSort" id="sortExamOther" style="display:none" name="orderBy">
+					<option value="crit1" <?php if(isset($sortSelection['crit1'])) echo $sortSelection['crit1']?>>Bewertungsanzahl</option>
+				</select>
+		
 				<select class="form-control" name="orderDirection">
 					<option value="ASC" <?php if(isset($directionSelection['ASC'])) echo $directionSelection['ASC']?>>Absteigend</option>
 					<option value="DESC" <?php if(isset($directionSelection['DESC'])) echo $directionSelection['DESC']?>>Aufsteigend</option>
@@ -758,6 +799,39 @@ include "connect.php";
 				<button type="submit" class="btn btn-primary" name="btn-filterSort">Filtern & Sortieren</button>
 			</div></div></div>
 		</form>
+		
+		<script>
+			$('#sortArea').on('change', function() {
+				switch(this.value){
+					case "overall":
+						$('.treeSort').hide();
+						$('#sortOverall').show();
+						break;
+					case "lecture":
+						$('.treeSort').hide();
+						$('#sortLecture').show();
+						break;
+					case "exam":
+						$('.treeSort').hide();
+						$('#sortExamType').show();
+						$('#sortExamItem').show();
+						break;
+				}
+			})
+			
+			$('#sortExamType').on('change', function() {
+				switch(this.value){
+					case "other":
+						$('#sortExamItem').hide();
+						$('#sortExamOther').show();
+						break;
+					default:
+						$('#sortExamOther').hide();
+						$('#sortExamItem').show();
+						break;
+				}
+			})
+		</script>
 
 		<script>
 			//Verhindert, dass kein Modultyp ausgewählt wird
