@@ -769,7 +769,7 @@ include "connect.php";
 					<option value="fairness">Fairness</option>
 					<option value="timePressure">Zeitdruck</option>
 					<option value="reproductionTransfer">Reproduktion/Transfer</option>
-					<option value="qualitative/quantitative">Qualitativ/Quantiativ</option>						
+					<option value="qualitativeQuantitative">Qualitativ/Quantiativ</option>						
 				</select>
 				
 				<select class="form-control treeSort" id="sortExamOther" style="display:none" name="sortExamOther">
@@ -781,7 +781,7 @@ include "connect.php";
 					<option value="DESC">Aufsteigend</option>
 				</select>
 				
-				<button type="submit" class="btn btn-primary" name="btn-filterSort">Filtern & Sortieren</button>
+				<button type="submit" class="btn btn-primary" id="btn-filterSort">Filtern & Sortieren</button>
 			</div></div></div>
 		</form>
 		
@@ -833,6 +833,24 @@ include "connect.php";
 		</script>
 
 		<!--Start Ergebnistabelle-->
+		<script>
+		$('#btn-filterSort').on('click', function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: "tree_createTable.php",
+				type: "post",
+				data: $("#filtersort").serialize() /*+ "&message_id=" + m_id*/,
+				success: function (data) {
+					$('#resultTable').html(data);
+				},
+				error: function() {
+					alert("Error!");
+				}
+			});
+		});
+		</script>
+		
+		<div id="resultTable"></div>
 		
 		<div <?php echo $displayTable ?>>
 			<?php echo $table ?>
