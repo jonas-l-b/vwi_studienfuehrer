@@ -739,31 +739,31 @@ include "connect.php";
 			<div class="row"><div class="control-group"> <div class="controls form-inline">
 				<span><strong>Sortieren nach</strong></span>
 
-				<select class="form-control" id="sortArea" name="orderBy">
+				<select class="form-control" id="sortArea" name="sortArea">
 					<option value="overall">Bewertung insgesamt</option>
 					<option value="lecture">Vorlesung</option>
 					<option value="exam">Prüfung</option>
 				</select>
 		
-				<select class="form-control treeSort" id="sortOverall" name="orderBy">
+				<select class="form-control treeSort" id="sortOverall" name="sortOverall">
 					<option value="overallRating">Gesamtbewertung</option>
 					<option value="recoms">Veranstaltungsempfehlungen</option>
 				</select>
 				
-				<select class="form-control treeSort" id="sortLecture" style="display:none" name="orderBy">
+				<select class="form-control treeSort" id="sortLecture" style="display:none" name="sortLecture">
 					<option value="overallLecture">Overall Vorlesung</option>
 					<option value="relevance">Prüfungsrelevanz</option>
 					<option value="interest">Interessantheit</option>
 					<option value="quality">Qualität der Arbeitsmaterialien</option>				
 				</select>
 				
-				<select class="form-control treeSort" id="sortExamType" style="display:none" name="orderBy">
+				<select class="form-control treeSort" id="sortExamType" style="display:none" name="sortExamType">
 					<option value="written">Schriftlich</option>
 					<option value="oral">Mündlich</option>
 					<option value="other">Sonstige</option>			
 				</select>
 
-				<select class="form-control treeSort" id="sortExamItem" style="display:none" name="orderBy">
+				<select class="form-control treeSort" id="sortExamItem" style="display:none" name="sortExamItem">
 					<option value="overallExam">Overall Prüfung</option>
 					<option value="effort">Aufwand</option>
 					<option value="fairness">Fairness</option>
@@ -772,7 +772,7 @@ include "connect.php";
 					<option value="qualitative/quantitative">Qualitativ/Quantiativ</option>						
 				</select>
 				
-				<select class="form-control treeSort" id="sortExamOther" style="display:none" name="orderBy">
+				<select class="form-control treeSort" id="sortExamOther" style="display:none" name="sortExamOther">
 					<option value="amountRatings">Bewertungsanzahl</option>
 				</select>
 		
