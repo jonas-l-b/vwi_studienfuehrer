@@ -22,17 +22,20 @@
 		<option value="other" {{typeOther}}>Sonstige</option>
 	</select>
 	<br>
-	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
+	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" maxlength="2500" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
+	<div id="commentWarningExamDetails"></div>
 	
 	<script>
 	$("#examType").on('change', function() {
 		if($('#examType option:selected').val() == "other"){
 			$("#examDetails").show();
+			$("#commentWarningExamDetails").show();
 			$(".examItems").hide();
 			$("#examDetails").prop('required',true);
 		}
 		if($('#examType option:selected').val() != "other"){
 			$("#examDetails").hide();
+			$("#commentWarningExamDetails").hide();
 			$(".examItems").show();
 			$("#examType :input").prop('required',null);
 			$("#examDetails").prop('required',false);
@@ -44,16 +47,30 @@
 	$(document).ready(function () {
 		if($('#examType option:selected').val() == "other"){
 			$("#examDetails").show();
+			("#commentWarningExamDetails").show();
 			$(".examItems").hide();
 			$("#examDetails").prop('required',true);
 		}
 		if($('#examType option:selected').val() == "written" || $('#examType option:selected').val() == "oral"){
 			$("#examDetails").hide();
+			$("#commentWarningExamDetails").hide();
 			$(".examItems").show();
 			$("#examType :input").prop('required',null);
 			$("#examDetails").prop('required',false);
 		}
 	});
+	
+	$('#examDetails').on("propertychange input textInput", function() {
+		if($('#examDetails').val().length < 2000){
+			$('#commentWarningExamDetails').html("");
+		}else if($('#examDetails').val().length >= 2000 && $('#examDetails').val().length < 2400){	
+			$('#commentWarningExamDetails').css('color', 'black');
+			$('#commentWarningExamDetails').html("Noch " + (2500 - $('#examDetails').val().length) + " Zeichen übrig");
+		}else{
+			$('#commentWarningExamDetails').css('color', 'red');
+			$('#commentWarningExamDetails').html("Noch " + (2500 - $('#examDetails').val().length) + " Zeichen übrig");
+		}
+	});				
 	</script>
 	
 	{% for key,value in examItems %}
@@ -103,15 +120,15 @@
 	<div id="commentWarning"></div>
 					
 	<script>
-	$('#comment{{ rand }}').on("propertychange input textInput", function() {
-		if($('#comment{{ rand }}').val().length < 2000){
+	$('#ratingComment').on("propertychange input textInput", function() {
+		if($('#ratingComment').val().length < 2000){
 			$('#commentWarning').html("");
-		}else if($('#comment{{ rand }}').val().length >= 2000 && $('#comment{{ rand }}').val().length < 2400){	
+		}else if($('#ratingComment').val().length >= 2000 && $('#ratingComment').val().length < 2400){	
 			$('#commentWarning').css('color', 'black');
-			$('#commentWarning').html("Noch " + (2500 - $('#comment{{ rand }}').val().length) + " Zeichen übrig");
+			$('#commentWarning').html("Noch " + (2500 - $('#ratingComment').val().length) + " Zeichen übrig");
 		}else{
 			$('#commentWarning').css('color', 'red');
-			$('#commentWarning').html("Noch " + (2500 - $('#comment{{ rand }}').val().length) + " Zeichen übrig");
+			$('#commentWarning').html("Noch " + (2500 - $('#ratingComment').val().length) + " Zeichen übrig");
 		}
 	});				
 	</script>
