@@ -333,6 +333,8 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 			</tbody>
 		</table>
 		
+	<script src=\"res/lib/jquery.simplePagination.js\"></script>
+	<script src=\"res/lib/jquery.nicescroll-master/jquery.nicescroll.js\"></script>
 		<script>
 			//Startet Pagination
 			$(document).ready(function() {
@@ -374,4 +376,117 @@ function sksort(&$array, $subkey="id", $sort_ascending=false) {
 }
 
 echo $table;
+?>
+
+<?php
+/*
+ANHANG - Benutze Sortierfunktion kommt von hier: http://php.net/manual/de/function.ksort.php
+Falls Link kaputt, hier das wichtigste:
+
+---------------
+
+Here is a function to sort an array by the key of his sub-array.
+
+function sksort(&$array, $subkey="id", $sort_ascending=false) {
+
+    if (count($array))
+        $temp_array[key($array)] = array_shift($array);
+
+    foreach($array as $key => $val){
+        $offset = 0;
+        $found = false;
+        foreach($temp_array as $tmp_key => $tmp_val)
+        {
+            if(!$found and strtolower($val[$subkey]) > strtolower($tmp_val[$subkey]))
+            {
+                $temp_array = array_merge(    (array)array_slice($temp_array,0,$offset),
+                                            array($key => $val),
+                                            array_slice($temp_array,$offset)
+                                          );
+                $found = true;
+            }
+            $offset++;
+        }
+        if(!$found) $temp_array = array_merge($temp_array, array($key => $val));
+    }
+
+    if ($sort_ascending) $array = array_reverse($temp_array);
+
+    else $array = $temp_array;
+}
+
+?>
+
+Example
+<?php
+$info = array("peter" => array("age" => 21,
+                                           "gender" => "male"
+                                           ),
+                   "john"  => array("age" => 19,
+                                           "gender" => "male"
+                                           ),
+                   "mary" => array("age" => 20,
+                                           "gender" => "female"
+                                          )
+                  );
+
+sksort($info, "age");
+var_dump($info);
+
+sksort($info, "age", true);
+var_dump($ifno);
+?>
+
+This will be the output of the example:
+
+//DESCENDING SORT
+array(3) {
+  ["peter"]=>
+  array(2) {
+    ["age"]=>
+    int(21)
+    ["gender"]=>
+    string(4) "male"
+  }
+  ["mary"]=>
+  array(2) {
+    ["age"]=>
+    int(20)
+    ["gender"]=>
+    string(6) "female"
+  }
+  ["john"]=>
+  array(2) {
+    ["age"]=>
+    int(19)
+    ["gender"]=>
+    string(4) "male"
+  }
+}
+
+//ASCENDING SORT
+array(3) {
+  ["john"]=>
+  array(2) {
+    ["age"]=>
+    int(19)
+    ["gender"]=>
+    string(4) "male"
+  }
+  ["mary"]=>
+  array(2) {
+    ["age"]=>
+    int(20)
+    ["gender"]=>
+    string(6) "female"
+  }
+  ["peter"]=>
+  array(2) {
+    ["age"]=>
+    int(21)
+    ["gender"]=>
+    string(4) "male"
+  }
+}
+*/
 ?>
