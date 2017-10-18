@@ -12,6 +12,8 @@ include "connect.php";
 if($userRow['admin']==0){
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_admin';</SCRIPT>");
 }
+
+$InstanceCache->deleteItem("treeside");
 ?>
 
 <?php include "inc/nav.php" ?>

@@ -479,15 +479,6 @@ include "connect.php";
  				<ul class="nav nav-list">
  	
  	<?php
- 	
- 	use phpFastCache\CacheManager;
- 
- 	CacheManager::setDefaultConfig(array(
- 		"path" => 'cache/tree/', // or in windows "C:/tmp/"
- 	));
- 
- 	// In your class, function, you can call the Cache
- 	$InstanceCache = CacheManager::getInstance('files');
  
  	$key = "treeside";
  	$CachedString = $InstanceCache->getItem($key);
@@ -538,7 +529,7 @@ include "connect.php";
 				$content .= "</ul>";
 			$content .= "</li>";
 		}
-		$CachedString->set($content)->expiresAfter(300);//in seconds, also accepts Datetime
+		$CachedString->set($content)->expiresAfter(300000);//in seconds, also accepts Datetime
  		$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
  
  		echo $CachedString->get();

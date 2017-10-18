@@ -12,6 +12,8 @@ include "connect.php";
 if($userRow['admin']==0){
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_admin';</SCRIPT>");
 }
+
+$InstanceCache->deleteItem("treeside");
 ?>
 <body>
 
@@ -113,6 +115,8 @@ if($userRow['admin']==0){
 	}
 	
 	if (isset($_POST['btn-saveChanges'])){ //Wenn Speichern-Button geklickt
+		
+	
 		$display = "style=\"display:none\"";
 		
 		//ID der aktuellen Veranstaltung
