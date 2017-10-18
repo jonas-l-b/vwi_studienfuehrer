@@ -332,6 +332,14 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				".$content."
 			</tbody>
 		</table>
+		
+		<script>
+			//Startet Pagination
+			$(document).ready(function() {
+				$(\".searchresulttable\").simplePagination();
+				$( \"td\" ).children().niceScroll();
+			});
+		</script>
 	";
 } else{
 	$table = "<h4>Für die gewählten Einschränkungen befinden sich keine Veranstaltungen in unserer Datenbank.</h4>";
