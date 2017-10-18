@@ -469,11 +469,35 @@ include "connect.php";
 		</form>
 	</div>
 	
+	
+	
 	<div <?php echo $displayTree ?>>
-		<?php
-		//Erstellt das Verzeichnis
-		$content = "";
+	<hr>
+ 		<h2>Veranstaltungsverzeichnis</h2>
+ 		<div class="well" style="width:500px; padding: 8px 0;">
+ 			<div>
+ 				<ul class="nav nav-list">
+ 	
+ 	<?php
+ 	
+ 	use phpFastCache\CacheManager;
+ 
+ 	CacheManager::setDefaultConfig(array(
+ 		"path" => 'cache/tree/', // or in windows "C:/tmp/"
+ 	));
+ 
+ 	// In your class, function, you can call the Cache
+ 	$InstanceCache = CacheManager::getInstance('files');
+ 
+ 	$key = "treeside";
+ 	$CachedString = $InstanceCache->getItem($key);
+ 
+ 
+ 	if (is_null($CachedString->get())) {
 		
+		
+		$content = "";
+ 		//Erstellt das Verzeichnis
 		$array = array(array("Bachelor - Kernprogramm", "bachelor_basic"), array("Bachelor - Vertiefungsprogramm", "bachelor"), array("Master", "master"));
 		for($x = 0; $x <= 2; $x++) {
 			$content .= "<li><label class=\"tree-toggler nav-header treetop\" style=\"color:rgb(0, 51, 153)\"><strong>".$array[$x][0]."</strong></label>";
@@ -514,14 +538,15 @@ include "connect.php";
 				$content .= "</ul>";
 			$content .= "</li>";
 		}
-		?>
-		
-		<hr>
-		<h2>Veranstaltungsverzeichnis</h2>
-		<div class="well" style="width:500px; padding: 8px 0;">
-			<div>
-				<ul class="nav nav-list">
-					<?php echo $content ?>
+		$CachedString->set($content)->expiresAfter(300);//in seconds, also accepts Datetime
+ 		$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+ 
+ 		echo $CachedString->get();
+ 
+ 	} else {
+ 		echo $CachedString->get();
+ 	}
+?>
 				</ul>
 			</div>
 		</div>
@@ -534,6 +559,10 @@ include "connect.php";
 		});
 		</script>
 	</div>
+	
+	
+	
+	
 	
 	
 	<div <?php echo $displaySearch ?>>
