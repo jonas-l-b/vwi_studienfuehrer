@@ -4,36 +4,76 @@
 *		Dieses Skript liefert das Bewertungsform unbefüllt oder befüllt
 */
 
-
 include "sessionsStart.php";
 include "connect.php";
+?>
 
-
-
+<?php
 if (isset($_GET['subject'])){
-	
 	$subject = $_GET['subject'];
 	$userID = $userRow['user_ID'];
+
+	$lectureItems = array(
+		"Wie bewertest du die Vorlesung ingesamt?",
+		"Wie relevant war die Vorlesung für die Prüfung?",
+		"Wie interessant fadest du die Vorlesung?",
+		"Wie war die Qualität der Vorlesungsmaterialien?",
+	);
+	
+	$examItems = array(
+		"Wie bewertest du die Prüfung ingesamt?",
+		"Wie aufwändig fandest du die Prüfungsvorbereitung?",
+		"Wie fair war die Prüfung gestellt?",
+		"Wie groß war der Zeitdruck während der Prüfung?",
+	);
+	
+	$examItems2 = array(
+		"Ging es eher um die Reproduktion von Auswendigelerntem oder den Transfer von Wissen?",
+		"Handelte es sich eher um quantitative oder um qualitative Aufgaben?",
+	);
+	$examItems2Labels = array(
+		array("Reproduktion", "Transfer"),
+		array("Quantitativ", "Qualitativ")
+	);
+	
+	$generalItems = array(
+		"Wie bewertest du die Veranstaltung ingesamt?",
+	);
+	
+	//Values if already filleds
 	if(isset($_GET['filled'])){
-		
-		
-		/*Datenbankabfrage, um bestehende Werte ins Modal einzutragen*/
 		$statement1 = $con->prepare("SELECT * FROM ratings
 			WHERE ratings.user_ID = ? AND ratings.subject_ID = (SELECT ID FROM subjects WHERE subjects.code = ?);");
 		$statement1->bind_param('ss', $userID, $subject);
 		$statement1->execute();
 		$result = $statement1->get_result();
 		$ratingData = mysqli_fetch_assoc($result);
-		//Rating
-		for ($i = 1; $i <= 5; $i++) {
-			for ($j = 1; $j <= 7; $j++) {
-				if($ratingData['crit'.$i] == $j){
-					$crit[$i][$j] = "checked";
-				} else{
-					$crit[$i][$j] = "";
-				}
-			}
+		
+		$lectureValues = array($ratingData['lecture0'], $ratingData['lecture1'], $ratingData['lecture2'], $ratingData['lecture3']);
+		$examValues = array($ratingData['exam0'], $ratingData['exam1'], $ratingData['exam2'], $ratingData['exam3']);
+		$examValues2 = array($ratingData['exam4'], $ratingData['exam5']);
+		//examType
+		switch($ratingData['examType']){
+			case "written":
+				$written = "selected";
+				$oral = "";
+				$other = "";
+				break;
+			case "oral":
+				$written = "";
+				$oral = "selected";
+				$other = "";
+				break;
+			case "other":
+				$written = "";
+				$oral = "";
+				$other = "selected";
+				break;
 		}
+		//examText
+		$examText = $ratingData['examText'];
+		//General
+		$general0 = $ratingData['general0'];
 		//Recommendation
 		if($ratingData['recommendation'] == 1){
 			$recom1 = "checked";
@@ -42,42 +82,45 @@ if (isset($_GET['subject'])){
 			$recom1 = "";
 			$recom0 = "checked";
 		}
-		echo $twig->render('bewerten.template.html', 
-							array(	'subject' => $subject,
-									'form_target' => 'rating_change.php',
-									'button_text' => 'Bewertung ändern',
-									'isChecked' => $crit,
-									'weiterempfehlen_ja' => $recom1,
-									'weiterempfehlen_nein' => $recom0,
-									'kommentar' => $ratingData['comment'],
-								));
+		//comment
+		$comment = $ratingData['comment'];
 	}else{
-		for ($i = 1; $i <= 5; $i++) {
-			for ($j = 1; $j <= 7; $j++) {
-				$crit[$i][$j] = "";
-			}
-		}
-		echo $twig->render('bewerten.template.html', 
-							array(	'subject' => $subject,
-									'form_target' => 'rating_submit.php',
-									'button_text' => 'Bewertung abschicken',
-									'isChecked' => $crit,
-								));
+		$lectureValues = array(5,5,5,5);
+		$examValues = array(5,5,5,5);
+		$examValues2 = array(0,0);
+		$written = "";
+		$oral = "";
+		$other = "";
+		$examText = "";
+		$general0 = "";
+		$recom1 = "";
+		$recom0 = "";
+		$comment = "";
 	}
+	
+	echo $twig->render('bewerten.template.html', 
+						array(	'subject' => $subject,
+								'form_target' => 'rating_submit.php',
+								'button_text' => 'Bewertung abschicken',
+								'lectureItems' => $lectureItems,
+								'examItems' => $examItems,
+								'examItems2' => $examItems2,
+								'examItems2Labels' => $examItems2Labels,
+								'generalItems' => $generalItems,
+								
+								'lectureValues' => $lectureValues,
+								'typeWritten' => $written,
+								'typeOral' => $oral,
+								'typeOther' => $other,
+								'examValues' => $examValues,
+								'examValues2' => $examValues2,
+								'examText' => $examText,
+								'general0' => $general0,
+								'weiterempfehlen_ja' => $recom1,
+								'weiterempfehlen_nein' => $recom0,
+								'comment' => $comment,
+							));
 }else{
 	exit;
-}	
-	
-	/*$statement1 = $con->prepare("SELECT * FROM ratings WHERE ID = ?");
-	$statement1->bind_param('s', $kommentarID);
-	$statement1->execute();
-	$users = $statement1->get_result();
-	if($row = mysqli_fetch_assoc($users)){*/
-		
-	/*}else{
-		echo "<script> alert('Ein Fehler ist aufgetreten.');</script>";
-	}
-	$statement1->close();*/
-
-
+}
 ?>
