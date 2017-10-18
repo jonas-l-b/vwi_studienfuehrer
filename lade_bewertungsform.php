@@ -15,16 +15,16 @@ if (isset($_GET['subject'])){
 
 	$lectureItems = array(
 		"Wie bewertest du die Vorlesung ingesamt?",
-		"Wie relevant war die Vorlesung für die Klausur?",
+		"Wie relevant war die Vorlesung für die Prüfung?",
 		"Wie interessant fadest du die Vorlesung?",
 		"Wie war die Qualität der Vorlesungsmaterialien?",
 	);
 	
 	$examItems = array(
-		"Wie bewertest du die Klausur ingesamt?",
-		"Wie aufwändig fandest du die Klausurvorbereitung?",
-		"Wie fair war die Klausur gestellt?",
-		"Wie groß war der Zeitdruck während der Klausur?",
+		"Wie bewertest du die Prüfung ingesamt?",
+		"Wie aufwändig fandest du die Prüfungsvorbereitung?",
+		"Wie fair war die Prüfung gestellt?",
+		"Wie groß war der Zeitdruck während der Prüfung?",
 	);
 	
 	$examItems2 = array(

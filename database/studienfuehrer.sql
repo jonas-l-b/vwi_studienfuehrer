@@ -385,7 +385,7 @@ CREATE TABLE `ratings` (
   `exam3` int(100) NOT NULL,
   `exam4` int(100) NOT NULL,
   `exam5` int(100) NOT NULL,
-  `examText` varchar(100) NOT NULL,
+  `examText` varchar(2500) NOT NULL,
   `general0` int(100) NOT NULL,
   `recommendation` tinyint(1) NOT NULL,
   `comment` varchar(2500) NOT NULL,

@@ -120,13 +120,13 @@ while($comments = mysqli_fetch_assoc($result)){
 
 	echo "
 		<div class=\"well\" style=\"background-color:white; border-radius:none\">
-			<div class=\"media\">
+			<div id=\"bewertungMitID".$comments['ID']."\" class=\"media einzelKommentar\">
 				<div class=\"media-left\">
 					<p style=\"white-space: nowrap; padding-right:10px;\"><span style=\"font-weight:bold; cursor: pointer; cursor: hand;\" onclick=\"colorChange(this.id)\" id=\"".$comments['ID']."do\"> &minus; </span><span style=\"padding-right:3px;\" id=\"".$comments['ID']."\">".$comments['comment_rating']."</span><span style=\"font-weight:bold; cursor: pointer; cursor: hand;\" onclick=\"colorChange(this.id)\" id=\"".$comments['ID']."up\">+</span></p>
 					<p class=\"nowrap confirmation\" id=\"".$comments['ID']."confirmation\"></p>
 				</div>
 				<div class=\"media-body\">
-					<p> ".$comments['comment']." </p>
+					<p><span id=\"ausrufezeichen".$comments['ID']."\" class=\"ausrufezeichen glyphicon glyphicon-exclamation-sign pull-right\"></span> ".$comments['comment']." </p>
 					".$recommend."
 					<hr style=\"margin:10px\">
 					<div style=\"font-size:10px\">

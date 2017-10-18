@@ -288,7 +288,7 @@ include "sumVotes.php";
 							$row = mysqli_fetch_assoc($result);
 							$lecture[$key] = round($row['AVG('.$item.')'],1);			
 						}
-						$lectureHeadings = array("Overall-Score", "Klausurrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
+						$lectureHeadings = array("Overall-Score", "Prüfungsrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
 						
 						//Exam
 						$items = array("exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
@@ -356,12 +356,12 @@ include "sumVotes.php";
 						</table>
 					</div>
 					<div class="col-md-6">
-						<h4><strong>Klausur</strong></h4>
+						<h4><strong>Prüfung</strong></h4>
 						
 						<ul class="nav nav-pills">
-							<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" class="badge"><?php echo $writtenBadge ?></span></a></li>
-							<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" class="badge"><?php echo $oralBadge ?></span></a></li>
-							<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" class="badge"><?php echo $otherBadge ?></span></a></li>
+							<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" data-number-of-reviews="<?php echo $writtenBadge ?>" class="badge"><?php echo $writtenBadge ?></span></a></li>
+							<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" data-number-of-reviews="<?php echo $oralBadge ?>" class="badge"><?php echo $oralBadge ?></span></a></li>
+							<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" data-number-of-reviews="<?php echo $otherBadge ?>" class="badge"><?php echo $otherBadge ?></span></a></li>
 						</ul>
 						
 						<div class="tab-content">
@@ -438,10 +438,10 @@ include "sumVotes.php";
 						
 							<div id="other" class="tab-pane fade otherTab">
 								<?php
-								$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
+								$result = mysqli_query($con, "SELECT ID, examText FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
 								while($row = mysqli_fetch_assoc($result)){
 									?>
-									<p class="otherComment"><?php echo $row['examText'] ?></p>
+									<p class="otherComment"><?php echo $row['examText'] ?> <a href="#bewertungMitID<?php echo $row['ID'] ?>" data-comment-id="<?php echo $row['ID'] ?>"  class="sonstigesZuCommentLink"><span class="pull-right"><span class="glyphicon glyphicon-comment"></span></span></a></p>
 									<?php
 								}
 								?>
@@ -541,7 +541,6 @@ include "sumVotes.php";
 					});
 				});
 				</script>
-				
 				<!-- Zeig Stats zu Kommentar -->
 				<script>
 					function showStats(id){
@@ -781,6 +780,14 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
+		if($('#writtenBadge').attr('data-number-of-reviews')==0){
+			if($('#oralBadge').attr('data-number-of-reviews')==0){
+				$('[href=#otherBadge]').tab('show');
+			}else{
+				$('[href=#oralBadge]').tab('show');
+			}
+		}
+	
 		$("#favIcon").click(function(){
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
 				$.post( "favourites_newEntry.php", {
@@ -835,6 +842,13 @@ $(document).ready(function(){
 			});
 	}
 	$('.editButtonIdentificationClass').click(aendernLaden);
+	
+	// Noch verbuggt. Funktioniert nur 1 mal
+	/*$('.sonstigesZuCommentLink').click(function(){
+		setTimeout(function(){
+			$('.ausrufezeichen').fadeOut();
+		}, 3000);
+	});*/
 });
 </script>
 

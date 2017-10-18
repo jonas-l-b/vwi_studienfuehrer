@@ -19,7 +19,7 @@ if (isset($_GET['kommentar'])){
 	$users = $statement1->get_result();
 	if($row = mysqli_fetch_assoc($users)){
 		
-		$lectureHeadings = array("Overall-Score", "Klausurrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
+		$lectureHeadings = array("Overall-Score", "Prüfungsrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
 		$lecture = array($row['lecture0'], $row['lecture1'], $row['lecture2'], $row['lecture3']);
 		
 		?>
@@ -52,7 +52,7 @@ if (isset($_GET['kommentar'])){
 			?>
 		</table>
 
-		<h4><strong>Klausur</strong></h4>
+		<h4><strong>Prüfung</strong></h4>
 		
 		<?php
 		switch($row['examType']){
@@ -68,7 +68,7 @@ if (isset($_GET['kommentar'])){
 		}
 		?>
 		
-		<p>Klausurentyp: <strong><?php echo $type ?></strong></p>
+		<p>Prüfungsart: <strong><?php echo $type ?></strong></p>
 
 		<?php
 		if($row['examType'] == "written" OR $row['examType'] == "oral"){
@@ -156,7 +156,7 @@ if (isset($_GET['kommentar'])){
 		<?php
 		}elseif($row['examType'] == "other"){
 			?>
-			<p>Kommentar zur Klausur: </p>
+			<p>Kommentar zur Prüfung: </p>
 			<p class="well"><?php echo $row['examText'] ?></p>
 			<?php
 		}
