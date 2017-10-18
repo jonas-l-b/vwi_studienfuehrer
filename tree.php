@@ -791,15 +791,34 @@ include "connect.php";
 					case "overall":
 						$('.treeSort').hide();
 						$('#sortOverall').show();
+						$('#auf').html("Aufsteigend");
+						$('#ab').html("Absteigend");
 						break;
 					case "lecture":
 						$('.treeSort').hide();
 						$('#sortLecture').show();
+						$('#auf').html("Aufsteigend");
+						$('#ab').html("Absteigend");
 						break;
 					case "exam":
 						$('.treeSort').hide();
 						$('#sortExamType').show();
 						$('#sortExamItem').show();
+						if($('#sortExamItem').val() != "reproductionTransfer" && $('#sortExamItem').val() != "qualitativeQuantitative"){
+							$('#auf').html("Aufsteigend");
+							$('#ab').html("Absteigend");
+						}else{
+							switch($('#sortExamItem').val()){
+								case "reproductionTransfer":
+									$('#auf').html("Reproduktion zuerst");
+									$('#ab').html("Transfer zuerst");
+									break;
+								case "qualitativeQuantitative":
+									$('#auf').html("Qualitativ zuerst");
+									$('#ab').html("Quantitativ zuerst");
+									break;
+							}	
+						}
 						break;
 				}
 			})
@@ -809,10 +828,27 @@ include "connect.php";
 					case "other":
 						$('#sortExamItem').hide();
 						$('#sortExamOther').show();
+						$('#auf').html("Aufsteigend");
+						$('#ab').html("Absteigend");
 						break;
 					default:
 						$('#sortExamOther').hide();
 						$('#sortExamItem').show();
+						if($('#sortExamItem').val() != "reproductionTransfer" && $('#sortExamItem').val() != "qualitativeQuantitative"){
+							$('#auf').html("Aufsteigend");
+							$('#ab').html("Absteigend");
+						}else{
+							switch($('#sortExamItem').val()){
+								case "reproductionTransfer":
+									$('#auf').html("Reproduktion zuerst");
+									$('#ab').html("Transfer zuerst");
+									break;
+								case "qualitativeQuantitative":
+									$('#auf').html("Qualitativ zuerst");
+									$('#ab').html("Quantitativ zuerst");
+									break;
+							}	
+						}
 						break;
 				}
 			})
@@ -826,6 +862,10 @@ include "connect.php";
 					case "qualitativeQuantitative":
 						$('#auf').html("Qualitativ zuerst");
 						$('#ab').html("Quantitativ zuerst");
+						break;
+					default:
+						$('#auf').html("Aufsteigend");
+						$('#ab').html("Absteigend");
 						break;
 				}
 			})
