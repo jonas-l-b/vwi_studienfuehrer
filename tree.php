@@ -773,12 +773,12 @@ include "connect.php";
 				</select>
 				
 				<select class="form-control treeSort" id="sortExamOther" style="display:none" name="sortExamOther">
-					<option value="amountRatings">Bewertungsanzahl</option>
+					<option value="amountRatings">#Anmerkungen Prüfung</option>
 				</select>
 		
 				<select class="form-control" name="orderDirection">
-					<option value="ASC">Absteigend</option>
-					<option value="DESC">Aufsteigend</option>
+					<option id="ab" value="ASC">Absteigend</option>
+					<option id="auf" value="DESC">Aufsteigend</option>
 				</select>
 				
 				<button type="submit" class="btn btn-primary" id="btn-filterSort">Filtern & Sortieren</button>
@@ -816,8 +816,21 @@ include "connect.php";
 						break;
 				}
 			})
+			
+			$('#sortExamItem').on('change', function() {
+				switch(this.value){
+					case "reproductionTransfer":
+						$('#auf').html("Reproduktion zuerst");
+						$('#ab').html("Transfer zuerst");
+						break;
+					case "qualitativeQuantitative":
+						$('#auf').html("Qualitativ zuerst");
+						$('#ab').html("Quantitativ zuerst");
+						break;
+				}
+			})
 		</script>
-
+		
 		<script>
 			//Verhindert, dass kein Modultyp ausgewählt wird
 			$(document).ready(function() {

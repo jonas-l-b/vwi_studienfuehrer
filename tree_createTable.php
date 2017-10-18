@@ -90,8 +90,8 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 		$effort[$subjects['ID']] = "-";
 		$fairness[$subjects['ID']] = "-";
 		$timePressure[$subjects['ID']] = "-";
-		$reproductionTransfer[$subjects['ID']] = "-";
-		$qualitativeQuantitative[$subjects['ID']] = "-";
+		$reproductionTransfer[$subjects['ID']] = 0;
+		$qualitativeQuantitative[$subjects['ID']] = 0;
 		$amountRatings[$subjects['ID']] = "-";
 	}
 	else{ //Falls Bewertungen vorhanden
@@ -211,8 +211,79 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 /*4. Sort array*/
 if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fächer zurückgegeben wurden; führt sonst zu Fehlern
-	$orderBy = filter_var($_POST['orderBy'], FILTER_SANITIZE_STRING);
-	$orderDirection = filter_var($_POST['orderDirection'], FILTER_SANITIZE_STRING);
+	//For "/10" and note
+	$displayFromMax = "";
+	$displayNote = "display:none";
+	
+	//Get by what it is sorted
+	if($sortArea == "overall"){
+		switch ($sortOverall){
+			case "overallRating":
+				$orderBy = "overallRating";
+				$orderByHeader = "Gesamtbewertung";
+				break;
+			case "recoms":
+				$orderBy = "recoms";
+				$orderByHeader = "Anzahl Empfehlungen";
+				break;
+		}
+	}elseif($sortArea == "lecture"){
+		switch ($sortLecture){
+			case "overallLecture":
+				$orderBy = "overallLecture";
+				$orderByHeader = "Overall Vorlesung";
+				break;
+			case "relevance":
+				$orderBy = "relevance";
+				$orderByHeader = "Relevanz";
+				break;
+			case "interest":
+				$orderBy = "interest";
+				$orderByHeader = "Interessantheit";
+				break;
+			case "quality":
+				$orderBy = "quality";
+				$orderByHeader = "Qualität Materialien";
+				break;
+		}
+	}elseif($sortArea == "exam"){
+		if($sortExamType == "written" OR $sortExamType == "oral"){
+		switch ($sortExamItem){
+			case "overallExam":
+				$orderBy = "overallExam";
+				$orderByHeader = "Overall Prüfung";
+				break;
+			case "effort":
+				$orderBy = "effort";
+				$orderByHeader = "Aufwand";
+				break;
+			case "fairness":
+				$orderBy = "fairness";
+				$orderByHeader = "Fairness";
+				break;
+			case "timePressure":
+				$orderBy = "timePressure";
+				$orderByHeader = "Zeitdruck";
+				break;
+			case "reproductionTransfer":
+				$orderBy = "reproductionTransfer";
+				$orderByHeader = "Reprod./Transfer";
+				$displayFromMax = "display:none";
+				$displayNote = "";
+				break;
+			case "qualitativeQuantitative":
+				$orderBy = "qualitativeQuantitative";
+				$orderByHeader = "Qualit./Quantit.";
+				$displayFromMax = "display:none";
+				$displayNote = "";
+				break;
+		}	
+		}else{
+			$orderBy = "amountRatings";
+			$orderByHeader = "#Anmerkungen Prüfung";
+			$displayFromMax = "display:none";
+		}
+	}
 
 	$bool = true;
 	if($orderDirection=="ASC") $bool = false;
@@ -233,8 +304,66 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				<td><div><p style=\"white-space: nowrap;\">".$item['lecturers']."<p></div></td>
 				<td><div>".$item['semester']."</div></td>
 				<td><div>".$item['language']."</div></td>
-				<td><div>".$item[$orderBy]." %</div></td>
+				<td><div>".round($item[$orderBy],1)."
+					<span style=\"$displayFromMax\"> /10</span>
+				</div></td>
 			</tr>
 		";
 	}
+	
+	$table="
+		
+		<span style=\"$displayNote\"><br><i>Hinweis:</i> Der Maximalwert für Reproduktion und Qualitativ ist -10; der Maximalwert für Transfer und Quantitativ ist 10.</span>
+		<table class=\"table table-striped table-condensed searchresulttable\">
+			<thead>
+				<tr>
+					<th>Veranstaltung</th>
+					<th>Typ</th>
+					<th>Beinhaltet in</th>
+					<th>Level</th>
+					<th>ECTS</th>
+					<th>Dozent</th>
+					<th>Semester</th>
+					<th>Sprache</th>
+					<th class=\"nowrap\">".$orderByHeader."</th>
+				</tr>
+			</thead>
+			<tbody>
+				".$content."
+			</tbody>
+		</table>
+	";
+} else{
+	$table = "<h4>Für die gewählten Einschränkungen befinden sich keine Veranstaltungen in unserer Datenbank.</h4>";
+}
+
+//Funktion für Array-Sortierung
+function sksort(&$array, $subkey="id", $sort_ascending=false) {
+	if (count($array))
+		$temp_array[key($array)] = array_shift($array);
+
+	foreach($array as $key => $val){
+		$offset = 0;
+		$found = false;
+		foreach($temp_array as $tmp_key => $tmp_val)
+		{
+			if(!$found and strtolower($val[$subkey]) > strtolower($tmp_val[$subkey]))
+			{
+				$temp_array = array_merge(    (array)array_slice($temp_array,0,$offset),
+											array($key => $val),
+											array_slice($temp_array,$offset)
+										  );
+				$found = true;
+			}
+			$offset++;
+		}
+		if(!$found) $temp_array = array_merge($temp_array, array($key => $val));
+	}
+
+	if ($sort_ascending) $array = array_reverse($temp_array);
+
+	else $array = $temp_array;
+}
+
+echo $table;
 ?>
