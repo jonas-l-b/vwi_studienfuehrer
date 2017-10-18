@@ -6,6 +6,7 @@ include "header.php";
 
 include "connect.php";
 
+$InstanceCache->deleteItem("treeside");
 ?>
 
 <?php
