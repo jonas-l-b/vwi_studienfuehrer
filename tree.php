@@ -706,10 +706,18 @@ include "connect.php";
 					</div>
 					
 					<?php
-					$insti_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
-					$result = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
-					while($row = mysqli_fetch_assoc($result)){
-						$insti_selection .= "<option value=".$row['institute_ID']." ".$instituteSelection[$row['institute_ID']].">".$row['name']." (".$row['abbr'].")</option>";
+					$key = "table_insti_selection";
+					$CachedString = $InstanceCache->getItem($key);
+					if (is_null($CachedString->get())) {
+						$insti_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
+						$result = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
+						while($row = mysqli_fetch_assoc($result)){
+							$insti_selection .= "<option value=".$row['institute_ID']." ".$instituteSelection[$row['institute_ID']].">".$row['name']." (".$row['abbr'].")</option>";
+						}
+						$CachedString->set($insti_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
+						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+					} else {
+						$insti_selection = $CachedString->get();
 					}
 					?>
 					<div class="form-group">
