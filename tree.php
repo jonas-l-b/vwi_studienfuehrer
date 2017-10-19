@@ -453,7 +453,13 @@ include "connect.php";
 					type: "post",
 					data: $("#filtersort").serialize(),
 					success: function (data) {
+						var help = $('#resultTable').html();
 						$('#resultTable').html(data);
+						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
+							$('html, body').animate({ //Scroll down to results
+								scrollTop: $("#btn-filterSort").offset().top -100
+							}, 1500);
+						}
 					},
 					error: function() {
 						alert("Error!");
@@ -461,7 +467,7 @@ include "connect.php";
 				});
 			} else {
 				alert("Wähle mindestens einen Modultyp aus - andernfalls kann es keine Ergebnisse geben.");
-			}  
+			}
 			
 		});
 		</script>
