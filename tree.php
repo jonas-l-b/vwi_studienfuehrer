@@ -61,6 +61,7 @@ include "connect.php";
  	
  	<?php
  
+	//Super sexy Caching startet
  	$key = "treeside";
  	$CachedString = $InstanceCache->getItem($key);
  
