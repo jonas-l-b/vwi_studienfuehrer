@@ -5,6 +5,7 @@ include "sessionsStart.php";
 include "connect.php";
 
 $InstanceCache->deleteItem("treeside");
+$InstanceCache->deleteItem("table_mod_selection");
 ?>
 
 <?php

@@ -643,10 +643,18 @@ include "connect.php";
 					</div>
 
 					<?php
-					$mod_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
-					$result = mysqli_query($con,"SELECT * FROM modules ORDER BY name");
-					while($mod_row = mysqli_fetch_assoc($result)){
-						$mod_selection .= "<option value=".$mod_row['module_ID']." ".$moduleSelection[$mod_row['module_ID']].">".$mod_row['name']." [".$mod_row['code']."]</option>";
+					$key = "table_mod_selection";
+					$CachedString = $InstanceCache->getItem($key);
+					if (is_null($CachedString->get())) {
+						$mod_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
+						$result = mysqli_query($con,"SELECT * FROM modules ORDER BY name");
+						while($mod_row = mysqli_fetch_assoc($result)){
+							$mod_selection .= "<option value=".$mod_row['module_ID']." ".$moduleSelection[$mod_row['module_ID']].">".$mod_row['name']." [".$mod_row['code']."]</option>";
+						}
+						$CachedString->set($mod_selection)->expiresAfter(300000);//in seconds, also accepts Datetime
+						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+					} else {
+						$mod_selection = $CachedString->get();
 					}
 					?>
 					<div class="form-group">
