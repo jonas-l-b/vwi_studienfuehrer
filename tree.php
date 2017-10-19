@@ -328,8 +328,8 @@ include "connect.php";
 				</select>
 				
 				<select class="form-control treeSort" id="sortExamType" style="display:none" name="sortExamType">
-					<option value="written">Schriftlich</option>
-					<option value="oral">Mündlich</option>
+					<option value="written_oral">Schriftlich/Mündlich</option>
+					<!--<option value="oral">Mündlich</option>-->
 					<option value="other">Sonstige</option>			
 				</select>
 

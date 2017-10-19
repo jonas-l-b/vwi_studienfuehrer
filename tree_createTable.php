@@ -247,7 +247,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				break;
 		}
 	}elseif($sortArea == "exam"){
-		if($sortExamType == "written" OR $sortExamType == "oral"){
+		if($sortExamType == "written_oral"){
 		switch ($sortExamItem){
 			case "overallExam":
 				$orderBy = "overallExam";
