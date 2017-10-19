@@ -295,7 +295,7 @@
 }
 
 .menu .nav >li >ul >li >a:hover span{
-  transform: scale(1.1);
+  /*transform: scale(1.1);*/
 }
 
 .menu .nav >li >ul >li >a span{
