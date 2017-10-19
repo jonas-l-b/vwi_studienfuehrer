@@ -448,9 +448,9 @@ include "connect.php";
 	
 		<!--Ergebnistabelle-->
 		<script>
+		
 		$('#btn-filterSort').on('click', function(e) {
 			e.preventDefault();
-			
 			if($('input[type="checkbox"]:checked').length) {
 				$.ajax({
 					url: "tree_createTable.php",
@@ -464,6 +464,7 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 1500);
 						}
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {
 						alert("Error!");
@@ -482,6 +483,30 @@ include "connect.php";
 <script>
 	//Startet Pagination
 	$(document).ready(function() {
+		if(((new URL(window.location.href)).searchParams.get("filterandsearch"))=="true"){
+			$('#searchbutton').addClass('disabled');
+			$('#treebutton').removeClass('disabled');
+			$('#treeSide').hide();
+			$('#searchSide').show();
+			$.ajax({
+					url: "tree_createTable.php",
+					type: "get",
+					data: decodeURI(window.location.href.split("&val=")[1]),
+					success: function (data) {
+						var help = $('#resultTable').html();
+						$('#resultTable').html(data);
+						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
+							$('html, body').animate({ //Scroll down to results
+								scrollTop: $("#btn-filterSort").offset().top -100
+							}, 500);
+						}
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+$("#filtersort").serialize());
+					},
+					error: function() {
+						alert("Error!");
+					}
+				});
+		}
 		$('#treebutton').click(function(){
 			$('#treebutton').addClass('disabled');
 			$('#searchbutton').removeClass('disabled');
