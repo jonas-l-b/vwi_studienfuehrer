@@ -11,11 +11,17 @@ include "connect.php";
 
 <?php include "inc/nav.php" ?>
 
-<div class="treeWelcome">
+<!--<div class="treeWelcome">
 	<h3>Willkommen zum Studienführer</h3>
-</div>
+</div>-->
 
-<div class="container" style="margin-top:20px">
+<div class="container">
+  <div class="jumbotron">
+    <h1>Willkommen beim Studienführer</h1> 
+    <p>Der Studienführer ist die beste Hilfestellung bei der Wahl von Vertiefungs- und Mastermodulen für Wirtschaftsingenieure am Karlsruher Institut für Technologie.</p> 
+  </div>
+</div>
+<div class="container">
 	<?php
 	/*Vorbereitung*/
 	//Hide all
@@ -42,15 +48,13 @@ include "connect.php";
 	}
 	?>
 
-	<h4 align="center">Wie möchtest du deine Veranstaltung finden?</h4>
+	<h3 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h3>
 	<div align="center">
-		<form method="get">
-			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toTree" <?php echo $displayButtonTree ?>>Veranstaltung aus Verzeichnis wählen</button>
-			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toSearch" <?php echo $displayButtonSearch ?>>Veranstaltungen nach Kriterien durchsuchen</button>
-		</form>
+			<a id="treebutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
+			<a id="searchbutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
 	</div>
 	
-	<div <?php echo $displayTree ?>>
+	<div id="treeSide" <?php echo $displayTree ?>>
 		<?php
 		//Erstellt das Verzeichnis
 		$content = "";
@@ -117,7 +121,7 @@ include "connect.php";
 	</div>
 	
 	
-	<div <?php echo $displaySearch ?>>
+	<div id="searchSide" <?php echo $displaySearch ?>>
 		<hr>
 		<h2>Veranstaltungssuche</h2>
 		<p><i>Vorsicht beim Filtern: Wird beim Modul-Typ "BWL" angegeben, beim Modul aber "Informatik", kann es natürlich keine Ergebnisse geben. Ebenso können sich beispielsweise Dozent und Institut schnell gegenseitig ausschließen.</i></p>

@@ -4,14 +4,15 @@ include "header.php";
 include "connect.php";
 include "saveSubjectToVariable.php";
 include "sumVotes.php";
+
 ?>
 
 <body>
 
 <?php include "inc/nav.php" ?>
 
-<div class="container" style="margin-top:60px">
-	<!--Überschirft, Veranstaltungsinfos und Favourite Icon Start-->
+
+<div class="container">
 	<?php
 	/*Infos aus DB ziehen*/
 	$sqlBody = "
@@ -137,21 +138,26 @@ include "sumVotes.php";
 	}
 	?>
 	
-	<div class="row" style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+	<div class="row">
+		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11" style="border-bottom: 1px solid #dedede;">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
 		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
 			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
-	
+	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
 
+	<div>
+		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['semester'] ?></p>
+		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['language'] ?></p>
+	</div>
+	
 	<div class="infoContainer">
 	<?php
 	$box = array(
-		array("Kennung", "LV-Nummer", "Modultyp", "Teil der Module", "Level", "ECTS", "Dozent", "Semester", "Sprache"),
-		array($subjectData['identifier'], $subjectData['lv_number'], $module_types, $part_of_modules, $levels, $subjectData['subject_ECTS'], $lecturers, $subjectData['semester'], $subjectData['language'])
+		array("Modultyp", "Teil der Module", "Level", "ECTS", "Dozent"),
+		array($module_types, $part_of_modules, $levels, $subjectData['subject_ECTS'], $lecturers)
 	);
 
 	for ($x = 0; $x <= ((count($box, COUNT_RECURSIVE)-2)/2)-1; $x++) {
