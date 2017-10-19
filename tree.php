@@ -359,6 +359,7 @@ include "connect.php";
 			</div></div></div>
 		</form>
 		
+		<div style="align:center;display:none;" id="tabelleLaden"></div>		
 		<script>
 		//Script für die Sortierungs-Dropdowns
 		$('#sortArea').on('change', function() {
@@ -452,12 +453,16 @@ include "connect.php";
 		$('#btn-filterSort').on('click', function(e) {
 			e.preventDefault();
 			if($('input[type="checkbox"]:checked').length) {
+				$('#resultTable').hide();
+				$('#tabelleLaden').show();
 				$.ajax({
 					url: "tree_createTable.php",
 					type: "get",
 					data: $("#filtersort").serialize(),
 					success: function (data) {
+						$('#tabelleLaden').hide();
 						var help = $('#resultTable').html();
+						$('#resultTable').show();
 						$('#resultTable').html(data);
 						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
 							$('html, body').animate({ //Scroll down to results
@@ -467,6 +472,7 @@ include "connect.php";
 						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {
+						$('#tabelleLaden').hide();
 						alert("Error!");
 					}
 				});
@@ -483,16 +489,19 @@ include "connect.php";
 <script>
 	//Startet Pagination
 	$(document).ready(function() {
+		insertLoader('#tabelleLaden');
 		if(((new URL(window.location.href)).searchParams.get("filterandsearch"))=="true"){
 			$('#searchbutton').addClass('disabled');
 			$('#treebutton').removeClass('disabled');
 			$('#treeSide').hide();
 			$('#searchSide').show();
+			$('#tabelleLaden').show();
 			$.ajax({
 					url: "tree_createTable.php",
 					type: "get",
 					data: decodeURI(window.location.href.split("&val=")[1]),
 					success: function (data) {
+						$('#tabelleLaden').hide();
 						var help = $('#resultTable').html();
 						$('#resultTable').html(data);
 						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
@@ -503,6 +512,7 @@ include "connect.php";
 						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+$("#filtersort").serialize());
 					},
 					error: function() {
+						$('#tabelleLaden').hide();
 						alert("Error!");
 					}
 				});
