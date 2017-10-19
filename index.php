@@ -782,9 +782,9 @@ $(document).ready(function(){
 $(document).ready(function(){
 		if($('#writtenBadge').attr('data-number-of-reviews')==0){
 			if($('#oralBadge').attr('data-number-of-reviews')==0){
-				$('[href=#otherBadge]').tab('show');
+				$("[href$='#otherBadge']").tab('show');
 			}else{
-				$('[href=#oralBadge]').tab('show');
+				$("[href$='#oralBadge']").tab('show');
 			}
 		}
 	
