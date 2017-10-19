@@ -505,16 +505,21 @@ include "sumVotes.php";
 
 			<div class="col-md-10 well" id="commentsection">
 
-				<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
-				<label>Sortieren nach: &nbsp </label>
-				<select class="form-control" name="commentorder" id="commentorder">
-					<option value="date_newFirst">Datum (Neuste zuerst)</option>
-					<option value="date_newLast">Datum (Älteste zuerst)</option>
-					<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
-					<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
-				</select>
-				<span class="loader" id="load" style="display:none; padding-left: 5em;"><div></div></span>
-				</form>
+				
+				<span style="text-align:right;">
+					<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
+					<label>
+						<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp; 
+						<span class="loader" id="load" style="display:none; padding-right: 5em;position:relative;"><div></div></span>
+					</label>
+					<select class="form-control" name="commentorder" id="commentorder">
+						<option value="date_newFirst">Datum (Neuste zuerst)</option>
+						<option value="date_newLast">Datum (Älteste zuerst)</option>
+						<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
+						<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
+					</select>
+					</form>
+				</span>
 				
 				
 				<br>
@@ -531,14 +536,17 @@ include "sumVotes.php";
 				
 				<script>
 				$('#commentorder').change(function () {
-					$('#load').fadeIn();
+					$('#filterIcon').hide();
+					$('#load').show();
 
 					$.ajax({
 						type: "POST",
 						url: "loadComments.php",
 						data: {order: $('#commentorder').val(), subject_id: $('#hiddenSubjectId').html(), user_id: $('#hiddenUserId').html()},
 						success: function(data) {
-							$('#load').fadeOut();
+							$('#load').fadeOut(function(){
+								$('#filterIcon').fadeIn();
+							});
 							$('#commentDiv').fadeOut(function() {
 								$('#commentDiv').html(data);
 								$('#commentDiv').fadeIn();
