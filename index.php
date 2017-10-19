@@ -148,12 +148,13 @@ include "sumVotes.php";
 	</div>
 	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
 
-	<div>
+	<!--<div>
 		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['semester'] ?></p>
 		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['language'] ?></p>
-	</div>
+	</div>-->
 	
-	<div class="infoContainer">
+	
+	<!--<div class="infoContainer">
 	<?php
 	$box = array(
 		array("Modultyp", "Teil der Module", "Level", "ECTS", "Dozent"),
@@ -170,7 +171,8 @@ include "sumVotes.php";
 		";
 	}
 	?>
-	</div>
+	</div>-->
+	<br />
 	
 	<?php
 	//Bereits bewertet für Bewerten-Button
@@ -188,9 +190,6 @@ include "sumVotes.php";
 		$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 	}
 	?>
-	<!--<div style="margin-bottom:15px">
-		<button  type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
-	</div>-->
 	
 	<button <?php if(isset($ratingButtonDisabled)) echo "style=\"display:none\"";?> data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-pencil"></i></button>
 	<script>
@@ -265,8 +264,11 @@ include "sumVotes.php";
 	<!--Bewertungsübersicht Start-->
 	<div <?php echo $displayRatings ?>>
 		<div class="row">
-			<div class="col-md-1">
-			</div>
+			<!--<div class="col-md-1">
+			</div>-->
+			<div class="col-md-10">
+				<h2 style="text-align:center;">Gesamtbewertung</h2>
+			</div><div class="col-md-2"></div>
 			<div class="col-md-10 well">
 				<?php
 				$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
@@ -500,14 +502,42 @@ include "sumVotes.php";
 -->
 				</div>
 			</div>
-			<div class="col-md-1">
+			<!--<div class="col-md-1">
+			</div>-->
+			<div class="col-md-2">
+				<div id="infobox" data-spy="affix" data-offset-top="175" class="well" style="width:250px;">
+				<div style="margin-top:-15px;"><h4 style="font-size:2em;text-align:center;">Info</h4></div>
+				<p style="text-align:center;"><span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;WiSe &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;DE<br /></p>
+				<p style="text-align:center;">
+					<span class="ects">6</span> <b>ECTS</b>
+				</p>
+				<p>
+					<b>Level</b><br />
+					Bachelor: Vertiefung
+				</p>
+				<p>
+					<b>Teile der Module</b><br />
+					<a>Fahrzeugtechnik</a> (ING)<br />
+					<a>Informatik</a> (INFO)
+				</p>
+				<p>
+					<b>Dozent(en)</b><br />
+					<a>F. Grauterin </a><a>(FAST) </a><br />
+					<a>H. Unrau </a><a>(FAST) </a>
+				</p>
+				
 			</div>
+			</div>
+			
 			<!--Bewertungsübersicht Ende-->	
 		</div>
+		
+		
+		
 		<div class="row">
 			<!--Kommentare Start-->
-			<div class="col-md-1">
-			</div>
+			<!--<div class="col-md-1">
+			</div>-->
 			<div class="col-md-10 well" id="commentsection">
 				
 				<span style="font-size: 1.5em;font-weight:bold;">
@@ -649,7 +679,7 @@ include "sumVotes.php";
 				</script>
 			</div>
 			<!--Kommentare Ende-->
-			<div class="col-md-1">
+			<div class="col-md-2">
 			</div>
 		</div>
 	</div>
