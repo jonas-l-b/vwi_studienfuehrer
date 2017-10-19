@@ -95,6 +95,83 @@
    display: none;
 }
 
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+#jetztBewertenButton2 {
+ position:fixed;
+  right:40px;
+  bottom:40px;
+  z-index:5;
+}
+
+.ribbon {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#2989d8 0%, #1e5799 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #1e5799;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #1e5799;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #1e5799;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #1e5799;
+}
+
 .loader{
 	position:relative;
 }

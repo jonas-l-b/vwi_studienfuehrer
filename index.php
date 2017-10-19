@@ -139,7 +139,7 @@ include "sumVotes.php";
 	?>
 	
 	<div class="row">
-		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11" style="border-bottom: 1px solid #dedede;">
+		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
 		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
@@ -188,10 +188,16 @@ include "sumVotes.php";
 		$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 	}
 	?>
-	<div style="margin-bottom:15px">
-		<button <?php echo $displayRatings ?> type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
-	</div>
-
+	<!--<div style="margin-bottom:15px">
+		<button  type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
+	</div>-->
+	
+	<button <?php if(isset($ratingButtonDisabled)) echo "style=\"display:none\"";?> data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-pencil"></i></button>
+	<script>
+	$(document).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip(); 
+	});
+	</script>
 <!--	
 	<table class="toptable">
 		<tr>
@@ -278,9 +284,9 @@ include "sumVotes.php";
 				$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 				$row = mysqli_fetch_assoc($result);
 				?>
-				<span style="float:right; font-size:20px;">Gesamtbewertung: <?php echo round($row['AVG(general0)'], 1) ?> / 10</span>
+				<span style="float:right; font-size:20px;<?php if(isset($ratingButtonDisabled)) echo "padding-right: 25px;"?>">Gesamtbewertung: <?php echo round($row['AVG(general0)'], 1) ?> / 10</span>
 				<hr>
-			
+				<div <?php if(!isset($ratingButtonDisabled)) echo "style=\"display:none;\""?> class="ribbon"><span>Bewertet!</span></div>
 
 				<div class="row">
 					<div class="col-md-6">
