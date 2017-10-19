@@ -479,6 +479,27 @@ include "connect.php";
 		<div id="resultTable"></div>
 	</div>
 </div>
-
+<script>
+	//Startet Pagination
+	$(document).ready(function() {
+		$('#treebutton').click(function(){
+			$('#treebutton').addClass('disabled');
+			$('#searchbutton').removeClass('disabled');
+			$('#searchSide').hide();
+			$('#treeSide').show();
+		});
+		$('#searchbutton').click(function(){
+			$('#searchbutton').addClass('disabled');
+			$('#treebutton').removeClass('disabled');
+			$('#treeSide').hide();
+			$('#searchSide').show();
+		});
+	});
+</script>
+<br />
+<br />
+<br />
+<br />
+<br />
 </body>
 </html>
