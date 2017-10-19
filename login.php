@@ -69,6 +69,7 @@ if (isset($_SESSION['userSession'])!="") {
 		if(mysqli_num_rows($result) == 1){
 			//echo "LOGIN!";
 			$_SESSION['userSession'] = $cUser;
+			$u_logger->info("Der User mit der ID $cUser hat sich soeben über Cookie eingeloggt.");
 			if (isset($_GET['url'])) {
 				$url = $_GET['url'];
 				echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='".basename($url)."';</SCRIPT>"); //NUR UNTER LOCALHOST GETESTET
@@ -175,7 +176,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					
 					<?php
 				}
-				
+				$u_logger->info("Der User mit der ID". $row['user_ID'] ."hat sich soeben eingeloggt.");
 				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}
 		}else{
