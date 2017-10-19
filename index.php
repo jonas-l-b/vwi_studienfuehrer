@@ -188,11 +188,8 @@ include "sumVotes.php";
 		$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 	}
 	?>
-	<!--<div style="margin-bottom:15px">
-		<button  type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
-	</div>-->
 	
-	<button <?php if(isset($ratingButtonDisabled)) echo "style=\"display:none\"";?> data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-pencil"></i></button>
+	<button style="background-color:gold;<?php if(isset($ratingButtonDisabled)) echo "display:none;";?>" data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-pencil"></i></button>
 	<script>
 	$(document).ready(function(){
 		$('[data-toggle="tooltip"]').tooltip(); 
