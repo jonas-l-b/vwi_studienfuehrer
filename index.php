@@ -9,7 +9,6 @@ include "connect.php";
 include "saveSubjectToVariable.php";
 
 //include "loadSubjectData.php";
-
 include "sumVotes.php";
 
 
