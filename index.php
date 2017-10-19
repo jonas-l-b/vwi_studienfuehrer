@@ -11,7 +11,6 @@ include "saveSubjectToVariable.php";
 //include "loadSubjectData.php";
 include "sumVotes.php";
 
-
 function time_elapsed_string($datetime, $full = false) {
     $now = new DateTime;
     $ago = new DateTime($datetime);
