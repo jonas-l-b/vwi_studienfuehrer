@@ -8,6 +8,7 @@ include "connect.php";
 
 $InstanceCache->deleteItem("treeside");
 $InstanceCache->deleteItem("table_mod_selection");
+$InstanceCache->deleteItem("table_lec_selection");
 ?>
 
 <?php

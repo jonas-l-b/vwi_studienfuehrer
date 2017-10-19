@@ -651,7 +651,7 @@ include "connect.php";
 						while($mod_row = mysqli_fetch_assoc($result)){
 							$mod_selection .= "<option value=".$mod_row['module_ID']." ".$moduleSelection[$mod_row['module_ID']].">".$mod_row['name']." [".$mod_row['code']."]</option>";
 						}
-						$CachedString->set($mod_selection)->expiresAfter(300000);//in seconds, also accepts Datetime
+						$CachedString->set($mod_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
 						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
 					} else {
 						$mod_selection = $CachedString->get();
@@ -673,17 +673,25 @@ include "connect.php";
 				<div class="col-md-4">
 					
 					<?php
-					$lec_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
-					$sql = "
-						SELECT *
-						FROM lecturers
-						JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
-						JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
-						ORDER BY name, last_name
-					";
-					$result = mysqli_query($con,$sql);
-					while($row = mysqli_fetch_assoc($result)){
-						$lec_selection .= "<option value=".$row['lecturer_ID']." ".$lecturerSelection[$row['lecturer_ID']].">".$row['last_name'].", ".$row['first_name']." (".$row['abbr'].")</option>";
+					$key = "table_lec_selection";
+					$CachedString = $InstanceCache->getItem($key);
+					if (is_null($CachedString->get())) {
+						$lec_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
+						$sql = "
+							SELECT *
+							FROM lecturers
+							JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
+							JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
+							ORDER BY name, last_name
+						";
+						$result = mysqli_query($con,$sql);
+						while($row = mysqli_fetch_assoc($result)){
+							$lec_selection .= "<option value=".$row['lecturer_ID']." ".$lecturerSelection[$row['lecturer_ID']].">".$row['last_name'].", ".$row['first_name']." (".$row['abbr'].")</option>";
+						}
+						$CachedString->set($lec_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
+						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+					} else {
+						$lec_selection = $CachedString->get();
 					}
 					?>		
 					<div class="form-group">
