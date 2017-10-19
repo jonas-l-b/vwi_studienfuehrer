@@ -450,7 +450,7 @@ include "connect.php";
 			if($('input[type="checkbox"]:checked').length) {
 				$.ajax({
 					url: "tree_createTable.php",
-					type: "post",
+					type: "get",
 					data: $("#filtersort").serialize(),
 					success: function (data) {
 						var help = $('#resultTable').html();

@@ -15,23 +15,23 @@ include "connect.php";
 //4. Sort array
 
 /*1. Create query to get all subjects*/
-$modulType = $_POST['modulType'];
-$module = $_POST['module'];
-$lecturer = $_POST['lecturer'];
-$institute = $_POST['institute'];
-$level = $_POST['level'];
-$semester = $_POST['semester'];
-$language = $_POST['language'];
+$modulType = $_GET['modulType'];
+$module = $_GET['module'];
+$lecturer = $_GET['lecturer'];
+$institute = $_GET['institute'];
+$level = $_GET['level'];
+$semester = $_GET['semester'];
+$language = $_GET['language'];
 
-$sortArea = $_POST['sortArea'];
+$sortArea = $_GET['sortArea'];
 
-if(isset($_POST['sortOverall'])) $sortOverall = $_POST['sortOverall'];
-if(isset($_POST['sortLecture'])) $sortLecture = $_POST['sortLecture'];
-if(isset($_POST['sortExamType'])) $sortExamType = $_POST['sortExamType'];
-if(isset($_POST['sortExamItem'])) $sortExamItem = $_POST['sortExamItem'];
-if(isset($_POST['sortExamOther'])) $sortExamOther = $_POST['sortExamOther'];
+if(isset($_GET['sortOverall'])) $sortOverall = $_GET['sortOverall'];
+if(isset($_GET['sortLecture'])) $sortLecture = $_GET['sortLecture'];
+if(isset($_GET['sortExamType'])) $sortExamType = $_GET['sortExamType'];
+if(isset($_GET['sortExamItem'])) $sortExamItem = $_GET['sortExamItem'];
+if(isset($_GET['sortExamOther'])) $sortExamOther = $_GET['sortExamOther'];
 
-$orderDirection = $_POST['orderDirection'];
+$orderDirection = $_GET['orderDirection'];
 
 				
 /*Daten gemäß Auswahl abfragen*/
