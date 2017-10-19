@@ -259,10 +259,8 @@ include "sumVotes.php";
 	<!--Bewertungsübersicht Start-->
 	<div <?php echo $displayRatings ?>>
 		<div class="row">
-			<div class="col-md-2 head_left">
-				Gesamtbewertung
+			<div class="col-md-1">
 			</div>
-
 			<div class="col-md-10 well">
 				<?php
 				$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
@@ -496,21 +494,24 @@ include "sumVotes.php";
 -->
 				</div>
 			</div>
-			<!--Bewertungsübersicht Ende-->	
-			
-			<!--Kommentare Start-->
-			<div class="col-md-2 head_left">
-				Kommentare und Einzelbewertungen
+			<div class="col-md-1">
 			</div>
-
+			<!--Bewertungsübersicht Ende-->	
+		</div>
+		<div class="row">
+			<!--Kommentare Start-->
+			<div class="col-md-1">
+			</div>
 			<div class="col-md-10 well" id="commentsection">
-
 				
-				<span style="text-align:right;">
+				<span style="font-size: 1.5em;font-weight:bold;">
+				Kommentare und Einzelbewertungen
+				</span>
+				<span style="float:right;">
 					<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
 					<label>
 						<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp; 
-						<span class="loader" id="load" style="display:none; padding-right: 5em;position:relative;"><div></div></span>
+						<span class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></span>
 					</label>
 					<select class="form-control" name="commentorder" id="commentorder">
 						<option value="date_newFirst">Datum (Neuste zuerst)</option>
@@ -520,7 +521,7 @@ include "sumVotes.php";
 					</select>
 					</form>
 				</span>
-				
+				<div style="margin-top: 1em;"></div>
 				
 				<br>
 				
@@ -642,6 +643,8 @@ include "sumVotes.php";
 				</script>
 			</div>
 			<!--Kommentare Ende-->
+			<div class="col-md-1">
+			</div>
 		</div>
 	</div>
 </div>
