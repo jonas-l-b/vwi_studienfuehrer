@@ -564,7 +564,7 @@ include "sumVotes.php";
 					<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
 					<label>
 						<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp; 
-						<span class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></span>
+						<div class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></div>
 					</label>
 					<select class="form-control" name="commentorder" id="commentorder">
 						<option value="date_newFirst">Datum (Neuste zuerst)</option>
