@@ -13,9 +13,11 @@ if($userRow['admin']==0){
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_admin';</SCRIPT>");
 }
 ?>
+
+<html>
 <body>
 
-<?php include "inc/nav.php" ?>
+<?php include "nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<h2>Institut bearbeiten</h2>
@@ -32,12 +34,12 @@ if($userRow['admin']==0){
 		$instituteSelection[$row['institute_ID']] = "";
 	}
 	
-	if (isset($_GET['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
+	if (isset($_POST['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
 		//Show form
 		$display = "";
 		
 		//Get institute selection
-		$editID = strip_tags($_GET['select']);
+		$editID = strip_tags($_POST['select']);
 		
 		/*Get data for form values*/
 		//data query
@@ -102,26 +104,21 @@ if($userRow['admin']==0){
 	
 	$result1 = mysqli_query($con,$sql1);
 	
-	$rows = array();
+	$selection = "";
 	while($row1 = mysqli_fetch_assoc($result1)){
-		array_push($rows, array(
-								"id"=>$row1['institute_ID'],
-								"subject_name"=>$row1['name'],
-								"identifier"=>'('.$row1['abbr'].')',
-								"selected"=>$instituteSelection[$row1['institute_ID']]
-								));
+		$selection .= "<option value=".$row1['institute_ID']." ".$instituteSelection[$row1['institute_ID']].">".$row1['name']." (".$row1['abbr'].")</option>";
 	}	
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
-	
-	<!-- COMBOBOX -->
-	
-	<?php
-		echo $twig->render('admin_edit_auswahl_form.template.html', 
-							array(	'rows' => $rows,
-									'buttontext' => 'Dieses Institut bearbeiten'));
-	?>
+	<form class="form-inline" method="POST">
+		<div class="form-group">
+			<select name="select" class="form-control" required>
+				<?php echo $selection ?>
+			</select>
+		</div>
+		<button type="submit" class="btn btn-primary" name="btn-edit">Dieses Institut bearbeiten</button>
+	</form>
 	
 	<div <?php echo $display ?>>
 	

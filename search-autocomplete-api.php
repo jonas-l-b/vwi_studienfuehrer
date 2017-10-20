@@ -67,8 +67,8 @@ if (isset($_GET['query'])){
 	$counttotal += $count;
 	$count = 0;
 	
-	$statement4 = $con->prepare("SELECT first_name, last_name, lecturer_ID FROM lecturers WHERE CONCAT(first_name,' ',last_name) LIKE ? OR CONCAT(last_name,', ',first_name) LIKE ? ORDER BY last_name LIMIT 4");
-	$statement4->bind_param('ss', $query, $query);
+	$statement4 = $con->prepare("SELECT first_name, last_name, lecturer_ID FROM lecturers WHERE CONCAT(first_name,' ',last_name) LIKE ? ORDER BY last_name LIMIT 4");
+	$statement4->bind_param('s', $query);
 	$statement4->execute();
 	$lecturers = $statement4->get_result();
 	while(($row = mysqli_fetch_assoc($lecturers) )&& $count<2 && $counttotal<8){

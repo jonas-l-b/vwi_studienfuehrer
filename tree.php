@@ -7,9 +7,13 @@ include "header.php";
 include "connect.php";
 
 ?>
+
+<!DOCTYPE html>
+
+<html>
 <body>
 
-<?php include "inc/nav.php" ?>
+<?php include "nav.php" ?>
 
 <div class="treeWelcome">
 	<h3>Willkommen zum Studienführer</h3>
@@ -35,14 +39,14 @@ include "connect.php";
 	$displayButtonSearch = "";
 	
 	
-	if (isset($_GET['btn-toTree'])){ //Wenn Baum-Button geklickt
+	if (isset($_POST['btn-toTree'])){ //Wenn Baum-Button geklickt
 		$displayTree = "";
 		$displaySearch = "style=\"display:none\"";
 		
 		$displayButtonTree = "disabled";
 	}
 	
-	if (isset($_GET['btn-toSearch'])){ //Wenn Suche-Button geklickt
+	if (isset($_POST['btn-toSearch'])){ //Wenn Suche-Button geklickt
 		$displayTree = "style=\"display:none\"";
 		$displaySearch = "";
 		
@@ -471,7 +475,7 @@ include "connect.php";
 
 	<h4 align="center">Wie möchtest du deine Veranstaltung finden?</h4>
 	<div align="center">
-		<form method="get">
+		<form method="post">
 			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toTree" <?php echo $displayButtonTree ?>>Veranstaltung aus Verzeichnis wählen</button>
 			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toSearch" <?php echo $displayButtonSearch ?>>Veranstaltungen nach Kriterien durchsuchen</button>
 		</form>
@@ -486,12 +490,12 @@ include "connect.php";
 		for($x = 0; $x <= 2; $x++) {
 			$content .= "<li><label class=\"tree-toggler nav-header treetop\" style=\"color:rgb(0, 51, 153)\"><strong>".$array[$x][0]."</strong></label>";
 			
-				$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
+				$content .= "<ul class=\"nav nav-list tree\">";
 				$result = mysqli_query($con,"SELECT * FROM moduletypes");
 				while($modulTypes = mysqli_fetch_assoc($result)){ //Modultyp
 					$content .= "<li><label class=\"tree-toggler nav-header\">".$modulTypes['name']."</label>";
 					
-					$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
+					$content .= "<ul class=\"nav nav-list tree\">";
 					$result2 = mysqli_query($con,"
 						SELECT modules.name AS module_name, levels.name AS level_name, type
 						FROM modules
@@ -502,7 +506,7 @@ include "connect.php";
 					while($modules = mysqli_fetch_assoc($result2)){ //Modulname
 						$content .= "<li><label class=\"tree-toggler nav-header\">".$modules['module_name']."</label>";
 						
-						$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
+						$content .= "<ul class=\"nav nav-list tree\">";
 						$result3 = mysqli_query($con,"
 							SELECT subject_name, subjects.code AS subject_code, modules.name AS module_name
 							FROM subjects
@@ -511,7 +515,7 @@ include "connect.php";
 							WHERE modules.name = '".$modules['module_name']."'
 						");
 						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
-							$content .= "<li><a target=\"_blank\" href=\"index.php?subject=".$subjects['subject_code']."\">".$subjects['subject_name']."</a></li>";
+							$content .= "<li><a target=\"blank\" href=\"index.php?subject=".$subjects['subject_code']."\">".$subjects['subject_name']."</a></li>";
 						}
 						$content .= "</ul>";
 						$content .= "</li>";
@@ -539,6 +543,9 @@ include "connect.php";
 			$('label.tree-toggler').click(function () {
 				$(this).parent().children('ul.tree').toggle(300);
 			});
+		});
+		$(document).ready(function () {
+		$('label.tree-toggler').parent().children('ul.tree').toggle(300);
 		});
 		</script>
 	</div>

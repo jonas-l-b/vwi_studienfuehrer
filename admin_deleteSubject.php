@@ -14,7 +14,10 @@ if($userRow['admin']==0){
 }
 ?>
 
-<?php include "inc/nav.php" ?>
+<html>
+<body>
+
+<?php include "nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<h2>Veranstaltung löschen</h2>
