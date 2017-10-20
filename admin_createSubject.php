@@ -481,7 +481,10 @@ $InstanceCache->deleteItem("treeside");
 </div>
 <script>
 $('.ui.dropdown')
-  .dropdown()
+  .dropdown({
+    fullTextSearch: true,
+	
+  })
 ;
 </script>
 </body>
