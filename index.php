@@ -138,7 +138,7 @@ include "sumVotes.php";
 	}
 	?>
 	
-	<div class="row">
+	<div class="row" id="firstrow">
 		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
@@ -266,7 +266,7 @@ include "sumVotes.php";
 		<div class="row">
 			<!--<div class="col-md-1">
 			</div>-->
-			<div class="col-md-10">
+			<div class="col-md-10" id="bewertungstitel">
 				<h2 style="text-align:center;">Gesamtbewertung</h2>
 			</div><div class="col-md-2"></div>
 			<div class="col-md-10 well">
@@ -526,8 +526,15 @@ include "sumVotes.php";
 					<a>H. Unrau </a><a>(FAST) </a>
 				</p>
 				
+				</div>
 			</div>
-			</div>
+			<script>
+				$('#infobox').affix({
+					  offset: {
+						top: $('nav').height()+$('#firstrow').height()
+					  }
+				});
+			</script>
 			
 			<!--Bewertungsübersicht Ende-->	
 		</div>
