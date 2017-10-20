@@ -139,11 +139,11 @@ include "sumVotes.php";
 	?>
 	
 	<div class="row" id="firstrow">
-		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11" style="border-bottom: 1px solid #dedede; ">
+		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
-		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
+		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;">
+			<h1 style="font-size:50px !important;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
 	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
@@ -864,7 +864,7 @@ $(document).ready(function(){
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
 				  .done(function() {
-					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0);cursor: pointer; cursor: hand;");
 					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
 					$('#snackbarFavAddSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
@@ -878,7 +878,7 @@ $(document).ready(function(){
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"} )
 				 .done(function() {
-					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("style", "color:grey; cursor: pointer; cursor: hand;");
 					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
 					$('#snackbarFavRemSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
