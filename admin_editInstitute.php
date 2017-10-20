@@ -6,6 +6,8 @@ include "header.php";
 
 include "connect.php";
 
+
+$InstanceCache->deleteItem("table_insti_selection");
 ?>
 
 <?php

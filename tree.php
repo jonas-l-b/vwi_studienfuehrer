@@ -50,11 +50,27 @@ include "connect.php";
 		</form>
 	</div>
 	
+	
+	
 	<div <?php echo $displayTree ?>>
-		<?php
-		//Erstellt das Verzeichnis
-		$content = "";
+	<hr>
+ 		<h2>Veranstaltungsverzeichnis</h2>
+ 		<div class="well" style="width:500px; padding: 8px 0;">
+ 			<div>
+ 				<ul class="nav nav-list">
+ 	
+ 	<?php
+ 
+	//Super sexy Caching startet
+ 	$key = "treeside";
+ 	$CachedString = $InstanceCache->getItem($key);
+ 
+ 
+ 	if (is_null($CachedString->get())) {
 		
+		
+		$content = "";
+ 		//Erstellt das Verzeichnis
 		$array = array(array("Bachelor - Kernprogramm", "bachelor_basic"), array("Bachelor - Vertiefungsprogramm", "bachelor"), array("Master", "master"));
 		for($x = 0; $x <= 2; $x++) {
 			$content .= "<li><label class=\"tree-toggler nav-header treetop\" style=\"color:rgb(0, 51, 153)\"><strong>".$array[$x][0]."</strong></label>";
@@ -95,14 +111,15 @@ include "connect.php";
 				$content .= "</ul>";
 			$content .= "</li>";
 		}
-		?>
-		
-		<hr>
-		<h2>Veranstaltungsverzeichnis</h2>
-		<div class="well" style="width:500px; padding: 8px 0;">
-			<div>
-				<ul class="nav nav-list">
-					<?php echo $content ?>
+		$CachedString->set($content)->expiresAfter(300000);//in seconds, also accepts Datetime
+ 		$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+ 
+ 		echo $CachedString->get();
+ 
+ 	} else {
+ 		echo $CachedString->get();
+ 	}
+?>
 				</ul>
 			</div>
 		</div>
@@ -115,6 +132,10 @@ include "connect.php";
 		});
 		</script>
 	</div>
+	
+	
+	
+	
 	
 	
 	<div <?php echo $displaySearch ?>>
@@ -192,13 +213,21 @@ include "connect.php";
 						</div>
 					</div>
 
-					<?php
-					$mod_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
-					$result = mysqli_query($con,"SELECT * FROM modules ORDER BY name");
-					while($mod_row = mysqli_fetch_assoc($result)){
-						$mod_selection .= "<option value=".$mod_row['module_ID'].">".$mod_row['name']." [".$mod_row['code']."]</option>";
+				<?php
+					$key = "table_mod_selection";
+					$CachedString = $InstanceCache->getItem($key);
+					if (is_null($CachedString->get())) {
+						$mod_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
+						$result = mysqli_query($con,"SELECT * FROM modules ORDER BY name");
+						while($mod_row = mysqli_fetch_assoc($result)){
+              $mod_selection .= "<option value=".$mod_row['module_ID'].">".$mod_row['name']." [".$mod_row['code']."]</option>";
+            }
+						$CachedString->set($mod_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
+						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+					} else {
+						$mod_selection = $CachedString->get();
 					}
-					?>
+				?>
 					<div class="form-group">
 						<div class="row">
 							<label class="control-label col-md-4" for="pwd">Modul:</label>
@@ -214,20 +243,28 @@ include "connect.php";
 
 				<div class="col-md-4">
 					
-					<?php
-					$lec_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
-					$sql = "
-						SELECT *
-						FROM lecturers
-						JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
-						JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
-						ORDER BY name, last_name
-					";
-					$result = mysqli_query($con,$sql);
-					while($row = mysqli_fetch_assoc($result)){
-						$lec_selection .= "<option value=".$row['lecturer_ID'].">".$row['last_name'].", ".$row['first_name']." (".$row['abbr'].")</option>";
+				<?php
+					$key = "table_lec_selection";
+					$CachedString = $InstanceCache->getItem($key);
+					if (is_null($CachedString->get())) {
+						$lec_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
+						$sql = "
+							SELECT *
+							FROM lecturers
+							JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
+							JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
+							ORDER BY name, last_name
+						";
+						$result = mysqli_query($con,$sql);
+						while($row = mysqli_fetch_assoc($result)){
+							$lec_selection .= "<option value=".$row['lecturer_ID'].">".$row['last_name'].", ".$row['first_name']." (".$row['abbr'].")</option>";
+						}
+						$CachedString->set($lec_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
+						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+					} else {
+						$lec_selection = $CachedString->get();
 					}
-					?>		
+				?>		
 					<div class="form-group">
 						<div class="row">
 							<label class="control-label col-md-4" for="pwd">Dozent:</label>
@@ -239,13 +276,21 @@ include "connect.php";
 						</div>
 					</div>
 					
-					<?php
-					$insti_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
-					$result = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
-					while($row = mysqli_fetch_assoc($result)){
-						$insti_selection .= "<option value=".$row['institute_ID'].">".$row['name']." (".$row['abbr'].")</option>";
+				<?php
+					$key = "table_insti_selection";
+					$CachedString = $InstanceCache->getItem($key);
+					if (is_null($CachedString->get())) {
+						$insti_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
+						$result = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
+						while($row = mysqli_fetch_assoc($result)){
+              $insti_selection .= "<option value=".$row['institute_ID'].">".$row['name']." (".$row['abbr'].")</option>";
+            }
+						$CachedString->set($insti_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
+						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+					} else {
+						$insti_selection = $CachedString->get();
 					}
-					?>
+				?>
 					<div class="form-group">
 						<div class="row">
 							<label class="control-label col-md-4" for="pwd">Institut:</label>

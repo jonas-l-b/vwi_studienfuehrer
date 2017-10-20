@@ -26,7 +26,7 @@ if($userRow['admin']==0){
 		
 <ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#modifyData">Daten bearbeiten</a></li>
-		<li><a data-toggle="tab" href="#messages">Nachrichten</a></li>
+		<li><a data-toggle="tab" href="#messages">Posteingang</a></li>
 		<li><a data-toggle="tab" href="#notifications">Benachrichigungen</a></li>
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 	</ul>

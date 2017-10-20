@@ -4,6 +4,7 @@ include "sessionsStart.php";
 
 include "connect.php";
 
+$InstanceCache->deleteItem("table_lec_selection");
 ?>
 
 <?php

@@ -8,6 +8,12 @@
 		//'cache' => 'templates/cache',
 		'cache' => false,
 	));
+	use phpFastCache\CacheManager;
+ 
+ 	CacheManager::setDefaultConfig(array(
+ 		"path" => 'cache/tree/',
+ 	));
+ 	$InstanceCache = CacheManager::getInstance('files');
 	use Monolog\Logger;
 	use Monolog\Handler\StreamHandler;
 	
