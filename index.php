@@ -505,7 +505,7 @@ include "sumVotes.php";
 			<!--<div class="col-md-1">
 			</div>-->
 			<div class="col-md-2">
-				<div id="infobox" data-spy="affix" data-offset-top="175" class="well" style="width:250px;">
+				<div id="infobox" class="well" style="width:250px;">
 				<div style="margin-top:-15px;"><h4 style="font-size:2em;text-align:center;">Info</h4></div>
 				<p style="text-align:center;"><span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;WiSe &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;DE<br /></p>
 				<p style="text-align:center;">
@@ -531,11 +531,11 @@ include "sumVotes.php";
 			<script>
 				$('#infobox').affix({
 					  offset: {
-						top: $(this).offset().top
+						top: $('#infobox').offset().top - 100
 					  }
 				});
 				$(window).on("resize", function(){
-					$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top
+					$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top - 100
 				})
 			</script>
 			
