@@ -16,6 +16,14 @@ include "connect.php";
 </div>-->
 
 <div class="container">
+<?php
+ 	if(isset($_GET['suchfeld']) && $_GET['suchfeld'] != 'Übersicht Startseite'){
+ 		echo 	'<div class="alert alert-warning alert-dismissable fade in">
+ 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+ 				  <strong>Hinweis!</strong> Leider konnten wir für deine Suche keine Ergebnisse finden.
+ 				</div>';
+ 	}
+ ?>
   <div class="jumbotron">
     <h1>Willkommen beim Studienführer</h1> 
     <p>Der Studienführer ist die beste Hilfestellung bei der Wahl von Vertiefungs- und Mastermodulen für Wirtschaftsingenieure am Karlsruher Institut für Technologie.</p> 
