@@ -191,7 +191,7 @@ include "sumVotes.php";
 	}
 	?>
 	
-	<button <?php if(isset($ratingButtonDisabled)) echo "style=\"display:none\"";?> data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-pencil"></i></button>
+	<button <?php if(isset($ratingButtonDisabled)) echo "style=\"display:none\"";?> data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-plus"></i></button>
 	<script>
 	$(document).ready(function(){
 		$('[data-toggle="tooltip"]').tooltip(); 
@@ -507,10 +507,17 @@ include "sumVotes.php";
 			<div class="col-md-2">
 				<div id="infobox" class="well" style="width:250px;">
 				<div style="margin-top:-15px;"><h4 style="font-size:2em;text-align:center;">Info</h4></div>
-				<p style="text-align:center;"><span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;WiSe &nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;DE<br /></p>
-				<p style="text-align:center;">
-					<span class="ects">6</span> <b>ECTS</b>
-				</p>
+				<div class="row" style="text-align:center;">
+					<div class="col-md-4">
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span><br />WiSe
+					</div>
+					<div class="col-md-4">
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Leistungsumfang" class="glyphicon glyphicon-briefcase"></span></strong></span><br />6 ECTS
+					</div>
+					<div class="col-md-4">
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span><br />DE
+					</div>
+				</div><p></p>
 				<p>
 					<b>Level</b><br />
 					Bachelor: Vertiefung
