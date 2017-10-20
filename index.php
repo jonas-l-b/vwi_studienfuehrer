@@ -531,9 +531,12 @@ include "sumVotes.php";
 			<script>
 				$('#infobox').affix({
 					  offset: {
-						top: $('nav').height()+$('#firstrow').height()
+						top: $(this).offset().top
 					  }
 				});
+				$(window).on("resize", function(){
+					$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top
+				})
 			</script>
 			
 			<!--Bewertungsübersicht Ende-->	
