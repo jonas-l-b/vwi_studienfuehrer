@@ -8064,10 +8064,10 @@ $.fn.dropdown.settings = {
   namespace      : 'dropdown',
 
   message: {
-    addResult     : 'Add <b>{term}</b>',
-    count         : '{count} selected',
+    addResult     : 'Füge <b>{term}</b> hinzu',
+    count         : '{count} ausgewählt',
     maxSelections : 'Max {maxCount} selections',
-    noResults     : 'No results found.',
+    noResults     : 'Kein Ergebnis',
     serverError   : 'There was an error contacting the server'
   },
 
