@@ -18,11 +18,11 @@
 	use Monolog\Handler\StreamHandler;
 	
 	$logger = new Logger('Generell'); //Beschreibt alle generellen Logs
-	$db_logger = new Logger('Datenbank'); //Beschreibt allen Datenbank ÄNDERUNGEN
+	//$db_logger = new Logger('Datenbank'); //Beschreibt allen Datenbank ÄNDERUNGEN
 	$u_logger = new Logger('Nutzung'); //Beschreibt alle Logs zum Nutzungsverhalten
 	$stream = new StreamHandler(__DIR__.'/logs/studienfuehrer.log', Logger::DEBUG);
 	$logger->pushHandler($stream);
-	$db_logger->pushHandler($stream);
+	//$db_logger->pushHandler($stream);
 	$u_logger->pushHandler($stream);
 //TEST ENDE
 

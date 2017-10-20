@@ -21,6 +21,6 @@ $stmt->close();
 $con->close();
 
 
-$db_logger->info("Nutzer $user_id entfernt Veranstaltung $subject_id von Favoriten.");
+//$db_logger->info("Nutzer $user_id entfernt Veranstaltung $subject_id von Favoriten.");
 
 ?>
