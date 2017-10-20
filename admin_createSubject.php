@@ -243,15 +243,21 @@ $InstanceCache->deleteItem("treeside");
 							$insti = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
 							$insti_selection = "";
 							while($insti_row = mysqli_fetch_assoc($insti)){
-								$insti_selection .= "<option value=".$insti_row['institute_ID'].">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
+								$insti_selection .= '<div class="item" data-value="'.$insti_row['institute_ID'].'">'.$insti_row['name']." (".$insti_row['abbr'].")</div>";
 							}
 							?>
 							<div class="form-group">
 								<label>Institut</label>
-								<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular rechts oben auf dieser Seite ausfüllen.</i></p>
-								<select id="lec_institute_select" class="form-control" required>
-									<?php echo $insti_selection ?>
-								</select>
+								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular gleich hierunter.</i></p>
+								<div class="ui fluid search selection dropdown">
+								  <input id="lec_institute_select" class="form-control" type="hidden" required name="country">
+								  <i class="dropdown icon"></i>
+								  <div class="default text">Institut auswählen</div>
+								  <div class="menu">
+								  <?php echo $insti_selection ?>
+								  <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
+								</div>
+								</div>
 							</div>
 						
 							<div>
