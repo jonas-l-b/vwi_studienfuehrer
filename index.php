@@ -143,7 +143,7 @@ include "sumVotes.php";
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
 		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;">
-			<h1 style="font-size:50px !important;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
+			<h1 style="font-size:50px !important; margin-bottom:-10px;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
 	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
