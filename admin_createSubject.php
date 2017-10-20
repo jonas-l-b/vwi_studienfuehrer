@@ -483,7 +483,7 @@ $InstanceCache->deleteItem("treeside");
 $('.ui.dropdown')
   .dropdown({
     fullTextSearch: true,
-	
+	useLabels: false
   })
 ;
 </script>
