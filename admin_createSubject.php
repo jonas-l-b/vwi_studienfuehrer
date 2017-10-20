@@ -416,8 +416,8 @@ $InstanceCache->deleteItem("treeside");
 							
 							<div class="form-group">
 								<label>ECTS</label>
-								<p>Wie viele ECTS bringt das gesamt Modul ein?</p>
-								<input id="mod_ECTS" type="text" class="form-control" placeholder="ECTS" required />
+								<p>Wie viele ECTS bringt das gesamte Modul ein?</p>
+								<input id="mod_ECTS" value="9" type="text" class="form-control" placeholder="ECTS" required />
 							</div>
 						
 							<div>
