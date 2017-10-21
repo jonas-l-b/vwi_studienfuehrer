@@ -32,7 +32,6 @@ $InstanceCache->deleteItem("treeside");
 		<?php
 		if (isset($_POST['btn-createSubject'])){
 			$subject_name = strip_tags($_POST['subject_name']);
-			$code = strip_tags($_POST['code']);
 			$identifier = strip_tags($_POST['identifier']);
 			$lv_number = strip_tags($_POST['lv_number']);				
 			$ECTS = strip_tags($_POST['ECTS']);
@@ -51,8 +50,8 @@ $InstanceCache->deleteItem("treeside");
 				";
 			} else{
 				$sql1 = "
-					INSERT INTO subjects(subject_name, code, identifier, lv_number, ECTS, semester, language, createdBy_ID, time_stamp)
-					VALUES ('$subject_name', '$code', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
+					INSERT INTO subjects(subject_name, identifier, lv_number, ECTS, semester, language, createdBy_ID, time_stamp)
+					VALUES ('$subject_name', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
 				$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit $code von User: $userID" );
@@ -101,14 +100,6 @@ $InstanceCache->deleteItem("treeside");
 				<label>Veranstaltungsname</label>
 				<p>Wie heißt die Veranstaltung? Bitte den vollständigen Veranstaltungen angeben; dazu am Modulhandbuch orientieren.</p>
 				<input name="subject_name" type="text" class="form-control" placeholder="Veranstaltungsname" required />
-			</div>
-			
-			<hr>
-			
-			<div class="form-group">
-				<label>Veranstaltungskürzel</label>
-				<p>Kürzel für die Veranstaltung, der in der URL erscheint (Bsp.: index.php?subject=<strong>weku1</strong>). Dieses Kürzel musst du dir ausdenken. Leerzeichen sind nicht erlaubt.</p>
-				<input name="code" type="text" class="form-control" placeholder="Veranstaltungskürzel" required />
 			</div>
 			
 			<hr>
