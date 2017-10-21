@@ -54,7 +54,7 @@ $InstanceCache->deleteItem("treeside");
 					VALUES ('$subject_name', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
-				$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit $code von User: $userID" );
+				$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name ($identifier) von User: $userID" );
 			}
 			
 			//Verbindungseinträge vorbereiten
