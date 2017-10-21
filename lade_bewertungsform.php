@@ -43,7 +43,7 @@ if (isset($_GET['subject'])){
 	//Values if already filleds
 	if(isset($_GET['filled'])){
 		$statement1 = $con->prepare("SELECT * FROM ratings
-			WHERE ratings.user_ID = ? AND ratings.subject_ID = (SELECT ID FROM subjects WHERE subjects.code = ?);");
+			WHERE ratings.user_ID = ? AND ratings.subject_ID = (SELECT ID FROM subjects WHERE subjects.ID = ?);");
 		$statement1->bind_param('ss', $userID, $subject);
 		$statement1->execute();
 		$result = $statement1->get_result();
