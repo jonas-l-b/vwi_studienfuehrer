@@ -69,7 +69,7 @@ include "connect.php";
 	
 	//subjects
 	$sql = "
-		SELECT subject_name, subjects.code AS subject_code
+		SELECT subject_name, subjects.ID AS subject_id
 		FROM subjects
 		JOIN subjects_modules ON subjects.ID = subjects_modules.subject_ID
 		JOIN modules ON subjects_modules.module_ID = modules.module_ID
@@ -79,7 +79,7 @@ include "connect.php";
 	$result = mysqli_query($con,$sql);
 	$subjects = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$subjects .= "<a href=\"index.php?subject=".$row['subject_code']."\">".$row['subject_name']."</a><br>";
+		$subjects .= "<a href=\"index.php?subject=".$row['subject_id']."\">".$row['subject_name']."</a><br>";
 	}
 	$subjects = substr($subjects, 0, -4);
 	?>
