@@ -187,6 +187,8 @@ $InstanceCache->deleteItem("treeside");
 				<select name="semester" class="form-control" required>
 					<option value="Winter">Winter</option>
 					<option value="Sommer">Sommer</option>
+					<option value="Ganzjährig">Ganzjährig</option>
+					<option value="Unregelmäßig">Unregelmäßig</option>
 				</select>
 			</div>
 			
