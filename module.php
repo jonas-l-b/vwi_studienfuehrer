@@ -80,7 +80,7 @@ include "connect.php";
 	$result = mysqli_query($con,$sql);
 	$subjects = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$subjects .= "<i>".$row['subject_ects']." ECTS</i> &nbsp;&nbsp;&nbsp;<a href=\"index.php?subject=".$row['subject_id']."\">".$row['subject_name']."</a><br />";
+		$subjects .= "<a href=\"index.php?subject=".$row['subject_id']."\">".$row['subject_name']."</a> - <i>".$row['subject_ects']." ECTS</i><br />";
 	}
 	$subjects = substr($subjects, 0, -4);
 	
@@ -125,6 +125,7 @@ include "connect.php";
 			
 	<div class="row">
 		<div class="col-md-8">			
+<!--
 			<h4>
 				Gesamtbewertung: <strong><?php echo round($avg,1) ?> / 10</strong>, basierend auf <strong><?php echo $count ?></strong> Bewertungen
 				<a href="#" data-trigger="focus" data-toggle="popoverCalc"data-content="Diese Gesamtbewertung ist der nach ECTS-Punkten gewichtete Durchschnitt der Gesamtbewertungen der Veranstaltungen in diesem Modul. Eine Veranstaltungsbewertung wird also stärker gewichtet, wenn die zugehörige Veranstaltung mehr ECTS-Punkte zum Modul beisteuert.">
@@ -136,7 +137,7 @@ include "connect.php";
 				});
 				</script>
 			</h4>
-			
+-->			
 			<table class="table" style="border-top:solid; border-top-color:white">
 				<tbody>
 					<tr>
