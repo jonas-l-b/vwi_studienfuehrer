@@ -656,7 +656,6 @@ ALTER TABLE `remember_me`
 --
 ALTER TABLE `subjects`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `Kürzel` (`code`),
   ADD UNIQUE KEY `subject_name` (`subject_name`);
 
 --
