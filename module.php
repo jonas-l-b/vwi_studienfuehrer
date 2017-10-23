@@ -12,6 +12,7 @@ include "connect.php";
 <?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
+
 	<?php
 	// Modul aus URL speichern
 	if (isset($_GET['module_id'])){
@@ -103,7 +104,7 @@ include "connect.php";
 		SELECT *, subjects.ECTS as subject_ects FROM ratings
 		JOIN subjects_modules ON ratings.subject_ID = subjects_modules.subject_ID
 		JOIN modules ON subjects_modules.module_ID = modules.module_ID
-        JOIN subjects ON ratings.subject_ID = subjects.ID
+		JOIN subjects ON ratings.subject_ID = subjects.ID
 		WHERE modules.module_ID = '".$module_id."'
 	";
 	$result = mysqli_query($con, $sql);
@@ -121,43 +122,80 @@ include "connect.php";
 	
 	<h2>Modul: <?php echo $moduleData['module_name']?></h2>
 	<hr>
+			
+	<div class="row">
+		<div class="col-md-8">			
+			<h4>
+				Gesamtbewertung: <strong><?php echo round($avg,1) ?> / 10</strong>, basierend auf <strong><?php echo $count ?></strong> Bewertungen
+				<a href="#" data-trigger="focus" data-toggle="popoverCalc"data-content="Diese Gesamtbewertung ist der nach ECTS-Punkten gewichtete Durchschnitt der Gesamtbewertungen der Veranstaltungen in diesem Modul. Eine Veranstaltungsbewertung wird also stärker gewichtet, wenn die zugehörige Veranstaltung mehr ECTS-Punkte zum Modul beisteuert.">
+					<span class="glyphicon glyphicon-question-sign"></span>
+				</a>
+				<script>
+				$(document).ready(function () {
+					$('[data-toggle="popoverCalc"]').popover();
+				});
+				</script>
+			</h4>
+			
+			<table class="table" style="border-top:solid; border-top-color:white">
+				<tbody>
+					<tr>
+						<th>Kennung:</th>
+						<td><?php echo $moduleData['code']?></td>
+					</tr>
+					<tr>
+						<th>Level:</th>
+						<td><?php echo $levels?></td>
+					</tr>
+					<tr>
+						<th>Typ:</th>
+						<td><?php echo $moduleData['type']?></td>
+					</tr>
+					<tr>
+						<th>ECTS:</th>
+						<td><?php echo $moduleData['ects']?></td>
+					</tr>
+					<tr>
+						<th>Veranstaltungen:</th>
+						<td><?php echo $subjects?></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-4">
+			<span id="value" style="display:none"><?php echo round($avg,1) ?></span>
+			Der scheiß Kreis will nicht in die Mitte!
+			<div class="c100 p0" id="div_loading_progress"><span id="span_progress">0</span>
+			  <div class="slice">
+				<div class="bar"></div>
+				<div class="fill"></div>
+			  </div>
+			</div>
+			<h4 style="text-align: center;">Gesamtbewertung</h4>
+			<p style="text-align: center;">Basierend auf <strong><?php echo $count ?></strong> Bewertungen</p>
+		</div>
+	</div>
 	
-	<h4>
-		Gesamtbewertung: <strong><?php echo round($avg,1) ?> / 10</strong>, basierend auf <strong><?php echo $count ?></strong> Bewertungen
-		<a href="#" data-trigger="focus" data-toggle="popoverCalc"data-content="Diese Gesamtbewertung ist der nach ECTS-Punkten gewichtete Durchschnitt der Gesamtbewertungen der Veranstaltungen in diesem Modul. Eine Veranstaltungsbewertung wird also stärker gewichtet, wenn die zugehörige Veranstaltung mehr ECTS-Punkte zum Modul beisteuert.">
-			<span class="glyphicon glyphicon-question-sign"></span>
-		</a>
-		<script>
-		$(document).ready(function () {
-			$('[data-toggle="popoverCalc"]').popover();
-		});
-		</script>
-	</h4>
-	
-	<table class="table" style="border-top:solid; border-top-color:white">
-		<tbody>
-			<tr>
-				<th>Kennung:</th>
-				<td><?php echo $moduleData['code']?></td>
-			</tr>
-			<tr>
-				<th>Level:</th>
-				<td><?php echo $levels?></td>
-			</tr>
-			<tr>
-				<th>Typ:</th>
-				<td><?php echo $moduleData['type']?></td>
-			</tr>
-			<tr>
-				<th>ECTS:</th>
-				<td><?php echo $moduleData['ects']?></td>
-			</tr>
-			<tr>
-				<th>Veranstaltungen:</th>
-				<td><?php echo $subjects?></td>
-			</tr>
-		</tbody>
-	</table>
+	<script>
+	var pct = 0,
+		span_progress = document.getElementById("span_progress"),
+		div_loading_progress = document.getElementById("div_loading_progress");
+		
+	function display_pct(p) {
+		span_progress.innerHTML=""+p/10+" /10";
+		div_loading_progress.className="c100 p"+p;
+	}
+
+	function update_pct(){
+		display_pct(pct++);
+			
+		if (pct<=$('#value').html()*10) {
+			setTimeout(update_pct,10);
+		}
+	}
+
+	setTimeout(update_pct,100);
+	</script>
 	
 </div>
 
