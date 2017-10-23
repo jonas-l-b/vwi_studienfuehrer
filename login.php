@@ -233,15 +233,6 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					<script>
 					$(document).ready(function () {
 						$('[data-toggle="popoverRememberMe"]').popover();
-						
-						//Funktion, die ein Alert auslöst, wenn checkbox gewählt wird
-						/*
-						$('#rememberMe').change(function() {
-							if ($(this).prop('checked')) {
-								alert("Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du unsere Verwendung von Cookies."); //checked
-							}
-						});
-						*/
 					});
 					</script>
 				</label>

@@ -82,10 +82,58 @@ include "connect.php";
 		$subjects .= "<a href=\"index.php?subject=".$row['subject_id']."\">".$row['subject_name']."</a><br>";
 	}
 	$subjects = substr($subjects, 0, -4);
+	
+	/*Durchschnittsbewertung Modul*/
+	//Summe ECTS in diesem Modul (der Veranstaltungen für die schon Bewertungen vorliegen)
+	$sql = "
+		SELECT SUM(subjects.ECTS) AS sum_ects, COUNT(subjects.ECTS) AS count FROM ratings
+		JOIN subjects_modules ON ratings.subject_ID = subjects_modules.subject_ID
+		JOIN modules ON subjects_modules.module_ID = modules.module_ID
+        JOIN subjects ON ratings.subject_ID = subjects.ID
+		WHERE modules.module_ID = '".$module_id."'
+	";
+	$result = mysqli_query($con, $sql);
+	$row = mysqli_fetch_assoc($result);
+	$sum_ects = $row['sum_ects'];
+	$count = $row['count'];
+	echo $sum_ects;
+	
+	$sql = "
+		SELECT *, subjects.ECTS as subject_ects FROM ratings
+		JOIN subjects_modules ON ratings.subject_ID = subjects_modules.subject_ID
+		JOIN modules ON subjects_modules.module_ID = modules.module_ID
+        JOIN subjects ON ratings.subject_ID = subjects.ID
+		WHERE modules.module_ID = '".$module_id."'
+	";
+	$result = mysqli_query($con, $sql);
+	$avg = 0;
+	$sum = 0;
+	while($row = mysqli_fetch_assoc($result)){
+		$avg += $row['general0'] * ((float)str_replace(",",".",$row['subject_ects'])/$sum_ects);
+		$sum += str_replace(",",".",$row['subject_ects']);
+		echo $sum;
+		echo "<br>";
+		//echo (float)str_replace(",",".",$row['subject_ects']);
+		echo "<br>";
+	}
+	//$avg = round($avg,1);
 	?>
 	
 	<h2>Modul: <?php echo $moduleData['module_name']?></h2>
 	<hr>
+	
+	<h4>
+		Gesamtbewertung: <strong><?php echo $avg ?> / 10</strong>, basierend auf <strong><?php echo $count ?></strong> Bewertungen
+		<a href="#" data-trigger="focus" data-toggle="popoverCalc"data-content="Diese Gesamtbewertung ist der nach ECTS-Punkten gewichtete Durchschnitt der Gesamtbewertungen der Veranstaltungen in diesem Modul. Eine Veranstaltungsbewertung wird also stärker gewichtet, wenn die zugehörige Veranstaltung mehr ECTS-Punkte zum Modul beisteuert.">
+			<span class="glyphicon glyphicon-question-sign"></span>
+		</a>
+		<script>
+		$(document).ready(function () {
+			$('[data-toggle="popoverCalc"]').popover();
+		});
+		</script>
+	</h4>
+	
 	<table class="table" style="border-top:solid; border-top-color:white">
 		<tbody>
 			<tr>
