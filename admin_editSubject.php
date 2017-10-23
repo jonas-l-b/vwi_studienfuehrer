@@ -62,7 +62,7 @@ $InstanceCache->deleteItem("treeside");
 		/*Get data for form values*/
 		//data query
 		$sql1 = "
-			SELECT ID, subject_name, subjects.code AS subject_code, identifier, lv_number, subjects.ECTS AS subject_ECTS, lecturers.lecturer_ID, semester, language
+			SELECT ID, subject_name, identifier, lv_number, subjects.ECTS AS subject_ECTS, lecturers.lecturer_ID, semester, language
 			FROM subjects
 			JOIN subjects_lecturers ON subjects.ID = subjects_lecturers.subject_ID
 			JOIN lecturers ON subjects_lecturers.lecturer_ID = lecturers.lecturer_ID
@@ -81,7 +81,6 @@ $InstanceCache->deleteItem("treeside");
 		
 		//Get form values
 		$sub_name = $row1['subject_name'];
-		$sub_code = $row1['subject_code'];
 		$sub_identifier = $row1['identifier'];
 		$sub_lv_number = $row1['lv_number'];
 		$sub_ECTS = $row1['subject_ECTS'];
@@ -124,7 +123,6 @@ $InstanceCache->deleteItem("treeside");
 		
 		//Daten aus Form ziehen
 		$subject_name = strip_tags($_POST['subject_name']);
-		$code = strip_tags($_POST['code']);
 		$identifier = strip_tags($_POST['identifier']);
 		$lv_number = strip_tags($_POST['lv_number']);				
 		$ECTS = strip_tags($_POST['ECTS']);
@@ -137,7 +135,7 @@ $InstanceCache->deleteItem("treeside");
 		//subjects ändern
 		$sql = "
 			UPDATE subjects
-			SET subject_name = '$subject_name', code = '$code', identifier = '$identifier', lv_number = '$lv_number', ECTS = '$ECTS', semester = '$semester', language = '$language', lastChangedBy_ID = '$userID', time_stamp2 = now()
+			SET subject_name = '$subject_name', identifier = '$identifier', lv_number = '$lv_number', ECTS = '$ECTS', semester = '$semester', language = '$language', lastChangedBy_ID = '$userID', time_stamp2 = now()
 			WHERE ID = $changeID;
 		";
 		
@@ -217,14 +215,6 @@ $InstanceCache->deleteItem("treeside");
 			
 			<div class="form-group" style="display:none">
 				<input value="<?php echo $editID ?>" name="subject_ID" type="text" class="form-control"/>
-			</div>
-			
-			<hr>
-			
-			<div class="form-group">
-				<label>Veranstaltungskürzel</label>
-				<p>Kürzel für die Veranstaltung, der in der URL erscheint (Bsp.: index.php?subject=<strong>weku1</strong>). Dieses Kürzel musst du dir ausdenken. Leerzeichen sind nicht erlaubt.</p>
-				<input value="<?php echo $sub_code ?>" name="code" type="text" class="form-control" placeholder="Veranstaltungskürzel" required />
 			</div>
 			
 			<hr>
