@@ -163,16 +163,21 @@ include "connect.php";
 			</table>
 		</div>
 		<div class="col-md-4">
-			<span id="value" style="display:none"><?php echo round($avg,1) ?></span>
-			Der scheiß Kreis will nicht in die Mitte!
-			<div class="c100 p0" id="div_loading_progress"><span id="span_progress">0</span>
-			  <div class="slice">
-				<div class="bar"></div>
-				<div class="fill"></div>
-			  </div>
+			<div style="width: 33%; margin: 0 auto;">
+				
+				<span id="value" style="display:none"><?php echo round($avg,1) ?></span>
+				<div class="c100 p0" id="div_loading_progress"><span id="span_progress">0</span>
+				  <div class="slice">
+					<div class="bar"></div>
+					<div class="fill"></div>
+				  </div>
+				</div>
 			</div>
+			<br />
+			<div style="width: 66%; margin: 0 auto;">
 			<h4 style="text-align: center;">Gesamtbewertung</h4>
 			<p style="text-align: center;">Basierend auf <strong><?php echo $count ?></strong> Bewertungen</p>
+			</div>
 		</div>
 	</div>
 	
