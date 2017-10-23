@@ -54,7 +54,7 @@ $InstanceCache->deleteItem("treeside");
 					VALUES ('$subject_name', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
-				$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name ($identifier) von User: $userID" );
+				//$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit ($identifier) von User: $userID" );
 			}
 			
 			//Verbindungseinträge vorbereiten
@@ -142,7 +142,7 @@ $InstanceCache->deleteItem("treeside");
 			$lec = mysqli_query($con,$sql);
 			
 			while($lec_row = mysqli_fetch_assoc($lec)){
-				$lec_selection .= "<option value=".$lec_row['lecturer_ID'].">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
+				$lec_selection .= "<option value=\"".$lec_row['lecturer_ID']."\">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
 			}
 			
 			?>
@@ -151,8 +151,7 @@ $InstanceCache->deleteItem("treeside");
 				<label>Dozent(en)</label>
 				<p>Wer verantwortet die Veranstaltung?</p>
 				<p><i>Falls gewünschter Dozent nicht in Dropdown vorhanden ist, muss er erst noch hinzugefügt werden. Dazu das entsprechende Formular rechts oben auf dieser Seite ausfüllen.</i></p>
-				<p><i>Durch Gedrückthalten von STRG mehrere Dozenten auswählen.</i></p>
-				<select id="lec_select" name="lec_select[]" multiple class="form-control" required>
+				<select id="lec_select" name="lec_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<?php echo $lec_selection ?>
 				</select>
 			</div>
@@ -173,8 +172,7 @@ $InstanceCache->deleteItem("treeside");
 				<label>Teil der Module</label>
 				<p>Welchen Modulen ist die Veranstaltung zuzuordnen?</p>
 				<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular rechts oben auf dieser Seite ausfüllen.</i></p>
-				<p><i>Durch Gedrückthalten von STRG mehrere Module auswählen.</i></p>
-				<select id="mod_select" name="mod_select[]" multiple class="form-control" required>
+				<select id="mod_select" name="mod_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<?php echo $mod_selection ?>
 				</select>
 			</div>
@@ -238,15 +236,21 @@ $InstanceCache->deleteItem("treeside");
 							$insti = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
 							$insti_selection = "";
 							while($insti_row = mysqli_fetch_assoc($insti)){
-								$insti_selection .= "<option value=".$insti_row['institute_ID'].">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
+								$insti_selection .= '<div class="item" data-value="'.$insti_row['institute_ID'].'">'.$insti_row['name']." (".$insti_row['abbr'].")</div>";
 							}
 							?>
 							<div class="form-group">
 								<label>Institut</label>
-								<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular rechts oben auf dieser Seite ausfüllen.</i></p>
-								<select id="lec_institute_select" class="form-control" required>
-									<?php echo $insti_selection ?>
-								</select>
+								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular gleich hierunter.</i></p>
+								<div class="ui fluid search selection dropdown">
+								  <input id="lec_institute_select" class="form-control" type="hidden" required name="country">
+								  <i class="dropdown icon"></i>
+								  <div class="default text">Institut auswählen</div>
+								  <div class="menu">
+								  <?php echo $insti_selection ?>
+								  <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
+								</div>
+								</div>
 							</div>
 						
 							<div>
@@ -402,7 +406,7 @@ $InstanceCache->deleteItem("treeside");
 								<label>Modul-Level</label>
 								<p>Wann kann das Modul belegt werden?</p>
 								<p><i>Durch Gedrückthalten von STRG mehrere Level auswählen.</i></p>
-								<select name="mod_level_select[]" id="mod_level_select" multiple class="form-control" required>
+								<select name="mod_level_select[]" id="mod_level_select" multiple="" class="form-control" required>
 									<option value="bachelor_basic">Bachelor: Kernprogramm</option>
 									<option value="bachelor">Bachelor: Vertiefungsprogramm</option>
 									<option value="master">Master</option>
@@ -411,8 +415,8 @@ $InstanceCache->deleteItem("treeside");
 							
 							<div class="form-group">
 								<label>ECTS</label>
-								<p>Wie viele ECTS bringt das gesamt Modul ein?</p>
-								<input id="mod_ECTS" type="text" class="form-control" placeholder="ECTS" required />
+								<p>Wie viele ECTS bringt das gesamte Modul ein?</p>
+								<input id="mod_ECTS" value="9" type="text" class="form-control" placeholder="ECTS" required />
 							</div>
 						
 							<div>
@@ -474,5 +478,13 @@ $InstanceCache->deleteItem("treeside");
 
 
 </div>
+<script>
+$('.ui.dropdown')
+  .dropdown({
+    fullTextSearch: true,
+	useLabels: false
+  })
+;
+</script>
 </body>
 </html>
