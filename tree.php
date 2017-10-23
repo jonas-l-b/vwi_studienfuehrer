@@ -93,14 +93,14 @@ include "connect.php";
 						
 						$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
 						$result3 = mysqli_query($con,"
-							SELECT subject_name, subjects.code AS subject_code, modules.name AS module_name
+							SELECT subject_name, subjects.ID AS subject_id, modules.name AS module_name
 							FROM subjects
 							JOIN subjects_modules ON subjects.ID = subjects_modules.subject_ID
 							JOIN modules ON subjects_modules.module_ID = modules.module_ID
 							WHERE modules.name = '".$modules['module_name']."'
 						");
 						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
-							$content .= "<li><a target=\"_blank\" href=\"index.php?subject=".$subjects['subject_code']."\">".$subjects['subject_name']."</a></li>";
+							$content .= "<li><a target=\"_blank\" href=\"index.php?subject=".$subjects['subject_id']."\">".$subjects['subject_name']."</a></li>";
 						}
 						$content .= "</ul>";
 						$content .= "</li>";

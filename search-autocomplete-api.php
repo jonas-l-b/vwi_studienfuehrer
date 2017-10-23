@@ -25,13 +25,13 @@ if (isset($_GET['query'])){
 	
 	$CachedString = $InstanceCache->getItem('autocompletesearch-'.filter_var($_GET['query'], FILTER_SANITIZE_STRING));
  	if (is_null($CachedString->get())) {
-		$statement1 = $con->prepare("SELECT subject_name,code FROM subjects WHERE subject_name LIKE ? ORDER BY subject_name LIMIT 5");
+		$statement1 = $con->prepare("SELECT subject_name,ID FROM subjects WHERE subject_name LIKE ? ORDER BY subject_name LIMIT 5");
 		$statement1->bind_param('s', $query);
 		$statement1->execute();
 		$lectures = $statement1->get_result();
 		while($row = mysqli_fetch_assoc($lectures)){
 			if($count < 3){
-				$lecture_result .= '{ "value" :"'.$row['subject_name'].'", "data": {"category" : "Veranstaltung", "dest":"index.php?subject='.$row['code'].'" } },';
+				$lecture_result .= '{ "value" :"'.$row['subject_name'].'", "data": {"category" : "Veranstaltung", "dest":"index.php?subject='.$row['ID'].'" } },';
 				$anything = true;
 				$count++;
 			}else{

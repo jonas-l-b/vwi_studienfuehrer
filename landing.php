@@ -19,7 +19,7 @@ if ($m == "no_subject_in_url"){
 }
 
 if ($m == "no_subject_in_db"){
-	$msg = "Veranstaltung existiert nicht in der Datenbank.";
+	$msg = "Diese Veranstaltung existiert nicht in der Datenbank. Klick auf das Logo, um zur Startseite zugelangen.";
 }
 
 if ($m == "no_module_in_url"){
@@ -90,7 +90,7 @@ if ($m == "cookie_theft_error"){
 
 <div style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 30%; margin: auto; padding:25px;">
 	<div align="center" style="margin:auto;">
-		<a href="http://vwi-karlsruhe.de/" target="_blank"><img src="pictures/logo.png" style="width:150px;"></a>
+		<a href="tree.php"><img src="pictures/logo_studi.png" style="width:400px;"></a>
 		<br><br>
 		<?php echo $msg ?>
 	</div>

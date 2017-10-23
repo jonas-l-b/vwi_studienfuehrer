@@ -69,10 +69,11 @@ if (isset($_SESSION['userSession'])!="") {
 		if(mysqli_num_rows($result) == 1){
 			//echo "LOGIN!";
 			$_SESSION['userSession'] = $cUser;
+			$u_logger->info("Der User mit der ID $cUser hat sich soeben über Cookie eingeloggt.");
 			if (isset($_GET['url'])) {
 				$url = $_GET['url'];
-				//echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='$url';</SCRIPT>"); //FUNKTIONIERT NOCH NICHT!
-				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>"); 
+				echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='".basename($url)."';</SCRIPT>"); //NUR UNTER LOCALHOST GETESTET
+				//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}else{
 				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}
@@ -175,7 +176,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					
 					<?php
 				}
-				
+				$u_logger->info("Der User mit der ID". $row['user_ID'] ."hat sich soeben eingeloggt.");
 				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}
 		}else{
@@ -232,15 +233,6 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					<script>
 					$(document).ready(function () {
 						$('[data-toggle="popoverRememberMe"]').popover();
-						
-						//Funktion, die ein Alert auslöst, wenn checkbox gewählt wird
-						/*
-						$('#rememberMe').change(function() {
-							if ($(this).prop('checked')) {
-								alert("Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du unsere Verwendung von Cookies."); //checked
-							}
-						});
-						*/
 					});
 					</script>
 				</label>
@@ -283,7 +275,6 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 			
 				<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
 			</form>
-		
 		
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
