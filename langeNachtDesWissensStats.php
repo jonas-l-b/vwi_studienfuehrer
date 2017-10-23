@@ -55,19 +55,39 @@ include('header.php');
 	</div>
 	
 </div>
-
+<script src="res/lib/countUp.min.js"></script>
 <script>
 	$(document).ready(function(){
 		setInterval(function(){
 			$.get( "langeNachtDesWissensStatsAPI.php",
 					 function( data ) {
 			  data = JSON.parse(data);
-			  $( "#modVal" ).text( data.modVal );
-			  $( "#dozVal" ).text( data.dozVal );
-			  $( "#verVal" ).text( data.verVal );
-			  $( "#insVal" ).text( data.insVal );
+				var numAnim = new CountUp("dozVal", $( "#dozVal" ).text() , data.dozVal, 0,data.dozVal-$( "#dozVal" ).text());
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
+				var numAnim = new CountUp("modVal", $( "#modVal" ).text() , data.modVal, 0,data.modVal-$( "#modVal" ).text());
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
+				var numAnim = new CountUp("verVal", $( "#verVal" ).text() , data.verVal, 0, data.verVal-$( "#verVal" ).text());
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
+				var numAnim = new CountUp("insVal", $( "#insVal" ).text() , data.insVal, 0, data.insVal-$( "#insVal" ).text());
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
 			});
-		}, 10000);
+		}, 30000);
 	});
 </script>
 
