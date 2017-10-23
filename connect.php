@@ -13,7 +13,7 @@
  	CacheManager::setDefaultConfig(array(
  		"path" => 'cache/tree/',
  	));
- 	$InstanceCache = CacheManager::getInstance('files');
+ 	$InstanceCache = CacheManager::getInstance('auto');
 	use Monolog\Logger;
 	use Monolog\Handler\StreamHandler;
 	
