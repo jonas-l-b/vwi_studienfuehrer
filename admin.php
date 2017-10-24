@@ -85,6 +85,10 @@ if($userRow['admin']==0){
 							<?php
 							//Offen
 							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND processed = 0 ORDER BY time_stamp DESC");
+							if(mysqli_num_rows($result) == 0){
+								$noMessageOpen[$i] = "<br><i>Keine offenen Nachrichten vorhanden!</i>";
+							}
+							
 							while($row = mysqli_fetch_assoc($result)){
 								
 								//Glyphicon 1
@@ -137,6 +141,7 @@ if($userRow['admin']==0){
 								</div>
 								<?php
 							}
+							if(isset($noMessageOpen[$i])) echo $noMessageOpen[$i];
 							?>
 						</div> <!-- open END -->
 						
@@ -145,6 +150,10 @@ if($userRow['admin']==0){
 								
 							<?php
 							$result = mysqli_query($con, "SELECT * FROM messages WHERE message_type = '$types[$i]' AND (processed = 1 OR processed = 2) ORDER BY time_stamp DESC");
+							if(mysqli_num_rows($result) == 0){
+								$noMessageClosed[$i] = "<br><i>Keine bearbeiteten Nachrichten vorhanden!</i>";
+							}
+							
 							while($row = mysqli_fetch_assoc($result)){
 
 								//Glyphicon 1
@@ -178,6 +187,7 @@ if($userRow['admin']==0){
 								</div>
 								<?php
 							}
+							if(isset($noMessageClosed[$i])) echo $noMessageClosed[$i];
 							?>
 						</div> <!-- closed END -->
 						
