@@ -65,7 +65,7 @@ $sqlBody = "
 	JOIN levels ON modules_levels.level_ID = levels.level_ID
 ";
 $sql1 = "
-	SELECT DISTINCT subjects.ID as ID, subject_name, subjects.code AS subject_code, subjects.ECTS AS subject_ECTS, semester, language
+	SELECT DISTINCT subjects.ID as ID, subject_name, subjects.code AS subject_id, subjects.ECTS AS subject_ECTS, semester, language
 	".$sqlBody."
 	WHERE ".$query."
 ";
@@ -183,7 +183,7 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 	$data[] = array(
 		'subject_name' => $subjects['subject_name'],
-		'subject_code' => $subjects['subject_code'],
+		'subject_id' => $subjects['subject_id'],
 		'modul_types' => $module_types,
 		'part_of_modules' => $part_of_modules,
 		'levels' => $levels,
@@ -296,7 +296,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 	foreach($data as $item){
 		$content .= "
 			<tr>
-				<td><div><a href=\"index.php?subject=".$item['subject_code']."\" target=\"blank\">".$item['subject_name']."</a></div></td>
+				<td><div><a href=\"index.php?subject=".$item['subject_id']."\" target=\"blank\">".$item['subject_name']."</a></div></td>
 				<td><div>".$item['modul_types']."</div></td>
 				<td><div>".$item['part_of_modules']."</div></td>
 				<td><div>".$item['levels']."</div></td>

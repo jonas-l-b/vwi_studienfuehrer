@@ -12,6 +12,9 @@ include "connect.php";
 if($userRow['admin']==0){
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_admin';</SCRIPT>");
 }
+
+$InstanceCache->deleteItem("treeside");
+
 ?>
 
 <html>
@@ -29,7 +32,6 @@ if($userRow['admin']==0){
 		<?php
 		if (isset($_POST['btn-createSubject'])){
 			$subject_name = strip_tags($_POST['subject_name']);
-			$code = strip_tags($_POST['code']);
 			$identifier = strip_tags($_POST['identifier']);
 			$lv_number = strip_tags($_POST['lv_number']);				
 			$ECTS = strip_tags($_POST['ECTS']);
@@ -48,11 +50,11 @@ if($userRow['admin']==0){
 				";
 			} else{
 				$sql1 = "
-					INSERT INTO subjects(subject_name, code, identifier, lv_number, ECTS, semester, language, createdBy_ID, time_stamp)
-					VALUES ('$subject_name', '$code', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
+					INSERT INTO subjects(subject_name, identifier, lv_number, ECTS, semester, language, createdBy_ID, time_stamp)
+					VALUES ('$subject_name', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
-				$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit $code von User: $userID" );
+				//$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit ($identifier) von User: $userID" );
 			}
 			
 			//Verbindungseinträge vorbereiten
@@ -103,14 +105,6 @@ if($userRow['admin']==0){
 			<hr>
 			
 			<div class="form-group">
-				<label>Veranstaltungskürzel</label>
-				<p>Kürzel für die Veranstaltung, der in der URL erscheint (Bsp.: index.php?subject=<strong>weku1</strong>). Dieses Kürzel musst du dir ausdenken. Leerzeichen sind nicht erlaubt.</p>
-				<input name="code" type="text" class="form-control" placeholder="Veranstaltungskürzel" required />
-			</div>
-			
-			<hr>
-			
-			<div class="form-group">
 				<label>Kennung</label>
 				<p>Welche <strong>Veranstaltungs</strong>kennung hat die Veranstaltung im Modulhandbuch (Veranstaltungskennungen beginnen immer mit einem <strong>T</strong>; Bsp.: <strong>"T-WIWI-102861"</strong>)?
 				<input name="identifier" type="text" class="form-control" placeholder="Kennung" required />
@@ -148,7 +142,7 @@ if($userRow['admin']==0){
 			$lec = mysqli_query($con,$sql);
 			
 			while($lec_row = mysqli_fetch_assoc($lec)){
-				$lec_selection .= "<option value=".$lec_row['lecturer_ID'].">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
+				$lec_selection .= "<option value=\"".$lec_row['lecturer_ID']."\">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
 			}
 			
 			?>
@@ -157,8 +151,7 @@ if($userRow['admin']==0){
 				<label>Dozent(en)</label>
 				<p>Wer verantwortet die Veranstaltung?</p>
 				<p><i>Falls gewünschter Dozent nicht in Dropdown vorhanden ist, muss er erst noch hinzugefügt werden. Dazu das entsprechende Formular rechts oben auf dieser Seite ausfüllen.</i></p>
-				<p><i>Durch Gedrückthalten von STRG mehrere Dozenten auswählen.</i></p>
-				<select id="lec_select" name="lec_select[]" multiple class="form-control" required>
+				<select id="lec_select" name="lec_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<?php echo $lec_selection ?>
 				</select>
 			</div>
@@ -179,8 +172,7 @@ if($userRow['admin']==0){
 				<label>Teil der Module</label>
 				<p>Welchen Modulen ist die Veranstaltung zuzuordnen?</p>
 				<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular rechts oben auf dieser Seite ausfüllen.</i></p>
-				<p><i>Durch Gedrückthalten von STRG mehrere Module auswählen.</i></p>
-				<select id="mod_select" name="mod_select[]" multiple class="form-control" required>
+				<select id="mod_select" name="mod_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<?php echo $mod_selection ?>
 				</select>
 			</div>
@@ -193,6 +185,8 @@ if($userRow['admin']==0){
 				<select name="semester" class="form-control" required>
 					<option value="Winter">Winter</option>
 					<option value="Sommer">Sommer</option>
+					<option value="Ganzjährig">Ganzjährig</option>
+					<option value="Unregelmäßig">Unregelmäßig</option>
 				</select>
 			</div>
 			
@@ -242,15 +236,21 @@ if($userRow['admin']==0){
 							$insti = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
 							$insti_selection = "";
 							while($insti_row = mysqli_fetch_assoc($insti)){
-								$insti_selection .= "<option value=".$insti_row['institute_ID'].">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
+								$insti_selection .= '<div class="item" data-value="'.$insti_row['institute_ID'].'">'.$insti_row['name']." (".$insti_row['abbr'].")</div>";
 							}
 							?>
 							<div class="form-group">
 								<label>Institut</label>
-								<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular rechts oben auf dieser Seite ausfüllen.</i></p>
-								<select id="lec_institute_select" class="form-control" required>
-									<?php echo $insti_selection ?>
-								</select>
+								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular gleich hierunter.</i></p>
+								<div class="ui fluid search selection dropdown">
+								  <input id="lec_institute_select" class="form-control" type="hidden" required name="country">
+								  <i class="dropdown icon"></i>
+								  <div class="default text">Institut auswählen</div>
+								  <div class="menu">
+								  <?php echo $insti_selection ?>
+								  <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
+								</div>
+								</div>
 							</div>
 						
 							<div>
@@ -406,7 +406,7 @@ if($userRow['admin']==0){
 								<label>Modul-Level</label>
 								<p>Wann kann das Modul belegt werden?</p>
 								<p><i>Durch Gedrückthalten von STRG mehrere Level auswählen.</i></p>
-								<select name="mod_level_select[]" id="mod_level_select" multiple class="form-control" required>
+								<select name="mod_level_select[]" id="mod_level_select" multiple="" class="form-control" required>
 									<option value="bachelor_basic">Bachelor: Kernprogramm</option>
 									<option value="bachelor">Bachelor: Vertiefungsprogramm</option>
 									<option value="master">Master</option>
@@ -415,8 +415,8 @@ if($userRow['admin']==0){
 							
 							<div class="form-group">
 								<label>ECTS</label>
-								<p>Wie viele ECTS bringt das gesamt Modul ein?</p>
-								<input id="mod_ECTS" type="text" class="form-control" placeholder="ECTS" required />
+								<p>Wie viele ECTS bringt das gesamte Modul ein?</p>
+								<input id="mod_ECTS" value="9" type="text" class="form-control" placeholder="ECTS" required />
 							</div>
 						
 							<div>
@@ -478,5 +478,13 @@ if($userRow['admin']==0){
 
 
 </div>
+<script>
+$('.ui.dropdown')
+  .dropdown({
+    fullTextSearch: true,
+	useLabels: false
+  })
+;
+</script>
 </body>
 </html>

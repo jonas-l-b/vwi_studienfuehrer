@@ -4,6 +4,8 @@ include "sessionsStart.php";
 
 include "connect.php";
 
+$InstanceCache->deleteItem("treeside");
+$InstanceCache->deleteItem("table_mod_selection");
 ?>
 
 <?php
@@ -30,7 +32,7 @@ if (mysqli_num_rows($result1)==0){
 	";
 
 	mysqli_query($con,$sql2);
-	$db_logger->info("Neues Modul hinzugefügt: $name von typ $type von User: $userID" );
+	//$db_logger->info("Neues Modul hinzugefügt: $name von typ $type von User: $userID" );
 
 	$mod_new_selection = "";
 

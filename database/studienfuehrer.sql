@@ -439,7 +439,6 @@ INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
 CREATE TABLE `subjects` (
   `ID` int(11) NOT NULL,
   `subject_name` varchar(100) NOT NULL,
-  `code` varchar(100) NOT NULL,
   `identifier` varchar(100) NOT NULL,
   `lv_number` int(100) NOT NULL,
   `ECTS` varchar(100) NOT NULL,
@@ -455,15 +454,15 @@ CREATE TABLE `subjects` (
 -- Daten für Tabelle `subjects`
 --
 
-INSERT INTO `subjects` (`ID`, `subject_name`, `code`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
-(1, 'Betriebswirtschaftslehre: Unternehmensführung und Informationswirtschaft', 'bwlui', 'T-WIWI-102817', 2600023, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:40:15', 0, ''),
-(2, 'Einführung in das Operations Research I und II', 'or12', 'T-WIWI-102758', 2550040, '9', 'Sommer', 'Deutsch', '2', '2017-06-08 21:47:19', 0, ''),
-(3, 'Werkstoffkunde I für Wirtschaftsingenieure', 'weku1', 'T-MACH-102078', 2125760, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:52:11', 0, ''),
-(4, 'Angewandte Informatik II - Informatiksysteme für eCommerce', 'ai2', 'T-WIWI-102651', 2511032, '5', 'Sommer', 'Deutsch', '2', '2017-06-08 21:59:01', 2, '2017-08-21 20:20:56'),
-(5, 'Grundlagen der Fahrzeugtechnik I', 'fzt1', 'T-MACH-100092', 2113805, '6', 'Winter', 'Deutsch', '2', '2017-06-08 22:02:24', 0, ''),
-(6, 'Business and IT Service Management ', 'bitsem', 'T-WIWI-738103', 97531, '4,5', 'Winter', 'Deutsch', '2', '2017-08-13 18:09:45', 0, ''),
-(7, 'Programmieren I', 'prog1', 'T-WIWI-102864', 123456, '5', 'Winter', 'Deutsch', '2', '2017-08-20 00:08:29', 0, ''),
-(8, 'aWieBwl', 'abwl', '123456', 12345678, '3', 'Winter', 'Deutsch', '2', '2017-08-21 20:23:31', 0, '');
+INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
+(1, 'Betriebswirtschaftslehre: Unternehmensführung und Informationswirtschaft', 'T-WIWI-102817', 2600023, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:40:15', 0, ''),
+(2, 'Einführung in das Operations Research I und II', 'T-WIWI-102758', 2550040, '9', 'Sommer', 'Deutsch', '2', '2017-06-08 21:47:19', 0, ''),
+(3, 'Werkstoffkunde I für Wirtschaftsingenieure', 'T-MACH-102078', 2125760, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:52:11', 0, ''),
+(4, 'Angewandte Informatik II - Informatiksysteme für eCommerce', 'T-WIWI-102651', 2511032, '5', 'Sommer', 'Deutsch', '2', '2017-06-08 21:59:01', 2, '2017-08-21 20:20:56'),
+(5, 'Grundlagen der Fahrzeugtechnik I', 'T-MACH-100092', 2113805, '6', 'Winter', 'Deutsch', '2', '2017-06-08 22:02:24', 0, ''),
+(6, 'Business and IT Service Management ', 'T-WIWI-738103', 97531, '4,5', 'Winter', 'Englisch', '2', '2017-08-13 18:09:45', 2, '2017-10-21 23:41:18'),
+(7, 'Programmieren I', 'T-WIWI-102864', 123456, '5', 'Winter', 'Deutsch', '2', '2017-08-20 00:08:29', 0, ''),
+(8, 'aWieBwl', '123456', 12345678, '3', 'Winter', 'Deutsch', '2', '2017-08-21 20:23:31', 0, '');
 
 -- --------------------------------------------------------
 
@@ -657,7 +656,6 @@ ALTER TABLE `remember_me`
 --
 ALTER TABLE `subjects`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `Kürzel` (`code`),
   ADD UNIQUE KEY `subject_name` (`subject_name`);
 
 --

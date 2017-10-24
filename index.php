@@ -27,9 +27,9 @@ include "sumVotes.php";
 		JOIN levels ON modules_levels.level_ID = levels.level_ID
 	";
 	$sql = "
-		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.code AS subject_code, identifier, lv_number, subjects.ECTS AS subject_ECTS, semester, language
+		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ID AS subject_id, identifier, lv_number, subjects.ECTS AS subject_ECTS, semester, language
 		".$sqlBody."
-		WHERE subjects.code = '".$subject."'
+		WHERE subjects.ID = '".$subject."'
 	";
 	$result = mysqli_query($con,$sql);
 

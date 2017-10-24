@@ -17,7 +17,7 @@ $sql = "
 ";
 
 if(mysqli_query($con,$sql)){
-	$db_logger->info("Nutzer ".$userRow['username']." hat gerade den Nutzer mit user_ID ".$user_id." Admin-Rechte zugeschrieben.");
+	//$db_logger->info("Nutzer ".$userRow['username']." hat gerade den Nutzer mit user_ID ".$user_id." Admin-Rechte zugeschrieben.");
 }else{
 	echo "Beim Eintragen ist ein Problem aufgetreten.";
 }
