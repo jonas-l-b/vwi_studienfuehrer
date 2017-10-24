@@ -24,5 +24,6 @@ $sql = "SELECT COUNT(*) AS count FROM lecturers;";
 	
 
 echo json_encode(array('insVal' => $insCount , 'modVal' => $modCount, 'dozVal' => $dozCount, 'verVal' => $verCount));
+//echo json_encode(array('insVal' => time() , 'modVal' => time()/2, 'dozVal' => time()/3, 'verVal' => time()/10));
 
 ?>

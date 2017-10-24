@@ -10,7 +10,7 @@ include('header.php');
 <div class="container">
 	<br />
 	<br />
-	<h1 style="text-align:center">Lange Nacht des Wissens</h1>
+	<h1 style="text-align:center; font-size: 5em;">Lange Nacht des Wissens</h1>
 	
 	<br ><br ><br ><br >
 	
@@ -51,6 +51,14 @@ include('header.php');
     </div>
   </div>
 </div>
+<br />
+<br />
+<div class="progress" style="background-color:rgba(255, 255, 255, 0.75);">
+  <div id="thebar" style="opacity:1" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="70"
+  aria-valuemin="0" aria-valuemax="100">
+    <span class=""></span>
+  </div>
+</div>
 </div>
 <div class="col-md-3"></div>
 	</div>
@@ -59,6 +67,34 @@ include('header.php');
 <script src="res/lib/countUp.min.js"></script>
 <script>
 	$(document).ready(function(){
+		$.get( "langeNachtDesWissensStatsAPI.php",
+					 function( data ) {
+			  data = JSON.parse(data);
+				var numAnim = new CountUp("dozVal", $( "#dozVal" ).text() , data.dozVal, 0);
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
+				var numAnim = new CountUp("modVal", $( "#modVal" ).text() , data.modVal, 0);
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
+				var numAnim = new CountUp("verVal", $( "#verVal" ).text() , data.verVal, 0);
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
+				var numAnim = new CountUp("insVal", $( "#insVal" ).text() , data.insVal, 0);
+				if (!numAnim.error) {
+					numAnim.start();
+				} else {
+					console.error(numAnim.error);
+				}
+			});
 		setInterval(function(){
 			$.get( "langeNachtDesWissensStatsAPI.php",
 					 function( data ) {
@@ -88,7 +124,10 @@ include('header.php');
 					console.error(numAnim.error);
 				}
 			});
-		}, 30000);
+		}, 10000);
+		setInterval(function(){
+				$('#thebar').css('width',($( "#verVal" ).text()/650*100)+'%');
+		}, 1000);
 	});
 </script>
 
