@@ -32,7 +32,7 @@ $name = $userRow['first_name'];
 				<span class="icon-bar"></span>                        
 			  </button>
 			</div>
-			<a id="menulogo" class="navbar-brand" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+			<a id="menulogo" class="navbar-brand" target="_blank" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
 				</a>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
