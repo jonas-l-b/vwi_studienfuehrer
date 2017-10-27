@@ -42,24 +42,9 @@ include "sumVotes.php";
 		exit;
 	}
 	
-	//Variablen mit mehreren möglichen Eitnrägen abrufen
-	//module_types
-	$sql = "
-		SELECT DISTINCT type
-		".$sqlBody."
-		WHERE subjects.ID = ".$subjectData['ID']."
-		ORDER BY type
-	";
-	$result = mysqli_query($con,$sql);
-	$module_types = "";
-	while($row = mysqli_fetch_assoc($result)){
-		$module_types .= $row['type']."<br>";
-	}
-	$module_types = substr($module_types, 0, -4);
-	
 	//part_of_modules
 	$sql = "
-		SELECT DISTINCT modules.name, modules.module_id
+		SELECT DISTINCT modules.name, modules.module_id, type
 		".$sqlBody."
 		WHERE subjects.ID = ".$subjectData['ID']."
 		ORDER BY modules.name
@@ -67,7 +52,7 @@ include "sumVotes.php";
 	$result = mysqli_query($con,$sql);
 	$part_of_modules = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$part_of_modules .= "<a href=\"module.php?module_id=".$row['module_id']."\">".$row['name']."</a><br>";
+		$part_of_modules .= "<a href=\"module.php?module_id=".$row['module_id']."\">".$row['name']."</a> (".$row['type'].")<br>";
 	}
 	$part_of_modules = substr($part_of_modules, 0, -4);
 	
@@ -150,25 +135,6 @@ include "sumVotes.php";
 	</div>
 	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
 	
-	
-	<!--<div class="infoContainer">
-	<?php
-	$box = array(
-		array("Modultyp", "Teil der Module", "Level", "ECTS", "Dozent"),
-		array($module_types, $part_of_modules, $levels, $subjectData['subject_ECTS'], $lecturers)
-	);
-
-	for ($x = 0; $x <= ((count($box, COUNT_RECURSIVE)-2)/2)-1; $x++) {
-		echo "
-			<div class=\"infoFloater\">
-				<p><strong>".$box[0][$x]."</strong></p>
-				<span>".$box[1][$x]."</span>
-			</div>
-
-		";
-	}
-	?>
-	</div>-->
 	<br />
 	
 	<?php
@@ -194,46 +160,6 @@ include "sumVotes.php";
 		$('[data-toggle="tooltip"]').tooltip(); 
 	});
 	</script>
-<!--	
-	<table class="toptable">
-		<tr>
-			<th>Kennung:</th>
-			<td><?php echo $subjectData['identifier'] ?></td>
-		</tr>
-		<tr>
-			<th>LV-Nummer:</th>
-			<td><?php echo $subjectData['lv_number'] ?></td>
-		</tr>
-		<tr>
-			<th>Modultyp:</th>
-			<td><?php echo $module_types ?></td>
-		</tr>
-		<tr>
-			<th>Teil der Module:</th>
-			<td><?php echo $part_of_modules ?></td>
-		</tr>
-		<tr>
-			<th>Level:</th>
-			<td><?php echo $levels ?></td>
-		</tr>
-		<tr>
-			<th>ECTS:</th>
-			<td><?php echo $subjectData['subject_ECTS'] ?></td>
-		</tr>
-		<tr>
-			<th>Dozent:</th>
-			<td><?php echo $lecturers ?></td>
-		</tr>
-		<tr>
-			<th>Semester:</th>
-			<td><?php echo $subjectData['semester'] ?></td>
-		</tr>
-		<tr>
-			<th>Sprache:</th>
-			<td><?php echo $subjectData['language'] ?></td>
-		</tr>
-	</table>
--->
 
 	<?php
 	$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
@@ -521,11 +447,9 @@ include "sumVotes.php";
 				</p>
 				<p>
 					<b>Teile der Module</b><br />
-					<a>Fahrzeugtechnik</a> (ING)<br />
-					<a>Informatik</a> (INFO)
+					<?php echo $part_of_modules ?>
 				</p>
 				<p>
-					
 					<b>Dozent(en)</b><br />
 					<?php echo $lecturers; ?>
 				</p>
