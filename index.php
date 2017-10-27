@@ -12,11 +12,46 @@ include "saveSubjectToVariable.php";
 
 include "sumVotes.php";
 
+
+function time_elapsed_string($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'Jahr',
+        'm' => 'Monat',
+        'w' => 'Woche',
+        'd' => 'Tag',
+        'h' => 'Stunde',
+        'i' => 'Minute',
+        's' => 'Sekunde',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+			if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
+			}
+			else {
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
+			}
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
+}
+
 ?>
 
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<?php
@@ -194,11 +229,29 @@ include "sumVotes.php";
 	}
 	?>
 
-	<!--Überschrift und Info-->
-	<div style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<h1> <?php echo $subjectData['subject_name'] ?> </h1>
+	<!--Überschrift und Info und FavIcon-->
+	<?php
+	//Check favourite status
+	$result = mysqli_query($con, "SELECT * FROM favourites WHERE user_ID = '".$userRow['user_ID']."' AND subject_id = '".$subjectData['ID']."'");
+	if(mysqli_num_rows($result) >= 1){
+		$favClass = "glyphicon glyphicon-star favouriteStar";
+		$favColor = "rgb(255, 204, 0)";
+	} else{
+		$favClass = "glyphicon glyphicon-star-empty favouriteStar";
+		$favColor = "grey";
+	}
+	?>
+	
+	<div class="row" style="margin-bottom:20px; padding:20px 20px 0px 0px;">
+		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
+		</div>
+		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
+		</div>
 	</div>
 	
+
 	<div class="infoContainer">
 	<?php
 	$box = array(
@@ -228,18 +281,15 @@ include "sumVotes.php";
 		
 		$result_modal = mysqli_query($con,$sql_modal);
 		if(mysqli_num_rows($result_modal)>=1){
-			?>
-			<p style="text-align:center">Vielen Dank für Deine Bewertung!</p>
-			<?php
+			$ratingButtonText = "Bereits bewertet - Danke!";
+			$ratingButtonDisabled = "disabled";
 		}else{
-			?>
-			<div style="margin-bottom:15px">
-				<button <?php echo $displayRatings ?> type="button" a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
-			</div>
-			<?php
+			$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 		}
 	?>
-	
+	<div style="margin-bottom:15px">
+		<button <?php echo $displayRatings ?> type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
+	</div>
 
 <!--	
 	<table class="toptable">
@@ -321,83 +371,17 @@ include "sumVotes.php";
 			</div>
 			
 			<div class="col-md-8">
-				<table class="ratingtable" style="width:100%">
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Vorlesung</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit1Prozent ?>%">
-									<?php echo $crit1Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Aufwand für gute Note</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit2Prozent ?>%">
-									<?php echo $crit2Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium3</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit3Prozent ?>%">
-									<?php echo $crit3Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium4</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit4Prozent ?>%">
-									<?php echo $crit4Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				
-				<tr>
-					<td valign="top" style="width:30%">
-						<span>Kriterium5</span>
-					</td>
-					<td valign="center" style="width:70%">
-						<div style="font-size:15px; font-weight:bold; line-height:2">
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $crit5Prozent ?>%">
-									<?php echo $crit5Prozent ?>%
-								</div>
-							</div>
-						</div>
-					</td>
-				</tr>
-				</table>
+				<?php
+					echo $twig->render('bewertungen.template.html', 
+							array(	'rating' => array(
+													'crit1'=> $crit1Prozent,
+													'crit2'=> $crit2Prozent,
+													'crit3'=> $crit3Prozent,
+													'crit4'=> $crit4Prozent,
+													'crit5'=> $crit5Prozent,
+													)
+								));
+				?>
 			</div>
 		</div>
 		
@@ -448,13 +432,12 @@ include "sumVotes.php";
 			
 			<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
 			<label>Sortieren nach: &nbsp </label>
-			<select class="form-control" name="commentorder" id="commentorder">
+			<select class="form-control" name="commentorder" id="commentorder" onchange="this.form.submit()">
 				<option value="date_newFirst" <?php echo $date_new ?>>Datum (Neuste zuerst)</option>
 				<option value="date_newLast" <?php echo $date_old ?>>Datum (Älteste zuerst)</option>
 				<option value="rating_bestFirst" <?php echo $rating_best ?>>Bewertung (Beste zuerst)</option>
 				<option value="rating_worstFirst" <?php echo $rating_worst ?>>Bewertung (Schlechteste zuerst)</option>
 			</select>
-			<button type="submit" class="btn btn-primary" >Sortieren</button>
 			</form>
 			
 			<br>
@@ -511,6 +494,22 @@ include "sumVotes.php";
 				$join = mysqli_query($con,$sql2);
 				$rows = mysqli_fetch_assoc($join);
 				
+				//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeigen
+				$displayEdit = "display:none;";
+				$editClassIdentifier = "";
+				$displayReport ="";
+				
+				//displayEdit auskommentiert, da noch diskutiert werden muss!
+				//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
+				
+				if($comments['user_ID'] == $userRow['user_ID']){
+					$displayEdit = "";
+					$editClassIdentifier = "editButtonIdentificationClass";
+					$displayReport = "display:none;";
+				}
+				
+				
+				
 				echo "
 					<div class=\"well\" style=\"background-color:white; border-radius:none\">
 						<div class=\"media\">
@@ -519,17 +518,38 @@ include "sumVotes.php";
 								<p class=\"nowrap confirmation\" id=\"".$comments['ID']."confirmation\"></p>
 							</div>
 							<div class=\"media-body\">
-								<h4 class=\"media-heading textbold\">".$comments['comment_title']."</h4>
-								<p> ".$comments['comment_body']." </p>
+								<p> ".$comments['comment']." </p>
 								".$recommend."
 								<hr style=\"margin:10px\">
-								<div style=\"font-size:10px\">".$rows['username']." &#124; ".$comments['time_stamp']."</div>
+								<div style=\"font-size:10px\">
+									".$rows['username']." &#124; ". time_elapsed_string($comments['time_stamp'])."
+									<span style=\"float:right;\">
+										<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
+										<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
+										<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\" title=\"Einzelbewertung anzeigen\" ></span></button>
+									</span>
+									<span style=\"float:right; ".$displayReport."\">
+										<button type=\"button\" role=\"button\" data-toggle=\"modal\" data-id=\"".$comments['ID']."\" class=\"editTrashButton reportButton\" title=\"Kommentar melden\"> <span class=\"glyphicon glyphicon-exclamation-sign\"></span></button>
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				";
 			}
 			?>
+			<!-- Zeig Stats zu Kommentar -->
+			<script>
+				function showStats(id){
+						$('#commentsStatsModal').modal('show');
+						$('#commentStats').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+						$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function( response, status, xhr ) {
+						  if ( status == "error" ) {
+							$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
+						  }
+						});
+				}	
+			</script>
 			
 			<!-- Farbänderung bei Kommentarbewertung -->
 			<script>
@@ -611,169 +631,213 @@ include "sumVotes.php";
 		<br>
 		<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
 		<div style="text-align:center">
-			<button style="font-size:20px" type="button" a href="#myModal" role="button" class="btn noRatingButton" data-toggle="modal">Diese Veranstaltung jetzt bewerten!</button>
+			<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
 		</div>
 	</div>
 </div>
-	
-<!-- End of page. Modal for Rating -->
-<!-- Maybe include slider instead of likert: http://foundation.zurb.com/sites/docs/v/5.5.3/components/range_slider.html -->
 
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Modal für Bewertungsänderung-->
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	<div class="modal-content">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Bewertung für: <?php echo $subjectData['subject_name'] ?></h2>
+		<h2 class="modal-title">Bewertungsänderung für: <?php echo $subjectData['subject_name'] ?></h2>
 	</div>
 	<div class="modal-body">
-		<?php
-		
-		if(mysqli_num_rows($result_modal)>=1){
-			echo "<h3>Du hast diese Veranstaltung bereits bewertet!</h3>
-				<br>
-				<button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" aria-hidden=\"true\">Schließen</button>
-			";
-		}else{
-		
-		?>
-		
-		<form action="rating_submit.php?subject=<?php echo $subject?>" method="POST">
-		
-			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Veranstaltungsbewertung</p>
-			
-			<br>
-
-			<p style="font-weight:bold">Wie bewertest du die Vorlesung ingesamt?</p>
-			
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr schlecht</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='1' name="criterion1" required></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='2' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='3' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='4' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='5' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='6' name="criterion1"></label>
-				<label class="radio-inline" style="vertical-align:top"><input type="radio" value='7' name="criterion1"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr gut</p>
-			</div>
-
-			<br><br><br>
-
-			<p style="font-weight:bold">Wie empfandest du das Verhältnis von Aufwand zu guten Noten?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion2" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion2"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion2"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-
-			<p style="font-weight:bold">Was hälst du von Kriterium 3?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr schlecht</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion3" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion3"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion3"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr gut</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Was hälst du von Kriterium 4?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion4" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion4"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion4"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Was hälst du von Kriterium 5?</p>
-
-			<div class="col-md-3">
-				<p style="font-style:italic">Sehr unangemessen</p>
-			</div>
-			<div class="col-md-6">
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='1' name="criterion5" required></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='2' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='3' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='4' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='5' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='6' name="criterion5"></label>
-				<label class="radio-inline" style="vertical-align:center"><input type="radio" value='7' name="criterion5"></label>
-			</div>
-			<div class="col-md-3">
-			<p style="font-style:italic">Sehr angemessen</p>
-			</div>
-			
-			<br><br><br>
-			
-			<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
-			
-			<label class="radio-inline"><input type="radio" name="recommendation" value='1' required>Ja</label>
-			<label class="radio-inline"><input type="radio" name="recommendation" value='0'>Nein</label>
-						
-			<br>
-			<hr>
-			
-			<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
-			
-			<div class="form-group">
-				<label for="usr">Titel:</label>
-				<input name="title" type="text" class="form-control" required>
-			</div>
-			<div class="form-group">
-				<label for="comment">Inhalt:</label>
-				<textarea name="comment" class="form-control" rows="5" required></textarea>
-			</div>
-			
-			<hr>
-			
-			<button type="submit" class="btn btn-primary">Bewertung abschicken</button>
-		</form>
-		
+		<div id="bewertungAendernForm"></div>
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
-<?php
-		} //Ende von Modal Eingabe
-?>
+
+<!-- Modal zum Löschen einer Bewertung-->
+<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Bewertung löschen für: <?php echo $subjectData['subject_name'] ?></h2>
+	</div>
+		<div class="modal-body">
+			<form action="rating_delete.php?subject=<?php echo $subject?>" method="POST">
+				<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Willst du deine Bewertung wirklich löschen?</p>
+				<p> Das beinhaltet deine eigentliche Bewertung und den Kommentar, den du abgegeben hast.<br>
+				<span style="color:red">Dieser Schritt kann nicht rückgängig gemacht werden.</span></p>
+				<button type="submit" class="btn btn-danger">Bewertung unwiderruflich löschen</button>
+			</form>
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+<!-- Scrpit und Modal zum Melden einer Bewertung-->
+<script>
+$(document).ready(function(){
+	$(".reportButton").click(function(){
+		$("#commentId").val($(this).data('id'));
+		$('#reportCommentModal').modal({show:true});
+	});
+	
+	$("#reportForm").submit(function(e){
+		$.ajax({
+			type: "POST",
+			url: "report_submit.php",
+			data: $("#reportForm").serialize(),
+			success: function(data) {
+				//alert(data);
+				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
+					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+				}else{
+					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deines Anliegens ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+				}
+			}
+		});
+		e.preventDefault();
+	});
+});
+</script>
+
+<div id="reportCommentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Kommentar melden</h2>
+	</div>
+		<div class="modal-body">
+			<form action="/" id="reportForm">
+				<input type="hidden" name ="commentId" id="commentId" />
+
+				<div class="form-group">
+					<label>Warum möchtest du diesen Kommentar melden?</label>
+					<textarea name="comment" id="comment" class="form-control" maxlength="5000" placeholder="Hilf uns zu verstehen, warum du diesen Kommentar unangebracht findest." rows="5" required></textarea>
+				</div>
+				
+				<p id ="commentWarning"></p>
+				
+				<script>
+				$('#comment').on("propertychange input textInput", function() {
+					if($('#comment').val().length < 4500){
+						$('#commentWarning').html("");
+					}else if($('#comment').val().length >= 4500 && $('#comment').val().length < 4900){	
+						$('#commentWarning').css('color', 'black');
+						$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
+					}else{
+						$('#commentWarning').css('color', 'red');
+						$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
+					}
+				});				
+				</script>
+				
+				<div name="answer" class="checkbox">
+					<label id="answer"><input name="answer" type="checkbox">Ich möchte gerne eine Antwort erhalten</label>
+				</div>
+				
+				<button id="submitCommentReport" type="submit" class="btn btn-primary">Nachricht abschicken</button>
+			</form>
+		</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+<!-- Modal für Bewertung -->
+<!-- Maybe include slider instead of likert: http://foundation.zurb.com/sites/docs/v/5.5.3/components/range_slider.html -->
+<div id="jetztBewertenModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h2 class="modal-title">Bewertung für: <?php echo $subjectData['subject_name'] ?></h2>
+			</div>
+			<div class="modal-body">
+				<div id="bewertungAbgebenForm"></div>
+			</div><!-- End of Modal body -->
+		</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+
+<div class="snackbar" id="snackbarFavAddSuccess">Wir haben die Veranstaltung deinen Favoriten hinzugefügt.</div>
+<div class="snackbar" id="snackbarFavRemSuccess">Wir haben die Veranstaltung aus deinen Favoriten entfernt.</div>
+<div class="snackbar" id="snackbarFavAddFail">Wir konnten die Veranstaltung leider nicht deinen Favoriten hinzufügen. Bitte überprüfe deine Internetverbindung.</div>
+<div class="snackbar" id="snackbarFavRemFail">Wir konnten die Veranstaltung leider nicht aus deinen Favoriten entfernen. Bitte überprüfe deine Internetverbindung.</div>
+
+<div id="commentsStatsModal" tabindex="-1" aria-hidden="true" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Einzelbewertung</h4>
+      </div>
+      <div class="modal-body">
+		<div id="commentStats"></div>
+	  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+		$("#favIcon").click(function(){
+			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
+				$.post( "favourites_newEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
+				  .done(function() {
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
+					$('#snackbarFavAddSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
+				  })
+				  .fail(function() {
+					$('#snackbarFavAddFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavAddFail').removeClass('show'); }, 3000);
+				  });
+			} else{
+				$.post( "favourites_removeEntry.php", {
+					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					subject_id: "<?php echo $subjectData['ID'] ?>"} )
+				 .done(function() {
+					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
+					$('#snackbarFavRemSuccess').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);
+				  })
+				 .fail(function() {
+					$('#snackbarFavRemFail').addClass('show');
+					setTimeout(function(){ $('#snackbarFavRemFail').removeClass('show'); }, 3000);
+				});
+			}
+		});
+	
+	var bewertenLaden = function(){
+			$('#jetztBewertenModal').modal('show');
+			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+			$('#bewertungAbgebenForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>", function( response, status, xhr ) {
+			  if ( status == "error" ) {
+				$('#bewertungAbgebenForm').html('<strong>Daten können nicht geladen werden.</strong>');
+			  }
+			});
+	}
+	$('#jetztBewertenButton').click(bewertenLaden);
+	$('#jetztBewertenButton2').click(bewertenLaden);
+	
+	var aendernLaden = function(){
+			$('#editModal').modal('show');
+			$('#bewertungAendernForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+			$('#bewertungAendernForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>&filled=true", function( response, status, xhr ) {
+			  if ( status == "error" ) {
+				$('#bewertungAendernForm').html('<strong>Daten können nicht geladen werden.</strong>');
+			  }
+			});
+	}
+	$('.editButtonIdentificationClass').click(aendernLaden);
+});
+</script>
+
 </body>
 </html>

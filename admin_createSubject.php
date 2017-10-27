@@ -17,7 +17,7 @@ if($userRow['admin']==0){
 <html>
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<h2>Veranstaltung eintragen</h2>
@@ -52,6 +52,7 @@ if($userRow['admin']==0){
 					VALUES ('$subject_name', '$code', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
+				$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit $code von User: $userID" );
 			}
 			
 			//Verbindungseinträge vorbereiten

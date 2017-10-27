@@ -1,0 +1,191 @@
+<p></p>
+<form method="POST">
+	<div id="ersterTeilLoeschen">
+		<p><strong>Vorsicht! Das Löschen deines Profils ist eine destruktive Aktion und kann <u>nicht</u> rückgängig gemacht werden.</strong></p>
+		<p>
+			Deine Veranstaltungsbewertungen können anonymisiert erhalten bleiben, wenn du das möchtest. 
+			Du hast nach dem Löschen deines Profils keine Möglichkeit mehr diese Daten zu bearbeiten oder zu löschen. 
+			Es gibt aber auch keine Verbindung zu deinen personenspezifischen Daten mehr, da diese vollständig gelöscht werden.
+		</p>
+		<div class="checkbox">
+		  <label><input name="anonymisieren" id="bewertungenBehalten" type="checkbox" checked>Meine bisherigen Bewertungen anonymisieren und weiterhin der Platform zur Verfügung stellen.</label>
+		</div>
+		<p>
+			Um sicherzustellen, dass du weißt, was du hier tust, tippe bitte folgenden Satz in das Eingabefeld:
+		</p>				
+		<p style="font-family: monospace;" id="deleteSentence">{{ dsAnon }}</p>
+		<input name="userDeleteSentence" type="text" class="form-control" id="uds">
+		<br />
+		<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
+		<button id="deleteButton" style="float:right" class="btn btn-danger" disabled>Konto löschen</button>
+	</div>
+	<div id="deleteLaden"></div>
+	<div id="zweiterTeilLoeschen" style="display:none">
+		<p>Bitte gib noch einmal dein Passwort ein, um die Aktion zu bestätigen.</p>
+		<input name="password" type="password" class="form-control" id="upassword">
+		<br />
+		<p>Beachte bitte auch folgendes: Solltest du Kontaktanfragen an uns gestellt haben und angekreuzt haben "Ich möchte eine Antwort erhalten.", so können wir dir leider nicht mehr auf deine Anfrage antworten, da wir deine Emailadresse im nächsten Schritt endgültig löschen.</p>
+		<button class="deleteAbbrechenButton btn btn-primary" data-toggle="modal">Abbrechen</button>
+		<button id="finalDeleteButton" style="float:right" class="btn btn-danger">Aktion ausführen</button>
+	</div>
+</form>
+
+
+
+<div id="connectionFailModalError" style="display:none" class="alert alert-warning">
+  <strong>Warnung!</strong> Leider ist ein Fehler beim Verbindungsaufbau auftreten. Es ist nicht klar, ob deine Anfrage erfolgreich verlaufen ist, oder nicht. Bitte lade die Seite neu und versuche es gegebenenfalls noch einmal.
+</div>
+<div id="adminErrorFail" style="display:none" class="alert alert-warning">
+  <strong>Warnung!</strong> Deine Benutzergruppe steht über der eines normalen Benutzers. Du bist also ein Admin oder ein Super-Admin. Diese Accounts dürfen nicht einfach gelöscht werden! <strong> Vorgang abgebrochen. </strong>
+</div>
+<div id="dbErrorFail" style="display:none" class="alert alert-warning">
+  <strong>Warnung!</strong> Etwas ist schief gelaufen. Ein Administrator wurde benachrichtigt. Wir werden deine restlichen Daten nun händisch aus der Datenbank löschen und dir Bescheid geben, sobald wir fertig sind. 
+</div>
+<div id="FormFailModalError" style="display:none" class="alert alert-danger">
+  <strong>Achtung!</strong> Bei deinen Eingaben ist ein Fehler aufgetreten. Lade die Seite neu und versuche es noch einmal.
+</div>
+<div id="PWFailModalError" style="display:none" class="alert alert-danger">
+  <strong>Achtung!</strong> Dein Passwort war leider falsch. Bitte lade die Seite neu und versuche es noch einmal.
+</div>
+<div id="deleteProfileSuccessMessageAnon" style="display:none" class="alert alert-success">
+  <strong>Erfolg!</strong> Dein Profil wurde erfolgreich gelöscht. Deine bisherigen Bewertungen wurden anonymisiert.
+</div>
+<div id="deleteProfileSuccessMessageAll" style="display:none" class="alert alert-success">
+  <strong>Erfolg!</strong> Dein Profil wurde erfolgreich gelöscht. Deine bisherigen Bewertungen wurden gelöscht.
+</div>
+<div id="generalSuccessMessage" style="display:none">
+	<p>
+		Wir haben dir soeben noch eine Bestätigungsemail zugeschickt. Wir finden es schade, dass du uns verlässt. Vielleicht sieht man sich ja aber noch einmal wieder. Wir freuen uns jederzeit dich zurück bei uns begrüßen zu dürfen!
+	</p>
+	<p>
+		Liebe Grüße<br />
+		Deine VWI-ESTIEM Hochschulgruppe Karlsruhe
+	</p>
+	<button id="leaveToVWIButton" type="button" class="btn btn-primary btn-block">Seite verlassen</button>
+</div>
+<div id="generalFailMessage" style="display:none">
+	<button id="reloadPageButton" type="button" class="btn btn-primary btn-block">Seite neu laden</button>
+</div>
+
+
+
+<script>
+	$(document).ready(function() {
+		var isDone = false;
+		function showProcessAlert(){
+			if(!isDone){
+				alert('Ein Abbrechen ist leider nicht mehr möglich.');
+			}
+		}
+		var currentSentence = "{{ dsAnon }}";
+		$('#bewertungenBehalten').change(function() {
+			if(this.checked) {
+				$('#deleteSentence').text('{{ dsAnon }}');
+				currentSentence = "{{ dsAnon }}";
+				$('#deleteButton').prop("disabled", true);
+				$('#uds').prop("value", "");
+			}else{
+				var returnVal = confirm("Bist du dir sicher? (Andere könnten von deinen Bewertungen immer noch profitieren.)");
+				$(this).prop("checked", !returnVal);
+				if(returnVal){
+					$('#deleteSentence').text('{{ dsAll }}');
+					currentSentence = "{{ dsAll }}";
+					$('#deleteButton').prop("disabled", true);
+					$('#uds').prop("value", "");
+				}
+			}      
+		});
+		$('#uds').keyup(function(){
+			if(this.value == currentSentence){
+				$('#deleteButton').prop("disabled", false);
+			}else{
+				$('#deleteButton').prop("disabled", true);
+			}
+		});
+		$('.deleteAbbrechenButton').click(function(event){
+			event.preventDefault();
+			$('#deleteProfileModal').modal("hide");
+		});
+		$('#deleteButton').click(function(event){
+			event.preventDefault();
+			$('#ersterTeilLoeschen').fadeOut(400);
+			setTimeout(function(){
+				insertLoader('#deleteLaden');
+				setTimeout(function(){
+					$('#deleteLaden').hide();
+					$('#zweiterTeilLoeschen').fadeIn();
+				}, 1000);
+			}, 400);
+		});
+		$('#finalDeleteButton').click(function(event){
+			event.preventDefault();
+			$('#deleteProfileModal').on('hide.bs.modal', function(e) {
+			   e.preventDefault();
+			   showProcessAlert();
+		    });
+			$(window).bind('beforeunload', function(e){
+				var confirmationMessage = 'Du kannst den begonnenen Prozess nicht mehr abbrechen. '
+										+ 'Möchtest du nicht lieber kurz hier bleiben und auf das Ergebnis warten?';
+
+				(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+				return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+			});
+			$('#deleteModalClose').hide();
+			$('#zweiterTeilLoeschen').fadeOut(400);
+			setTimeout(function(){
+				$('#deleteLaden').show();
+				var checkbox;
+				if($('#bewertungenBehalten').is(":checked")){
+					checkbox = "on";
+				}else{
+					checkbox = "off";
+				}
+				$.ajax({
+				  method: "POST",
+				  url: "delete-user-api.php",
+				  data: { userDeleteSentence: $('#uds').val(), password: $('#upassword').val(), anonymisieren: checkbox, deleteUser: true}
+				})
+				  .done(function( msg ) {
+					$('#deleteLaden').hide();
+					if(msg == "formFail"){
+						$('#FormFailModalError').show();
+						$('#generalFailMessage').show();
+					}else if(msg == "pwFail"){
+						$('#PWFailModalError').show();
+						$('#generalFailMessage').show();
+					}else if(msg == "successAll"){
+						$('#deleteProfileSuccessMessageAll').show();
+						$('#generalSuccessMessage').show();
+					}else if(msg == "successAnon"){
+						$('#deleteProfileSuccessMessageAnon').show();
+						$('#generalSuccessMessage').show();
+					}else if(msg == "adminError"){
+						$('#adminErrorFail').show();
+						$('#generalFailMessage').show();
+					}else if(msg == "dbFail"){
+						$('#dbErrorFail').show();
+						$('#generalFailMessage').show();
+					}else{
+						$('#dbErrorFail').show();
+						$('#generalFailMessage').show();
+					}
+					$('#reloadPageButton').click(function(){
+						 location.reload();
+					});
+					$('#leaveToVWIButton').click(function(){
+						 window.location='https://www.vwi-karlsruhe.de';
+					});
+				  })
+				  .fail(function(error){
+					 $('#deleteLaden').hide();
+					 $('#connectionFailModalError').show();
+					 $('#generalFailMessage').show();
+				  })
+				  .always(function(){
+					isDone = true;
+					$(window).unbind('beforeunload');
+				  });
+			}, 400);
+		});
+	});
+</script>

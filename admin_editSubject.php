@@ -13,11 +13,9 @@ if($userRow['admin']==0){
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_admin';</SCRIPT>");
 }
 ?>
-
-<html>
 <body>
 
-<?php include "nav.php" ?>
+<?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
 	<h2>Veranstaltung bearbeiten</h2>
@@ -52,12 +50,12 @@ if($userRow['admin']==0){
 	$languageSelection['Deutsch'] = "";
 	$languageSelection['Englisch'] = "";
 	
-	if (isset($_POST['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
+	if (isset($_GET['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
 		//Show form
 		$display = "";
 		
 		//Get subject selection
-		$editID = strip_tags($_POST['select']);
+		$editID = strip_tags($_GET['select']);
 		
 		/*Get data for form values*/
 		//data query
@@ -180,21 +178,26 @@ if($userRow['admin']==0){
 	<?php
 	$result1 = mysqli_query($con,"SELECT * FROM subjects");
 	
-	$selection = "";
+	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
-		$selection .= "<option value=".$row1['ID']." ".$subjectSelection[$row1['ID']].">".$row1['subject_name']." [".$row1['identifier']."]</option>";
-	}	
+		array_push($rows, array(
+								"id"=>$row1['ID'],
+								"subject_name"=>$row1['subject_name'],
+								"identifier"=>'['.$row1['identifier'].']',
+								"selected"=>$subjectSelection[$row1['ID']]
+								));
+	}
 	?>
 	
 	<?php if(isset($msg)) echo $msg ?>
-	<form class="form-inline" method="POST">
-		<div class="form-group">
-			<select name="select" class="form-control" required>
-				<?php echo $selection ?>
-			</select>
-		</div>
-		<button type="submit" class="btn btn-primary" name="btn-edit">Diese Veranstaltung bearbeiten</button>
-	</form>
+	
+	<!-- COMBOBOX -->
+	
+	<?php
+		echo $twig->render('admin_edit_auswahl_form.template.html', 
+							array(	'rows' => $rows,
+									'buttontext' => 'Diese Veranstaltung bearbeiten'));
+	?>
 	
 	<div <?php echo $display ?>>
 	
@@ -268,7 +271,7 @@ if($userRow['admin']==0){
 			<div class="form-group">
 				<label>Dozent(en)</label>
 				<p>Wer verantwortet die Veranstaltung?</p>
-				<p><i>Falls gewünschter Dozent nicht in Dropdown vorhanden ist, muss er erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
+				<p><i>Falls gewünschter Dozent nicht in Dropdown vorhanden ist, muss er erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="_blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
 				<p><i>Durch Gedrückthalten von STRG mehrere Dozenten auswählen. <strong>Hinweis: Wenn man einfach in die Asuwahl klickt, sind alle vorausgewählten Einträge nicht mehr markiert. Um vorausgewählte Einträge zu behalten, <u>auf die Scrollbar der Auswahl klicken</u> und dann durch Gedrückthalten von STRG Einträge an- und abwählen. Bei Fehlern mit Button ganz unten Abbrechen und erneut versuchen.</strong></i></p>
 				<select id="lec_select" name="lec_select[]" multiple class="form-control" required>
 					<?php echo $lec_selection ?>
@@ -290,7 +293,7 @@ if($userRow['admin']==0){
 			<div class="form-group">
 				<label>Teil der Module</label>
 				<p>Welchen Modulen ist die Veranstaltung zuzuordnen?</p>
-				<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
+				<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="_blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
 				<p><i>Durch Gedrückthalten von STRG mehrere Module auswählen. <strong>Hinweis: Wenn man einfach in die Asuwahl klickt, sind alle vorausgewählten Einträge nicht mehr markiert. Um vorausgewählte Einträge zu behalten, <u>auf die Scrollbar der Auswahl klicken</u> und dann durch Gedrückthalten von STRG Einträge an- und abwählen. Bei Fehlern mit Button ganz unten Abbrechen und erneut versuchen.</strong></i></p>
 				<select id="mod_select" name="mod_select[]" multiple class="form-control" required>
 					<?php echo $mod_selection ?>
@@ -327,9 +330,6 @@ if($userRow['admin']==0){
 		</form>
 	</div>
 
-
-
 </div>
-
 </body>
 </html>
