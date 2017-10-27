@@ -198,11 +198,11 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
 
 <body>
-<div class="container">
-	<h1>Willkommen zum Studienführer!</h1>
-	<p>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</p>
-	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Wir haben uns für die Account-Variante entschieden, um eine hohe Qualität der bereitgestellten Informationen zu gewährleisten.</p>
-	<p>Viel Spaß beim Stöbern!</p>
+	<img src="pictures/logo_studi.png" width="70%" style="margin-left:15%;">	
+<div class="container" style="text-align:center;font-size: 1.4em;">
+	<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
+	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Wir möchten somit die höchstmögliche Qualität der Informationen sicherstellen.</p>
+	<p><b>Viel Spaß beim Stöbern!</b></p>
 </div>
 <div class="signin-form">
 	<div class="container">
