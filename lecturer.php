@@ -41,7 +41,7 @@ include "connect.php";
 	/*Lade alle Einträge mit mehreren möglichen Einträgen*/
 	//subjects
 	$sql = "
-		SELECT subject_name, subjects.code AS subject_code
+		SELECT subject_name, subjects.ID AS subject_id
 		FROM subjects
 		JOIN subjects_lecturers ON subjects.ID = subjects_lecturers.subject_ID
 		JOIN lecturers ON subjects_lecturers.lecturer_ID = lecturers.lecturer_ID
@@ -51,7 +51,7 @@ include "connect.php";
 	$result = mysqli_query($con,$sql);
 	$subjects = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$subjects .= "<a href=\"index.php?subject=".$row['subject_code']."\">".$row['subject_name']."</a><br>";
+		$subjects .= "<a href=\"index.php?subject=".$row['subject_id']."\">".$row['subject_name']."</a><br>";
 	}
 	$subjects = substr($subjects, 0, -4);
 	?>

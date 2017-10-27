@@ -98,7 +98,7 @@
 						<p class="signature">
 							____________________________________<br />
 							<strong>Studienführer VWI-ESTIEM Karlsruhe</strong><br />
-							<a href="mailto:studienführer@vwi-karlsruhe.de"/>studienführer@vwi-karlsruhe</a><br />
+							<a href="mailto:studienführer@vwi-karlsruhe.de"/>studienführer@vwi-karlsruhe.de</a><br />
 							<br />
 							<strong>VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</strong><br />
 							Büro: 123456789 / Fax: 123456789 <br />

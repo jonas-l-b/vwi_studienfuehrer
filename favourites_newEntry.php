@@ -21,6 +21,6 @@ $stmt->execute();
 $stmt->close();
 $con->close();
 
-$db_logger->info("Nutzer $user_id fügt Veranstaltung $subject_id zu Favoriten hinzu.");
+//$db_logger->info("Nutzer $user_id fügt Veranstaltung $subject_id zu Favoriten hinzu.");
 
 ?>

@@ -14,11 +14,28 @@ require_once 'connect.php';
 $msg1 = "";
 $success = false;
 
+function startsWith($haystack, $needle)
+{
+     $length = strlen($needle);
+     return (substr($haystack, 0, $length) === $needle);
+}
+
+function endsWith($haystack, $needle)
+{
+    $length = strlen($needle);
+
+    return $length === 0 || 
+    (substr($haystack, -$length) === $needle);
+}
+
 if(isset($_POST['btn-signup'])) {
 	$firstName = strip_tags($_POST['first_name']);
 	$lastName = strip_tags($_POST['last_name']);
 	$username = strip_tags($_POST['username']);
 	$email = strip_tags($_POST['email']);
+	if(!startsWith($email,'u') || !endsWith($email,'student.kit.edu')){
+		exit;
+	}
 	$upass = strip_tags($_POST['password']);
 	$degree = strip_tags($_POST['degree']);
 	$advance = strip_tags($_POST['advance']);
@@ -88,7 +105,7 @@ if(isset($_POST['btn-signup'])) {
 			//$highlight_email = "style=\"background-color:rgb(242, 222, 222)\"";
 			$hightlight_upass = "style=\"background-color:rgb(242, 222, 222)\"";
 		}
-		if($count>0 AND $count2!==0){
+		if($count>0 AND $count2==0){
 			$msg = "<div class='alert alert-danger'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Diese E-Mail-Adresse wird bereits verwendet! Bitte korrigiere die hervorgehobenen Felder - das Passwort muss aus Sicherheitsgründen erneut eingegeben werden.
 			</div>";

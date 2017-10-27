@@ -59,7 +59,7 @@ class Autoloader
      */
     public static function loader($className)
     {
-        $directory = new RecursiveDirectoryIterator(static::$pathTop, RecursiveDirectoryIterator::SKIP_DOTS);
+        $directory = new RecursiveDirectoryIterator(static::$pathTop.'/inc/', RecursiveDirectoryIterator::SKIP_DOTS);
         if (is_null(static::$fileIterator)) {
             static::$fileIterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::LEAVES_ONLY);
         }

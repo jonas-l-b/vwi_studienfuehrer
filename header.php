@@ -16,6 +16,9 @@
 	<link rel="stylesheet" href="res/lib/bootstrap-combobox/css/bootstrap-combobox.css">
 	<link rel="stylesheet" href="res/css/userProfile.css">
 	<link rel="stylesheet" href="res/css/snackbar.css">
+	<link rel="stylesheet" type="text/css" href="semantic/dist/components/dropdown.min.css">
+	<link rel="stylesheet" type="text/css" href="semantic/dist/components/transition.min.css">
+	<link rel="stylesheet" type="text/css" href="semantic/dist/components/statistic.min.css">
 	<link rel="shortcut icon" href="pictures/logo_studienfuehrer.ico"/><!-- das erste ist moeglicherweise redundant - noch checken -->
 	<link rel="apple-touch-icon" sizes="57x57" href="pictures/logo/apple-icon-57x57.png">
 	<link rel="apple-touch-icon" sizes="60x60" href="pictures/logo/apple-icon-60x60.png">
@@ -39,4 +42,6 @@
 	<script src="res/lib/jquery.autocomplete.js"></script>
 	<script src="res/lib/bootstrap-combobox/js/bootstrap-combobox.js"></script>
 	<script src="res/js/script.js"></script>
+	<script src="semantic/dist/components/dropdown.min.js"></script>
+	<script src="semantic/dist/components/transition.min.js"></script>
 </head>

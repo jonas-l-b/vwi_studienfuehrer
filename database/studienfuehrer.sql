@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Sep 2017 um 07:49
+-- Erstellungszeit: 09. Okt 2017 um 02:14
 -- Server-Version: 10.1.26-MariaDB
 -- PHP-Version: 7.1.8
 
@@ -40,7 +40,8 @@ CREATE TABLE `admin_notifications` (
 --
 
 INSERT INTO `admin_notifications` (`ID`, `admin_id`, `type`, `time_stamp`) VALUES
-(2, 5, 'messages', '2017-09-01 04:19:59');
+(2, 5, 'messages', '2017-09-01 04:19:59'),
+(3, 4, 'messages', '2017-09-30 22:16:30');
 
 -- --------------------------------------------------------
 
@@ -58,7 +59,7 @@ CREATE TABLE `anti_brute_force` (
 --
 
 INSERT INTO `anti_brute_force` (`login_failures`, `user_id`) VALUES
-(5, 1);
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -85,7 +86,8 @@ INSERT INTO `commentratings` (`ID`, `subject_ID`, `comment_ID`, `user_ID`, `rati
 (3, '5', '2', '1', '-1', '2017-06-08 22:13:19'),
 (4, '2', '5', '1', '1', '2017-08-13 23:40:29'),
 (7, '5', '2', '2', '1', '2017-08-15 22:44:24'),
-(22, '5', '10', '2', '1', '2017-08-17 22:56:36');
+(22, '5', '10', '2', '1', '2017-08-17 22:56:36'),
+(23, '2', '8', '2', '1', '2017-10-04 18:02:10');
 
 -- --------------------------------------------------------
 
@@ -106,8 +108,8 @@ CREATE TABLE `favourites` (
 INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
 (39, 2, 2),
 (46, 2, 1),
-(78, 2, 6),
-(79, 2, 8);
+(80, 2, 5),
+(85, 2, 6);
 
 -- --------------------------------------------------------
 
@@ -256,7 +258,7 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`, `area`, `object_id`, `comment_id`, `answer_required`, `comment`, `time_stamp`, `read_last_id`, `read_last_time_stamp`, `assigned_to_id`, `assigned_to_time_stamp`, `processed`, `processed_by_id`, `processed_comment`, `processed_comment_for_admins`, `processed_time_stamp`) VALUES
-(89, 2, -1, 'bug', '', 0, 0, 1, 'Das ist wohl ein Bug!', '2017-08-29 00:28:46', 2, '2017-08-31 15:52:05', 0, '', 0, 0, '', '', ''),
+(89, 2, -1, 'bug', '', 0, 0, 1, 'Das ist wohl ein Bug!', '2017-08-29 00:28:46', 2, '2017-09-04 22:29:02', 0, '', 1, 2, '', '', '2017-09-04 22:29:05'),
 (90, 2, -1, 'bug', '', 0, 0, 1, 'asdfaf asodfjo aijfoaisj dafoijsd ofajsdfjaosidf aod', '2017-08-31 12:28:45', 2, '2017-08-31 12:29:21', 3, '2017-08-31 12:29:10', 1, 2, 'Sehr geehrter Nutzer. Vielen Dank für adsfasdfasdf', 'Super gelöst.', '2017-08-31 12:29:44'),
 (91, 2, -1, 'bug', '', 0, 0, 1, 'asdfaf asodfjo aijfoaisj dafoijsd ofajsdfjaosidf aod', '2017-08-31 12:28:45', 5, '2017-09-01 04:37:13', 2, '2017-08-31 15:48:22', 1, 5, '', '', '2017-09-01 04:37:17'),
 (92, 4, -1, 'bug', '', 0, 0, 1, 'Das ist ein funktionialer asdofinas odfi', '2017-08-31 14:35:11', 2, '2017-08-31 14:35:48', 2, '2017-08-31 14:35:53', 1, 2, 'Das ist ein Kommentar für den Nutzer!', 'Das ist ein Kommentar an die Admins. TEST', '2017-08-31 14:36:20'),
@@ -266,11 +268,18 @@ INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`
 (96, 4, -1, 'mistake', 'lecturer', 7, 0, 0, 'jjoj saodfjöa sdjföasdif aösdij föaoij döajdsi öfaoi döjf öodijfa', '2017-08-31 23:37:01', 2, '2017-08-31 23:37:25', 2, '2017-08-31 23:37:34', 0, 0, '', '', ''),
 (97, 5, -1, 'mistake', 'subject', 8, 0, 1, 'A wie B? Das macht doch keinen Sinn!', '2017-09-01 03:12:57', 2, '2017-09-01 03:13:59', 0, '', 1, 2, 'Das stimmt. Wir werden das gleich umbenennen!', '', '2017-09-01 03:14:24'),
 (98, 2, -1, 'bug', '', 0, 0, 0, 'hjklöä#', '2017-09-01 03:57:10', 2, '2017-09-04 15:32:58', 0, '', 1, 2, '', 'fff', '2017-09-04 15:33:02'),
-(99, 2, -1, 'comment', '', 0, 2, 0, 'kk', '2017-09-01 04:19:47', 0, '', 0, '', 0, 0, '', '', ''),
+(99, 2, -1, 'comment', '', 0, 2, 0, 'kk', '2017-09-01 04:19:47', 2, '2017-09-04 22:30:36', 0, '', 0, 0, '', '', ''),
 (100, 2, -1, 'bug', '', 0, 0, 0, 'BUG!', '2017-09-01 04:22:38', 5, '2017-09-01 04:38:11', 0, '', 1, 5, '', 'xx', '2017-09-01 04:38:14'),
-(101, 5, -1, 'mistake', 'module', 5, 0, 0, 'Info ist an sich fehlerhaft.', '2017-09-01 04:28:05', 5, '2017-09-01 04:29:42', 5, '2017-09-01 04:29:46', 0, 0, '', '', ''),
+(101, 5, -1, 'mistake', 'module', 5, 0, 0, 'Info ist an sich fehlerhaft.', '2017-09-01 04:28:05', 2, '2017-09-30 22:16:58', 3, '2017-09-30 22:17:34', 0, 0, '', '', ''),
 (102, 5, -1, 'feedback', '', 0, 0, 1, 'Das sieht alles schon super aus!', '2017-09-01 04:30:15', 5, '2017-09-01 04:30:49', 0, '', 1, 5, 'Whoop whoop!', 'Whoop whoop whoop!', '2017-09-01 04:31:14'),
-(103, 4, -1, 'mistake', 'module', 5, 0, 1, 'Info is doof', '2017-09-01 11:58:26', 2, '2017-09-01 12:00:35', 0, '', 1, 2, 'Korrigiert, vielen Dank.', 'asdfsdfasdf', '2017-09-01 12:00:52');
+(103, 4, -1, 'mistake', 'module', 5, 0, 1, 'Info is doof', '2017-09-01 11:58:26', 2, '2017-09-01 12:00:35', 0, '', 1, 2, 'Korrigiert, vielen Dank.', 'asdfsdfasdf', '2017-09-01 12:00:52'),
+(104, 2, -1, 'question', '', 0, 0, 1, 'asdfghjk\r\n', '2017-09-04 22:16:47', 2, '2017-09-04 22:16:56', 0, '', 1, 2, 'dfghj', '', '2017-09-04 22:17:02'),
+(105, 2, -1, 'question', '', 0, 0, 1, 'fdsgsfdg', '2017-09-04 22:30:48', 2, '2017-09-04 22:44:10', 0, '', 1, 2, '', '', '2017-09-04 22:44:12'),
+(106, 2, -1, 'question', '', 0, 0, 1, 'sfsadfad', '2017-09-04 22:44:51', 2, '2017-09-04 22:44:55', 0, '', 1, 2, '', '', '2017-09-04 22:45:00'),
+(107, 2, -1, 'question', '', 0, 0, 1, 'sfdg', '2017-09-04 22:45:44', 2, '2017-09-04 22:45:48', 0, '', 1, 2, '', '', '2017-09-04 22:45:56'),
+(108, 2, -1, 'question', '', 0, 0, 1, 'sgdf', '2017-09-04 22:52:19', 2, '2017-09-04 22:54:34', 0, '', 1, 2, 'nutzer', '', '2017-09-04 22:54:45'),
+(109, 2, -1, 'question', '', 0, 0, 1, 'nächste frage', '2017-09-04 22:54:29', 2, '2017-09-04 23:19:18', 0, '', 0, 0, '', '', ''),
+(110, 2, -1, 'question', '', 0, 0, 1, 'asda', '2017-09-04 23:09:23', 2, '2017-09-04 23:19:22', 0, '', 0, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -365,11 +374,19 @@ INSERT INTO `moduletypes` (`module_type_ID`, `name`) VALUES
 CREATE TABLE `ratings` (
   `ID` int(11) NOT NULL,
   `subject_ID` int(100) NOT NULL,
-  `crit1` varchar(100) NOT NULL,
-  `crit2` varchar(100) NOT NULL,
-  `crit3` varchar(100) NOT NULL,
-  `crit4` varchar(100) NOT NULL,
-  `crit5` varchar(100) NOT NULL,
+  `lecture0` int(100) NOT NULL,
+  `lecture1` int(100) NOT NULL,
+  `lecture2` int(100) NOT NULL,
+  `lecture3` int(100) NOT NULL,
+  `examType` varchar(100) NOT NULL,
+  `exam0` int(100) NOT NULL,
+  `exam1` int(100) NOT NULL,
+  `exam2` int(100) NOT NULL,
+  `exam3` int(100) NOT NULL,
+  `exam4` int(100) NOT NULL,
+  `exam5` int(100) NOT NULL,
+  `examText` varchar(2500) NOT NULL,
+  `general0` int(100) NOT NULL,
   `recommendation` tinyint(1) NOT NULL,
   `comment` varchar(2500) NOT NULL,
   `comment_rating` int(100) NOT NULL,
@@ -382,11 +399,16 @@ CREATE TABLE `ratings` (
 -- Daten für Tabelle `ratings`
 --
 
-INSERT INTO `ratings` (`ID`, `subject_ID`, `crit1`, `crit2`, `crit3`, `crit4`, `crit5`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
-(2, 5, '5', '4', '5', '6', '4', 0, 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', 0, 1, '2017-06-08 22:13:06', ''),
-(8, 2, '5', '2', '2', '2', '2', 0, 'adfsadf', 0, 1, '2017-08-14 00:41:01', ''),
-(10, 5, '7', '4', '6', '5', '7', 1, 'Super ING-Fach, sehr empfehlenswert!', 1, 2, '2017-08-14 12:20:56', '2017-08-14 12:21:23'),
-(11, 1, '5', '3', '4', '2', '5', 0, 'test', 0, 2, '2017-08-31 16:40:22', '');
+INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
+(2, 5, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, '', 0, 0, 'Den Teil vom Unrau fand ich überragend! Der Grauterin hat sich allerdings gerne mal in irgendwelche irrelevanten Rechnungen verloren.. und ich weiß immer noch nicht genau, wie man seinen Namen eigentlich ausspricht!', 0, 1, '2011-06-08 22:13:06', ''),
+(10, 5, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, '', 0, 1, 'Super ING-Fach, sehr empfehlenswert!', 1, 2, '2017-08-14 12:20:56', '2017-08-14 12:21:23'),
+(11, 1, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, '', 0, 0, 'test', 0, 2, '2017-08-31 16:40:22', ''),
+(14, 0, 0, 0, 0, 0, '', 0, 0, 0, 0, 0, 0, '', 0, 0, 'ddd', 0, 2, '2017-10-05 22:12:49', ''),
+(15, 3, 0, 0, 0, 0, 'other', 0, 0, 0, 0, 5, -5, 'Klausur kann so schön sein', 0, 0, 'comment!', 0, 1, '2017-10-05 22:14:47', ''),
+(16, 2, 7, 6, 6, 3, 'written', 10, 10, 10, 10, 10, -3, '', 8, 1, 'Kommentar', 0, 3, '2017-10-05 23:06:35', ''),
+(17, 2, 6, 7, 5, 5, 'oral', 3, 3, 3, 3, 5, -10, '', 5, 1, 'Mündlich', 0, 4, '2017-10-05 23:07:31', ''),
+(18, 2, 9, 6, 10, 10, 'other', 5, 5, 5, 5, 5, 0, 'Mündlich ist immer gut!', 10, 1, 'Noch mehr zu Vorlesung?', 0, 5, '2017-10-05 23:08:35', ''),
+(19, 2, 9, 8, 6, 9, 'written', 8, 6, 3, 7, -5, 5, '', 9, 0, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', 0, 2, '2017-10-08 22:49:00', '');
 
 -- --------------------------------------------------------
 
@@ -406,7 +428,7 @@ CREATE TABLE `remember_me` (
 --
 
 INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
-(1, 2, '43c727ee4fc7250574d2ef90cfa16626388a10e1b30d36ece1c272953ad2ed9e', '70d432707ec2478670d5b36a95d5b1000cb9c3ef6ea1fb7be14b060775723d03');
+(2, 2, 'cef5838d118dccd9de488f16a934cf10a82303577b62888b7ff6f84114827e58', 'a4e00d7e6aa82111575438c5e5d3e63269d4c475c718b2389f6d02932c47f8a6');
 
 -- --------------------------------------------------------
 
@@ -417,7 +439,6 @@ INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
 CREATE TABLE `subjects` (
   `ID` int(11) NOT NULL,
   `subject_name` varchar(100) NOT NULL,
-  `code` varchar(100) NOT NULL,
   `identifier` varchar(100) NOT NULL,
   `lv_number` int(100) NOT NULL,
   `ECTS` varchar(100) NOT NULL,
@@ -433,15 +454,15 @@ CREATE TABLE `subjects` (
 -- Daten für Tabelle `subjects`
 --
 
-INSERT INTO `subjects` (`ID`, `subject_name`, `code`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
-(1, 'Betriebswirtschaftslehre: Unternehmensführung und Informationswirtschaft', 'bwlui', 'T-WIWI-102817', 2600023, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:40:15', 0, ''),
-(2, 'Einführung in das Operations Research I und II', 'or12', 'T-WIWI-102758', 2550040, '9', 'Sommer', 'Deutsch', '2', '2017-06-08 21:47:19', 0, ''),
-(3, 'Werkstoffkunde I für Wirtschaftsingenieure', 'weku1', 'T-MACH-102078', 2125760, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:52:11', 0, ''),
-(4, 'Angewandte Informatik II - Informatiksysteme für eCommerce', 'ai2', 'T-WIWI-102651', 2511032, '5', 'Sommer', 'Deutsch', '2', '2017-06-08 21:59:01', 2, '2017-08-21 20:20:56'),
-(5, 'Grundlagen der Fahrzeugtechnik I', 'fzt1', 'T-MACH-100092', 2113805, '6', 'Winter', 'Deutsch', '2', '2017-06-08 22:02:24', 0, ''),
-(6, 'Business and IT Service Management ', 'bitsem', 'T-WIWI-738103', 97531, '4,5', 'Winter', 'Deutsch', '2', '2017-08-13 18:09:45', 0, ''),
-(7, 'Programmieren I', 'prog1', 'T-WIWI-102864', 123456, '5', 'Winter', 'Deutsch', '2', '2017-08-20 00:08:29', 0, ''),
-(8, 'aWieBwl', 'abwl', '123456', 12345678, '3', 'Winter', 'Deutsch', '2', '2017-08-21 20:23:31', 0, '');
+INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
+(1, 'Betriebswirtschaftslehre: Unternehmensführung und Informationswirtschaft', 'T-WIWI-102817', 2600023, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:40:15', 0, ''),
+(2, 'Einführung in das Operations Research I und II', 'T-WIWI-102758', 2550040, '9', 'Sommer', 'Deutsch', '2', '2017-06-08 21:47:19', 0, ''),
+(3, 'Werkstoffkunde I für Wirtschaftsingenieure', 'T-MACH-102078', 2125760, '3', 'Winter', 'Deutsch', '2', '2017-06-08 21:52:11', 0, ''),
+(4, 'Angewandte Informatik II - Informatiksysteme für eCommerce', 'T-WIWI-102651', 2511032, '5', 'Sommer', 'Deutsch', '2', '2017-06-08 21:59:01', 2, '2017-08-21 20:20:56'),
+(5, 'Grundlagen der Fahrzeugtechnik I', 'T-MACH-100092', 2113805, '6', 'Winter', 'Deutsch', '2', '2017-06-08 22:02:24', 0, ''),
+(6, 'Business and IT Service Management ', 'T-WIWI-738103', 97531, '4,5', 'Winter', 'Englisch', '2', '2017-08-13 18:09:45', 2, '2017-10-21 23:41:18'),
+(7, 'Programmieren I', 'T-WIWI-102864', 123456, '5', 'Winter', 'Deutsch', '2', '2017-08-20 00:08:29', 0, ''),
+(8, 'aWieBwl', '123456', 12345678, '3', 'Winter', 'Deutsch', '2', '2017-08-21 20:23:31', 0, '');
 
 -- --------------------------------------------------------
 
@@ -532,11 +553,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_ID`, `admin`, `super_admin`, `first_name`, `last_name`, `username`, `email`, `password`, `active`, `degree`, `advance`, `semester`, `info`, `hash`, `recoverhash`) VALUES
-(1, 0, 0, 'Charles', 'Carmichael', 'charly123', 'charles.carmichael@gmail.com', '$2y$10$/sGQy6yKCJyzdI1UDBGsDeNfxbpHek3.3K84ZOsuc6QbWmcRAKzQG', 1, 'wiwi', 'bachelor', '5', 'yes', '', ''),
+(1, 1, 1, 'Charles', 'Carmichael', 'charly123', 'charles.carmichael@gmail.com', '$2y$10$/sGQy6yKCJyzdI1UDBGsDeNfxbpHek3.3K84ZOsuc6QbWmcRAKzQG', 1, 'wiwi', 'bachelor', '5', 'yes', '', ''),
 (2, 1, 1, 'Albert', 'Einstein', 'der_albert', 'albert.einstein@student.kit.edu', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, 'Physik', 'bachelor', '5', 'yes', '2ca65f58e35d9ad45bf7f3ae5cfd08f1', ''),
-(3, 1, 0, 'test', 'admin', 'test_admin', 'asdfg', 'asdfg', 1, 'asdfg', 'sdfg', 'sdfg', 'sdfgh', 'sdfgh', ''),
-(4, 0, 0, 'Jonas', 'Bakker', 'jonasl', 'ueehp@student.kit.edu', '$2y$10$5pOoJs18an2j6vsnAepDmOKqLCFkagrVYN3E2UKE2YlzTvZSr8iEW', 1, 'wing', 'bachelor', '6', 'no', 'eeb69a3cb92300456b6a5f4162093851', ''),
-(5, 1, 0, 'Julian', 'Germek', 'juliangermek', 'uvdbh@student.kit.edu', '$2y$10$ttFFsys2NZ9qkMxRlETuYe/AVZBr7Fj31mWBfFbNYt/frGEjnKmia', 1, 'wiwi', 'bachelor', '1', 'no', '1ff1de774005f8da13f42943881c655f', '');
+(3, 0, 0, 'test', 'admin', 'test_admin', 'asdfg', 'asdfg', 1, 'asdfg', 'sdfg', 'sdfg', 'sdfgh', 'sdfgh', ''),
+(4, 1, 0, 'Jonas', 'Bakker', 'jonasl', 'ueehp@student.kit.edu', '$2y$10$5pOoJs18an2j6vsnAepDmOKqLCFkagrVYN3E2UKE2YlzTvZSr8iEW', 1, 'wing', 'bachelor', '6', 'no', 'eeb69a3cb92300456b6a5f4162093851', ''),
+(5, 0, 0, 'Julian', 'Germek', 'juliangermek', 'uvdbh@student.kit.edu', '$2y$10$ttFFsys2NZ9qkMxRlETuYe/AVZBr7Fj31mWBfFbNYt/frGEjnKmia', 1, 'wiwi', 'bachelor', '1', 'no', '1ff1de774005f8da13f42943881c655f', ''),
+(6, 0, 0, 'Gelöschter', 'Nutzer', 'Profil deaktiviert', '', '', 0, '', '', '', 'no', '', ''),
+(7, 0, 0, 'Gelöschter', 'Nutzer', 'Profil deaktiviert', '', '', 0, '', '', '', 'no', '', '');
 
 --
 -- Indizes der exportierten Tabellen
@@ -623,11 +646,16 @@ ALTER TABLE `ratings`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indizes für die Tabelle `remember_me`
+--
+ALTER TABLE `remember_me`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `subjects`
 --
 ALTER TABLE `subjects`
   ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `Kürzel` (`code`),
   ADD UNIQUE KEY `subject_name` (`subject_name`);
 
 --
@@ -661,12 +689,12 @@ ALTER TABLE `admin_notifications`
 -- AUTO_INCREMENT für Tabelle `commentratings`
 --
 ALTER TABLE `commentratings`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT für Tabelle `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 --
 -- AUTO_INCREMENT für Tabelle `institutes`
 --
@@ -691,7 +719,7 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT für Tabelle `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `message_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `message_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 --
 -- AUTO_INCREMENT für Tabelle `modules`
 --
@@ -711,7 +739,12 @@ ALTER TABLE `moduletypes`
 -- AUTO_INCREMENT für Tabelle `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT für Tabelle `remember_me`
+--
+ALTER TABLE `remember_me`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT für Tabelle `subjects`
 --
@@ -731,7 +764,7 @@ ALTER TABLE `subjects_modules`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
