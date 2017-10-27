@@ -4,14 +4,15 @@ include "header.php";
 include "connect.php";
 include "saveSubjectToVariable.php";
 include "sumVotes.php";
+
 ?>
 
 <body>
 
 <?php include "inc/nav.php" ?>
 
-<div class="container" style="margin-top:60px">
-	<!--Überschirft, Veranstaltungsinfos und Favourite Icon Start-->
+
+<div class="container">
 	<?php
 	/*Infos aus DB ziehen*/
 	$sqlBody = "
@@ -137,21 +138,27 @@ include "sumVotes.php";
 	}
 	?>
 	
-	<div class="row" style="margin-bottom:20px; padding:20px 20px 0px 0px;">
-		<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+	<div class="row" id="firstrow">
+		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
-		<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-			<h1><span id="favIcon" style="color:<?php echo $favColor ?>; font-size:35px; cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
+		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;">
+			<h1 style="font-size:50px !important; margin-bottom:-10px;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
-	
+	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
 
-	<div class="infoContainer">
+	<!--<div>
+		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['semester'] ?></p>
+		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['language'] ?></p>
+	</div>-->
+	
+	
+	<!--<div class="infoContainer">
 	<?php
 	$box = array(
-		array("Kennung", "LV-Nummer", "Modultyp", "Teil der Module", "Level", "ECTS", "Dozent", "Semester", "Sprache"),
-		array($subjectData['identifier'], $subjectData['lv_number'], $module_types, $part_of_modules, $levels, $subjectData['subject_ECTS'], $lecturers, $subjectData['semester'], $subjectData['language'])
+		array("Modultyp", "Teil der Module", "Level", "ECTS", "Dozent"),
+		array($module_types, $part_of_modules, $levels, $subjectData['subject_ECTS'], $lecturers)
 	);
 
 	for ($x = 0; $x <= ((count($box, COUNT_RECURSIVE)-2)/2)-1; $x++) {
@@ -164,7 +171,8 @@ include "sumVotes.php";
 		";
 	}
 	?>
-	</div>
+	</div>-->
+	<br />
 	
 	<?php
 	//Bereits bewertet für Bewerten-Button
@@ -182,10 +190,13 @@ include "sumVotes.php";
 		$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 	}
 	?>
-	<div style="margin-bottom:15px">
-		<button <?php echo $displayRatings ?> type="button" href="#" id="jetztBewertenButton2" role="button" class="btn btn-primary" <?php if(isset($ratingButtonDisabled)) echo $ratingButtonDisabled?>><?php echo $ratingButtonText ?></button>
-	</div>
-
+	
+	<button <?php if(isset($ratingButtonDisabled)) echo "style=\"display:none\"";?> data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-plus"></i></button>
+	<script>
+	$(document).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip(); 
+	});
+	</script>
 <!--	
 	<table class="toptable">
 		<tr>
@@ -253,10 +264,11 @@ include "sumVotes.php";
 	<!--Bewertungsübersicht Start-->
 	<div <?php echo $displayRatings ?>>
 		<div class="row">
-			<div class="col-md-2 head_left">
-				Gesamtbewertung
-			</div>
-
+			<!--<div class="col-md-1">
+			</div>-->
+			<div class="col-md-10" id="bewertungstitel">
+				<h2 style="text-align:center;">Gesamtbewertung</h2>
+			</div><div class="col-md-2"></div>
 			<div class="col-md-10 well">
 				<?php
 				$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
@@ -274,9 +286,9 @@ include "sumVotes.php";
 				$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 				$row = mysqli_fetch_assoc($result);
 				?>
-				<span style="float:right; font-size:20px;">Gesamtbewertung: <?php echo round($row['AVG(general0)'], 1) ?> / 10</span>
+				<span style="float:right; font-size:20px;<?php if(isset($ratingButtonDisabled)) echo "padding-right: 25px;"?>">Gesamtbewertung: <b><?php echo round($row['AVG(general0)'], 1) ?></b> / 10</span>
 				<hr>
-			
+				<div <?php if(!isset($ratingButtonDisabled)) echo "style=\"display:none;\""?> class="ribbon"><span>Bewertet!</span></div>
 
 				<div class="row">
 					<div class="col-md-6">
@@ -490,26 +502,79 @@ include "sumVotes.php";
 -->
 				</div>
 			</div>
-			<!--Bewertungsübersicht Ende-->	
-			
-			<!--Kommentare Start-->
-			<div class="col-md-2 head_left">
-				Kommentare und Einzelbewertungen
-			</div>
-
-			<div class="col-md-10 well" id="commentsection">
-
-				<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
-				<label>Sortieren nach: &nbsp </label>
-				<select class="form-control" name="commentorder" id="commentorder">
-					<option value="date_newFirst">Datum (Neuste zuerst)</option>
-					<option value="date_newLast">Datum (Älteste zuerst)</option>
-					<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
-					<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
-				</select>
-				<span class="loader" id="load" style="display:none; padding-left: 5em;"><div></div></span>
-				</form>
+			<!--<div class="col-md-1">
+			</div>-->
+			<div class="col-md-2">
+				<div id="infobox" class="well" style="width:250px;">
+				<div style="margin-top:-15px;"><h4 style="font-size:2em;text-align:center;">Info</h4></div>
+				<div class="row" style="text-align:center;">
+					<div class="col-md-4">
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span><br />WiSe
+					</div>
+					<div class="col-md-4">
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Leistungsumfang" class="glyphicon glyphicon-briefcase"></span></strong></span><br />6 ECTS
+					</div>
+					<div class="col-md-4">
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span><br />DE
+					</div>
+				</div><p></p>
+				<p>
+					<b>Level</b><br />
+					Bachelor: Vertiefung
+				</p>
+				<p>
+					<b>Teile der Module</b><br />
+					<a>Fahrzeugtechnik</a> (ING)<br />
+					<a>Informatik</a> (INFO)
+				</p>
+				<p>
+					<b>Dozent(en)</b><br />
+					<a>F. Grauterin </a><a>(FAST) </a><br />
+					<a>H. Unrau </a><a>(FAST) </a>
+				</p>
 				
+				</div>
+			</div>
+			<script>
+				$('#infobox').affix({
+					  offset: {
+						top: $('#infobox').offset().top - 100
+					  }
+				});
+				$(window).on("resize", function(){
+					$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top - 100
+				})
+			</script>
+			
+			<!--Bewertungsübersicht Ende-->	
+		</div>
+		
+		
+		
+		<div class="row">
+			<!--Kommentare Start-->
+			<!--<div class="col-md-1">
+			</div>-->
+			<div class="col-md-10 well" id="commentsection">
+				
+				<span style="font-size: 1.5em;font-weight:bold;">
+				Kommentare und Einzelbewertungen
+				</span>
+				<span style="float:right;">
+					<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
+					<label>
+						<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp; 
+						<div class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></div>
+					</label>
+					<select class="form-control" name="commentorder" id="commentorder">
+						<option value="date_newFirst">Datum (Neuste zuerst)</option>
+						<option value="date_newLast">Datum (Älteste zuerst)</option>
+						<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
+						<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
+					</select>
+					</form>
+				</span>
+				<div style="margin-top: 1em;"></div>
 				
 				<br>
 				
@@ -525,14 +590,17 @@ include "sumVotes.php";
 				
 				<script>
 				$('#commentorder').change(function () {
-					$('#load').fadeIn();
+					$('#filterIcon').hide();
+					$('#load').show();
 
 					$.ajax({
 						type: "POST",
 						url: "loadComments.php",
 						data: {order: $('#commentorder').val(), subject_id: $('#hiddenSubjectId').html(), user_id: $('#hiddenUserId').html()},
 						success: function(data) {
-							$('#load').fadeOut();
+							$('#load').fadeOut(function(){
+								$('#filterIcon').fadeIn();
+							});
 							$('#commentDiv').fadeOut(function() {
 								$('#commentDiv').html(data);
 								$('#commentDiv').fadeIn();
@@ -628,6 +696,8 @@ include "sumVotes.php";
 				</script>
 			</div>
 			<!--Kommentare Ende-->
+			<div class="col-md-2">
+			</div>
 		</div>
 	</div>
 </div>
@@ -794,7 +864,7 @@ $(document).ready(function(){
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
 				  .done(function() {
-					$("#favIcon").attr("style", "color:rgb(255, 204, 0); font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("style", "color:rgb(255, 204, 0);cursor: pointer; cursor: hand;");
 					$("#favIcon").attr("class", "glyphicon glyphicon-star favouriteStar");
 					$('#snackbarFavAddSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavAddSuccess').removeClass('show'); }, 3000);
@@ -808,7 +878,7 @@ $(document).ready(function(){
 					user_id: "<?php echo $userRow['user_ID'] ?>", 
 					subject_id: "<?php echo $subjectData['ID'] ?>"} )
 				 .done(function() {
-					$("#favIcon").attr("style", "color:grey; font-size:35px; cursor: pointer; cursor: hand;");
+					$("#favIcon").attr("style", "color:grey; cursor: pointer; cursor: hand;");
 					$("#favIcon").attr("class", "glyphicon glyphicon-star-empty favouriteStar");
 					$('#snackbarFavRemSuccess').addClass('show');
 					setTimeout(function(){ $('#snackbarFavRemSuccess').removeClass('show'); }, 3000);

@@ -5,7 +5,7 @@ $admin = "";
 if($userRow['admin']!=0){
 	$admin = "
 		<li>
-			<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\">Admin</a>
+			<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\">Admin <span class=\"caret\"></span></a>
 			<ul class=\"dropdown-menu\">
 				<li><a id=\"linkToAdminEdit\" href=\"admin.php\">Daten bearbeiten</a></li>
 				<li><a id=\"linkToAdminMessages\" href=\"admin.php#messages\">Posteingang</a></li>
@@ -21,36 +21,37 @@ if($userRow['admin']!=0){
 $name = $userRow['first_name'];
 
 ?>
-
-<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
+<nav class="navbar navbar-default navbar-fixed-top menu">
+	<div class="container">
 		    <div class="navbar-header">
+			  <a id="menulogohandy" class="navbar-brand" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+				</a>
 			  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>                        
 			  </button>
 			</div>
-			
+			<a id="menulogo" class="navbar-brand" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+				</a>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="tree.php">Übersicht Studienführer</a></li>
-					<li><a href="https://www.vwi-karlsruhe.de" target="_blank">vwi-karlsruhe.de</a></li>
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
 					<?php echo $admin;?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;"><span class="glyphicon glyphicon-user"></span> Hallo <?php echo $name;?>!</a>
+						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;"><span class="glyphicon glyphicon-user"></span> Hallo <?php echo $name;?>! <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a id="linkToUserProfile" href="userProfile.php">Profil</a></li>
-							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten</a></li>
+							<li><a id="linkToUserProfile" href="userProfile.php">Profil <span class="pull-right"><span class="glyphicon glyphicon-list-alt"></span></span></a></li>
+							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten <span class="pull-right"><span class="glyphicon glyphicon-star"></span></span></a></li>
 							<li class="divider"></li>
-							<li><a href="logout.php">Logout</a></li>
+							<li><a href="logout.php">Logout <span class="pull-right"><span class="glyphicon glyphicon-log-out"></span></span></a></li>
 						</ul>
 					</li>		
 				</ul>				
-				<div id="searchfield">
+				<div id="searchfield" style="padding:15px;">
 					<form action="tree.php" method="get" class="navbar-form">
 					  <div style="display:table;" class="input-group">
 						<input type="text"  class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
@@ -66,6 +67,7 @@ $name = $userRow['first_name'];
 			</div>
 		</div>
 </nav>
+<div class="aftermenu"></div>
 <div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	<div class="modal-content">

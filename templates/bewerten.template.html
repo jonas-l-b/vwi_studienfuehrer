@@ -188,6 +188,14 @@ $("#submitButton").click(function(){
 			},
 			success: function(data) {
 				//alert(data);
+				$('#jetztBewertenModal').on('hide.bs.modal', function(e) {
+							   e.preventDefault();
+							   location.reload();
+				});
+				$('#editModal').on('hide.bs.modal', function(e) {
+							   e.preventDefault();
+							   location.reload();
+				});
 				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
 					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Vielen Dank für deine Bewertung!</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 				}else if(data.trim().substr(0,6) == "errorM"){

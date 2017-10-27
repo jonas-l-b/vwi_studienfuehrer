@@ -11,11 +11,25 @@ include "connect.php";
 
 <?php include "inc/nav.php" ?>
 
-<div class="treeWelcome">
+<!--<div class="treeWelcome">
 	<h3>Willkommen zum Studienführer</h3>
-</div>
+</div>-->
 
-<div class="container" style="margin-top:20px">
+<div class="container">
+<?php
+ 	if(isset($_GET['suchfeld']) && $_GET['suchfeld'] != 'Übersicht Startseite'){
+ 		echo 	'<div class="alert alert-warning alert-dismissable fade in">
+ 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+ 				  <strong>Hinweis!</strong> Leider konnten wir für deine Suche keine Ergebnisse finden.
+ 				</div>';
+ 	}
+ ?>
+  <div class="jumbotron">
+    <h1>Willkommen beim Studienführer</h1> 
+    <p>Der Studienführer ist die beste Hilfestellung bei der Wahl von Vertiefungs- und Mastermodulen für Wirtschaftsingenieure am Karlsruher Institut für Technologie.</p> 
+  </div>
+</div>
+<div class="container">
 	<?php
 	/*Vorbereitung*/
 	//Hide all
@@ -42,17 +56,16 @@ include "connect.php";
 	}
 	?>
 
-	<h4 align="center">Wie möchtest du deine Veranstaltung finden?</h4>
+	<h3 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h3>
 	<div align="center">
-		<form method="get">
-			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toTree" <?php echo $displayButtonTree ?>>Veranstaltung aus Verzeichnis wählen</button>
-			<button style="width:330px" type="submit" class="btn btn-primary" name="btn-toSearch" <?php echo $displayButtonSearch ?>>Veranstaltungen nach Kriterien durchsuchen</button>
-		</form>
+			<a id="treebutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
+			<a id="searchbutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
 	</div>
 	
+
 	
 	
-	<div <?php echo $displayTree ?>>
+	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
  		<h2>Veranstaltungsverzeichnis</h2>
  		<div class="well" style="width:500px; padding: 8px 0;">
@@ -67,7 +80,6 @@ include "connect.php";
  
  
  	if (is_null($CachedString->get())) {
-		
 		
 		$content = "";
  		//Erstellt das Verzeichnis
@@ -134,11 +146,7 @@ include "connect.php";
 	</div>
 	
 	
-	
-	
-	
-	
-	<div <?php echo $displaySearch ?>>
+	<div id="searchSide" <?php echo $displaySearch ?>>
 		<hr>
 		<h2>Veranstaltungssuche</h2>
 		<p><i>Vorsicht beim Filtern: Wird beim Modul-Typ "BWL" angegeben, beim Modul aber "Informatik", kann es natürlich keine Ergebnisse geben. Ebenso können sich beispielsweise Dozent und Institut schnell gegenseitig ausschließen.</i></p>
@@ -400,6 +408,7 @@ include "connect.php";
 			</div></div></div>
 		</form>
 		
+		<div style="align:center;display:none;" id="tabelleLaden"></div>		
 		<script>
 		//Script für die Sortierungs-Dropdowns
 		$('#sortArea').on('change', function() {
@@ -489,24 +498,30 @@ include "connect.php";
 	
 		<!--Ergebnistabelle-->
 		<script>
+		
 		$('#btn-filterSort').on('click', function(e) {
 			e.preventDefault();
-			
 			if($('input[type="checkbox"]:checked').length) {
+				$('#resultTable').hide();
+				$('#tabelleLaden').show();
 				$.ajax({
 					url: "tree_createTable.php",
 					type: "get",
 					data: $("#filtersort").serialize(),
 					success: function (data) {
+						$('#tabelleLaden').hide();
 						var help = $('#resultTable').html();
+						$('#resultTable').show();
 						$('#resultTable').html(data);
 						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
 							$('html, body').animate({ //Scroll down to results
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 1500);
 						}
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {
+						$('#tabelleLaden').hide();
 						alert("Error!");
 					}
 				});
@@ -520,6 +535,55 @@ include "connect.php";
 		<div id="resultTable"></div>
 	</div>
 </div>
-
+<script>
+	//Startet Pagination
+	$(document).ready(function() {
+		insertLoader('#tabelleLaden');
+		if(((new URL(window.location.href)).searchParams.get("filterandsearch"))=="true"){
+			$('#searchbutton').addClass('disabled');
+			$('#treebutton').removeClass('disabled');
+			$('#treeSide').hide();
+			$('#searchSide').show();
+			$('#tabelleLaden').show();
+			$.ajax({
+					url: "tree_createTable.php",
+					type: "get",
+					data: decodeURI(window.location.href.split("&val=")[1]),
+					success: function (data) {
+						$('#tabelleLaden').hide();
+						var help = $('#resultTable').html();
+						$('#resultTable').html(data);
+						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
+							$('html, body').animate({ //Scroll down to results
+								scrollTop: $("#btn-filterSort").offset().top -100
+							}, 500);
+						}
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+$("#filtersort").serialize());
+					},
+					error: function() {
+						$('#tabelleLaden').hide();
+						alert("Error!");
+					}
+				});
+		}
+		$('#treebutton').click(function(){
+			$('#treebutton').addClass('disabled');
+			$('#searchbutton').removeClass('disabled');
+			$('#searchSide').hide();
+			$('#treeSide').show();
+		});
+		$('#searchbutton').click(function(){
+			$('#searchbutton').addClass('disabled');
+			$('#treebutton').removeClass('disabled');
+			$('#treeSide').hide();
+			$('#searchSide').show();
+		});
+	});
+</script>
+<br />
+<br />
+<br />
+<br />
+<br />
 </body>
 </html>
