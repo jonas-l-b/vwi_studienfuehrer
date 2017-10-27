@@ -53,9 +53,9 @@ $name = $userRow['first_name'];
 				<div id="searchfield">
 					<form action="tree.php" method="get" class="navbar-form">
 					  <div style="display:table;" class="input-group">
-						<input type="text" id="autocomplete-suchfeld" class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
+						<input type="text" class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
 						<!--<span style="width: 1%;" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>-->
-						<div class="input-group-btn" style="width:50%">
+						<div class="input-group-btn" style="width:1%">
 						  <button class="btn btn-default">
 							<i class="glyphicon glyphicon-search"></i>
 						  </button>
@@ -98,15 +98,6 @@ $(function(){
     }
   });
   
-  $('#autocomplete-suchfeld').focus(function(){
-	  $('#autocomplete-suchfeld').next().animate({width: '1%'}, {
-                    duration: 'slow',
-                    easing: 'easeOutQuart'
-                });
-  });
-  $('#autocomplete-suchfeld').blur(function(){
-	  $('#autocomplete-suchfeld').next().css('width','50%');
-  });
 });
 </script>
 
