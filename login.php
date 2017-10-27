@@ -198,7 +198,10 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
 
 <body>
-	<img src="pictures/logo_studi.png" width="70%" style="margin-left:15%;">	
+	<img src="pictures/logo_studi.png" width="70%" style="margin-left:15%;" usemap="#logomap">	
+	<map name="logomap">
+	  <area shape="circle" coords="127,122,107" href="https://vwi-karlsruhe.de" target="_blank" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+	</map>
 <div class="container" style="text-align:center;font-size: 1.4em;">
 	<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
 	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Wir möchten somit die höchstmögliche Qualität der Informationen sicherstellen.</p>
