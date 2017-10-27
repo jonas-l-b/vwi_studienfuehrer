@@ -149,11 +149,6 @@ include "sumVotes.php";
 		</div>
 	</div>
 	<p style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
-
-	<!--<div>
-		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-calendar"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['semester'] ?></p>
-		<p><span style="font-size:1.3em;"><strong><span class="glyphicon glyphicon-bullhorn"></span></strong></span> &nbsp;&nbsp;<?php echo $subjectData['language'] ?></p>
-	</div>-->
 	
 	
 	<!--<div class="infoContainer">
@@ -511,18 +506,18 @@ include "sumVotes.php";
 				<div style="margin-top:-15px;"><h4 style="font-size:2em;text-align:center;">Info</h4></div>
 				<div class="row" style="text-align:center;">
 					<div class="col-md-4">
-						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span><br />WiSe
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span><br /><?php echo $subjectData['semester'] ?>
 					</div>
 					<div class="col-md-4">
-						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Leistungsumfang" class="glyphicon glyphicon-briefcase"></span></strong></span><br />6 ECTS
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Leistungsumfang" class="glyphicon glyphicon-briefcase"></span></strong></span><br /><?php echo $subjectData['subject_ECTS'] ?> ECTS
 					</div>
 					<div class="col-md-4">
-						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span><br />DE
+						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span><br /><?php echo $subjectData['language'] ?>
 					</div>
 				</div><p></p>
 				<p>
 					<b>Level</b><br />
-					Bachelor: Vertiefung
+					<?php echo $levels ?>
 				</p>
 				<p>
 					<b>Teile der Module</b><br />
@@ -530,9 +525,9 @@ include "sumVotes.php";
 					<a>Informatik</a> (INFO)
 				</p>
 				<p>
+					
 					<b>Dozent(en)</b><br />
-					<a>F. Grauterin </a><a>(FAST) </a><br />
-					<a>H. Unrau </a><a>(FAST) </a>
+					<?php echo $lecturers; ?>
 				</p>
 				
 				</div>
