@@ -210,7 +210,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 <div class="signin-form">
 	<div class="container">
 		<form class="form-signin" method="post" id="login-form">
-			<h3 class="form-signin-heading">Hier einloggen:</h3><hr />
+			<h3 class="form-signin-heading">Hier einloggen</h3><hr />
 			
 			<?php
 			if(isset($msg)){

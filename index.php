@@ -37,7 +37,9 @@ include "sumVotes.php";
 	if (mysqli_num_rows($result) >= 1 ) {
 		$subjectData = mysqli_fetch_assoc($result);
 	} else {
-		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_subject_in_db';</SCRIPT>");
+		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_subject_in_db';</SCRIPT>"); Da index.php später default adresse eher unvorteilhaft besser:
+		echo "<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>";
+		exit;
 	}
 	
 	//Variablen mit mehreren möglichen Eitnrägen abrufen
