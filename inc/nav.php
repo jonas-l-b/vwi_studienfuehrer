@@ -54,9 +54,9 @@ $name = $userRow['first_name'];
 				<div id="searchfield" style="padding:15px;">
 					<form action="tree.php" method="get" class="navbar-form">
 					  <div style="display:table;" class="input-group">
-						<input type="text"  class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
+						<input type="text" class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
 						<!--<span style="width: 1%;" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>-->
-						<div style="width:1%" class="input-group-btn">
+						<div class="input-group-btn" style="width:1%">
 						  <button class="btn btn-default">
 							<i class="glyphicon glyphicon-search"></i>
 						  </button>
@@ -99,6 +99,7 @@ $(function(){
 			$('.suchen-autocomplete').val("Übersicht Startseite");
     }
   });
+  
 });
 </script>
 

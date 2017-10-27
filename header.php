@@ -45,7 +45,3 @@
 	<script src="semantic/dist/components/dropdown.min.js"></script>
 	<script src="semantic/dist/components/transition.min.js"></script>
 </head>
-
-<?php
-	
-?>

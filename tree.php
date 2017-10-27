@@ -15,6 +15,7 @@ include "connect.php";
 	<h3>Willkommen zum Studienführer</h3>
 </div>-->
 
+
 <div class="container">
 <?php
  	if(isset($_GET['suchfeld']) && $_GET['suchfeld'] != 'Übersicht Startseite'){
