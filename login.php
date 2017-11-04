@@ -200,17 +200,26 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 <body>
 	<img src="pictures/logo_studi.png" width="70%" style="margin-left:15%;" usemap="#logomap">	
 	<map name="logomap">
-	  <area shape="circle" coords="127,122,107" href="https://vwi-karlsruhe.de" target="_blank" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+		<area shape="circle" coords="127,122,107" href="https://vwi-karlsruhe.de" target="_blank" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+		<area id="studi" shape="poly" coords="360,54, 926,54, 760,335, 195,335" href="#" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
 	</map>
+	<script>
+		$("#studi").on("click", function(e){
+			e.preventDefault(); //href (welches obligatorisch in <area> ist) wird nicht ausgeführt
+			$('html, body').animate({
+				scrollTop: $("#loginStart").offset().top
+			}, 1500);
+		});
+	</script>
 <div class="container" style="text-align:center;font-size: 1.4em;">
 	<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
-	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Wir möchten somit die höchstmögliche Qualität der Informationen sicherstellen.</p>
+	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Auf diesem Weg stellen wir die höchstmögliche Qualität der Informationen sicher.</p>
 	<p><b>Viel Spaß beim Stöbern!</b></p>
 </div>
 <div class="signin-form">
 	<div class="container">
 		<form class="form-signin" method="post" id="login-form">
-			<h3 class="form-signin-heading">Hier einloggen</h3><hr />
+			<h3 id="loginStart" class="form-signin-heading">Hier einloggen</h3><hr />
 			
 			<?php
 			if(isset($msg)){
