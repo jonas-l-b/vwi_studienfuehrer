@@ -248,7 +248,6 @@ $InstanceCache->deleteItem("treeside");
 								  <div class="default text">Institut auswählen</div>
 								  <div class="menu">
 								  <?php echo $insti_selection ?>
-								  <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
 								</div>
 								</div>
 							</div>

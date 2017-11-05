@@ -68,7 +68,7 @@ if($userRow['admin']==0){
 	<div class="col-md-4">
 		<?php if(isset($msg_lec)) echo $msg_lec ?>
 		<h3>Dozent löschen</h3>
-		<p>Dozenten können nur gelöscht werden, wenn sie mit keiner Veranstaltung mehr verbunden sind. Folgende Dozenten im Dropdown können gelöscht werden:</p>
+		<p><strong>Dozenten</strong> können nur gelöscht werden, wenn sie mit keiner <strong>Veranstaltung</strong> mehr verbunden sind. Folgende Dozenten im Dropdown können gelöscht werden:</p>
 		<form id="deleteLecturer" method="POST" onsubmit="return confirm('Bist du dir sicher, dass du den ausgewählten Dozenten löschen möchtest?');">
 			<div class="form-group">
 				<select name="lec_select" class="form-control" required>
@@ -117,7 +117,7 @@ if($userRow['admin']==0){
 	<div class="col-md-4">
 		<?php if(isset($msg_inst)) echo $msg_inst ?>
 		<h3>Institut löschen</h3>
-		<p>Institute können nur gelöscht werden, wenn sie mit keinem Dozenten mehr verbunden sind. Folgende Institute im Dropdown können gelöscht werden:</p>
+		<p><strong>Institute</strong> können nur gelöscht werden, wenn sie mit keinem <strong>Dozenten</strong> mehr verbunden sind. Folgende Institute im Dropdown können gelöscht werden:</p>
 		<form id="deleteInstitute" method="POST" onsubmit="return confirm('Bist du dir sicher, dass du das ausgewählte Institut löschen möchtest?');">
 			<div class="form-group">
 				<select name="inst_select" class="form-control" required>
@@ -167,7 +167,7 @@ if($userRow['admin']==0){
 	<div class="col-md-4">
 		<?php if(isset($msg_mod)) echo $msg_mod ?>
 		<h3>Modul löschen</h3>
-		<p>Module können nur gelöscht werden, wenn sie mit keiner Veranstaltung mehr verbunden sind. Folgende Module im Dropdown können gelöscht werden:</p>
+		<p><strong>Module</strong> können nur gelöscht werden, wenn sie mit keiner <strong>Veranstaltung</strong> mehr verbunden sind. Folgende Module im Dropdown können gelöscht werden:</p>
 		<form id="deleteModule" method="POST" onsubmit="return confirm('Bist du dir sicher, dass du das ausgewählte Modul löschen möchtest?');">
 			<div class="form-group">
 				<select name="mod_select" class="form-control" required>
