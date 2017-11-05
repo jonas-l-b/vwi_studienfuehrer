@@ -36,7 +36,7 @@ if (mysqli_num_rows($result1)==0){
 
 	$insti = mysqli_query($con,"SELECT * FROM institutes ORDER BY time_stamp DESC LIMIT 1;");
 	while($insti_row = mysqli_fetch_assoc($insti)){
-		$insti_new_selection .= "<option value=".$insti_row['institute_ID'].">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
+		$insti_new_selection .= '<div class="item" data-value="'.$insti_row['institute_ID'].'">'.$insti_row['name']." (".$insti_row['abbr'].")</div>";
 	}
 
 	echo $insti_new_selection;

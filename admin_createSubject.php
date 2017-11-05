@@ -246,7 +246,7 @@ $InstanceCache->deleteItem("treeside");
 								  <input id="lec_institute_select" class="form-control" type="hidden" required name="country">
 								  <i class="dropdown icon"></i>
 								  <div class="default text">Institut auswählen</div>
-								  <div class="menu">
+								  <div id="lec_institute_select2" class="menu">
 								  <?php echo $insti_selection ?>
 								</div>
 								</div>
@@ -281,7 +281,7 @@ $InstanceCache->deleteItem("treeside");
 								if($.trim(data)=='existsAlready'){
 									alert('Dieser Dozent ist bereits vorhanden!')
 								} else{
-									alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar.');
+									alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
 									$('#lec_select').append(data);
 								}
 								$('#lec_first_name').val("");
@@ -347,9 +347,9 @@ $InstanceCache->deleteItem("treeside");
 								if($.trim(data)=='existsAlready'){
 									alert('Dieses Institut ist bereits vorhanden!')
 								} else{
-									alert('Institut wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar.');
+									alert('Institut wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
 									//alert(data);
-									$('#lec_institute_select').append(data);
+									$('#lec_institute_select2').append(data);
 								}
 								$('#inst_name').val("");
 								$('#inst_abbr').val("");
@@ -453,7 +453,7 @@ $InstanceCache->deleteItem("treeside");
 								if($.trim(data)=='existsAlready'){
 									alert('Dieses Modul ist bereits vorhanden!')
 								} else{
-									alert('Modul wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar.');
+									alert('Modul wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
 									$('#mod_select').append(data);
 								}
 								$('#mod_code2').val("");
