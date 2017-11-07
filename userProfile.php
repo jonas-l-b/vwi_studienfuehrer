@@ -163,6 +163,11 @@ include "connect.php";
 			";			
 			$result = mysqli_query($con, $sql);
 			
+			//Hinweis, falls noch keine Favoriten hinzugefügt
+			if(mysqli_num_rows($result) == 0){
+				echo "<i><p>Du hast noch keine Objekte zu deinen Favoriten hinzugefügt.</p><p>Navigiere bspw. auf die Seite einer Veranstaltung und klicke auf den Stern oben rechts, um sie deinen Favoriten hinzuzufügen.</p></i>";
+			}
+			
 			while($modules = mysqli_fetch_assoc($result)){
 				echo ("<h4>".$modules['module_type']."</h4>");
 				
