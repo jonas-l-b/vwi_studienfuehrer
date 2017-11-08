@@ -65,7 +65,7 @@ $sqlBody = "
 	JOIN levels ON modules_levels.level_ID = levels.level_ID
 ";
 $sql1 = "
-	SELECT DISTINCT subjects.ID as ID, subject_name, subjects.code AS subject_id, subjects.ECTS AS subject_ECTS, semester, language
+	SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ECTS AS subject_ECTS, semester, language
 	".$sqlBody."
 	WHERE ".$query."
 ";
