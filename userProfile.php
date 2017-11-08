@@ -172,7 +172,7 @@ include "connect.php";
 				echo ("<h4>".$modules['module_type']."</h4>");
 				
 				$sql2="
-					SELECT DISTINCT subjects.ID AS subject_id, subject_name, subjects.code AS subject_code, modules.type AS module_type, modules.name AS module_name, modules.module_id AS module_id
+					SELECT DISTINCT subjects.ID AS subject_id, subject_name, modules.type AS module_type, modules.name AS module_name, modules.module_id AS module_id
 					FROM favourites
 					JOIN subjects on favourites.subject_id = subjects.ID
 					JOIN subjects_modules on subjects.ID = subjects_modules.subject_ID
@@ -187,20 +187,18 @@ include "connect.php";
 				while($subject = mysqli_fetch_assoc($result2)){
 					if($i==1){
 						$help[$i][1] = $subject['subject_id'];
-						$help[$i][2] = $subject['subject_code'];
-						$help[$i][3] = $subject['subject_name'];
-						$help[$i][4] = "<a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
+						$help[$i][2] = $subject['subject_name'];
+						$help[$i][3] = "<a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
 						
 						$i++;
 					} elseif($subject['subject_id'] != $help[$i-1][1]){
 						$help[$i][1] = $subject['subject_id'];
-						$help[$i][2] = $subject['subject_code'];
-						$help[$i][3] = $subject['subject_name'];
-						$help[$i][4] = "<a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
+						$help[$i][2] = $subject['subject_name'];
+						$help[$i][3] = "<a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
 
 						$i++;	
 					}elseif($subject['subject_id'] == $help[$i-1][1]){ //Fügt Modul der vorangegangenen Veranstaltung zu anstatt Veranstaltung erneut zu listen
-						$help[$i-1][4] = $help[$i-1][4].", <a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
+						$help[$i-1][3] = $help[$i-1][3].", <a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
 					}
 				}
 				
@@ -209,7 +207,7 @@ include "connect.php";
 					<p>
 					<span id="<?php echo $help[$j][1]?>" style="color:rgb(255, 204, 0)" title="Klicken, um als Favorit an- oder abzuwählen" class="glyphicon glyphicon-star favouriteStar"></span>
 					<a href="index.php?subject=<?php echo $help[$j][2]?>"><?php echo $help[$j][3]?></a>
-					(<?php echo $help[$j][4]?>)
+					(<?php echo $help[$j][3]?>)
 					</p>
 					<?php
 				}
