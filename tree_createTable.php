@@ -183,7 +183,7 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 	$data[] = array(
 		'subject_name' => $subjects['subject_name'],
-		'subject_id' => $subjects['subject_id'],
+		'subject_id' => $subjects['ID'],
 		'modul_types' => $module_types,
 		'part_of_modules' => $part_of_modules,
 		'levels' => $levels,
