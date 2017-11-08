@@ -56,13 +56,14 @@ include "connect.php";
 	$subjects = substr($subjects, 0, -4);
 	?>
 	
-	<h2>Dozent: <?php echo $lecturerData['first_name']." ".$lecturerData['last_name']?></h2>
+	<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">DOZENT</p>
+	<h2 style="margin-top:0px"><?php echo $lecturerData['first_name']." ".$lecturerData['last_name']?></h2>
 	<hr>
 	<table class="table" style="border-top:solid; border-top-color:white">
 		<tbody>
 			<tr>
 				<th>Institut:</th>
-				<td><?php echo "<a href=\"institute.php?institute_id=".$lecturerData['institute_ID']."\">".$lecturerData['institute_name']."</a> (".$lecturerData['abbr'].")"?></td>
+				<td><?php echo "<a href=\"institute.php?institute_id=".$lecturerData['institute_ID']."\">".$lecturerData['institute_name']." (".$lecturerData['abbr'].")</a>"?></td>
 			</tr>
 			<tr>
 				<th>Veranstaltungen:</th>

@@ -49,7 +49,7 @@ include "connect.php";
 	$result = mysqli_query($con,$sql);
 	$lecturers = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a> (<a href=\"institute.php?institute_id=".$row['institute_ID']."\">".$row['abbr']."</a>)<br>";
+		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a><br>";
 	}
 	$lecturers = substr($lecturers, 0, -4);
 	
@@ -72,7 +72,8 @@ include "connect.php";
 	$subjects = substr($subjects, 0, -4);
 	?>
 	
-	<h2>Institut: <?php echo $instituteData['name']." (".$instituteData['abbr'].")"?></h2>
+	<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">INSTITUT</p>
+	<h2 style="margin-top:0px"><?php echo $instituteData['name']." (".$instituteData['abbr'].")"?></h2>
 	<hr>
 	<table class="table" style="border-top:solid; border-top-color:white">
 		<tbody>

@@ -120,7 +120,8 @@ include "connect.php";
 	}
 	?>
 	
-	<h2>Modul: <?php echo $moduleData['module_name']?></h2>
+	<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">MODUL</p>
+	<h2 style="margin-top:0px"><?php echo $moduleData['module_name']?></h2>
 	<hr>
 			
 	<div class="row">
@@ -178,8 +179,8 @@ include "connect.php";
 			</div>
 			<br />
 			<div style="width: 66%; margin: 0 auto;">
-			<h4 style="text-align: center;">Gesamtbewertung</h4>
-			<p style="text-align: center;">Basierend auf <strong><?php echo $count ?></strong> Bewertungen</p>
+			<h4 style="text-align: center; margin-bottom:0.5px;">Gesamtbewertung</h4>
+			<p style="text-align: center;">Basierend auf <strong><?php echo $count ?></strong> <?php if($count == 1) echo "Bewertung"; else echo "Bewertungen" ?></p>
 			</div>
 		</div>
 	</div>
