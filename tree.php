@@ -27,7 +27,8 @@ include "connect.php";
  ?>
   <div class="jumbotron">
     <h1>Willkommen beim Studienführer</h1> 
-    <p>Der Studienführer ist die beste Hilfestellung bei der Wahl von Vertiefungs- und Mastermodulen für Wirtschaftsingenieure am Karlsruher Institut für Technologie.</p> 
+    <p>Schön, dass du die Registrierung geschaffts hast! Der Studienführer ist die beste Hilfestellung bei der Wahl von Vertiefungs- und Mastermodulen für Wiwis am Karlsruher Institut für Technologie.</p> 
+	<p><u>Lange Nacht des Wissens</u>: Falls du Bugs, Fehler oder Verbessungsvorschläge zum Studienführer hast, kannst du das über "Kontakt" ganz oben loswerden. Das hinterlegte Formular verschickt dann eine Nachricht an den Admin-Bereich!</p>
   </div>
 </div>
 <div class="container">
