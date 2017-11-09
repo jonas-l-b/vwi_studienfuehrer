@@ -1,6 +1,6 @@
 <?php 
 
-$result = mysqli_query($con,"SELECT * FROM subjects WHERE code = '$subject'");
+$result = mysqli_query($con,"SELECT * FROM subjects WHERE ID = '$subject'");
 $num = mysqli_num_rows($result);
 
 // Check, ob Datensatz existiert (ist der Fall, wenn mindestens ein Ergebnis zurückgegeben wird)
