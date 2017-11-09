@@ -6,6 +6,8 @@ $email = $_GET['email'];
 
 $body = "Testbody";
 
-EmailService::getService()->sendEmail($email, "Tester", "Testemail", $body);
+if(EmailService::getService()->sendEmail($email, "Tester", "Testemail", $body)){
+  echo "success send to " . $email;
+}
 
 ?>
