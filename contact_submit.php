@@ -69,7 +69,7 @@ if(mysqli_query($con,$sql)){
 		<p>Betreff: <strong>".$type."</strong></p>
 		<span>".$comment."</span>
 		<hr>
-		<span class='foo'><a href=\"app.vwi-karlsruhe.de/studienfuehrer/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"app.vwi-karlsruhe.de/studienfuehrer/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
+		<span class='foo'><a href=\"studienfuehrer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"studienfuehrer.vwi-karlsruhe.de/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
 	";
 
 	$sql = "
