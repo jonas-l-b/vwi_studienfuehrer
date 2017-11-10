@@ -1,13 +1,13 @@
-<?php 
+<?php
 
-$result = mysqli_query($con,"SELECT * FROM subjects WHERE code = '$subject'");
+$result = mysqli_query($con,"SELECT * FROM subjects WHERE ID = '$subject'");
 $num = mysqli_num_rows($result);
 
 // Check, ob Datensatz existiert (ist der Fall, wenn mindestens ein Ergebnis zurückgegeben wird)
 if ($num >= 1 ) {
 	$subjectData = mysqli_fetch_assoc($result);
 } else {
-	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_subject_in_db';</SCRIPT>");
+	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 }
 
 ?>

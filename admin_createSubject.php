@@ -23,7 +23,14 @@ $InstanceCache->deleteItem("treeside");
 <?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
-	<h2>Veranstaltung eintragen</h2>
+	<h2>Veranstaltung eintragen &nbsp
+		<a href="#" data-trigger="focus" data-toggle="popoverLNDW" title="Du bist ein cooler Typ!" data-content="Und das obwohl du wahrscheinlich gerade keine Sonnenbrille aufhast. Du bist einfach nur cool, weil du hier bei der Langen Nacht des Wissens sitzt und dabei hilfst, das Modulhandbuch in unsere Datenbank einzupflegen. Danke dir dafür!">
+			<span class="glyphicon glyphicon-sunglasses"></span>
+		</a>
+		<script>
+		$('[data-toggle="popoverLNDW"]').popover(); 
+		</script>
+	</h2>
 	<hr>
 	
 	<div class="col-md-8">	
