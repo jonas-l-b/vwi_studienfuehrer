@@ -8,7 +8,7 @@ include "connect.php";
 <?php
 
 //This creates the table containing the requested subjects after search
-//Creation in 3 steps:
+//Creation in 4 steps:
 //1. Create query to get all subjects
 //2. Get rating averages for each subject using this query
 //3. Put all in one array
