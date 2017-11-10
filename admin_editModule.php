@@ -29,19 +29,19 @@ if($userRow['admin']==0){
 	/*Vorbereitung*/
 	//Hide Form
 	$display = "style=\"display:none\"";
-	
+
 	//unselect all module options
 	$result1 = mysqli_query($con,"SELECT * from modules");
 	while($row = mysqli_fetch_assoc($result1)){
 		$moduleSelection[$row['module_ID']] = "";
 	}
-	
+
 	//unselect all institute options
 	$result1 = mysqli_query($con,"SELECT * from moduletypes");
 	while($row = mysqli_fetch_assoc($result1)){
 		$typeSelection[$row['name']] = "";
 	}
-	
+
 	//unselect all level options
 	$result1 = mysqli_query($con,"SELECT * from levels");
 	while($row = mysqli_fetch_assoc($result1)){
@@ -51,10 +51,10 @@ if($userRow['admin']==0){
 	if (isset($_GET['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
 		//Show form
 		$display = "";
-		
+
 		//Get module selection
 		$editID = strip_tags($_GET['select']);
-		
+
 		/*Get data for form values*/
 		//data query
 		$sql = "
@@ -64,19 +64,19 @@ if($userRow['admin']==0){
 			JOIN levels ON modules_levels.level_ID = levels.level_ID
 			WHERE modules.module_ID = ".$editID.";
 		";
-		
+
 		$result = mysqli_query($con,$sql);
 		$row = mysqli_fetch_assoc($result);
-		
+
 		//Select correct lecturer in upper form
 		$moduleSelection[$row['module_ID']] = "selected";
-		
+
 		//Get form values
 		$name = $row['module_name'];
 		$code = $row['code'];
-		
+
 		$typeSelection[$row['type']] = "selected";
-		
+
 		$sql = "
 			SELECT DISTINCT levels.name
 			FROM modules
@@ -88,36 +88,36 @@ if($userRow['admin']==0){
 		while($row1 = mysqli_fetch_assoc($result1)){
 			$levelSelection[$row1['name']] = "selected";
 		}
-		
+
 		$ECTS = $row['ECTS'];
 	}
-	
+
 	if (isset($_POST['btn-saveChanges'])){ //Wenn Speichern-Button geklickt
 		$display = "style=\"display:none\"";
-		
+
 		//aktuelle ID
 		$changeID = strip_tags($_POST['module_ID']);
-		
+
 		//Daten aus Form ziehen
 		$name = strip_tags($_POST['name']);
 		$code = strip_tags($_POST['code']);
 		$type = strip_tags($_POST['type_select']);
-		$level_select = $_POST['level_select'];	
+		$level_select = $_POST['level_select'];
 		$ECTS = strip_tags($_POST['ECTS']);
 		$userID = $userRow['user_ID'];
-		
+
 		//modules ändern
 		$sql = "
 			UPDATE modules
 			SET code = '$code', name = '$name', type = '$type', ECTS = '$ECTS', lastChangedBy_ID = '$userID', time_stamp2 = now()
 			WHERE module_ID = $changeID;
 		";
-		
+
 		$q1 = mysqli_query($con,$sql);
-		
+
 		//Daten in modules_levels löschen...
 		$q2 = mysqli_query($con,"DELETE FROM modules_levels WHERE module_ID = '".$changeID."';");
-		
+
 		//...und neu einfügen
 		foreach($level_select as $value){
 			$row = mysqli_fetch_assoc(mysqli_query($con,"SELECT * FROM levels WHERE name = '$value'"));
@@ -196,7 +196,7 @@ if($userRow['admin']==0){
 			</div>
 			
 			<?php
-			$mod_type1 = mysqli_query($con, "SELECT * FROM moduleTypes");
+			$mod_type1 = mysqli_query($con, "SELECT * FROM moduletypes");
 			$mod_type1_selection = "";
 			while($mod_type1_row = mysqli_fetch_assoc($mod_type1)){
 				$mod_type1_selection .= "<option value=".$mod_type1_row['name']." ".$typeSelection[$mod_type1_row['name']].">".$mod_type1_row['name']."</option>";
@@ -220,16 +220,16 @@ if($userRow['admin']==0){
 					<option value="master" <?php echo $levelSelection['master'] ?>>Master</option>
 				</select>
 			</div>
-			
+
 			<div class="form-group">
 				<label>ECTS</label>
 				<p>Wie viele ECTS bringt das gesamt Modul ein?</p>
 				<input value="<?php echo $ECTS ?>" name="ECTS" type="text" class="form-control" placeholder="ECTS" required />
 			</div>
-			
+
 			<button type="submit" class="btn btn-primary" name="btn-saveChanges">Änderungen speichern</button>
 			<button type="submit" class="btn" name="btn-cancel" formnovalidate>Abbrechen</button>
-			
+
 		</form>
 	</div>
 
