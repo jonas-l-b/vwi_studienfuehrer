@@ -129,8 +129,8 @@ if($userRow['admin']==0){
 				$q3 = mysqli_query($con,$sql2);
 
 		}
-		
-		if($q1==true AND $q2==true AND $q3==true){	
+
+		if($q1==true AND $q2==true AND $q3==true){
 			$msg = "
 				<div class='alert alert-success'>
 					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Änderungen wurden erfolgreich gespeichert.
@@ -138,22 +138,22 @@ if($userRow['admin']==0){
 			";
 		}
 	}
-	
+
 	if (isset($_POST['btn-cancel'])){ //Wenn Abbrechen-Button geklickt
 		$display = "style=\"display:none\"";
 	}
-	
+
 	?>
-	
+
 	<?php
 	$sql1 = "
 		SELECT *
 		FROM modules
 		ORDER BY name
 	";
-	
+
 	$result1 = mysqli_query($con,$sql1);
-	
+
 	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
 		array_push($rows, array(
@@ -162,39 +162,39 @@ if($userRow['admin']==0){
 								"identifier"=>'['.$row1['code'].']',
 								"selected"=>$moduleSelection[$row1['module_ID']]
 								));
-	}	
+	}
 	?>
-	
+
 	<?php if(isset($msg)) echo $msg ?>
-	
+
 	<?php
-		echo $twig->render('admin_edit_auswahl_form.template.html', 
+		echo $twig->render('admin_edit_auswahl_form.template.html',
 							array(	'rows' => $rows,
 									'buttontext' => 'Dieses Modul bearbeiten'));
 	?>
-	
+
 	<div <?php echo $display ?>>
-	
+
 		<br><br>
 
 		<form method="POST">
-		
+
 			<div class="form-group" style="display:none">
 				<input value="<?php echo $editID ?>" name="module_ID" type="text" class="form-control"/>
 			</div>
-			
+
 			<div class="form-group">
 				<label>Modul-Name</label>
 				<p>Wie heißt das Modul?</p>
 				<input value="<?php echo $name ?>" name="name" type="text" class="form-control" placeholder="Modul-Name" required />
 			</div>
-			
+
 			<div class="form-group">
 				<label>Kennung</label>
 				<p>Welche <strong>Modul</strong>kennung hat das Modul im Modulhandbuch (Modulkennungen beginnen immer mit einem <strong>M</strong>; Bsp.: <strong>M-WIWI-101500</strong>)?</p>
 				<input value="<?php echo $code ?>" name="code" type="text" class="form-control" placeholder="Nummer" required />
 			</div>
-			
+
 			<?php
 			$mod_type1 = mysqli_query($con, "SELECT * FROM moduletypes");
 			$mod_type1_selection = "";
@@ -209,7 +209,7 @@ if($userRow['admin']==0){
 					<?php echo $mod_type1_selection ?>
 				</select>
 			</div>
-			
+
 			<div class="form-group">
 				<label>Modul-Level</label>
 				<p>Wann kann das Modul belegt werden?</p>
