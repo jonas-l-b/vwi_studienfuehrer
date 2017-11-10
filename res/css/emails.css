@@ -1,11 +1,69 @@
-div {
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.outerTable {
 	font-family:calibri;
 }
 
-.signature {
-	font-size:.8em;
+.middleTable {
+	border-collapse: collapse;
 }
 
-.foo{
-	font-size:.8em;
+.headerblock {
+	background-color: #ffffff;
+	align: center;
+	padding: 20px 0 5px 0;
+}
+
+.headerblock a {
+	cursor: inherit;
+}
+
+.headerblock img {
+	display: block;
+	max-width: 100%;
+}
+
+.contentblock {
+	background-color: #ffffff;
+	padding: 30px 15px 30px 15px;
+	font-size: 1.2em;
+}
+
+.anrede {
+	font-size: 1.5em;
+}
+
+.signature {
+	color: #ffffff !important;
+}
+
+.signature a {
+	color: #ffffff;
+}
+
+.signaturetitle {
+	line-height: 1.2;
+}
+
+.footerblock {
+	background-color: #155A9D;
+	padding: 30px 30px 30px 30px;
+}
+
+.socialmedia {
+	align: right;
+	width: 25%;
+}
+
+.socialmediabuffer {
+	font-size: 0;
+	line-height: 0;
+}
+
+.geolink {
+	text-decoration:none;
+	border:none;
 }
