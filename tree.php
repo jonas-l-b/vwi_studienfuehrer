@@ -97,7 +97,7 @@ include "connect.php";
 						JOIN modules_levels ON modules.module_ID = modules_levels.module_ID
 						JOIN levels ON modules_levels.level_ID = levels.level_ID
 						WHERE levels.name = '".$array[$x][1]."' AND type = '".$modulTypes['name']."'
-            ORDER BY modules.name;
+            ORDER BY TRIM(modules.name);
 					");
 					while($modules = mysqli_fetch_assoc($result2)){ //Modulname
 						$content .= "<li><label class=\"tree-toggler nav-header\">".$modules['module_name']."</label>";
@@ -109,7 +109,7 @@ include "connect.php";
 							JOIN subjects_modules ON subjects.ID = subjects_modules.subject_ID
 							JOIN modules ON subjects_modules.module_ID = modules.module_ID
 							WHERE modules.name = '".$modules['module_name']."'
-              ORDER BY subject_name;
+              ORDER BY TRIM(subject_name);
 						");
 						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
 							$content .= "<li><a target=\"_blank\" href=\"index.php?subject=".$subjects['subject_id']."\">".$subjects['subject_name']."</a></li>";
