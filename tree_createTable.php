@@ -68,6 +68,7 @@ $sql1 = "
 	SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ECTS AS subject_ECTS, semester, language
 	".$sqlBody."
 	WHERE ".$query."
+	ORDER BY subjects.subject_name
 ";
 //echo $query;
 //echo "<br><br>";
@@ -304,6 +305,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 	
 	//Array sortieren
 	sksort($data, "$orderBy", $bool);
+	$data = array_slice($data,0,50);
 
 	//Ausgabe vorbereiten
 	$content = "";
