@@ -147,7 +147,7 @@ include "sumVotes.php";
 			<h1 style="font-size:50px !important; margin-bottom:-10px;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
-	<p style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
+	<p style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;
 	
 	<br />
 	

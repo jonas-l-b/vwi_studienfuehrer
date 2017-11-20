@@ -40,7 +40,6 @@ $InstanceCache->deleteItem("treeside");
 		if (isset($_POST['btn-createSubject'])){
 			$subject_name = strip_tags($_POST['subject_name']);
 			$identifier = strip_tags($_POST['identifier']);
-			$lv_number = strip_tags($_POST['lv_number']);
 			$ECTS = strip_tags($_POST['ECTS']);
 			$lec_select = $_POST['lec_select'];
 			$mod_select = $_POST['mod_select'];
@@ -57,8 +56,8 @@ $InstanceCache->deleteItem("treeside");
 				";
 			} else{
 				$sql1 = "
-					INSERT INTO subjects(subject_name, identifier, lv_number, ECTS, semester, language, createdBy_ID, time_stamp)
-					VALUES ('$subject_name', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
+					INSERT INTO subjects(subject_name, identifier, ECTS, semester, language, createdBy_ID, time_stamp)
+					VALUES ('$subject_name', '$identifier', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
 				//$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit ($identifier) von User: $userID" );
@@ -115,14 +114,6 @@ $InstanceCache->deleteItem("treeside");
 				<label>Kennung</label>
 				<p>Welche <strong>Veranstaltungs</strong>kennung hat die Veranstaltung im Modulhandbuch (Veranstaltungskennungen beginnen immer mit einem <strong>T</strong>; Bsp.: <strong>"T-WIWI-102861"</strong>)?
 				<input name="identifier" type="text" class="form-control" placeholder="Kennung" required />
-			</div>
-
-			<hr>
-
-			<div class="form-group">
-				<label>LV.-Nummer</label>
-				<p>Welche LV.-nummer hat die Veranstaltung im Modulhandbuch (LV.-Nummern bestehen nur aus Zahlen und finden sich im Modulhandbuch auf der jeweiligen Seite der Veranstaltung; Bsp.: <strong>"2521533"</strong>; Enthält die Veranstaltung mehrere Einträge, bspw. Übung und Vorlesung, wähle die der Vorlesung)?
-				<input name="lv_number" type="text" class="form-control" placeholder="LV.-Nummer" required />
 			</div>
 
 			<hr>
