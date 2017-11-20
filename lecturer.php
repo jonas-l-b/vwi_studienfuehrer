@@ -23,10 +23,8 @@ include "connect.php";
 	
 	//Moduldatensatz laden
 	$sql = "
-		SELECT lecturers.lecturer_ID, first_name, last_name, institutes.name AS institute_name, abbr, institutes.institute_ID
+		SELECT lecturers.lecturer_ID, first_name, last_name
 		FROM lecturers
-		JOIN lecturers_institutes ON lecturers.lecturer_ID = lecturers_institutes.lecturer_ID
-		JOIN institutes ON lecturers_institutes.institute_ID = institutes.institute_ID	
 		WHERE lecturers.lecturer_ID = '".$lecturer_id."'
 	";
 	$result = mysqli_query($con,$sql);
@@ -39,6 +37,21 @@ include "connect.php";
 	}
 	
 	/*Lade alle Einträge mit mehreren möglichen Einträgen*/
+	//institutes
+	$sql = "
+		SELECT institutes.institute_ID, name, abbr
+		FROM institutes
+		JOIN lecturers_institutes ON institutes.institute_ID=lecturers_institutes.institute_ID
+		WHERE lecturer_ID = '".$lecturer_id."'
+		ORDER BY name
+	";
+	$result = mysqli_query($con,$sql);
+	$institutes = "";
+	while($row = mysqli_fetch_assoc($result)){
+		$institutes .= "<a href=\"institute.php?institute_id=".$row['institute_ID']."\">".$row['name']." (".$row['abbr'].")</a><br>";			
+	}
+	$institutes = substr($institutes, 0, -4);
+
 	//subjects
 	$sql = "
 		SELECT subject_name, subjects.ID AS subject_id
@@ -62,11 +75,11 @@ include "connect.php";
 	<table class="table" style="border-top:solid; border-top-color:white">
 		<tbody>
 			<tr>
-				<th>Institut:</th>
-				<td><?php echo "<a href=\"institute.php?institute_id=".$lecturerData['institute_ID']."\">".$lecturerData['institute_name']." (".$lecturerData['abbr'].")</a>"?></td>
+				<th>Institut(e):</th>
+				<td><?php echo $institutes?></td>
 			</tr>
 			<tr>
-				<th>Veranstaltungen:</th>
+				<th>Veranstaltung(en):</th>
 				<td><?php echo $subjects?></td>
 			</tr>
 		</tbody>
