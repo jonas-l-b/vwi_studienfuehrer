@@ -86,7 +86,7 @@ include "sumVotes.php";
 	
 	//lecturers
 	$sql = "
-		SELECT DISTINCT lecturers.lecturer_ID, lecturers.last_name, lecturers.first_name, institutes.institute_ID, abbr
+		SELECT DISTINCT lecturers.lecturer_ID, lecturers.last_name, lecturers.first_name
 		".$sqlBody."
 		WHERE subjects.ID = ".$subjectData['ID']."
 		ORDER BY abbr, lecturers.last_name
@@ -94,7 +94,21 @@ include "sumVotes.php";
 	$result = mysqli_query($con,$sql);
 	$lecturers = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a> (<a href=\"institute.php?institute_id=".$row['institute_ID']."\">".$row['abbr']."</a>)<br>";
+		$sql_abbr = mysqli_query($con,"
+						SELECT *
+						FROM institutes
+						JOIN lecturers_institutes ON institutes.institute_ID=lecturers_institutes.institute_ID
+						WHERE lecturer_ID = '".$row['lecturer_ID']."'
+			");
+		$abbr = "";
+		while($abbr_row = mysqli_fetch_assoc($sql_abbr)){
+			$abbr .= "<a href=\"institute.php?institute_id=".$abbr_row['institute_ID']."\">".$abbr_row['abbr']."</a>, ";
+		}
+		$abbr = substr($abbr, 0, -2);
+		
+		
+		
+		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a> (".$abbr.")<br>";
 	}
 	$lecturers = substr($lecturers, 0, -4);
 	?>
