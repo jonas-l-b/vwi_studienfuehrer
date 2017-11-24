@@ -233,7 +233,7 @@ if(isset($_POST['btn-signup'])) {
 				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="progress">
+			<div class="progress PWprogress">
 				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
 			
