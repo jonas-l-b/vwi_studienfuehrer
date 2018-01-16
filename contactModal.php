@@ -42,7 +42,7 @@
 	
 	<div id="area" style="display:none" class="form-group">
 		<label>Wo findest sich der Fehler?</label>
-		<select name="area" class="form-control" required>
+		<select name="area" id="select_area" class="form-control" required>
 			<option disabled selected value style="display:none"> -- Bitte wählen -- </option>
 			<option value="subject">Veranstaltung</option>
 			<option value="module">Modul</option>
@@ -54,7 +54,7 @@
 	
 	<div id="subject" style="display:none" class="form-group">
 		<label>Welche Veranstaltung betrifft es?</label>
-		<select name="subject_id" class="form-control" required>
+		<select name="subject_id" id="select_subject" class="form-control" required>
 			<?php echo $subjects ?>
 		</select>
 	</div>
