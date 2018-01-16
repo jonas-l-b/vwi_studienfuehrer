@@ -134,8 +134,56 @@ include "sumVotes.php";
 		</div>
 	</div>
 	<p style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
-	
-	<br />
+	<br>
+	<a id="contact2" style="cursor: pointer; cursor: hand;">Inhaltlichen Fehler auf dieser Seite melden</a>
+	</p>
+
+	<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h2 class="modal-title">Kontakt</h2>
+		</div>
+			<div class="modal-body">
+				<div id="contactModalBody"></div>
+			</div><!-- End of Modal body -->
+		</div><!-- End of Modal content -->
+		</div><!-- End of Modal dialog -->
+	</div><!-- End of Modal -->	
+
+	<script>
+	$(document).ready(function(){
+		$("#contact2").click(function(){
+			$('#contactModal').modal('show');
+			$('#contactModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+			$('#contactModalBody').load("contactModal.php", function( response, status, xhr ) {
+				if ( status == "error" ) {
+					$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
+				}else{
+					$('#area').attr("style", "");
+					$('#subject').attr("style", "");
+					
+					$('#reason').attr("disabled", "disabled");
+					$('#select_area').attr("disabled", "disabled");
+					$('#select_subject').attr("disabled", "disabled");
+					
+					$('#reason').val("mistake");
+					$('#select_area').val("subject");
+					$('#select_subject').val("<?php echo $subject?>");
+
+					$('.checkbox').show();
+					$('#answer').html("<input name=\"answer\" type=\"checkbox\" checked>Ich möchte informiert werden, wenn der Fehler behoben wurde");
+					$("#area :input").prop('required');
+					$("#subject :input").prop('required');
+
+					$('#comment').attr("placeholder", "Was genau ist inhaltlich falsch bei der Veranstaltung \""+$('#subject option:selected').text()+"\"?");	
+				}
+			});
+		});	
+	});
+	</script>
+
 	
 	<?php
 	//Bereits bewertet für Bewerten-Button
