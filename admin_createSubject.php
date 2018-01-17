@@ -32,7 +32,7 @@ $InstanceCache->deleteItem("treeside");
 		</script>
 	</h2>
 	<hr>
-	
+
 	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">Hinweis: Doppelte Einträge</button>
 	<div id="notice" class="collapse">
 		Es wird rudimentär geprüft, ob Einträge bereits vorhanden sind. Konkret werden in folgenden Fällen Fehlermeldungen ausgegeben:<br><br>
@@ -268,7 +268,7 @@ $InstanceCache->deleteItem("treeside");
 						</form>
 
 						<script>
-						function myFunction() {
+						function myFunction(event) {
 							event.preventDefault();
 							var first_name = document.getElementById("lec_first_name").value;
 							var last_name = document.getElementById("lec_last_name").value;
@@ -335,7 +335,7 @@ $InstanceCache->deleteItem("treeside");
 						</form>
 
 						<script>
-						function myFunction2() {
+						function myFunction2(event) {
 							event.preventDefault();
 							var inst_name = document.getElementById("inst_name").value;
 							var inst_abbr = document.getElementById("inst_abbr").value;
@@ -434,7 +434,7 @@ $InstanceCache->deleteItem("treeside");
 						</form>
 
 						<script>
-						function myFunction3() {
+						function myFunction3(event) {
 							event.preventDefault();
 							var mod_code = document.getElementById("mod_code2").value;
 							var mod_name = document.getElementById("mod_name").value;
