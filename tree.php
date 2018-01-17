@@ -580,6 +580,8 @@ include "connect.php";
 		});
 	});
 </script>
+<script src="res/lib/jquery.simplePagination.js"></script>
+<script src="res/lib/jquery.nicescroll-master/jquery.nicescroll.js"></script>
 <br />
 <br />
 <br />
