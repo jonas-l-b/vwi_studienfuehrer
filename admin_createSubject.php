@@ -262,13 +262,13 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="lec_submit" onclick="myFunction()" type="submit" class="btn btn-primary">Dozent eintragen</button>
+								<button id="lec_submit" type="submit" class="btn btn-primary">Dozent eintragen</button>
 							</div>
 
 						</form>
 
 						<script>
-						function myFunction(event) {
+						$('#lec_submit').click(function (event) {
 							event.preventDefault();
 							var first_name = document.getElementById("lec_first_name").value;
 							var last_name = document.getElementById("lec_last_name").value;
@@ -299,7 +299,7 @@ $InstanceCache->deleteItem("treeside");
 							});
 							}
 							return false;
-						}
+						});
 						</script>
 					</div>
 				</div>
@@ -329,13 +329,13 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="mod_submit" onclick="myFunction2()" type="submit" class="btn btn-primary">Institut eintragen</button>
+								<button id="ins_submit" type="submit" class="btn btn-primary">Institut eintragen</button>
 							</div>
 
 						</form>
 
 						<script>
-						function myFunction2(event) {
+						$('#ins_submit').click(function (event) {
 							event.preventDefault();
 							var inst_name = document.getElementById("inst_name").value;
 							var inst_abbr = document.getElementById("inst_abbr").value;
@@ -366,7 +366,7 @@ $InstanceCache->deleteItem("treeside");
 							});
 							}
 							return false;
-						}
+						});
 						</script>
 					</div>
 				</div>
@@ -428,13 +428,13 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="mod_submit" onclick="myFunction3()" type="submit" class="btn btn-primary">Modul eintragen</button>
+								<button id="mod_submit" type="submit" class="btn btn-primary">Modul eintragen</button>
 							</div>
 
 						</form>
 
 						<script>
-						function myFunction3(event) {
+						$('#mod_submit').click(function (event) {
 							event.preventDefault();
 							var mod_code = document.getElementById("mod_code2").value;
 							var mod_name = document.getElementById("mod_name").value;
@@ -474,7 +474,7 @@ $InstanceCache->deleteItem("treeside");
 							});
 							}
 							return false;
-						}
+						});
 						</script>
 					</div>
 				</div>
