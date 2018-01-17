@@ -262,7 +262,7 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="lec_submit" type="submit" class="btn btn-primary">Dozent eintragen</button>
+								<button id="lec_submit" class="btn btn-primary">Dozent eintragen</button>
 							</div>
 
 						</form>
@@ -329,7 +329,7 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="ins_submit" type="submit" class="btn btn-primary">Institut eintragen</button>
+								<button id="ins_submit" class="btn btn-primary">Institut eintragen</button>
 							</div>
 
 						</form>
@@ -428,7 +428,7 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="mod_submit" type="submit" class="btn btn-primary">Modul eintragen</button>
+								<button id="mod_submit" class="btn btn-primary">Modul eintragen</button>
 							</div>
 
 						</form>
