@@ -20,8 +20,8 @@ $ECTS = $_POST['mod_ECTS'];
 $sql1 = "
 	SELECT *
 	FROM modules
-	WHERE code = '$code' AND name = '$name' AND type = '$type' AND ECTS = '$ECTS';
-";
+	WHERE code = '$code' OR name = '$name'
+";//WHERE code = '$code' AND name = '$name' AND type = '$type' AND ECTS = '$ECTS';
 $result1 = mysqli_query($con,$sql1);
 
 //If no, insert
