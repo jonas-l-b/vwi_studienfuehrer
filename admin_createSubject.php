@@ -40,7 +40,7 @@ $InstanceCache->deleteItem("treeside");
 		2) <strong>Dozenten</strong>: <strong>Vorname</strong> <u>und</u> <strong>Nachname</strong> <u>und</u> <strong>Institut</strong> bereits vorhanden<br>
 		3) <strong>Institute</strong>: <strong>Name</strong> <u>oder</u> <strong>Abkürzung</strong> bereits vorhanden<br>
 		4) <strong>Module</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br><br>
-		Da zusätzliche Zeichen (inkl. Leerzeichen!) beim Eintragen oder in der Datenbank diese Prüfung schon austricksen, bitte aufpassen beim Eintragen!
+		Da zusätzliche Zeichen (womöglich inkl. Leerzeichen!) beim Eintragen oder in der Datenbank diese Prüfung schon austricksen, bitte aufpassen beim Eintragen!
 	</div>
 	<br><br>
 
