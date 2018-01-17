@@ -24,7 +24,7 @@ $InstanceCache->deleteItem("treeside");
 
 <div class="container" style="margin-top:60px">
 	<h2>Veranstaltung eintragen &nbsp
-		<a href="#" data-trigger="focus" data-toggle="popoverLNDW" title="Du bist ein cooler Typ!" data-content="Und das obwohl du wahrscheinlich gerade keine Sonnenbrille aufhast. Du bist einfach nur cool, weil du hier bei der Langen Nacht des Wissens sitzt und dabei hilfst, das Modulhandbuch in unsere Datenbank einzupflegen. Danke dir dafür!">
+		<a href="#" data-trigger="focus" data-toggle="popoverLNDW" title="Du bist aber cool drauf" data-content="Und das ganz ohne Sonnenbrille! Einfach nur, weil du hier bei der Langen Nacht des Studienführers sitzt und dabei hilfst, das Modulhandbuch in unsere Datenbank einzupflegen. Danke dir dafür!">
 			<span class="glyphicon glyphicon-sunglasses"></span>
 		</a>
 		<script>
