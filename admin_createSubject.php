@@ -35,12 +35,12 @@ $InstanceCache->deleteItem("treeside");
 	
 	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">Hinweis: Doppelte Einträge</button>
 	<div id="notice" class="collapse">
-		Es wird rudimentär geprüft, ob Einträge bereits vorhanden sind:<br><br>
+		Es wird rudimentär geprüft, ob Einträge bereits vorhanden sind. Konkret werden in folgenden Fällen Fehlermeldungen ausgegeben:<br><br>
 		1) <strong>Veranstaltungen</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br>
 		2) <strong>Dozenten</strong>: <strong>Vorname</strong> <u>und</u> <strong>Nachname</strong> <u>und</u> <strong>Institut</strong> bereits vorhanden<br>
 		3) <strong>Institute</strong>: <strong>Name</strong> <u>oder</u> <strong>Abkürzung</strong> bereits vorhanden<br>
 		4) <strong>Module</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br><br>
-		Da zusätzliche Zeichen (womöglich inkl. Leerzeichen!) beim Eintragen oder in der Datenbank diese Prüfung schon austricksen, bitte aufpassen beim Eintragen!
+		Da zusätzliche Zeichen (womöglich inkl. Leerzeichen!) beim Eintragen oder in der Datenbank diese Prüfung schon austricksen, ist beim Eintragen Vorsicht geboten!
 	</div>
 	<br><br>
 
