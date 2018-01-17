@@ -46,9 +46,11 @@ $InstanceCache->deleteItem("treeside");
 		$moduleSelection[$row_mod['module_ID']] = "";
 	}
 	
-	//unselect all smester and language options
+	//unselect all semester and language options
 	$semesterSelection['Winter'] = "";
 	$semesterSelection['Sommer'] = "";
+	$semesterSelection['Ganzjährig'] = "";
+	$semesterSelection['Unregelmäßig'] = "";
 	$languageSelection['Deutsch'] = "";
 	$languageSelection['Englisch'] = "";
 	
@@ -292,6 +294,8 @@ $InstanceCache->deleteItem("treeside");
 				<select name="semester" class="form-control" required>
 					<option value="Winter" <?php echo $semesterSelection['Winter'] ?>>Winter</option>
 					<option value="Sommer" <?php echo $semesterSelection['Sommer'] ?>>Sommer</option>
+					<option value="Ganzjährig" <?php echo $semesterSelection['Ganzjährig'] ?>>Ganzjährig</option>
+					<option value="Unregelmäßig" <?php echo $semesterSelection['Unregelmäßig'] ?>>Unregelmäßig</option>
 				</select>
 			</div>
 			
