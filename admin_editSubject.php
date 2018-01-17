@@ -122,7 +122,7 @@ $InstanceCache->deleteItem("treeside");
 		
 		//Daten aus Form ziehen
 		$subject_name = strip_tags($_POST['subject_name']);
-		$identifier = strip_tags($_POST['identifier']);				
+		$identifier = strip_tags($_POST['identifier']);			
 		$ECTS = strip_tags($_POST['ECTS']);
 		$lec_select = $_POST['lec_select'];				
 		$mod_select = $_POST['mod_select'];				
