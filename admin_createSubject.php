@@ -32,6 +32,17 @@ $InstanceCache->deleteItem("treeside");
 		</script>
 	</h2>
 	<hr>
+	
+	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">Hinweis: Doppelte Einträge</button>
+	<div id="notice" class="collapse">
+		Es wird rudimentär geprüft, ob Einträge bereits vorhanden sind:<br><br>
+		1) <strong>Veranstaltungen</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br>
+		2) <strong>Dozenten</strong>: <strong>Vorname</strong> <u>und</u> <strong>Nachname</strong> <u>und</u> <strong>Institut</strong> bereits vorhanden<br>
+		3) <strong>Institute</strong>: <strong>Name</strong> <u>oder</u> <strong>Abkürzung</strong> bereits vorhanden<br>
+		4) <strong>Module</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br><br>
+		Da zusätzliche Zeichen (inkl. Leerzeichen!) beim Eintragen oder in der Datenbank diese Prüfung schon austricksen, bitte aufpassen beim Eintragen!
+	</div>
+	<br><br>
 
 	<div class="col-md-8">
 
@@ -49,7 +60,7 @@ $InstanceCache->deleteItem("treeside");
 			$userID = $userRow['user_ID'];
 
 			//in subjects einfügen
-			if(mysqli_num_rows(mysqli_query($con,"SELECT * FROM subjects WHERE subject_name = '".$subject_name."';"))!=0){
+			if((mysqli_num_rows(mysqli_query($con,"SELECT * FROM subjects WHERE subject_name = '".$subject_name."';"))!=0) OR (mysqli_num_rows(mysqli_query($con,"SELECT * FROM subjects WHERE identifier = '".$identifier."';"))!=0)){
 				$msg = "
 					<div class='alert alert-danger'>
 						<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Veranstaltung ist bereits vorhanden.
@@ -62,40 +73,40 @@ $InstanceCache->deleteItem("treeside");
 				";
 				mysqli_query($con,$sql1);
 				//$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit ($identifier) von User: $userID" );
-			}
 
-			//Verbindungseinträge vorbereiten
-			$subject_new_id = "";
+				//Verbindungseinträge vorbereiten
+				$subject_new_id = "";
 
-			$sub = mysqli_query($con,"SELECT * FROM subjects ORDER BY time_stamp DESC LIMIT 1;");
-			while($sub_row = mysqli_fetch_assoc($sub)){
-				$subject_new_id = $sub_row['ID'];
-			}
+				$sub = mysqli_query($con,"SELECT * FROM subjects ORDER BY time_stamp DESC LIMIT 1;");
+				while($sub_row = mysqli_fetch_assoc($sub)){
+					$subject_new_id = $sub_row['ID'];
+				}
 
-			//in subjects_lectures einfügen
-			foreach($lec_select as $value){
-				$sql2 = "
-					INSERT INTO subjects_lecturers(subject_ID, lecturer_ID)
-					VALUES ('$subject_new_id', '$value');
+				//in subjects_lectures einfügen
+				foreach($lec_select as $value){
+					$sql2 = "
+						INSERT INTO subjects_lecturers(subject_ID, lecturer_ID)
+						VALUES ('$subject_new_id', '$value');
+					";
+					mysqli_query($con,$sql2);
+				}
+
+				//in subjects_modules einfügen
+				foreach($mod_select as $value){
+					$sql3 = "
+						INSERT INTO subjects_modules(subject_ID, module_ID)
+						VALUES ('$subject_new_id', '$value');
+					";
+					mysqli_query($con,$sql3);
+				}
+
+				//create message
+				$msg = "
+					<div class='alert alert-success'>
+						<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Veranstaltung wurde erfolgreich eingetragen.
+					</div>
 				";
-				mysqli_query($con,$sql2);
 			}
-
-			//in subjects_modules einfügen
-			foreach($mod_select as $value){
-				$sql3 = "
-					INSERT INTO subjects_modules(subject_ID, module_ID)
-					VALUES ('$subject_new_id', '$value');
-				";
-				mysqli_query($con,$sql3);
-			}
-
-			//create message
-			$msg = "
-				<div class='alert alert-success'>
-					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Veranstaltung wurde erfolgreich eingetragen.
-				</div>
-			";
 		}
 		?>
 
