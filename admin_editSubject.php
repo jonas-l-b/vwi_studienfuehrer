@@ -62,7 +62,7 @@ $InstanceCache->deleteItem("treeside");
 		/*Get data for form values*/
 		//data query
 		$sql1 = "
-			SELECT ID, subject_name, identifier, lv_number, subjects.ECTS AS subject_ECTS, lecturers.lecturer_ID, semester, language
+			SELECT ID, subject_name, identifier, subjects.ECTS AS subject_ECTS, lecturers.lecturer_ID, semester, language
 			FROM subjects
 			JOIN subjects_lecturers ON subjects.ID = subjects_lecturers.subject_ID
 			JOIN lecturers ON subjects_lecturers.lecturer_ID = lecturers.lecturer_ID
@@ -82,7 +82,6 @@ $InstanceCache->deleteItem("treeside");
 		//Get form values
 		$sub_name = $row1['subject_name'];
 		$sub_identifier = $row1['identifier'];
-		$sub_lv_number = $row1['lv_number'];
 		$sub_ECTS = $row1['subject_ECTS'];
 		
 		$sql2 = "
@@ -123,8 +122,7 @@ $InstanceCache->deleteItem("treeside");
 		
 		//Daten aus Form ziehen
 		$subject_name = strip_tags($_POST['subject_name']);
-		$identifier = strip_tags($_POST['identifier']);
-		$lv_number = strip_tags($_POST['lv_number']);				
+		$identifier = strip_tags($_POST['identifier']);			
 		$ECTS = strip_tags($_POST['ECTS']);
 		$lec_select = $_POST['lec_select'];				
 		$mod_select = $_POST['mod_select'];				
@@ -135,7 +133,7 @@ $InstanceCache->deleteItem("treeside");
 		//subjects ändern
 		$sql = "
 			UPDATE subjects
-			SET subject_name = '$subject_name', identifier = '$identifier', lv_number = '$lv_number', ECTS = '$ECTS', semester = '$semester', language = '$language', lastChangedBy_ID = '$userID', time_stamp2 = now()
+			SET subject_name = '$subject_name', identifier = '$identifier', ECTS = '$ECTS', semester = '$semester', language = '$language', lastChangedBy_ID = '$userID', time_stamp2 = now()
 			WHERE ID = $changeID;
 		";
 		
@@ -223,14 +221,6 @@ $InstanceCache->deleteItem("treeside");
 				<label>Kennung</label>
 				<p>Welche <strong>Veranstaltungs</strong>kennung hat die Veranstaltung im Modulhandbuch (Veranstaltungskennungen beginnen immer mit einem <strong>T</strong>; Bsp.: <strong>"T-WIWI-102861"</strong>)?
 				<input value="<?php echo $sub_identifier ?>" name="identifier" type="text" class="form-control" placeholder="Kennung" required />
-			</div>
-			
-			<hr>
-			
-			<div class="form-group">
-				<label>LV.-Nummer</label>
-				<p>Welche LV.-nummer hat die Veranstaltung im Modulhandbuch (LV.-Nummern bestehen nur aus Zahlen und finden sich im Modulhandbuch auf der jeweiligen Seite der Veranstaltung; Bsp.: <strong>"2521533"</strong>)?
-				<input value="<?php echo $sub_lv_number ?>" name="lv_number" type="text" class="form-control" placeholder="LV.-Nummer" required />
 			</div>
 			
 			<hr>

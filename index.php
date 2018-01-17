@@ -27,7 +27,7 @@ include "sumVotes.php";
 		JOIN levels ON modules_levels.level_ID = levels.level_ID
 	";
 	$sql = "
-		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ID AS subject_id, identifier, lv_number, subjects.ECTS AS subject_ECTS, semester, language
+		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ID AS subject_id, identifier, subjects.ECTS AS subject_ECTS, semester, language
 		".$sqlBody."
 		WHERE subjects.ID = '".$subject."'
 	";
@@ -133,7 +133,7 @@ include "sumVotes.php";
 			<h1 style="font-size:50px !important; margin-bottom:-10px;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
-	<p style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?>&nbsp;&nbsp;&nbsp;&nbsp;| <b>LV-Nummer: </b> <?php echo $subjectData['lv_number'] ?>
+	<p style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?></p>
 	
 	<br />
 	
