@@ -425,7 +425,7 @@ if($userRow['admin']==0){
 		</div>
 		<div id="adminList" class="tab-pane fade">
 		<br>
-			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
+			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Super-Admins können außerdem Nachrichten im Posteingang löschen (was eigentlich nicht vorgesehen ist, da Nachrichten bearbeitet werden sollen).<br><br> Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
 			<div class="row">
 				<!-- Admin-->
 				<?php

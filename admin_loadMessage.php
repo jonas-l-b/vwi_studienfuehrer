@@ -169,6 +169,11 @@ if($processed['processed'] == 0){
 	$mistakePart = "";	
 	}
 	
+	//Löschen-Butten Anzeige
+	$displayDelete = "none";
+	if($userRow['super_admin'] == 1){
+		$displayDelete = "";
+	}
 
 	$messageDetail = "
 		<p>Absender: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
@@ -190,6 +195,7 @@ if($processed['processed'] == 0){
 		<p class=\"well\">".$message['comment']."</p>
 		<hr>
 		<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\">Diese Nachricht als bearbeitet markieren</button>
+		<button style=\"display:".$displayDelete."\" type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteMessageModal\">Diese Nachricht löschen</button>
 
 		<!-- Modal -->
 		<div class=\"modal fade\" id=\"finishModal\" role=\"dialog\">
@@ -222,8 +228,47 @@ if($processed['processed'] == 0){
 		  
 		</div>
 		</div>
-	";
+		
+		<!-- Modal -->
+		<div class=\"modal fade\" id=\"deleteMessageModal\" role=\"dialog\">
+		<div class=\"modal-dialog\">
 
+		<!-- Modal content-->
+		<div class=\"modal-content\">
+		<div class=\"modal-header\">
+			<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>
+			<h4 class=\"modal-title\">Nachricht löschen</h4>
+		</div>
+		<div id=\"deleteMessageModalBody\" class=\"modal-body\">
+			<p>
+			Das Löschen von Nachrichten ist eigentlich nicht vorgesehen. Du als Super-Admin hast dennoch die Gelegenheit dazu. Es wäre dennoch besser, eine bearbeitete Nachricht auch als solch eine zu markieren. <br><br> <strong>Willst du diese Nachricht wirklich löschen?</strong>
+			</p>
+			<button id=\"deleteMessageModalDeleteButton\" class=\"btn btn-danger\">Löschen</button>
+			<button class=\"btn btn-primary\" data-dismiss=\"modal\">Fenster schließen</button>
+		</div>
+		</div>
+		  
+		</div>
+		</div>
+	";?>
+	
+	<script>
+	$('#deleteMessageModalDeleteButton').click(function (event) {
+		event.preventDefault();
+		var dataString = 'messageID=' + '<?php echo $message_id ?>';
+		// AJAX code to submit form.
+		$.ajax({
+		type: "POST",
+		url: "admin_deleteMessage.php",
+		data: dataString,
+		success: function(data) {
+			alert(data);
+			location.reload();
+		}
+		});
+	});
+	</script>
+<?php
 } else{	
 	//Get sender's name
 	$sql = "
