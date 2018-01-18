@@ -171,7 +171,7 @@ if($processed['processed'] == 0){
 	
 
 	$messageDetail = "
-		<p>Von: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
+		<p>Absender: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
 		<p>Zuletzt gelesen von: <strong>".$last_read['username']."</strong><span style=\"float:right\"> ".$message['read_last_time_stamp']."</span></p>
 		<p>Wird derzeit bearbeitet von: <strong>".$assigned_to_name."</strong><span style=\"float:right\"> ".$message['assigned_to_time_stamp']."</span></p>
 		<form id=\"assignForm\" role=\"form\" class=\"form-inline\">
@@ -187,8 +187,7 @@ if($processed['processed'] == 0){
 		<hr>
 		<p>Typ: <strong>".$type."</strong></p>
 		".$mistakePart."
-		<p><strong><u>Nachricht</u>:</strong></p>
-		<p>".$message['comment']."</p>
+		<p class=\"well\">".$message['comment']."</p>
 		<hr>
 		<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\">Diese Nachricht als bearbeitet markieren</button>
 
@@ -349,15 +348,15 @@ if($processed['processed'] == 0){
 	}
 	
 	$messageDetail = "
-		<p>Von: <strong>".$sender['username']."</strong><span style=\"float:right\"> ".$message['time_stamp']."</span></p>
-		<p>Als bearbeitet markiert von: <strong>".$processed_by['username']."</strong><span style=\"float:right\"> ".$message['processed_time_stamp']."</span></p>
-		<p>Antwort an Nutzer verschickt: <strong>".$answer."</strong><span style=\"float:right\"> ".$message['processed_time_stamp']."</span></p>
+		<p>Nachricht von <strong>".$sender['username']."</strong> (Typ ".$type."):<span style=\"float:right\"> ".substr($message['time_stamp'],0,strlen($message['time_stamp'])-3)." Uhr</span></p>
+		".$mistakePart."
+		<p>".$message['comment']."</p>
 		
 		<hr>
-		<p>Typ: <strong>".$type."</strong></p>
-		".$mistakePart."
-		<p><strong><u>Nachricht</u>:</strong></p>
-		<p>".$message['comment']."</p>
+		<p>Als bearbeitet markiert von: <strong>".$processed_by['username']."</strong><span style=\"float:right\"> ".substr($message['processed_time_stamp'],0,strlen($message['processed_time_stamp'])-3)." Uhr</span></p>
+		<p>Antwort an Nutzer verschickt: <strong>".$answer."</strong></p>
+		
+		
 		".$line."
 		".$commentator."
 		".$comment."
