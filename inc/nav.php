@@ -3,12 +3,21 @@
 //Admin im Menü
 $admin = "";
 if($userRow['admin']!=0){
+	
+	if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM messages WHERE processed = 0")) > 0){ //Für Briefumschlag bei "Posteingang"
+		$envelope = "<span class=\"glyphicon glyphicon-envelope\"></span>&nbsp;";
+		$space = "  "; //Lausige Lösung, wusste aber grad nicht, wie sonst
+	}else{
+		$envelope = "";
+		$space = "";
+	}
+	
 	$admin = "
 		<li>
 			<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\">Admin <span class=\"caret\"></span></a>
 			<ul class=\"dropdown-menu\">
 				<li><a id=\"linkToAdminEdit\" href=\"admin.php\">Daten bearbeiten</a></li>
-				<li><a id=\"linkToAdminMessages\" href=\"admin.php#messages\">Posteingang</a></li>
+				<li><a id=\"linkToAdminMessages\" href=\"admin.php#messages\">Posteingang".$space.$envelope."</a></li>
 				<li><a id=\"linkToAdminNotifications\" href=\"admin.php#notifications\">Benachrichtigungen</a></li>
 				<li><a id=\"linkToAdminList\" href=\"admin.php#adminList\">Admin-Liste</a></li>
 				

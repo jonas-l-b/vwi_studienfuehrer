@@ -26,7 +26,12 @@ if($userRow['admin']==0){
 		
 <ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#modifyData">Daten bearbeiten</a></li>
-		<li><a data-toggle="tab" href="#messages">Posteingang</a></li>
+		<?php
+		if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM messages WHERE processed = 0")) > 0){
+			$envelope = "<span class=\"glyphicon glyphicon-envelope\"></span>";
+		}
+		?>
+		<li><a data-toggle="tab" href="#messages">Posteingang<?php if(isset($envelope)) echo "  ".$envelope?></a></li>
 		<li><a data-toggle="tab" href="#notifications">Benachrichigungen</a></li>
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 	</ul>
