@@ -34,6 +34,7 @@ if($userRow['admin']==0){
 		<li><a data-toggle="tab" href="#messages">Posteingang<?php if(isset($envelope)) echo "  ".$envelope?></a></li>
 		<li><a data-toggle="tab" href="#notifications">Benachrichigungen</a></li>
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
+		<li><a data-toggle="tab" href="#userProfiles">Nutzerprofile</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -624,6 +625,67 @@ if($userRow['admin']==0){
 			</div><!-- End of Modal -->
 			
 		</div>
+		<div id="userProfiles" class="tab-pane fade">
+			<br>
+			<p><i>
+			Hier kannst du die Profile aller Nutzer einsehen, die sich beim Studienführer registriert haben. Das kann beispielsweise hilfreich sein, wenn du einen Nutzer direkt per E-Mail kontaktieren möchtest.<br><br>Bitte gehe verantwortungsvoll mit diesen Daten um!
+			</i></p>
+			
+			
+			
+			<?php
+			$sql = "SELECT * FROM users	ORDER BY last_name, first_name";
+			$users_selection = "";
+			$result = mysqli_query($con,$sql);
+
+			while($row = mysqli_fetch_assoc($result)){
+				$users_selection .= '<div class="item" data-value="'.$row['user_ID'].'">'.$row['last_name'].", ".$row['first_name']." (".$row['username'].")</div>";
+			}
+			?>
+			<form id="viewUserForm">
+				<div class="form-group">
+					<div class="ui fluid search selection dropdown">
+						<input class="form-control" type="hidden" required name="userID">
+						<i class="dropdown icon"></i>
+						<div class="default text">Nutzer wählen</div>
+						<div class="menu">
+						<?php echo $users_selection ?>
+						</div>
+					</div>
+				</div>
+			</form>
+			
+			<div>
+				<button id="viewUser_submit" class="btn btn-primary">Nutzer ansehen</button>
+			</div>
+			
+			<div id="userInfoTable"></div>
+			
+			<script>
+			$('#viewUser_submit').click(function () {
+				// AJAX code to submit form.
+				$.ajax({
+					type: "POST",
+					url: "admin_viewUser_submit.php",
+					data: $("#viewUserForm").serialize(),
+					success: function(data) {
+						if(data == "pleaseChoose"){
+							alert("Bitte Nutzer im Dropdown auswählen.");
+						}else{
+							$("#userInfoTable").html(data);
+						}
+					}
+				});
+			});
+			
+			$('.ui.dropdown')
+			  .dropdown({
+				fullTextSearch: true,
+				useLabels: false
+			  })
+			;
+			</script>
+		</div>
 	</div>
 </div>
 
@@ -657,6 +719,10 @@ $('#linkToAdminNotifications').click(function(event){
 $('#linkToAdminList').click(function(event){
  	event.preventDefault();
  	$('.nav-tabs a[href="#adminList"]').tab('show');
+});
+$('#linkToUserProfiles').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#userProfiles"]').tab('show');
 });
 </script>
 
