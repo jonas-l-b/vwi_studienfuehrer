@@ -192,7 +192,7 @@ if($processed['processed'] == 0){
 		<hr>
 		<p>Typ: <strong>".$type."</strong></p>
 		".$mistakePart."
-		<p class=\"well\">".$message['comment']."</p>
+		<p class=\"well\" style=\"border-radius:10px\">".$message['comment']."</p>
 		<hr>
 		<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\">Diese Nachricht als bearbeitet markieren</button>
 		<button style=\"display:".$displayDelete."\" type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#deleteMessageModal\">Diese Nachricht löschen</button>
