@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: db680704532.db.1and1.com
--- Erstellungszeit: 18. Jan 2018 um 11:23
+-- Erstellungszeit: 23. Jan 2018 um 17:49
 -- Server Version: 5.5.58-0+deb7u1-log
--- PHP-Version: 5.4.45-0+deb7u11
+-- PHP-Version: 5.4.45-0+deb7u12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -39,7 +39,6 @@ CREATE TABLE IF NOT EXISTS `admin_notifications` (
 --
 
 INSERT INTO `admin_notifications` (`ID`, `admin_id`, `type`, `time_stamp`) VALUES
-(1, 1, 'messages', '2017-11-07 04:01:05'),
 (3, 2, 'messages', '2018-01-17 19:36:06');
 
 -- --------------------------------------------------------
@@ -797,21 +796,18 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `processed_comment_for_admins` varchar(5000) NOT NULL,
   `processed_time_stamp` varchar(100) NOT NULL,
   PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Daten für Tabelle `messages`
 --
 
 INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`, `area`, `object_id`, `comment_id`, `answer_required`, `comment`, `time_stamp`, `read_last_id`, `read_last_time_stamp`, `assigned_to_id`, `assigned_to_time_stamp`, `processed`, `processed_by_id`, `processed_comment`, `processed_comment_for_admins`, `processed_time_stamp`) VALUES
-(3, 13, -1, 'feedback', '', 0, 0, 1, 'Heyho Info-Nerds,\r\nich schlage vor, die Module in der Übersicht alphabetisch zu sortieren. So findet man sich deutlich leichter zurecht!\r\nGrüßle aus Down-Under.\r\n', '2017-11-10 03:56:02', 1, '2017-11-10 14:31:48', 0, '', 0, 0, '', '', ''),
-(4, 1, -1, 'question', '', 0, 0, 1, 'testfrage', '2017-11-10 11:39:35', 1, '2018-01-08 18:12:27', 0, '', 0, 0, '', '', ''),
-(5, 1, -1, 'feedback', '', 0, 0, 1, 'testfeedback', '2017-11-10 11:41:53', 17, '2018-01-17 19:35:36', 0, '', 0, 0, '', '', ''),
 (6, 3, -1, 'bug', '', 0, 0, 1, 'Testbug', '2017-11-11 19:27:28', 3, '2017-11-11 19:28:32', 3, '2017-11-11 19:28:28', 1, 3, 'Danke für deine Bugnachricht!', 'asdf', '2017-11-11 19:28:50'),
-(7, 3, -1, 'bug', '', 0, 0, 1, 'Wenn man aus Mitgliedern Admins macht, wird man nicht wieder zur ursprünglichen Seite redirected. Lohnt sich voll das zu reparieren. Hoher Use Case.', '2018-01-17 19:34:06', 0, '', 0, '', 0, 0, '', '', ''),
-(8, 3, -1, 'bug', '', 0, 0, 1, 'Wenn man aus Mitgliedern Admins macht, wird man nicht wieder zur ursprünglichen Seite redirected. Lohnt sich voll das zu reparieren. Hoher Use Case.', '2018-01-17 19:34:06', 0, '', 0, '', 0, 0, '', '', ''),
-(9, 3, -1, 'bug', '', 0, 0, 1, 'Machnmal steht bei Admins Posteingang, manchmal Nachrichten. Why?', '2018-01-17 19:36:22', 2, '2018-01-18 10:28:11', 0, '', 0, 0, '', '', ''),
-(10, 2, -1, 'bug', '', 0, 0, 1, 'Das ist ein Testbug', '2018-01-18 10:31:10', 1, '2018-01-18 10:33:35', 2, '2018-01-18 10:31:37', 1, 1, 'war', '', '2018-01-18 10:33:42');
+(7, 3, -1, 'bug', '', 0, 0, 1, 'Wenn man aus Mitgliedern Admins macht, wird man nicht wieder zur ursprünglichen Seite redirected. Lohnt sich voll das zu reparieren. Hoher Use Case.', '2018-01-17 19:34:06', 2, '2018-01-18 11:26:24', 0, '', 1, 2, 'War nur eine Zeile und darum trotzdem gefixt ;)', '', '2018-01-18 11:32:24'),
+(9, 3, -1, 'bug', '', 0, 0, 1, 'Machnmal steht bei Admins Posteingang, manchmal Nachrichten. Why?', '2018-01-17 19:36:22', 2, '2018-01-18 11:32:29', 0, '', 1, 2, 'Falsche URL', '', '2018-01-18 11:32:49'),
+(10, 2, -1, 'bug', '', 0, 0, 1, 'Das ist ein Testbug', '2018-01-18 10:31:10', 1, '2018-01-18 10:33:35', 2, '2018-01-18 10:31:37', 1, 1, 'war', '', '2018-01-18 10:33:42'),
+(11, 2, -1, 'bug', '', 0, 0, 1, 'test', '2018-01-21 10:47:40', 2, '2018-01-21 10:47:53', 0, '', 0, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -1326,7 +1322,7 @@ CREATE TABLE IF NOT EXISTS `remember_me` (
   `series` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
 
 --
 -- Daten für Tabelle `remember_me`
@@ -1338,8 +1334,8 @@ INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
 (14, 1, '1c49f22f6de9bd15e5e566fa8983be4cfa4709abf0f95edf96dcd3d6249c2649', 'be47addbcb8f60566a3d7fd5a36f8195798e2848b368195d9a5d20e007c59a0c'),
 (16, 3, '39e18a493b913441c12fac89a09f24958e5da0ff6f3300c80c5359f36e3223aa', '3d34f102d1708fc5edd3111144f78764b4d7b745cb5450815780545495df1e68'),
 (17, 17, 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683', '1be00341082e25c4e251ca6713e767f7131a2823b0052caf9c9b006ec512f6cb'),
-(18, 2, '73daa9289ddd08a53ba86f065ddb07bf915aba208bec652e999613d2a8444228', 'a15faf6f6c7e4c11d7956175f4a1c01edffff6e114684eee28c255a86a8888f8'),
-(19, 1, '6953c2a883537cc80135516935de542987c2cd76f94d8cbf2ad004d7bf4c6195', '83f814f7a92e365cbd79f9addceed185761a8d38a06a2d4350bb1fe4b7632b34');
+(19, 1, '6953c2a883537cc80135516935de542987c2cd76f94d8cbf2ad004d7bf4c6195', '83f814f7a92e365cbd79f9addceed185761a8d38a06a2d4350bb1fe4b7632b34'),
+(20, 2, '28dae7c8bde2f3ca608f86d0e16a214dee74c74bee011cdfdd46bc04b655bc14', '388c2eafe5afd475492698c0995a2daf157eb3b3be8207391d3a023c97c8c034');
 
 -- --------------------------------------------------------
 
