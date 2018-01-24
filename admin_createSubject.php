@@ -33,7 +33,7 @@ $InstanceCache->deleteItem("treeside");
 	</h2>
 	<hr>
 	
-	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">Hinweis: Doppelte Einträge</button>
+	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">Hinweis: Doppelte Einträge (Klick mich)</button>
 	<div id="notice" class="collapse">
 		Es wird rudimentär geprüft, ob Einträge bereits vorhanden sind:<br><br>
 		1) <strong>Veranstaltungen</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br>
@@ -307,8 +307,10 @@ $InstanceCache->deleteItem("treeside");
 									$('#lec_first_name').val("");
 									$('#lec_last_name').val("");
 									
-									//doesnt work!: $("#lec_institute_select2 option:selected").prop("selected", false);
-
+									//$("#lec_institute_select2 option:selected").prop("selected", false);
+									//$.each($(".lec_insti_select option:selected"), function() {
+									//	$(this).prop('selected', false);
+									//});
 								}
 								});
 							}
