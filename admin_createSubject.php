@@ -286,27 +286,32 @@ $InstanceCache->deleteItem("treeside");
 						<script>
 						function myFunction() {
 							event.preventDefault();
-							// AJAX code to submit form.
-							$.ajax({
-							type: "POST",
-							url: "admin_createLecturer_submit.php",
-							data: $('#form_lecturer').serialize(),
-							cache: false,
-							success: function(data) {
-								if($.trim(data)=='existsAlready'){
-									alert('Dieser Dozent ist bereits vorhanden!')
-								} else{
-									alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
-									$('#lec_select').append(data);
-									//alert(data);
-								}
-								$('#lec_first_name').val("");
-								$('#lec_last_name').val("");
-								
-								//doesnt work!: $("#lec_institute_select2 option:selected").prop("selected", false);
+							
+							if ($('#lec_first_name').val() == "" || $('#lec_last_name').val() == "" || $('#lec_institute_select2').val() == ""){
+								alert("Bitte alle Felder ausfüllen!");
+							}else{
+								// AJAX code to submit form.
+								$.ajax({
+								type: "POST",
+								url: "admin_createLecturer_submit.php",
+								data: $('#form_lecturer').serialize(),
+								cache: false,
+								success: function(data) {
+									if($.trim(data)=='existsAlready'){
+										alert('Dieser Dozent ist bereits vorhanden!')
+									} else{
+										alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
+										$('#lec_select').append(data);
+										//alert(data);
+									}
+									$('#lec_first_name').val("");
+									$('#lec_last_name').val("");
+									
+									//doesnt work!: $("#lec_institute_select2 option:selected").prop("selected", false);
 
+								}
+								});
 							}
-							});
 							return false;
 						}
 						</script>
