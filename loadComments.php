@@ -87,14 +87,14 @@ if (mysqli_num_rows($result) == 0){
 }
 
 while($comments = mysqli_fetch_assoc($result)){
-	
+
 	$recommend = "
 		<div>
 			<img src=\"pictures/greentick.png\" style=\"width:12px;height:12px;vertical-align:middle; margin-bottom:1.5px;\">
 			<span style=\"font-weight:bold; font-size:12px\">Der Kommentator würde diese Veranstaltung empfehlen.</span>
 		</div>";
 	if ($comments['recommendation'] == 0) $recommend = "";
-	
+
 	$sql2 = "
 		SELECT *
 		FROM ratings
@@ -103,15 +103,15 @@ while($comments = mysqli_fetch_assoc($result)){
 	";
 	$join = mysqli_query($con,$sql2);
 	$rows = mysqli_fetch_assoc($join);
-	
+
 	//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeigen
 	$displayEdit = "display:none;";
 	$editClassIdentifier = "";
 	$displayReport ="";
-	
+
 	//displayEdit auskommentiert, da noch diskutiert werden muss!
 	//Falls Funktion nicht behalten werden soll, alles löschen, was damit in Zusammenhang steht!
-	
+
 	if($comments['user_ID'] == $user_id){
 		$displayEdit = "";
 		$editClassIdentifier = "editButtonIdentificationClass";
@@ -130,6 +130,7 @@ while($comments = mysqli_fetch_assoc($result)){
 					".$recommend."
 					<hr style=\"margin:10px\">
 					<div style=\"font-size:10px\">
+            <span class=\"glyphicon glyphicon-user\" style=\"".$displayEdit."color:gold;\"></span>
 						".$rows['username']." &#124; ". time_elapsed_string($comments['time_stamp'])."
 						<span style=\"float:right;\">
 							<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
@@ -143,7 +144,7 @@ while($comments = mysqli_fetch_assoc($result)){
 				</div>
 			</div>
 		</div>
-	";	
+	";
 }
 
 ?>
