@@ -159,7 +159,7 @@ include "sumVotes.php";
 		$("#contact2").click(function(){
 			$('#contactModal').modal('show');
 			$('#contactModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
-			$('#contactModalBody').load("contactModal.php", function( response, status, xhr ) {
+			$('#contactModalBody').load("contactModalvorgefullt.php", function( response, status, xhr ) {
 				if ( status == "error" ) {
 					$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
 				}else{
@@ -170,7 +170,7 @@ include "sumVotes.php";
 					$('#select_area').attr("disabled", "disabled");
 					$('#select_subject').attr("disabled", "disabled");
 
-					$('#reason').val("mistake");
+					$("option[value='mistake']").attr('selected','selected');
 					$('#select_area').val("subject");
 					$('#select_subject').val("<?php echo $subject?>");
 
