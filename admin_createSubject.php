@@ -273,7 +273,7 @@ $InstanceCache->deleteItem("treeside");
 							
 							<div class="form-group">
 								<label>Institut</label>
-								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular gleich hierunter.</i></p>
+								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular findest du gleich unterhalb.</i></p>
 								<select id="lec_institute_select2" name="lec_insti_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 									<?php echo $insti_selection ?>
 								</select>
