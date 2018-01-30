@@ -21,7 +21,9 @@ if($userRow['admin']==0){
 <div class="container" style="margin-top:60px">
 	<h2>Dozent bearbeiten</h2>
 	<hr>
-
+	<h3>Diese Funktion steht leider momentan nicht zur Verfügung.</h3>
+	<p>Das Programmieren ist sehr aufwendig und wird erstmal zurückgestellt, da diese Funktion gerade selten gebraucht wird und auch nicht für den eigentlichen Nutzer verfügbar ist. Änderungen können dennoch vorgenommen werden; dafür bitte Mail an julian.germek@estiem.org oder jonas.bakker@estiem.org</p>
+<div style="display:none">
 	<?php
 	/*Vorbereitung*/
 	//Hide Form
@@ -34,10 +36,10 @@ if($userRow['admin']==0){
 	}
 	
 	//unselect all institute options
-	$result1 = mysqli_query($con,"SELECT * from institutes");
-	while($row = mysqli_fetch_assoc($result1)){
-		$instituteSelection[$row['institute_ID']] = "";
-	}
+//	$result1 = mysqli_query($con,"SELECT * from institutes");
+//	while($row = mysqli_fetch_assoc($result1)){
+//		$instituteSelection[$row['institute_ID']] = "";
+//	}
 
 	if (isset($_GET['btn-edit'])){ //Wenn Bearbeiten-Button geklickt
 		//Show form
@@ -66,8 +68,8 @@ if($userRow['admin']==0){
 		$first_name = $row['first_name'];
 		$last_name = $row['last_name'];
 		
-		$instituteSelection[$row['institute_ID']] = "selected";
-
+//		$instituteSelection[$row['institute_ID']] = "selected";
+		
 	}
 	
 	if (isset($_POST['btn-saveChanges'])){ //Wenn Speichern-Button geklickt
@@ -129,10 +131,23 @@ if($userRow['admin']==0){
 	
 	$rows = array();
 	while($row1 = mysqli_fetch_assoc($result1)){
+		
+		$sql_abbr = mysqli_query($con,"
+				SELECT *
+				FROM institutes
+				JOIN lecturers_institutes ON institutes.institute_ID=lecturers_institutes.institute_ID
+				WHERE lecturer_ID = '".$row1['lecturer_ID']."'
+			");
+		$institute_abbr = "";
+		while($abbr_row = mysqli_fetch_assoc($sql_abbr)){
+			$institute_abbr .= $abbr_row['abbr'] . ", ";
+		}
+		$institute_abbr = substr($institute_abbr, 0, -2);
+		
 		array_push($rows, array(
 								"id"=>$row1['lecturer_ID'],
 								"subject_name"=>$row1['last_name'].", ".$row1['first_name'],
-								"identifier"=>'('.$row1['institute_abbr'].')',
+								"identifier"=>'('.$institute_abbr.')',
 								"selected"=>$lecturerSelection[$row1['lecturer_ID']]
 								));
 	}	
@@ -171,30 +186,59 @@ if($userRow['admin']==0){
 			<hr>
 			
 			<?php
+			
+			$insti = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
+			$insti_selection = "";
+			while($insti_row = mysqli_fetch_assoc($insti)){
+				$insti_selection .= "<option value=\"".$insti_row['institute_ID']."\">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
+			}
+			
+			/*
 			$insti = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
 			$insti_selection = "";
 			while($insti_row = mysqli_fetch_assoc($insti)){
 				$insti_selection .= "<option value=".$insti_row['institute_ID']." ".$instituteSelection[$insti_row['institute_ID']].">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
 			}
+			*/
 			?>
+			
 			<div class="form-group">
 				<label>Institut</label>
 				<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="_blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
-				<select name="institute_select" class="form-control" required>
+				<select id="institute_select" name="institute_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<?php echo $insti_selection ?>
 				</select>
 			</div>
 							
 			
-			<button type="submit" class="btn btn-primary" name="btn-saveChanges">Änderungen speichern</button>
+			<button type="submit" class="btn btn-primary" name="btn-saveChanges" id="btn-saveChanges">Änderungen speichern</button>
 			<button type="submit" class="btn" name="btn-cancel" formnovalidate>Abbrechen</button>
 			
 		</form>
+		
 	</div>
-
+</div> <!-- Display: none-->
 
 
 </div>
 
+<script>
+$('.ui.dropdown')
+  .dropdown({
+    fullTextSearch: true,
+	useLabels: false
+  })
+;
+</script>
+<script>
+//TO DO: AJAX CALL für vorausgefüllte Institute
+// Dann: Ajax Call, um Institute in DB einzutragen
+
+
+$('#btn-edit').click(function(e){
+	e.preventDefault();
+	$('#institute_select').dropdown('set selected', '6');
+});
+</script>
 </body>
 </html>

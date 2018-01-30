@@ -10,7 +10,7 @@
 	$.fn.simplePagination = function(options) {
 		
 		var defaults = {
-			perPage: 5,
+			perPage: 10,
 			containerClass: '',
 			previousButtonClass: 'btn btn-primary',
 			nextButtonClass: 'btn btn-primary',
@@ -32,6 +32,10 @@
 
 			bPrevious.innerHTML = settings.previousButtonText;
 			bNext.innerHTML = settings.nextButtonText;
+			
+			//Zugefügt:
+			if($rows.length == 50) $('#limitationText').show();
+			//$rows.length
 
 			container.className = settings.containerClass;
 			bPrevious.className = settings.previousButtonClass;
