@@ -24,7 +24,7 @@ function endsWith($haystack, $needle)
 {
     $length = strlen($needle);
 
-    return $length === 0 || 
+    return $length === 0 ||
     (substr($haystack, -$length) === $needle);
 }
 
@@ -45,7 +45,7 @@ if(isset($_POST['btn-signup'])) {
 	}else{
 		$info = "no";
 	}
-	
+
 	$firstName = $con->real_escape_string($firstName);
 	$lastName = $con->real_escape_string($lastName);
 	$username = $con->real_escape_string($username);
@@ -64,11 +64,11 @@ if(isset($_POST['btn-signup'])) {
 
 	$check_username = $con->query("SELECT username FROM users WHERE username='$username'");
 	$count2=$check_username->num_rows;
-	
+
 	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
 		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash')";
 		if ($con->query($query)) {
-			$subject = 'Aktivierung deines Studienführer-Accounts'; // Give the email a subject 
+			$subject = 'Aktivierung deines Studienführer-Accounts'; // Give the email a subject
 			$message="
 			<p>vielen Dank für deine Registrierung!</p>
 			<p>Dein Account wurde erstellt. Um ihn zu aktivieren, klicke bitte auf diesen Link:<br>
@@ -78,7 +78,7 @@ if(isset($_POST['btn-signup'])) {
 			if($mailService->sendEmail($email, $firstName, $subject, $message)){
 					$success = true;
 			}
-			
+
 			$msg = "<div class='alert alert-success'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Erfolgreich registiert! Wir haben einen Aktivierungslink an die angegebene E-Mail-Adresse gesendet.
 			</div>";
@@ -100,7 +100,7 @@ if(isset($_POST['btn-signup'])) {
 			$memorey_advance = $advance;
 			$memorey_semester = $semester;
 			$memorey_info = $info;
-			
+
 			$highlight_username = "style=\"background-color:rgb(242, 222, 222)\"";
 			//$highlight_email = "style=\"background-color:rgb(242, 222, 222)\"";
 			$hightlight_upass = "style=\"background-color:rgb(242, 222, 222)\"";
@@ -109,7 +109,7 @@ if(isset($_POST['btn-signup'])) {
 			$msg = "<div class='alert alert-danger'>
 			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Diese E-Mail-Adresse wird bereits verwendet! Bitte korrigiere die hervorgehobenen Felder - das Passwort muss aus Sicherheitsgründen erneut eingegeben werden.
 			</div>";
-			
+
 			$memorey_firstName = $firstName;
 			$memorey_lastName = $lastName;
 			$memorey_username = $username;
@@ -118,11 +118,11 @@ if(isset($_POST['btn-signup'])) {
 			$memorey_advance = $advance;
 			$memorey_semester = $semester;
 			$memorey_info = $info;
-			
+
 			//$highlight_username = "style=\"background-color:rgb(242, 222, 222)\"";
 			$highlight_email = "style=\"background-color:rgb(242, 222, 222)\"";
 			$hightlight_upass = "style=\"background-color:rgb(242, 222, 222)\"";
-			
+
 		}
 		if($count2>0 AND $count==0){
 			$msg = "<div class='alert alert-danger'>
@@ -137,7 +137,7 @@ if(isset($_POST['btn-signup'])) {
 			$memorey_advance = $advance;
 			$memorey_semester = $semester;
 			$memorey_info = $info;
-			
+
 			$highlight_username = "style=\"background-color:rgb(242, 222, 222)\"";
 			//$highlight_email = "style=\"background-color:rgb(242, 222, 222)\"";
 			$hightlight_upass = "style=\"background-color:rgb(242, 222, 222)\"";
@@ -155,7 +155,7 @@ if(isset($_POST['btn-signup'])) {
 			$memorey_advance = $advance;
 			$memorey_semester = $semester;
 			$memorey_info = $info;
-			
+
 			$highlight_username = "style=\"background-color:rgb(242, 222, 222)\"";
 			$highlight_email = "style=\"background-color:rgb(242, 222, 222)\"";
 			$hightlight_upass = "style=\"background-color:rgb(242, 222, 222)\"";
@@ -174,40 +174,40 @@ if(isset($_POST['btn-signup'])) {
 	<div class="container">
 		<form class="form-signin" method="post" id="register-form" action="register.php">
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
-			
+
 			<?php
-			
-	
+
+
 			if (isset($msg) && $success){
 				echo $msg;
 				echo '<a href="login.php" class="btn btn-default" style="float:center;">Zum Login</a>';
-			} 
+			}
 			if (!isset($msg)||!$success):
-	
+
 			if (isset($msg) && !$success) {
 			  echo $msg . $msg1;
 			}
 		?>
-			  
+
 			<div class="form-group has-feedback">
 				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" id="bad1" data-error="Gib deinen Vornamen ein." required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
 			<div class="form-group has-feedback">
 				<input value="<?php if(isset($memorey_lastName)) echo $memorey_lastName ?>" type="text" class="form-control" placeholder="Nachname" name="last_name" id="bad2" data-error="Gib deinen Nachnamen ein." required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
 			<div class="form-group has-feedback <?php if(isset($highlight_username)) echo 'has-error' ?>">
-				<input value="<?php if(isset($memorey_username)) echo $memorey_username ?>" 
-					type="text" pattern="^[a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ]+$" 
+				<input value="<?php if(isset($memorey_username)) echo $memorey_username ?>"
+					type="text" pattern="^[a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ][a-zA-Z0-9_äöüÄÖÜßẞ]+$"
 					maxlength="30" class="form-control" placeholder="Benutzername" name="username" aria-describedby="helpBlock" data-username="username" data-username-error="Der Benutzername ist leider schon vergeben."
 					data-error="Dein Benutzername muss zwischen 5 und 30 Zeichen lang sein. Erlaubt sind Ziffern 0-9 und Buchstaben a-Z, Umlaute und das kleine und (jetzt auch) das große ẞ." id="bad3" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-				<div class="help-block">Benutze <strong>nicht</strong> dein U-Kürzel. 
+				<div class="help-block">Benutze <strong>nicht</strong> dein U-Kürzel.
 					<a href="#" data-trigger="focus" data-toggle="popoverUKUERZEL" title="Benutze kein U-Kürzel als Nutzernamen." data-content="U-Kürzel sind (entgegen der häufigen Annahme) nicht anonym. Zum Beispiel kann in ILIAS jeder Administrator einer Gruppe mit den geeigneten Rechten ein U-Kürzel einem Namen und einer Matrikelnummer zuordnen. Wir möchten, dass du den Studienführer anonym nutzen kannst, wähle daher einen Nutzernamen, indem dein U-Kürzel am besten nicht vorkommt.">
 						<span class="glyphicon glyphicon-question-sign"></span>
 					</a>
@@ -215,7 +215,7 @@ if(isset($_POST['btn-signup'])) {
 				<div class="help-block"></div>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
 			<div class="form-group has-feedback <?php if(isset($highlight_email)) echo 'has-error' ?>">
 				<input value="<?php if(isset($memorey_email)) echo $memorey_email ?>" type="email" pattern="^u[a-z][a-z][a-z][a-z]@student.kit.edu$" class="form-control" placeholder="E-Mail-Adresse" name="email" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -226,29 +226,52 @@ if(isset($_POST['btn-signup'])) {
 				</div>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
 			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
 				<input id="userpassword" type="password" class="form-control" placeholder="Passwort" name="password" data-pw="pw" data-pw-error="Deine Passwortstärke muss mindestens 'Mittelmäßig' sein!" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
 			<div class="progress PWprogress">
 				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
-			
+
 			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
 				<input id="userpassword2" type="password" class="form-control" placeholder="Passwort erneut eingeben" data-match="#userpassword" name="password2" required data-error="Die Eingaben stimmen nicht überein." />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
+<br />
+
 			<div class="form-group has-feedback">
-				<input value="<?php if(isset($memorey_degree)) echo $memorey_degree ?>" type="text" class="form-control" placeholder="Studiengang" name="degree" data-error="Gib deinen Studiengang ein!" required  />
+				<div class="ui dropdown">
+				  <input data-error="Gib deinen Studiengang ein!" required class="form-control" type="hidden" name="degree">
+				  <i class="dropdown icon"></i>
+				  <div class="default text">Studiengang</div>
+				  <div class="menu">
+				    <div class="item" data-value="Wirtschaftsingenieurwesen">Wirtschaftsingenieurwesen</div>
+				    <div class="item" data-value="Technische Volkswirtschaftslehre">Technische Volkswirtschaftslehre</div>
+						<div class="item" data-value="Informationswirtschaft">Informationswirtschaft</div>
+						<div class="item" data-value="Wirtschaftsmathematik">Wirtschaftsmathematik</div>
+						<div class="item" data-value="Sonstige">Sonstige</div>
+				  </div>
+				</div>
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
+			<script>
+			$('.ui.dropdown')
+				.dropdown(
+					<?php if(isset($memorey_degree)) echo "'set selected', $memorey_degree" ?>
+				)
+				;
+			</script>
+
+<br />
+
 			<div class="form-group has-feedback">
 				<select class="form-control" name="advance" required style="-moz-appearance: none;-webkit-appearance: none;appearance: none;">
 					<option value="bachelor">Bachelor</option>
@@ -256,28 +279,28 @@ if(isset($_POST['btn-signup'])) {
 				</select>
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 			</div>
-			
+
 			<div class="form-group has-feedback">
 				<input value="<?php if(isset($memorey_semester)) echo $memorey_semester ?>" type="number" max="18" min="1" step="1" class="form-control" placeholder="Fachsemester" name="semester" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
-			
+
 			<div class="checkbox has-feedback">
 				<label><input type="checkbox" name="info" value="yes" <?php if(isset($memorey_info))if($memorey_info == "yes") echo "checked" ?> >Ich möchte über speziell für mich interessante Events informiert werden. Das können beispielsweise Einladungen zu (kostenlosen) Events wie Workshops, Vorträgen oder Fallstudien sein, die die Hochschulgruppe VWI-ESTIEM Karlsruhe zusammen mit Unternehmen veranstaltet.</label>
 			</div>
-			
+
 			<div class="checkbox has-feedback">
-				<label><input type="checkbox" name="nutzungsbedingungen" id="bedingungen"  
+				<label><input type="checkbox" name="nutzungsbedingungen" id="bedingungen"
 				value="yes">Hiermit bestätigst du, dass du unsere <a href="#" data-toggle="modal" data-target="#bedingungenModal">Datenschutzerklärung, Nutzungsbedingungen und Gemeinschaftsstandards</a> gelesen hast und diese akzeptierst.</label>
 			</div>
-			
+
 			<hr>
 			<?php /*Hier wäre es sinnvoll noch ein ReCAPTCHA von Google einzubauen */ ?>
 			<div class="form-group">
 				<button id="submitbutton" class="btn btn-primary" name="btn-signup">
 					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Account erstellen
-				</button> 
+				</button>
 				<a href="login.php" class="btn btn-default" style="float:right;">Zum Login</a>
 			</div>
 		</form>
@@ -321,7 +344,7 @@ if(isset($_POST['btn-signup'])) {
 <script type="text/javascript" src="res/lib/bootstrap-validator/validator.js"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
-		
+
 		var userInputs = ["studienführer", "vwi", "estiem", "wiwi", "wing", "hochschulgruppe", "hsg"];
 		$( '#bad1' ).blur(function() {
 		  userInputs.push($('#bad1').val());
@@ -332,7 +355,7 @@ if(isset($_POST['btn-signup'])) {
 		$( '#bad3' ).blur(function() {
 		  userInputs.push($('#bad3').val());
 		});
-		$("#StrengthProgressBar").zxcvbnProgressBar({ 
+		$("#StrengthProgressBar").zxcvbnProgressBar({
 			  passwordInput: "#userpassword",
 			  ratings: ["Weitertippen", "Immer noch recht schwach", "Mittelmäßig", "Stark!", "Unfassbar stark"],
 			  userInputs: userInputs });
@@ -341,16 +364,16 @@ if(isset($_POST['btn-signup'])) {
 				'pw': function($el) {
 					var result = zxcvbn($el.val(), userInputs);
 				    if(result.score>=2){
-					  return false;  
+					  return false;
 				    }else{
 					  return true;
-				    } 
+				    }
 				},
 				'username': function($el) {
 					$.ajax({
 						type: "GET",
 						url: "username-validation-api.php",
-						dataType: "text", 
+						dataType: "text",
 						data: { username: $el.val() }
 					}).done(function (res) {
 						if(res==="{ok: true}"){
@@ -366,15 +389,15 @@ if(isset($_POST['btn-signup'])) {
 				}
 			},
 			errors: {
-				pw: 'Deine Passwortstärke muss mindestens "Mittelmäßig" sein!', 
+				pw: 'Deine Passwortstärke muss mindestens "Mittelmäßig" sein!',
 				username: 'Der Benutzername ist leider schon vergeben.'
 			}
 		});
-		
+
 		$( "#submitbutton" ).click(function() {
 		  if($( "#submitbutton" ).hasClass('disabled')==false){
 			if($( "#bedingungen:checked").length > 0){
-				$( "#register-form" ).submit();  
+				$( "#register-form" ).submit();
 			}else{
 				var x = document.getElementById("snackbar")
 				// Add the "show" class to DIV
@@ -384,9 +407,9 @@ if(isset($_POST['btn-signup'])) {
 			}
 		  }
 		});
-		
 
-		$('[data-toggle="popoverUKUERZEL"]').popover(); 
+
+		$('[data-toggle="popoverUKUERZEL"]').popover();
 		$('[data-toggle="popoverEMAIL"]').popover();
 	});
 </script>
