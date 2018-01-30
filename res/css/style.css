@@ -21,7 +21,7 @@
 	/*justify-content: center;*/
 	align-items: center;
 }
-  
+
 .infoFloater{
 	text-align:center;
 	background-color:rgb(217, 232, 248);
@@ -44,7 +44,7 @@
 .toptable td{
 	padding:10px;
 	/*padding-left:20px;*/
-	
+
 }
 
 .head_left{
@@ -175,7 +175,7 @@
 .loader{
 	position:relative;
 }
-	
+
 .loader > div,
 .loader > div::before,
 .loader > div::after {
@@ -330,7 +330,7 @@
 .menu .navbar-toggle {
   padding: 10px;
   margin: 25px 15px 25px 0;
-} 
+}
 #menulogo{
 		display:block;
 	}
@@ -370,11 +370,9 @@ span.ects {
   line-height: 1.6em;
   margin-right: 5px;
   text-align: center;
-  width: 1.6em; 
+  width: 1.6em;
 }
 
 #infobox.affix{
 	top: 100px;
 }
-
-

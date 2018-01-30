@@ -72,6 +72,10 @@ input[type='range']::-webkit-slider-thumb {
 	height:15px;
 }
 
+.PWprogress{
+height:22px;
+}
+
 .progress-bar{
 	
 }

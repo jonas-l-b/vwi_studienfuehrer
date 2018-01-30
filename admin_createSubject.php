@@ -24,13 +24,26 @@ $InstanceCache->deleteItem("treeside");
 
 <div class="container" style="margin-top:60px">
 	<h2>Veranstaltung eintragen &nbsp
-		<a href="#" data-trigger="focus" data-toggle="popoverLNDW" title="Du bist ein cooler Typ!" data-content="Und das obwohl du wahrscheinlich gerade keine Sonnenbrille aufhast. Du bist einfach nur cool, weil du hier bei der Langen Nacht des Wissens sitzt und dabei hilfst, das Modulhandbuch in unsere Datenbank einzupflegen. Danke dir dafür!">
+		<a href="#" data-trigger="focus" data-toggle="popoverLNDW" title="Du bist aber cool drauf" data-content="Und das ganz ohne Sonnenbrille! Einfach nur, weil du hier bei der Langen Nacht des Studienführers sitzt und dabei hilfst, das Modulhandbuch in unsere Datenbank einzupflegen. Danke dir dafür!">
 			<span class="glyphicon glyphicon-sunglasses"></span>
 		</a>
 		<script>
 		$('[data-toggle="popoverLNDW"]').popover();
 		</script>
 	</h2>
+	<hr>
+
+	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">Allgemeiner Hinweis (Klick mich)</button>
+
+	<div id="notice" class="collapse">
+		Es wird rudimentär geprüft, ob Einträge bereits vorhanden sind. Konkret werden in folgenden Fällen Fehlermeldungen ausgegeben:<br><br>
+		1) <strong>Veranstaltungen</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br>
+		2) <strong>Dozenten</strong>: <strong>Vorname</strong> <u>und</u> <strong>Nachname</strong> <u>und</u> <strong>Institut</strong> bereits vorhanden<br>
+		3) <strong>Institute</strong>: <strong>Name</strong> bereits vorhanden<br>
+		4) <strong>Module</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br><br>
+		Da zusätzliche Zeichen (womöglich inkl. Leerzeichen!) beim Eintragen oder in der Datenbank diese Prüfung schon austricksen, ist beim Eintragen Vorsicht geboten!
+	</div>
+	<br><br>
 	<hr>
 
 	<div class="col-md-8">
@@ -40,7 +53,6 @@ $InstanceCache->deleteItem("treeside");
 		if (isset($_POST['btn-createSubject'])){
 			$subject_name = strip_tags($_POST['subject_name']);
 			$identifier = strip_tags($_POST['identifier']);
-			$lv_number = strip_tags($_POST['lv_number']);
 			$ECTS = strip_tags($_POST['ECTS']);
 			$lec_select = $_POST['lec_select'];
 			$mod_select = $_POST['mod_select'];
@@ -49,7 +61,7 @@ $InstanceCache->deleteItem("treeside");
 			$userID = $userRow['user_ID'];
 
 			//in subjects einfügen
-			if(mysqli_num_rows(mysqli_query($con,"SELECT * FROM subjects WHERE subject_name = '".$subject_name."';"))!=0){
+			if((mysqli_num_rows(mysqli_query($con,"SELECT * FROM subjects WHERE subject_name = '".$subject_name."';"))!=0) OR (mysqli_num_rows(mysqli_query($con,"SELECT * FROM subjects WHERE identifier = '".$identifier."';"))!=0)){
 				$msg = "
 					<div class='alert alert-danger'>
 						<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Veranstaltung ist bereits vorhanden.
@@ -57,45 +69,45 @@ $InstanceCache->deleteItem("treeside");
 				";
 			} else{
 				$sql1 = "
-					INSERT INTO subjects(subject_name, identifier, lv_number, ECTS, semester, language, createdBy_ID, time_stamp)
-					VALUES ('$subject_name', '$identifier', '$lv_number', '$ECTS', '$semester', '$language', '$userID', now());
+					INSERT INTO subjects(subject_name, identifier, ECTS, semester, language, createdBy_ID, time_stamp)
+					VALUES ('$subject_name', '$identifier', '$ECTS', '$semester', '$language', '$userID', now());
 				";
 				mysqli_query($con,$sql1);
 				//$db_logger->info("Neue Veranstaltung hinzugefügt: $subject_name mit ($identifier) von User: $userID" );
-			}
 
-			//Verbindungseinträge vorbereiten
-			$subject_new_id = "";
+				//Verbindungseinträge vorbereiten
+				$subject_new_id = "";
 
-			$sub = mysqli_query($con,"SELECT * FROM subjects ORDER BY time_stamp DESC LIMIT 1;");
-			while($sub_row = mysqli_fetch_assoc($sub)){
-				$subject_new_id = $sub_row['ID'];
-			}
+				$sub = mysqli_query($con,"SELECT * FROM subjects ORDER BY time_stamp DESC LIMIT 1;");
+				while($sub_row = mysqli_fetch_assoc($sub)){
+					$subject_new_id = $sub_row['ID'];
+				}
 
-			//in subjects_lectures einfügen
-			foreach($lec_select as $value){
-				$sql2 = "
-					INSERT INTO subjects_lecturers(subject_ID, lecturer_ID)
-					VALUES ('$subject_new_id', '$value');
+				//in subjects_lectures einfügen
+				foreach($lec_select as $value){
+					$sql2 = "
+						INSERT INTO subjects_lecturers(subject_ID, lecturer_ID)
+						VALUES ('$subject_new_id', '$value');
+					";
+					mysqli_query($con,$sql2);
+				}
+
+				//in subjects_modules einfügen
+				foreach($mod_select as $value){
+					$sql3 = "
+						INSERT INTO subjects_modules(subject_ID, module_ID)
+						VALUES ('$subject_new_id', '$value');
+					";
+					mysqli_query($con,$sql3);
+				}
+
+				//create message
+				$msg = "
+					<div class='alert alert-success'>
+						<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Veranstaltung wurde erfolgreich eingetragen.
+					</div>
 				";
-				mysqli_query($con,$sql2);
 			}
-
-			//in subjects_modules einfügen
-			foreach($mod_select as $value){
-				$sql3 = "
-					INSERT INTO subjects_modules(subject_ID, module_ID)
-					VALUES ('$subject_new_id', '$value');
-				";
-				mysqli_query($con,$sql3);
-			}
-
-			//create message
-			$msg = "
-				<div class='alert alert-success'>
-					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Veranstaltung wurde erfolgreich eingetragen.
-				</div>
-			";
 		}
 		?>
 
@@ -120,14 +132,6 @@ $InstanceCache->deleteItem("treeside");
 			<hr>
 
 			<div class="form-group">
-				<label>LV.-Nummer</label>
-				<p>Welche LV.-nummer hat die Veranstaltung im Modulhandbuch (LV.-Nummern bestehen nur aus Zahlen und finden sich im Modulhandbuch auf der jeweiligen Seite der Veranstaltung; Bsp.: <strong>"2521533"</strong>; Enthält die Veranstaltung mehrere Einträge, bspw. Übung und Vorlesung, wähle die der Vorlesung)?
-				<input name="lv_number" type="text" class="form-control" placeholder="LV.-Nummer" required />
-			</div>
-
-			<hr>
-
-			<div class="form-group">
 				<label>ECTS</label>
 				<p>Wie viele ECTS bringt die Veranstaltung ein?</p>
 				<input name="ECTS" type="text" class="form-control" placeholder="ECTS" required />
@@ -138,6 +142,26 @@ $InstanceCache->deleteItem("treeside");
 			<?php
 			$lec_selection = "";
 
+			$lec = mysqli_query($con,"
+					SELECT lecturers.lecturer_ID, last_name, first_name
+					FROM lecturers
+				");
+			while($lec_row = mysqli_fetch_assoc($lec)){
+				$sql_abbr = mysqli_query($con,"
+						SELECT *
+						FROM institutes
+						JOIN lecturers_institutes ON institutes.institute_ID=lecturers_institutes.institute_ID
+						WHERE lecturer_ID = '".$lec_row['lecturer_ID']."'
+					");
+				$abbr = "";
+				while($abbr_row = mysqli_fetch_assoc($sql_abbr)){
+					$abbr .= $abbr_row['abbr'] . ", ";
+				}
+				$abbr = substr($abbr, 0, -2);
+
+				$lec_selection .= "<option value=".$lec_row['lecturer_ID'].">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$abbr.")</option>";
+			}
+			/*
 			$sql = "
 				SELECT *
 				FROM lecturers
@@ -151,7 +175,7 @@ $InstanceCache->deleteItem("treeside");
 			while($lec_row = mysqli_fetch_assoc($lec)){
 				$lec_selection .= "<option value=\"".$lec_row['lecturer_ID']."\">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
 			}
-
+			*/
 			?>
 
 			<div class="form-group">
@@ -227,77 +251,74 @@ $InstanceCache->deleteItem("treeside");
 				</div>
 				<div id="collapse1" class="panel-collapse collapse">
 					<div class="panel-body">
-						<form id="form1" name="form1">
+						<form id="form_lecturer" name="form_lecturer">
 
 							<div class="form-group">
 								<label>Vorname</label>
-								<input id="lec_first_name" type="text" class="form-control" placeholder="Vorname" required />
+								<input id="lec_first_name" name="first_name1" type="text" class="form-control" placeholder="Vorname" required />
 							</div>
 
 							<div class="form-group">
 								<label>Nachname</label>
-								<input id="lec_last_name" type="text" class="form-control" placeholder="Nachname" required />
+								<input id="lec_last_name" name="last_name1" type="text" class="form-control" placeholder="Nachname" required />
 							</div>
 
 							<?php
 							$insti = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
 							$insti_selection = "";
 							while($insti_row = mysqli_fetch_assoc($insti)){
-								$insti_selection .= '<div class="item" data-value="'.$insti_row['institute_ID'].'">'.$insti_row['name']." (".$insti_row['abbr'].")</div>";
+								$insti_selection .= "<option value=\"".$insti_row['institute_ID']."\">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
 							}
 							?>
+
 							<div class="form-group">
 								<label>Institut</label>
-								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular gleich hierunter.</i></p>
-								<div class="ui fluid search selection dropdown">
-								  <input id="lec_institute_select" class="form-control" type="hidden" required name="country">
-								  <i class="dropdown icon"></i>
-								  <div class="default text">Institut auswählen</div>
-								  <div id="lec_institute_select2" class="menu">
-								  <?php echo $insti_selection ?>
-								</div>
-								</div>
+								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular findest du gleich unterhalb.</i></p>
+								<select id="lec_institute_select2" name="lec_insti_select[]" multiple="" class="search ui fluid dropdown form-control" required>
+									<?php echo $insti_selection ?>
+								</select>
 							</div>
 
 							<div>
-								<button id="lec_submit" onclick="myFunction()" type="submit" class="btn btn-primary">Dozent eintragen</button>
+								<button id="lec_submit" class="btn btn-primary">Dozent eintragen</button>
 							</div>
 
 						</form>
 
 						<script>
-						function myFunction() {
+						$('#lec_submit').click(function (event) {
 							event.preventDefault();
-							var first_name = document.getElementById("lec_first_name").value;
-							var last_name = document.getElementById("lec_last_name").value;
-							var institute = document.getElementById("lec_institute_select").value;
 
-							// Returns successful data submission message when the entered information is stored in database.
-							var dataString = 'first_name1=' + first_name + '&last_name1=' + last_name + '&institute1=' + institute;
-							if (first_name == '' || last_name == '' || institute == '') {
-							alert("Bitte alle Felder ausfüllen!");
-							} else {
+							if ($('#lec_first_name').val() == "" || $('#lec_last_name').val() == "" || $('#lec_institute_select2').val() == ""){
+								alert("Bitte alle Felder ausfüllen!");
+							}else{
+								// AJAX code to submit form.
+								$.ajax({
+								type: "POST",
+								url: "admin_createLecturer_submit.php",
+								data: $('#form_lecturer').serialize(),
+								cache: false,
+								success: function(data) {
+									$('#lec_institute_select2').dropdown('clear');
+									if($.trim(data)=='existsAlready'){
+										alert('Dieser Dozent ist bereits vorhanden!')
+									} else{
+										alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
+										$('#lec_select').append(data);
+										//alert(data);
+									}
+									$('#lec_first_name').val("");
+									$('#lec_last_name').val("");
 
-							// AJAX code to submit form.
-							$.ajax({
-							type: "POST",
-							url: "admin_createLecturer_submit.php",
-							data: dataString,
-							cache: false,
-							success: function(data) {
-								if($.trim(data)=='existsAlready'){
-									alert('Dieser Dozent ist bereits vorhanden!')
-								} else{
-									alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
-									$('#lec_select').append(data);
+									//$("#lec_institute_select2 option:selected").prop("selected", false);
+									//$.each($(".lec_insti_select option:selected"), function() {
+									//	$(this).prop('selected', false);
+									//});
 								}
-								$('#lec_first_name').val("");
-								$('#lec_last_name').val("");
-							}
-							});
+								});
 							}
 							return false;
-						}
+						});
 						</script>
 					</div>
 				</div>
@@ -327,13 +348,13 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="mod_submit" onclick="myFunction2()" type="submit" class="btn btn-primary">Institut eintragen</button>
+								<button id="ins_submit" class="btn btn-primary">Institut eintragen</button>
 							</div>
 
 						</form>
 
 						<script>
-						function myFunction2() {
+						$('#ins_submit').click(function (event) {
 							event.preventDefault();
 							var inst_name = document.getElementById("inst_name").value;
 							var inst_abbr = document.getElementById("inst_abbr").value;
@@ -364,7 +385,7 @@ $InstanceCache->deleteItem("treeside");
 							});
 							}
 							return false;
-						}
+						});
 						</script>
 					</div>
 				</div>
@@ -426,13 +447,13 @@ $InstanceCache->deleteItem("treeside");
 							</div>
 
 							<div>
-								<button id="mod_submit" onclick="myFunction3()" type="submit" class="btn btn-primary">Modul eintragen</button>
+								<button id="mod_submit" class="btn btn-primary">Modul eintragen</button>
 							</div>
 
 						</form>
 
 						<script>
-						function myFunction3() {
+						$('#mod_submit').click(function (event) {
 							event.preventDefault();
 							var mod_code = document.getElementById("mod_code2").value;
 							var mod_name = document.getElementById("mod_name").value;
@@ -472,7 +493,7 @@ $InstanceCache->deleteItem("treeside");
 							});
 							}
 							return false;
-						}
+						});
 						</script>
 					</div>
 				</div>

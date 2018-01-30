@@ -37,6 +37,21 @@
 	<meta name="msapplication-TileImage" content="pictures/logo/ms-icon-144x144.png">
 	<meta name="msapplication-TileColor" content="#ffffff">
 	<meta name="theme-color" content="#ffffff"><!-- To be changed to layout theme color -->
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113288561-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'UA-113288561-1');
+		<?php
+		if($userRow['user_ID'] != null){
+			echo "gtag('set', {'user_id': '" . $userRow['user_ID'] . "'}); // Set the user ID using signed-in user_id.";
+		}
+		?>
+	</script>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="res/lib/jquery.autocomplete.js"></script>

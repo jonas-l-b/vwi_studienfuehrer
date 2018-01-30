@@ -56,8 +56,8 @@ include "connect.php";
 
 	<h3 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h3>
 	<div align="center">
-			<a id="treebutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
-			<a id="searchbutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
+			<a id="treebutton" style="width:330px" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
+			<a id="searchbutton" style="width:330px" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
 	</div>
 
 
@@ -112,7 +112,7 @@ include "connect.php";
               ORDER BY TRIM(subject_name);
 						");
 						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
-							$content .= "<li><a target=\"_blank\" href=\"index.php?subject=".$subjects['subject_id']."\">".$subjects['subject_name']."</a></li>";
+							$content .= "<li><a href=\"index.php?subject=".$subjects['subject_id']."\">".$subjects['subject_name']."</a></li>";
 						}
 						$content .= "</ul>";
 						$content .= "</li>";
@@ -409,6 +409,7 @@ include "connect.php";
 		</form>
 
 		<div style="align:center;display:none;" id="tabelleLaden"></div>
+
 		<script>
 		//Script für die Sortierungs-Dropdowns
 		$('#sortArea').on('change', function() {
@@ -501,6 +502,7 @@ include "connect.php";
 
 		$('#btn-filterSort').on('click', function(e) {
 			e.preventDefault();
+			$('#limitationText').hide();
 			if($('input[type="checkbox"]:checked').length) {
 				$('#resultTable').hide();
 				$('#tabelleLaden').show();
@@ -509,7 +511,6 @@ include "connect.php";
 					type: "get",
 					data: $("#filtersort").serialize(),
 					success: function (data) {
-						$('#tabelleLaden').hide();
 						var help = $('#resultTable').html();
 						$('#resultTable').show();
 						$('#resultTable').html(data);
@@ -518,7 +519,8 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 1500);
 						}
-						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+encodeURI($("#filtersort").serialize()));
+            $('#tabelleLaden').hide();
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
@@ -533,13 +535,14 @@ include "connect.php";
 		</script>
 
 		<div id="resultTable"></div>
+		<p id="limitationText" style="text-align:center; display:none"><i>Das Suchergebnis ist aus Performancegründen auf 50 Ergebnisse limitiert.</i></p>
 	</div>
 </div>
 <script>
 	//Startet Pagination
 	$(document).ready(function() {
 		insertLoader('#tabelleLaden');
-		if(((new URL(window.location.href)).searchParams.get("filterandsearch"))=="true"){
+		if((decodeURIComponent((new RegExp('[?|&]' + 'filterandsearch' + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null)=="filterandsearch"){
 			$('#searchbutton').addClass('disabled');
 			$('#treebutton').removeClass('disabled');
 			$('#treeSide').hide();
@@ -550,7 +553,7 @@ include "connect.php";
 					type: "get",
 					data: decodeURI(window.location.href.split("&val=")[1]),
 					success: function (data) {
-						$('#tabelleLaden').hide();
+              $('#tabelleLaden').hide();
 						var help = $('#resultTable').html();
 						$('#resultTable').html(data);
 						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
@@ -558,21 +561,24 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 500);
 						}
-						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+$("#filtersort").serialize());
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+$("#filtersort").serialize());
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
 						alert("Error!");
-					}
+					},
+          finally: function(){
+            $('#tabelleLaden').hide();
+          }
 				});
 		}
-		$('#treebutton').click(function(){
+		$('#treebutton').click(function(event){
 			$('#treebutton').addClass('disabled');
 			$('#searchbutton').removeClass('disabled');
 			$('#searchSide').hide();
 			$('#treeSide').show();
 		});
-		$('#searchbutton').click(function(){
+		$('#searchbutton').click(function(event){
 			$('#searchbutton').addClass('disabled');
 			$('#treebutton').removeClass('disabled');
 			$('#treeSide').hide();
@@ -580,6 +586,8 @@ include "connect.php";
 		});
 	});
 </script>
+<script src="res/lib/jquery.simplePagination.js"></script>
+<script src="res/lib/jquery.nicescroll-master/jquery.nicescroll.js"></script>
 <br />
 <br />
 <br />
