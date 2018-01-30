@@ -409,7 +409,7 @@ include "connect.php";
 		</form>
 
 		<div style="align:center;display:none;" id="tabelleLaden"></div>
-		
+
 		<script>
 		//Script für die Sortierungs-Dropdowns
 		$('#sortArea').on('change', function() {
@@ -511,7 +511,6 @@ include "connect.php";
 					type: "get",
 					data: $("#filtersort").serialize(),
 					success: function (data) {
-						$('#tabelleLaden').hide();
 						var help = $('#resultTable').html();
 						$('#resultTable').show();
 						$('#resultTable').html(data);
@@ -520,6 +519,7 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 1500);
 						}
+            $('#tabelleLaden').hide();
 						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {
@@ -553,7 +553,7 @@ include "connect.php";
 					type: "get",
 					data: decodeURI(window.location.href.split("&val=")[1]),
 					success: function (data) {
-						$('#tabelleLaden').hide();
+              $('#tabelleLaden').hide();
 						var help = $('#resultTable').html();
 						$('#resultTable').html(data);
 						if(help == ""){ //Nur beim ersten Mal (wenn noch keine Tabelle vorhanden)
@@ -566,7 +566,10 @@ include "connect.php";
 					error: function() {
 						$('#tabelleLaden').hide();
 						alert("Error!");
-					}
+					},
+          finally: function(){
+            $('#tabelleLaden').hide();
+          }
 				});
 		}
 		$('#treebutton').click(function(event){
