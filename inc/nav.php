@@ -55,6 +55,7 @@ $name = $userRow['first_name'];
 						<ul class="dropdown-menu">
 							<li><a id="linkToUserProfile" href="userProfile.php">Profil <span class="pull-right"><span class="glyphicon glyphicon-list-alt"></span></span></a></li>
 							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten <span class="pull-right"><span class="glyphicon glyphicon-star"></span></span></a></li>
+							<li><a id="linkToUserRatings" href="userProfile.php#userRatings">Bewertungen <span class="pull-right"><span class="glyphicon glyphicon-ok-circle"></span></span></a></li>
 							<li class="divider"></li>
 							<li><a href="logout.php">Logout <span class="pull-right"><span class="glyphicon glyphicon-log-out"></span></span></a></li>
 						</ul>

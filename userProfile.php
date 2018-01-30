@@ -68,8 +68,8 @@ include "connect.php";
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#userData">Profil</a></li>
 		<li><a data-toggle="tab" href="#favourites">Favoriten</a></li>
-	<!--<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
-		<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
+		<li><a data-toggle="tab" href="#userRatings">Meine Bewertungen</a></li>
+	<!--<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
 	</ul>
 
 	<div class="tab-content">
@@ -264,11 +264,29 @@ include "connect.php";
 
 		
 			
-	<!--<div id="menu2" class="tab-pane fade">
-			<h3>Menu 2</h3>
-			<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+		<div id="userRatings" class="tab-pane fade">
+			<br>
+			<p>Folgende Veranstaltungen hast du bereits bewertet:</p>
+			
+			<?php
+			$result = mysqli_query($con, "
+				SELECT subject_name, subjects.ID AS subject_id
+				FROM ratings
+				JOIN subjects ON subjects.ID = ratings.subject_ID
+				WHERE ratings.user_ID = ".$userRow['user_ID']."
+			");
+			?>
+			
+			<ol>
+			<?php
+			while($row = mysqli_fetch_assoc($result)){
+				echo "<li><a href=\"index.php?subject=".$row['subject_id']."\">".$row['subject_name']."</a></li>";
+			}
+			?>
+			</ol>
+			
 		</div>
-		<div id="menu3" class="tab-pane fade">
+	<!--<div id="menu3" class="tab-pane fade">
 			<h3>Menu 3</h3>
 			<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		</div>
@@ -298,6 +316,10 @@ $('#linkToUserFavorites').click(function(event){
 $('#linkToUserProfile').click(function(event){
 	event.preventDefault();
 	$('.nav-tabs a[href="#userData"]').tab('show')
+});
+$('#linkToUserRatings').click(function(event){
+	event.preventDefault();
+	$('.nav-tabs a[href="#userRatings"]').tab('show')
 });
 </script>
 
