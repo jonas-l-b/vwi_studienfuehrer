@@ -105,9 +105,9 @@ include "sumVotes.php";
 			$abbr .= "<a href=\"institute.php?institute_id=".$abbr_row['institute_ID']."\">".$abbr_row['abbr']."</a>, ";
 		}
 		$abbr = substr($abbr, 0, -2);
-		
-		
-		
+
+
+
 		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a> (".$abbr.")<br>";
 	}
 	$lecturers = substr($lecturers, 0, -4);
@@ -245,7 +245,9 @@ include "sumVotes.php";
 			<div class="col-md-10" id="bewertungstitel">
 				<h2 <?php echo $displayRatings ?> style="text-align:center;">Gesamtbewertung</h2>
 			</div><div class="col-md-2"></div>
-			<div class="col-md-10 well">
+		</div>
+		<div class="row">
+			<div class="col-sm-8 col-md-10 col-lg-10 well">
 
 				<div class="noRatingBox" <?php echo $displayNoRatings ?>>
 					<br>
@@ -492,7 +494,7 @@ include "sumVotes.php";
 			</div>
 			<!--<div class="col-md-1">
 			</div>-->
-			<div class="col-md-2">
+			<div class="col-md-2 col-lg-2 col-sm-4">
 				<div id="infobox" class="well" style="width:250px;">
 				<div style="margin-top:-15px;"><h4 style="font-size:2em;text-align:center;">Info</h4></div>
 				<div class="row" style="text-align:center;">
