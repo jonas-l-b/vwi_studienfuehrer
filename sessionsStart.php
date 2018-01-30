@@ -12,11 +12,11 @@ function endsWith($haystack, $needle)
 }
 
 if (!isset($_SESSION['userSession'])) {
-  $url =  urlencode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-	if(endsWith($url, 'vwi-karlsruhe.de') || endsWith($url, 'vwi-karlsruhe.de/') || endsWith($url, 'vwi-karlsruhe.de%2F')){
-		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php';</SCRIPT>");
+	if(endsWith($url, 'vwi-karlsruhe.de') || endsWith($url, 'vwi-karlsruhe.de/')){
+		echo ("<SCRIPT LANGUAGE='JavaScript'>alert('hi1');window.location.href='login.php';</SCRIPT>");
 	}else{
-		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php?url=$url';</SCRIPT>");
+		$url =  urlencode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+		echo ("<SCRIPT LANGUAGE='JavaScript'>alert('hi2');window.location.href='login.php?url=$url';</SCRIPT>");
 	}
 
 }
