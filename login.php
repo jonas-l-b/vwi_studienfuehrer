@@ -200,7 +200,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 <body>
 	<div class="container">
 	  <h2 style="text-align:center">Willkommen beim Studienführer!</h2>
-	  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+	  <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
 		<!-- Indicators -->
 		<ol class="carousel-indicators">
 		  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -240,6 +240,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	  </div>
 	</div>
 <div class="container" style="text-align:center;font-size: 1.4em;">
+	<br><br>
 	<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
 	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Auf diesem Weg stellen wir die höchstmögliche Qualität der Informationen sicher.</p>
 	<p><b>Viel Spaß beim Stöbern!</b></p>
