@@ -21,7 +21,7 @@ function setCookie(svalue,tvalue,uvalue,exdays) {
 	document.cookie = "vwistudi_series" + "=" + svalue + ";" + expires + ";path=/";
 	document.cookie = "vwistudi_token" + "=" + tvalue + ";" + expires + ";path=/";
 	document.cookie = "vwistudi_user" + "=" + uvalue + ";" + expires + ";path=/";
-	
+
 	//In Datenbank schreiben
 	$.ajax({
 		url: "setCookieInDB.php",
@@ -54,6 +54,7 @@ function getCookie(cname) {
 </script>
 
 <?php
+
 //Weiterleiten, falls bereits eingeloggt
 if (isset($_SESSION['userSession'])!="") {
 	echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
@@ -64,7 +65,7 @@ if (isset($_SESSION['userSession'])!="") {
 		$cSeries = $_COOKIE["vwistudi_series"];
 		$cToken = $_COOKIE["vwistudi_token"];
 		$cUser = $_COOKIE["vwistudi_user"];
-		
+
 		$result = mysqli_query($con, "SELECT * FROM remember_me WHERE series = '$cSeries' AND token = '$cToken' AND user_id = '$cUser'");
 		if(mysqli_num_rows($result) == 1){
 			//echo "LOGIN!";
@@ -72,8 +73,8 @@ if (isset($_SESSION['userSession'])!="") {
 			$u_logger->info("Der User mit der ID $cUser hat sich soeben über Cookie eingeloggt.");
 			if (isset($_GET['url'])) {
 				$url = $_GET['url'];
-				echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='".basename($url)."';</SCRIPT>"); //NUR UNTER LOCALHOST GETESTET
-				//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
+					echo ("<SCRIPT LANGUAGE='JavaScript'>document.location.href='".basename($url)."';</SCRIPT>"); //NUR UNTER LOCALHOST GETESTET
+					//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}else{
 				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}
@@ -87,20 +88,20 @@ if (isset($_SESSION['userSession'])!="") {
 			if(mysqli_num_rows($theft) != 0){
 
 				$subject = "[VWI-Studienführer] Jemand hat versucht, sich in deinen Studienführer-Account einzuloggen";
-				
+
 				if(mysqli_query($con, "DELETE FROM remember_me WHERE user_id = '$cUser'")){
 					$body = "jemand hat versucht, sich mit einem von dir gestohlenen Cookie in deinen Studienführer-Account einzuloggen. Wir haben sicherheithalber alle deine Auto-Login-Daten gelöscht, sodass du dich bei deinem nächsten wieder einloggen musst.";
 					$landing = "<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=cookie_theft';</SCRIPT>";
 				}else{
-					$body = "jemand hat versucht, sich mit einem von dir gestohlenen Cookie in deinen Studienführer-Account einzuloggen. Leider ist beim Löschen deiner Auto-Login-Daten ein Fehler aufgetreten. Lösche deine Cookies über das Browser-Menü und melde dich erneut mit der Eingeloggt-bleiben-Funktion beim Studienführer an, um deine Daten zu überschreiben. Falls du Fragen hast, wende dich direkt an die VWI-ESTIEM Hochschulgruppe.";	
+					$body = "jemand hat versucht, sich mit einem von dir gestohlenen Cookie in deinen Studienführer-Account einzuloggen. Leider ist beim Löschen deiner Auto-Login-Daten ein Fehler aufgetreten. Lösche deine Cookies über das Browser-Menü und melde dich erneut mit der Eingeloggt-bleiben-Funktion beim Studienführer an, um deine Daten zu überschreiben. Falls du Fragen hast, wende dich direkt an die VWI-ESTIEM Hochschulgruppe.";
 					$landing = "<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=cookie_theft_error';</SCRIPT>";
 				}
-				
+
 				$result1 = mysqli_query($con, "SELECT email FROM users WHERE user_ID = '$cUser'");
 				$row1 = mysqli_fetch_assoc($result1);
-				
+
 				EmailService::getService()->sendEmail($row1['email'], $row1['username'], $subject, $body);
-				
+
 				echo $landing;
 			}
 		}
@@ -112,11 +113,11 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
 	$email = $_POST['email'];
 	$password = $_POST['password'];
-	
+
 	$stmt = $con->prepare(" INSERT INTO anti_brute_force (user_id, login_failures)
-							SELECT user_ID, 1 
-							FROM users 
-							WHERE email = ? 
+							SELECT user_ID, 1
+							FROM users
+							WHERE email = ?
 							ON DUPLICATE KEY UPDATE login_failures = login_failures + 1");
 	if($stmt == false){
 		$error = $con->errno . ' ' . $con->error;
@@ -126,7 +127,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	$stmt->bind_param("s", $email);
 	$stmt->execute();
 	$stmt->close();
-	
+
 	$stmt1 = $con->prepare(" SELECT login_failures
 							FROM anti_brute_force
 							LEFT JOIN users
@@ -137,16 +138,16 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	$res = $stmt1->get_result();
 	$stmt1->close();
 	if($res == null || $res->fetch_assoc()['login_failures']< ConfigService::getService()->getConfig('login_tries_before_blocking')){
-		 
+
 		$query = $con->query("SELECT user_ID, email, password, active FROM users WHERE email='$email'");
 		$row=$query->fetch_array();
-		 
+
 		$count = $query->num_rows; // if email/password are correct returns must be 1 row
-	 
+
 		if (password_verify($password, $row['password']) && $count==1) {
-			
+
 			$con->query("DELETE FROM anti_brute_force WHERE user_id = ". $row['user_ID']);
-			
+
 			if($row['active'] == 0){
 				$msg = "<div class='alert alert-danger'>
 					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Dieser Account wurde noch nicht aktiviert!
@@ -154,12 +155,12 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 			}else{
 				$_SESSION['userSession'] = $row['user_ID'];
 				//header('Location: tree.php');
-				
+
 				//Set cookie if remember me checked
 				if(isset($_POST['rememberMe'])){
 					$series = hash("sha256", (rand(0,1000)));
 					$token = hash("sha256", (rand(0,1000)));
-					
+
 					?>
 					<!--Infos unsichtbar speichern, um sie so JS übergeben zu können-->
 					<span id="series" style="display:none"><?php echo $series ?></span>
@@ -170,10 +171,10 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					var s = $('#series').text();
 					var t = $('#token').text();
 					var u = $('#user-id').text();
-					
+
 					setCookie(s,t,u,30);
 					</script>
-					
+
 					<?php
 				}
 				$u_logger->info("Der User mit der ID". $row['user_ID'] ."hat sich soeben eingeloggt.");
@@ -218,11 +219,11 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 		  <div class="item">
 			<img src="pictures/carousel/carousel_two.jpg" style="width:100%;">
 		  </div>
-		
+
 		  <div class="item">
 			<img src="pictures/carousel/carousel_three.jpg" style="width:100%;">
 		  </div>
-		  
+
 		  <div class="item">
 			<img src="pictures/carousel/carousel_four.jpg" style="width:100%;">
 		  </div>
@@ -249,22 +250,22 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	<div class="container">
 		<form class="form-signin" method="post" id="login-form">
 			<h3 id="loginStart" class="form-signin-heading">Hier einloggen</h3><hr />
-			
+
 			<?php
 			if(isset($msg)){
 				echo $msg;
 			}
 			?>
-			
+
 			<div class="form-group">
 				<input value="<?php if(isset($memory_mail)) echo $memory_mail ?>" type="email" class="form-control" placeholder="E-Mail" name="email" required />
 			<span id="check-e"></span>
 			</div>
-			
+
 			<div class="form-group">
 				<input type="password" class="form-control" placeholder="Passwort" name="password" required />
 			</div>
-			
+
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" name="rememberMe" id="rememberMe"> Eingeloggt bleiben
@@ -278,23 +279,23 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					</script>
 				</label>
 			</div>
-			
+
 			<a href="#" id="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
-			
+
 			<hr>
-			
+
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary" name="btn-login" id="btn-login">
 					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Einloggen
-				</button> 
-				
+				</button>
+
 				<a href="register.php" class="btn btn-default" style="float:right;">Registrieren</a>
-				
-			</div>  
+
+			</div>
 		</form>
 
     </div>
-    
+
 </div>
 
 <!-- End of page. Modal für Passwort vergessen -->
@@ -309,14 +310,14 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 		<p id="pwrecovery"></p>
 			<form action="recoverPW.php" method="POST">
 				<p>Trage hier die E-Mail-Adresse ein, mit der du dich registriert hast:</p>
-				
+
 				<div class="form-group">
 					<input type="email" class="form-control" id="PWrecoveryEmailInput" placeholder="E-Mail-Adresse" name="email" required />
 				</div>
-			
+
 				<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
 			</form>
-		
+
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
