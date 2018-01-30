@@ -56,8 +56,8 @@ include "connect.php";
 
 	<h3 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h3>
 	<div align="center">
-			<a id="treebutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
-			<a id="searchbutton" style="width:330px" type="submit" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
+			<a id="treebutton" style="width:330px" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
+			<a id="searchbutton" style="width:330px" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
 	</div>
 
 
@@ -520,7 +520,7 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 1500);
 						}
-						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+encodeURI($("#filtersort").serialize()));
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
@@ -542,7 +542,7 @@ include "connect.php";
 	//Startet Pagination
 	$(document).ready(function() {
 		insertLoader('#tabelleLaden');
-		if(((new URL(window.location.href)).searchParams.get("filterandsearch"))=="true"){
+		if((decodeURIComponent((new RegExp('[?|&]' + 'filterandsearch' + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null)=="filterandsearch"){
 			$('#searchbutton').addClass('disabled');
 			$('#treebutton').removeClass('disabled');
 			$('#treeSide').hide();
@@ -561,7 +561,7 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 500);
 						}
-						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=true&val="+$("#filtersort").serialize());
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+$("#filtersort").serialize());
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
@@ -569,13 +569,13 @@ include "connect.php";
 					}
 				});
 		}
-		$('#treebutton').click(function(){
+		$('#treebutton').click(function(event){
 			$('#treebutton').addClass('disabled');
 			$('#searchbutton').removeClass('disabled');
 			$('#searchSide').hide();
 			$('#treeSide').show();
 		});
-		$('#searchbutton').click(function(){
+		$('#searchbutton').click(function(event){
 			$('#searchbutton').addClass('disabled');
 			$('#treebutton').removeClass('disabled');
 			$('#treeSide').hide();
@@ -583,6 +583,8 @@ include "connect.php";
 		});
 	});
 </script>
+<script src="res/lib/jquery.simplePagination.js"></script>
+<script src="res/lib/jquery.nicescroll-master/jquery.nicescroll.js"></script>
 <br />
 <br />
 <br />

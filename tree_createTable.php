@@ -33,7 +33,7 @@ if(isset($_GET['sortExamOther'])) $sortExamOther = $_GET['sortExamOther'];
 
 $orderDirection = $_GET['orderDirection'];
 
-				
+
 /*Daten gemäß Auswahl abfragen*/
 $query = "";
 
@@ -76,7 +76,7 @@ $sql1 = "
 
 /*2. Get rating averages for each subject using this query*/
 $allSubjects = mysqli_query($con,$sql1);
-	
+
 while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 	$result = mysqli_query($con,"SELECT * FROM ratings WHERE subject_ID = '".$subjects['ID']."'");
@@ -98,19 +98,19 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 	else{ //Falls Bewertungen vorhanden
 		$db = array("general0", "lecture0", "lecture1", "lecture2", "lecture3", "exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
 		$name = array("overallRating", "overallLecture", "relevance", "interest", "quality", "overallExam", "effort", "fairness", "timePressure", "reproductionTransfer", "qualitativeQuantitative");
-		
+
 		for ($i = 0; $i < 11; $i++) {
 			$row = mysqli_fetch_array(mysqli_query($con, "SELECT AVG(".$db[$i].") FROM ratings WHERE subject_ID = '".$subjects['ID']."'"));
 			${$name[$i]}[$subjects['ID']] = $row[0];
 		}
-		
+
 		$row = mysqli_fetch_array(mysqli_query($con, "SELECT COUNT(recommendation) FROM ratings WHERE subject_ID = '".$subjects['ID']."' AND recommendation = 1"));
 		$recoms[$subjects['ID']] = $row[0];
-		
+
 		$row = mysqli_fetch_array(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = '".$subjects['ID']."' AND examType = 'other'"));
 		$amountRatings[$subjects['ID']] = $row[0];
 	}
-	
+
 	/*3. Put all in one array*/
 	//module_types
 	$sql = "
@@ -128,7 +128,7 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 	//part_of_modules
 	$sql = "
-		SELECT DISTINCT modules.name, modules.module_id 
+		SELECT DISTINCT modules.name, modules.module_id
 		".$sqlBody."
 		WHERE subjects.ID = ".$subjects['ID']."
 		ORDER BY modules.name
@@ -207,7 +207,7 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 		'semester' => $subjects['semester'],
 		'language' => $subjects['language'],
 		'ID' => $subjects['ID'],
-		
+
 		'overallRating' => $overallRating[$subjects['ID']],
 		'recoms' => $recoms[$subjects['ID']],
 		'overallLecture' => $overallLecture[$subjects['ID']],
@@ -229,7 +229,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 	//For "/10" and note
 	$displayFromMax = "";
 	$displayNote = "display:none";
-	
+
 	//Get by what it is sorted
 	if($sortArea == "overall"){
 		switch ($sortOverall){
@@ -292,7 +292,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				$displayFromMax = "display:none";
 				$displayNote = "";
 				break;
-		}	
+		}
 		}else{
 			$orderBy = "amountRatings";
 			$orderByHeader = "#Anmerkungen Prüfung";
@@ -302,7 +302,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 
 	$bool = true;
 	if($orderDirection=="ASC") $bool = false;
-	
+
 	//Array sortieren
 	sksort($data, "$orderBy", $bool);
 	$data = array_slice($data,0,50);
@@ -326,9 +326,9 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 			</tr>
 		";
 	}
-	
+
 	$table="
-		
+
 		<span style=\"$displayNote\"><br><i>Hinweis:</i> Der Maximalwert für Reproduktion und Qualitativ ist -10; der Maximalwert für Transfer und Quantitativ ist 10.</span>
 		<table class=\"table table-striped table-condensed searchresulttable\">
 			<thead>
@@ -348,9 +348,6 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				".$content."
 			</tbody>
 		</table>
-		
-	<script src=\"res/lib/jquery.simplePagination.js\"></script>
-	<script src=\"res/lib/jquery.nicescroll-master/jquery.nicescroll.js\"></script>
 		<script>
 			//Startet Pagination
 			$(document).ready(function() {

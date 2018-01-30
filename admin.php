@@ -26,7 +26,12 @@ if($userRow['admin']==0){
 		
 <ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#modifyData">Daten bearbeiten</a></li>
-		<li><a data-toggle="tab" href="#messages">Posteingang</a></li>
+		<?php
+		if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM messages WHERE processed = 0")) > 0){
+			$envelope = "<span class=\"glyphicon glyphicon-envelope\"></span>";
+		}
+		?>
+		<li><a data-toggle="tab" href="#messages">Posteingang<?php if(isset($envelope)) echo "  ".$envelope?></a></li>
 		<li><a data-toggle="tab" href="#notifications">Benachrichigungen</a></li>
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 	</ul>
@@ -135,7 +140,7 @@ if($userRow['admin']==0){
 								?>
 								<div class="message" id="<?php echo ("message_id_".$row['message_id']) ?>">
 									<span class="symbol glyphicon <?php echo $glyphicon1 ?>"></span>
-									<span class="text">Empfangen: <?php echo $row['time_stamp'] ?><span class="lastRead"><?php echo $lastRead ?></span></span>
+									<span class="text">Empfangen: <?php echo substr($row['time_stamp'],0,strlen($row['time_stamp'])-3)." Uhr"?><span class="lastRead"><?php echo $lastRead ?></span></span>
 									<span class="assignedToGlyphicon"> <?php echo $glyphicon2Line ?> </span>
 									<span class="assignedTo"> <?php echo $assignedToLine ?> </span>
 								</div>
@@ -172,7 +177,7 @@ if($userRow['admin']==0){
 								//Versandt
 								if($row['answer_required']=="1"){
 									$glyphicon2 = "<span class=\"symbol glyphicon glyphicon glyphicon-send\"></span>";
-									$answerDate = "<span class=\"text\">Antwort verschickt am:<br><strong>".substr($row['processed_time_stamp'],10)."</strong></span>";
+									$answerDate = "<span class=\"text\">Antwort verschickt am:<br><strong>".substr($row['processed_time_stamp'],0,strlen($row['processed_time_stamp'])-3)." Uhr</strong></span>";
 								} else{
 									$glyphicon2 = "";
 									$answerDate = "";
@@ -425,7 +430,7 @@ if($userRow['admin']==0){
 		</div>
 		<div id="adminList" class="tab-pane fade">
 		<br>
-			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
+			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Super-Admins können außerdem Nachrichten im Posteingang löschen (was eigentlich nicht vorgesehen ist, da Nachrichten bearbeitet werden sollen).<br><br> Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
 			<div class="row">
 				<!-- Admin-->
 				<?php

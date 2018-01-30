@@ -18,8 +18,8 @@ $userID = $userRow['user_ID'];
 $sql1 = "
 	SELECT *
 	FROM institutes
-	WHERE name = '$inst_name' OR abbr = '$inst_abbr';
-";//WHERE name = '$inst_name' AND abbr = '$inst_abbr';
+	WHERE name = '$inst_name'
+";
 $result1 = mysqli_query($con,$sql1);
 
 //If no, insert
