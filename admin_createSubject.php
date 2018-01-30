@@ -141,7 +141,7 @@ $InstanceCache->deleteItem("treeside");
 
 			<?php
 			$lec_selection = "";
-			
+
 			$lec = mysqli_query($con,"
 					SELECT lecturers.lecturer_ID, last_name, first_name
 					FROM lecturers
@@ -270,7 +270,7 @@ $InstanceCache->deleteItem("treeside");
 								$insti_selection .= "<option value=\"".$insti_row['institute_ID']."\">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
 							}
 							?>
-							
+
 							<div class="form-group">
 								<label>Institut</label>
 								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular gleich hierunter.</i></p>
@@ -288,7 +288,7 @@ $InstanceCache->deleteItem("treeside");
 						<script>
 						$('#lec_submit').click(function (event) {
 							event.preventDefault();
-							
+
 							if ($('#lec_first_name').val() == "" || $('#lec_last_name').val() == "" || $('#lec_institute_select2').val() == ""){
 								alert("Bitte alle Felder ausfüllen!");
 							}else{
@@ -299,6 +299,7 @@ $InstanceCache->deleteItem("treeside");
 								data: $('#form_lecturer').serialize(),
 								cache: false,
 								success: function(data) {
+									$('#lec_institute_select2').dropdown('clear');
 									if($.trim(data)=='existsAlready'){
 										alert('Dieser Dozent ist bereits vorhanden!')
 									} else{
@@ -308,7 +309,7 @@ $InstanceCache->deleteItem("treeside");
 									}
 									$('#lec_first_name').val("");
 									$('#lec_last_name').val("");
-									
+
 									//$("#lec_institute_select2 option:selected").prop("selected", false);
 									//$.each($(".lec_insti_select option:selected"), function() {
 									//	$(this).prop('selected', false);
