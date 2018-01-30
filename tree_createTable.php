@@ -189,9 +189,9 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 			$abbr .= "<a href=\"institute.php?institute_id=".$abbr_row['institute_ID']."\">".$abbr_row['abbr']."</a>, ";
 		}
 		$abbr = substr($abbr, 0, -2);
-		
-		
-		
+
+
+
 		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a> (".$abbr.")<br>";
 	}
 	$lecturers = substr($lecturers, 0, -4);
@@ -351,7 +351,9 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 		<script>
 			//Startet Pagination
 			$(document).ready(function() {
-				$(\".searchresulttable\").simplePagination();
+				$(\".searchresulttable\").simplePagination('onInit', function(){
+					$('#tabelleLaden').hide();
+				});
 				$( \"td\" ).children().niceScroll();
 			});
 		</script>
