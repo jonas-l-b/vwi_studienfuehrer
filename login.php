@@ -198,20 +198,49 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
 
 <body>
-	<img src="pictures/logo_studi.png" width="70%" style="margin-left:15%;" usemap="#logomap">	
-	<map name="logomap">
-		<area shape="circle" coords="127,122,107" href="https://vwi-karlsruhe.de" target="_blank" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
-		<area id="studi" shape="poly" coords="360,54, 926,54, 760,335, 195,335" href="#" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
-	</map>
-	<script>
-		$("#studi").on("click", function(e){
-			e.preventDefault(); //href (welches obligatorisch in <area> ist) wird nicht ausgeführt
-			$('html, body').animate({
-				scrollTop: $("#loginStart").offset().top
-			}, 1500);
-		});
-	</script>
+	<div class="container">
+	  <h2 style="text-align:center">Willkommen beim Studienführer!</h2>
+	  <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+		  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		  <li data-target="#myCarousel" data-slide-to="1"></li>
+		  <li data-target="#myCarousel" data-slide-to="2"></li>
+		  <li data-target="#myCarousel" data-slide-to="3"></li>
+		</ol>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner">
+		  <div class="item active">
+			<img src="pictures/carousel/carousel_one.jpg" style="width:100%;">
+		  </div>
+
+		  <div class="item">
+			<img src="pictures/carousel/carousel_two.jpg" style="width:100%;">
+		  </div>
+		
+		  <div class="item">
+			<img src="pictures/carousel/carousel_three.jpg" style="width:100%;">
+		  </div>
+		  
+		  <div class="item">
+			<img src="pictures/carousel/carousel_four.jpg" style="width:100%;">
+		  </div>
+		</div>
+
+		<!-- Left and right controls -->
+		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+		  <span class="glyphicon glyphicon-chevron-left"></span>
+		  <span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" data-slide="next">
+		  <span class="glyphicon glyphicon-chevron-right"></span>
+		  <span class="sr-only">Next</span>
+		</a>
+	  </div>
+	</div>
 <div class="container" style="text-align:center;font-size: 1.4em;">
+	<br><br>
 	<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
 	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Auf diesem Weg stellen wir die höchstmögliche Qualität der Informationen sicher.</p>
 	<p><b>Viel Spaß beim Stöbern!</b></p>
