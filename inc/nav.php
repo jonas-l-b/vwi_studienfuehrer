@@ -20,7 +20,7 @@ if($userRow['admin']!=0){
 				<li><a id=\"linkToAdminMessages\" href=\"admin.php#messages\">Posteingang".$space.$envelope."</a></li>
 				<li><a id=\"linkToAdminNotifications\" href=\"admin.php#notifications\">Benachrichtigungen</a></li>
 				<li><a id=\"linkToAdminList\" href=\"admin.php#adminList\">Admin-Liste</a></li>
-				
+				<li><a id=\"linkToUserProfiles\" href=\"admin.php#userProfiles\">Nutzerprofile</a></li>
 			</ul>
 		</li>
 	";
