@@ -52,6 +52,28 @@
 		?>
 	</script>
 
+
+	<script>
+		//Alte Browser Warnung
+		var $buoop = {
+				notify:{i:-2,f:-2,o:-2,s:-1,c:-2},
+				insecure:true,
+				unsupported:true,
+				api:5,
+				test: false,
+				text: "Buuuuh! Du benutzt ja {brow_name}. Der ist viel zu alt, der Browser! Hör mal, es ist ohnehin schon megaviel Arbeit verschiedene Browser zu unterstützen und DEINEN unterstützen wir jetzt NICHT MEHR! Genau jetzt gerade wegen dir entschieden! Wenn also jetzt hier auf der Seite alles kaputt ist, dann ist das nicht mehr unsere schuld. Sondern deine :P. Aber einen Ausweg gibt es! Einfach den Browser updaten - zum Beispiel hier: <a{up_but}>Aktualisieren</a>.",
+				noclose: true,
+				style: "top"
+			};
+		function $buo_f(){
+		 var e = document.createElement("script");
+		 e.src = "//browser-update.org/update.min.js";
+		 document.body.appendChild(e);
+		};
+		try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+		catch(e){window.attachEvent("onload", $buo_f)}
+	</script>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="res/lib/jquery.autocomplete.js"></script>

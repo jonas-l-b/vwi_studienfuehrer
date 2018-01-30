@@ -376,3 +376,7 @@ span.ects {
 #infobox.affix{
 	top: 100px;
 }
+
+#infobox{
+  max-width: 250px;
+}
