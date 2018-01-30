@@ -3,7 +3,7 @@
 //Admin im Menü
 $admin = "";
 if($userRow['admin']!=0){
-	
+
 	if(mysqli_num_rows(mysqli_query($con, "SELECT * FROM messages WHERE processed = 0")) > 0){ //Für Briefumschlag bei "Posteingang"
 		$envelope = "<span class=\"glyphicon glyphicon-envelope\"></span>&nbsp;";
 		$space = "  "; //Lausige Lösung, wusste aber grad nicht, wie sonst
@@ -11,7 +11,7 @@ if($userRow['admin']!=0){
 		$envelope = "";
 		$space = "";
 	}
-	
+
 	$admin = "
 		<li>
 			<a data-toggle=\"dropdown\" style=\"cursor: pointer; cursor: hand;\">Admin <span class=\"caret\"></span></a>
@@ -33,19 +33,19 @@ $name = $userRow['first_name'];
 <nav class="navbar navbar-default navbar-fixed-top menu">
 	<div class="container">
 		    <div class="navbar-header">
-			  <a id="menulogohandy" class="navbar-brand" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+			  <a id="menulogohandy" class="navbar-brand" href="tree.php"><img src="pictures/nav1.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
 				</a>
 			  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>                        
+				<span class="icon-bar"></span>
 			  </button>
 			</div>
-			<a id="menulogo" class="navbar-brand" target="_blank" href="https://vwi-karlsruhe.de"><img src="pictures/logo.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+			<a id="menulogo" class="navbar-brand" target="_blank" href="tree.php"><img src="pictures/nav1.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
 				</a>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li><a href="tree.php">Übersicht Studienführer</a></li>
+					<li style="background-color: #F0F8FF"><a href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a></li>
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
 					<?php echo $admin;?>
 				</ul>
@@ -58,8 +58,8 @@ $name = $userRow['first_name'];
 							<li class="divider"></li>
 							<li><a href="logout.php">Logout <span class="pull-right"><span class="glyphicon glyphicon-log-out"></span></span></a></li>
 						</ul>
-					</li>		
-				</ul>				
+					</li>
+				</ul>
 				<div id="searchfield" style="padding:15px;">
 					<form action="tree.php" method="get" class="navbar-form">
 					  <div style="display:table;" class="input-group">
@@ -108,7 +108,7 @@ $(function(){
 			$('.suchen-autocomplete').val("Übersicht Startseite");
     }
   });
-  
+
 });
 </script>
 
@@ -122,6 +122,6 @@ $(document).ready(function(){
 			$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
 		  }
 		});
-	});	
+	});
 });
 </script>
