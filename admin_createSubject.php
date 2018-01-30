@@ -33,7 +33,8 @@ $InstanceCache->deleteItem("treeside");
 	</h2>
 	<hr>
 
-	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">(Keine Fehlermeldung!!) Hinweis: Doppelte Einträge</button>
+	<button type="button" class="btn" style="margin:0px;" data-toggle="collapse" data-target="#notice">Allgemeiner Hinweis (Klick mich)</button>
+
 	<div id="notice" class="collapse">
 		Es wird rudimentär geprüft, ob Einträge bereits vorhanden sind. Konkret werden in folgenden Fällen Fehlermeldungen ausgegeben:<br><br>
 		1) <strong>Veranstaltungen</strong>: <strong>Name</strong> <u>oder</u> <strong>Kennung</strong> bereits vorhanden<br>
@@ -141,6 +142,26 @@ $InstanceCache->deleteItem("treeside");
 			<?php
 			$lec_selection = "";
 
+			$lec = mysqli_query($con,"
+					SELECT lecturers.lecturer_ID, last_name, first_name
+					FROM lecturers
+				");
+			while($lec_row = mysqli_fetch_assoc($lec)){
+				$sql_abbr = mysqli_query($con,"
+						SELECT *
+						FROM institutes
+						JOIN lecturers_institutes ON institutes.institute_ID=lecturers_institutes.institute_ID
+						WHERE lecturer_ID = '".$lec_row['lecturer_ID']."'
+					");
+				$abbr = "";
+				while($abbr_row = mysqli_fetch_assoc($sql_abbr)){
+					$abbr .= $abbr_row['abbr'] . ", ";
+				}
+				$abbr = substr($abbr, 0, -2);
+
+				$lec_selection .= "<option value=".$lec_row['lecturer_ID'].">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$abbr.")</option>";
+			}
+			/*
 			$sql = "
 				SELECT *
 				FROM lecturers
@@ -154,7 +175,7 @@ $InstanceCache->deleteItem("treeside");
 			while($lec_row = mysqli_fetch_assoc($lec)){
 				$lec_selection .= "<option value=\"".$lec_row['lecturer_ID']."\">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
 			}
-
+			*/
 			?>
 
 			<div class="form-group">
@@ -230,36 +251,32 @@ $InstanceCache->deleteItem("treeside");
 				</div>
 				<div id="collapse1" class="panel-collapse collapse">
 					<div class="panel-body">
-						<form id="form1" name="form1">
+						<form id="form_lecturer" name="form_lecturer">
 
 							<div class="form-group">
 								<label>Vorname</label>
-								<input id="lec_first_name" type="text" class="form-control" placeholder="Vorname" required />
+								<input id="lec_first_name" name="first_name1" type="text" class="form-control" placeholder="Vorname" required />
 							</div>
 
 							<div class="form-group">
 								<label>Nachname</label>
-								<input id="lec_last_name" type="text" class="form-control" placeholder="Nachname" required />
+								<input id="lec_last_name" name="last_name1" type="text" class="form-control" placeholder="Nachname" required />
 							</div>
 
 							<?php
 							$insti = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
 							$insti_selection = "";
 							while($insti_row = mysqli_fetch_assoc($insti)){
-								$insti_selection .= '<div class="item" data-value="'.$insti_row['institute_ID'].'">'.$insti_row['name']." (".$insti_row['abbr'].")</div>";
+								$insti_selection .= "<option value=\"".$insti_row['institute_ID']."\">".$insti_row['name']." (".$insti_row['abbr'].")</option>";
 							}
 							?>
+
 							<div class="form-group">
 								<label>Institut</label>
-								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular gleich hierunter.</i></p>
-								<div class="ui fluid search selection dropdown">
-								  <input id="lec_institute_select" class="form-control" type="hidden" required name="country">
-								  <i class="dropdown icon"></i>
-								  <div class="default text">Institut auswählen</div>
-								  <div id="lec_institute_select2" class="menu">
-								  <?php echo $insti_selection ?>
-								</div>
-								</div>
+								<p><i>Falls gewünschtes Institut nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu das entsprechende Formular findest du gleich unterhalb.</i></p>
+								<select id="lec_institute_select2" name="lec_insti_select[]" multiple="" class="search ui fluid dropdown form-control" required>
+									<?php echo $insti_selection ?>
+								</select>
 							</div>
 
 							<div>
@@ -271,33 +288,34 @@ $InstanceCache->deleteItem("treeside");
 						<script>
 						$('#lec_submit').click(function (event) {
 							event.preventDefault();
-							var first_name = document.getElementById("lec_first_name").value;
-							var last_name = document.getElementById("lec_last_name").value;
-							var institute = document.getElementById("lec_institute_select").value;
 
-							// Returns successful data submission message when the entered information is stored in database.
-							var dataString = 'first_name1=' + first_name + '&last_name1=' + last_name + '&institute1=' + institute;
-							if (first_name == '' || last_name == '' || institute == '') {
-							alert("Bitte alle Felder ausfüllen!");
-							} else {
+							if ($('#lec_first_name').val() == "" || $('#lec_last_name').val() == "" || $('#lec_institute_select2').val() == ""){
+								alert("Bitte alle Felder ausfüllen!");
+							}else{
+								// AJAX code to submit form.
+								$.ajax({
+								type: "POST",
+								url: "admin_createLecturer_submit.php",
+								data: $('#form_lecturer').serialize(),
+								cache: false,
+								success: function(data) {
+									$('#lec_institute_select2').dropdown('clear');
+									if($.trim(data)=='existsAlready'){
+										alert('Dieser Dozent ist bereits vorhanden!')
+									} else{
+										alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
+										$('#lec_select').append(data);
+										//alert(data);
+									}
+									$('#lec_first_name').val("");
+									$('#lec_last_name').val("");
 
-							// AJAX code to submit form.
-							$.ajax({
-							type: "POST",
-							url: "admin_createLecturer_submit.php",
-							data: dataString,
-							cache: false,
-							success: function(data) {
-								if($.trim(data)=='existsAlready'){
-									alert('Dieser Dozent ist bereits vorhanden!')
-								} else{
-									alert('Dozent wurde erfolgreich eingetragen und ist jetzt im entsprechenden Dropdown auswählbar (ganz unten).');
-									$('#lec_select').append(data);
+									//$("#lec_institute_select2 option:selected").prop("selected", false);
+									//$.each($(".lec_insti_select option:selected"), function() {
+									//	$(this).prop('selected', false);
+									//});
 								}
-								$('#lec_first_name').val("");
-								$('#lec_last_name').val("");
-							}
-							});
+								});
 							}
 							return false;
 						});

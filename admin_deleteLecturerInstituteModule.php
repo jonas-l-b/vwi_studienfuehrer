@@ -48,11 +48,9 @@ if($userRow['admin']==0){
 
 	<?php
 	$sql1 = "
-		SELECT lecturers.lecturer_ID, last_name, first_name, subjects_lecturers.subject_ID, institutes.abbr AS institutes_abbr
+		SELECT lecturers.lecturer_ID, last_name, first_name, subjects_lecturers.subject_ID
 		FROM lecturers
 		LEFT JOIN subjects_lecturers ON lecturers.lecturer_ID = subjects_lecturers.lecturer_ID
-        LEFT JOIN lecturers_institutes ON lecturers.lecturer_ID = lecturers_institutes.lecturer_ID
-        LEFT JOIN institutes ON lecturers_institutes.institute_ID = institutes.institute_ID
 		WHERE subjects_lecturers.subject_ID IS NULL
 	";
 	$result1 = mysqli_query($con,$sql1);
@@ -61,7 +59,19 @@ if($userRow['admin']==0){
 	
 	$lec_selection = "";
 	while($row1 = mysqli_fetch_assoc($result1)){
-		$lec_selection .= "<option value=".$row1['lecturer_ID'].">".$row1['last_name'].", ".$row1['first_name']." (".$row1['institutes_abbr'].")</option>";
+		$sql_abbr = mysqli_query($con,"
+						SELECT *
+						FROM institutes
+						JOIN lecturers_institutes ON institutes.institute_ID=lecturers_institutes.institute_ID
+						WHERE lecturer_ID = '".$row1['lecturer_ID']."'
+			");
+		$abbr = "";
+		while($abbr_row = mysqli_fetch_assoc($sql_abbr)){
+			$abbr .= "<a href=\"institute.php?institute_id=".$abbr_row['institute_ID']."\">".$abbr_row['abbr']."</a>, ";
+		}
+		$abbr = substr($abbr, 0, -2);
+
+		$lec_selection .= "<option value=".$row1['lecturer_ID'].">".$row1['last_name'].", ".$row1['first_name']." (".$abbr.")</option>";
 	}
 	?>
 	

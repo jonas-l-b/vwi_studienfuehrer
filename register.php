@@ -72,7 +72,7 @@ if(isset($_POST['btn-signup'])) {
 			$message="
 			<p>vielen Dank für deine Registrierung!</p>
 			<p>Dein Account wurde erstellt. Um ihn zu aktivieren, klicke bitte auf diesen Link:<br>
-			http://app.vwi-karlsruhe.de/studienfuehrer/verify.php?email=".$email."&hash=".$hash."</p>
+			http://studienführer.vwi-karlsruhe.de/verify.php?email=".$email."&hash=".$hash."</p>
 			";
 			$mailService = EmailService::getService();
 			if($mailService->sendEmail($email, $firstName, $subject, $message)){
@@ -233,7 +233,7 @@ if(isset($_POST['btn-signup'])) {
 				<div class="help-block with-errors"></div>
 			</div>
 			
-			<div class="progress">
+			<div class="progress PWprogress">
 				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
 			
