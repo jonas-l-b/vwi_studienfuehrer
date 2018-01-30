@@ -41,7 +41,7 @@ include "sumVotes.php";
 		echo "<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>";
 		exit;
 	}
-	
+
 	//part_of_modules
 	$sql = "
 		SELECT DISTINCT modules.name, modules.module_id, type
@@ -55,7 +55,7 @@ include "sumVotes.php";
 		$part_of_modules .= "<a href=\"module.php?module_id=".$row['module_id']."\">".$row['name']."</a> (".$row['type'].")<br>";
 	}
 	$part_of_modules = substr($part_of_modules, 0, -4);
-	
+
 	//levels
 	$sql = "
 		SELECT DISTINCT levels.name
@@ -83,7 +83,7 @@ include "sumVotes.php";
 		}
 	}
 	$levels = substr($levels, 0, -4);
-	
+
 	//lecturers
 	$sql = "
 		SELECT DISTINCT lecturers.lecturer_ID, lecturers.last_name, lecturers.first_name
@@ -112,21 +112,21 @@ include "sumVotes.php";
 	}
 	$lecturers = substr($lecturers, 0, -4);
 	?>
-	
+
 	<?php
 	//Vorbereiten: Variablen, die dafür sorgen, dass der Bewertungsteil nur angezeigt wird, wenn auch Bewertungen vorhanden sind;
 	//andernfalls wird der Jetzt-bewerten-Teil angezeigt
 	$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-	
+
 	$displayRatings = "";
 	$displayNoRatings = "style=\"display:none\"";
-	
+
 	if (mysqli_num_rows($result) == 0){ //Falls noch keine Bewertungen vorhanden
 		$displayRatings = "style=\"display:none\"";
 		$displayNoRatings = "";
 	}
 	?>
-	
+
 	<?php
 	//Favourites: Check favourite status
 	$result = mysqli_query($con, "SELECT * FROM favourites WHERE user_ID = '".$userRow['user_ID']."' AND subject_id = '".$subjectData['ID']."'");
@@ -138,7 +138,7 @@ include "sumVotes.php";
 		$favColor = "grey";
 	}
 	?>
-	
+
 	<div class="row" id="firstrow">
 		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
@@ -147,10 +147,59 @@ include "sumVotes.php";
 			<h1 style="font-size:50px !important; margin-bottom:-10px;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
 		</div>
 	</div>
-	<p style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?></p>
-	
-	<br />
-	
+	<div class="row">
+
+			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><span style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?></span></div>
+			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align:right;"><span style="font-size:.9em; margin-top:2px;"><a id="contact2" style="cursor: pointer; cursor: hand;">Inhaltlichen Fehler auf dieser Seite melden</a></span></div>
+			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+	</div>
+
+	<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h2 class="modal-title">Kontakt</h2>
+		</div>
+			<div class="modal-body">
+				<div id="contactModalBody"></div>
+			</div><!-- End of Modal body -->
+		</div><!-- End of Modal content -->
+		</div><!-- End of Modal dialog -->
+	</div><!-- End of Modal -->
+
+	<script>
+	$(document).ready(function(){
+		$("#contact2").click(function(){
+			$('#contactModal').modal('show');
+			$('#contactModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+			$('#contactModalBody').load("contactModalvorgefullt.php", function( response, status, xhr ) {
+				if ( status == "error" ) {
+					$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
+				}else{
+					$('#area').attr("style", "");
+					$('#subject').attr("style", "");
+
+					$('#reason').attr("disabled", "disabled");
+					$('#select_area').attr("disabled", "disabled");
+					$('#select_subject').attr("disabled", "disabled");
+
+					$("option[value='mistake']").attr('selected','selected');
+					$('#select_area').val("subject");
+					$('#select_subject').val("<?php echo $subject?>");
+
+					$('.checkbox').show();
+					$('#answer').html("<input name=\"answer\" type=\"checkbox\" checked>Ich möchte informiert werden, wenn der Fehler behoben wurde");
+					$("#area :input").prop('required');
+					$("#subject :input").prop('required');
+
+					$('#comment').attr("placeholder", "Was genau ist inhaltlich falsch bei der Veranstaltung \""+$('#subject option:selected').text()+"\"?");
+				}
+			});
+		});
+	});
+	</script>
+
 	<?php
 	//Bereits bewertet für Bewerten-Button
 	$sql_modal="
@@ -158,7 +207,7 @@ include "sumVotes.php";
 		FROM ratings
 		WHERE subject_ID = '".$subjectData['ID']."' AND user_ID = '".$userRow['user_ID']."';
 	";
-	
+
 	$result_modal = mysqli_query($con,$sql_modal);
 	if(mysqli_num_rows($result_modal)>=1){
 		$ratingButtonText = "Bereits bewertet - Danke!";
@@ -167,21 +216,21 @@ include "sumVotes.php";
 		$ratingButtonText = "Diese Veranstaltung jetzt bewerten!";
 	}
 	?>
-	
+
 	<button <?php if(isset($ratingButtonDisabled)) echo "style=\"display:none\"";?> data-toggle="tooltip" title="Jetzt Bewerten!" <?php echo $displayRatings ?> href="#" id="jetztBewertenButton2" role="button" type="button" class="btn btn-primary btn-circle btn-xl"><i class="glyphicon glyphicon-plus"></i></button>
 	<script>
 	$(document).ready(function(){
-		$('[data-toggle="tooltip"]').tooltip(); 
+		$('[data-toggle="tooltip"]').tooltip();
 	});
 	</script>
 
 	<?php
 	$result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-	
+
 	//Diese Variablen sorgen dafür, dass der Bewertungsteil nur angezeigt wird, wenn auch Bewertungen vorhanden sind; andernfalls wird der Jetzt-bewerten-Teil angezeigt
 	$displayRatings = "";
 	$displayNoRatings = "style=\"display:none\"";
-	
+
 	if (mysqli_num_rows($result) == 0){ //Falls noch keine Bewertungen vorhanden
 		$displayRatings = "style=\"display:none\"";
 		$displayNoRatings = "";
@@ -197,7 +246,7 @@ include "sumVotes.php";
 				<h2 <?php echo $displayRatings ?> style="text-align:center;">Gesamtbewertung</h2>
 			</div><div class="col-md-2"></div>
 			<div class="col-md-10 well">
-				
+
 				<div class="noRatingBox" <?php echo $displayNoRatings ?>>
 					<br>
 					<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
@@ -205,21 +254,21 @@ include "sumVotes.php";
 						<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
 					</div>
 				</div>
-				
+
 				<div <?php echo $displayRatings ?>>
-				
+
 					<?php
 					$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
 					$row = mysqli_fetch_assoc($result);
 					$yes = $row['value_sum'];
 					if ($yes == "") $yes = 0;
-					
+
 					$result = mysqli_query($con,"SELECT COUNT(recommendation) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
 					$row = mysqli_fetch_assoc($result);
 					$total = $row['value_count'];
 					?>
 					<span style="font-size:20px;"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</span>
-					
+
 					<?php
 					$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 					$row = mysqli_fetch_assoc($result);
@@ -236,10 +285,10 @@ include "sumVotes.php";
 							foreach($items as $key => $item){
 								$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 								$row = mysqli_fetch_assoc($result);
-								$lecture[$key] = round($row['AVG('.$item.')'],1);			
+								$lecture[$key] = round($row['AVG('.$item.')'],1);
 							}
 							$lectureHeadings = array("Overall-Score", "Prüfungsrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
-							
+
 							//Exam
 							$items = array("exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
 							$examType = array("written", "oral");
@@ -256,24 +305,24 @@ include "sumVotes.php";
 								}elseif($exam[$i][4]<0){
 									$examLeft[0][$i] = abs($exam[$i][4]);
 								}
-								
+
 								$examRight1[$i] = 0;
 								$examLeft1[$i] = 0;
 								if($exam[$i][5]>0){
 									$examRight[1][$i] = $exam[$i][5];
 								}elseif($exam[$i][5]<0){
 									$examLeft[1][$i] = abs($exam[$i][5]);
-								}	
+								}
 							}
 							$examHeadings = array("Overall-Score", "Aufwand", "Fairness", "Zeitdruck");
-							
+
 							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'written'"));
 							$writtenBadge = $row['COUNT(examType)'];
 							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'oral'"));
 							$oralBadge = $row['COUNT(examType)'];
 							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'"));
 							$otherBadge = $row['COUNT(examType)'];
-										
+
 							?>
 							<h4><strong>Vorlesung</strong></h4>
 							<br>
@@ -281,14 +330,14 @@ include "sumVotes.php";
 							<table class="ratingtable" style="width:100%">
 								<?php
 								for($i=0;$i<count($lectureHeadings);$i++){
-									?>			
+									?>
 									<tr>
 										<td>
 											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i] ?></span>
 											<span style="float:right; margin-right:3px;"><?php echo $lecture[$i] ?></span>
 										</td>
 									</tr>
-									
+
 									<tr>
 										<td valign="center" style="width:70%">
 											<div style="font-size:15px; font-weight:bold; line-height:2">
@@ -307,20 +356,20 @@ include "sumVotes.php";
 						</div>
 						<div class="col-md-6">
 							<h4><strong>Prüfung</strong></h4>
-							
+
 							<ul class="nav nav-pills">
 								<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" data-number-of-reviews="<?php echo $writtenBadge ?>" class="badge"><?php echo $writtenBadge ?></span></a></li>
 								<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" data-number-of-reviews="<?php echo $oralBadge ?>" class="badge"><?php echo $oralBadge ?></span></a></li>
 								<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" data-number-of-reviews="<?php echo $otherBadge ?>" class="badge"><?php echo $otherBadge ?></span></a></li>
 							</ul>
-							
+
 							<div class="tab-content">
 								<br>
 								<?php
 								for($j=0;$j<count($examType);$j++){
 									?>
 									<div id="<?php echo $examType[$j] ?>" class="tab-pane fade">
-										
+
 										<table class="ratingtable" style="width:100%">
 											<?php
 											for($i=0;$i<count($examHeadings);$i++){
@@ -331,7 +380,7 @@ include "sumVotes.php";
 														<span style="float:right; margin-right:3px;"><?php echo $exam[$j][$i] ?></span>
 													</td>
 												</tr>
-												
+
 												<tr>
 													<td valign="center" style="width:70%">
 														<div style="font-size:15px; font-weight:bold; line-height:2">
@@ -345,9 +394,9 @@ include "sumVotes.php";
 											}
 											?>
 										</table>
-										
+
 										<br>
-										
+
 										<table class="ratingtable" style="width:100%">
 											<?php
 											$examHeadingTwo = array(array("Reproduktion", "Transfer"), array("Qualitativ", "Quantitativ"));
@@ -361,7 +410,7 @@ include "sumVotes.php";
 														<span style="float:right; margin-right:3px;"><?php echo $examHeadingTwo[$i][1] ?></span>
 													</td>
 												</tr>
-												
+
 												<tr>
 													<td valign="center" style="width:50%">
 														<div style="font-size:15px; font-weight:bold; line-height:2">
@@ -370,7 +419,7 @@ include "sumVotes.php";
 															</div>
 														</div>
 													</td>
-													
+
 													<td valign="center" style="width:50%">
 														<div style="font-size:15px; font-weight:bold; line-height:2">
 															<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
@@ -381,11 +430,11 @@ include "sumVotes.php";
 												</tr>
 												<?php
 											}?>
-										</table>	
+										</table>
 									</div>
 									<?php
 								}?>
-							
+
 								<div id="other" class="tab-pane fade otherTab">
 									<?php
 									$result = mysqli_query($con, "SELECT ID, examText FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
@@ -404,7 +453,7 @@ include "sumVotes.php";
 						oral = $('#oralBadge').text();
 						other = $('#otherBadge').text();
 						var max = Math.max(written, oral, other);
-						
+
 						switch (true){
 							case written == max:
 								$('li.written').addClass("active");
@@ -426,7 +475,7 @@ include "sumVotes.php";
 						$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 						$row = mysqli_fetch_assoc($result);
 						?>
-						
+
 						<div style="display:inline-block">
 							<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
 								<span><?php echo round($row['AVG(general0)'], 1) ?></span>
@@ -436,7 +485,7 @@ include "sumVotes.php";
 								</div>
 							</div>
 						</div>
-						<p align="center">Gesamtbewertung</p>	
+						<p align="center">Gesamtbewertung</p>
 	-->
 					</div>
 				</div>
@@ -469,7 +518,7 @@ include "sumVotes.php";
 					<b>Dozent(en)</b><br />
 					<?php echo $lecturers; ?>
 				</p>
-				
+
 				</div>
 			</div>
 			<script>
@@ -482,25 +531,25 @@ include "sumVotes.php";
 					$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top - 100
 				})
 			</script>
-			
-			<!--Bewertungsübersicht Ende-->	
+
+			<!--Bewertungsübersicht Ende-->
 		</div>
-		
-		
-		
+
+
+
 		<div class="row">
 			<!--Kommentare Start-->
 			<!--<div class="col-md-1">
 			</div>-->
 			<div <?php echo $displayRatings ?> class="col-md-10 well" id="commentsection">
-				
+
 				<span style="font-size: 1.5em;font-weight:bold;">
 				Kommentare und Einzelbewertungen
 				</span>
 				<span style="float:right;">
 					<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
 					<label>
-						<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp; 
+						<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp;
 						<div class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></div>
 					</label>
 					<select class="form-control" name="commentorder" id="commentorder">
@@ -512,19 +561,19 @@ include "sumVotes.php";
 					</form>
 				</span>
 				<div style="margin-top: 1em;"></div>
-				
+
 				<br>
-				
+
 				<!--Für Übergabe an JS-->
 				<span id="hiddenSubjectId" style="display:none"><?php echo $subjectData['ID']?></span>
 				<span id="hiddenUserId" style="display:none"><?php echo $userRow['user_ID']?></span>
-				
+
 				<div id="commentDiv">
 					<?php
 					include "loadComments.php";
 					?>
 				</div>
-				
+
 				<script>
 				$('#commentorder').change(function () {
 					$('#filterIcon').hide();
@@ -556,9 +605,9 @@ include "sumVotes.php";
 								$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
 							  }
 							});
-					}	
+					}
 				</script>
-				
+
 				<!-- Farbänderung bei Kommentarbewertung -->
 				<script>
 				function colorChange(id) {
@@ -568,7 +617,7 @@ include "sumVotes.php";
 					}else{// AJAX mit IE6, IE5
 						xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 					}
-					
+
 					xmlhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
 							if (this.responseText.trim() == true){
@@ -598,35 +647,35 @@ include "sumVotes.php";
 									document.getElementById(id.substring(0, id.length - 2) + 'do').onclick = '';
 									document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
 								}
-								
+
 								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'green';
 								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Gewertet';
-								
+
 								setTimeout(function() {
 									document.getElementById(id.substring(0, id.length - 2) + 'confirmation').remove();
 								}, 3000);
-								
+
 								//Datenbank aktualisieren
 								if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
 									xmlhttp=new XMLHttpRequest();
 								}else{// AJAX mit IE6, IE5
 									xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 								}
-								
+
 								var commentID = id.substring(0, id.length - 2);
 								var userID = <?php echo $userRow['user_ID']; ?>;
 								var subjectID = <?php echo $subjectData['ID']; ?>;
 								var ratingDirection = id.substring(id.length - 2, id.length);
-								
+
 								xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
 								xmlhttp.send();
 							}
 						}
 					};
-				
+
 					var commentID = id.substring(0, id.length - 2);
 					var userID = <?php echo $userRow['user_ID']; ?>;
-					
+
 					xmlhttp.open("GET","checkExistence.php?commentID="+commentID+"&userID="+userID,true);
 					xmlhttp.send();
 				}
@@ -683,7 +732,7 @@ $(document).ready(function(){
 		$("#commentId").val($(this).data('id'));
 		$('#reportCommentModal').modal({show:true});
 	});
-	
+
 	$("#reportForm").submit(function(e){
 		$.ajax({
 			type: "POST",
@@ -718,27 +767,27 @@ $(document).ready(function(){
 					<label>Warum möchtest du diesen Kommentar melden?</label>
 					<textarea name="comment" id="comment" class="form-control" maxlength="5000" placeholder="Hilf uns zu verstehen, warum du diesen Kommentar unangebracht findest." rows="5" required></textarea>
 				</div>
-				
+
 				<p id ="commentWarning"></p>
-				
+
 				<script>
 				$('#comment').on("propertychange input textInput", function() {
 					if($('#comment').val().length < 4500){
 						$('#commentWarning').html("");
-					}else if($('#comment').val().length >= 4500 && $('#comment').val().length < 4900){	
+					}else if($('#comment').val().length >= 4500 && $('#comment').val().length < 4900){
 						$('#commentWarning').css('color', 'black');
 						$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
 					}else{
 						$('#commentWarning').css('color', 'red');
 						$('#commentWarning').html("Noch " + (5000 - $('#comment').val().length) + " Zeichen übrig");
 					}
-				});				
+				});
 				</script>
-				
+
 				<div name="answer" class="checkbox">
 					<label id="answer"><input name="answer" type="checkbox">Ich möchte gerne eine Antwort erhalten</label>
 				</div>
-				
+
 				<button id="submitCommentReport" type="submit" class="btn btn-primary">Nachricht abschicken</button>
 			</form>
 		</div><!-- End of Modal body -->
@@ -794,11 +843,11 @@ $(document).ready(function(){
 				$("[href$='#oralBadge']").tab('show');
 			}
 		}
-	
+
 		$("#favIcon").click(function(){
 			if($("#favIcon").attr("class") == "glyphicon glyphicon-star-empty favouriteStar"){
 				$.post( "favourites_newEntry.php", {
-					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					user_id: "<?php echo $userRow['user_ID'] ?>",
 					subject_id: "<?php echo $subjectData['ID'] ?>"}	)
 				  .done(function() {
 					$("#favIcon").attr("style", "color:rgb(255, 204, 0);cursor: pointer; cursor: hand;");
@@ -812,7 +861,7 @@ $(document).ready(function(){
 				  });
 			} else{
 				$.post( "favourites_removeEntry.php", {
-					user_id: "<?php echo $userRow['user_ID'] ?>", 
+					user_id: "<?php echo $userRow['user_ID'] ?>",
 					subject_id: "<?php echo $subjectData['ID'] ?>"} )
 				 .done(function() {
 					$("#favIcon").attr("style", "color:grey; cursor: pointer; cursor: hand;");
@@ -826,7 +875,7 @@ $(document).ready(function(){
 				});
 			}
 		});
-	
+
 	var bewertenLaden = function(){
 			$('#jetztBewertenModal').modal('show');
 			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
@@ -838,7 +887,7 @@ $(document).ready(function(){
 	}
 	$('#jetztBewertenButton').click(bewertenLaden);
 	$('#jetztBewertenButton2').click(bewertenLaden);
-	
+
 	var aendernLaden = function(){
 			$('#editModal').modal('show');
 			$('#bewertungAendernForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
@@ -849,7 +898,7 @@ $(document).ready(function(){
 			});
 	}
 	$('.editButtonIdentificationClass').click(aendernLaden);
-	
+
 	// Noch verbuggt. Funktioniert nur 1 mal
 	/*$('.sonstigesZuCommentLink').click(function(){
 		setTimeout(function(){
