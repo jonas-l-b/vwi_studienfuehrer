@@ -127,6 +127,7 @@ while($comments = mysqli_fetch_assoc($result)){
 				</div>
 				<div class=\"media-body\">
 					<p><span id=\"ausrufezeichen".$comments['ID']."\" class=\"ausrufezeichen glyphicon glyphicon-exclamation-sign pull-right\"></span> ".$comments['comment']." </p>
+					<p style=\"color:grey\">Semester der Prüfung: ".strtoupper($comments['examSemester'])."</p>
 					".$recommend."
 					<hr style=\"margin:10px\">
 					<div style=\"font-size:10px\">

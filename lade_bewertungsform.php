@@ -72,6 +72,8 @@ if (isset($_GET['subject'])){
 		}
 		//examText
 		$examText = $ratingData['examText'];
+		//examSemester
+		$examSemester = $ratingData['examSemester'];
 		//General
 		$general0 = $ratingData['general0'];
 		//Recommendation
@@ -92,6 +94,7 @@ if (isset($_GET['subject'])){
 		$oral = "";
 		$other = "";
 		$examText = "";
+		$examSemester = "";
 		$general0 = "";
 		$recom1 = "";
 		$recom0 = "";
@@ -115,6 +118,7 @@ if (isset($_GET['subject'])){
 								'examValues' => $examValues,
 								'examValues2' => $examValues2,
 								'examText' => $examText,
+								'examSemester' => $examSemester,
 								'general0' => $general0,
 								'weiterempfehlen_ja' => $recom1,
 								'weiterempfehlen_nein' => $recom0,

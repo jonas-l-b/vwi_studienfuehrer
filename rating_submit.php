@@ -29,6 +29,9 @@ $exam4 = filter_var($_POST['exam4'], FILTER_SANITIZE_STRING);
 $exam5 = filter_var($_POST['exam5'], FILTER_SANITIZE_STRING);
 
 $examText = filter_var($_POST['examText'], FILTER_SANITIZE_STRING);
+
+$examSemester = filter_var($_POST['examSemester'], FILTER_SANITIZE_STRING);
+
 $general0 = filter_var($_POST['general0'], FILTER_SANITIZE_STRING);
 $recommendation = filter_var($_POST['recommendation'], FILTER_SANITIZE_STRING);
 $comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
@@ -42,7 +45,7 @@ $result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '$subject
 if(mysqli_num_rows($result) == 1){
 	$sql="
 		UPDATE ratings
-		SET lecture0 = '$lecture0', lecture1 = '$lecture1', lecture2 = '$lecture2', lecture3 = '$lecture3', examType = '$examType', exam0 = '$exam0', exam1 = '$exam1', exam3 = '$exam3', exam4 = '$exam4', exam5 = '$exam5', examText = '$examText', general0 = '$general0', recommendation = '$recommendation', comment = '$comment', time_stamp_change = now()
+		SET lecture0 = '$lecture0', lecture1 = '$lecture1', lecture2 = '$lecture2', lecture3 = '$lecture3', examType = '$examType', exam0 = '$exam0', exam1 = '$exam1', exam3 = '$exam3', exam4 = '$exam4', exam5 = '$exam5', examText = '$examText', examSemester = '$examSemester', general0 = '$general0', recommendation = '$recommendation', comment = '$comment', time_stamp_change = now()
 		WHERE subject_ID = '$subject' AND user_ID = '$nameID';
 	";
 	if ($con->query($sql) == TRUE) {
@@ -50,8 +53,8 @@ if(mysqli_num_rows($result) == 1){
 	}
 }elseif(mysqli_num_rows($result) == 0){
 	$sql="
-		INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
-		VALUES ('$subject', '$lecture0', '$lecture1', '$lecture2', '$lecture3', '$examType', '$exam0', '$exam1', '$exam2', '$exam3', '$exam4', '$exam5', '$examText', '$general0', '$recommendation', '$comment', 0, '$nameID', now())
+		INSERT INTO `ratings` (`subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `examSemester`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`)
+		VALUES ('$subject', '$lecture0', '$lecture1', '$lecture2', '$lecture3', '$examType', '$exam0', '$exam1', '$exam2', '$exam3', '$exam4', '$exam5', '$examText', '$examSemester', '$general0', '$recommendation', '$comment', 0, '$nameID', now())
 	";
 	if ($con->query($sql) == TRUE) {
 		echo 'erfolg';
