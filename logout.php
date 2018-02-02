@@ -31,6 +31,6 @@ setcookie('vwistudi_user', '', time() - 3600, '/');
 //Cookie-Daten aus DB löschen
 mysqli_query($con, "DELETE FROM remember_me WHERE user_id = ".$userRow['user_ID']."");
 
-echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php';</SCRIPT>");
+echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php?logout=true';</SCRIPT>");
 
 ?>
