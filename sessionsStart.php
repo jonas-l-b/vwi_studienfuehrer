@@ -13,7 +13,7 @@ function endsWith1($haystack, $needle)
 
 if (!isset($_SESSION['userSession'])) {
   $url =  urlencode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-	if(endsWith1($url, urlencode('vwi-karlsruhe.de')) || endsWith1($url, urlencode('vwi-karlsruhe.de/')) || endsWith1($url, urlencode('login.php'))){
+	if(endsWith1($url, urlencode('vwi-karlsruhe.de')) || endsWith1($url, urlencode('vwi-karlsruhe.de/')) || endsWith1($url, urlencode('login.php')) || endsWith1($url, urlencode('vwi_studienfuehrer/'))){
 		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php';</SCRIPT>");
 	}else{
 		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php?url=$url';</SCRIPT>");
