@@ -138,7 +138,10 @@ include "connect.php";
 										.dropdown(
 											<?php
 														if($userRow['degree'] == 'Wirtschaftsingenieurwesen' || $userRow['degree'] == 'Technische Volkswirtschaftslehre' || $userRow['degree'] == 'Informationswirtschaft' || $userRow['degree'] == 'Wirtschaftsmathematik' || $userRow['degree'] == 'Sonstige' )
-																echo "'set selected','". $userRow['degree']."'"; ?>
+																{
+																	echo "'set selected','". $userRow['degree']."'"; 
+																}
+																?>
 										)
 										;
 									</script>
