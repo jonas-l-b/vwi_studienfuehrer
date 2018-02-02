@@ -16,10 +16,10 @@ if($userID == ""){
 	
 	$status = "";
 	if($userRow['admin'] == 1){
-		$status = "Admin";
+		$status = "(Admin)";
 	}
 	if($userRow['super_admin'] == 1){
-		$status = "Super-Admin";
+		$status = "(Super-Admin)";
 	}
 	
 	if($userRow['active'] == 0){
@@ -30,7 +30,7 @@ if($userID == ""){
 
 	$answer = "
 		<br>
-		<h3>".$userRow['last_name'].", ".$userRow['first_name']." (".$status.")</h3>
+		<h3>".$userRow['last_name'].", ".$userRow['first_name']." ".$status."</h3>
 		<table class=\"table\" style=\"border-top:solid; border-top-color:white\">
 			<tbody>
 				<tr>

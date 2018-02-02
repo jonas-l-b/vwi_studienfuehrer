@@ -431,7 +431,7 @@ if($userRow['admin']==0){
 		</div>
 		<div id="adminList" class="tab-pane fade">
 		<br>
-			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Super-Admins können außerdem Nachrichten im Posteingang löschen (was eigentlich nicht vorgesehen ist, da Nachrichten bearbeitet werden sollen).<br><br> Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
+			<p><i>Wir haben zwei Arten von Administratoren: Admins und Super-Admins. Admins können grundsätzlich alles tun, was in diesem Admin-Bereich zur Auswahl steht (Daten verändern, Nachrichten bearbeiten etc.). Super-Admins können zusätzlich Admins und Super-Admins ernennen und diese Rechte auch wieder entziehen. Super-Admins können außerdem Nachrichten im Posteingang löschen (was eigentlich nicht vorgesehen ist, da Nachrichten bearbeitet werden sollen) und Kommentare+Bewertungen sämtlicher Benutzer löschen (was auch nicht vorgesehen ist).<br><br> Er wird registriert, wann wer wem Rechte zuschreibt oder entzieht.</i></p>
 			<div class="row">
 				<!-- Admin-->
 				<?php
@@ -486,7 +486,7 @@ if($userRow['admin']==0){
 						";
 						$result = mysqli_query($con, $sql);
 						while($row = mysqli_fetch_assoc($result)){
-							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['user_ID']."\" class=\"glyphiconDeleteAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"".$displayDeleteGlyphicon."; color:lightgrey; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span id=\"".$row['user_ID']."\" class=\"glyphiconDeleteAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"".$displayDeleteGlyphicon."; color:lightgrey; cursor: pointer; cursor: hand;\">&nbsp</span>".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
 						}
 					?>
 					<script>
@@ -544,7 +544,7 @@ if($userRow['admin']==0){
 						";
 						$result = mysqli_query($con, $sql);
 						while($row = mysqli_fetch_assoc($result)){
-							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span data-id=\"".$row['user_ID']."\" class=\"glyphiconDeleteSuperAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"".$displayDeleteGlyphicon."; color:lightgrey; cursor: pointer; cursor: hand;\"></span>&nbsp".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
+							echo "<p style=\"font-size:20px; display:flex; align-items: center;\"><span data-id=\"".$row['user_ID']."\" class=\"glyphiconDeleteSuperAdmin glyphicon glyphicon-minus-sign\" title=\"Diesem Admin seine Rechte entziehen\" style=\"".$displayDeleteGlyphicon."; color:lightgrey; cursor: pointer; cursor: hand;\">&nbsp</span>".$row['first_name']." ".$row['last_name']." (".$row['username'].")</p>";
 						}
 					?>
 				</div>

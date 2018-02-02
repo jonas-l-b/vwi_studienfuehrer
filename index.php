@@ -609,7 +609,7 @@ include "sumVotes.php";
 							});
 					}
 				</script>
-
+				
 				<!-- Farbänderung bei Kommentarbewertung -->
 				<script>
 				function colorChange(id) {
@@ -835,6 +835,50 @@ $(document).ready(function(){
     </div>
   </div>
 </div>
+
+<div id="deleteCommentByAdminModal" tabindex="-1" aria-hidden="true" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><strong>Bewertung löschen</strong></h4>
+      </div>
+      <div class="modal-body">
+		<p>Möchtest du diesen Kommentar und die dazugehörige Bewertung wirklich und unwiederruflich löschen? Der Nutzer wird <strong>nicht</strong> über diesen Vorgang benachrichtigt.</p>
+		<p style="color:red">Bitte lösche Kommentare/Bewertungen als Admin nur, wenn es unbedingt sein muss.</p>
+		<p id="deleteCommentByAdminCommentId" style="display:none"></p>
+	  </div>
+      <div class="modal-footer">
+        <button id="deleteCommentByAdminDeleteButton" class="btn btn-danger">Löschen</button>
+		<button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Lösche Kommentar als Admin -->
+<script>
+function deleteRatingByAdmin(id){
+	$('#deleteCommentByAdminModal').modal('show');
+	$('#deleteCommentByAdminCommentId').html(id.substring(19));
+}
+
+$("#deleteCommentByAdminDeleteButton").click(function(){
+	$.ajax({
+		type: "POST",
+		url: "admin_DeleteRatingByAdmin.php",
+		data: {user_id: $('#deleteCommentByAdminCommentId').html()},
+		success: function(data) {
+			alert(data);
+			location.reload();
+		},
+		error: function(){
+			alert("Beim Löschen ist ein Fehler aufgetreten.");
+		}
+	});
+});
+</script>
+
 
 <script>
 $(document).ready(function(){

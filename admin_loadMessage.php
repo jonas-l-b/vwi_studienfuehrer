@@ -169,7 +169,7 @@ if($processed['processed'] == 0){
 	$mistakePart = "";	
 	}
 	
-	//Löschen-Butten Anzeige
+	//Löschen-Button Anzeige
 	$displayDelete = "none";
 	if($userRow['super_admin'] == 1){
 		$displayDelete = "";

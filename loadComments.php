@@ -117,6 +117,12 @@ while($comments = mysqli_fetch_assoc($result)){
 		$editClassIdentifier = "editButtonIdentificationClass";
 		$displayReport = "display:none;";
 	}
+	
+	//Löschen-Button Anzeige
+	$displayAdminDelete = "none";
+	if($userRow['super_admin'] == 1){
+		$displayAdminDelete = "";
+	}
 
 	echo "
 		<div class=\"well\" style=\"background-color:white; border-radius:none\">
@@ -137,6 +143,7 @@ while($comments = mysqli_fetch_assoc($result)){
 							<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
 							<button type=\"button\" style=\"".$displayEdit."\" href=\"#deleteModal\" role=\"button\" class=\"editTrashButton\" data-toggle=\"modal\" title=\"Kommentar löschen\"> <span class=\"glyphicon glyphicon-trash\"></span></button>
 							<button onclick=\"showStats(this.id)\" id=\"commentstats".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span class=\"glyphicon glyphicon-stats\" title=\"Einzelbewertung anzeigen\" ></span></button>
+							<button style=\"display:".$displayAdminDelete."\" onclick=\"deleteRatingByAdmin(this.id)\" id=\"deleteratingbyadmin".$comments['ID']."\" type=\"button\" href=\"#\" role=\"button\" class=\"editTrashButton\"> <span style=\"color:red\" class=\"glyphicon glyphicon-trash\" title=\"Kommentar als Admin löschen\" ></span></button>
 						</span>
 						<span style=\"float:right; ".$displayReport."\">
 							<button type=\"button\" role=\"button\" data-toggle=\"modal\" data-id=\"".$comments['ID']."\" class=\"editTrashButton reportButton\" title=\"Kommentar melden\"> <span class=\"glyphicon glyphicon-exclamation-sign\"></span></button>
