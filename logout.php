@@ -2,8 +2,6 @@
 
 include "sessionsStart.php";
 
-include "header.php";
-
 include "connect.php";
 
 ?>
@@ -13,9 +11,9 @@ include "connect.php";
 session_start();
 
 if(!isset($_SESSION['userSession'])){
-	header("Location: login.php");
+	header("Location: login.php?logout=true");
 }elseif(isset($_SESSION['userSession'])!=""){
-	header("Location: login.php");
+	header("Location: login.php?logout=true");
 }
 
 session_destroy();
