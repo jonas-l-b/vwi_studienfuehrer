@@ -12,50 +12,50 @@ include "connect.php";
 <?php include "inc/nav.php" ?>
 
 <div class="container" style="margin-top:60px">
-	
+
 	<?php
 	$displayShow = "";
 	$displayEdit = "style=\"display:none\"";
-	
+
 	//Müssen vorher schon gezogen werden, damit sie beim ÄNDERN geändert werden können; sonst werden Änderungen nicht direkt angezeigt
 	$u_degree = $userRow['degree'];
 	$u_advance = $userRow['advance'];
 	$u_semester = $userRow['semester'];
-	
+
 	if (isset($_POST['btn-edit'])){
 		$displayShow = "style=\"display:none\"";
 		$displayEdit = "";
 	}
-	
+
 	if (isset($_POST['btn-save'])){
 		$displayShow = "";
 		$displayEdit = "style=\"display:none\"";
-		
+
 		//Daten aus Form ziehen
 		$degree = strip_tags($_POST['degree']);
 		$advance = strip_tags($_POST['advance']);
 		$semester = strip_tags($_POST['semester']);
-		
+
 		$q1 = mysqli_query($con,"
 			UPDATE users
 			SET degree = '".$degree."', advance = '".$advance."', semester = '".$semester."'
 			WHERE user_ID = '".$userRow['user_ID']."'
 		");
-		
+
 		if($q1==true){
 			$msg = "
 				<div class='alert alert-success'>
 					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Die Änderungen wurden erfolgreich gespeichert.
 				</div>
 			";
-			
+
 			//Hier ändern, damit Änderungen direkt nach Speichern angezeigt werden (nicht erst nach refresh)
 			$u_degree = $degree;
 			$u_advance = $advance;
 			$u_semester = $semester;
 		}
 	}
-	
+
 	if (isset($_POST['btn-cancel'])){
 		$displayShow = "";
 		$displayEdit = "style=\"display:none\"";
@@ -64,7 +64,7 @@ include "connect.php";
 
 	<h2><?php echo $userRow['first_name']." ".$userRow['last_name']?></h2>
 	<br>
-	
+
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#userData">Profil</a></li>
 		<li><a data-toggle="tab" href="#favourites">Favoriten</a></li>
@@ -107,7 +107,7 @@ include "connect.php";
 					<button style="float:right;" type="button" id="deleteProfileButton" role="button" class="btn btn-danger<?php if($userRow['admin']!='0') echo ' disabled" data-toggle="tooltip" title="Nur `normale` Nutzer können ihr Profil löschen. Gibt zunächst deine Admin-Rechte ab.'; ?>">Profil löschen</button>
 				</form>
 			</div>
-			
+
 			<div <?php echo $displayEdit?>>
 				<form method="post">
 					<table class="table dataChangeTable" style="border-top:solid; border-top-color:white">
@@ -115,9 +115,33 @@ include "connect.php";
 							<tr>
 								<th>Studiengang:</th>
 								<td>
-									<div class="form-group">
-										<input value="<?php echo $userRow['degree']?>" name="degree" type="text" class="form-control" placeholder="Studiengang" required />
+
+									<div class="form-group has-feedback">
+										<div class="ui dropdown">
+										  <input data-error="Gib deinen Studiengang ein!" required class="form-control" type="hidden" name="degree">
+										  <i class="dropdown icon"></i>
+										  <div class="default text">Studiengang</div>
+										  <div class="menu">
+										    <div class="item" data-value="Wirtschaftsingenieurwesen">Wirtschaftsingenieurwesen</div>
+										    <div class="item" data-value="Technische Volkswirtschaftslehre">Technische Volkswirtschaftslehre</div>
+												<div class="item" data-value="Informationswirtschaft">Informationswirtschaft</div>
+												<div class="item" data-value="Wirtschaftsmathematik">Wirtschaftsmathematik</div>
+												<div class="item" data-value="Sonstige">Sonstige</div>
+										  </div>
+										</div>
+										<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+										<div class="help-block with-errors"></div>
 									</div>
+
+									<script>
+									$('.ui.dropdown')
+										.dropdown(
+											<?php
+														if($userRow['degree'] == 'Wirtschaftsingenieurwesen' || $userRow['degree'] == 'Technische Volkswirtschaftslehre' || $userRow['degree'] == 'Informationswirtschaft' || $userRow['degree'] == 'Wirtschaftsmathematik' || $userRow['degree'] == 'Sonstige' )
+																echo "'set selected','". $userRow['degree']."'"; ?>
+										)
+										;
+									</script>
 								</td>
 							</tr>
 							<tr>
@@ -141,16 +165,16 @@ include "connect.php";
 							</tr>
 						</tbody>
 					</table>
-					
+
 					<button type="submit" class="btn btn-primary" name="btn-save">Änderungen speichern</button>
 					<button type="submit" class="btn btn-primary" name="btn-cancel">Abbrechen</button>
 				</form>
 			</div>
 		</div>
-		
+
 		<div id="favourites" class="tab-pane fade">
 			<br>
-			
+
 			<?php
 			$sql="
 				SELECT DISTINCT modules.type AS module_type
@@ -160,17 +184,17 @@ include "connect.php";
 				JOIN modules on subjects_modules.module_ID = modules.module_id
 				WHERE favourites.user_id = '".$userRow['user_ID']."'
 				ORDER BY modules.type
-			";			
+			";
 			$result = mysqli_query($con, $sql);
-			
+
 			//Hinweis, falls noch keine Favoriten hinzugefügt
 			if(mysqli_num_rows($result) == 0){
 				echo "<i><p>Du hast noch keine Objekte zu deinen Favoriten hinzugefügt.</p><p>Navigiere bspw. auf die Seite einer Veranstaltung und klicke auf den Stern oben rechts, um sie deinen Favoriten hinzuzufügen.</p></i>";
 			}
-			
+
 			while($modules = mysqli_fetch_assoc($result)){
 				echo ("<h4>".$modules['module_type']."</h4>");
-				
+
 				$sql2="
 					SELECT DISTINCT subjects.ID AS subject_id, subject_name, modules.type AS module_type, modules.name AS module_name, modules.module_id AS module_id
 					FROM favourites
@@ -181,27 +205,27 @@ include "connect.php";
 					ORDER BY subject_name, subjects.ID
 				";
 				$result2 = mysqli_query($con, $sql2);
-						
+
 				$i = 1;
-				
+
 				while($subject = mysqli_fetch_assoc($result2)){
 					if($i==1){
 						$help[$i][1] = $subject['subject_id'];
 						$help[$i][2] = $subject['subject_name'];
 						$help[$i][3] = "<a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
-						
+
 						$i++;
 					} elseif($subject['subject_id'] != $help[$i-1][1]){
 						$help[$i][1] = $subject['subject_id'];
 						$help[$i][2] = $subject['subject_name'];
 						$help[$i][3] = "<a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
 
-						$i++;	
+						$i++;
 					}elseif($subject['subject_id'] == $help[$i-1][1]){ //Fügt Modul der vorangegangenen Veranstaltung zu anstatt Veranstaltung erneut zu listen
 						$help[$i-1][3] = $help[$i-1][3].", <a href=\"module.php?module_id=".$subject['module_id']."\">".$subject['module_name']."</a>";
 					}
 				}
-				
+
 				for($j=1; $j<$i; $j++){
 					?>
 					<p>
@@ -211,12 +235,12 @@ include "connect.php";
 					</p>
 					<?php
 				}
-					
+
 				$i=1;
-				//unset($help);			
+				//unset($help);
 			}
 			?>
-			
+
 			<script>
 			$(document).ready(function(){
 				var numberOfSnackbars = 0;
@@ -259,15 +283,15 @@ include "connect.php";
 				});
 			});
 			</script>
-		</div>	
-			
+		</div>
 
-		
-			
+
+
+
 		<div id="userRatings" class="tab-pane fade">
 			<br>
 			<p>Folgende Veranstaltungen hast du bereits bewertet:</p>
-			
+
 			<?php
 			$result = mysqli_query($con, "
 				SELECT subject_name, subjects.ID AS subject_id
@@ -276,7 +300,7 @@ include "connect.php";
 				WHERE ratings.user_ID = ".$userRow['user_ID']."
 			");
 			?>
-			
+
 			<ol>
 			<?php
 			while($row = mysqli_fetch_assoc($result)){
@@ -284,7 +308,7 @@ include "connect.php";
 			}
 			?>
 			</ol>
-			
+
 		</div>
 	<!--<div id="menu3" class="tab-pane fade">
 			<h3>Menu 3</h3>
@@ -299,12 +323,12 @@ include "connect.php";
 var url = document.location.toString();
 if (url.match('#')) {
 	$('.nav-tabs a[href="#'+url.split('#')[1]+'"]').tab('show') ;
-} 
+}
 
 // With HTML5 history API, we can easily prevent scrolling!
 $('.nav-tabs a').on('shown.bs.tab', function (e) {
 	if(history.pushState) {
-		history.pushState(null, null, e.target.hash); 
+		history.pushState(null, null, e.target.hash);
 	} else {
 		window.location.hash = e.target.hash; //Polyfill for old browsers
 	}
@@ -336,16 +360,16 @@ $('#linkToUserRatings').click(function(event){
 			<form action="recoverPW.php" method="POST">
 				<p>Mit einem Klick auf den Button schicken wir dir eine E-Mail an die Adresse, mit der du dich registriert hast. Mit ihr kannst du dein Passwort ändern.</p>
 				<br>
-				
+
 				<div class="form-group" style="display:none">
 					<input value="<?php echo $u_email?>" type="email" class="form-control" name="email" />
 					<input value="<?php echo "change"?>" class="form-control" name="recoverType" />
 				</div>
-			
+
 				<button type="submit" class="btn btn-primary" >E-Mail zuschicken</button>
 			</form>
-		
-		
+
+
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
@@ -361,7 +385,7 @@ $('#linkToUserRatings').click(function(event){
 			<h2 class="modal-title">Profil löschen</h2> <!-- Dynamisch Name anpassen! -->
 		</div>
 		<div id="deleteModalBody" class="modal-body">
-		
+
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
