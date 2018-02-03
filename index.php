@@ -537,7 +537,89 @@ include "sumVotes.php";
 			<!--Bewertungsübersicht Ende-->
 		</div>
 
-
+		<div class="row">
+			<!--Fragen Start-->
+			<div class="col-md-10 well">
+				
+				<span style="font-size: 1.5em;font-weight:bold;">Fragen
+					<span style="float:right;">
+						<button type="button" class="btn btn-primary">Neue Frage stellen</button>
+					</span>
+				</span>
+				
+				<br><br>
+				
+				<div style="max-height:500px; overflow:auto">
+					<div class="well" style="background-color:white; border-radius:none">
+						Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+						<hr style="margin:10px">
+						<p style="font-size:10px">der_albert &#124; vor 2 Wochen</p>
+						
+						<p style="margin-bottom:0px"><a id="answerThisQuestion" style="cursor: pointer; cursor: hand;">Frage beantworten</a>
+							<span style="float:right"><a>2 Antworten anzeigen</a></span>
+						</p>
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+						Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+						<hr style="margin:10px">
+						<p style="font-size:10px">kurt &#124; vor 10 Tagen</p>
+						
+						<p style="margin-bottom:0px"><a id="answerThisQuestion" style="cursor: pointer; cursor: hand;">Frage beantworten</a>
+							<span style="float:right"><a>Schließen</a></span>
+						</p>
+						
+						<hr class="style">
+						
+						<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
+							Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+							<hr style="margin:10px">
+							<p style="font-size:10px; margin-bottom:0px">eva &#124; vor 10 Tagen</p>
+						</div>
+						<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
+							Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+							<hr style="margin:10px">
+							<p style="font-size:10px; margin-bottom:0px">eva &#124; vor 10 Tagen</p>
+						</div>
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+					<div class="well" style="background-color:white; border-radius:none">
+					Frage
+					</div>
+				</div>
+				
+				<br>
+				<p style="text-align:center; margin-bottom:0"><a id="showAllQuestions" style="cursor: pointer; cursor: hand;">Alle Fragen aufklappen</a></p>
+			</div>
+			<div class="col-md-2">
+			</div>
+		</div>
+				
 
 		<div class="row">
 			<!--Kommentare Start-->

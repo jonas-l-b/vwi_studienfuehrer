@@ -80,3 +80,9 @@ height:22px;
 	
 }
 
+hr.style {
+	height: 6px;
+	background: url(../../pictures/hr-style.png) repeat-x 0 0;
+    border: 0;
+}
+
