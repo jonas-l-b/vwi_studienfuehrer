@@ -21,11 +21,45 @@ include "connect.php";
  				</div>';
  	}
  ?>
-  <div class="jumbotron">
-    <h1>Willkommen beim Studienführer</h1>
-    <p>Schön, dass du die Registrierung geschaffts hast! Der Studienführer ist die beste Hilfestellung bei der Wahl von Vertiefungs- und Mastermodulen für Wiwis am Karlsruher Institut für Technologie.</p>
-	<p>Falls du Bugs, Fehler oder Verbessungsvorschläge zum Studienführer hast, kannst du das über "Kontakt" ganz oben loswerden.</p>
+
+ 
+<div class="container">
+  <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
+	<!-- Indicators -->
+	<ol class="carousel-indicators">
+	  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	  <li data-target="#myCarousel" data-slide-to="1"></li>
+	  <li data-target="#myCarousel" data-slide-to="2"></li>
+	</ol>
+
+	<!-- Wrapper for slides -->
+	<div class="carousel-inner">
+	  <div class="item active">
+		<img src="pictures/carousel_afterLogin/carouselAfter_one.jpg" style="width:100%;">
+	  </div>
+
+	  <div class="item">
+		<img src="pictures/carousel_afterLogin/carouselAfter_two.jpg" style="width:100%;">
+	  </div>
+
+	  <div class="item">
+		<img src="pictures/carousel_afterLogin/carouselAfter_three.jpg" style="width:100%;">
+	  </div>
+	</div>
+
+	<!-- Left and right controls -->
+	<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+	  <span class="glyphicon glyphicon-chevron-left"></span>
+	  <span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#myCarousel" data-slide="next">
+	  <span class="glyphicon glyphicon-chevron-right"></span>
+	  <span class="sr-only">Next</span>
+	</a>
   </div>
+</div>
+ 
+ 
 </div>
 <div class="container">
 	<?php
