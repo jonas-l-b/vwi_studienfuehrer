@@ -542,9 +542,30 @@ include "sumVotes.php";
 				
 				<span style="font-size: 1.5em;font-weight:bold;">Fragen
 					<span style="float:right;">
-						<button type="button" class="btn btn-primary">Neue Frage stellen</button>
+						<button id="newQuestionButton" type="button" class="btn btn-primary">Neue Frage stellen</button>
 					</span>
 				</span>
+				
+				<!-- Modal neue Frage stellen-->
+				<div id="questionModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog">
+					<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Frage stellen für:<br><strong><?php echo $subjectData['subject_name'] ?></strong></h4>
+					</div>
+					<div class="modal-body question-modal-body">
+						<form id="questionForm">
+							<div class="form-group">
+								<textarea name="formQuestion" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Frage ein." required></textarea>
+							</div>
+							<button id="submitQuestionButton" type="button" class="btn btn-primary" data-dismiss="modal">Abschicken</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+						</form>
+					</div><!-- End of Modal body -->
+					</div><!-- End of Modal content -->
+					</div><!-- End of Modal dialog -->
+				</div><!-- End of Modal -->
 				
 				<br><br>
 				
@@ -645,6 +666,29 @@ include "sumVotes.php";
 					$(this).html("<a>Schließen</a>");
 				}
 			}
+		});
+		
+		//neue Frage stellen
+		$('#newQuestionButton').click(function(){
+			$('#questionModal').modal('show');
+		});
+		
+		$("#submitQuestionButton").click(function(e){
+			$.ajax({
+				type: "POST",
+				url: "question_submit.php",
+				data: $("#questionForm").serialize() + "&subject_id=" + "<?php echo $subjectData['ID']?>",
+				success: function(data) {
+					//alert(data);
+					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
+						$('.question-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+					}else{
+						$('.question-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deines Anliegens ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+					}
+				}
+			});
+			e.preventDefault(); //Funktioniert irgendwie nicht, darum nächste Zeile
+			e.stopImmediatePropagation();
 		});
 		</script>
 
