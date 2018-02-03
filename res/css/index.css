@@ -86,3 +86,6 @@ hr.style {
     border: 0;
 }
 
+a{
+	cursor: pointer; cursor: hand;
+}
