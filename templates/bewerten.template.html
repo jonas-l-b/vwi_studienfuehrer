@@ -1,19 +1,19 @@
 <form id="ratingForm" action="{{form_target}}?subject={{subject}}" method="POST">
-	
+
 	<!--<button type="button" id="button" class="btn">Give value!</button>-->
 
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
-	
+
 	{% for key,value in lectureItems %}
 		<p>{{value}}</p>
 		<input type="range" class="sliderLecture{{key}}" min="0" max="10" step="1" value="{{lectureValues[key]}}">
 		<span class="sliderLecture{{key}}">{{lectureValues[key]}}</span>
 		<br><br>
 	{% endfor %}
-	
+
 	<br>
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Prüfung</p>
-	
+
 	<p>Wann wurdest du geprüft?</p>
 	<select id="examSemester" class="form-control" style="width:80%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
@@ -33,7 +33,7 @@
 		<option value="ws16-17">WS16-17</option>
 		<option value="ss17">SS17</option>
 		<option value="ws17-18">WS17-18</option>
-		<option value="ss18">SS18</option>
+		<!--<option value="ss18">SS18</option>
 		<option value="ws18-19">WS18-19</option>
 		<option value="ss19">SS19</option>
 		<option value="ws19-20">WS19-20</option>
@@ -47,17 +47,17 @@
 		<option value="ws23-24">WS23-24</option>
 		<option value="ss24">SS24</option>
 		<option value="ws24-25">WS24-25</option>
-		<option value="ss25">SS25</option>
+		<option value="ss25">SS25</option>-->
 	</select>
-	
+
 	<script>
 	$(document).ready(function () {
 		$('#examSemester option[value={{examSemester}}]').attr('selected','selected');
 	});
 	</script>
-	
+
 	<br>
-	
+
 	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
 	<select id="examType" class="form-control" style="width:80%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
@@ -68,7 +68,7 @@
 	<br>
 	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" maxlength="2500" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
 	<div id="commentWarningExamDetails"></div>
-	
+
 	<script>
 	$("#examType").on('change', function() {
 		if($('#examType option:selected').val() == "other"){
@@ -85,9 +85,9 @@
 			$("#examDetails").prop('required',false);
 		}
 	});
-	
+
 	//Gleicher Code. Nötig, damit alles richtig angezeigt wird, wenn Kommentar bearbeitet wird
-	
+
 	$(document).ready(function () {
 		if($('#examType option:selected').val() == "other"){
 			$("#examDetails").show();
@@ -103,20 +103,20 @@
 			$("#examDetails").prop('required',false);
 		}
 	});
-	
+
 	$('#examDetails').on("propertychange input textInput", function() {
 		if($('#examDetails').val().length < 2000){
 			$('#commentWarningExamDetails').html("");
-		}else if($('#examDetails').val().length >= 2000 && $('#examDetails').val().length < 2400){	
+		}else if($('#examDetails').val().length >= 2000 && $('#examDetails').val().length < 2400){
 			$('#commentWarningExamDetails').css('color', 'black');
 			$('#commentWarningExamDetails').html("Noch " + (2500 - $('#examDetails').val().length) + " Zeichen übrig");
 		}else{
 			$('#commentWarningExamDetails').css('color', 'red');
 			$('#commentWarningExamDetails').html("Noch " + (2500 - $('#examDetails').val().length) + " Zeichen übrig");
 		}
-	});				
+	});
 	</script>
-	
+
 	{% for key,value in examItems %}
 		<div style="display:none" class="examItems">
 			<p>{{value}}</p>
@@ -125,7 +125,7 @@
 			<br><br>
 		</div>
 	{% endfor %}
-	
+
 	{% for key,value in examItems2 %}
 		<div style="display:none" class="examItems">
 			<p>{{value}}</p>
@@ -135,10 +135,10 @@
 			<br><br>
 		</div>
 	{% endfor %}
-	
+
 	<br>
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung insgesamt</p>
-	
+
 	{% for key,value in generalItems %}
 		<p>{{value}}</p>
 		<input type="range" class="sliderGeneral{{key}}" min="0" max="10" step="1" value="{{general0}}">
@@ -146,39 +146,39 @@
 		<br><br>
 	{% endfor %}
 
-	
+
 	<p style="font-weight:bold">Würdest du diese Veranstaltung weiterempfehlen?</p>
-	
+
 	<label class="radio-inline"><input type="radio" name="recommendation" value='1' {{weiterempfehlen_ja}} required>Ja</label>
 	<label class="radio-inline"><input type="radio" name="recommendation" value='0' {{weiterempfehlen_nein}}>Nein</label>
-				
+
 	<br>
 	<hr>
-	
+
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Kommentar</p>
-	
+
 	<div class="form-group">
 		<textarea id="ratingComment" name="comment" class="form-control" rows="5" maxlength="2500" placeholder="Was gibt es sonst interessantes über die Veranstaltung festzuhalten? Speziell sind natürlich Dinge interessant, die du nicht über die Fragen oben ausdrücken konntest!" required>{{comment}}</textarea>
 	</div>
-	
+
 	<div id="commentWarning"></div>
-					
+
 	<script>
 	$('#ratingComment').on("propertychange input textInput", function() {
 		if($('#ratingComment').val().length < 2000){
 			$('#commentWarning').html("");
-		}else if($('#ratingComment').val().length >= 2000 && $('#ratingComment').val().length < 2400){	
+		}else if($('#ratingComment').val().length >= 2000 && $('#ratingComment').val().length < 2400){
 			$('#commentWarning').css('color', 'black');
 			$('#commentWarning').html("Noch " + (2500 - $('#ratingComment').val().length) + " Zeichen übrig");
 		}else{
 			$('#commentWarning').css('color', 'red');
 			$('#commentWarning').html("Noch " + (2500 - $('#ratingComment').val().length) + " Zeichen übrig");
 		}
-	});				
+	});
 	</script>
-	
+
 	<hr>
-	
+
 	<button id="submitButton" type="submit" class="btn btn-primary">{{button_text}}</button>
 </form>
 
@@ -189,7 +189,7 @@ $("#submitButton").click(function(){
 	var lecture1 = $(".sliderLecture"+1).val();
 	var lecture2 = $(".sliderLecture"+2).val();
 	var lecture3 = $(".sliderLecture"+3).val();
-	
+
 	var examType = $('#examType option:selected').val();
 
 	var exam0 = $(".sliderExam"+0).val();
@@ -200,16 +200,16 @@ $("#submitButton").click(function(){
 	var exam5 = $(".slider"+1).val();
 
 	var examText = $('#examDetails').val();
-	
+
 	var examSemester = $('#examSemester option:selected').val();
 
 	var general0 = $(".sliderGeneral"+0).val();
 
 	var recommendation = $('input:radio[name="recommendation"]:checked').val()
 	var comment = $('#ratingComment').val();
-	
+
 	var subject = getUrlParameter('subject');
-	
+
 	$("#ratingForm").submit(function(e){
 		$.ajax({
 			type: "POST",

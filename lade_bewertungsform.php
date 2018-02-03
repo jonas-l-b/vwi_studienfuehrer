@@ -19,14 +19,14 @@ if (isset($_GET['subject'])){
 		"Wie interessant fadest du die Vorlesung?",
 		"Wie war die Qualität der Vorlesungsmaterialien?",
 	);
-	
+
 	$examItems = array(
 		"Wie bewertest du die Prüfung ingesamt?",
-		"Wie aufwändig fandest du die Prüfungsvorbereitung?",
-		"Wie fair war die Prüfung gestellt?",
+		"War der Aufwand zur Prüfungsvorbereitung dem Leistungsumfang (ECTS) der Veranstaltung gegenüber angemessen?",
+		"Haben dich die gegebenen Lernmöglichkeiten (Vorlesung/Übung/Tutorien/Praktika) gut auf die Prüfung und den Prüfungsmodus vorbereitet?",
 		"Wie groß war der Zeitdruck während der Prüfung?",
 	);
-	
+
 	$examItems2 = array(
 		"Ging es eher um die Reproduktion von Auswendigelerntem oder den Transfer von Wissen?",
 		"Handelte es sich eher um quantitative oder um qualitative Aufgaben?",
@@ -35,11 +35,11 @@ if (isset($_GET['subject'])){
 		array("Reproduktion", "Transfer"),
 		array("Quantitativ", "Qualitativ")
 	);
-	
+
 	$generalItems = array(
 		"Wie bewertest du die Veranstaltung ingesamt?",
 	);
-	
+
 	//Values if already filleds
 	if(isset($_GET['filled'])){
 		$statement1 = $con->prepare("SELECT * FROM ratings
@@ -48,7 +48,7 @@ if (isset($_GET['subject'])){
 		$statement1->execute();
 		$result = $statement1->get_result();
 		$ratingData = mysqli_fetch_assoc($result);
-		
+
 		$lectureValues = array($ratingData['lecture0'], $ratingData['lecture1'], $ratingData['lecture2'], $ratingData['lecture3']);
 		$examValues = array($ratingData['exam0'], $ratingData['exam1'], $ratingData['exam2'], $ratingData['exam3']);
 		$examValues2 = array($ratingData['exam4'], $ratingData['exam5']);
@@ -100,8 +100,8 @@ if (isset($_GET['subject'])){
 		$recom0 = "";
 		$comment = "";
 	}
-	
-	echo $twig->render('bewerten.template.html', 
+
+	echo $twig->render('bewerten.template.html',
 						array(	'subject' => $subject,
 								'form_target' => 'rating_submit.php',
 								'button_text' => 'Bewertung abschicken',
@@ -110,7 +110,7 @@ if (isset($_GET['subject'])){
 								'examItems2' => $examItems2,
 								'examItems2Labels' => $examItems2Labels,
 								'generalItems' => $generalItems,
-								
+
 								'lectureValues' => $lectureValues,
 								'typeWritten' => $written,
 								'typeOral' => $oral,
