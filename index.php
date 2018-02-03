@@ -591,7 +591,7 @@ include "sumVotes.php";
 							$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
 							?>
 							<p style="margin-bottom:0px">
-								<a id="answerThisQuestion">Frage beantworten</a>
+								<a class="answerThisQuestion">Frage beantworten</a> <!-- answerModal weiter unten-->
 								<span class="showAnswers" style="float:right">
 									<?php
 									switch($num){
@@ -605,7 +605,7 @@ include "sumVotes.php";
 									?>
 								</span>
 							</p>
-							
+	
 							<div class="answerSection" style="display:none"> <!--Antworten-->
 								<hr class="style">
 								
@@ -641,6 +641,31 @@ include "sumVotes.php";
 			<div class="col-md-2">
 			</div>
 		</div>
+		
+		<!-- Modal Frage beantworten-->
+		<div id="answerModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Antwort schreiben</h4>
+			</div>
+			<div class="modal-body answer-modal-body">
+				<p><strong>Frage:</strong></p>
+				<p name="questionForAnswerModal"></p>
+				<p><strong>Deine Antwort:</strong></p>
+				<form id="answerForm">
+					<div class="form-group">
+						<textarea name="formAswer" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Frage ein." required></textarea>
+					</div>
+					<button id="submitQuestionButton" type="button" class="btn btn-primary" data-dismiss="modal">Abschicken</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+				</form>
+			</div><!-- End of Modal body -->
+			</div><!-- End of Modal content -->
+			</div><!-- End of Modal dialog -->
+		</div><!-- End of Modal -->	
+
 		
 		<script>
 		//Fragen auf- und zuklappen
@@ -689,6 +714,11 @@ include "sumVotes.php";
 			});
 			e.preventDefault(); //Funktioniert irgendwie nicht, darum nächste Zeile
 			e.stopImmediatePropagation();
+		});
+		
+		//Frage beantworten
+		$('.answerThisQuestion').click(function(){
+			$('#answerModal').modal('show');
 		});
 		</script>
 
