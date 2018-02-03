@@ -1,14 +1,20 @@
 <?php
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+
 include 'connect.php';
 
-function endsWith1($haystack, $needle)
-{
-    $length = strlen($needle);
+if (!function_exists('endsWith1')) {
+	function endsWith1($haystack, $needle)
+	{
+		$length = strlen($needle);
 
-    return $length === 0 ||
-    (substr($haystack, -$length) === $needle);
+		return $length === 0 ||
+		(substr($haystack, -$length) === $needle);
+	}
 }
 
 if (!isset($_SESSION['userSession'])) {

@@ -1,5 +1,6 @@
 <?php
 
+include "sessionsStart.php";
 include "connect.php";
 
 ?>
