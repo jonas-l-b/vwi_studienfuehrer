@@ -549,6 +549,55 @@ include "sumVotes.php";
 				<br><br>
 				
 				<div id="questionBody" style="max-height:800px; overflow:auto">
+				
+					<?php
+					$sql = "
+						SELECT questions.ID AS ID, questions.subject_ID AS subject_ID, questions.user_ID AS user_ID, questions.question AS question, questions.time_stamp AS time_stamp, users.username AS username
+						FROM questions
+						JOIN users ON questions.user_ID = users.user_ID
+						WHERE subject_ID = ".$subjectData['ID']
+					;
+					$result = mysqli_query($con, $sql);
+					
+					while($row = mysqli_fetch_assoc($result)){
+						?>
+						<div class="well" style="background-color:white; border-radius:none">
+							<?php echo $row['question']?>
+							<hr style="margin:10px">
+							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo $row['time_stamp']?></p>
+							
+							<p style="margin-bottom:0px"><a id="answerThisQuestion" style="cursor: pointer; cursor: hand;">Frage beantworten</a>
+								<span style="float:right"><a>2 Antworten anzeigen</a></span>
+							</p>
+							
+							<div style="display:"> <!--Antworten-->
+								<hr class="style">
+								
+								<?php
+								$sql2 = "
+									SELECT answers.ID AS ID, answers.question_ID AS question_ID, answers.user_ID AS user_ID, answers.answer AS answer, answers.time_stamp AS time_stamp, users.username AS username
+									FROM answers
+									JOIN users ON answers.user_ID = users.user_ID
+									WHERE question_ID = ".$row['ID']
+								;
+								$result2 = mysqli_query($con, $sql2);
+								
+								while($row2 = mysqli_fetch_assoc($result2)){
+									?>
+									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
+										<?php echo $row2['answer']?>
+										<hr style="margin:10px">
+										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo $row2['time_stamp']?></p>
+									</div>
+									<?php
+								}
+								?>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+				
 					<div class="well" style="background-color:white; border-radius:none">
 						Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 						<hr style="margin:10px">
