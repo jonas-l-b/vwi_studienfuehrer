@@ -1,23 +1,25 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14.8
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
--- Host: db680704532.db.1and1.com
--- Erstellungszeit: 23. Jan 2018 um 17:49
--- Server Version: 5.5.58-0+deb7u1-log
--- PHP-Version: 5.4.45-0+deb7u12
+-- Host: 127.0.0.1
+-- Erstellungszeit: 04. Feb 2018 um 11:08
+-- Server-Version: 10.1.26-MariaDB
+-- PHP-Version: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `db680704532`
+-- Datenbank: `studienfuehrer`
 --
 
 -- --------------------------------------------------------
@@ -26,20 +28,46 @@ SET time_zone = "+00:00";
 -- Tabellenstruktur für Tabelle `admin_notifications`
 --
 
-CREATE TABLE IF NOT EXISTS `admin_notifications` (
-  `ID` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `admin_notifications` (
+  `ID` int(10) NOT NULL,
   `admin_id` int(10) NOT NULL,
   `type` varchar(100) NOT NULL,
-  `time_stamp` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  `time_stamp` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `admin_notifications`
 --
 
 INSERT INTO `admin_notifications` (`ID`, `admin_id`, `type`, `time_stamp`) VALUES
+(1, 1, 'messages', '2017-11-07 04:01:05'),
 (3, 2, 'messages', '2018-01-17 19:36:06');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `answers`
+--
+
+CREATE TABLE `answers` (
+  `ID` int(100) NOT NULL,
+  `question_ID` int(100) NOT NULL,
+  `user_ID` int(100) NOT NULL,
+  `answer` varchar(5000) COLLATE utf8_unicode_ci NOT NULL,
+  `time_stamp` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `answers`
+--
+
+INSERT INTO `answers` (`ID`, `question_ID`, `user_ID`, `answer`, `time_stamp`) VALUES
+(1, 2, 8, 'Antwort1', '2018-02-03 19:27:01'),
+(2, 2, 9, 'Antwort2', '2018-02-03 19:27:01'),
+(3, 2, 10, 'Antwort3', '2018-02-03 19:27:01'),
+(4, 2, 11, 'Antwort4', '2018-02-03 19:27:01'),
+(6, 1, 2, 'Das ist das doch!', '2018-02-04 10:29:09'),
+(7, 1, 2, 'Das meine ich doch auch!', '2018-02-04 10:30:03');
 
 -- --------------------------------------------------------
 
@@ -47,10 +75,9 @@ INSERT INTO `admin_notifications` (`ID`, `admin_id`, `type`, `time_stamp`) VALUE
 -- Tabellenstruktur für Tabelle `anti_brute_force`
 --
 
-CREATE TABLE IF NOT EXISTS `anti_brute_force` (
+CREATE TABLE `anti_brute_force` (
   `login_failures` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`)
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -59,16 +86,14 @@ CREATE TABLE IF NOT EXISTS `anti_brute_force` (
 -- Tabellenstruktur für Tabelle `commentratings`
 --
 
-CREATE TABLE IF NOT EXISTS `commentratings` (
-  `ID` int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `commentratings` (
+  `ID` int(100) NOT NULL,
   `subject_ID` varchar(100) NOT NULL,
   `comment_ID` varchar(100) NOT NULL,
   `user_ID` varchar(100) NOT NULL,
   `rating_direction` varchar(100) NOT NULL,
-  `time_stamp` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `subject_ID` (`subject_ID`,`comment_ID`,`user_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `time_stamp` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `commentratings`
@@ -79,7 +104,9 @@ INSERT INTO `commentratings` (`ID`, `subject_ID`, `comment_ID`, `user_ID`, `rati
 (2, '22', '4', '3', '1', '2017-11-11 19:14:15'),
 (3, '197', '5', '3', '1', '2017-11-28 20:12:09'),
 (4, '5', '7', '2', '1', '2018-01-17 19:43:53'),
-(5, '5', '9', '17', '-1', '2018-01-17 19:44:02');
+(5, '5', '9', '17', '-1', '2018-01-17 19:44:02'),
+(6, '5', '10', '2', '1', '2018-01-23 20:30:05'),
+(7, '86', '11', '2', '1', '2018-01-24 22:53:24');
 
 -- --------------------------------------------------------
 
@@ -87,12 +114,11 @@ INSERT INTO `commentratings` (`ID`, `subject_ID`, `comment_ID`, `user_ID`, `rati
 -- Tabellenstruktur für Tabelle `favourites`
 --
 
-CREATE TABLE IF NOT EXISTS `favourites` (
-  `ID` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `favourites` (
+  `ID` int(10) NOT NULL,
   `user_ID` int(10) NOT NULL,
-  `subject_ID` int(10) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+  `subject_ID` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `favourites`
@@ -101,7 +127,8 @@ CREATE TABLE IF NOT EXISTS `favourites` (
 INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
 (2, 1, 3),
 (3, 1, 3),
-(5, 1, 5);
+(5, 1, 5),
+(7, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -109,16 +136,15 @@ INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
 -- Tabellenstruktur für Tabelle `institutes`
 --
 
-CREATE TABLE IF NOT EXISTS `institutes` (
-  `institute_ID` int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `institutes` (
+  `institute_ID` int(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `abbr` varchar(100) NOT NULL,
   `user_ID` int(100) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL,
-  PRIMARY KEY (`institute_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+  `time_stamp2` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `institutes`
@@ -130,40 +156,40 @@ INSERT INTO `institutes` (`institute_ID`, `name`, `abbr`, `user_ID`, `time_stamp
 (8, 'Institut für Fahrzeugsystemtechnik', 'FAST', 8, '2017-11-09 20:41:16', 0, ''),
 (9, 'Institut für Technologie und Management im Baubetrieb', 'TMB', 8, '2017-11-09 20:50:16', 0, ''),
 (10, 'Institut für Angewandte Informatik und Formale Beschreibungsverfahren', 'AIFB', 10, '2017-11-09 20:53:17', 0, ''),
-(11, 'Institut für Industrieökonomie', 'ECON', 9, '2017-11-09 20:55:12', 0, ''),
+(11, 'Institut für Industrieökonomie ', 'ECON', 9, '2017-11-09 20:55:12', 0, ''),
 (12, 'Institut für Informationswirtschaft und Marketing', 'IISM', 9, '2017-11-09 21:01:47', 0, ''),
 (13, 'Informationsdienste und elektronische Märkte', 'IISM', 10, '2017-11-09 21:02:23', 0, ''),
 (14, 'Fachgebiet Immobilienwirtschaft', 'FIWI', 8, '2017-11-09 21:02:48', 0, ''),
 (15, 'Institut für Volkswirtschaftslehre', 'ECON', 1, '2017-11-09 21:03:15', 0, ''),
 (16, 'Institut für Operations Research', 'IOR', 9, '2017-11-09 21:09:28', 0, ''),
-(17, 'Ökonometrie', 'STAT', 10, '2017-11-09 21:10:32', 0, ''),
+(17, 'Ökonometrie ', 'STAT', 10, '2017-11-09 21:10:32', 0, ''),
 (18, 'Abteilung Finanzwirtschaft und Banken', 'FBV', 8, '2017-11-09 21:11:38', 0, ''),
 (19, 'Institut für Industriebetriebswirtschaftslehre und Produktion', 'IIP', 9, '2017-11-09 21:12:26', 0, ''),
 (20, 'Institut für Photogrammetrie und Fernerkundung', 'IPF', 11, '2017-11-09 21:26:47', 0, ''),
 (21, 'Institut für Unternehmensführung', 'IBU', 8, '2017-11-09 21:31:51', 0, ''),
 (22, 'Institut für Informationsmanagement im Ingenieurwesen', 'IMI', 1, '2017-11-09 21:36:40', 0, ''),
-(23, 'Institut für Produktionstechnik', 'WBK', 11, '2017-11-09 21:38:05', 0, ''),
+(23, 'Institut für Produktionstechnik  ', 'WBK', 11, '2017-11-09 21:38:05', 0, ''),
 (24, 'Zentrum für Angewandte Rechtswissenschaft', 'ZAR', 8, '2017-11-09 21:38:23', 0, ''),
 (25, 'Institut für Technische Mechanik', 'ITM', 9, '2017-11-09 21:41:50', 0, ''),
 (27, 'Institut für Mikrosystemtechnik', 'IMT', 8, '2017-11-09 21:50:44', 0, ''),
-(28, 'Institut für Angewandte Materialien', 'IAM', 8, '2017-11-09 21:58:34', 0, ''),
-(29, 'Institut für Angewandte Physik', 'APH', 8, '2017-11-09 22:01:06', 0, ''),
-(30, 'Karlsruhe Service Research Institute', 'KSRI', 11, '2017-11-09 22:01:47', 0, ''),
-(31, 'Institut für Fördertechnik und Logistiksysteme', 'IFL', 1, '2017-11-09 22:03:37', 0, ''),
+(28, 'Institut für Angewandte Materialien  ', 'IAM', 8, '2017-11-09 21:58:34', 0, ''),
+(29, 'Institut für Angewandte Physik  ', 'APH', 8, '2017-11-09 22:01:06', 0, ''),
+(30, 'Karlsruhe Service Research Institute  ', 'KSRI', 11, '2017-11-09 22:01:47', 0, ''),
+(31, 'Institut für Fördertechnik und Logistiksysteme  ', 'IFL', 1, '2017-11-09 22:03:37', 0, ''),
 (32, 'Institut für Straßen- und Eisenbahnwesen', 'ISE', 9, '2017-11-09 22:05:56', 0, ''),
-(33, 'Institut für Elektroenergiesysteme und Hochspannungstechnik', 'IEH', 1, '2017-11-09 22:15:05', 0, ''),
+(33, 'Institut für Elektroenergiesysteme und Hochspannungstechnik  ', 'IEH', 1, '2017-11-09 22:15:05', 0, ''),
 (34, 'Institut für Wasser und Gewässerentwicklung', 'IWG', 8, '2017-11-09 22:21:08', 0, ''),
 (35, 'Geophysikalisches Institut', 'GPI', 11, '2017-11-09 22:21:35', 0, ''),
 (36, 'Institut für Informationsmangement im Ingenieurwesen', 'IMI', 8, '2017-11-09 22:34:02', 0, ''),
 (37, 'Institut für Meterologie und Klimarforschung', 'IMK', 1, '2017-11-09 22:47:40', 0, ''),
-(38, 'Institut für Technische Chemie und Polymerchemie', 'ITCP', 11, '2017-11-09 22:54:49', 0, ''),
+(38, ' Institut für Technische Chemie und Polymerchemie  ', 'ITCP', 11, '2017-11-09 22:54:49', 0, ''),
 (39, 'Institut für Photonen und Quantenelektronik', 'IPQ', 8, '2017-11-09 23:34:34', 0, ''),
 (40, 'Institut für Stochastik', 'IFS', 1, '2017-11-09 23:49:51', 0, ''),
-(41, 'Institut für Regelungs- und Steuerungssysteme', 'IRS', 1, '2017-11-10 00:12:48', 0, ''),
+(41, 'Institut für Regelungs- und Steuerungssysteme  ', 'IRS', 1, '2017-11-10 00:12:48', 0, ''),
 (42, 'Institut für Soziologie, Medien- und Kulturwissenschaften', 'ISMK', 8, '2017-11-10 00:13:25', 0, ''),
 (43, 'Institut für Bio- und Lebensmitteltechnik', 'BLT', 1, '2017-11-10 00:44:51', 0, ''),
 (44, 'Institut für Entrepreneurship, Technologie-Management und Innovation', 'ENTECHNON', 17, '2018-01-17 20:53:01', 0, ''),
-(45, 'Institut für Technik der Informationsverarbeitung', 'ITIV', 8, '2018-01-17 21:03:56', 0, ''),
+(45, 'Institut für Technik der Informationsverarbeitung ', 'ITIV', 8, '2018-01-17 21:03:56', 0, ''),
 (46, 'Institut für Verkehrswesen', 'IFV', 17, '2018-01-17 21:35:34', 0, ''),
 (47, 'Institut für Geographie und Geoökologie', 'IFGG', 8, '2018-01-17 22:13:44', 0, ''),
 (48, 'Institut für Thermische Strömungsmaschinen', 'ITS', 14, '2018-01-17 22:16:58', 0, ''),
@@ -177,16 +203,15 @@ INSERT INTO `institutes` (`institute_ID`, `name`, `abbr`, `user_ID`, `time_stamp
 -- Tabellenstruktur für Tabelle `lecturers`
 --
 
-CREATE TABLE IF NOT EXISTS `lecturers` (
-  `lecturer_ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lecturers` (
+  `lecturer_ID` int(11) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `user_ID` int(100) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL,
-  PRIMARY KEY (`lecturer_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=274 ;
+  `time_stamp2` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `lecturers`
@@ -247,7 +272,7 @@ INSERT INTO `lecturers` (`lecturer_ID`, `first_name`, `last_name`, `user_ID`, `t
 (57, 'Niklas', 'Kühl', 11, '2017-11-09 22:02:02', 0, ''),
 (58, 'Gerhard', 'Satzger', 11, '2017-11-09 22:03:18', 0, ''),
 (59, 'Markus', 'Golder', 1, '2017-11-09 22:03:49', 0, ''),
-(60, 'Jörg', 'Franke', 8, '2017-11-09 22:04:38', 2, '2018-01-18 11:17:17'),
+(60, 'Jörg', 'Franke', 8, '2017-11-09 22:04:38', 0, ''),
 (61, 'Jörg', 'Föller', 1, '2017-11-09 22:06:32', 0, ''),
 (62, 'Eberhard', 'Hohnecker', 9, '2017-11-09 22:06:54', 0, ''),
 (63, 'Alexander', 'Mädche', 11, '2017-11-09 22:08:16', 0, ''),
@@ -459,7 +484,21 @@ INSERT INTO `lecturers` (`lecturer_ID`, `first_name`, `last_name`, `user_ID`, `t
 (270, 'Carsten', 'Linz', 14, '2018-01-17 22:56:09', 0, ''),
 (271, 'Armin', 'Ardone', 15, '2018-01-17 22:56:54', 0, ''),
 (272, 'Heinrich', 'Schlick', 14, '2018-01-17 23:03:26', 0, ''),
-(273, 'Andrej Marko', 'Pustisek', 14, '2018-01-17 23:06:17', 0, '');
+(273, 'Andrej Marko', 'Pustisek', 14, '2018-01-17 23:06:17', 0, ''),
+(274, '', '', 2, '2018-01-21 11:37:54', 0, ''),
+(275, '', '', 2, '2018-01-21 11:37:58', 0, ''),
+(276, 'cages', '', 2, '2018-01-24 21:52:59', 0, ''),
+(277, 'f', 'f', 2, '2018-01-24 22:03:41', 0, ''),
+(278, 'f', '', 2, '2018-01-24 22:05:16', 0, ''),
+(279, 'e', '', 2, '2018-01-24 22:06:35', 0, ''),
+(280, '', 'e', 2, '2018-01-24 22:06:43', 0, ''),
+(281, '', 'd', 2, '2018-01-24 22:07:13', 0, ''),
+(282, 'd', '', 2, '2018-01-24 22:07:17', 0, ''),
+(283, 'e', 'e', 2, '2018-01-24 22:12:15', 0, ''),
+(284, 'a', 'b', 2, '2018-01-24 22:12:34', 0, ''),
+(285, 'h', 'h', 2, '2018-01-24 22:15:38', 0, ''),
+(286, 'g', 'g', 2, '2018-01-24 22:16:17', 0, ''),
+(287, 'qwertz', 'qwertzu', 2, '2018-01-30 10:59:31', 0, '');
 
 -- --------------------------------------------------------
 
@@ -467,12 +506,11 @@ INSERT INTO `lecturers` (`lecturer_ID`, `first_name`, `last_name`, `user_ID`, `t
 -- Tabellenstruktur für Tabelle `lecturers_institutes`
 --
 
-CREATE TABLE IF NOT EXISTS `lecturers_institutes` (
-  `lecturers_institutes_ID` int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `lecturers_institutes` (
+  `lecturers_institutes_ID` int(100) NOT NULL,
   `lecturer_ID` int(100) NOT NULL,
-  `institute_ID` int(100) NOT NULL,
-  PRIMARY KEY (`lecturers_institutes_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=275 ;
+  `institute_ID` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `lecturers_institutes`
@@ -533,6 +571,7 @@ INSERT INTO `lecturers_institutes` (`lecturers_institutes_ID`, `lecturer_ID`, `i
 (57, 57, 30),
 (58, 58, 30),
 (59, 59, 31),
+(60, 60, 6),
 (61, 61, 31),
 (62, 62, 32),
 (63, 63, 30),
@@ -745,7 +784,26 @@ INSERT INTO `lecturers_institutes` (`lecturers_institutes_ID`, `lecturer_ID`, `i
 (271, 271, 30),
 (272, 272, 9),
 (273, 273, 19),
-(274, 60, 6);
+(274, 274, 0),
+(275, 275, 0),
+(276, 276, 18),
+(277, 276, 14),
+(278, 276, 35),
+(279, 283, 35),
+(280, 284, 51),
+(281, 284, 14),
+(282, 284, 35),
+(283, 284, 13),
+(284, 284, 10),
+(285, 285, 18),
+(286, 285, 51),
+(287, 285, 14),
+(288, 286, 51),
+(289, 286, 13),
+(290, 287, 37),
+(291, 287, 27),
+(292, 287, 16),
+(293, 287, 20);
 
 -- --------------------------------------------------------
 
@@ -753,12 +811,10 @@ INSERT INTO `lecturers_institutes` (`lecturers_institutes_ID`, `lecturer_ID`, `i
 -- Tabellenstruktur für Tabelle `levels`
 --
 
-CREATE TABLE IF NOT EXISTS `levels` (
-  `level_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`level_ID`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+CREATE TABLE `levels` (
+  `level_ID` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `levels`
@@ -775,8 +831,8 @@ INSERT INTO `levels` (`level_ID`, `name`) VALUES
 -- Tabellenstruktur für Tabelle `messages`
 --
 
-CREATE TABLE IF NOT EXISTS `messages` (
-  `message_id` int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `messages` (
+  `message_id` int(100) NOT NULL,
   `sender_id` int(100) NOT NULL,
   `receiver_id` int(100) NOT NULL,
   `message_type` varchar(100) NOT NULL,
@@ -794,20 +850,26 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `processed_by_id` int(11) NOT NULL,
   `processed_comment` varchar(5000) NOT NULL,
   `processed_comment_for_admins` varchar(5000) NOT NULL,
-  `processed_time_stamp` varchar(100) NOT NULL,
-  PRIMARY KEY (`message_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+  `processed_time_stamp` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `messages`
 --
 
 INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`, `area`, `object_id`, `comment_id`, `answer_required`, `comment`, `time_stamp`, `read_last_id`, `read_last_time_stamp`, `assigned_to_id`, `assigned_to_time_stamp`, `processed`, `processed_by_id`, `processed_comment`, `processed_comment_for_admins`, `processed_time_stamp`) VALUES
+(3, 13, -1, 'feedback', '', 0, 0, 1, 'Heyho Info-Nerds,\r\nich schlage vor, die Module in der Übersicht alphabetisch zu sortieren. So findet man sich deutlich leichter zurecht!\r\nGrüßle aus Down-Under.\r\n', '2017-11-10 03:56:02', 2, '2018-01-21 10:55:39', 0, '', 0, 0, '', '', ''),
 (6, 3, -1, 'bug', '', 0, 0, 1, 'Testbug', '2017-11-11 19:27:28', 3, '2017-11-11 19:28:32', 3, '2017-11-11 19:28:28', 1, 3, 'Danke für deine Bugnachricht!', 'asdf', '2017-11-11 19:28:50'),
-(7, 3, -1, 'bug', '', 0, 0, 1, 'Wenn man aus Mitgliedern Admins macht, wird man nicht wieder zur ursprünglichen Seite redirected. Lohnt sich voll das zu reparieren. Hoher Use Case.', '2018-01-17 19:34:06', 2, '2018-01-18 11:26:24', 0, '', 1, 2, 'War nur eine Zeile und darum trotzdem gefixt ;)', '', '2018-01-18 11:32:24'),
-(9, 3, -1, 'bug', '', 0, 0, 1, 'Machnmal steht bei Admins Posteingang, manchmal Nachrichten. Why?', '2018-01-17 19:36:22', 2, '2018-01-18 11:32:29', 0, '', 1, 2, 'Falsche URL', '', '2018-01-18 11:32:49'),
 (10, 2, -1, 'bug', '', 0, 0, 1, 'Das ist ein Testbug', '2018-01-18 10:31:10', 1, '2018-01-18 10:33:35', 2, '2018-01-18 10:31:37', 1, 1, 'war', '', '2018-01-18 10:33:42'),
-(11, 2, -1, 'bug', '', 0, 0, 1, 'test', '2018-01-21 10:47:40', 2, '2018-01-21 10:47:53', 0, '', 0, 0, '', '', '');
+(11, 1, -1, 'bug', '', 0, 0, 1, 'testbug', '2018-01-30 14:55:47', 0, '', 0, '', 0, 0, '', '', ''),
+(12, 1, -1, 'bug', '', 0, 0, 1, 'fff', '2018-01-30 15:01:30', 0, '', 0, '', 0, 0, '', '', ''),
+(13, 1, -1, 'bug', '', 0, 0, 1, 'ggg', '2018-01-30 15:04:29', 0, '', 0, '', 0, 0, '', '', ''),
+(14, 1, -1, 'bug', '', 0, 0, 1, 'sdfghjkl', '2018-01-30 15:04:39', 0, '', 0, '', 0, 0, '', '', ''),
+(15, 1, -1, 'bug', '', 0, 0, 1, 'sdfghjk', '2018-01-30 15:05:23', 0, '', 0, '', 0, 0, '', '', ''),
+(16, 1, -1, 'bug', '', 0, 0, 1, 'ddd', '2018-01-30 15:07:36', 0, '', 0, '', 0, 0, '', '', ''),
+(17, 2, -1, 'bug', '', 0, 0, 1, 'ddd', '2018-01-30 15:20:36', 0, '', 0, '', 0, 0, '', '', ''),
+(18, 2, -1, 'bug', 'subject', 5, 0, 1, 'asdfghj', '2018-01-30 15:21:25', 0, '', 0, '', 0, 0, '', '', ''),
+(19, 2, -1, 'feedback', '', 0, 0, 1, 'zz', '2018-01-30 15:26:34', 0, '', 0, '', 0, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -815,8 +877,8 @@ INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`
 -- Tabellenstruktur für Tabelle `modules`
 --
 
-CREATE TABLE IF NOT EXISTS `modules` (
-  `module_ID` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `modules` (
+  `module_ID` int(10) NOT NULL,
   `code` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `type` varchar(100) NOT NULL,
@@ -824,9 +886,8 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `user_ID` int(10) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL,
-  PRIMARY KEY (`module_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=198 ;
+  `time_stamp2` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `modules`
@@ -962,7 +1023,7 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (138, 'M-MACH-101283', 'Virtual Engineering A', 'ING', 9, 0, '2018-01-17 21:11:14', 0, ''),
 (139, 'M-WIWI-103120', 'Financial Economics', 'BWL', 9, 0, '2018-01-17 21:11:54', 0, ''),
 (140, 'M-MACH-101292', 'Mikrooptik', 'ING', 9, 0, '2018-01-17 21:13:02', 0, ''),
-(141, 'M-WIWI-101512', 'Computational Finance', 'BWL', 9, 0, '2018-01-17 21:13:07', 0, ''),
+(141, ' M-WIWI-101512', 'Computational Finance', 'BWL', 9, 0, '2018-01-17 21:13:07', 0, ''),
 (142, 'M-WIWI-103121', 'Financial Technology for Risk and Asset Management', 'BWL', 9, 0, '2018-01-17 21:13:48', 0, ''),
 (143, 'M-WIWI-103247', 'Intelligente Risiko- und Investitionsberatung', 'BWL', 9, 0, '2018-01-17 21:15:40', 0, ''),
 (144, 'M-MACH-101294	', 'Nanotechnologie', 'ING', 9, 0, '2018-01-17 21:16:52', 0, ''),
@@ -979,7 +1040,7 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (155, 'M-WIWI-101451', 'Energiewirtschaft und Energiemärkte', 'BWL', 9, 0, '2018-01-17 21:30:22', 0, ''),
 (156, 'M-WIWI-103117', 'Data Science: Data-Driven Information Systems', 'BWL', 9, 0, '2018-01-17 21:30:53', 0, ''),
 (157, 'M-BGU-101066', 'Sicherheit, EDV und Recht im Straßenwesen', 'ING', 9, 0, '2018-01-17 21:32:04', 0, ''),
-(158, 'M-WIWI-101449', 'Insurance Management II', 'BWL', 9, 0, '2018-01-17 21:33:00', 0, ''),
+(158, ' M-WIWI-101449', 'Insurance Management II', 'BWL', 9, 0, '2018-01-17 21:33:00', 0, ''),
 (159, 'M-WIWI-101469', 'Insurance Management I', 'BWL', 9, 0, '2018-01-17 21:33:32', 0, ''),
 (160, 'M-INFO-101215', 'Recht des Geistigen Eigentums', 'INFO', 9, 0, '2018-01-17 21:33:34', 0, ''),
 (161, 'M-WIWI-101470', 'Data Science: Advanced CRM', 'BWL', 9, 0, '2018-01-17 21:34:27', 0, ''),
@@ -1008,7 +1069,7 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (184, 'M-MACH-101296', 'Energie- und Prozesstechnik I', 'ING', 9, 0, '2018-01-17 22:23:33', 0, ''),
 (185, 'M-WIWI-101468', 'Umwelt- und Ressourcenökonomie', 'VWL', 9, 0, '2018-01-17 22:25:42', 0, ''),
 (186, 'M-CIWVT-101121', 'Wasserchemie und Wassertechnologie I', 'ING', 9, 0, '2018-01-17 22:27:58', 0, ''),
-(187, 'M-GEISTSOZ-101169', 'Soziologie', 'Sonstige', 9, 0, '2018-01-17 22:28:26', 0, ''),
+(187, ' M-GEISTSOZ-101169', 'Soziologie', 'Sonstige', 9, 0, '2018-01-17 22:28:26', 0, ''),
 (188, 'M-CIWVT-101122', 'Wasserchemie und Wassertechnologie II', 'ING', 9, 0, '2018-01-17 22:33:00', 0, ''),
 (189, 'M-CIWVT-101119', 'Vertiefung Lebensmittelverfahrenstechnik', 'ING', 9, 0, '2018-01-17 22:34:28', 0, ''),
 (190, 'M-WIWI-101504', 'Collective Decision Making', 'VWL', 9, 0, '2018-01-17 22:35:02', 0, ''),
@@ -1026,12 +1087,11 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 -- Tabellenstruktur für Tabelle `modules_levels`
 --
 
-CREATE TABLE IF NOT EXISTS `modules_levels` (
-  `ID` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `modules_levels` (
+  `ID` int(10) NOT NULL,
   `module_ID` int(100) NOT NULL,
-  `level_ID` int(100) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=240 ;
+  `level_ID` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `modules_levels`
@@ -1249,11 +1309,10 @@ INSERT INTO `modules_levels` (`ID`, `module_ID`, `level_ID`) VALUES
 -- Tabellenstruktur für Tabelle `moduletypes`
 --
 
-CREATE TABLE IF NOT EXISTS `moduletypes` (
-  `module_type_ID` int(100) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  PRIMARY KEY (`module_type_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+CREATE TABLE `moduletypes` (
+  `module_type_ID` int(100) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `moduletypes`
@@ -1270,11 +1329,36 @@ INSERT INTO `moduletypes` (`module_type_ID`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `questions`
+--
+
+CREATE TABLE `questions` (
+  `ID` int(100) NOT NULL,
+  `subject_ID` int(100) NOT NULL,
+  `user_ID` int(100) NOT NULL,
+  `question` varchar(5000) COLLATE utf8_unicode_ci NOT NULL,
+  `time_stamp` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `questions`
+--
+
+INSERT INTO `questions` (`ID`, `subject_ID`, `user_ID`, `question`, `time_stamp`) VALUES
+(1, 5, 2, 'Wie war das doch gleich?', '2018-02-03 03:56:02'),
+(2, 5, 3, 'Testfrage2', '2018-02-03 19:09:02'),
+(3, 5, 8, 'Testfrage3', '2018-02-03 19:11:05'),
+(6, 5, 2, 'Was ist da los?', '2018-02-04 00:02:24'),
+(9, 250, 2, 'Testi', '2018-02-04 11:04:40');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `ratings`
 --
 
-CREATE TABLE IF NOT EXISTS `ratings` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ratings` (
+  `ID` int(11) NOT NULL,
   `subject_ID` int(100) NOT NULL,
   `lecture0` int(100) NOT NULL,
   `lecture1` int(100) NOT NULL,
@@ -1288,27 +1372,28 @@ CREATE TABLE IF NOT EXISTS `ratings` (
   `exam4` int(100) NOT NULL,
   `exam5` int(100) NOT NULL,
   `examText` varchar(2500) NOT NULL,
+  `examSemester` varchar(100) NOT NULL,
   `general0` int(100) NOT NULL,
   `recommendation` tinyint(1) NOT NULL,
   `comment` varchar(2500) NOT NULL,
   `comment_rating` int(100) NOT NULL,
   `user_ID` int(10) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
-  `time_stamp_change` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  `time_stamp_change` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `ratings`
 --
 
-INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
-(1, 3, 1, 2, 3, 4, 'written', 1, 2, 3, 4, 5, 6, '', 7, 1, 'hey', 0, 3, '12345678', ''),
-(5, 197, 8, 4, 5, 8, 'written', 8, 7, 9, 5, 3, 5, '', 9, 1, 'Buch ist wichtig.', 1, 3, '2017-11-28 20:08:45', ''),
-(6, 12, 8, 3, 9, 7, 'written', 7, 3, 7, 0, 7, -6, '', 8, 1, 'Das ist ein Kommentar!', 0, 1, '2017-12-19 19:54:45', ''),
-(7, 5, 7, 9, 3, 10, 'written', 10, 7, 8, 6, -5, 9, '', 8, 1, 'Kommentar', 1, 1, '2018-01-08 18:00:24', ''),
-(8, 242, 5, 5, 7, 5, 'written', 5, 5, 10, 5, 0, 0, '', 6, 0, 'Test', 0, 1, '2018-01-12 12:09:26', ''),
-(9, 5, 9, 5, 5, 5, 'written', 5, 5, 8, 5, 8, -5, '', 7, 1, 'Dazu schreiben\n', -1, 2, '2018-01-17 19:42:37', '');
+INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `examSemester`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
+(1, 3, 1, 2, 3, 4, 'written', 1, 2, 3, 4, 5, 6, '', '', 7, 1, 'hey', 0, 3, '12345678', ''),
+(5, 197, 8, 4, 5, 8, 'written', 8, 7, 9, 5, 3, 5, '', '', 9, 1, 'Buch ist wichtig.', 1, 3, '2017-11-28 20:08:45', ''),
+(6, 12, 8, 3, 9, 7, 'written', 7, 3, 7, 0, 7, -6, '', '', 8, 1, 'Das ist ein Kommentar!', 0, 1, '2017-12-19 19:54:45', ''),
+(7, 5, 7, 9, 3, 10, 'written', 10, 7, 8, 6, -5, 9, '', '', 8, 1, 'Kommentar', 1, 1, '2018-01-08 18:00:24', ''),
+(8, 242, 5, 5, 7, 5, 'written', 5, 5, 10, 5, 0, 0, '', '', 6, 0, 'Test', 0, 1, '2018-01-12 12:09:26', ''),
+(12, 86, 8, 10, 2, 8, 'written', 5, 5, 5, 5, 0, 0, '', '', 5, 1, 'Interessante Veranstaltung, endlich habe ich das Gefühl, mich wirklich Ingenieur schimpfen zu dürfen.', 0, 1, '2018-01-24 22:54:53', ''),
+(15, 86, 5, 5, 5, 5, 'oral', 5, 5, 5, 5, 0, 0, '', 'ws15-16', 5, 0, 'dddd', 0, 2, '2018-02-02 21:58:12', '');
 
 -- --------------------------------------------------------
 
@@ -1316,13 +1401,12 @@ INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `
 -- Tabellenstruktur für Tabelle `remember_me`
 --
 
-CREATE TABLE IF NOT EXISTS `remember_me` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `remember_me` (
+  `id` int(10) NOT NULL,
   `user_id` int(10) NOT NULL,
   `series` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=21 ;
+  `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Daten für Tabelle `remember_me`
@@ -1331,11 +1415,10 @@ CREATE TABLE IF NOT EXISTS `remember_me` (
 INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
 (8, 12, '549a2fac47d713cc00f2db498ad6b5574fb03c9293aef6c7ad50a11b394c197d', '9869a8a3a11a33284dc2bcc3d2e6ffd52cad30e2009c11dfe604e74dc21a887e'),
 (11, 3, 'fc71f2d6d38dbfc752ecaf2262916dc8ad99a34243d47b34691f9f8a3afaeffd', 'c32ffef1ae0cabc0576614cb4d2064cea5bd9c0fa13c7b8bb9fb9b4e8ba950a9'),
-(14, 1, '1c49f22f6de9bd15e5e566fa8983be4cfa4709abf0f95edf96dcd3d6249c2649', 'be47addbcb8f60566a3d7fd5a36f8195798e2848b368195d9a5d20e007c59a0c'),
 (16, 3, '39e18a493b913441c12fac89a09f24958e5da0ff6f3300c80c5359f36e3223aa', '3d34f102d1708fc5edd3111144f78764b4d7b745cb5450815780545495df1e68'),
 (17, 17, 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683', '1be00341082e25c4e251ca6713e767f7131a2823b0052caf9c9b006ec512f6cb'),
-(19, 1, '6953c2a883537cc80135516935de542987c2cd76f94d8cbf2ad004d7bf4c6195', '83f814f7a92e365cbd79f9addceed185761a8d38a06a2d4350bb1fe4b7632b34'),
-(20, 2, '28dae7c8bde2f3ca608f86d0e16a214dee74c74bee011cdfdd46bc04b655bc14', '388c2eafe5afd475492698c0995a2daf157eb3b3be8207391d3a023c97c8c034');
+(20, 2, '1de4d95a81eb1780d5c21a880a8be6595306670af426e40872b2a03c5cfb9996', '6cb6d4b2fa122bf8bd63280061e4a230565fdec3ce03268caa2f48ccd931c691'),
+(21, 1, '353767b239099863e13ca954e20a66c9d75f777baf239f56e399958de49bf79d', '983bd614bb5afece5ab3b6023f71147cd7b6bc2314f9d27af7422541c6558389');
 
 -- --------------------------------------------------------
 
@@ -1343,8 +1426,8 @@ INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
 -- Tabellenstruktur für Tabelle `subjects`
 --
 
-CREATE TABLE IF NOT EXISTS `subjects` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `subjects` (
+  `ID` int(11) NOT NULL,
   `subject_name` varchar(100) NOT NULL,
   `identifier` varchar(100) NOT NULL,
   `lv_number` int(100) NOT NULL,
@@ -1354,10 +1437,8 @@ CREATE TABLE IF NOT EXISTS `subjects` (
   `createdBy_ID` varchar(100) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `subject_name` (`subject_name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=551 ;
+  `time_stamp2` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `subjects`
@@ -1610,16 +1691,16 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (248, 'Advanced Game Theory', 'T-WIWI-102861', 0, '4,5', 'Winter', 'Englisch', '17', '2018-01-17 20:34:46', 0, ''),
 (249, 'CAD-Praktikum CATIA', 'T-MACH-102185', 0, '2', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 20:35:04', 0, ''),
 (250, 'Advanced Management Accounting', 'T-WIWI-102885', 0, '4,5', 'Winter', 'Englisch', '17', '2018-01-17 20:37:38', 0, ''),
-(251, 'Hausarbeit ”Betrieb im Öffentlichen Verkehr”', 'T-BGU-101857', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:37:43', 0, ''),
+(251, ' Hausarbeit ”Betrieb im Öffentlichen Verkehr”', 'T-BGU-101857', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:37:43', 0, ''),
 (252, 'CAD-Praktikum NX', 'T-MACH-102187', 0, '2', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 20:38:04', 0, ''),
-(253, 'Hausarbeit ”Technik Spurgeführte Transportsysteme”', 'T-BGU-101858', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:39:39', 0, ''),
+(253, 'Hausarbeit ”Technik Spurgeführte Transportsysteme” ', 'T-BGU-101858', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:39:39', 0, ''),
 (254, 'Bau und Instandhaltung von Schienenwegen', 'T-BGU-101851', 0, '1,5', 'Sommer', 'Deutsch', '18', '2018-01-17 20:40:11', 18, '2018-01-17 20:41:40'),
 (255, 'Hausarbeit ”Verkehrsprojekt im Öffentlichen Verkehr”', 'T-BGU-101856', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:42:23', 0, ''),
 (256, 'Case Studies in Sales and Pricing', 'T-WIWI-102834', 0, '1,5', 'Winter', 'Deutsch', '8', '2018-01-17 20:43:52', 0, ''),
 (257, 'Geländepraktikum Gewässergüte', 'T-MACH-101089', 0, '3', 'Unregelmäßig', 'Deutsch', '15', '2018-01-17 20:50:05', 0, ''),
 (258, 'Aktuelle Themen der BioMEMS', 'T-MACH-102176', 0, '3', 'Ganzjährig', 'Deutsch', '17', '2018-01-17 20:50:26', 0, ''),
 (259, 'Hochspannungsprüftechnik', 'T-ETIT-101915', 0, '4', 'Winter', 'Deutsch', '10', '2018-01-17 20:50:51', 0, ''),
-(260, 'Hochspannungstechnik I', 'T-ETIT-101913', 0, '4,5', 'Winter', 'Deutsch', '10', '2018-01-17 20:53:20', 0, ''),
+(260, 'Hochspannungstechnik I ', 'T-ETIT-101913', 0, '4,5', 'Winter', 'Deutsch', '10', '2018-01-17 20:53:20', 0, ''),
 (261, 'Asset Pricing', 'T-WIWI-102647', 0, '4,5', 'Sommer', 'Deutsch', '16', '2018-01-17 20:53:29', 0, ''),
 (262, 'Bauleitung', 'T-BGU-103427', 0, '1,5', 'Sommer', 'Deutsch', '18', '2018-01-17 20:53:53', 0, ''),
 (263, 'Aktuelle Themen im Innovationsmanagement', 'T-WIWI-102873', 0, '3', 'Unregelmäßig', 'Deutsch', '17', '2018-01-17 20:54:42', 0, ''),
@@ -1681,7 +1762,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (319, 'Liberalised Power Markets', 'T-WIWI-107043', 0, '3', 'Winter', 'Englisch', '17', '2018-01-17 21:30:37', 0, ''),
 (320, 'Management im ÖV', 'M-BGU-101113', 0, '3', 'Sommer', 'Deutsch', '16', '2018-01-17 21:30:56', 0, ''),
 (321, 'Globale Produktion und Logistik - Teil 1: Globale Produktion', 'T-MACH-105158', 0, '4', 'Winter', 'Deutsch', '15', '2018-01-17 21:31:07', 0, ''),
-(322, 'Business Data Strategy', 'T-WIWI-106187', 0, '4,5', 'Winter', 'Deutsch', '18', '2018-01-17 21:31:34', 0, ''),
+(322, 'Business Data Strategy', ' T-WIWI-106187', 0, '4,5', 'Winter', 'Deutsch', '18', '2018-01-17 21:31:34', 0, ''),
 (323, 'Globale Produktion und Logistik - Teil 2: Globale Logistik', 'T-MACH-105159', 0, '4', 'Sommer', 'Deutsch', '15', '2018-01-17 21:31:57', 0, ''),
 (324, 'Management neuer Technologien', 'T-WIWI-102612', 0, '5', 'Sommer', 'Deutsch', '16', '2018-01-17 21:32:17', 0, ''),
 (325, 'Infrastrukturausrüstung von Schienenfahrwegen', 'T-BGU-101849', 0, '1,5', 'Sommer', 'Deutsch', '10', '2018-01-17 21:32:27', 0, ''),
@@ -1735,9 +1816,9 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (373, 'Fertigungsprozesse der Mikrosystemtechnik', 'T-MACH-102166', 0, '3', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 21:53:42', 0, ''),
 (374, 'Ökobilanzen', 'T-WIWI-103133', 0, '3,5', 'Winter', 'Deutsch', '16', '2018-01-17 21:54:11', 0, ''),
 (375, 'Online Marketing', 'T-WIWI-103141', 0, '4,5', 'Winter', 'Deutsch', '16', '2018-01-17 21:54:52', 0, ''),
-(376, 'Multivariate Verfahren', 'T-WIWI-103124', 0, '4,5', 'Sommer', 'Deutsch', '17', '2018-01-17 21:55:57', 0, '');
+(376, 'Multivariate Verfahren', 'T-WIWI-103124', 0, '4,5', 'Sommer', 'Deutsch', '17', '2018-01-17 21:55:57', 0, ''),
+(377, 'Open Innovation - Konzepte, Methoden und Best Practices', 'T-WIWI-102901', 0, '1,5', 'Sommer', 'Englisch', '16', '2018-01-17 21:57:01', 0, '');
 INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
-(377, 'Open Innovation - Konzepte, Methoden und Best Practices', 'T-WIWI-102901', 0, '1,5', 'Sommer', 'Englisch', '16', '2018-01-17 21:57:01', 0, ''),
 (378, 'Festverzinsliche Titel', 'T-WIWI-102644', 0, '4,5', 'Winter', 'Deutsch', '8', '2018-01-17 21:57:23', 0, ''),
 (379, 'Grundzüge der Informationswirtschaft', 'T-WIWI-102638', 0, '5', 'Winter', 'Deutsch', '15', '2018-01-17 21:57:50', 0, ''),
 (380, 'Operations Research in Health Care Management', 'T-WIWI-102884', 0, '4,5', 'Unregelmäßig', 'Deutsch', '16', '2018-01-17 21:58:23', 0, ''),
@@ -1750,7 +1831,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (387, 'Parametrische Optimierung', 'T-WIWI-102855', 0, '4,5', 'Unregelmäßig', 'Deutsch', '17', '2018-01-17 22:00:24', 0, ''),
 (388, 'Empirische Daten im Verkehrswesen', 'T-BGU-100010', 0, '3', 'Winter', 'Deutsch', '14', '2018-01-17 22:00:34', 0, ''),
 (389, 'Optical Transmitters and Receivers', 'T-ETIT-100639', 0, '4', 'Winter', 'Englisch', '16', '2018-01-17 22:00:38', 0, ''),
-(390, 'Field Training Water Quality', 'T-BGU-106668', 0, '0', 'Sommer', 'Deutsch', '8', '2018-01-17 22:01:16', 0, ''),
+(390, 'Field Training Water Quality', ' T-BGU-106668', 0, '0', 'Sommer', 'Deutsch', '8', '2018-01-17 22:01:16', 0, ''),
 (391, 'Optical Waveguides and Fibers', 'T-ETIT-101945', 0, '4', 'Winter', 'Englisch', '16', '2018-01-17 22:01:17', 0, ''),
 (392, 'Patentrecht', 'T-INFO-101310', 0, '3', 'Sommer', 'Deutsch', '17', '2018-01-17 22:01:20', 0, ''),
 (393, 'Interactive Systems', 'T-WIWI-106342', 0, '4,5', 'Sommer', 'Deutsch', '10', '2018-01-17 22:01:56', 0, ''),
@@ -1763,7 +1844,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (400, 'Recommendersysteme', 'T-WIWI-102847', 0, '4,5', 'Sommer', 'Deutsch', '15', '2018-01-17 22:04:34', 0, ''),
 (401, 'Qualitätssicherung II', 'T-WIWI-102729', 0, '4,5', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:04:49', 0, ''),
 (402, 'International Management in Engineering and Production', 'T-WIWI-102882', 0, '3,5', 'Winter', 'Englisch', '10', '2018-01-17 22:05:43', 0, ''),
-(403, 'Quanteneffektbauelemente und Halbleitertechnologie', 'T-ETIT-100740', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:06:09', 0, ''),
+(403, 'Quanteneffektbauelemente und Halbleitertechnologie', ' T-ETIT-100740', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:06:09', 0, ''),
 (404, 'Regelkonformes Verhalten im Unternehmensbereich', 'T-INFO-101288', 0, '3', 'Winter', 'Deutsch', '15', '2018-01-17 22:06:12', 0, ''),
 (405, 'Planspiel Energiewirtschaft', 'T-WIWI-108016', 0, '3', 'Sommer', 'Deutsch', '17', '2018-01-17 22:06:13', 0, ''),
 (406, 'Endogene Wachstumstheorie', 'T-WIWI-102785', 0, '4,5', 'Winter', 'Deutsch', '14', '2018-01-17 22:06:32', 0, ''),
@@ -1786,8 +1867,8 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (423, 'Fortgeschrittene Stochastische Optimierung', 'T-WIWI-106548', 0, '4,5', 'Unregelmäßig', 'Deutsch', '8', '2018-01-17 22:18:35', 0, ''),
 (424, 'Roadmapping', 'T-WIWI-102853', 0, '3', 'Sommer', 'Deutsch', '15', '2018-01-17 22:19:18', 0, ''),
 (425, 'Valuation', 'T-WIWI-102621', 0, '4,5', 'Winter', 'Englisch', '15', '2018-01-17 22:21:04', 0, ''),
-(426, 'Technologien für das Innovationsmanagement', 'T-WIWI-102854', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:21:44', 0, ''),
-(427, 'Wärmewirtschaft', 'T-WIWI-102695', 0, '3', 'Sommer', 'Deutsch', '8', '2018-01-17 22:22:17', 0, ''),
+(426, 'Technologien für das Innovationsmanagement', ' T-WIWI-102854', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:21:44', 0, ''),
+(427, 'Wärmewirtschaft', ' T-WIWI-102695', 0, '3', 'Sommer', 'Deutsch', '8', '2018-01-17 22:22:17', 0, ''),
 (428, 'Technologischer Wandel in der Energiewirtschaft', 'T-WIWI-102694', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:22:21', 0, ''),
 (429, 'Produkt- und Innovationsmanagement', 'T-WIWI-102812', 0, '3', 'Sommer', 'Deutsch', '16', '2018-01-17 22:23:00', 0, ''),
 (430, 'Telekommunikations- und Internetökonomie', 'T-WIWI-102713', 0, '4,5', 'Winter', 'Deutsch', '18', '2018-01-17 22:23:40', 0, ''),
@@ -1796,7 +1877,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (433, 'Produktions- und Logistikmanagement', 'T-WIWI-102632', 0, '5,5', 'Sommer', 'Deutsch', '16', '2018-01-17 22:25:32', 0, ''),
 (434, 'Verfahrenstechniken der Demontage', 'T-BGU-101850', 0, '3', 'Sommer', 'Deutsch', '15', '2018-01-17 22:25:59', 0, ''),
 (435, 'Umwelt- und Ressourcenpolitik', 'T-WIWI-102616', 0, '4', 'Sommer', 'Deutsch', '10', '2018-01-17 22:26:00', 0, ''),
-(436, 'Telekommunikationsrecht', 'T-INFO-101309', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:27:02', 0, ''),
+(436, 'Telekommunikationsrecht', ' T-INFO-101309', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:27:02', 0, ''),
 (437, 'Programmierpraktikum: Solving Computational Risk and Asset Management Problems', 'T-WIWI-103110', 0, '4,5', 'Winter', 'Deutsch', '16', '2018-01-17 22:27:15', 0, ''),
 (438, 'Verkehrs-, Planungs- und Wegerecht', 'T-BGU-106615', 0, '3', 'Sommer', 'Deutsch', '15', '2018-01-17 22:27:45', 0, ''),
 (439, 'Polymers in MEMS B: Physics, Microstructuring and Applications', 'T-MACH-102191', 0, '3', 'Winter', 'Deutsch', '17', '2018-01-17 22:27:47', 0, ''),
@@ -1822,10 +1903,10 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (459, 'Projektseminar', 'T-GEISTSOZ-101958', 0, '4', 'Ganzjährig', 'Deutsch', '16', '2018-01-17 22:32:01', 0, ''),
 (460, 'Projektstudien', 'T-BGU-101847', 0, '3', 'Sommer', 'Deutsch', '16', '2018-01-17 22:32:29', 0, ''),
 (461, 'Schlüsselfertiges Bauen II - Gewerke und Technik', 'T-BGU-103431', 0, '3', 'Sommer', 'Deutsch', '3', '2018-01-17 22:32:38', 0, ''),
-(462, 'Tiefbau', 'T-BGU-101832', 0, '1,5', 'Winter', 'Deutsch', '18', '2018-01-17 22:32:38', 0, ''),
+(462, 'Tiefbau', ' T-BGU-101832', 0, '1,5', 'Winter', 'Deutsch', '18', '2018-01-17 22:32:38', 0, ''),
 (463, 'Prüfungsvorleistung Umweltkommunikation', 'T-BGU-106620', 0, '0', 'Sommer', 'Deutsch', '16', '2018-01-17 22:33:27', 0, ''),
 (464, 'Wasserchemie und Wassertechnologie II', 'T-CIWVT-101901', 0, '9', 'Unregelmäßig', 'Englisch', '8', '2018-01-17 22:33:45', 0, ''),
-(465, 'Topics in Experimental Economics', 'T-WIWI-102863', 0, '4,5', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:33:46', 0, ''),
+(465, 'Topics in Experimental Economics', ' T-WIWI-102863', 0, '4,5', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:33:46', 0, ''),
 (466, 'Practical Seminar: Digital Service Design', 'T-WIWI-105774', 0, '4,5', 'Sommer', 'Englisch', '17', '2018-01-17 22:33:52', 0, ''),
 (467, 'Umweltrecht', 'T-INFO-101348', 0, '3', 'Ganzjährig', 'Deutsch', '10', '2018-01-17 22:34:37', 0, ''),
 (468, 'Wasserchemisches Praktikum', 'T-CIWVT-103351', 0, '4', 'Unregelmäßig', 'Deutsch', '8', '2018-01-17 22:34:44', 0, ''),
@@ -1838,7 +1919,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (475, 'Transportökonomie', 'T-WIWI-100007', 0, '4,5', 'Sommer', 'Deutsch', '18', '2018-01-17 22:36:59', 0, ''),
 (476, 'Energiehandel und Risikomanagement', 'T-WIWI-102691', 0, '4', 'Sommer', 'Deutsch', '14', '2018-01-17 22:37:24', 0, ''),
 (477, 'Tunnelbau und Sprengtechnik', 'T-BGU-101846', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:38:17', 0, ''),
-(478, 'Wastewater and Storm Water Treatment', 'T-BGU-106601', 0, '6', 'Sommer', 'Deutsch', '8', '2018-01-17 22:38:18', 0, ''),
+(478, 'Wastewater and Storm Water Treatment', ' T-BGU-106601', 0, '6', 'Sommer', 'Deutsch', '8', '2018-01-17 22:38:18', 0, ''),
 (479, 'Schweißtechnik', 'T-MACH-105170', 0, '4', 'Ganzjährig', 'Deutsch', '3', '2018-01-17 22:38:37', 0, ''),
 (480, 'Virtual Engineering I', 'T-MACH-102123', 0, '6', 'Winter', 'Deutsch', '15', '2018-01-17 22:38:49', 0, ''),
 (481, 'Energieübertragung und Netzregelung', 'T-ETIT-101941', 0, '5', 'Sommer', 'Deutsch', '14', '2018-01-17 22:38:54', 0, ''),
@@ -1852,7 +1933,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (489, 'Workshop Business Wargaming – Analyse strategischer Interaktionen', 'T-WIWI-106189', 0, '3', 'Sommer', 'Deutsch', '18', '2018-01-17 22:41:23', 0, ''),
 (490, 'Supply Chain Management in der Prozessindustrie', 'T-WIWI-102860', 0, '4,5', 'Winter', 'Englisch', '16', '2018-01-17 22:41:28', 0, ''),
 (491, 'Seminarpraktikum Digital Service Systems', 'T-WIWI-106563', 0, '4,5', 'Unregelmäßig', 'Deutsch', '3', '2018-01-17 22:41:32', 0, ''),
-(492, 'Wettbewerb, Planung und Finanzierung im ÖPNV', 'T-BGU-101005', 0, '3', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 22:41:56', 0, ''),
+(492, 'Wettbewerb, Planung und Finanzierung im ÖPNV', ' T-BGU-101005', 0, '3', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 22:41:56', 0, ''),
 (493, 'Workshop aktuelle Themen Strategie und Management', 'T-WIWI-106188', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:42:07', 0, ''),
 (494, 'Virtuelle Lernfabrik 4.X', 'T-MACH-106741', 0, '4', 'Ganzjährig', 'Deutsch', '15', '2018-01-17 22:42:15', 0, ''),
 (495, 'Urheberrecht', 'T-INFO-101308', 0, '3', 'Ganzjährig', 'Deutsch', '10', '2018-01-17 22:42:17', 0, ''),
@@ -1918,12 +1999,11 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 -- Tabellenstruktur für Tabelle `subjects_lecturers`
 --
 
-CREATE TABLE IF NOT EXISTS `subjects_lecturers` (
-  `subjects_lecturers_ID` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `subjects_lecturers` (
+  `subjects_lecturers_ID` int(10) NOT NULL,
   `subject_ID` int(10) NOT NULL,
-  `lecturer_ID` int(10) NOT NULL,
-  PRIMARY KEY (`subjects_lecturers_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=783 ;
+  `lecturer_ID` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `subjects_lecturers`
@@ -2600,12 +2680,11 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 -- Tabellenstruktur für Tabelle `subjects_modules`
 --
 
-CREATE TABLE IF NOT EXISTS `subjects_modules` (
-  `subjects_modules_ID` int(100) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `subjects_modules` (
+  `subjects_modules_ID` int(100) NOT NULL,
   `subject_ID` int(11) NOT NULL,
-  `module_ID` int(11) NOT NULL,
-  PRIMARY KEY (`subjects_modules_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1069 ;
+  `module_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `subjects_modules`
@@ -3531,8 +3610,8 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 -- Tabellenstruktur für Tabelle `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `user_ID` int(11) NOT NULL,
   `admin` int(10) NOT NULL,
   `super_admin` int(10) NOT NULL,
   `first_name` varchar(60) NOT NULL,
@@ -3546,16 +3625,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `semester` varchar(100) NOT NULL,
   `info` varchar(100) NOT NULL,
   `hash` varchar(100) NOT NULL,
-  `recoverhash` varchar(100) NOT NULL,
-  PRIMARY KEY (`user_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+  `recoverhash` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Daten für Tabelle `users`
 --
 
 INSERT INTO `users` (`user_ID`, `admin`, `super_admin`, `first_name`, `last_name`, `username`, `email`, `password`, `active`, `degree`, `advance`, `semester`, `info`, `hash`, `recoverhash`) VALUES
-(1, 1, 0, 'Albert', 'Einstein', 'der_albert', 'albert.einstein@student.kit.edu', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, 'Physik', 'bachelor', '5', 'yes', '2ca65f58e35d9ad45bf7f3ae5cfd08f1', ''),
+(1, 0, 0, 'Albert', 'Einstein', 'der_albert', 'albert.einstein@student.kit.edu', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, 'Physik', 'bachelor', '5', 'yes', '2ca65f58e35d9ad45bf7f3ae5cfd08f1', ''),
 (2, 1, 1, 'Julian', 'Germek', 'juliangermek', 'julian.germek@gmail.com', '$2y$10$wVR2wJzMmBG2otaHWt4Ml.rIK0v7OAQHKZKmM6.HrVV2MWpj3lSaG', 1, 'wiwi', 'bachelor', '1', 'no', '1ff1de774005f8da13f42943881c655f', 'a4a042cf4fd6bfb47701cbc8a1653ada'),
 (3, 1, 1, 'Jonas', 'Bakker', 'jonasl', 'ueehp@student.kit.edu', '$2y$10$PkYqkdO59gxm/QqqC.YbheY1yGt5lFKooml5zLcJ6PNfFmukvqzYq', 1, 'wing', 'bachelor', '6', 'no', 'eeb69a3cb92300456b6a5f4162093851', ''),
 (8, 1, 0, 'Katja', 'Goller', 'Katja', 'ucrnh@student.kit.edu', '$2y$10$Xo.UCzDtWyVt8GPcszIrDe.wvJn6VkX43QSlnWj0tuRABRYkxFVxW', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '3', 'no', '352407221afb776e3143e8a1a0577885', ''),
@@ -3569,6 +3647,233 @@ INSERT INTO `users` (`user_ID`, `admin`, `super_admin`, `first_name`, `last_name
 (16, 1, 0, 'Marco', 'Gehring', 'derhahnmusslaufen', 'uodcf@student.kit.edu', '$2y$10$bBHUx28olKNOyNdLBdHIa.Tfb25DHr0QKaYsJe2q.2aNKPbxD1k1m', 1, 'Wirtschaftsingenieurswesen', 'master', '4', 'no', 'd67d8ab4f4c10bf22aa353e27879133c', ''),
 (17, 1, 0, 'Daniel', 'Englert', 'Mcduniel', 'utdqr@student.kit.edu', '$2y$10$JeHyF5ZAATlWJWoMH1u9ve1FChAJcvxE7XTc3zAwfFGoWxQ4akT8.', 1, 'Wirtschaftsingenieur', 'bachelor', '7', 'no', '149e9677a5989fd342ae44213df68868', ''),
 (18, 1, 0, 'Benedikt', 'Niedenthal', 'benedikt_n', 'utube@student.kit.edu', '$2y$10$6N/msTMyEwrSAoX83bFaq.cx6q9aboedj5Fu2kU.ZAAUVYHZ5p35O', 1, 'Wirtschaftsingenieuwesen', 'bachelor', '3', 'no', '1679091c5a880faf6fb5e6087eb1b2dc', '');
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `admin_notifications`
+--
+ALTER TABLE `admin_notifications`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `anti_brute_force`
+--
+ALTER TABLE `anti_brute_force`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indizes für die Tabelle `commentratings`
+--
+ALTER TABLE `commentratings`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `subject_ID` (`subject_ID`,`comment_ID`,`user_ID`);
+
+--
+-- Indizes für die Tabelle `favourites`
+--
+ALTER TABLE `favourites`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `institutes`
+--
+ALTER TABLE `institutes`
+  ADD PRIMARY KEY (`institute_ID`);
+
+--
+-- Indizes für die Tabelle `lecturers`
+--
+ALTER TABLE `lecturers`
+  ADD PRIMARY KEY (`lecturer_ID`);
+
+--
+-- Indizes für die Tabelle `lecturers_institutes`
+--
+ALTER TABLE `lecturers_institutes`
+  ADD PRIMARY KEY (`lecturers_institutes_ID`);
+
+--
+-- Indizes für die Tabelle `levels`
+--
+ALTER TABLE `levels`
+  ADD PRIMARY KEY (`level_ID`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indizes für die Tabelle `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`message_id`);
+
+--
+-- Indizes für die Tabelle `modules`
+--
+ALTER TABLE `modules`
+  ADD PRIMARY KEY (`module_ID`);
+
+--
+-- Indizes für die Tabelle `modules_levels`
+--
+ALTER TABLE `modules_levels`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `moduletypes`
+--
+ALTER TABLE `moduletypes`
+  ADD PRIMARY KEY (`module_type_ID`);
+
+--
+-- Indizes für die Tabelle `questions`
+--
+ALTER TABLE `questions`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `ratings`
+--
+ALTER TABLE `ratings`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `remember_me`
+--
+ALTER TABLE `remember_me`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `subjects`
+--
+ALTER TABLE `subjects`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `subject_name` (`subject_name`);
+
+--
+-- Indizes für die Tabelle `subjects_lecturers`
+--
+ALTER TABLE `subjects_lecturers`
+  ADD PRIMARY KEY (`subjects_lecturers_ID`);
+
+--
+-- Indizes für die Tabelle `subjects_modules`
+--
+ALTER TABLE `subjects_modules`
+  ADD PRIMARY KEY (`subjects_modules_ID`);
+
+--
+-- Indizes für die Tabelle `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_ID`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `admin_notifications`
+--
+ALTER TABLE `admin_notifications`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT für Tabelle `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT für Tabelle `commentratings`
+--
+ALTER TABLE `commentratings`
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT für Tabelle `favourites`
+--
+ALTER TABLE `favourites`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT für Tabelle `institutes`
+--
+ALTER TABLE `institutes`
+  MODIFY `institute_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+--
+-- AUTO_INCREMENT für Tabelle `lecturers`
+--
+ALTER TABLE `lecturers`
+  MODIFY `lecturer_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=288;
+--
+-- AUTO_INCREMENT für Tabelle `lecturers_institutes`
+--
+ALTER TABLE `lecturers_institutes`
+  MODIFY `lecturers_institutes_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
+--
+-- AUTO_INCREMENT für Tabelle `levels`
+--
+ALTER TABLE `levels`
+  MODIFY `level_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT für Tabelle `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `message_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT für Tabelle `modules`
+--
+ALTER TABLE `modules`
+  MODIFY `module_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
+--
+-- AUTO_INCREMENT für Tabelle `modules_levels`
+--
+ALTER TABLE `modules_levels`
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+--
+-- AUTO_INCREMENT für Tabelle `moduletypes`
+--
+ALTER TABLE `moduletypes`
+  MODIFY `module_type_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT für Tabelle `questions`
+--
+ALTER TABLE `questions`
+  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT für Tabelle `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT für Tabelle `remember_me`
+--
+ALTER TABLE `remember_me`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
+-- AUTO_INCREMENT für Tabelle `subjects`
+--
+ALTER TABLE `subjects`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=551;
+--
+-- AUTO_INCREMENT für Tabelle `subjects_lecturers`
+--
+ALTER TABLE `subjects_lecturers`
+  MODIFY `subjects_lecturers_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=783;
+--
+-- AUTO_INCREMENT für Tabelle `subjects_modules`
+--
+ALTER TABLE `subjects_modules`
+  MODIFY `subjects_modules_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1069;
+--
+-- AUTO_INCREMENT für Tabelle `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
