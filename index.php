@@ -559,7 +559,7 @@ include "sumVotes.php";
 							<div class="form-group">
 								<textarea name="formQuestion" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Frage ein." required></textarea>
 							</div>
-							<button id="submitQuestionButton" type="button" class="btn btn-primary" data-dismiss="modal">Abschicken</button>
+							<button id="submitQuestionButton" type="button" class="btn btn-primary">Abschicken</button>
 							<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
 						</form>
 					</div><!-- End of Modal body -->
@@ -576,14 +576,19 @@ include "sumVotes.php";
 						SELECT questions.ID AS ID, questions.subject_ID AS subject_ID, questions.user_ID AS user_ID, questions.question AS question, questions.time_stamp AS time_stamp, users.username AS username
 						FROM questions
 						JOIN users ON questions.user_ID = users.user_ID
-						WHERE subject_ID = ".$subjectData['ID']
-					;
+						WHERE subject_ID = ".$subjectData['ID']."
+						ORDER BY time_stamp DESC;
+					";
 					$result = mysqli_query($con, $sql);
-					
+						
+					if(mysqli_num_rows($result)==0){
+						echo "<i>Noch keine Fragen vorhanden.</i>";
+					}
+						
 					while($row = mysqli_fetch_assoc($result)){
 						?>
 						<div class="well" style="background-color:white; border-radius:none">
-							<?php echo $row['question']?>
+							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo $row['question']?></span>
 							<hr style="margin:10px">
 							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo $row['time_stamp']?></p>
 							
@@ -614,8 +619,9 @@ include "sumVotes.php";
 									SELECT answers.ID AS ID, answers.question_ID AS question_ID, answers.user_ID AS user_ID, answers.answer AS answer, answers.time_stamp AS time_stamp, users.username AS username
 									FROM answers
 									JOIN users ON answers.user_ID = users.user_ID
-									WHERE question_ID = ".$row['ID']
-								;
+									WHERE question_ID = ".$row['ID']."
+									ORDER BY time_stamp DESC;
+								";
 								$result2 = mysqli_query($con, $sql2);
 								
 								while($row2 = mysqli_fetch_assoc($result2)){
@@ -652,13 +658,14 @@ include "sumVotes.php";
 			</div>
 			<div class="modal-body answer-modal-body">
 				<p><strong>Frage:</strong></p>
-				<p name="questionForAnswerModal"></p>
+				<p id="questionForAnswerModal"></p>
+				<p style="display:" id="questionID"></p>
 				<p><strong>Deine Antwort:</strong></p>
 				<form id="answerForm">
 					<div class="form-group">
-						<textarea name="formAswer" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Frage ein." required></textarea>
+						<textarea name="formAswer" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Antwort ein." required></textarea>
 					</div>
-					<button id="submitQuestionButton" type="button" class="btn btn-primary" data-dismiss="modal">Abschicken</button>
+					<button id="submitAnswerButton" type="button" class="btn btn-primary">Abschicken</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
 				</form>
 			</div><!-- End of Modal body -->
@@ -666,8 +673,20 @@ include "sumVotes.php";
 			</div><!-- End of Modal dialog -->
 		</div><!-- End of Modal -->	
 
-		
 		<script>
+		$( document ).ready(function() {
+			(function($) { //Scrollbar vorhanden?
+				$.fn.hasScrollBarIH = function() {
+					return this.get(0).scrollHeight > this.innerHeight();
+				}
+			})(jQuery);
+			
+			if(!$('#questionBody').hasScrollBarIH()){
+				$('#showAllQuestions').hide();
+			}
+		});
+
+
 		//Fragen auf- und zuklappen
 		$('#showAllQuestions').click(function() {
 			if(!($('#questionBody').css("max-height")=="none")){
@@ -686,9 +705,19 @@ include "sumVotes.php";
 				if(($(this).text().trim() == "Schließen")){
 					$(this).parent().next(".answerSection").hide(); //Bin nicht ganz sicher, wie stabil das ist
 					$(this).html("<a>Antworten anzeigen</a>");
+					if($('#questionBody').hasScrollBarIH()){
+						$('#showAllQuestions').show();
+					}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
+						$('#showAllQuestions').hide();
+					}
 				}else{
 					$(this).parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
 					$(this).html("<a>Schließen</a>");
+					if($('#questionBody').hasScrollBarIH()){
+						$('#showAllQuestions').show();
+					}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
+						$('#showAllQuestions').hide();
+					}
 				}
 			}
 		});
@@ -698,7 +727,7 @@ include "sumVotes.php";
 			$('#questionModal').modal('show');
 		});
 		
-		$("#submitQuestionButton").click(function(e){
+		$("#submitQuestionButton").click(function(){
 			$.ajax({
 				type: "POST",
 				url: "question_submit.php",
@@ -712,13 +741,29 @@ include "sumVotes.php";
 					}
 				}
 			});
-			e.preventDefault(); //Funktioniert irgendwie nicht, darum nächste Zeile
-			e.stopImmediatePropagation();
 		});
 		
 		//Frage beantworten
 		$('.answerThisQuestion').click(function(){
 			$('#answerModal').modal('show');
+			$('#questionForAnswerModal').html($(this).parent().prevAll(".actualQuestion:first").text());
+			$('#questionID').html($(this).parent().prevAll(".actualQuestion:first").attr('id').slice(8));
+		});
+		
+		$("#submitAnswerButton").click(function(){
+			$.ajax({
+				type: "POST",
+				url: "answer_submit.php",
+				data: $("#answerForm").serialize() + "&question_id=" + $('#questionID').html(),
+				success: function(data) {
+					alert(data);
+					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
+						$('.answer-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+					}else{
+						$('.answer-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deines Anliegens ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+					}
+				}
+			});
 		});
 		</script>
 
