@@ -67,7 +67,7 @@ function time_elapsed_string($datetime, $full = false) {
 	<div class="feedbody">
 		<?php
 		$sql = "
-			SELECT subject_name, username, ratings.time_stamp AS time_stamp, comment
+			SELECT subjects.ID AS ID, subject_name, username, ratings.time_stamp AS time_stamp, comment
 			FROM ratings
 			JOIN subjects ON ratings.subject_ID = subjects.ID
 			JOIN users ON ratings.user_ID = users.user_ID
@@ -81,7 +81,7 @@ function time_elapsed_string($datetime, $full = false) {
 			$count++;
 			?>
 			<p>
-				<strong><?php echo $row['subject_name']?></strong>
+				<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
 				<br>
 				<span style="color:grey"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
 			</p>
