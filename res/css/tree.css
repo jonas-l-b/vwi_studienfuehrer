@@ -59,6 +59,36 @@
 	padding:5px;
 }
 
+.feedbox{
+	border-radius:5px;
+}
+
+.feedhead{
+	background-color:rgb(20,90,157);
+	color:white;
+	height: 50px;
+	line-height: 50px;
+}
+
+.feedtitle{
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+	font-family:open sans;
+	padding:10px;
+}
+
+.feedbody{
+	border-style: none solid solid;
+	border-width:0px 1px 1px;
+	border-color:lightgrey;
+	
+	padding:10px;
+	
+	max-height:800px;
+	overflow:auto;
+	
+}
 
 /*
 

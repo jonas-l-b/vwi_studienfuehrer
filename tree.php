@@ -22,17 +22,104 @@ include "connect.php";
  	}
  ?>
 
+<?php
+function time_elapsed_string($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'Jahr',
+        'm' => 'Monat',
+        'w' => 'Woche',
+        'd' => 'Tag',
+        'h' => 'Stunde',
+        'i' => 'Minute',
+        's' => 'Sekunde',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+			if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
+			}
+			else {
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
+			}
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
+}
+?>
  
+<div class="feedbox">
+	<div class="feedhead">
+		<span class="feedtitle">	
+			NEUSTE KOMMENTARE
+		</span>
+	</div>
+	<div class="feedbody">
+		<?php
+		$sql = "
+			SELECT subject_name, username, ratings.time_stamp AS time_stamp, comment
+			FROM ratings
+			JOIN subjects ON ratings.subject_ID = subjects.ID
+			JOIN users ON ratings.user_ID = users.user_ID
+			ORDER BY ratings.time_stamp DESC
+            LIMIT 5
+		";
+		$result = mysqli_query($con, $sql);
+		
+		$count = 0;
+		while($row = mysqli_fetch_assoc($result)){
+			$count++;
+			?>
+			<p>
+				<strong><?php echo $row['subject_name']?></strong>
+				<br>
+				<span style="color:grey"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+			</p>
+			<p>
+				<?php echo $row['comment']?>
+			</p>
+			<?php
+			if($count < 5) echo "<hr>";
+		}
+		?>
+	</div>
+</div>
+
+<br>
+
+<div class="feedbox">
+	<div class="feedhead">
+		<span class="feedtitle">	
+			NEUSTE FRAGEN
+		</span>
+	</div>
+</div>
+
+
+<hr>
+ 
+ 
+<!--
 <div class="container">
   <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
-	<!-- Indicators -->
+	<!-- Indicators --
 	<ol class="carousel-indicators">
 	  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 	  <li data-target="#myCarousel" data-slide-to="1"></li>
 	  <li data-target="#myCarousel" data-slide-to="2"></li>
 	</ol>
 
-	<!-- Wrapper for slides -->
+	<!-- Wrapper for slides --
 	<div class="carousel-inner">
 	  <div class="item active">
 		<img src="pictures/carousel_afterLogin/carouselAfter_one.jpg" style="width:100%;">
@@ -47,7 +134,7 @@ include "connect.php";
 	  </div>
 	</div>
 
-	<!-- Left and right controls -->
+	<!-- Left and right controls --
 	<a class="left carousel-control" href="#myCarousel" data-slide="prev">
 	  <span class="glyphicon glyphicon-chevron-left"></span>
 	  <span class="sr-only">Previous</span>
@@ -58,7 +145,7 @@ include "connect.php";
 	</a>
   </div>
 </div>
- 
+--> 
  
 </div>
 <div class="container">
