@@ -659,7 +659,7 @@ include "sumVotes.php";
 			<div class="modal-body answer-modal-body">
 				<p><strong>Frage:</strong></p>
 				<p id="questionForAnswerModal"></p>
-				<p style="display:" id="questionID"></p>
+				<p style="display:none" id="questionID"></p>
 				<p><strong>Deine Antwort:</strong></p>
 				<form id="answerForm">
 					<div class="form-group">
@@ -756,7 +756,7 @@ include "sumVotes.php";
 				url: "answer_submit.php",
 				data: $("#answerForm").serialize() + "&question_id=" + $('#questionID').html(),
 				success: function(data) {
-					alert(data);
+					//alert(data);
 					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
 						$('.answer-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 					}else{
