@@ -57,7 +57,12 @@ function time_elapsed_string($datetime, $full = false) {
     return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
 }
 ?>
- 
+
+<!--Feed auf Startseite-->
+<?php
+$feedLimit = 3;
+?>
+
 <div class="feedbox">
 	<div class="feedhead">
 		<span class="feedtitle">	
@@ -72,8 +77,8 @@ function time_elapsed_string($datetime, $full = false) {
 			JOIN subjects ON ratings.subject_ID = subjects.ID
 			JOIN users ON ratings.user_ID = users.user_ID
 			ORDER BY ratings.time_stamp DESC
-            LIMIT 5
-		";
+            LIMIT $feedLimit
+		"; //Set $feedLimit above
 		$result = mysqli_query($con, $sql);
 		
 		$count = 0;
@@ -83,13 +88,13 @@ function time_elapsed_string($datetime, $full = false) {
 			<p>
 				<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
 				<br>
-				<span style="color:grey"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+				<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
 			</p>
 			<p>
 				<?php echo $row['comment']?>
 			</p>
 			<?php
-			if($count < 5) echo "<hr>";
+			if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
 		}
 		?>
 	</div>
@@ -103,11 +108,38 @@ function time_elapsed_string($datetime, $full = false) {
 			NEUSTE FRAGEN
 		</span>
 	</div>
+	<div class="feedbody">
+		<?php
+		$sql = "
+			SELECT subjects.ID AS ID, subject_name, username, questions.time_stamp AS time_stamp, question
+			FROM questions
+			JOIN subjects ON questions.subject_ID = subjects.ID
+			JOIN users ON questions.user_ID = users.user_ID
+			ORDER BY questions.time_stamp DESC
+            LIMIT $feedLimit
+		"; //Set $feedLimit above
+		$result = mysqli_query($con, $sql);
+		
+		$count = 0;
+		while($row = mysqli_fetch_assoc($result)){
+			$count++;
+			?>
+			<p>
+				<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
+				<br>
+				<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+			</p>
+			<p>
+				<?php echo $row['question']?>
+			</p>
+			<?php
+			if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
+		}
+		?>
+	</div>
 </div>
 
-
-<hr>
- 
+<br>
  
 <!--
 <div class="container">
