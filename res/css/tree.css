@@ -87,7 +87,13 @@
 	
 	max-height:800px;
 	overflow:auto;
-	
+}
+
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
 }
 
 /*
