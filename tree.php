@@ -599,7 +599,8 @@ include "connect.php";
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
-						alert("Error!");
+						alert("Bei Laden ist leider etwas schief gegangen. Bitte probiere es nochmal oder wende dich an VWI-ESTIEM.");
+						//alert(data);
 					},
           finally: function(){
             $('#tabelleLaden').hide();
