@@ -60,9 +60,9 @@ include "connect.php";
 	</div>
  
 	<hr>
-
+	
 	<div class="row">
-		<div class="col-md-10">
+		<div class="col-md-9">
 
 			<?php
 			/*Vorbereitung*/
@@ -575,7 +575,7 @@ include "connect.php";
 			</div>
 
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-3">
 			<!--Feed auf Startseite-->
 			<?php
 			function time_elapsed_string($datetime, $full = false) {
