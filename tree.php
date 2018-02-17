@@ -12,7 +12,162 @@ include "connect.php";
 <?php include "inc/nav.php" ?>
 
 <div id="div2" class="feeddiv">
-	<p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p><p>14</p><p>15</p><p>16</p><p>17</p><p>18</p><p>19</p><p>20</p><p>21</p><p>22</p><p>23</p><p>24</p><p>25</p><p>26</p><p>27</p><p>28</p><p>29</p><p>30</p><p>31</p><p>32</p><p>33</p><p>34</p><p>35</p><p>36</p><p>37</p><p>38</p><p>39</p><p>40</p><p>41</p><p>42</p><p>43</p><p>44</p><p>45</p><p>46</p><p>47</p><p>48</p><p>49</p><p>50</p><p>51</p><p>52</p><p>53</p><p>54</p><p>55</p><p>56</p><p>57</p><p>58</p><p>59</p><p>60</p><p>61</p><p>62</p><p>63</p><p>64</p><p>65</p><p>66</p><p>67</p><p>68</p><p>69</p><p>70</p><p>71</p><p>72</p><p>73</p><p>74</p><p>75</p><p>76</p><p>77</p><p>78</p><p>79</p><p>80</p><p>81</p><p>82</p><p>83</p><p>84</p><p>85</p><p>86</p><p>87</p><p>88</p><p>89</p><p>90</p><p>91</p><p>92</p><p>93</p><p>94</p><p>95</p><p>96</p><p>97</p><p>98</p><p>99</p><p>100</p><p>101</p><p>102</p><p>103</p><p>104</p><p>105</p><p>106</p><p>107</p><p>108</p><p>109</p><p>110</p><p>111</p><p>112</p><p>113</p><p>114</p><p>115</p><p>116</p><p>117</p><p>118</p><p>119</p><p>120</p><p>121</p><p>122</p><p>123</p><p>124</p><p>125</p><p>126</p><p>127</p><p>128</p><p>129</p><p>130</p><p>131</p><p>132</p><p>133</p><p>134</p><p>135</p><p>136</p><p>137</p><p>138</p><p>139</p><p>140</p><p>141</p><p>142</p><p>143</p><p>144</p><p>145</p><p>146</p><p>147</p><p>148</p><p>149</p><p>150</p>
+	<!--Feed auf Startseite-->
+	<?php
+	function time_elapsed_string($datetime, $full = false) {
+		$now = new DateTime;
+		$ago = new DateTime($datetime);
+		$diff = $now->diff($ago);
+
+		$diff->w = floor($diff->d / 7);
+		$diff->d -= $diff->w * 7;
+
+		$string = array(
+			'y' => 'Jahr',
+			'm' => 'Monat',
+			'w' => 'Woche',
+			'd' => 'Tag',
+			'h' => 'Stunde',
+			'i' => 'Minute',
+			's' => 'Sekunde',
+		);
+		foreach ($string as $k => &$v) {
+			if ($diff->$k) {
+				if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
+					$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
+				}
+				else {
+					$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
+				}
+			} else {
+				unset($string[$k]);
+			}
+		}
+
+		if (!$full) $string = array_slice($string, 0, 1);
+		return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
+	}
+	?>
+	
+	<script>
+	$(document).ready(function() {
+		// Configure/customize these variables.
+		var showChar = 100;  // How many characters are shown by default
+		var ellipsestext = "...";
+		var moretext = "Mehr";
+		var lesstext = "Weniger";
+		
+
+		$('.more').each(function() {
+			var content = $(this).html();
+	 
+			if(content.length > showChar) {
+	 
+				var c = content.substr(0, showChar);
+				var h = content.substr(showChar, content.length - showChar);
+	 
+				var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+	 
+				$(this).html(html);
+			}
+	 
+		});
+	 
+		$(".morelink").click(function(){
+			if($(this).hasClass("less")) {
+				$(this).removeClass("less");
+				$(this).html(moretext);
+			} else {
+				$(this).addClass("less");
+				$(this).html(lesstext);
+			}
+			$(this).parent().prev().toggle();
+			$(this).prev().toggle();
+			return false;
+		});
+	});
+	</script>
+
+	<?php
+	$feedLimit = 3;
+	?>
+
+	<div class="feedbox">
+		<div class="feedhead">
+			<span class="feedtitle">	
+				NEUSTE KOMMENTARE
+			</span>
+		</div>
+		<div class="feedbody">
+			<?php
+			$sql = "
+				SELECT subjects.ID AS ID, subject_name, username, ratings.time_stamp AS time_stamp, comment
+				FROM ratings
+				JOIN subjects ON ratings.subject_ID = subjects.ID
+				JOIN users ON ratings.user_ID = users.user_ID
+				ORDER BY ratings.time_stamp DESC
+				LIMIT $feedLimit
+			"; //Set $feedLimit above
+			$result = mysqli_query($con, $sql);
+			
+			$count = 0;
+			while($row = mysqli_fetch_assoc($result)){
+				$count++;
+				?>
+				<p>
+					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
+					<br>
+					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+				</p>
+				<p class="more">
+					<?php echo $row['comment']?>
+				</p>
+				<?php
+				if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
+			}
+			?>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="feedbox">
+		<div class="feedhead">
+			<span class="feedtitle">	
+				NEUSTE FRAGEN
+			</span>
+		</div>
+		<div class="feedbody">
+			<?php
+			$sql = "
+				SELECT subjects.ID AS ID, subject_name, username, questions.time_stamp AS time_stamp, question
+				FROM questions
+				JOIN subjects ON questions.subject_ID = subjects.ID
+				JOIN users ON questions.user_ID = users.user_ID
+				ORDER BY questions.time_stamp DESC
+				LIMIT $feedLimit
+			"; //Set $feedLimit above
+			$result = mysqli_query($con, $sql);
+			
+			$count = 0;
+			while($row = mysqli_fetch_assoc($result)){
+				$count++;
+				?>
+				<p>
+					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
+					<br>
+					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+				</p>
+				<p class="more">
+					<?php echo $row['question']?>
+				</p>
+				<?php
+				if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
+			}
+			?>
+		</div>
+	</div>
+
 </div>
 
 <script>
@@ -33,8 +188,10 @@ function collision($div1, $div2) {
 window.setInterval(function() {
 	if(collision($('#div1'), $('#div2')) == true){
 		$('#div2').css('background', 'red');
+		//$('#div2').show()
 	}else{
 		$('#div2').css('background', 'green');
+		//$('#div2').hide()
 	}
 }, 200);
 
@@ -607,161 +764,7 @@ window.setInterval(function() {
 
 		</div>
 		<div class="col-md-3">
-			<!--Feed auf Startseite-->
-			<?php
-			function time_elapsed_string($datetime, $full = false) {
-				$now = new DateTime;
-				$ago = new DateTime($datetime);
-				$diff = $now->diff($ago);
 
-				$diff->w = floor($diff->d / 7);
-				$diff->d -= $diff->w * 7;
-
-				$string = array(
-					'y' => 'Jahr',
-					'm' => 'Monat',
-					'w' => 'Woche',
-					'd' => 'Tag',
-					'h' => 'Stunde',
-					'i' => 'Minute',
-					's' => 'Sekunde',
-				);
-				foreach ($string as $k => &$v) {
-					if ($diff->$k) {
-						if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
-							$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
-						}
-						else {
-							$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
-						}
-					} else {
-						unset($string[$k]);
-					}
-				}
-
-				if (!$full) $string = array_slice($string, 0, 1);
-				return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
-			}
-			?>
-			
-			<script>
-			$(document).ready(function() {
-				// Configure/customize these variables.
-				var showChar = 100;  // How many characters are shown by default
-				var ellipsestext = "...";
-				var moretext = "Mehr";
-				var lesstext = "Weniger";
-				
-
-				$('.more').each(function() {
-					var content = $(this).html();
-			 
-					if(content.length > showChar) {
-			 
-						var c = content.substr(0, showChar);
-						var h = content.substr(showChar, content.length - showChar);
-			 
-						var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
-			 
-						$(this).html(html);
-					}
-			 
-				});
-			 
-				$(".morelink").click(function(){
-					if($(this).hasClass("less")) {
-						$(this).removeClass("less");
-						$(this).html(moretext);
-					} else {
-						$(this).addClass("less");
-						$(this).html(lesstext);
-					}
-					$(this).parent().prev().toggle();
-					$(this).prev().toggle();
-					return false;
-				});
-			});
-			</script>
-
-			<?php
-			$feedLimit = 3;
-			?>
-
-			<div class="feedbox">
-				<div class="feedhead">
-					<span class="feedtitle">	
-						NEUSTE KOMMENTARE
-					</span>
-				</div>
-				<div class="feedbody">
-					<?php
-					$sql = "
-						SELECT subjects.ID AS ID, subject_name, username, ratings.time_stamp AS time_stamp, comment
-						FROM ratings
-						JOIN subjects ON ratings.subject_ID = subjects.ID
-						JOIN users ON ratings.user_ID = users.user_ID
-						ORDER BY ratings.time_stamp DESC
-						LIMIT $feedLimit
-					"; //Set $feedLimit above
-					$result = mysqli_query($con, $sql);
-					
-					$count = 0;
-					while($row = mysqli_fetch_assoc($result)){
-						$count++;
-						?>
-						<p>
-							<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
-							<br>
-							<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
-						</p>
-						<p class="more">
-							<?php echo $row['comment']?>
-						</p>
-						<?php
-						if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
-					}
-					?>
-				</div>
-			</div>
-
-			<br>
-
-			<div class="feedbox">
-				<div class="feedhead">
-					<span class="feedtitle">	
-						NEUSTE FRAGEN
-					</span>
-				</div>
-				<div class="feedbody">
-					<?php
-					$sql = "
-						SELECT subjects.ID AS ID, subject_name, username, questions.time_stamp AS time_stamp, question
-						FROM questions
-						JOIN subjects ON questions.subject_ID = subjects.ID
-						JOIN users ON questions.user_ID = users.user_ID
-						ORDER BY questions.time_stamp DESC
-						LIMIT $feedLimit
-					"; //Set $feedLimit above
-					$result = mysqli_query($con, $sql);
-					
-					$count = 0;
-					while($row = mysqli_fetch_assoc($result)){
-						$count++;
-						?>
-						<p>
-							<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
-							<br>
-							<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
-						</p>
-						<p class="more">
-							<?php echo $row['question']?>
-						</p>
-						<?php
-						if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
-					}
-					?>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
