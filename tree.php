@@ -11,8 +11,39 @@ include "connect.php";
 
 <?php include "inc/nav.php" ?>
 
+<div id="div2" class="feeddiv">
+	<p>1</p><p>2</p><p>3</p><p>4</p><p>5</p><p>6</p><p>7</p><p>8</p><p>9</p><p>10</p><p>11</p><p>12</p><p>13</p><p>14</p><p>15</p><p>16</p><p>17</p><p>18</p><p>19</p><p>20</p><p>21</p><p>22</p><p>23</p><p>24</p><p>25</p><p>26</p><p>27</p><p>28</p><p>29</p><p>30</p><p>31</p><p>32</p><p>33</p><p>34</p><p>35</p><p>36</p><p>37</p><p>38</p><p>39</p><p>40</p><p>41</p><p>42</p><p>43</p><p>44</p><p>45</p><p>46</p><p>47</p><p>48</p><p>49</p><p>50</p><p>51</p><p>52</p><p>53</p><p>54</p><p>55</p><p>56</p><p>57</p><p>58</p><p>59</p><p>60</p><p>61</p><p>62</p><p>63</p><p>64</p><p>65</p><p>66</p><p>67</p><p>68</p><p>69</p><p>70</p><p>71</p><p>72</p><p>73</p><p>74</p><p>75</p><p>76</p><p>77</p><p>78</p><p>79</p><p>80</p><p>81</p><p>82</p><p>83</p><p>84</p><p>85</p><p>86</p><p>87</p><p>88</p><p>89</p><p>90</p><p>91</p><p>92</p><p>93</p><p>94</p><p>95</p><p>96</p><p>97</p><p>98</p><p>99</p><p>100</p><p>101</p><p>102</p><p>103</p><p>104</p><p>105</p><p>106</p><p>107</p><p>108</p><p>109</p><p>110</p><p>111</p><p>112</p><p>113</p><p>114</p><p>115</p><p>116</p><p>117</p><p>118</p><p>119</p><p>120</p><p>121</p><p>122</p><p>123</p><p>124</p><p>125</p><p>126</p><p>127</p><p>128</p><p>129</p><p>130</p><p>131</p><p>132</p><p>133</p><p>134</p><p>135</p><p>136</p><p>137</p><p>138</p><p>139</p><p>140</p><p>141</p><p>142</p><p>143</p><p>144</p><p>145</p><p>146</p><p>147</p><p>148</p><p>149</p><p>150</p>
+</div>
 
-<div class="container">
+<script>
+function collision($div1, $div2) {
+
+	var left1 = $div1.offset().left;
+	var width1 = $div1.width();
+	var right1 = left1 + width1;
+	
+	var left2 = $div2.offset().left;
+	
+	if(right1+35 > left2) return true;
+	return false;
+	
+	//return "left1: " + left1 + ", width1: " + width1 + ", right1: " + right1 + " // left2: " + left2 + "//coll: " + coll;
+}
+
+window.setInterval(function() {
+	if(collision($('#div1'), $('#div2')) == true){
+		$('#div2').css('background', 'red');
+	}else{
+		$('#div2').css('background', 'green');
+	}
+}, 200);
+
+</script>
+
+<div id="div1" class="container" style="background:lightblue">
+	
+	<div id="result"></div>
+
 	<?php
 		if(isset($_GET['suchfeld']) && $_GET['suchfeld'] != 'Übersicht Startseite'){
 			echo 	'<div class="alert alert-warning alert-dismissable fade in">

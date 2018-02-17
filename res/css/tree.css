@@ -96,6 +96,18 @@
     display: block;
 }
 
+
+
+.feeddiv{
+    right: 0; 
+	position:fixed;
+	width: 250px;
+	height: 80%;
+	overflow:auto;
+	
+	background:green;
+}
+
 /*
 
 .tree {
