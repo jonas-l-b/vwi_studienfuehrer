@@ -99,13 +99,34 @@
 
 
 .feeddiv{
-    right: 0; 
+    right:0;
+	bottom:4px;
+	top:115px;
 	position:fixed;
 	width: 250px;
-	height: 100%;
 	overflow:auto;
 	
-	background:green;
+	background:white;
+	z-index: 10;
+	
+	display:none;
+}
+
+#changeButton{
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	
+	background-color:#d3d3d3;
+    padding: 4px;
+	width:250px;
+	
+	
+    cursor: pointer;
+    
+	font-weight: bold;
+	text-align:center;
+	z-index: 11;
 }
 
 /*
