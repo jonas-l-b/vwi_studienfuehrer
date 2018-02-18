@@ -185,7 +185,7 @@ function collision($div1, $div2) {
 	
 	//$('#aaa').html("left1: " + left1 + ", width1: " + width1 + ", right1: " + right1 + " // left2: " + left2);
 	
-	if(right1+35 > left2) return true;
+	if(right1+33 > left2) return true;
 	return false;
 };
 
