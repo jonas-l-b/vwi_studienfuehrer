@@ -149,9 +149,13 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 			$con->query("DELETE FROM anti_brute_force WHERE user_id = ". $row['user_ID']);
 
 			if($row['active'] == 0){
-				$msg = "<div class='alert alert-danger'>
-					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Dieser Account wurde noch nicht aktiviert!
-					</div>";
+				$msg = "
+					<div class='alert alert-warning'>
+						<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Dieser Account wurde noch nicht aktiviert!
+						&nbsp;
+						<button class=\"btn btn-basic\" onclick=\"reSendActivation('".$email."')\" >Aktivierungslink erneut zuschicken</button>
+					</div>
+					";
 			}else{
 				$_SESSION['userSession'] = $row['user_ID'];
 				//header('Location: tree.php');
@@ -246,17 +250,20 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Auf diesem Weg stellen wir die höchstmögliche Qualität der Informationen sicher.</p>
 	<p><b>Viel Spaß beim Stöbern!</b></p>
 </div>
-<div class="signin-form">
-	<div class="container">
+
+
+<div class="container">
+	<div class="signin-form">
+		<h3 id="loginStart" class="form-signin-heading">Hier einloggen</h3><hr />
+		<div id="alertMessage">
+		<?php
+		if(isset($msg)){
+			echo $msg;
+		}
+		?>
+		</div>
+		
 		<form class="form-signin" method="post" id="login-form">
-			<h3 id="loginStart" class="form-signin-heading">Hier einloggen</h3><hr />
-
-			<?php
-			if(isset($msg)){
-				echo $msg;
-			}
-			?>
-
 			<div class="form-group">
 				<input value="<?php if(isset($memory_mail)) echo $memory_mail ?>" type="email" class="form-control" placeholder="E-Mail" name="email" required />
 			<span id="check-e"></span>
@@ -308,17 +315,36 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	</div>
 	<div class="modal-body">
 		<p id="pwrecovery"></p>
-			<form action="recoverPW.php" method="POST">
-				<p>Trage hier die E-Mail-Adresse ein, mit der du dich registriert hast:</p>
+		<form action="recoverPW.php" method="POST">
+			<p>Trage hier die E-Mail-Adresse ein, mit der du dich registriert hast:</p>
 
-				<div class="form-group">
-					<input type="email" class="form-control" id="PWrecoveryEmailInput" placeholder="E-Mail-Adresse" name="email" required />
-				</div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="PWrecoveryEmailInput" placeholder="E-Mail-Adresse" name="email" required />
+			</div>
 
-				<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
-			</form>
+			<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
+		</form>
 
-		</div><!-- End of Modal body -->
+	</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+<!--Modal für Aktivierungsmail -->
+<div id="resendactivationmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h2 class="modal-title">Aktivierungslink erneut zusenden</h2> <!-- Dynamisch Name anpassen! -->
+	</div>
+	<div class="modal-body">
+		<div id="resendactivationmessage">
+			<p>Durch Klick auf den Button senden wir dir erneut den Aktivierungslink an die von dir angegebene E-Mail-Adresse <strong><span id="activationMail">"uxxxx@student.kit.edu<span></strong>.<br>Falls du dich beim Eingeben deiner E-Mail vertippt hast, registriere dich bitte erneut.</p>
+			<button class="btn btn-primary" onclick="reSendActivation_submit()">Link zuschicken</button>
+			<button class="btn btn-default" data-dismiss="modal">Schließen</button>
+		</div>
+	</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
@@ -331,6 +357,30 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 			show: true						//triggert das öffnen des modals
 		});
 	});
+	
+	function reSendActivation(email){
+		$('#resendactivationmodal').modal('show');
+		$('#activationMail').html(email);
+	};
+	
+	function reSendActivation_submit(){
+		$.ajax({
+			type: "POST",
+			url: "reSendActivation2.php",
+			data: {email: $('#activationMail').text().trim()},
+			success: function(data) {
+				if(data.trim() == "erfolg"){
+					$('#resendactivationmessage').html("<div class='alert alert-success'><span class='glyphicon glyphicon-ok-sign'></span> &nbsp; Dein Aktivierungslink wurde erfolgreich verschickt!</div><button class=\"btn btn-default\" data-dismiss=\"modal\" onClick=\"closeModal()\">Schließen</button>");
+				}else{
+					$('#resendactivationmessage').html("<div class='alert alert-danger'><span class='glyphicon glyphicon-info-sign'></span> &nbsp; Beim Verschicken deines Aktivierungslinks ist ein Fehler aufgetreten. Bitte setze dich mit VWI-ESTIEM in Verbindung.</div><button class=\"btn btn-default\" data-dismiss=\"modal\" onClick=\"closeModal()\">Schließen</button>");
+				}
+			}
+		});
+	}
+	
+	function closeModal(){
+		$('#alertMessage').empty();
+	}
 </script>
 </body>
 </html>

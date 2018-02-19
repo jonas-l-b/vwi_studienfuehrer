@@ -687,7 +687,6 @@ if($userRow['admin']==0){
 						alert(data.trim());
 					}
 				});
-				
 			};
 			
 			$('.ui.dropdown')
