@@ -69,7 +69,7 @@ include "connect.php";
 		<li class="active"><a data-toggle="tab" href="#userData">Profil</a></li>
 		<li><a data-toggle="tab" href="#favourites">Favoriten</a></li>
 		<li><a data-toggle="tab" href="#userRatings">Meine Bewertungen</a></li>
-	<!--<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
+		<li><a data-toggle="tab" href="#questions">Meine Fragen</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -313,11 +313,149 @@ include "connect.php";
 			</ol>
 
 		</div>
-	<!--<div id="menu3" class="tab-pane fade">
-			<h3>Menu 3</h3>
-			<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		<div id="questions" class="tab-pane fade">
+			<?php
+			function time_elapsed_string_index($datetime, $full = false) {
+				$now = new DateTime;
+				$ago = new DateTime($datetime);
+				$diff = $now->diff($ago);
+
+				$diff->w = floor($diff->d / 7);
+				$diff->d -= $diff->w * 7;
+
+				$string = array(
+					'y' => 'Jahr',
+					'm' => 'Monat',
+					'w' => 'Woche',
+					'd' => 'Tag',
+					'h' => 'Stunde',
+					'i' => 'Minute',
+					's' => 'Sekunde',
+				);
+				foreach ($string as $k => &$v) {
+					if ($diff->$k) {
+						if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
+							$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
+						}
+						else {
+							$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
+						}
+					} else {
+						unset($string[$k]);
+					}
+				}
+
+				if (!$full) $string = array_slice($string, 0, 1);
+				return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
+			}
+			?>
+		
+		
+			<br><br>
+		
+
+
+				<div id="questionBody">
+
+					<?php
+					$sql = "
+						SELECT questions.ID AS ID, questions.subject_ID AS subject_ID, questions.user_ID AS user_ID, questions.question AS question, questions.time_stamp AS time_stamp, users.username AS username, subject_name
+						FROM questions
+						JOIN users ON questions.user_ID = users.user_ID
+						JOIN subjects ON questions.subject_ID = subjects.ID
+						WHERE questions.user_ID = ".$userRow['user_ID']."
+						ORDER BY time_stamp DESC;
+					";
+					$result = mysqli_query($con, $sql);
+
+					if(mysqli_num_rows($result)==0){
+						echo "<i>Noch keine Fragen vorhanden.</i>";
+					}
+
+					while($row = mysqli_fetch_assoc($result)){
+						?>
+						<div class="well" style="background-color:white; border-radius:none">
+							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo $row['question']?></span>
+							<hr style="margin:10px">
+							<p style="font-size:10px">Gestellt in: <a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a> &#124; <?php echo time_elapsed_string_index($row['time_stamp']);?></p>
+
+							<?php
+							$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
+							?>
+							<p style="margin-bottom:0px">
+								<span class="showAnswers">
+									<?php
+									switch($num){
+										case 0:
+											echo "Keine Antworten zum Anzeigen vorhanden";
+											break;
+										default:
+											echo "<a>Antworten anzeigen</a>";
+											break;
+									}
+									?>
+								</span>
+							</p>
+
+							<div class="answerSection" style="display:none"> <!--Antworten-->
+								<hr class="style">
+
+								<?php
+								$sql2 = "
+									SELECT answers.ID AS ID, answers.question_ID AS question_ID, answers.user_ID AS user_ID, answers.answer AS answer, answers.time_stamp AS time_stamp, users.username AS username
+									FROM answers
+									JOIN users ON answers.user_ID = users.user_ID
+									WHERE question_ID = ".$row['ID']."
+									ORDER BY time_stamp DESC;
+								";
+								$result2 = mysqli_query($con, $sql2);
+
+								while($row2 = mysqli_fetch_assoc($result2)){
+									?>
+									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
+										<?php echo $row2['answer']?>
+										<hr style="margin:10px">
+										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string_index($row2['time_stamp']);?></p>
+									</div>
+									<?php
+								}
+								?>
+							</div>
+						</div>
+						<?php
+					}
+					?>
+				</div>		
+		
+				<script>
+				//Antworten anzeigen
+				$('.showAnswers').click(function() {
+					if(!($(this).text().trim() == "Keine Antworten zum Anzeigen vorhanden")){
+						if(($(this).text().trim() == "Schließen")){
+							$(this).parent().next(".answerSection").hide(); //Bin nicht ganz sicher, wie stabil das ist
+							$(this).html("<a>Antworten anzeigen</a>");
+							if($('#questionBody').hasScrollBarIH()){
+								$('#showAllQuestions').show();
+							}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
+								$('#showAllQuestions').hide();
+							}
+						}else{
+							$(this).parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
+							$(this).html("<a>Schließen</a>");
+							if($('#questionBody').hasScrollBarIH()){
+								$('#showAllQuestions').show();
+							}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
+								$('#showAllQuestions').hide();
+							}
+						}
+					}
+				});
+				</script>
+		
+		
+		
+		
 		</div>
-	-->
 	</div>
 </div>
 
@@ -347,6 +485,10 @@ $('#linkToUserProfile').click(function(event){
 $('#linkToUserRatings').click(function(event){
 	event.preventDefault();
 	$('.nav-tabs a[href="#userRatings"]').tab('show')
+});
+$('#linkToQuestions').click(function(event){
+	event.preventDefault();
+	$('.nav-tabs a[href="#questions"]').tab('show')
 });
 </script>
 
