@@ -304,7 +304,7 @@ include "connect.php";
 			");
 			?>
 
-			<ol>
+			<ol class="container">
 			<?php
 			while($row = mysqli_fetch_assoc($result)){
 				echo "<li><a href=\"index.php?subject=".$row['subject_id']."\">".$row['subject_name']."</a></li>";
