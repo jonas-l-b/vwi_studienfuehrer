@@ -22,13 +22,28 @@ if(mysqli_query($con, $sql)){
 	$result = mysqli_query($con, $sql2);
 	$row = mysqli_fetch_assoc($result);
 	
-	$sql3 = "SELECT * FROM users WHERE user_ID = $user_id";
+	$sql3 = "
+		SELECT *
+		FROM users
+		JOIN questions ON users.user_ID = questions.user_ID
+		WHERE questions.ID = $question_id
+	";
 	$result2 = mysqli_query($con, $sql3);
-	$row2 = mysqli_fetch_assoc($result2);	
+	$row2 = mysqli_fetch_assoc($result2);
+	
+	$sql4 = "
+		SELECT *
+		FROM subjects
+		JOIN questions ON questions.subject_ID = subjects.ID
+		WHERE questions.ID = $question_id
+	";
+	$result3 = mysqli_query($con, $sql4);
+	$row3 = mysqli_fetch_assoc($result3);	
 	
 	$subject = '[Studienführer] Jemand hat auf eine deiner Fragen geantwortet';
 	$message="
 	<p>Eine der Fragen, die du im Studienführer gestellt hast, wurde beantwortet.</p>
+	<p>Du hast diese Frage im Fach <strong>".$row3['subject_name']."</strong> gestellt.</p>
 	<p><u>Deine Frage</u>:</p>
 	<p style=\"margin-left:15px;\">".$row['question']."</p>
 	<p><u>Abgegebene Antwort</u>:</p>
