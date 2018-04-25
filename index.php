@@ -587,7 +587,7 @@ function time_elapsed_string_index($datetime, $full = false) {
 					<div class="modal-dialog">
 					<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
 						<h4 class="modal-title">Frage stellen für:<br><strong><?php echo $subjectData['subject_name'] ?></strong></h4>
 					</div>
 					<div class="modal-body question-modal-body">
@@ -689,7 +689,7 @@ function time_elapsed_string_index($datetime, $full = false) {
 			<div class="modal-dialog">
 			<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<button type="button" onclick="javascript:window.location.reload()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title">Antwort schreiben</h4>
 			</div>
 			<div class="modal-body answer-modal-body">
