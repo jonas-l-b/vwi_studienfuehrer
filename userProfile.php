@@ -66,10 +66,11 @@ include "connect.php";
 	<br>
 
 	<ul class="nav nav-tabs">
-		<li class="active"><a data-toggle="tab" href="#userData">Profil</a></li>
-		<li><a data-toggle="tab" href="#favourites">Favoriten</a></li>
+		<li class="active"><a data-toggle="tab" href="#userData">Mein Profil</a></li>
+		<li><a data-toggle="tab" href="#favourites">Meine Favoriten</a></li>
 		<li><a data-toggle="tab" href="#userRatings">Meine Bewertungen</a></li>
 		<li><a data-toggle="tab" href="#questions">Meine Fragen</a></li>
+		<li><a data-toggle="tab" href="#notifications">Meine Benachrichtigungen</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -176,6 +177,8 @@ include "connect.php";
 		</div>
 
 		<div id="favourites" class="tab-pane fade">
+			<br>
+			<p>Diese Veranstaltungen hast du als Favoriten markiert. Um die Markierung zu entfernen, klicke auf den jeweiligen Stern.</p>
 			<br>
 
 			<?php
@@ -313,7 +316,12 @@ include "connect.php";
 			</ol>
 
 		</div>
+		
 		<div id="questions" class="tab-pane fade">
+		
+			<br>
+			<p>Diese Fragen hast du gestellt. Im Reiter "Meine Benachrichtigungen" kannst du einstellen, ob du per Mail benachrichtigt werden willst, wenn jemand deine Frage beantwortet.</p>
+		
 			<?php
 			function time_elapsed_string_index($datetime, $full = false) {
 				$now = new DateTime;
@@ -456,6 +464,18 @@ include "connect.php";
 		
 		
 		</div>
+		
+		<div id="notifications" class="tab-pane fade">
+			<br>
+			<p>Hier kannst du einstellen, bei welchen Ereignissen du per Mail benachrichtigt werden willst.</p>
+			
+			<h3>Fragen</h3>
+			<div class="checkbox disabled">
+				<label><input type="checkbox" value="" disabled checked>Ich möchte benachrichtigt werden, wenn jemand auf eine von mir gestellte Frage antwortet.</label>
+			</div>
+			<p><i>Diese Option kann noch nicht deaktiviert werden, aber wir arbeiten daran. Wir danken für Dein Verständnis.</i></p>
+		</div>
+		
 	</div>
 </div>
 
@@ -489,6 +509,10 @@ $('#linkToUserRatings').click(function(event){
 $('#linkToQuestions').click(function(event){
 	event.preventDefault();
 	$('.nav-tabs a[href="#questions"]').tab('show')
+});
+$('#linkToNotifications').click(function(event){
+	event.preventDefault();
+	$('.nav-tabs a[href="#notifications"]').tab('show')
 });
 </script>
 

@@ -57,6 +57,7 @@ $name = $userRow['first_name'];
 							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten <span class="pull-right"><span class="glyphicon glyphicon-star"></span></span></a></li>
 							<li><a id="linkToUserRatings" href="userProfile.php#userRatings">Bewertungen <span class="pull-right"><span class="glyphicon glyphicon-ok-circle"></span></span></a></li>
 							<li><a id="linkToQuestions" href="userProfile.php#questions">Fragen <span class="pull-right"><span class="glyphicon glyphicon-question-sign"></span></span></a></li>
+							<li><a id="linkToNotifications" href="userProfile.php#notifications">Mails <span class="pull-right"><span class="glyphicon glyphicon-envelope"></span></span></a></li>
 							<li class="divider"></li>
 							<li><a href="logout.php">Logout <span class="pull-right"><span class="glyphicon glyphicon-log-out"></span></span></a></li>
 						</ul>
