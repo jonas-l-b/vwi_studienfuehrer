@@ -70,7 +70,7 @@ if(isset($_POST['btn-signup'])) {
 			";
 			$mailService = EmailService::getService();
 			if($mailService->sendEmail($email, $firstName, $subject, $message)){
-					$success = true;
+				$success = true;
 			}
 
 			$msg = "<div class='alert alert-success'>

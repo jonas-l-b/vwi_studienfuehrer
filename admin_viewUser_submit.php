@@ -23,7 +23,7 @@ if($userID == ""){
 	}
 	
 	if($userRow['active'] == 0){
-		$active = "Nein <span style=\"float:right;\"><button class=\"btn btn-primary\" id=\"reSend\">Aktivierungsmail erneut senden</button></span>";
+		$active = "Nein &nbsp;&nbsp;<span><button class=\"btn\" onclick=\"reSendMail(".$userID.")\">Aktivierungsmail erneut senden</button></span>";
 	}else{
 		$active = "Ja";
 	}
@@ -60,44 +60,6 @@ if($userID == ""){
 			</tbody>
 		</table>
 	";
-	
-	/*
-	$answer = "
-		<br>
-		<table class=\"table\" style=\"border-top:solid; border-top-color:white\">
-			<tbody>
-				<tr>
-					<th>Vorname:</th>
-					<td>".$userRow['first_name']."</td>
-				</tr>				
-				<tr>
-					<th>Nachname:</th>
-					<td>".$userRow['last_name']."</td>
-				</tr>				
-				<tr>
-					<th>Benutzername:</th>
-					<td>".$userRow['username']."</td>
-				</tr>
-				<tr>
-					<th>E-Mail:</th>
-					<td><a href=\"mailto:".$userRow['email']."\">".$userRow['email']."</a></td>
-				</tr>
-				<tr>
-					<th>Studiengang:</th>
-					<td>".$userRow['degree']."</td>
-				</tr>
-				<tr>
-					<th>Fortschritt:</th>
-					<td>".ucfirst($userRow['advance'])."</td>
-				</tr>
-				<tr>
-					<th>Semester:</th>
-					<td>".$userRow['semester']."</td>
-				</tr>
-			</tbody>
-		</table>
-	";
-	*/
 	
 }
 echo $answer;

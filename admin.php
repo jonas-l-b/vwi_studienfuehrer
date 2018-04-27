@@ -628,7 +628,7 @@ if($userRow['admin']==0){
 		<div id="userProfiles" class="tab-pane fade">
 			<br>
 			<p><i>
-			Hier kannst du die Profile aller Nutzer einsehen, die sich beim Studienführer registriert haben. Das kann beispielsweise hilfreich sein, wenn du einen Nutzer direkt per E-Mail kontaktieren möchtest.<br><br>Bitte gehe verantwortungsvoll mit diesen Daten um!
+			Hier kannst du die Profile aller Nutzer einsehen, die sich beim Studienführer registriert haben. Das kann beispielsweise hilfreich sein, wenn du einen Nutzer direkt per E-Mail kontaktieren möchtest. Außerdem kannst du so einem Nutzer die Aktivierungsmail erneut schicken, falls das Profil noch nicht aktiviert wurde und der Nutzer seine Mail nicht findet.<br><br>Bitte gehe verantwortungsvoll mit diesen Daten um!
 			</i></p>
 			
 			
@@ -669,7 +669,7 @@ if($userRow['admin']==0){
 					url: "admin_viewUser_submit.php",
 					data: $("#viewUserForm").serialize(),
 					success: function(data) {
-						if(data == "pleaseChoose"){
+						if(data.trim() == "pleaseChoose"){
 							alert("Bitte Nutzer im Dropdown auswählen.");
 						}else{
 							$("#userInfoTable").html(data);
@@ -677,6 +677,17 @@ if($userRow['admin']==0){
 					}
 				});
 			});
+			
+			function reSendMail(userId){
+				$.ajax({
+					type: "POST",
+					url: "reSendActivation.php",
+					data: {userId: userId},
+					success: function(data) {
+						alert(data.trim());
+					}
+				});
+			};
 			
 			$('.ui.dropdown')
 			  .dropdown({

@@ -5,6 +5,42 @@ include "connect.php";
 include "saveSubjectToVariable.php";
 include "sumVotes.php";
 
+
+function time_elapsed_string_index($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'Jahr',
+        'm' => 'Monat',
+        'w' => 'Woche',
+        'd' => 'Tag',
+        'h' => 'Stunde',
+        'i' => 'Minute',
+        's' => 'Sekunde',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+			if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
+			}
+			else {
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
+			}
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
+}
+
+
 ?>
 
 <body>
@@ -539,19 +575,19 @@ include "sumVotes.php";
 
 		<div class="row"> <!--Fragen Start-->
 			<div class="col-md-10 well">
-				
+
 				<span style="font-size: 1.5em;font-weight:bold;">Fragen
 					<span style="float:right;">
 						<button id="newQuestionButton" type="button" class="btn btn-primary">Neue Frage stellen</button>
 					</span>
 				</span>
-				
+
 				<!-- Modal neue Frage stellen-->
 				<div id="questionModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog">
 					<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
 						<h4 class="modal-title">Frage stellen für:<br><strong><?php echo $subjectData['subject_name'] ?></strong></h4>
 					</div>
 					<div class="modal-body question-modal-body">
@@ -566,11 +602,11 @@ include "sumVotes.php";
 					</div><!-- End of Modal content -->
 					</div><!-- End of Modal dialog -->
 				</div><!-- End of Modal -->
-				
+
 				<br><br>
-				
+
 				<div id="questionBody" style="max-height:800px; overflow:auto">
-				
+
 					<?php
 					$sql = "
 						SELECT questions.ID AS ID, questions.subject_ID AS subject_ID, questions.user_ID AS user_ID, questions.question AS question, questions.time_stamp AS time_stamp, users.username AS username
@@ -580,18 +616,18 @@ include "sumVotes.php";
 						ORDER BY time_stamp DESC;
 					";
 					$result = mysqli_query($con, $sql);
-						
+
 					if(mysqli_num_rows($result)==0){
 						echo "<i>Noch keine Fragen vorhanden.</i>";
 					}
-						
+
 					while($row = mysqli_fetch_assoc($result)){
 						?>
 						<div class="well" style="background-color:white; border-radius:none">
 							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo $row['question']?></span>
 							<hr style="margin:10px">
-							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo $row['time_stamp']?></p>
-							
+							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string_index($row['time_stamp']);?></p>
+
 							<?php
 							$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
 							?>
@@ -610,10 +646,10 @@ include "sumVotes.php";
 									?>
 								</span>
 							</p>
-	
+
 							<div class="answerSection" style="display:none"> <!--Antworten-->
 								<hr class="style">
-								
+
 								<?php
 								$sql2 = "
 									SELECT answers.ID AS ID, answers.question_ID AS question_ID, answers.user_ID AS user_ID, answers.answer AS answer, answers.time_stamp AS time_stamp, users.username AS username
@@ -623,13 +659,13 @@ include "sumVotes.php";
 									ORDER BY time_stamp DESC;
 								";
 								$result2 = mysqli_query($con, $sql2);
-								
+
 								while($row2 = mysqli_fetch_assoc($result2)){
 									?>
 									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
 										<?php echo $row2['answer']?>
 										<hr style="margin:10px">
-										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo $row2['time_stamp']?></p>
+										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string_index($row2['time_stamp']);?></p>
 									</div>
 									<?php
 								}
@@ -640,20 +676,20 @@ include "sumVotes.php";
 					}
 					?>
 				</div>
-				
+
 				<br>
 				<p style="text-align:center; margin-bottom:0"><a id="showAllQuestions" style="cursor: pointer; cursor: hand;">Alle Fragen aufklappen (Scrollbar entfernen)</a></p>
 			</div>
 			<div class="col-md-2">
 			</div>
 		</div>
-		
+
 		<!-- Modal Frage beantworten-->
 		<div id="answerModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
 			<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<button type="button" onclick="javascript:window.location.reload()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title">Antwort schreiben</h4>
 			</div>
 			<div class="modal-body answer-modal-body">
@@ -663,7 +699,7 @@ include "sumVotes.php";
 				<p><strong>Deine Antwort:</strong></p>
 				<form id="answerForm">
 					<div class="form-group">
-						<textarea name="formAswer" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Antwort ein." required></textarea>
+						<textarea name="formAnswer" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Antwort ein." required></textarea>
 					</div>
 					<button id="submitAnswerButton" type="button" class="btn btn-primary">Abschicken</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -671,7 +707,7 @@ include "sumVotes.php";
 			</div><!-- End of Modal body -->
 			</div><!-- End of Modal content -->
 			</div><!-- End of Modal dialog -->
-		</div><!-- End of Modal -->	
+		</div><!-- End of Modal -->
 
 		<script>
 		$( document ).ready(function() {
@@ -680,7 +716,7 @@ include "sumVotes.php";
 					return this.get(0).scrollHeight > this.innerHeight();
 				}
 			})(jQuery);
-			
+
 			if(!$('#questionBody').hasScrollBarIH()){
 				$('#showAllQuestions').hide();
 			}
@@ -698,7 +734,7 @@ include "sumVotes.php";
 				$('#showAllQuestions').html("Alle Fragen aufklappen (Scrollbar entfernen)");
 			}
 		});
-		
+
 		//Antworten anzeigen
 		$('.showAnswers').click(function() {
 			if(!($(this).text().trim() == "Keine Antworten zum Anzeigen vorhanden")){
@@ -721,12 +757,12 @@ include "sumVotes.php";
 				}
 			}
 		});
-		
+
 		//neue Frage stellen
 		$('#newQuestionButton').click(function(){
 			$('#questionModal').modal('show');
 		});
-		
+
 		$("#submitQuestionButton").click(function(){
 			$.ajax({
 				type: "POST",
@@ -735,21 +771,21 @@ include "sumVotes.php";
 				success: function(data) {
 					//alert(data);
 					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
-						$('.question-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+						$('.question-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Frage wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 					}else{
-						$('.question-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deines Anliegens ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+						$('.question-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Frage ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 					}
 				}
 			});
 		});
-		
+
 		//Frage beantworten
 		$('.answerThisQuestion').click(function(){
 			$('#answerModal').modal('show');
 			$('#questionForAnswerModal').html($(this).parent().prevAll(".actualQuestion:first").text());
 			$('#questionID').html($(this).parent().prevAll(".actualQuestion:first").attr('id').slice(8));
 		});
-		
+
 		$("#submitAnswerButton").click(function(){
 			$.ajax({
 				type: "POST",
@@ -758,9 +794,9 @@ include "sumVotes.php";
 				success: function(data) {
 					//alert(data);
 					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
-						$('.answer-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+						$('.answer-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Antwort wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 					}else{
-						$('.answer-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deines Anliegens ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+						$('.answer-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Antwort ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 					}
 				}
 			});
@@ -837,7 +873,7 @@ include "sumVotes.php";
 							});
 					}
 				</script>
-				
+
 				<!-- Farbänderung bei Kommentarbewertung -->
 				<script>
 				function colorChange(id) {

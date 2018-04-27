@@ -310,6 +310,7 @@ $("#changeButton").click(function () {
 
 	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
+
 		<h2>Veranstaltungsverzeichnis</h2>
 		<div class="well" style="width:500px; padding: 8px 0;">
 			<div>
@@ -810,7 +811,8 @@ $("#changeButton").click(function () {
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
-						alert("Error!");
+						alert("Bei Laden ist leider etwas schief gegangen. Bitte probiere es nochmal oder wende dich an VWI-ESTIEM.");
+						//alert(data);
 					},
           finally: function(){
             $('#tabelleLaden').hide();

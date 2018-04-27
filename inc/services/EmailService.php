@@ -103,11 +103,6 @@
 							<td>
 								<table class="middleTable" align="center" border="0" cellpadding="0" cellspacing="0" width="600">
 									<tr>
-										<td class="headerblock">
-											<a href="http://studienfuehrer.vwi-karlsruhe.de"><img src="cid:studilogo.png" alt="Studienführer Logo"  border="0"/></a>
-										</td>
-									</tr>
-									<tr>
 										<td class="contentblock">
 										'."
 											<p class=\"anrede\">Hallo $userName,</p>
