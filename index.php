@@ -984,7 +984,9 @@ function time_elapsed_string_index($datetime, $full = false) {
 				<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Willst du deine Bewertung wirklich löschen?</p>
 				<p> Das beinhaltet deine eigentliche Bewertung und den Kommentar, den du abgegeben hast.<br>
 				<span style="color:red">Dieser Schritt kann nicht rückgängig gemacht werden.</span></p>
+				<br>
 				<button type="submit" class="btn btn-danger">Bewertung unwiderruflich löschen</button>
+				<button class="btn btn-primary" data-dismiss="modal">Bewertung doch nicht löschen :)</button>
 			</form>
 		</div><!-- End of Modal body -->
 	</div><!-- End of Modal content -->
