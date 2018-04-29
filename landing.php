@@ -60,8 +60,8 @@ if ($m == "resetPW_error"){
 }
 
 if ($m == "resetPW_successful"){
-	$msg = "<h4>Du hast dein Passwort erfolgreich geändert. Jeder Passwortzurücksetzungslink kann nur einmal verwendet werden. <br><br> Melde dich jetzt an:</h4>
-		  <a href=\"login.php\" class=\"btn btn-primary\" role=\"button\">Login</a>";
+	$msg = "<h4>Du hast dein Passwort erfolgreich geändert.<br>Jeder Passwortzurücksetzungslink kann nur einmal verwendet werden. <br><br> Melde dich jetzt an:</h4>
+		  <a href=\"login.php\" class=\"btn btn-primary\" role=\"button\">Zum Login</a>";
 }
 
 if ($m == "no_admin"){

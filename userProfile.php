@@ -531,7 +531,7 @@ $('#linkToNotifications').click(function(event){
 				<br>
 
 				<div class="form-group" style="display:none">
-					<input value="<?php echo $u_email?>" type="email" class="form-control" name="email" />
+					<input value="<?php echo $userRow['email']?>" type="email" class="form-control" name="email" />
 					<input value="<?php echo "change"?>" class="form-control" name="recoverType" />
 				</div>
 

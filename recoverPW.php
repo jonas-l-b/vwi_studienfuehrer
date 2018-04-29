@@ -44,7 +44,7 @@ if (mysqli_num_rows($result)==0){
 
 		$message="
 		<p>Um dein Passwort zu ändern, klicke auf diesen Link und folge den Anweisungen:<br>
-		http://app.vwi-karlsruhe.de/studienfuehrer/resetPW.php?recoverhash=".$recoverhash."</p>
+		http://studienführer.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."</p>
 		<p>Falls du diese Mail nicht angefordert hast oder du dein Passwort doch nicht ändern willst, ignoriere diese Mail einfach.<p>
 		";
 	} else{
