@@ -43,7 +43,7 @@ if(mysqli_query($con, $sql)){
 	$subject = '[Studienführer] Jemand hat auf eine deiner Fragen geantwortet';
 	$message="
 	<p>Eine der Fragen, die du im Studienführer gestellt hast, wurde beantwortet.</p>
-	<p>Du hast diese Frage im Fach <strong>".$row3['subject_name']."</strong> gestellt.</p>
+	<p>Du hast diese Frage in der Veranstaltung <strong>".$row3['subject_name']."</strong> gestellt.</p>
 	<p><u>Deine Frage</u>:</p>
 	<p style=\"margin-left:15px;\">".$row['question']."</p>
 	<p><u>Abgegebene Antwort</u>:</p>
