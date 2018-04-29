@@ -16,7 +16,7 @@ if (isset($_GET['subject'])){
 	$lectureItems = array(
 		"Wie bewertest du die Vorlesung ingesamt?",
 		"Wie relevant war die Vorlesung für die Prüfung?",
-		"Wie interessant fadest du die Vorlesung?",
+		"Wie interessant fandest du die Vorlesung?",
 		"Wie war die Qualität der Vorlesungsmaterialien?",
 	);
 
