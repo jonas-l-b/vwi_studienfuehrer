@@ -295,7 +295,7 @@ include "connect.php";
 							FROM lecturers
 							JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
 							JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
-							ORDER BY name, last_name
+							ORDER BY last_name, first_name
 						";
 						$result = mysqli_query($con,$sql);
 						while($row = mysqli_fetch_assoc($result)){
