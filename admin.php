@@ -32,7 +32,7 @@ if($userRow['admin']==0){
 		}
 		?>
 		<li><a data-toggle="tab" href="#messages">Posteingang<?php if(isset($envelope)) echo "  ".$envelope?></a></li>
-		<li><a data-toggle="tab" href="#notifications">Benachrichigungen</a></li>
+		<li><a data-toggle="tab" href="#notifications">Benachrichtigungen</a></li>
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 		<li><a data-toggle="tab" href="#userProfiles">Nutzerprofile</a></li>
 	</ul>
