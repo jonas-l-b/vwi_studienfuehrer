@@ -28,7 +28,7 @@ if (isset($_GET['subject'])){
 	);
 
 	$examItems2 = array(
-		"Ging es eher um die Reproduktion von Auswendigelerntem oder den Transfer von Wissen?",
+		"Ging es eher um die Reproduktion von Auswendigg	elerntem oder den Transfer von Wissen?",
 		"Handelte es sich eher um quantitative oder um qualitative Aufgaben?",
 	);
 	$examItems2Labels = array(

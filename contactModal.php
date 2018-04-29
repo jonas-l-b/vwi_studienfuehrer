@@ -41,7 +41,7 @@
 	</div>
 	
 	<div id="area" style="display:none" class="form-group">
-		<label>Wo findest sich der Fehler?</label>
+		<label>Wo findet sich der Fehler?</label>
 		<select name="area" id="select_area" class="form-control" required>
 			<option disabled selected value style="display:none"> -- Bitte wählen -- </option>
 			<option value="subject">Veranstaltung</option>
