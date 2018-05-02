@@ -165,7 +165,7 @@ include "header.php";
 ?>
 <body>
 <div class="container">
-	<h1>Willkommen zum Studienführer!</h1>
+	<h1>Willkommen beim Studienführer!</h1>
 	<p>Um dich zu registieren, musst du lediglich die Felder unten ausfüllen und auf den Button klicken. Sofern nicht explizit von dir erlaubt, werden wir deine Daten lediglich für den Studienführer nutzen.</p>
 	<p style="font-weight:bold">Der Studienführer ist und bleibt kostenlos.</p>
 	<br>
