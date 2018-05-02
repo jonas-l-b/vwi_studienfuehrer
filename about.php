@@ -73,7 +73,6 @@ include "connect.php";
 		<br>
 		<h4>In Bearbeitung:</h4>
 		<ul class="list-group">
-			<li class="list-group-item">Benachrichtigungsmails für beantwortete Fragen abstellen können</li>
 			<li class="list-group-item">Feed auf der Startseite mit den neusten Bewertungen und Fragen</li>
 		</ul>
 		<br>
@@ -84,6 +83,7 @@ include "connect.php";
 		<br>
 		<h4 style="color:lightgrey">Kürzlich abgeschlossen:</h4>
 		<ul style="color:lightgrey" class="list-group">
+			<li class="list-group-item">Benachrichtigungsmails für beantwortete Fragen abstellen können</li>
 			<li class="list-group-item">Möglichkeit, Veranstaltungen zu Favoriten hinzuzufügen</li>
 		</ul>
 	</div>
