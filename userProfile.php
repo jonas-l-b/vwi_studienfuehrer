@@ -467,13 +467,68 @@ include "connect.php";
 		
 		<div id="notifications" class="tab-pane fade">
 			<br>
-			<p>Hier kannst du einstellen, bei welchen Ereignissen du per Mail benachrichtigt werden willst.</p>
+			<p>Hier kannst du einstellen, bei welchen Ereignissen du per Mail benachrichtigt werden willst. Vergiss nicht, Änderungen durch den Klick auf den Button zu speichern.</p>
+			
+			<?php //Script für Datenbankänderung		
+			if(isset($_POST['btn-change-questions'])) {
+				
+				//Änderung durchführen
+				if(isset($_POST['own_questions']) && $_POST['own_questions'] == '1') {
+					$changedQuestionValue = 1;
+				}else{
+					$changedQuestionValue = 0;
+				}
+
+				$sql="
+					UPDATE user_notifications
+					SET own_questions = ".$changedQuestionValue."
+					WHERE user_id = ".$userRow['user_ID'].";
+				";
+				
+				if(mysqli_query($con, $sql)){
+					$msg_questions = "<div class='alert alert-success'>
+					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Änderungen erfolgreich gespeichert!
+					</div>";					
+				}else{
+					$msg_questions = "<div class='alert alert-danger'>
+					<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Beim Versuch, deine Änderungen zu speichern, ist ein Fehler aufgetreten; Bitte versuche es erneut. Falls es weiterhin nicht klappen sollte, wende Dich bitte an studienfuehrer@vwi-karlsruhe.de.
+					</div>";						
+				}
+			}
+			?>
 			
 			<h3>Fragen</h3>
-			<div class="checkbox disabled">
-				<label><input type="checkbox" value="" disabled checked>Ich möchte benachrichtigt werden, wenn jemand auf eine von mir gestellte Frage antwortet.</label>
-			</div>
-			<p><i>Diese Option kann noch nicht deaktiviert werden, aber wir arbeiten daran. Wir danken für Dein Verständnis.</i></p>
+			<?php if (isset($msg_questions)) echo $msg_questions;?>
+			<form method="post">
+				<?php
+					//Check, ob Zeile in user_notifications bereits vorhanden ist (und ggfls. erstellen)
+					$sql="SELECT * FROM user_notifications WHERE user_id = ".$userRow['user_ID']."";
+					$result = mysqli_query($con, $sql);
+					if(mysqli_num_rows($result)==0){ //Zeile für Benutzer anlegen falls noch nicht vorhanden
+						$sql1="
+							INSERT INTO user_notifications (user_id, own_questions)
+							VALUE (".$userRow['user_ID'].", 1)
+						";
+						mysqli_query($con, $sql1);
+					}elseif(mysqli_num_rows($result)>1){
+						echo "<div class='alert alert-danger'>
+						<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Es ist ein Problem in der Datenbank aufgetreten (Fehler: Mehrere Einträge in Datenbank). Bitte wende dich an studienfuehrer@vwi-karlsruhe.de.
+						</div>";
+						exit();
+					}
+					
+					$sql="SELECT * FROM user_notifications WHERE user_id = ".$userRow['user_ID']."";
+					$result = mysqli_query($con, $sql);
+					$row = mysqli_fetch_assoc($result);
+					if($row['own_questions']=="1"){
+						$check = "checked";
+					}
+				?>
+				<input type="checkbox" name="own_questions" value="1" <?php if (isset($check)) echo $check?>> Ich möchte benachrichtigt werden, wenn jemand auf eine von mir gestellte Frage antwortet.<br>
+				<br>
+				<button class="btn btn-primary" name="btn-change-questions">Änderungen speichern</button>
+			</form>
+			
 		</div>
 		
 	</div>

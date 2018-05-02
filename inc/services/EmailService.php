@@ -111,7 +111,6 @@
 											$body
 
 											<br />
-											<br />
 											<span ".$sigDisplay.">
 											<p>Viel Spaß mit dem Studienführer,<br>
 											Deine VWI-ESTIEM Hochschulgruppe Karlsruhe</p>
