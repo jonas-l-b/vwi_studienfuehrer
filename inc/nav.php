@@ -47,6 +47,7 @@ $name = $userRow['first_name'];
 				<ul class="nav navbar-nav">
 					<li style="background-color: #F0F8FF"><a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a></li>
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
+					<li><a href="about.php" style="cursor: pointer; cursor: hand;">Über</a></li>
 					<?php echo $admin;?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">

@@ -350,6 +350,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 				<h1 style="text-align:center">Frequently Asked Questions</h1>
 				<br>
 				
+				<!-- FAQs auch in about.php. Auch dort aktualisieren!-->
 				<div class="panel-group" id="accordion">
 					<div class="panel panel-default">
 					  <div class="panel-heading">
