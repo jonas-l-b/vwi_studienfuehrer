@@ -168,7 +168,12 @@ include "header.php";
 	<h1>Willkommen zum Studienführer!</h1>
 	<p>Um dich zu registieren, musst du lediglich die Felder unten ausfüllen und auf den Button klicken. Sofern nicht explizit von dir erlaubt, werden wir deine Daten lediglich für den Studienführer nutzen.</p>
 	<p style="font-weight:bold">Der Studienführer ist und bleibt kostenlos.</p>
+	<br>
+	<div class="alert alert-warning" role="alert">
+		Die Registrierung mit Safari scheint nicht zu funktionieren. Bitte einen anderen Browser verwenden, bis wir das Problem behoben haben!
+	</div>
 </div>
+
 <div class="signin-form">
 	<div class="container">
 		<form class="form-signin" method="post" id="register-form" action="register.php">
