@@ -79,6 +79,7 @@ include "connect.php";
 		<h4>In der Pipeline:</h4>
 		<ul class="list-group">
 			<li class="list-group-item">Granularere Benachrichtigungen: Benachrichtigungsmails für einzelne Fragen einstellen können</li>
+			<li class="list-group-item">Erweiterung der Veranstaltungssuche, bspw. um die Option, nach ECTS zu filtern</li>
 		</ul>
 		<br>
 		<h4 style="color:lightgrey">Kürzlich abgeschlossen:</h4>
