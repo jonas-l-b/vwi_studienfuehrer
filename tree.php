@@ -11,57 +11,268 @@ include "connect.php";
 
 <?php include "inc/nav.php" ?>
 
+<div id="div2" class="feeddiv">
+	<?php
+	function time_elapsed_string($datetime, $full = false) {
+		$now = new DateTime;
+		$ago = new DateTime($datetime);
+		$diff = $now->diff($ago);
 
-<div class="container">
-<?php
- 	if(isset($_GET['suchfeld']) && $_GET['suchfeld'] != 'Übersicht Startseite'){
- 		echo 	'<div class="alert alert-warning alert-dismissable fade in">
- 					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
- 				  <strong>Hinweis!</strong> Leider konnten wir für deine Suche keine Ergebnisse finden.
- 				</div>';
- 	}
- ?>
+		$diff->w = floor($diff->d / 7);
+		$diff->d -= $diff->w * 7;
 
- 
-<div class="container">
-  <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
-	<!-- Indicators -->
-	<ol class="carousel-indicators">
-	  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-	  <li data-target="#myCarousel" data-slide-to="1"></li>
-	  <li data-target="#myCarousel" data-slide-to="2"></li>
-	</ol>
+		$string = array(
+			'y' => 'Jahr',
+			'm' => 'Monat',
+			'w' => 'Woche',
+			'd' => 'Tag',
+			'h' => 'Stunde',
+			'i' => 'Minute',
+			's' => 'Sekunde',
+		);
+		foreach ($string as $k => &$v) {
+			if ($diff->$k) {
+				if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
+					$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
+				}
+				else {
+					$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
+				}
+			} else {
+				unset($string[$k]);
+			}
+		}
 
-	<!-- Wrapper for slides -->
-	<div class="carousel-inner">
-	  <div class="item active">
-		<img src="pictures/carousel_afterLogin/carouselAfter_one.jpg" style="width:100%;">
-	  </div>
+		if (!$full) $string = array_slice($string, 0, 1);
+		return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
+	}
+	?>
+	
+	<script>
+	$(document).ready(function() {
+		// Configure/customize these variables.
+		var showChar = 100;  // How many characters are shown by default
+		var ellipsestext = "...";
+		var moretext = "Mehr";
+		var lesstext = "Weniger";
+		
 
-	  <div class="item">
-		<img src="pictures/carousel_afterLogin/carouselAfter_two.jpg" style="width:100%;">
-	  </div>
+		$('.more').each(function() {
+			var content = $(this).html();
+	 
+			if(content.length > showChar) {
+	 
+				var c = content.substr(0, showChar);
+				var h = content.substr(showChar, content.length - showChar);
+	 
+				var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+	 
+				$(this).html(html);
+			}
+	 
+		});
+	 
+		$(".morelink").click(function(){
+			if($(this).hasClass("less")) {
+				$(this).removeClass("less");
+				$(this).html(moretext);
+			} else {
+				$(this).addClass("less");
+				$(this).html(lesstext);
+			}
+			$(this).parent().prev().toggle();
+			$(this).prev().toggle();
+			return false;
+		});
+	});
+	</script>
 
-	  <div class="item">
-		<img src="pictures/carousel_afterLogin/carouselAfter_three.jpg" style="width:100%;">
-	  </div>
+	<?php
+	$feedLimit = 3;
+	?>
+
+	<div class="feedbox">
+		<div class="feedhead">
+			<span class="feedtitle">	
+				NEUSTE KOMMENTARE
+			</span>
+		</div>
+		<div class="feedbody">
+			<?php
+			$sql = "
+				SELECT subjects.ID AS ID, subject_name, username, ratings.time_stamp AS time_stamp, comment
+				FROM ratings
+				JOIN subjects ON ratings.subject_ID = subjects.ID
+				JOIN users ON ratings.user_ID = users.user_ID
+				ORDER BY ratings.time_stamp DESC
+				LIMIT $feedLimit
+			"; //Set $feedLimit above
+			$result = mysqli_query($con, $sql);
+			
+			$count = 0;
+			while($row = mysqli_fetch_assoc($result)){
+				$count++;
+				?>
+				<p>
+					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
+					<br>
+					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+				</p>
+				<p class="more">
+					<?php echo $row['comment']?>
+				</p>
+				<?php
+				if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
+			}
+			?>
+		</div>
 	</div>
 
-	<!-- Left and right controls -->
-	<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-	  <span class="glyphicon glyphicon-chevron-left"></span>
-	  <span class="sr-only">Previous</span>
-	</a>
-	<a class="right carousel-control" href="#myCarousel" data-slide="next">
-	  <span class="glyphicon glyphicon-chevron-right"></span>
-	  <span class="sr-only">Next</span>
-	</a>
-  </div>
+	<br>
+
+	<div class="feedbox">
+		<div class="feedhead">
+			<span class="feedtitle">	
+				NEUSTE FRAGEN
+			</span>
+		</div>
+		<div class="feedbody">
+			<?php
+			$sql = "
+				SELECT subjects.ID AS ID, subject_name, username, questions.time_stamp AS time_stamp, question
+				FROM questions
+				JOIN subjects ON questions.subject_ID = subjects.ID
+				JOIN users ON questions.user_ID = users.user_ID
+				ORDER BY questions.time_stamp DESC
+				LIMIT $feedLimit
+			"; //Set $feedLimit above
+			$result = mysqli_query($con, $sql);
+			
+			$count = 0;
+			while($row = mysqli_fetch_assoc($result)){
+				$count++;
+				?>
+				<p>
+					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
+					<br>
+					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+				</p>
+				<p class="more">
+					<?php echo $row['question']?>
+				</p>
+				<?php
+				if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
+			}
+			?>
+		</div>
+	</div>
+	
+	<br>
 </div>
+
+<div id="changeButton"></div>
+
+<!--<div id="aaa"></div>-->
+
+<script>
+function collision($div1, $div2) {
+
+	var left1 = $div1.offset().left;
+	var width1 = $div1.width();
+	var right1 = left1 + width1;
+	
+	var left2 = $div2.offset().left;
+	
+	//$('#aaa').html("left1: " + left1 + ", width1: " + width1 + ", right1: " + right1 + " // left2: " + left2);
+	
+	if(right1+33 > left2) return true;
+	return false;
+};
+
+$(document).ready(function() {
+	if(collision($('#treebody'), $('#changeButton')) == true){
+		$('#div2').hide();
+		$("#changeButton").text("Feed anzeigen");
+	}else{
+		$('#div2').show();
+		$("#changeButton").text("Feed ausblenden");
+	}
+});
+
+$(window).resize(function(){
+	if(collision($('#treebody'), $('#changeButton')) == true){
+		$('#div2').hide();
+		$("#changeButton").text("Feed anzeigen");
+	}else{
+		$('#div2').show();
+		$("#changeButton").text("Feed ausblenden");
+	}	
+});
+
+
+$("#changeButton").click(function () {
+	if($('#div2').is(":visible")){
+		$('#div2').hide();
+		$("#changeButton").text("Feed anzeigen");
+	}else{
+		$('#div2').show();
+		$("#changeButton").text("Feed ausblenden");
+	}
+});
+</script>
+
+<div id="treebody" class="container">
+	
+	<div id="result"></div>
+
+	<?php
+		if(isset($_GET['suchfeld']) && $_GET['suchfeld'] != 'Übersicht Startseite'){
+			echo 	'<div class="alert alert-warning alert-dismissable fade in">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					  <strong>Hinweis!</strong> Leider konnten wir für deine Suche keine Ergebnisse finden.
+					</div>';
+		}
+	 ?>
+
+	<!--Karussell-->
+	<div class="container">	
+	  <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+		  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		  <li data-target="#myCarousel" data-slide-to="1"></li>
+		  <li data-target="#myCarousel" data-slide-to="2"></li>
+		</ol>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner">
+		  <div class="item active">
+			<img src="pictures/carousel_afterLogin/carouselAfter_one.jpg" style="width:100%;">
+		  </div>
+
+		  <div class="item">
+			<img src="pictures/carousel_afterLogin/carouselAfter_two.jpg" style="width:100%;">
+		  </div>
+
+		  <div class="item">
+			<img src="pictures/carousel_afterLogin/carouselAfter_three.jpg" style="width:100%;">
+		  </div>
+		</div>
+
+		<!-- Left and right controls -->
+		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+		  <span class="glyphicon glyphicon-chevron-left"></span>
+		  <span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" data-slide="next">
+		  <span class="glyphicon glyphicon-chevron-right"></span>
+		  <span class="sr-only">Next</span>
+		</a>
+	  </div>
+	</div>
  
- 
-</div>
-<div class="container">
+	<hr>
+	
 	<?php
 	/*Vorbereitung*/
 	//Hide all
@@ -99,22 +310,23 @@ include "connect.php";
 
 	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
- 		<h2>Veranstaltungsverzeichnis</h2>
- 		<div style="width:500px; padding: 8px 0;">
- 			<div>
- 				<ul class="nav nav-list">
 
- 	<?php
+		<h2>Veranstaltungsverzeichnis</h2>
+		<div class="well" style="width:500px; padding: 8px 0;">
+			<div>
+				<ul class="nav nav-list">
+
+	<?php
 
 	//Super sexy Caching startet
- 	$key = "treeside";
- 	$CachedString = $InstanceCache->getItem($key);
+	$key = "treeside";
+	$CachedString = $InstanceCache->getItem($key);
 
 
- 	if (is_null($CachedString->get())) {
+	if (is_null($CachedString->get())) {
 
 		$content = "";
- 		//Erstellt das Verzeichnis
+		//Erstellt das Verzeichnis
 		$array = array(array("Bachelor - Kernprogramm", "bachelor_basic"), array("Bachelor - Vertiefungsprogramm", "bachelor"), array("Master", "master"));
 		for($x = 0; $x <= 2; $x++) {
 			$content .= "<li><label class=\"tree-toggler nav-header treetop\" style=\"color:rgb(0, 51, 153)\"><strong>".$array[$x][0]."</strong></label>";
@@ -131,7 +343,7 @@ include "connect.php";
 						JOIN modules_levels ON modules.module_ID = modules_levels.module_ID
 						JOIN levels ON modules_levels.level_ID = levels.level_ID
 						WHERE levels.name = '".$array[$x][1]."' AND type = '".$modulTypes['name']."'
-            ORDER BY TRIM(modules.name);
+			ORDER BY TRIM(modules.name);
 					");
 					while($modules = mysqli_fetch_assoc($result2)){ //Modulname
 						$content .= "<li><label class=\"tree-toggler nav-header\">".$modules['module_name']."</label>";
@@ -143,7 +355,7 @@ include "connect.php";
 							JOIN subjects_modules ON subjects.ID = subjects_modules.subject_ID
 							JOIN modules ON subjects_modules.module_ID = modules.module_ID
 							WHERE modules.name = '".$modules['module_name']."'
-              ORDER BY TRIM(subject_name);
+			  ORDER BY TRIM(subject_name);
 						");
 						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
 							$content .= "<li><a href=\"index.php?subject=".$subjects['subject_id']."\">".$subjects['subject_name']."</a></li>";
@@ -158,13 +370,13 @@ include "connect.php";
 			$content .= "</li>";
 		}
 		$CachedString->set($content)->expiresAfter(300000);//in seconds, also accepts Datetime
- 		$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+		$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
 
- 		echo $CachedString->get();
+		echo $CachedString->get();
 
- 	} else {
- 		echo $CachedString->get();
- 	}
+	} else {
+		echo $CachedString->get();
+	}
 ?>
 				</ul>
 			</div>
@@ -262,8 +474,8 @@ include "connect.php";
 						$mod_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
 						$result = mysqli_query($con,"SELECT * FROM modules ORDER BY name");
 						while($mod_row = mysqli_fetch_assoc($result)){
-              $mod_selection .= "<option value=".$mod_row['module_ID'].">".$mod_row['name']." [".$mod_row['code']."]</option>";
-            }
+			  $mod_selection .= "<option value=".$mod_row['module_ID'].">".$mod_row['name']." [".$mod_row['code']."]</option>";
+			}
 						$CachedString->set($mod_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
 						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
 					} else {
@@ -325,8 +537,8 @@ include "connect.php";
 						$insti_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
 						$result = mysqli_query($con, "SELECT * FROM institutes ORDER BY name");
 						while($row = mysqli_fetch_assoc($result)){
-              $insti_selection .= "<option value=".$row['institute_ID'].">".$row['name']." (".$row['abbr'].")</option>";
-            }
+			  $insti_selection .= "<option value=".$row['institute_ID'].">".$row['name']." (".$row['abbr'].")</option>";
+			}
 						$CachedString->set($insti_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
 						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
 					} else {
@@ -553,7 +765,7 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 1500);
 						}
-            $('#tabelleLaden').hide();
+			$('#tabelleLaden').hide();
 						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {

@@ -59,8 +59,75 @@
 	padding:5px;
 }
 
+.feedbox{
+	border-radius:5px;
+}
 
-/*
+.feedhead{
+	background-color:rgb(20,90,157);
+	color:white;
+	height: 50px;
+	line-height: 50px;
+}
+
+.feedtitle{
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+	font-family:open sans;
+	padding:10px;
+}
+
+.feedbody{
+	border-style: none solid solid;
+	border-width:0px 1px 1px;
+	border-color:lightgrey;
+	
+	padding:10px;
+	
+	max-height:800px;
+	overflow:auto;
+}
+
+.morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
+}
+
+
+
+.feeddiv{
+    right:0;
+	bottom:4px;
+	top:110px;
+	position:fixed;
+	width: 250px;
+	overflow:auto;
+	
+	background:white;
+	z-index: 10;
+	
+	display:none;
+}
+
+#changeButton{
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	
+	background-color:#d3d3d3;
+    padding: 4px;
+	width:250px;
+	
+	
+    cursor: pointer;
+    
+	font-weight: bold;
+	text-align:center;
+	z-index: 11;
+}
 
 .tree {
     min-height:20px;
