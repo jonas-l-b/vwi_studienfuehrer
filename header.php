@@ -46,7 +46,7 @@
 	  gtag('js', new Date());
 	  gtag('config', 'UA-113288561-1', { 'anonymize_ip': true });
 		<?php
-		if($userRow['user_ID'] != null){
+		if(isset($userRow['user_ID'])){
 			echo "gtag('set', 'user_id', '" . $userRow['user_ID'] . "'); // Set the user ID using signed-in user_id.";
 		}
 		?>

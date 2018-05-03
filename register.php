@@ -270,7 +270,7 @@ include "header.php";
 			<script>
 			$('.ui.dropdown')
 				.dropdown(
-					<?php if(isset($memorey_degree)) echo "'set selected', $memorey_degree" ?>
+					<?php if(isset($memorey_degree)) echo "'set selected', '$memorey_degree'" ?>
 				)
 				;
 			</script>

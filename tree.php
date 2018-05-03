@@ -234,17 +234,17 @@ $("#changeButton").click(function () {
 		}
 	 ?>
 
-	<!--Karussell-->
+	<!--Karussell
 	<div class="container">	
 	  <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
-		<!-- Indicators -->
+		<!-- Indicators 
 		<ol class="carousel-indicators">
 		  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 		  <li data-target="#myCarousel" data-slide-to="1"></li>
 		  <li data-target="#myCarousel" data-slide-to="2"></li>
 		</ol>
 
-		<!-- Wrapper for slides -->
+		<!-- Wrapper for slides 
 		<div class="carousel-inner">
 		  <div class="item active">
 			<img src="pictures/carousel_afterLogin/carouselAfter_one.jpg" style="width:100%;">
@@ -259,7 +259,7 @@ $("#changeButton").click(function () {
 		  </div>
 		</div>
 
-		<!-- Left and right controls -->
+		<!-- Left and right controls 
 		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
 		  <span class="glyphicon glyphicon-chevron-left"></span>
 		  <span class="sr-only">Previous</span>
@@ -272,7 +272,7 @@ $("#changeButton").click(function () {
 	</div>
  
 	<hr>
-	
+-->	
 	<?php
 	/*Vorbereitung*/
 	//Hide all
@@ -580,8 +580,8 @@ $("#changeButton").click(function () {
 							<div class="col-md-8">
 								<select class="form-control" name="semester">
 									<option value="none">(Keine Einschränkung)</option>
-									<option value="Winter">Winter</option>
-									<option value="Sommer">Sommer</option>
+									<option value="Winter">Nur Winter</option>
+									<option value="Sommer">Nur Sommer</option>
 								</select>
 							</div>
 						</div>
