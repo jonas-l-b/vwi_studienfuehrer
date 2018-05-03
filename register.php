@@ -66,7 +66,7 @@ if(isset($_POST['btn-signup'])) {
 			$message="
 			<p>vielen Dank für deine Registrierung!</p>
 			<p>Dein Account wurde erstellt. Um ihn zu aktivieren, klicke bitte auf diesen Link:<br>
-			http://studienführer.vwi-karlsruhe.de/verify.php?email=".$email."&hash=".$hash."</p>
+			<a href=\"http://studienführer.vwi-karlsruhe.de/verify.php?email=".$email."&hash=".$hash."\">http://studienführer.vwi-karlsruhe.de/verify.php?email=".$email."&hash=".$hash."</a></p>
 			";
 			$mailService = EmailService::getService();
 			if($mailService->sendEmail($email, $firstName, $subject, $message)){
