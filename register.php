@@ -74,7 +74,8 @@ if(isset($_POST['btn-signup'])) {
 			}
 
 			$msg = "<div class='alert alert-success'>
-			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Erfolgreich registiert! Wir haben einen Aktivierungslink an die angegebene E-Mail-Adresse gesendet.
+			<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Erfolgreich registiert! Wir haben einen Aktivierungslink an die angegebene E-Mail-Adresse gesendet.<br>
+			Überprüfe auch deinen <strong>SPAM-Ordner</strong> und füge <strong>noreply@studienführer.vwi-karlsruhe.de</strong> zu deinen Ausnahmen hinzu!
 			</div>";
 		}else {
 			$msg = "<div class='alert alert-danger'>

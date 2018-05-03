@@ -468,6 +468,7 @@ include "connect.php";
 		<div id="notifications" class="tab-pane fade">
 			<br>
 			<p>Hier kannst du einstellen, bei welchen Ereignissen du per Mail benachrichtigt werden willst. Vergiss nicht, Änderungen durch den Klick auf den Button zu speichern.</p>
+			<p>Leider landen unserer E-Mails oft im <strong>SPAM-Ordner</strong>. Bitte überprüfe ihn und füge <strong>noreply@studienführer.vwi-karlsruhe.de</strong> zu deinen Ausnahmen hinzu!</p>
 			
 			<?php //Script für Datenbankänderung		
 			if(isset($_POST['btn-change-questions'])) {
