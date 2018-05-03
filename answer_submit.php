@@ -17,12 +17,18 @@ $sql = "
 ";
 
 if(mysqli_query($con, $sql)){
-	//Benachrichtigungsemail
+	/*Benachrichtigungsemail*/
+	//Check, ob Fragensteller Benachrichtigung haben will
+	$sql6="SELECT user_ID FROM questions WHERE ID = ".$question_id."";
+	$result6=mysqli_query($con, $sql6);
+	$row6 = mysqli_fetch_assoc($result6);
+	$authorOfQuestionId = $row6['user_ID'];
 	
-	$sql5="SELECT * FROM user_notifications";
+	$sql5="SELECT * FROM user_notifications WHERE user_ID = ".$authorOfQuestionId."";
 	$result5=mysqli_query($con,$sql5);
+
 	$row5=mysqli_fetch_assoc($result5);
-	if($row5['own_questions']==1){
+	if($row5['own_questions']==1 || mysqli_num_rows($result5)==0){ //Send eMail
 		$sql2 = "SELECT * FROM questions WHERE ID = $question_id";
 		$result = mysqli_query($con, $sql2);
 		$row = mysqli_fetch_assoc($result);
