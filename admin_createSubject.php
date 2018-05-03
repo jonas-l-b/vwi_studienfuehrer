@@ -161,21 +161,6 @@ $InstanceCache->deleteItem("treeside");
 
 				$lec_selection .= "<option value=".$lec_row['lecturer_ID'].">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$abbr.")</option>";
 			}
-			/*
-			$sql = "
-				SELECT *
-				FROM lecturers
-				JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
-				JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
-				ORDER BY name, last_name
-			";
-
-			$lec = mysqli_query($con,$sql);
-
-			while($lec_row = mysqli_fetch_assoc($lec)){
-				$lec_selection .= "<option value=\"".$lec_row['lecturer_ID']."\">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
-			}
-			*/
 			?>
 
 			<div class="form-group">

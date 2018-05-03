@@ -234,58 +234,62 @@ $InstanceCache->deleteItem("treeside");
 			</div>
 			
 			<hr>
-				
+
+
 			<?php
 			$lec_selection = "";
-			
-			$sql = "
-				SELECT *
-				FROM lecturers
-				JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
-				JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
-				ORDER BY name, last_name
-			";
-			
-			$lec = mysqli_query($con,$sql);
-			
+
+			$lec = mysqli_query($con,"
+					SELECT lecturers.lecturer_ID, last_name, first_name
+					FROM lecturers
+				");
 			while($lec_row = mysqli_fetch_assoc($lec)){
-				$lec_selection .= "<option value=".$lec_row['lecturer_ID']." ".$lecturerSelection[$lec_row['lecturer_ID']]." >".$lec_row['last_name'].", ".$lec_row['first_name']." (".$lec_row['abbr'].")</option>";
+				$sql_abbr = mysqli_query($con,"
+						SELECT *
+						FROM institutes
+						JOIN lecturers_institutes ON institutes.institute_ID=lecturers_institutes.institute_ID
+						WHERE lecturer_ID = '".$lec_row['lecturer_ID']."'
+					");
+				$abbr = "";
+				while($abbr_row = mysqli_fetch_assoc($sql_abbr)){
+					$abbr .= $abbr_row['abbr'] . ", ";
+				}
+				$abbr = substr($abbr, 0, -2);
+
+				$lec_selection .= "<option value=".$lec_row['lecturer_ID']." ".$lecturerSelection[$lec_row['lecturer_ID']].">".$lec_row['last_name'].", ".$lec_row['first_name']." (".$abbr.")</option>";
 			}
-			
 			?>
-			
+
 			<div class="form-group">
 				<label>Dozent(en)</label>
 				<p>Wer verantwortet die Veranstaltung?</p>
 				<p><i>Falls gewünschter Dozent nicht in Dropdown vorhanden ist, muss er erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="_blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
-				<p><i>Durch Gedrückthalten von STRG mehrere Dozenten auswählen. <strong>Hinweis: Wenn man einfach in die Asuwahl klickt, sind alle vorausgewählten Einträge nicht mehr markiert. Um vorausgewählte Einträge zu behalten, <u>auf die Scrollbar der Auswahl klicken</u> und dann durch Gedrückthalten von STRG Einträge an- und abwählen. Bei Fehlern mit Button ganz unten Abbrechen und erneut versuchen.</strong></i></p>
-				<select id="lec_select" name="lec_select[]" multiple class="form-control" required>
+				<select id="lec_select" name="lec_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<?php echo $lec_selection ?>
 				</select>
 			</div>
-			
+		
 			<hr>
 			
 			<?php
 			$mod_selection = "";
-			
+
 			$mod = mysqli_query($con,"SELECT * FROM modules ORDER BY name");
-			
+
 			while($mod_row = mysqli_fetch_assoc($mod)){
 				$mod_selection .= "<option value=".$mod_row['module_ID']." ".$moduleSelection[$mod_row['module_ID']].">".$mod_row['name']." [".$mod_row['code']."]</option>";
 			}
 			?>
-			
+
 			<div class="form-group">
 				<label>Teil der Module</label>
 				<p>Welchen Modulen ist die Veranstaltung zuzuordnen?</p>
 				<p><i>Falls gewünschtes Modul nicht in Dropdown vorhanden ist, muss es erst noch hinzugefügt werden. Dazu <a href="admin_createSubject.php" target="_blank">hier</a> klicken (neues Fenster; diese Seite muss dann aktualisiert werden).</i></p>
-				<p><i>Durch Gedrückthalten von STRG mehrere Module auswählen. <strong>Hinweis: Wenn man einfach in die Asuwahl klickt, sind alle vorausgewählten Einträge nicht mehr markiert. Um vorausgewählte Einträge zu behalten, <u>auf die Scrollbar der Auswahl klicken</u> und dann durch Gedrückthalten von STRG Einträge an- und abwählen. Bei Fehlern mit Button ganz unten Abbrechen und erneut versuchen.</strong></i></p>
-				<select id="mod_select" name="mod_select[]" multiple class="form-control" required>
+				<select id="mod_select" name="mod_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<?php echo $mod_selection ?>
 				</select>
-			</div>
-			
+			</div>		
+	
 			<hr>
 			
 			<div class="form-group">
@@ -319,5 +323,15 @@ $InstanceCache->deleteItem("treeside");
 	</div>
 
 </div>
+
+<script>
+$('.ui.dropdown')
+  .dropdown({
+    fullTextSearch: true,
+	useLabels: false
+  })
+;
+</script>
+
 </body>
 </html>

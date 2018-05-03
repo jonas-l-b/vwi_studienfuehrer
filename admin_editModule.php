@@ -209,12 +209,11 @@ if($userRow['admin']==0){
 					<?php echo $mod_type1_selection ?>
 				</select>
 			</div>
-
+			
 			<div class="form-group">
 				<label>Modul-Level</label>
 				<p>Wann kann das Modul belegt werden?</p>
-				<p><i>Durch Gedrückthalten von STRG mehrere Level auswählen. <strong>Hinweis: Wenn man einfach in die Asuwahl klickt, sind alle vorausgewählten Einträge nicht mehr markiert. Um vorausgewählte Einträge zu behalten, <u>auf die Scrollbar der Auswahl klicken</u> und dann durch Gedrückthalten von STRG Einträge an- und abwählen. Bei Fehlern mit Button ganz unten Abbrechen und erneut versuchen.</strong></i></p>
-				<select name="level_select[]" multiple class="form-control" required>
+				<select id="level_select" name="level_select[]" multiple="" class="search ui fluid dropdown form-control" required>
 					<option value="bachelor_basic" <?php echo $levelSelection['bachelor_basic'] ?> >Bachelor: Kernprogramm</option>
 					<option value="bachelor" <?php echo $levelSelection['bachelor'] ?>>Bachelor: Vertiefungsprogramm</option>
 					<option value="master" <?php echo $levelSelection['master'] ?>>Master</option>
@@ -236,6 +235,13 @@ if($userRow['admin']==0){
 
 
 </div>
-
+<script>
+$('.ui.dropdown')
+  .dropdown({
+    fullTextSearch: true,
+	useLabels: false
+  })
+;
+</script>
 </body>
 </html>
