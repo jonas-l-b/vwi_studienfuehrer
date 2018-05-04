@@ -80,14 +80,6 @@
 			 $this->mail->AddEmbeddedImage(__DIR__ . '/../../pictures/email/facebook.png', 'facebook.png', 'facebook.png');
 			 $this->mail->AddEmbeddedImage(__DIR__ . '/../../pictures/email/instagram.png', 'instagram.png', 'instagram.png');
 
-
-		   if(substr($body,0,5) == "nosig"){
-			   $sigDisplay = "style=\"display:none\"";
-			   $body = substr($body,6,strlen($body));
-		   }else{
-			   $sigDisplay = "";
-		   }
-
 		   $htmlWithoutCSS = '
 		    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			<html>
@@ -106,21 +98,16 @@
 										<td class="contentblock">
 										'."
 											<p class=\"anrede\">Hallo $userName,</p>
-											<br />
-
+											
+											<br>
 											$body
-
 											<br />
-											<span ".$sigDisplay.">
+											
 											<p>Viel Spaß mit dem Studienführer,<br>
-											Deine VWI-ESTIEM Hochschulgruppe Karlsruhe</p>
-											".'
-											<p>
-												____________________________________<br />
-												<strong>Studienführer VWI-ESTIEM Karlsruhe</strong><br />
-												<a href="mailto:studienfuehrer@vwi-karlsruhe.de"/>studienfuehrer@vwi-karlsruhe.de</a><br />
-												<br />
-											</p>
+											Deine Studienführer-Team der VWI-ESTIEM Hochschulgruppe Karlsruhe<br>
+											<a href=\"mailto:studienfuehrer@vwi-karlsruhe.de\"/>studienfuehrer@vwi-karlsruhe.de</a></p>
+										".'
+
 											<span>
 										</td>
 									</tr>

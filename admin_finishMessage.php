@@ -45,35 +45,47 @@ if(mysqli_query($con, $sql)){
 		
 		switch($processedSuccess){
 			case 1:
-				$erfolg = "Erfolgreich";
+				$erfolg = "Erfolgreich Bearbeitet";
 				break;
 			case 2:
-				$erfolg = "Nicht Erfolgreich";
+				$erfolg = "Nicht Erfolgreich Bearbeitet";
 				break;
 		}
 		
 		if(isset($finishComment)){
 			$passage = " und folgende Nachricht für dich hinterlassen:";
-			$mes = "<span>".$finishComment."</span>";
+			$mes = "
+				<table style=\"width:100%\">
+					<tr>
+						<td style=\"border-left: solid 3px #A9A9A9; background: #F5F5F5\">
+							<span>".$finishComment."</span>
+						</td>
+					</tr>
+				</table>
+			";
 		}else{
 			$passage = ".";
 			$mes = "";
 		}
 
 		$body = "
-			<span>ein Administrator hat deine Nachricht bearbeitet:</span>
-			<hr>
-			<p>Diese Nachricht hast du uns am ".$row['time_stamp']." gesendet:</p>
-			<span>".$row['comment']."</span>
-			<hr>
-			<p>Der Administrator hat die Bearbeitung deiner Nachricht als <i>".$erfolg."</i> markiert".$passage."</p>
+			<p>ein Administrator hat deine Nachricht bearbeitet. Diese Nachricht hast du uns am ".$row['time_stamp']." gesendet:</p>
+			
+			<table style=\"width:100%\">
+				<tr>
+					<td style=\"border-left: solid 3px #A9A9A9; background: #F5F5F5\">
+						<span>".$row['comment']."</span>
+					</td>
+				</tr>
+			</table>
+			
+			<p>Der Administrator hat die Bearbeitung deiner Nachricht als <strong><i>".$erfolg."</i></strong> markiert".$passage."</p>
 			".$mes."
-			<hr>
+
 			<p>Falls du noch weitere Fragen oder Anmerkungen hast, kannst du dich gerne wieder an uns wenden. Benutze dazu bitte erneut das Kontaktformular auf der Webseite und antworte <u>nicht</u> auf diese Mail (da diese nicht ankommen würde).</p>
-			<br>
 		";
 		
-		EmailService::getService()->sendEmail($row['email'], $row['username'], $subject, $body);
+		EmailService::getService()->sendEmail($row['email'], $row['first_name'], $subject, $body);
 	}
 }
 

@@ -63,13 +63,20 @@ if(mysqli_query($con,$sql)){
 			$type = "Feedback";
 			break;
 	}
-	$body = "nosig
-		<span>ein Benutzer hat eine Nachricht an die Administratoren geschickt:</span>
-		<hr>
+	$body = "
+		<span>ein Benutzer hat eine Nachricht an die Administratoren des Studienführers geschickt:</span>
+
 		<p>Betreff: <strong>".$type."</strong></p>
-		<span>".$comment."</span>
-		<hr>
-		<span class='foo'><a href=\"studienfuehrer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"studienfuehrer.vwi-karlsruhe.de/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
+		<table style=\"width:100%\">
+			<tr>
+				<td style=\"border-left: solid 3px #A9A9A9; background: #F5F5F5\">
+					<span>".$comment."</span>
+				</td>
+			</tr>
+		</table>
+		<br>
+			
+		<span class='foo'><a href=\"studienführer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"studienfuehrer.vwi-karlsruhe.de/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
 	";
 
 	$sql = "
@@ -80,7 +87,7 @@ if(mysqli_query($con,$sql)){
 	";
 	$result = mysqli_query($con, $sql);
 	while($row = mysqli_fetch_assoc($result)){		
-		EmailService::getService()->sendEmail($row['email'], $row['username'], $subject, $body);
+		EmailService::getService()->sendEmail($row['email'], $row['first_name'], $subject, $body);
 	}
 	
 }
