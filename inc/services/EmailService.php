@@ -99,9 +99,7 @@
 										'."
 											<p class=\"anrede\">Hallo $userName,</p>
 											
-											<br>
 											$body
-											<br />
 											
 											<p>Viel Spaß mit dem Studienführer,<br>
 											Deine Studienführer-Team der VWI-ESTIEM Hochschulgruppe Karlsruhe<br>

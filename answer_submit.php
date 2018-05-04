@@ -51,16 +51,30 @@ if(mysqli_query($con, $sql)){
 		$result3 = mysqli_query($con, $sql4);
 		$row3 = mysqli_fetch_assoc($result3);	
 		
-		$subject = '[Studienführer] Jemand hat auf eine deiner Fragen geantwortet';
+		$subject = '[Studienführer] Jemand hat auf eine deiner Fragen geantwortet!';
 		$message="
-		<p>eine der Fragen, die du im Studienführer gestellt hast, wurde beantwortet.</p>
-		<p>Du hast diese Frage in der Veranstaltung <strong>".$row3['subject_name']."</strong> gestellt.</p>
-		<p><u>Deine Frage</u>:</p>
-		<p style=\"margin-left:15px;\">".$row['question']."</p>
-		<p><u>Abgegebene Antwort</u>:</p>
-		<p style=\"margin-left:15px;\">".$answer."</p>
+		<p>eine der Fragen, die du im Studienführer gestellt hast, wurde beantwortet.<br>
+		Du hast diese Frage in der Veranstaltung <strong>".$row3['subject_name']."</strong> gestellt.</p>
+		<p>Deine Frage:</p>
+		<table style=\"width:100%\">
+			<tr>
+				<td style=\"border-left: solid 3px #A9A9A9; background: #F5F5F5\">
+					<span style=\"font-size:1.2em\">".$row['question']."</span>
+				</td>
+			</tr>
+		</table>
 		<br>
-		<p>Du kannst deine gestellten Fragen in deinem Profil anschauen: <a href=\"http://xn--studienfhrer-klb.vwi-karlsruhe.de/userProfile.php#questions\">hier klicken</a>.</p>
+		<p>Abgegebene Antwort:</p>
+		<table style=\"width:100%\">
+			<tr>
+				<td style=\"border-left: solid 3px #A9A9A9; background: #F5F5F5\">
+					<span>".$answer."</span>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<br>
+		<p>Du kannst alle deine gestellten Fragen in deinem Profil anschauen: <a href=\"http://xn--studienfhrer-klb.vwi-karlsruhe.de/userProfile.php#questions\">hier klicken</a>.</p>
 		";
 		$mailService = EmailService::getService();
 		$mailService->sendEmail($row2['email'], $row2['first_name'], $subject, $message);
