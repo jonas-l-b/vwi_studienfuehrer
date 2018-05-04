@@ -324,7 +324,7 @@ if($processed['processed'] == 0){
 	if($message['processed_comment'] != ""){
 		$line = "<hr>";
 		$commentator = "<p>Kommentar an Nutzer von <strong>".$processed_by['username']."</strong>:</p>";
-		$comment = "<p>".$message['processed_comment']."</p>";
+		$comment = $message['processed_comment'];
 	} else{
 		$line = "";
 		$commentator = "";
@@ -333,7 +333,7 @@ if($processed['processed'] == 0){
 	
 	//processed_comment_for_admins
 	if($message['processed_comment_for_admins'] != ""){
-		$commentAdmin = "<p>".$message['processed_comment_for_admins']."</p>";
+		$commentAdmin = $message['processed_comment_for_admins'];
 	} else{
 		$commentAdmin = "<i>Admin hat keinen Kommentar hinterlassen.</i>";
 	}
@@ -395,19 +395,17 @@ if($processed['processed'] == 0){
 	$messageDetail = "
 		<p>Nachricht von <strong>".$sender['username']."</strong> (Typ ".$type."):<span style=\"float:right\"> ".substr($message['time_stamp'],0,strlen($message['time_stamp'])-3)." Uhr</span></p>
 		".$mistakePart."
-		<p>".$message['comment']."</p>
+		<p class=\"well\" style=\"border-radius:10px\">".$message['comment']."</p>
 		
 		<hr>
 		<p>Als bearbeitet markiert von: <strong>".$processed_by['username']."</strong><span style=\"float:right\"> ".substr($message['processed_time_stamp'],0,strlen($message['processed_time_stamp'])-3)." Uhr</span></p>
 		<p>Antwort an Nutzer verschickt: <strong>".$answer."</strong></p>
-		
-		
 		".$line."
 		".$commentator."
-		".$comment."
+		<p class=\"well\" style=\"border-radius:10px\">".$comment."</p>
 		<hr>
-		<p>Kommentar von <strong>".$processed_by['username']."</strong> für andere Admins:</p>
-		".$commentAdmin."
+		<p>Kommentar an andere Admins (nur hier sichtbar) von <strong>".$processed_by['username']."</strong>:</p>
+		<p class=\"well\" style=\"border-radius:10px\">".$commentAdmin."</p>
 	";
 }
 
