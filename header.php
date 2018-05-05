@@ -61,7 +61,7 @@
 				unsupported:true,
 				api:5,
 				test: false,
-				text: "Buuuuh! Du benutzt ja {brow_name}. Der ist viel zu alt, der Browser! Hör mal, es ist ohnehin schon megaviel Arbeit verschiedene Browser zu unterstützen und DEINEN unterstützen wir jetzt NICHT MEHR! Das haben wir in diesem Moment entschieden. Wenn bei dir jetz auf der Seite hier also alles kaputt ist, dann schau nicht uns an. Das ist nicht mehr unsere Schuld... sondern DEINE :P. Aber einen AUSWEG gibt es! Einfach den Browser <b>UPDATEN</b> - zum Beispiel hier: <a{up_but}>Aktualisieren</a>.",
+				text: "Buuuuh! Du benutzt ja {brow_name}. Der ist viel zu alt, der Browser! Hör mal, es ist ohnehin schon ganz schön viel Arbeit verschiedene Browser zu unterstützen, geschweige denn auf veraltete Versionen Rücksicht zu nehmen. Wenn die Version so alt ist wie Deine, dann tun wir das auch nicht mehr. Wenn bei dir jetzt auf der Seite hier also alles kaputt ist, dann schau nicht uns an, denn jetzt liegt es an dir! Gib Dir einen Ruck! <b>Aktualisiere</b> Deinen Browser - zum Beispiel hier: <a{up_but}>Aktualisieren</a>.",
 				noclose: true,
 				style: "top"
 			};
