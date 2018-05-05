@@ -12,42 +12,6 @@ include "connect.php";
 <?php include "inc/nav.php" ?>
 
 <div id="div2" class="feeddiv">
-	<?php
-	function time_elapsed_string($datetime, $full = false) {
-		$now = new DateTime;
-		$ago = new DateTime($datetime);
-		$diff = $now->diff($ago);
-
-		$diff->w = floor($diff->d / 7);
-		$diff->d -= $diff->w * 7;
-
-		$string = array(
-			'y' => 'Jahr',
-			'm' => 'Monat',
-			'w' => 'Woche',
-			'd' => 'Tag',
-			'h' => 'Stunde',
-			'i' => 'Minute',
-			's' => 'Sekunde',
-		);
-		foreach ($string as $k => &$v) {
-			if ($diff->$k) {
-				if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
-					$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
-				}
-				else {
-					$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
-				}
-			} else {
-				unset($string[$k]);
-			}
-		}
-
-		if (!$full) $string = array_slice($string, 0, 1);
-		return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
-	}
-	?>
-	
 	<script>
 	$(document).ready(function() {
 		// Configure/customize these variables.
@@ -121,10 +85,11 @@ include "connect.php";
 				<p class="more">
 					<?php echo $row['comment']?>
 				</p>
+				<hr>
 				<?php
-				if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
 			}
 			?>
+			<p align="center"><a href="feed.php">Mehr anzeigen</a></p>
 		</div>
 	</div>
 
@@ -160,10 +125,11 @@ include "connect.php";
 				<p class="more">
 					<?php echo $row['question']?>
 				</p>
+				<hr>
 				<?php
-				if($count < $feedLimit) echo "<hr>"; //Set $feedLimit above
 			}
 			?>
+			<p align="center"><a href="feed.php">Mehr anzeigen</a></p>
 		</div>
 	</div>
 	
