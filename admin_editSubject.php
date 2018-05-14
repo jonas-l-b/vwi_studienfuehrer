@@ -15,6 +15,11 @@ if($userRow['admin']==0){
 
 $InstanceCache->deleteItem("treeside");
 ?>
+
+<head>
+	<link rel="stylesheet" href="res/css/sem.css">
+</head>
+
 <body>
 
 <?php include "inc/nav.php" ?>
@@ -328,7 +333,7 @@ $InstanceCache->deleteItem("treeside");
 $('.ui.dropdown')
   .dropdown({
     fullTextSearch: true,
-	useLabels: false
+	useLabels: true
   })
 ;
 </script>

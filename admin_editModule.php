@@ -17,6 +17,11 @@ if($userRow['admin']==0){
 ?>
 
 <html>
+
+<head>
+	<link rel="stylesheet" href="res/css/sem.css">
+</head>
+
 <body>
 
 <?php include "inc/nav.php" ?>
@@ -239,7 +244,7 @@ if($userRow['admin']==0){
 $('.ui.dropdown')
   .dropdown({
     fullTextSearch: true,
-	useLabels: false
+	useLabels: true
   })
 ;
 </script>
