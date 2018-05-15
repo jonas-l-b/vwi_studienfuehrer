@@ -3,11 +3,11 @@
 	<!--<button type="button" id="button" class="btn">Give value!</button>-->
 
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
-
+	
 	{% for key,value in lectureItems %}
 		<p>{{value}}</p>
-		<input type="range" class="sliderLecture{{key}}" min="0" max="10" step="1" value="{{lectureValues[key]}}">
-		<span class="sliderLecture{{key}}">{{lectureValues[key]}}</span>
+		<span>{{lectureItemsLabels[key][0]}}</span><span style="float:right">{{lectureItemsLabels[key][1]}}</span><br>
+		<input type="range" style="width:100%" class="slider{{key}}" min="-3" max="3" step="1" value="{{examValues2[key]}}">
 		<br><br>
 	{% endfor %}
 
@@ -120,21 +120,13 @@
 	{% for key,value in examItems %}
 		<div style="display:none" class="examItems">
 			<p>{{value}}</p>
-			<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="{{examValues[key]}}">
-			<span class="sliderExam{{key}}">{{examValues[key]}}</span>
+			<span>{{examItemsLabels[key][0]}}</span><span style="float:right">{{examItemsLabels[key][1]}}</span><br>
+			<input type="range" style="width:100%" class="slider{{key}}" min="-3" max="3" step="1" value="{{examValues2[key]}}">
+
 			<br><br>
 		</div>
 	{% endfor %}
 
-	{% for key,value in examItems2 %}
-		<div style="display:none" class="examItems">
-			<p>{{value}}</p>
-			<span>{{examItems2Labels[key][0]}}</span>
-			<input type="range" style="width:60%" class="slider{{key}}" min="-10" max="10" step="1" value="{{examValues2[key]}}">
-			<span>{{examItems2Labels[key][1]}}</span>
-			<br><br>
-		</div>
-	{% endfor %}
 
 	<br>
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung insgesamt</p>
