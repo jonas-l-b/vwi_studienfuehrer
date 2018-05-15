@@ -15,7 +15,7 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Prüfung</p>
 
 	<p>Wann wurdest du geprüft?</p>
-	<select id="examSemester" class="form-control" style="width:80%" required>
+	<select id="examSemester" class="form-control" style="width:100%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
 		<option value="ss10">SS10</option>
 		<option value="ws10-11">WS10-11</option>
@@ -59,14 +59,14 @@
 	<br>
 
 	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
-	<select id="examType" class="form-control" style="width:80%" required>
+	<select id="examType" class="form-control" style="width:100%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
 		<option value="written" {{typeWritten}}>Schriftlich</option>
 		<option value="oral" {{typeOral}}>Mündlich</option>
 		<option value="other" {{typeOther}}>Sonstige</option>
 	</select>
 	<br>
-	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" maxlength="2500" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
+	<textarea class="form-control" style="width:100%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" maxlength="2500" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
 	<div id="commentWarningExamDetails"></div>
 
 	<script>

@@ -39,7 +39,7 @@ if (isset($_GET['subject'])){
 	);
 
 	$generalItems = array(
-		"Wie bewertest du die Veranstaltung ingesamt?",
+		"Wie bewertest du die Veranstaltung ingesamt? (1 = schlecht, 10 = gut)",
 	);
 
 	//Values if already filleds
