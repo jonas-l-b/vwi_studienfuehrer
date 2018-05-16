@@ -94,7 +94,7 @@ if (isset($_GET['subject'])){
 		$oral = "";
 		$other = "";
 		$examText = "";
-		$examSemester = "";
+		$examSemester = "choose";
 		$general0 = "";
 		$recom1 = "";
 		$recom0 = "";
