@@ -293,7 +293,9 @@ include "sumVotes.php";
 									$lecture[$key][1] = round($row['AVG('.$item.')'],1);
 								}
 							}
-							$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
+
+							//$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
+							$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien schlecht", "Materialien gut"));
 							
 							//Exam
 							$items = array("exam0", "exam1", "exam2", "exam3");
@@ -333,32 +335,28 @@ include "sumVotes.php";
 											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i][0] ?></span>
 										</td>
 										<td>
-											<span style="float:right; margin-right:3px;"><?php echo $lectureHeadings[$i][1] ?></span>
+											<span style="float:right; text-align: right; margin-right:3px;"><?php echo $lectureHeadings[$i][1] ?></span>
 										</td>
 									</tr>
 
-									<?php
-									for($i=0;$i<2;$i++){
-									?>
-										<tr>
-											<td valign="center" style="width:50%">
-												<div style="font-size:15px; font-weight:bold; line-height:2">
-													<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-														<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][$j]*10 ?>%"></div>
-													</div>
+									<tr>
+										<td valign="center" style="width:50%">
+											<div style="font-size:15px; font-weight:bold; line-height:2">
+												<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][0]*(100/3) ?>%"></div>
 												</div>
-											</td>
+											</div>
+										</td>
 
-											<td valign="center" style="width:50%">
-												<div style="font-size:15px; font-weight:bold; line-height:2">
-													<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-														<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight[$i][$j]*10 ?>%"></div>
-													</div>
+										<td valign="center" style="width:50%">
+											<div style="font-size:15px; font-weight:bold; line-height:2">
+												<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][1]*(100/3) ?>%"></div>
 												</div>
-											</td>
-										</tr>
-									<?php
-									}
+											</div>
+										</td>
+									</tr>
+								<?php
 								}
 								?>
 							</table>
@@ -385,38 +383,10 @@ include "sumVotes.php";
 												?>
 												<tr>
 													<td>
-														<span style="float:left; margin-left:3px;"><?php echo $examHeadings[$i] ?></span>
-														<span style="float:right; margin-right:3px;"><?php echo $exam[$j][$i] ?></span>
-													</td>
-												</tr>
-
-												<tr>
-													<td valign="center" style="width:70%">
-														<div style="font-size:15px; font-weight:bold; line-height:2">
-															<div class="progress">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i]*10 ?>%"></div>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<?php
-											}
-											?>
-										</table>
-
-										<br>
-
-										<table class="ratingtable" style="width:100%">
-											<?php
-											$examHeadingTwo = array(array("Reproduktion", "Transfer"), array("Qualitativ", "Quantitativ"));
-											for($i=0;$i<2;$i++){
-												?>
-												<tr>
-													<td>
-														<span style="float:left; margin-left:3px;"><?php echo $examHeadingTwo[$i][0] ?></span>
+														<span style="float:left; margin-left:3px;"><?php echo $examHeadings[$i][0] ?></span>
 													</td>
 													<td>
-														<span style="float:right; margin-right:3px;"><?php echo $examHeadingTwo[$i][1] ?></span>
+														<span style="float:right; text-align: right; margin-right:3px;"><?php echo $examHeadings[$i][1] ?></span>
 													</td>
 												</tr>
 
@@ -424,7 +394,7 @@ include "sumVotes.php";
 													<td valign="center" style="width:50%">
 														<div style="font-size:15px; font-weight:bold; line-height:2">
 															<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examLeft[$i][$j]*10 ?>%"></div>
+																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][0]*(100/3) ?>%"></div>
 															</div>
 														</div>
 													</td>
@@ -432,13 +402,14 @@ include "sumVotes.php";
 													<td valign="center" style="width:50%">
 														<div style="font-size:15px; font-weight:bold; line-height:2">
 															<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight[$i][$j]*10 ?>%"></div>
+																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][1]*(100/3) ?>%"></div>
 															</div>
 														</div>
 													</td>
 												</tr>
 												<?php
-											}?>
+											}
+											?>
 										</table>
 									</div>
 									<?php

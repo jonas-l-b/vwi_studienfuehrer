@@ -271,23 +271,52 @@ var getUrlParameter = function getUrlParameter(sParam) {
 	$('input[type="range"]').on("change mousemove", function () {
 		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
 
-		$(this).css('background-image',
-					'-webkit-gradient(linear, left top, right top, '
-					+ 'color-stop(' + val + ', #2d5699), '
-					+ 'color-stop(' + val + ', #d3d3db)'
-					+ ')'
-					);
+		if($(this).val() <= 0){
+			$(this).css('background-image',
+			'-webkit-gradient(linear, right top, left top, '
+			+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+			+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + (1-val) + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + (1-val) + ', #d3d3db)'	//grey
+			+ ')'
+			);
+		}else{
+			$(this).css('background-image',
+			'-webkit-gradient(linear, left top, right top, '
+			+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+			+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + val + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + val + ', #d3d3db)'	//grey
+			+ ')'
+			);
+		}
+		
 		$('span.'+$(this).attr('class')).html($(this).val());
 	});
+	
 	$('input[type="range"]').each(function () {
 		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
 
-		$(this).css('background-image',
-					'-webkit-gradient(linear, left top, right top, '
-					+ 'color-stop(' + val + ', #2d5699), '
-					+ 'color-stop(' + val + ', #d3d3db)'
-					+ ')'
-					);
+		if($(this).val() <= 0){
+			$(this).css('background-image',
+			'-webkit-gradient(linear, right top, left top, '
+			+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+			+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + (1-val) + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + (1-val) + ', #d3d3db)'	//grey
+			+ ')'
+			);
+		}else{
+			$(this).css('background-image',
+			'-webkit-gradient(linear, left top, right top, '
+			+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+			+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + val + ', rgb(45, 86, 153)), '	//blue
+			+ 'color-stop(' + val + ', #d3d3db)'	//grey
+			+ ')'
+			);
+		}
+					
 		$('span.'+$(this).attr('class')).html($(this).val());
 	});
 </script>
