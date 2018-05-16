@@ -278,7 +278,7 @@ $("#changeButton").click(function () {
 	<hr>
 
 		<h2>Veranstaltungsverzeichnis</h2>
-		<div class="well" style="width:500px; padding: 8px 0;">
+		<div class="" style="width:500px; padding: 8px 0;">
 			<div>
 				<ul class="nav nav-list">
 
