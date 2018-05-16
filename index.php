@@ -285,10 +285,16 @@ include "sumVotes.php";
 							foreach($items as $key => $item){
 								$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 								$row = mysqli_fetch_assoc($result);
-								$lecture[$key] = round($row['AVG('.$item.')'],1);
+								if(round($row['AVG('.$item.')'],1) < 0 ){
+									$lecture[$key][0] = abs(round($row['AVG('.$item.')'],1));
+									$lecture[$key][1] = 0;
+								}else{
+									$lecture[$key][0] = 0;
+									$lecture[$key][1] = round($row['AVG('.$item.')'],1);
+								}
 							}
 							$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
-
+							
 							//Exam
 							$items = array("exam0", "exam1", "exam2", "exam3");
 							$examType = array("written", "oral");
@@ -296,27 +302,16 @@ include "sumVotes.php";
 								foreach($items as $key => $item){
 									$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = '".$examType[$i]."'");
 									$row = mysqli_fetch_assoc($result);
-									$exam[$i][$key] = round($row['AVG('.$item.')'],1);
+									if(round($row['AVG('.$item.')'],1) < 0 ){
+										$exam[$i][$key][0] = abs(round($row['AVG('.$item.')'],1));
+										$exam[$i][$key][1] = 0;
+									}else{
+										$exam[$i][$key][0] = 0;
+										$exam[$i][$key][1] = round($row['AVG('.$item.')'],1);
+									}
 								}
-								
-								for($j=0;$j<count($items);$j++){
-									$examRight[$j][$i] = 0;
-									$examLeft0{$j][$i] = 0;
-									if($exam[$i][4]>0){
-										$examRight[0][$i] = $exam[$i][4];
-									}elseif($exam[$i][4]<0){
-										$examLeft[0][$i] = abs($exam[$i][4]);
-									}
-
-									$examRight1[$i] = 0;
-									$examLeft1[$i] = 0;
-									if($exam[$i][5]>0){
-										$examRight[1][$i] = $exam[$i][5];
-									}elseif($exam[$i][5]<0){
-										$examLeft[1][$i] = abs($exam[$i][5]);
-									}
 							}
-							$examHeadings = array("Overall-Score", "Aufwand", "Fairness", "Zeitdruck");
+							$examHeadings = array(array("Reproduktion", "Transfer"), array("Nicht rechenlastig", "Sehr rechenlastig"), array("Aufwand < ECTS", "Aufwand > ECTS"), array("Prüfungsvorbereitung schlecht", "Prüfungsvorbereitung gut"));
 
 							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'written'"));
 							$writtenBadge = $row['COUNT(examType)'];
@@ -335,23 +330,35 @@ include "sumVotes.php";
 									?>
 									<tr>
 										<td>
-											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i] ?></span>
-											<span style="float:right; margin-right:3px;"><?php echo $lecture[$i] ?></span>
+											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i][0] ?></span>
+										</td>
+										<td>
+											<span style="float:right; margin-right:3px;"><?php echo $lectureHeadings[$i][1] ?></span>
 										</td>
 									</tr>
 
-									<tr>
-										<td valign="center" style="width:70%">
-											<div style="font-size:15px; font-weight:bold; line-height:2">
-												<div class="progress">
-													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i]*10 ?>%">
-
+									<?php
+									for($i=0;$i<2;$i++){
+									?>
+										<tr>
+											<td valign="center" style="width:50%">
+												<div style="font-size:15px; font-weight:bold; line-height:2">
+													<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+														<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][$j]*10 ?>%"></div>
 													</div>
 												</div>
-											</div>
-										</td>
-									</tr>
+											</td>
+
+											<td valign="center" style="width:50%">
+												<div style="font-size:15px; font-weight:bold; line-height:2">
+													<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+														<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight[$i][$j]*10 ?>%"></div>
+													</div>
+												</div>
+											</td>
+										</tr>
 									<?php
+									}
 								}
 								?>
 							</table>
