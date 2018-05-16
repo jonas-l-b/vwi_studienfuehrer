@@ -139,6 +139,11 @@ include "sumVotes.php";
 	?>
 
 	<div class="row" id="firstrow">
+		
+		<div class="alert alert-info" role="alert">
+			Auf dieser Seite können design-technische Fehler auftreten - besonders wenn noch keine Bewertungen abgegeben wurden. Wir arbeiten daran, diese Fehler zu beheben und nutzen dabei die Gelegenheit, das Design etwas zu überarbeiten!
+		</div>
+		
 		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
