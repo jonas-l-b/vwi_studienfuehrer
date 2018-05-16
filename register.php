@@ -408,7 +408,7 @@ include "header.php";
 					}else{
 							zerlegungstext = zerlegungstext  + '</b></i>.';
 					}
-				zerlegungstext = zerlegungstext + ' Wir brauchten dafür <b>' + item.guesses_log10.toFixed(2) + 'e Versuche.</b></li>';
+				zerlegungstext = zerlegungstext + ' Wir brauchten dafür <b>10 hoch ' + item.guesses_log10.toFixed(2) + ' Versuche.</b></li>';
 			});
 			$('#zerlegung').html('<ul class="dl-horizontal"><li><ul>' + zerlegungstext + '</ul></li></ul>');
 
