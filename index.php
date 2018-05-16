@@ -4,43 +4,6 @@ include "header.php";
 include "connect.php";
 include "saveSubjectToVariable.php";
 include "sumVotes.php";
-
-
-function time_elapsed_string_index($datetime, $full = false) {
-    $now = new DateTime;
-    $ago = new DateTime($datetime);
-    $diff = $now->diff($ago);
-
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
-
-    $string = array(
-        'y' => 'Jahr',
-        'm' => 'Monat',
-        'w' => 'Woche',
-        'd' => 'Tag',
-        'h' => 'Stunde',
-        'i' => 'Minute',
-        's' => 'Sekunde',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-			if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
-				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
-			}
-			else {
-				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
-			}
-        } else {
-            unset($string[$k]);
-        }
-    }
-
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
-}
-
-
 ?>
 
 <body>
@@ -277,7 +240,6 @@ function time_elapsed_string_index($datetime, $full = false) {
 	<!--Bewertungsübersicht Start-->
 	<div>
 		<div class="row">
-			<!--Anzeige falls noch kein Rating vorhanden-->
 			<div class="col-md-10" id="bewertungstitel">
 				<h2 <?php echo $displayRatings ?> style="text-align:center;">Gesamtbewertung</h2>
 			</div><div class="col-md-2"></div>
@@ -285,7 +247,7 @@ function time_elapsed_string_index($datetime, $full = false) {
 		<div class="row">
 			<div class="col-sm-8 col-md-10 col-lg-10 well">
 
-				<div class="noRatingBox" <?php echo $displayNoRatings ?>>
+				<div class="noRatingBox" <?php echo $displayNoRatings ?>> <!--Anzeige falls noch kein Rating vorhanden-->
 					<br>
 					<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
 					<div style="text-align:center">
@@ -319,16 +281,16 @@ function time_elapsed_string_index($datetime, $full = false) {
 						<div class="col-md-6">
 							<?php
 							//Lecture
-							$items = array("lecture0", "lecture1", "lecture2", "lecture3");
+							$items = array("lecture0", "lecture1", "lecture2");
 							foreach($items as $key => $item){
 								$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 								$row = mysqli_fetch_assoc($result);
 								$lecture[$key] = round($row['AVG('.$item.')'],1);
 							}
-							$lectureHeadings = array("Overall-Score", "Prüfungsrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
+							$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
 
 							//Exam
-							$items = array("exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
+							$items = array("exam0", "exam1", "exam2", "exam3");
 							$examType = array("written", "oral");
 							for($i=0;$i<count($examType);$i++){
 								foreach($items as $key => $item){
@@ -336,21 +298,23 @@ function time_elapsed_string_index($datetime, $full = false) {
 									$row = mysqli_fetch_assoc($result);
 									$exam[$i][$key] = round($row['AVG('.$item.')'],1);
 								}
-								$examRight0[$i] = 0;
-								$examLeft0[$i] = 0;
-								if($exam[$i][4]>0){
-									$examRight[0][$i] = $exam[$i][4];
-								}elseif($exam[$i][4]<0){
-									$examLeft[0][$i] = abs($exam[$i][4]);
-								}
+								
+								for($j=0;$j<count($items);$j++){
+									$examRight[$j][$i] = 0;
+									$examLeft0{$j][$i] = 0;
+									if($exam[$i][4]>0){
+										$examRight[0][$i] = $exam[$i][4];
+									}elseif($exam[$i][4]<0){
+										$examLeft[0][$i] = abs($exam[$i][4]);
+									}
 
-								$examRight1[$i] = 0;
-								$examLeft1[$i] = 0;
-								if($exam[$i][5]>0){
-									$examRight[1][$i] = $exam[$i][5];
-								}elseif($exam[$i][5]<0){
-									$examLeft[1][$i] = abs($exam[$i][5]);
-								}
+									$examRight1[$i] = 0;
+									$examLeft1[$i] = 0;
+									if($exam[$i][5]>0){
+										$examRight[1][$i] = $exam[$i][5];
+									}elseif($exam[$i][5]<0){
+										$examLeft[1][$i] = abs($exam[$i][5]);
+									}
 							}
 							$examHeadings = array("Overall-Score", "Aufwand", "Fairness", "Zeitdruck");
 
