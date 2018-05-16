@@ -51,9 +51,8 @@ if (isset($_GET['subject'])){
 		$result = $statement1->get_result();
 		$ratingData = mysqli_fetch_assoc($result);
 
-		$lectureValues = array($ratingData['lecture0'], $ratingData['lecture1'], $ratingData['lecture2'], $ratingData['lecture3']);
+		$lectureValues = array($ratingData['lecture0'], $ratingData['lecture1'], $ratingData['lecture2']);
 		$examValues = array($ratingData['exam0'], $ratingData['exam1'], $ratingData['exam2'], $ratingData['exam3']);
-		$examValues2 = array($ratingData['exam4'], $ratingData['exam5']);
 		//examType
 		switch($ratingData['examType']){
 			case "written":
@@ -89,9 +88,8 @@ if (isset($_GET['subject'])){
 		//comment
 		$comment = $ratingData['comment'];
 	}else{
-		$lectureValues = array(5,5,5,5);
-		$examValues = array(5,5,5,5);
-		$examValues2 = array(0,0);
+		$lectureValues = array(0,0,0);
+		$examValues = array(0,0,0,0);
 		$written = "";
 		$oral = "";
 		$other = "";
@@ -118,7 +116,6 @@ if (isset($_GET['subject'])){
 								'typeOral' => $oral,
 								'typeOther' => $other,
 								'examValues' => $examValues,
-								'examValues2' => $examValues2,
 								'examText' => $examText,
 								'examSemester' => $examSemester,
 								'general0' => $general0,

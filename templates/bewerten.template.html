@@ -7,7 +7,7 @@
 	{% for key,value in lectureItems %}
 		<p>{{value}}</p>
 		<span>{{lectureItemsLabels[key][0]}}</span><span style="float:right">{{lectureItemsLabels[key][1]}}</span><br>
-		<input type="range" style="width:100%" class="slider{{key}}" min="-3" max="3" step="1" value="{{examValues2[key]}}">
+		<input type="range" style="width:100%" class="sliderLecture{{key}}" min="-3" max="3" step="1" value="{{lectureValues[key]}}">
 		<br><br>
 	{% endfor %}
 
@@ -33,8 +33,8 @@
 		<option value="ws16-17">WS16-17</option>
 		<option value="ss17">SS17</option>
 		<option value="ws17-18">WS17-18</option>
-		<!--<option value="ss18">SS18</option>
-		<option value="ws18-19">WS18-19</option>
+		<option value="ss18">SS18</option>
+		<!--<option value="ws18-19">WS18-19</option>
 		<option value="ss19">SS19</option>
 		<option value="ws19-20">WS19-20</option>
 		<option value="ss20">SS20</option>
@@ -121,7 +121,7 @@
 		<div style="display:none" class="examItems">
 			<p>{{value}}</p>
 			<span>{{examItemsLabels[key][0]}}</span><span style="float:right">{{examItemsLabels[key][1]}}</span><br>
-			<input type="range" style="width:100%" class="slider{{key}}" min="-3" max="3" step="1" value="{{examValues2[key]}}">
+			<input type="range" style="width:100%" class="sliderExam{{key}}" min="-3" max="3" step="1" value="{{examValues[key]}}">
 
 			<br><br>
 		</div>
@@ -180,7 +180,6 @@ $("#submitButton").click(function(){
 	var lecture0 = $(".sliderLecture"+0).val();
 	var lecture1 = $(".sliderLecture"+1).val();
 	var lecture2 = $(".sliderLecture"+2).val();
-	var lecture3 = $(".sliderLecture"+3).val();
 
 	var examType = $('#examType option:selected').val();
 
@@ -188,8 +187,6 @@ $("#submitButton").click(function(){
 	var exam1 = $(".sliderExam"+1).val();
 	var exam2 = $(".sliderExam"+2).val();
 	var exam3 = $(".sliderExam"+3).val();
-	var exam4 = $(".slider"+0).val();
-	var exam5 = $(".slider"+1).val();
 
 	var examText = $('#examDetails').val();
 
@@ -210,14 +207,11 @@ $("#submitButton").click(function(){
 				lecture0: lecture0,
 				lecture1: lecture1,
 				lecture2: lecture2,
-				lecture3: lecture3,
 				examType: examType,
 				exam0: exam0,
 				exam1: exam1,
 				exam2: exam2,
 				exam3: exam3,
-				exam4: exam4,
-				exam5: exam5,
 				examText: examText,
 				examSemester: examSemester,
 				general0: general0,
