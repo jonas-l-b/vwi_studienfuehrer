@@ -406,7 +406,7 @@ include "header.php";
 					if(item.pattern === 'dictionary'){
 							zerlegungstext = zerlegungstext  + '</b></i> und aus unserem Wörterbuch <i>' + item.dictionary_name + '</i>.';
 					}else{
-							zerlegungstext = zerlegungstext  + '.';
+							zerlegungstext = zerlegungstext  + '</b></i>.';
 					}
 				zerlegungstext = zerlegungstext + ' Wir brauchten dafür <b>' + item.guesses_log10.toFixed(2) + 'e Versuche.</b></li>';
 			});
