@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
+    'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
 );

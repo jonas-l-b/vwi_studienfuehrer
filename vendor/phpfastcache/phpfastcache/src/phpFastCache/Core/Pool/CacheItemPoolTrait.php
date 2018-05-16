@@ -70,7 +70,7 @@ trait CacheItemPoolTrait
              */
             if (!isset($this->itemInstances[ $key ])) {
                 if (preg_match('~([' . preg_quote(self::$unsupportedKeyChars, '~') . ']+)~', $key, $matches)) {
-                    throw new phpFastCacheInvalidArgumentException('Unsupported key character detected: "' . $matches[ 1 ] . '". Please check: https://github.com/PHPSocialNetwork/phpfastcache/wiki/%5BV6%5D-Unsupported-characters-in-key-identifiers');
+                    throw new phpFastCacheInvalidArgumentException('Unsupported key character detected: "' . $matches[ 1 ] . '". Please check: https://github.com/PHPSocialNetwork/phpfastcache/wiki/%5BV6%CB%96%5D-Unsupported-characters-in-key-identifiers');
                 }
 
                 /**
@@ -273,6 +273,13 @@ trait CacheItemPoolTrait
              * then collect gc cycles
              */
             $this->deregisterItem($key);
+
+            /**
+             * Perform a tag cleanup to avoid memory leaks
+             */
+            if (strpos($key, self::DRIVER_TAGS_KEY_PREFIX) !== 0) {
+                $this->cleanItemTags($item);
+            }
 
             return true;
         }

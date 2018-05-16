@@ -1,0 +1,173 @@
+{#
+  Variables:
+    user       //Nutzerobjekt
+    |---name   //Name des Nutzers (string)
+    |---admin  //Ob Nutzer Admin ist (boolean)
+#}
+{% spaceless %}
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        {% block head %}
+            <title>{% block title %}{% endblock %} - Studienführer der VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</title>
+            <meta charset="utf-8">
+          	<meta name="viewport" content="width=device-width, initial-scale=1">
+          	<meta name="apple-mobile-web-app-title" content="Studienführer-VWI-ESTIEM">
+            <meta name="application-name" content="Studienführer-VWI-ESTIEM">
+          	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <style>
+              {{ include('style.template.css') }}
+            </style>
+          	<link rel="shortcut icon" href="pictures/logo_studienfuehrer.ico"/><!-- das erste ist moeglicherweise redundant - noch checken -->
+          	<link rel="apple-touch-icon" sizes="57x57" href="pictures/logo/apple-icon-57x57.png">
+          	<link rel="apple-touch-icon" sizes="60x60" href="pictures/logo/apple-icon-60x60.png">
+          	<link rel="apple-touch-icon" sizes="72x72" href="pictures/logo/apple-icon-72x72.png">
+          	<link rel="apple-touch-icon" sizes="76x76" href="pictures/logo/apple-icon-76x76.png">
+          	<link rel="apple-touch-icon" sizes="114x114" href="pictures/logo/apple-icon-114x114.png">
+          	<link rel="apple-touch-icon" sizes="120x120" href="pictures/logo/apple-icon-120x120.png">
+          	<link rel="apple-touch-icon" sizes="144x144" href="pictures/logo/apple-icon-144x144.png">
+          	<link rel="apple-touch-icon" sizes="152x152" href="pictures/logo/apple-icon-152x152.png">
+          	<link rel="apple-touch-icon" sizes="180x180" href="pictures/logo/apple-icon-180x180.png">
+          	<link rel="icon" type="image/png" sizes="192x192"  href="pictures/logo/android-icon-192x192.png">
+          	<link rel="icon" type="image/png" sizes="32x32" href="pictures/logo/favicon-32x32.png">
+          	<link rel="icon" type="image/png" sizes="96x96" href="pictures/logo/favicon-96x96.png">
+          	<link rel="icon" type="image/png" sizes="16x16" href="pictures/logo/favicon-16x16.png">
+          	<link rel="manifest" href="pictures/logo/manifest.json">
+          	<meta name="msapplication-TileImage" content="pictures/logo/ms-icon-144x144.png">
+          	<meta name="msapplication-TileColor" content="#ffffff">
+          	<meta name="theme-color" content="#ffffff">
+
+            {# Script zur Warnung eines zu alten Browsers #}
+            <script>
+          		var $buoop = {
+          				notify:{i:-2,f:-2,o:-2,s:-1,c:-2},
+          				insecure:true,
+          				unsupported:true,
+          				api:5,
+          				test: false,
+          				text: "Buuuuh! Du benutzt ja {brow_name}. Der ist viel zu alt, der Browser! Hör mal, es ist ohnehin schon megaviel Arbeit verschiedene Browser zu unterstützen und DEINEN unterstützen wir jetzt NICHT MEHR! Das haben wir in diesem Moment entschieden. Wenn bei dir jetz auf der Seite hier also alles kaputt ist, dann schau nicht uns an. Das ist nicht mehr unsere Schuld... sondern DEINE :P. Aber einen AUSWEG gibt es! Einfach den Browser <b>UPDATEN</b> - zum Beispiel hier: <a{up_but}>Aktualisieren</a>.",
+          				noclose: true,
+          				style: "top"
+          			};
+          		function $buo_f(){
+          		 var e = document.createElement("script");
+          		 e.src = "//browser-update.org/update.min.js";
+          		 document.body.appendChild(e);
+          		};try {document.addEventListener("DOMContentLoaded", $buo_f,false)} catch(e){window.attachEvent("onload", $buo_f)}
+          	</script>
+        {% endblock %}
+    </head>
+    <body>
+      {% block navigation %}
+      <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+              <div class="navbar-header">
+              <a id="menulogohandy" class="navbar-brand" href="tree.php"><img src="pictures/nav1.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+              </a>
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              </button>
+            </div>
+            <a id="menulogo" class="navbar-brand" href="tree.php"><img src="pictures/nav1.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
+              </a>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav">
+                <li style="background-color: #F0F8FF"><a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a></li>
+                <li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
+                <li><a href="about.php" style="cursor: pointer; cursor: hand;">Über</a></li>
+                {% if user.admin == true %}
+                  <li>
+                    <a data-toggle="dropdown" style="cursor: pointer; cursor: hand;">Admin <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a id="linkToAdminEdit" href="admin.php">Daten bearbeiten</a></li>
+                      <li><a id="linkToAdminMessages" href="admin.php#messages">Posteingang  <span class="glyphicon glyphicon-envelope"></span>&nbsp;</a></li>
+                      <li><a id="linkToAdminNotifications" href="admin.php#notifications">Benachrichtigungen</a></li>
+                      <li><a id="linkToAdminList" href="admin.php#adminList">Admin-Liste</a></li>
+                      <li><a id="linkToUserProfiles" href="admin.php#userProfiles">Nutzerprofile</a></li>
+                    </ul>
+                  </li>
+                {% endif %}
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a data-toggle="dropdown" style="cursor: pointer; cursor: hand;"><span class="glyphicon glyphicon-user"></span> Hallo {{ user.name }}! <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a id="linkToUserProfile" href="userProfile.php">Profil <span class="pull-right"><span class="glyphicon glyphicon-list-alt"></span></span></a></li>
+                    <li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten <span class="pull-right"><span class="glyphicon glyphicon-star"></span></span></a></li>
+                    <li><a id="linkToUserRatings" href="userProfile.php#userRatings">Bewertungen <span class="pull-right"><span class="glyphicon glyphicon-ok-circle"></span></span></a></li>
+                    <li><a id="linkToQuestions" href="userProfile.php#questions">Fragen <span class="pull-right"><span class="glyphicon glyphicon-question-sign"></span></span></a></li>
+                    <li><a id="linkToNotifications" href="userProfile.php#notifications">Mails <span class="pull-right"><span class="glyphicon glyphicon-envelope"></span></span></a></li>
+                    <li class="divider"></li>
+                    <li><a href="logout.php">Logout <span class="pull-right"><span class="glyphicon glyphicon-log-out"></span></span></a></li>
+                  </ul>
+                </li>
+              </ul>
+              <div id="searchfield" style="padding:15px;">
+                <form action="tree.php" method="get" class="navbar-form">
+                  <div style="display:table;" class="input-group">
+                  <input type="text" class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
+                  <!--<span style="width: 1%;" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>-->
+                  <div class="input-group-btn" style="width:1%">
+                    <button class="btn btn-default">
+                    <i class="glyphicon glyphicon-search"></i>
+                    </button>
+                  </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </nav>
+        <div class="aftermenu"></div>
+        {% embed "modalSkeleton.template.html" %}
+            {% block id %}contact{% endblock %}
+            {% block testval %}
+                Some content for the right teaser box
+            {% endblock %}
+        {% endembed %}
+      {% endblock %}
+
+        {% block included_javascripts %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+          <script src="res/lib/jquery.autocomplete.js"></script>
+        {% endblock %}
+        <script>
+          $(function(){
+            $('.suchen-autocomplete').autocomplete({
+              serviceUrl: 'search-autocomplete-api.php',
+          	autoSelectFirst: true,
+          	groupBy: 'category',
+          	paramName: 'query',
+          	type: "GET",
+          	maxHeight: 400,
+          	containerclass: "suchcontainer",
+              onSelect: function (suggestion) {
+          		if(suggestion.data.dest != "")
+          			window.location.href = suggestion.data.dest;
+          		else
+          			$('.suchen-autocomplete').val("Übersicht Startseite");
+              }
+            });
+          });
+          $(document).ready(function(){
+          	$("#contact").click(function(){
+          		$('#contactModal').modal('show');
+          		$('#contactModalBody').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+          		$('#contactModalBody').load("contactModal.php", function( response, status, xhr ) {
+          		  if ( status == "error" ) {
+          			$('#contactModalBody').html('<strong>Daten können nicht geladen werden.</strong>');
+          		  }
+          		});
+          	});
+          });
+        </script>
+
+        <script>
+          {% block custom_javascript %}{% endblock %}
+        </script>
+    </body>
+</html>
+{% endspaceless %}

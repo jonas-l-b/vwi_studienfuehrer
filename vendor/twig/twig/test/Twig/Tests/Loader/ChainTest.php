@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-class Twig_Tests_Loader_ChainTest extends PHPUnit_Framework_TestCase
+class Twig_Tests_Loader_ChainTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetSourceContext()
     {
-        $path = dirname(__FILE__).'/../Fixtures';
+        $path = __DIR__.'/../Fixtures';
         $loader = new Twig_Loader_Chain(array(
             new Twig_Loader_Array(array('foo' => 'bar')),
             new Twig_Loader_Array(array('errors/index.html' => 'baz')),

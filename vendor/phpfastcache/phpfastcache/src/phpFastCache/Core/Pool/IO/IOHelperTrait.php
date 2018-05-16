@@ -52,7 +52,7 @@ trait IOHelperTrait
          */
         {
             $securityKey = array_key_exists('securityKey', $this->config) ? $this->config[ 'securityKey' ] : '';
-            if (!$securityKey || $securityKey === 'auto') {
+            if (!$securityKey || mb_strtolower($securityKey) === 'auto') {
                 if (isset($_SERVER[ 'HTTP_HOST' ])) {
                     $securityKey = preg_replace('/^www./', '', strtolower(str_replace(':', '_', $_SERVER[ 'HTTP_HOST' ])));
                 } else {
@@ -114,7 +114,7 @@ trait IOHelperTrait
 
                 /**
                  * In case there is no directory
-                 * writable including tye temporary
+                 * writable including the temporary
                  * one, we must throw an exception
                  */
                 if (!@file_exists($full_path) || !@is_writable($full_path)) {
