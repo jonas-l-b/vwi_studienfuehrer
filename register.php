@@ -242,6 +242,19 @@ include "header.php";
 				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
 
+			<input type="button" class="btn btn-info" value="Mehr herausfinden" data-toggle="collapse" data-target="#demo"></input>
+
+
+			<div id="demo" class="collapse">
+				<br />
+				<p>Deine Passworteingabe ist: <b><span id="userpasswordinputforshow"><i>Nichts eingegeben.</i></span></b></p>
+				<p>Dieses Passwort kann man vermutlich mit einem sehr schnellen Server in folgender Zeit knacken: <b><span id="knackzeit">0 Sekunden</span></b> </p>
+				<p>Dein Passwort konnten wir wie folgt zerlegen:</p>
+				<div id="zerlegung" style="margin-left:100px;"></div>
+			</div>
+
+			<br /> <br />
+
 			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
 				<input id="userpassword2" type="password" class="form-control" placeholder="Passwort erneut eingeben" data-match="#userpassword" name="password2" required data-error="Die Eingaben stimmen nicht überein." />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -380,6 +393,25 @@ include "header.php";
 		});
 		$( '#bad3' ).blur(function() {
 		  userInputs.push($('#bad3').val());
+		});
+		jQuery('body').on('keyup','input#userpassword',function(){
+		  var quickanswer = zxcvbn($('#userpassword').val(), userInputs);
+			console.log(quickanswer);
+			$('#userpasswordinputforshow').html($('#userpassword').val());
+			$('#knackzeit').html(quickanswer.crack_times_display.offline_fast_hashing_1e10_per_second);
+			let zerlegungstext = '';
+		  quickanswer.sequence.forEach(function (item) {
+			  zerlegungstext = zerlegungstext + '<li><i>';
+					zerlegungstext = zerlegungstext + item.token + '</i> ist vom Mustertyp <i><b>' + item.pattern;
+					if(item.pattern === 'dictionary'){
+							zerlegungstext = zerlegungstext  + '</b></i> und aus unserem Wörterbuch <i>' + item.dictionary_name + '</i>.';
+					}else{
+							zerlegungstext = zerlegungstext  + '.';
+					}
+				zerlegungstext = zerlegungstext + ' Wir brauchten dafür <b>' + item.guesses_log10.toFixed(2) + 'e Versuche.</b></li>';
+			});
+			$('#zerlegung').html('<ul class="dl-horizontal"><li><ul>' + zerlegungstext + '</ul></li></ul>');
+
 		});
 		$("#StrengthProgressBar").zxcvbnProgressBar({
 			  passwordInput: "#userpassword",
