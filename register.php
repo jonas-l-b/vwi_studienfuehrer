@@ -242,7 +242,7 @@ include "header.php";
 				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
 
-			<input type="button" class="btn btn-info" value="Mehr herausfinden" data-toggle="collapse" data-target="#demo"></input>
+			<input type="button" class="btn btn-info" value="Mehr herausfinden. (Achtung! Passwort im Klartext sichtbar.)" data-toggle="collapse" data-target="#demo"></input>
 
 
 			<div id="demo" class="collapse">
