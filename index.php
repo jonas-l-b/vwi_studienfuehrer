@@ -573,7 +573,7 @@ include "sumVotes.php";
 						<div class="well" style="background-color:white; border-radius:none">
 							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo $row['question']?></span>
 							<hr style="margin:10px">
-							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string_index($row['time_stamp']);?></p>
+							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?></p>
 
 							<?php
 							$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
@@ -612,7 +612,7 @@ include "sumVotes.php";
 									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
 										<?php echo $row2['answer']?>
 										<hr style="margin:10px">
-										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string_index($row2['time_stamp']);?></p>
+										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
 									</div>
 									<?php
 								}
