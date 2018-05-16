@@ -3,11 +3,11 @@
 	<!--<button type="button" id="button" class="btn">Give value!</button>-->
 
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Vorlesung</p>
-
+	
 	{% for key,value in lectureItems %}
 		<p>{{value}}</p>
-		<input type="range" class="sliderLecture{{key}}" min="0" max="10" step="1" value="{{lectureValues[key]}}">
-		<span class="sliderLecture{{key}}">{{lectureValues[key]}}</span>
+		<span>{{lectureItemsLabels[key][0]}}</span><span style="float:right">{{lectureItemsLabels[key][1]}}</span><br>
+		<input type="range" style="width:100%" class="sliderLecture{{key}}" min="-3" max="3" step="1" value="{{lectureValues[key]}}">
 		<br><br>
 	{% endfor %}
 
@@ -15,7 +15,7 @@
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung der Prüfung</p>
 
 	<p>Wann wurdest du geprüft?</p>
-	<select id="examSemester" class="form-control" style="width:80%" required>
+	<select id="examSemester" class="form-control" style="width:100%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
 		<option value="ss10">SS10</option>
 		<option value="ws10-11">WS10-11</option>
@@ -33,8 +33,8 @@
 		<option value="ws16-17">WS16-17</option>
 		<option value="ss17">SS17</option>
 		<option value="ws17-18">WS17-18</option>
-		<!--<option value="ss18">SS18</option>
-		<option value="ws18-19">WS18-19</option>
+		<option value="ss18">SS18</option>
+		<!--<option value="ws18-19">WS18-19</option>
 		<option value="ss19">SS19</option>
 		<option value="ws19-20">WS19-20</option>
 		<option value="ss20">SS20</option>
@@ -59,14 +59,14 @@
 	<br>
 
 	<p>Wie wurdest du geprüft (Boni etc. nicht berücksichtigen)?</p>
-	<select id="examType" class="form-control" style="width:80%" required>
+	<select id="examType" class="form-control" style="width:100%" required>
 		<option disabled selected value style=\"display:none\"> -- Bitte wählen -- </option>
 		<option value="written" {{typeWritten}}>Schriftlich</option>
 		<option value="oral" {{typeOral}}>Mündlich</option>
 		<option value="other" {{typeOther}}>Sonstige</option>
 	</select>
 	<br>
-	<textarea class="form-control" style="width:80%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" maxlength="2500" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
+	<textarea class="form-control" style="width:100%; display:none; margin-top:-15px; margin-bottom:15px;" rows="5" maxlength="2500" id="examDetails" placeholder="Wie genau wurdest du geprüft? Was wurde wie bewertet? Welche Tipps kannst du zukünftigen Prüflingen mit auf den Weg geben? Erzähl uns mehr!">{{examText}}</textarea>
 	<div id="commentWarningExamDetails"></div>
 
 	<script>
@@ -120,21 +120,13 @@
 	{% for key,value in examItems %}
 		<div style="display:none" class="examItems">
 			<p>{{value}}</p>
-			<input type="range" class="sliderExam{{key}}" min="0" max="10" step="1" value="{{examValues[key]}}">
-			<span class="sliderExam{{key}}">{{examValues[key]}}</span>
+			<span>{{examItemsLabels[key][0]}}</span><span style="float:right">{{examItemsLabels[key][1]}}</span><br>
+			<input type="range" style="width:100%" class="sliderExam{{key}}" min="-3" max="3" step="1" value="{{examValues[key]}}">
+
 			<br><br>
 		</div>
 	{% endfor %}
 
-	{% for key,value in examItems2 %}
-		<div style="display:none" class="examItems">
-			<p>{{value}}</p>
-			<span>{{examItems2Labels[key][0]}}</span>
-			<input type="range" style="width:60%" class="slider{{key}}" min="-10" max="10" step="1" value="{{examValues2[key]}}">
-			<span>{{examItems2Labels[key][1]}}</span>
-			<br><br>
-		</div>
-	{% endfor %}
 
 	<br>
 	<p style="font-weight: bold; font-size: 20px; color: rgb(0, 51, 153)">Bewertung insgesamt</p>
@@ -188,7 +180,6 @@ $("#submitButton").click(function(){
 	var lecture0 = $(".sliderLecture"+0).val();
 	var lecture1 = $(".sliderLecture"+1).val();
 	var lecture2 = $(".sliderLecture"+2).val();
-	var lecture3 = $(".sliderLecture"+3).val();
 
 	var examType = $('#examType option:selected').val();
 
@@ -196,8 +187,6 @@ $("#submitButton").click(function(){
 	var exam1 = $(".sliderExam"+1).val();
 	var exam2 = $(".sliderExam"+2).val();
 	var exam3 = $(".sliderExam"+3).val();
-	var exam4 = $(".slider"+0).val();
-	var exam5 = $(".slider"+1).val();
 
 	var examText = $('#examDetails').val();
 
@@ -218,14 +207,11 @@ $("#submitButton").click(function(){
 				lecture0: lecture0,
 				lecture1: lecture1,
 				lecture2: lecture2,
-				lecture3: lecture3,
 				examType: examType,
 				exam0: exam0,
 				exam1: exam1,
 				exam2: exam2,
 				exam3: exam3,
-				exam4: exam4,
-				exam5: exam5,
 				examText: examText,
 				examSemester: examSemester,
 				general0: general0,
@@ -285,23 +271,70 @@ var getUrlParameter = function getUrlParameter(sParam) {
 	$('input[type="range"]').on("change mousemove", function () {
 		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
 
-		$(this).css('background-image',
-					'-webkit-gradient(linear, left top, right top, '
-					+ 'color-stop(' + val + ', #2d5699), '
-					+ 'color-stop(' + val + ', #d3d3db)'
-					+ ')'
-					);
+		if($(this).attr('max') == 10){
+			$(this).css('background-image',
+			'-webkit-gradient(linear, left top, right top, '
+			+ 'color-stop(' + val + ', #2d5699), '
+			+ 'color-stop(' + val + ', #d3d3db)'
+			+ ')'
+			);
+		}else{			
+			if($(this).val() <= 0){
+				$(this).css('background-image',
+				'-webkit-gradient(linear, right top, left top, '
+				+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+				+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + (1-val) + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + (1-val) + ', #d3d3db)'	//grey
+				+ ')'
+				);
+			}else{
+				$(this).css('background-image',
+				'-webkit-gradient(linear, left top, right top, '
+				+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+				+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + val + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + val + ', #d3d3db)'	//grey
+				+ ')'
+				);
+			}
+		}
+
 		$('span.'+$(this).attr('class')).html($(this).val());
 	});
+	
 	$('input[type="range"]').each(function () {
 		var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
 
-		$(this).css('background-image',
-					'-webkit-gradient(linear, left top, right top, '
-					+ 'color-stop(' + val + ', #2d5699), '
-					+ 'color-stop(' + val + ', #d3d3db)'
-					+ ')'
-					);
+		if($(this).attr('max') == 10){
+			$(this).css('background-image',
+			'-webkit-gradient(linear, left top, right top, '
+			+ 'color-stop(' + val + ', #2d5699), '
+			+ 'color-stop(' + val + ', #d3d3db)'
+			+ ')'
+			);
+		}else{			
+			if($(this).val() <= 0){
+				$(this).css('background-image',
+				'-webkit-gradient(linear, right top, left top, '
+				+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+				+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + (1-val) + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + (1-val) + ', #d3d3db)'	//grey
+				+ ')'
+				);
+			}else{
+				$(this).css('background-image',
+				'-webkit-gradient(linear, left top, right top, '
+				+ 'color-stop(' + 0.5 + ', #d3d3db), '	//grey
+				+ 'color-stop(' + 0.5 + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + val + ', rgb(45, 86, 153)), '	//blue
+				+ 'color-stop(' + val + ', #d3d3db)'	//grey
+				+ ')'
+				);
+			}
+		}
+					
 		$('span.'+$(this).attr('class')).html($(this).val());
 	});
 </script>

@@ -322,43 +322,6 @@ include "connect.php";
 			<br>
 			<p>Diese Fragen hast du gestellt. Im Reiter "Meine Benachrichtigungen" kannst du einstellen, ob du per Mail benachrichtigt werden willst, wenn jemand deine Frage beantwortet.</p>
 		
-			<?php
-			function time_elapsed_string_index($datetime, $full = false) {
-				$now = new DateTime;
-				$ago = new DateTime($datetime);
-				$diff = $now->diff($ago);
-
-				$diff->w = floor($diff->d / 7);
-				$diff->d -= $diff->w * 7;
-
-				$string = array(
-					'y' => 'Jahr',
-					'm' => 'Monat',
-					'w' => 'Woche',
-					'd' => 'Tag',
-					'h' => 'Stunde',
-					'i' => 'Minute',
-					's' => 'Sekunde',
-				);
-				foreach ($string as $k => &$v) {
-					if ($diff->$k) {
-						if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
-							$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
-						}
-						else {
-							$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
-						}
-					} else {
-						unset($string[$k]);
-					}
-				}
-
-				if (!$full) $string = array_slice($string, 0, 1);
-				return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
-			}
-			?>
-		
-		
 			<br><br>
 		
 
@@ -385,7 +348,7 @@ include "connect.php";
 						<div class="well" style="background-color:white; border-radius:none">
 							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo $row['question']?></span>
 							<hr style="margin:10px">
-							<p style="font-size:10px">Gestellt in: <a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a> &#124; <?php echo time_elapsed_string_index($row['time_stamp']);?></p>
+							<p style="font-size:10px">Gestellt in: <a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a> &#124; <?php echo time_elapsed_string($row['time_stamp']);?></p>
 
 							<?php
 							$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
@@ -423,7 +386,7 @@ include "connect.php";
 									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
 										<?php echo $row2['answer']?>
 										<hr style="margin:10px">
-										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string_index($row2['time_stamp']);?></p>
+										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
 									</div>
 									<?php
 								}

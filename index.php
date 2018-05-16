@@ -4,43 +4,6 @@ include "header.php";
 include "connect.php";
 include "saveSubjectToVariable.php";
 include "sumVotes.php";
-
-
-function time_elapsed_string_index($datetime, $full = false) {
-    $now = new DateTime;
-    $ago = new DateTime($datetime);
-    $diff = $now->diff($ago);
-
-    $diff->w = floor($diff->d / 7);
-    $diff->d -= $diff->w * 7;
-
-    $string = array(
-        'y' => 'Jahr',
-        'm' => 'Monat',
-        'w' => 'Woche',
-        'd' => 'Tag',
-        'h' => 'Stunde',
-        'i' => 'Minute',
-        's' => 'Sekunde',
-    );
-    foreach ($string as $k => &$v) {
-        if ($diff->$k) {
-			if($v == 'Jahr' || $v == 'Monat' || $v == 'Tag'){
-				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'en' : '');
-			}
-			else {
-				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 'n' : '');
-			}
-        } else {
-            unset($string[$k]);
-        }
-    }
-
-    if (!$full) $string = array_slice($string, 0, 1);
-    return $string ? 'vor ' . implode(', ', $string) : 'gerade eben';
-}
-
-
 ?>
 
 <body>
@@ -176,6 +139,11 @@ function time_elapsed_string_index($datetime, $full = false) {
 	?>
 
 	<div class="row" id="firstrow">
+		
+		<div class="alert alert-info" role="alert">
+			Auf dieser Seite können design-technische Fehler auftreten - besonders wenn noch keine Bewertungen abgegeben wurden. Wir arbeiten daran, diese Fehler zu beheben und nutzen dabei die Gelegenheit, das Design etwas zu überarbeiten!
+		</div>
+		
 		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
@@ -277,7 +245,6 @@ function time_elapsed_string_index($datetime, $full = false) {
 	<!--Bewertungsübersicht Start-->
 	<div>
 		<div class="row">
-			<!--Anzeige falls noch kein Rating vorhanden-->
 			<div class="col-md-10" id="bewertungstitel">
 				<h2 <?php echo $displayRatings ?> style="text-align:center;">Gesamtbewertung</h2>
 			</div><div class="col-md-2"></div>
@@ -285,7 +252,7 @@ function time_elapsed_string_index($datetime, $full = false) {
 		<div class="row">
 			<div class="col-sm-8 col-md-10 col-lg-10 well">
 
-				<div class="noRatingBox" <?php echo $displayNoRatings ?>>
+				<div class="noRatingBox" <?php echo $displayNoRatings ?>> <!--Anzeige falls noch kein Rating vorhanden-->
 					<br>
 					<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
 					<div style="text-align:center">
@@ -319,40 +286,39 @@ function time_elapsed_string_index($datetime, $full = false) {
 						<div class="col-md-6">
 							<?php
 							//Lecture
-							$items = array("lecture0", "lecture1", "lecture2", "lecture3");
+							$items = array("lecture0", "lecture1", "lecture2");
 							foreach($items as $key => $item){
 								$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
 								$row = mysqli_fetch_assoc($result);
-								$lecture[$key] = round($row['AVG('.$item.')'],1);
+								if(round($row['AVG('.$item.')'],1) < 0 ){
+									$lecture[$key][0] = abs(round($row['AVG('.$item.')'],1));
+									$lecture[$key][1] = 0;
+								}else{
+									$lecture[$key][0] = 0;
+									$lecture[$key][1] = round($row['AVG('.$item.')'],1);
+								}
 							}
-							$lectureHeadings = array("Overall-Score", "Prüfungsrelevanz", "Interessantheit", "Qualität der Arbeitsmaterialien");
 
+							//$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
+							$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien schlecht", "Materialien gut"));
+							
 							//Exam
-							$items = array("exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
+							$items = array("exam0", "exam1", "exam2", "exam3");
 							$examType = array("written", "oral");
 							for($i=0;$i<count($examType);$i++){
 								foreach($items as $key => $item){
 									$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = '".$examType[$i]."'");
 									$row = mysqli_fetch_assoc($result);
-									$exam[$i][$key] = round($row['AVG('.$item.')'],1);
-								}
-								$examRight0[$i] = 0;
-								$examLeft0[$i] = 0;
-								if($exam[$i][4]>0){
-									$examRight[0][$i] = $exam[$i][4];
-								}elseif($exam[$i][4]<0){
-									$examLeft[0][$i] = abs($exam[$i][4]);
-								}
-
-								$examRight1[$i] = 0;
-								$examLeft1[$i] = 0;
-								if($exam[$i][5]>0){
-									$examRight[1][$i] = $exam[$i][5];
-								}elseif($exam[$i][5]<0){
-									$examLeft[1][$i] = abs($exam[$i][5]);
+									if(round($row['AVG('.$item.')'],1) < 0 ){
+										$exam[$i][$key][0] = abs(round($row['AVG('.$item.')'],1));
+										$exam[$i][$key][1] = 0;
+									}else{
+										$exam[$i][$key][0] = 0;
+										$exam[$i][$key][1] = round($row['AVG('.$item.')'],1);
+									}
 								}
 							}
-							$examHeadings = array("Overall-Score", "Aufwand", "Fairness", "Zeitdruck");
+							$examHeadings = array(array("Reproduktion", "Transfer"), array("Nicht rechenlastig", "Sehr rechenlastig"), array("Aufwand < ECTS", "Aufwand > ECTS"), array("Prüfungsvorbereitung schlecht", "Prüfungsvorbereitung gut"));
 
 							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'written'"));
 							$writtenBadge = $row['COUNT(examType)'];
@@ -371,23 +337,31 @@ function time_elapsed_string_index($datetime, $full = false) {
 									?>
 									<tr>
 										<td>
-											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i] ?></span>
-											<span style="float:right; margin-right:3px;"><?php echo $lecture[$i] ?></span>
+											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i][0] ?></span>
+										</td>
+										<td>
+											<span style="float:right; text-align: right; margin-right:3px;"><?php echo $lectureHeadings[$i][1] ?></span>
 										</td>
 									</tr>
 
 									<tr>
-										<td valign="center" style="width:70%">
+										<td valign="center" style="width:50%">
 											<div style="font-size:15px; font-weight:bold; line-height:2">
-												<div class="progress">
-													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i]*10 ?>%">
+												<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][0]*(100/3) ?>%"></div>
+												</div>
+											</div>
+										</td>
 
-													</div>
+										<td valign="center" style="width:50%">
+											<div style="font-size:15px; font-weight:bold; line-height:2">
+												<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][1]*(100/3) ?>%"></div>
 												</div>
 											</div>
 										</td>
 									</tr>
-									<?php
+								<?php
 								}
 								?>
 							</table>
@@ -414,38 +388,10 @@ function time_elapsed_string_index($datetime, $full = false) {
 												?>
 												<tr>
 													<td>
-														<span style="float:left; margin-left:3px;"><?php echo $examHeadings[$i] ?></span>
-														<span style="float:right; margin-right:3px;"><?php echo $exam[$j][$i] ?></span>
-													</td>
-												</tr>
-
-												<tr>
-													<td valign="center" style="width:70%">
-														<div style="font-size:15px; font-weight:bold; line-height:2">
-															<div class="progress">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i]*10 ?>%"></div>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<?php
-											}
-											?>
-										</table>
-
-										<br>
-
-										<table class="ratingtable" style="width:100%">
-											<?php
-											$examHeadingTwo = array(array("Reproduktion", "Transfer"), array("Qualitativ", "Quantitativ"));
-											for($i=0;$i<2;$i++){
-												?>
-												<tr>
-													<td>
-														<span style="float:left; margin-left:3px;"><?php echo $examHeadingTwo[$i][0] ?></span>
+														<span style="float:left; margin-left:3px;"><?php echo $examHeadings[$i][0] ?></span>
 													</td>
 													<td>
-														<span style="float:right; margin-right:3px;"><?php echo $examHeadingTwo[$i][1] ?></span>
+														<span style="float:right; text-align: right; margin-right:3px;"><?php echo $examHeadings[$i][1] ?></span>
 													</td>
 												</tr>
 
@@ -453,7 +399,7 @@ function time_elapsed_string_index($datetime, $full = false) {
 													<td valign="center" style="width:50%">
 														<div style="font-size:15px; font-weight:bold; line-height:2">
 															<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examLeft[$i][$j]*10 ?>%"></div>
+																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][0]*(100/3) ?>%"></div>
 															</div>
 														</div>
 													</td>
@@ -461,13 +407,14 @@ function time_elapsed_string_index($datetime, $full = false) {
 													<td valign="center" style="width:50%">
 														<div style="font-size:15px; font-weight:bold; line-height:2">
 															<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $examRight[$i][$j]*10 ?>%"></div>
+																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][1]*(100/3) ?>%"></div>
 															</div>
 														</div>
 													</td>
 												</tr>
 												<?php
-											}?>
+											}
+											?>
 										</table>
 									</div>
 									<?php
@@ -626,7 +573,7 @@ function time_elapsed_string_index($datetime, $full = false) {
 						<div class="well" style="background-color:white; border-radius:none">
 							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo $row['question']?></span>
 							<hr style="margin:10px">
-							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string_index($row['time_stamp']);?></p>
+							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?></p>
 
 							<?php
 							$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
@@ -665,7 +612,7 @@ function time_elapsed_string_index($datetime, $full = false) {
 									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
 										<?php echo $row2['answer']?>
 										<hr style="margin:10px">
-										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string_index($row2['time_stamp']);?></p>
+										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
 									</div>
 									<?php
 								}

@@ -14,30 +14,32 @@ if (isset($_GET['subject'])){
 	$userID = $userRow['user_ID'];
 
 	$lectureItems = array(
-		"Wie bewertest du die Vorlesung ingesamt?",
-		"Wie relevant war die Vorlesung für die Prüfung?",
-		"Wie interessant fandest du die Vorlesung?",
-		"Wie war die Qualität der Vorlesungsmaterialien?",
+		"Für wie relevant bewertest du den Vorlesungsbesuch (Folien selbsterklärend? Vorlesung behandelt zusätzlichen Stoff?)?",
+		"Wie interessant war die Vorlesung gestaltet?",
+		"Wie bewertest du die Veranstaltungsmaterialien?"
 	);
 
+	$lectureItemsLabels = array(
+		array("Nicht relevant", "Sehr relevant"),
+		array("Uninteressant", "Sehr interessant"),
+		array("Unstrukturiert, Unvollständig", "Strukturiert, Selbsterklärend, Vollständig")
+	);
+	
 	$examItems = array(
-		"Wie bewertest du die Prüfung ingesamt?",
+		"Lag der Schwerpunkt auf Reproduktion oder auf Transfer?",
+		"Wie rechenlastig war die Prüfung?",
 		"War der Aufwand zur Prüfungsvorbereitung dem Leistungsumfang (ECTS) der Veranstaltung gegenüber angemessen?",
-		"Haben dich die gegebenen Lernmöglichkeiten (Vorlesung/Übung/Tutorien/Praktika) gut auf die Prüfung und den Prüfungsmodus vorbereitet?",
-		"Wie groß war der Zeitdruck während der Prüfung?",
+		"Wie hat dich die Gesamtheit der Lernmöglichkeiten (inkl. Tutorium, Übung, Forum, Buch, ...) auf die Prüfung vorbereitet?",
 	);
-
-	$examItems2 = array(
-		"Ging es eher um die Reproduktion von Auswendigg	elerntem oder den Transfer von Wissen?",
-		"Handelte es sich eher um quantitative oder um qualitative Aufgaben?",
-	);
-	$examItems2Labels = array(
+	$examItemsLabels = array(
 		array("Reproduktion", "Transfer"),
-		array("Quantitativ", "Qualitativ")
+		array("Nicht rechenlastig", "Sehr rechenlastig"),
+		array("Aufwand deutlich geringer", "Aufwand deutlich höher"),
+		array("Schlecht", "Gut")
 	);
 
 	$generalItems = array(
-		"Wie bewertest du die Veranstaltung ingesamt?",
+		"Wie bewertest du die Veranstaltung ingesamt? (1 = schlecht, 10 = gut)",
 	);
 
 	//Values if already filleds
@@ -49,9 +51,8 @@ if (isset($_GET['subject'])){
 		$result = $statement1->get_result();
 		$ratingData = mysqli_fetch_assoc($result);
 
-		$lectureValues = array($ratingData['lecture0'], $ratingData['lecture1'], $ratingData['lecture2'], $ratingData['lecture3']);
+		$lectureValues = array($ratingData['lecture0'], $ratingData['lecture1'], $ratingData['lecture2']);
 		$examValues = array($ratingData['exam0'], $ratingData['exam1'], $ratingData['exam2'], $ratingData['exam3']);
-		$examValues2 = array($ratingData['exam4'], $ratingData['exam5']);
 		//examType
 		switch($ratingData['examType']){
 			case "written":
@@ -87,9 +88,8 @@ if (isset($_GET['subject'])){
 		//comment
 		$comment = $ratingData['comment'];
 	}else{
-		$lectureValues = array(5,5,5,5);
-		$examValues = array(5,5,5,5);
-		$examValues2 = array(0,0);
+		$lectureValues = array(0,0,0);
+		$examValues = array(0,0,0,0);
 		$written = "";
 		$oral = "";
 		$other = "";
@@ -106,9 +106,9 @@ if (isset($_GET['subject'])){
 								'form_target' => 'rating_submit.php',
 								'button_text' => 'Bewertung abschicken',
 								'lectureItems' => $lectureItems,
+								'lectureItemsLabels' => $lectureItemsLabels,
 								'examItems' => $examItems,
-								'examItems2' => $examItems2,
-								'examItems2Labels' => $examItems2Labels,
+								'examItemsLabels' => $examItemsLabels,
 								'generalItems' => $generalItems,
 
 								'lectureValues' => $lectureValues,
@@ -116,7 +116,6 @@ if (isset($_GET['subject'])){
 								'typeOral' => $oral,
 								'typeOther' => $other,
 								'examValues' => $examValues,
-								'examValues2' => $examValues2,
 								'examText' => $examText,
 								'examSemester' => $examSemester,
 								'general0' => $general0,
