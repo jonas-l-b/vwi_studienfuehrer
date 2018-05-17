@@ -265,6 +265,44 @@ $("#changeButton").click(function () {
 	}
 	?>
 
+
+	
+	<div style="border: solid 1px lightgrey; border-radius: 5px; background-color: #fff0e2; padding: 20px; text-align: center">
+		<h2>Hochschulgruppen-Ranking</h2>
+		<h4>Wer hat am fleißigsten bewertet?</h4>
+		<br>
+		<?php
+		$sql="
+			SELECT ratings.user_ID AS user_ID, username, COUNT(ratings.user_ID) AS count FROM ratings
+			JOIN users ON ratings.user_ID = users.user_ID
+			GROUP BY ratings.user_ID
+			ORDER BY COUNT(ratings.user_ID) DESC
+			LIMIT 10
+		";
+		$result = mysqli_query($con, $sql);
+
+		
+		$i=1;
+		while($row = mysqli_fetch_assoc($result)){
+			if($row['count']>1){
+				$r="Bewertungen";
+			}else{
+				$r="Bewertung";
+			}
+			echo "<h4>Platz ".$i.": ".$row['username']." (".$row['count']." ".$r.")</h4>";
+			if($i==3){
+				echo "<hr style=\"border-color:grey; margin-bottom:0\">";
+				echo "<p>(Wer am 05. Mai am Ende der Sitzung über dieser Linie steht, bekommt ein Bier im Ox!)";
+			}
+			$i++;
+		}
+		?>
+		<br>
+		<a href="hsg_ranking.php" class="btn noRatingButton">Ganze Liste Zeigen</a>
+	</div>
+	<br>
+	
+	
 	<h3 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h3>
 	<div align="center">
 			<a id="treebutton" style="width:330px" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
