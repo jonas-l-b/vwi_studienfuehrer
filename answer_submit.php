@@ -68,7 +68,7 @@ if(mysqli_query($con, $sql)){
 		<table style=\"width:100%\">
 			<tr>
 				<td style=\"border-left: solid 3px #A9A9A9; background: #F5F5F5\">
-					<span>".$answer."</span>
+					<span style=\"font-size:1.2em\">".$answer."</span>
 				</td>
 			</tr>
 		</table>
