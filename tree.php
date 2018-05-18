@@ -266,6 +266,13 @@ $("#changeButton").click(function () {
 	?>
 
 
+<!-- Vorrübergehend; Zum Launch löschen! START -->	
+	<div style="border: solid 1px lightgrey; border-radius: 5px; background-color: #e6f3ff; padding: 20px; text-align: center">
+		<h4>Bugs und Vorschläge für neue/erweiterte Funktionen über "Kontakt" in der Navigationsleiste loswerden.</h4>
+		<h4>Inhaltiche Fehler selbst beheben (falls Admin-Rechte vorhanden), sonst auch über "Kontakt".</h4>
+	</div>
+	
+	<br>
 	
 	<div style="border: solid 1px lightgrey; border-radius: 5px; background-color: #fff0e2; padding: 20px; text-align: center">
 		<h2>Hochschulgruppen-Ranking</h2>
@@ -300,9 +307,7 @@ $("#changeButton").click(function () {
 		<br>
 		<a href="hsg_ranking.php" class="btn noRatingButton">Ganze Liste Zeigen</a>
 	</div>
-	<br>
-	
-	
+<!-- Vorrübergehend; Zum Launch löschen! ENDE -->	
 	<h3 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h3>
 	<div align="center">
 			<a id="treebutton" style="width:330px" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
