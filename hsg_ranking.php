@@ -35,7 +35,7 @@ include "connect.php";
 		echo "<h4>Platz ".$i.": ".$row['username']." (".$row['count']." ".$r.")</h4>";
 		if($i==3){
 			echo "<hr style=\"border-color:grey; margin-bottom:0\">";
-			echo "<p>(Wer am 05. Mai am Ende der Sitzung über dieser Linie steht, bekommt ein Bier im Ox!)";
+			echo "<p>(Wer am 05. Juni am Ende der Sitzung über dieser Linie steht, bekommt ein Bier im Ox!)";
 		}
 		$i++;
 	}
