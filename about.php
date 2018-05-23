@@ -73,19 +73,32 @@ include "connect.php";
 		<br>
 		<h4>In Bearbeitung:</h4>
 		<ul class="list-group">
-			<li class="list-group-item">Feed auf der Startseite mit den neusten Bewertungen und Fragen</li>
-		</ul>
-		<br>
-		<h4>In der Pipeline:</h4>
-		<ul class="list-group">
-			<li class="list-group-item">Granularere Benachrichtigungen: Benachrichtigungsmails für einzelne Fragen einstellen können</li>
-			<li class="list-group-item">Erweiterung der Veranstaltungssuche, bspw. um die Option, nach ECTS zu filtern</li>
+			<?php
+			$ongoing = array(
+				"Granularere Benachrichtigungen: Benachrichtigungsmails für einzelne Fragen einstellen können",
+				"Erweiterung der Veranstaltungssuche, bspw. um die Option, nach ECTS zu filtern"
+			);
+			
+			foreach($ongoing as $item){
+				echo "<li class=\"list-group-item\">".$item."</li>";
+			}
+			?>
 		</ul>
 		<br>
 		<h4 style="color:lightgrey">Kürzlich abgeschlossen:</h4>
 		<ul style="color:lightgrey" class="list-group">
-			<li class="list-group-item">Benachrichtigungsmails für beantwortete Fragen abstellen können</li>
-			<li class="list-group-item">Möglichkeit, Veranstaltungen zu Favoriten hinzuzufügen</li>
+			<?php
+			$done = array(
+				"Feed auf der Startseite mit den neusten Bewertungen und Fragen",
+				"Benachrichtigungsmails für beantwortete Fragen abstellen können",
+				"Möglichkeit, Veranstaltungen zu Favoriten hinzuzufügen"
+			);
+			
+			foreach($done as $item){
+				echo "<li class=\"list-group-item\">".$item."</li>";
+			}
+			?>
+
 		</ul>
 	</div>
 
