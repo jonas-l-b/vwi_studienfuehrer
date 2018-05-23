@@ -241,9 +241,9 @@ include "header.php";
 			<div class="progress PWprogress">
 				<div id="StrengthProgressBar" class="progress-bar"></div>
 			</div>
-
+			
+			<!--
 			<input type="button" class="btn btn-info" value="Mehr herausfinden. (Achtung! Passwort im Klartext sichtbar.)" data-toggle="collapse" data-target="#demo"></input>
-
 
 			<div id="demo" class="collapse">
 				<br />
@@ -252,9 +252,10 @@ include "header.php";
 				<p>Dein Passwort konnten wir wie folgt zerlegen:</p>
 				<div id="zerlegung" style="margin-left:100px;"></div>
 			</div>
-
+			
 			<br /> <br />
-
+			-->
+			
 			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
 				<input id="userpassword2" type="password" class="form-control" placeholder="Passwort erneut eingeben" data-match="#userpassword" name="password2" required data-error="Die Eingaben stimmen nicht überein." />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -309,7 +310,7 @@ include "header.php";
 			</div>
 
 			<div class="checkbox has-feedback">
-				<label><input type="checkbox" name="nutzungsbedingungen" id="bedingungen"
+				<label><input type="checkbox" name="nutzungsbedingungen" id="bedingungen" required
 				value="yes">Hiermit bestätigst du, dass du unsere <a href="#" data-toggle="modal" data-target="#bedingungenModal">Datenschutzerklärung, Nutzungsbedingungen und Gemeinschaftsstandards</a> gelesen hast und diese akzeptierst.</label>
 			</div>
 
