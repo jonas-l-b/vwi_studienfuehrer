@@ -6,6 +6,8 @@ include "header.php";
 
 include "connect.php";
 
+include "dataPrivacy.php";
+
 ?>
 <body>
 
@@ -313,9 +315,6 @@ $("#changeButton").click(function () {
 			<a id="treebutton" style="width:330px" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
 			<a id="searchbutton" style="width:330px" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
 	</div>
-
-
-
 
 	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
