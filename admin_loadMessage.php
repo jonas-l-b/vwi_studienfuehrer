@@ -359,6 +359,9 @@ if($processed['processed'] == 0){
 			$area = "Dozent";
 			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM lecturers WHERE '".$message['object_id']."'"));
 			$name = " &#8212; ".$row['last_name'].", ".$row['first_name'];
+			if($message['object_id'] == 0){ //Für Nachricht "Dozent löschen": 1x jährlich wird erinnert, dass unbenutzte Dozenten gelöscht werden sollen -> Datenschutz
+				$name = "";
+			}
 			break;
 		case "institute":
 			$area = "Institut";
