@@ -30,6 +30,8 @@ include "sumVotes.php";
 		".$sqlBody."
 		WHERE subjects.ID = '".$subject."'
 	";
+	
+	echo $sql;
 	$result = mysqli_query($con,$sql);
 
 	// Check, ob Datensatz existiert
@@ -37,7 +39,7 @@ include "sumVotes.php";
 		$subjectData = mysqli_fetch_assoc($result);
 	} else {
 		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_subject_in_db';</SCRIPT>"); Da index.php später default adresse eher unvorteilhaft besser:
-		echo "<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>";
+		//echo "<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>";
 		exit;
 	}
 
