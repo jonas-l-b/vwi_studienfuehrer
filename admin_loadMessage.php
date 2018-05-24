@@ -327,7 +327,7 @@ if($processed['processed'] == 0){
 	if($message['processed_comment'] != ""){
 		$line = "<hr>";
 		$commentator = "<p>Kommentar an Nutzer von <strong>".$processed_by['username']."</strong>:</p>";
-		$comment = $message['processed_comment'];
+		$comment = "<p class=\"well\" style=\"border-radius:10px\">".$message['processed_comment']."</p>";
 	} else{
 		$line = "";
 		$commentator = "";
@@ -408,7 +408,7 @@ if($processed['processed'] == 0){
 		<p>Antwort an Nutzer verschickt: <strong>".$answer."</strong></p>
 		".$line."
 		".$commentator."
-		<p class=\"well\" style=\"border-radius:10px\">".$comment."</p>
+		".$comment."
 		<hr>
 		<p>Kommentar an andere Admins (nur hier sichtbar) von <strong>".$processed_by['username']."</strong>:</p>
 		<p class=\"well\" style=\"border-radius:10px\">".$commentAdmin."</p>
