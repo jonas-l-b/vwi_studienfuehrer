@@ -171,7 +171,7 @@ include "header.php";
 	<p style="font-weight:bold">Der Studienführer ist und bleibt kostenlos.</p>
 	<br>
 	<div class="alert alert-warning" role="alert">
-		Die Registrierung mit Safari scheint nicht zu funktionieren. Bitte einen anderen Browser verwenden, bis wir das Problem behoben haben!
+		Die Registrierung mit Safari funktioniert möglicherweise nicht. Wenn Du nach einem Klick auf "Account erstellen" keine E-Mail von uns bekommst (SPAM-Ordner checken!), ist die Registrierung leider fehlgeschlagen. Bitte verwende vorrübergehend einen anderen Browser - Google Chrome bietet sich beispielsweise an. Vielen Dank für Dein Verständnis!
 	</div>
 </div>
 
