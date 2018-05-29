@@ -121,7 +121,7 @@ if($processed['processed'] == 0){
 	switch($message['area']){
 		case "subject":
 			$area = "Veranstaltung";
-			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM subjects WHERE '".$message['object_id']."'"));
+			$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM subjects WHERE ID = '".$message['object_id']."'"));
 			$name = " &#8212; ".$row['subject_name'];
 			break;
 		case "module":
