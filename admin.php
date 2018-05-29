@@ -321,7 +321,7 @@ if($userRow['admin']==0){
 							type: "post",
 							data: $("#finishForm").serialize() + "&message_id=" + m_id,
 							success: function (data) {
-								alert(data);
+								//alert(data);
 								$(this_save).find("#finishModalBody").html("Super, weiter so!");
 							},
 							error: function(data) {
