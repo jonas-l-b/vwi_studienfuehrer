@@ -30,8 +30,6 @@ include "sumVotes.php";
 		".$sqlBody."
 		WHERE subjects.ID = '".$subject."'
 	";
-	
-	echo $sql;
 	$result = mysqli_query($con,$sql);
 
 	// Check, ob Datensatz existiert
@@ -39,7 +37,7 @@ include "sumVotes.php";
 		$subjectData = mysqli_fetch_assoc($result);
 	} else {
 		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_subject_in_db';</SCRIPT>"); Da index.php später default adresse eher unvorteilhaft besser:
-		//echo "<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>";
+		echo "<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>";
 		exit;
 	}
 
@@ -141,11 +139,11 @@ include "sumVotes.php";
 	?>
 
 	<div class="row" id="firstrow">
-		
+		<!--
 		<div class="alert alert-info" role="alert">
 			Auf dieser Seite können design-technische Fehler auftreten - besonders wenn noch keine Bewertungen abgegeben wurden. Wir arbeiten daran, diese Fehler zu beheben und nutzen dabei die Gelegenheit, das Design etwas zu überarbeiten!
 		</div>
-		
+		-->
 		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="border-bottom: 1px solid #dedede; ">
 			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
 		</div>
@@ -236,10 +234,12 @@ include "sumVotes.php";
 	//Diese Variablen sorgen dafür, dass der Bewertungsteil nur angezeigt wird, wenn auch Bewertungen vorhanden sind; andernfalls wird der Jetzt-bewerten-Teil angezeigt
 	$displayRatings = "";
 	$displayNoRatings = "style=\"display:none\"";
+	$noRatingsYet = FALSE;
 
 	if (mysqli_num_rows($result) == 0){ //Falls noch keine Bewertungen vorhanden
 		$displayRatings = "style=\"display:none\"";
 		$displayNoRatings = "";
+		$noRatingsYet = TRUE;
 	}
 	?>
 	<!--Überschirft, Veranstaltungsinfos und Favourite Icon Ende-->
@@ -255,10 +255,12 @@ include "sumVotes.php";
 			<div class="col-sm-8 col-md-10 col-lg-10 well">
 
 				<div class="noRatingBox" <?php echo $displayNoRatings ?>> <!--Anzeige falls noch kein Rating vorhanden-->
-					<br>
-					<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
-					<div style="text-align:center">
-						<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
+					<div style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+						<br>
+						<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
+						<div style="text-align:center">
+							<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
+						</div>
 					</div>
 				</div>
 
@@ -508,15 +510,25 @@ include "sumVotes.php";
 
 				</div>
 			</div>
+			<?php
+			if(!$noRatingsYet){ //Deaktivert affix, wenn noch keine Bewertungen vorhanden -> Verhindert Scrollfehler (hoffentlich)
+				?>
+				<script>
+					$('#infobox').affix({
+						  offset: {
+							top: $('#infobox').offset().top - 100
+						  }
+					});
+					$(window).on("resize", function(){
+						$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top - 100
+					})
+				</script>
+				<?php
+			}
+			?>
+			
 			<script>
-				$('#infobox').affix({
-					  offset: {
-						top: $('#infobox').offset().top - 100
-					  }
-				});
-				$(window).on("resize", function(){
-					$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top - 100
-				})
+				$('.noRatingBox').height($('#infobox').height()-9);
 			</script>
 
 			<!--Bewertungsübersicht Ende-->
