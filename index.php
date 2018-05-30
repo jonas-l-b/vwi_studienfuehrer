@@ -585,7 +585,7 @@ include "sumVotes.php";
 					while($row = mysqli_fetch_assoc($result)){
 						?>
 						<div class="well" style="background-color:white; border-radius:none">
-							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo $row['question']?></span>
+							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo nl2br($row['question'])?></span>
 							<hr style="margin:10px">
 							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?></p>
 
@@ -624,7 +624,7 @@ include "sumVotes.php";
 								while($row2 = mysqli_fetch_assoc($result2)){
 									?>
 									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
-										<?php echo $row2['answer']?>
+										<?php echo nl2br($row2['answer'])?>
 										<hr style="margin:10px">
 										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
 									</div>

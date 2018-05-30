@@ -135,7 +135,7 @@ while($comments = mysqli_fetch_assoc($result)){
 					<p class=\"nowrap confirmation\" id=\"".$comments['ID']."confirmation\"></p>
 				</div>
 				<div class=\"media-body\">
-					<p><span id=\"ausrufezeichen".$comments['ID']."\" class=\"ausrufezeichen glyphicon glyphicon-exclamation-sign pull-right\"></span> ".$comments['comment']." </p>
+					<p><span id=\"ausrufezeichen".$comments['ID']."\" class=\"ausrufezeichen glyphicon glyphicon-exclamation-sign pull-right\"></span> ".nl2br($comments['comment'])." </p>
 					<p style=\"color:grey\">Semester der Prüfung: ".strtoupper($comments['examSemester'])."</p>
 					".$recommend."
 					<hr style=\"margin:10px\">
