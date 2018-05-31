@@ -304,6 +304,7 @@ include "sumVotes.php";
 							}
 
 							//$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
+							$lectureCaptions = array(array("Relevanz des Vorlesungsbesuches", "Hinblicklich: Folien selbsterklärend, Vorlesung behandelt zusätzlichen Stoff"), array("Gestaltung der Vorlesung", ""), array("Qualität der Vorlesungsmaterialien", "Hinblicklich: Vollständigkeit, Struktur"));
 							$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien schlecht", "Materialien gut"));
 							
 							//Exam
@@ -334,11 +335,21 @@ include "sumVotes.php";
 							?>
 							<h4><strong>Vorlesung</strong></h4>
 							<br>
-							<div style="height: 42px;"></div>
+							<!--<div style="height: 42px;"></div>-->
 							<table class="ratingtable" style="width:100%">
 								<?php
 								for($i=0;$i<count($lectureHeadings);$i++){
 									?>
+									
+									<tr>
+										<td colspan="2">
+											<span><strong><?php echo $lectureCaptions[$i][0]?></strong></span>
+											<br>
+											<span style="font-size:12px;"><i><?php echo $lectureCaptions[$i][1]?></i></span>
+											<div style="height: 7px;"></div>
+										</td>
+									</tr>
+									
 									<tr>
 										<td>
 											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i][0] ?></span>
