@@ -270,7 +270,7 @@ $("#changeButton").click(function () {
 
 <!-- Vorrübergehend; Zum Launch löschen! START -->	
 	<div style="border: solid 1px lightgrey; border-radius: 5px; background-color: #e6f3ff; padding: 20px; text-align: center">
-		<h4>Der Studienführer wurde als Desktop-Version entwickelt. Die Anpassung an mobile Geräte ist bisher nur geplant, sodass bei mobiler Nutzung Design-Fehler derzeit auftreten können.</h4>
+		<h4>Der Studienführer wurde als Desktop-Anwendung entwickelt. Die Anpassung an mobile Geräte ist bisher nur geplant, sodass bei mobiler Nutzung Design-Fehler auftreten können.</h4>
 	</div>
 	
 	<br>
