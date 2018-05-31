@@ -51,7 +51,7 @@ include "connect.php";
 	$ratingsDistinctCount = $row['count'];
 	$subjectsCount = $row2['count2'];
 	$ratingsDistinctPercent = round($ratingsDistinctCount*100/$subjectsCount,0);
-	$ratingsDistinctGoal = 60;
+	$ratingsDistinctGoal = 40;
 	$goalReached = min(round($ratingsDistinctPercent*100/$ratingsDistinctGoal,0), 100);
 	
 	$color2 = "";
