@@ -58,11 +58,17 @@ include "connect.php";
 	if($goalReached == 100) $color2 = "rgb(37, 160, 3)";
 	?>
 	
-	<h4>Anteil Veranstaltungen, die mindestens eine Bewertung besitzen: <?php echo $ratingsDistinctPercent?> % von <?php echo $ratingsDistinctGoal;?> %</h4>
+	<h4>Anteil Veranstaltungen, die mindestens eine Bewertung besitzen: <?php echo $ratingsDistinctPercent?> % von <?php echo $ratingsDistinctGoal;?> % 
+	<a href="#" data-trigger="focus" data-toggle="popoverPercent" data-content="Der Studienführer umfasst <?php echo $subjectsCount?> Veranstaltungen. Davon sollen <?php echo $ratingsDistinctGoal?> %, also <?php echo round($subjectsCount*($ratingsDistinctGoal/100),0)?> Veranstaltungen, mindestens 1x bewertet worden sein. Bisher wurden <?php echo $ratingsDistinctPercent?> %, also <?php echo $ratingsDistinctCount?> Veranstaltungen,  mindestens 1x bewertet.">
+		<span class="glyphicon glyphicon-question-sign"></span>
+	</a>
+	<script>$('[data-toggle="popoverPercent"]').popover();</script>
+	</h4>
+	
 	<div class="progress" style="height:40px;">
 		<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $ratingsDistinctPercent?>"	aria-valuemin="0" aria-valuemax="<?php echo $ratingsDistinctGoal?>" style="width:<?php echo $goalReached?>%; background-color:<?php echo $color2?>">
 			<div style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-				<span style="font-size:15px;"><?php echo $ratingsDistinctPercent?>%</span>
+				<span style="font-size:15px;"><?php echo round($ratingsDistinctPercent*100/$ratingsDistinctGoal,0)?>%</span>
 			</div>
 		</div>
 	</div>
