@@ -50,7 +50,7 @@ include "connect.php";
 							<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
 						</p>
 						<p class="more well" style="border-radius:3px;">
-							<?php echo $row['comment']?>
+							<?php echo nl2br($row['comment'])?>
 						</p>
 					</div>
 				</div>
@@ -92,7 +92,7 @@ include "connect.php";
 							<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
 						</p>
 						<p class="more well" style="border-radius:3px;">
-							<?php echo $row['question']?>
+							<?php echo nl2br($row['question'])?>
 						</p>
 					</div>
 				</div>
