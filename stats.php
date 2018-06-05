@@ -22,7 +22,7 @@ include "connect.php";
 	$result = mysqli_query($con, $sql);
 	$row = mysqli_fetch_assoc($result);
 	$ratingsCount = $row['COUNT(*)'];
-	$ratingsGoal = 600;
+	$ratingsGoal = 500;
 	$ratingsPercent = min(round($ratingsCount*100/$ratingsGoal,0), 100);
 	$color1 = "";
 	if($ratingsPercent == 100) $color1 = "rgb(37, 160, 3)";
