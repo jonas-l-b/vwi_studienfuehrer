@@ -22,7 +22,7 @@ $result = mysqli_query($con,$sql);
 if (mysqli_num_rows($result)==0){
 	$msg = "Die eingegebene E-Mail-Adresse existiert nicht in unserer Datenbank. Bitte registriere dich zuerst.";
 }else{
-	$msg = "Wir haben dir eine E-Mail zur Zurücksetzung deines Passworts geschickt.";
+	$msg = "Wir haben dir eine E-Mail zur Zurücksetzung deines Passworts geschickt.<br><br>Falls du keine E-Mail erhalten hast, checke bitte deinen Spam-Ordner. Falls auch dort nichts zu finden ist, erreichst du uns unter <a href=\"mailto:studienführer@vwi-karlsruhe.de\">studienführer@vwi-karlsruhe.de</a>.";
 	
 	$row = mysqli_fetch_assoc($result);
 	
