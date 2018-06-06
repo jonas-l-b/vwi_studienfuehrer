@@ -21,6 +21,7 @@ if($userRow['admin']!=0){
 				<li><a id=\"linkToAdminNotifications\" href=\"admin.php#notifications\">Benachrichtigungen</a></li>
 				<li><a id=\"linkToAdminList\" href=\"admin.php#adminList\">Admin-Liste</a></li>
 				<li><a id=\"linkToUserProfiles\" href=\"admin.php#userProfiles\">Nutzerprofile</a></li>
+				<li><a id=\"linkToNotes\" href=\"admin.php#notes\">Meldungen Startseite</a></li>
 			</ul>
 		</li>
 	";

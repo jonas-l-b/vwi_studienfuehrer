@@ -35,6 +35,7 @@ if($userRow['admin']==0){
 		<li><a data-toggle="tab" href="#notifications">Benachrichtigungen</a></li>
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 		<li><a data-toggle="tab" href="#userProfiles">Nutzerprofile</a></li>
+		<li><a data-toggle="tab" href="#notes">Meldungen Startseite</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -697,6 +698,126 @@ if($userRow['admin']==0){
 			;
 			</script>
 		</div>
+		<div id="notes" class="tab-pane fade">
+			<br>
+			<p><i>Hier können die Meldungen, die auf der Startseite erscheinen, verändert werden.</i></p>
+			<br>
+			<h2>So sieht das Ergebnis aus</h2>
+			
+			<hr>
+			
+			<div class="row">
+				<div class="col-md-4">
+					<div class="notes">
+						<div id="noteLeft" style="display: table-cell; vertical-align: middle;">
+							<h4>Studienführer noch nicht mobil</h4>
+							<p>Der Studienführer wurde als Desktop-Anwendung entwickelt, sodass bei mobiler Nutzung Design-Fehler auftreten können.<br><br>Die Anpassung an mobile Geräte ist geplant.<p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-4 notesTop">
+					<div class="notes">
+						<div id="noteMiddle" style="display: table-cell; vertical-align: middle;">
+							<h4>Bugs und Fehler</h4>
+							<p>Bugs und Vorschläge für neue/erweiterte Funktionen über "Kontakt" in der Navigationsleiste loswerden.<br><br>
+							Inhaltiche Fehler selbst beheben (falls Admin-Rechte vorhanden), sonst auch über "Kontakt".<p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-4">
+					<div class="notes" style="background-color: #fff0e2;">
+						<div id="noteRight" style="display: table-cell; vertical-align: middle;">
+							<h3>Hochschulgruppen-Ranking</h3>
+							<h4>Wer hat am fleißigsten bewertet?</h4>
+							<a href="hsg_ranking.php" class="btn noRatingButton">Liste Zeigen</a>
+						</div>
+					</div>
+				</div>	
+			</div>
+			
+			<hr>
+			
+			<h2>Hier wird der Inhalt bearbeitet</h2>
+			
+			<div class="row">
+				<div class="col-md-6">
+					<form>
+						<h4>Meldung Links</h4>
+						<div class="form-group">
+							<textarea class="form-control note-input" rows="5" id="noteLeftInput"></textarea>
+						</div>
+						<h4>Meldung Mitte</h4>
+						<div class="form-group">
+							<textarea class="form-control note-input" rows="5" id="noteMiddleInput"></textarea>
+						</div>
+						<h4>Meldung Rechts</h4>
+						<div class="form-group">
+							<textarea class="form-control note-input" rows="5" id="noteRightInput"></textarea>
+						</div>
+					</form>
+					
+					<script>
+						$(".note-input").on("change paste keyup", function() {
+							$('#' + $(this).attr('id').slice(0,-5)).html($(this).val());
+						});
+					</script>
+				</div>
+				<div class="col-md-6">
+					<h4>HTML-Tags benutzen</h4>
+					<p>Für die Formatierung können HTML-Tags verwendet werden.</p>
+					<p>Grundsätzliche HTML-Tags werden hier aufgeführt. Viele weitere finden sich im Netz.</p>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>HTML-Code</th>
+								<th>Ergebnis</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Das ist ein&lt;br&gt;Absatz</td>
+								<td>Das ist ein<br>Absatz</td>
+							</tr>
+							<tr>
+								<td>&lt;p&gt;Das ist Paragrapgh.&lt;/p&gt;<br>&lt;p&gt;Das auch.&lt;/p&gt;</td>
+								<td><p>Das ist Paragrapgh.</p><p>Das auch.</p></td>
+							</tr>
+							<tr>
+								<td>&lt;strong&gt;Fett&lt;/strong&gt;</td>
+								<td><strong>Fett</strong></td>
+							</tr>
+							<tr>
+								<td>&lt;i&gt;Kursiv&lt;/i&gt;</td>
+								<td><i>Kursiv</i></td>
+							</tr>
+							<tr>
+								<td>&lt;u&gt;Unterstichen&lt;/u&gt;</td>
+								<td><u>Unterstichen</u></td>
+							</tr>
+							<tr>
+								<td>&lt;h1&gt;Überschrift 1&lt;/h1&gt;</td>
+								<td><h1>Überschrift 1</h1></td>
+							</tr>
+							<tr>
+								<td>&lt;h2&gt;Überschrift 2&lt;/h2&gt;</td>
+								<td><h2>Überschrift 2</h2></td>
+							</tr>
+							<tr>
+								<td>&lt;h3&gt;Überschrift 3&lt;/h3&gt;</td>
+								<td><h3>Überschrift 3</h3></td>
+							</tr>
+							<tr>
+								<td>&lt;h4&gt;Überschrift 4&lt;/h4&gt;</td>
+								<td><h4>Überschrift 4</h4></td>
+							</tr>
+						</tbody>
+					</table>
+				
+				</div>
+			
+		</div>
 	</div>
 </div>
 
@@ -734,6 +855,10 @@ $('#linkToAdminList').click(function(event){
 $('#linkToUserProfiles').click(function(event){
  	event.preventDefault();
  	$('.nav-tabs a[href="#userProfiles"]').tab('show');
+});
+$('#linkToNotes').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#notes"]').tab('show');
 });
 </script>
 
