@@ -266,57 +266,43 @@ $("#changeButton").click(function () {
 		$displayButtonSearch = "disabled";
 	}
 	?>
-
-
-<!-- Vorrübergehend; Zum Launch löschen! START -->	
-	<div style="border: solid 1px lightgrey; border-radius: 5px; background-color: #e6f3ff; padding: 20px; text-align: center">
-		<h4>Der Studienführer wurde als Desktop-Anwendung entwickelt. Die Anpassung an mobile Geräte ist bisher nur geplant, sodass bei mobiler Nutzung Design-Fehler auftreten können.</h4>
-	</div>
 	
-	<br>
+	<h2 align="center">Aktuelle Meldungen</h2>
 	
-	<div style="border: solid 1px lightgrey; border-radius: 5px; background-color: #e6f3ff; padding: 20px; text-align: center">
-		<h4>Bugs und Vorschläge für neue/erweiterte Funktionen über "Kontakt" in der Navigationsleiste loswerden.</h4>
-		<h4>Inhaltiche Fehler selbst beheben (falls Admin-Rechte vorhanden), sonst auch über "Kontakt".</h4>
-	</div>
-	
-	<br>
-	
-	<div style="border: solid 1px lightgrey; border-radius: 5px; background-color: #fff0e2; padding: 20px; text-align: center">
-		<h2>Hochschulgruppen-Ranking</h2>
-		<h4>Wer hat am fleißigsten bewertet?</h4>
-		<br>
-		<?php
-		$sql="
-			SELECT ratings.user_ID AS user_ID, username, COUNT(ratings.user_ID) AS count FROM ratings
-			JOIN users ON ratings.user_ID = users.user_ID
-			GROUP BY ratings.user_ID
-			ORDER BY COUNT(ratings.user_ID) DESC
-			LIMIT 5
-		";
-		$result = mysqli_query($con, $sql);
-
+	<div class="row">
+		<div class="col-md-4">
+			<div class="notes">
+				<div style="display: table-cell; vertical-align: middle;">
+					<h4>Studienführer noch nicht mobil</h4>
+					<p>Der Studienführer wurde als Desktop-Anwendung entwickelt, sodass bei mobiler Nutzung Design-Fehler auftreten können.<br><br>Die Anpassung an mobile Geräte ist geplant.<p>
+				</div>
+			</div>
+		</div>
 		
-		$i=1;
-		while($row = mysqli_fetch_assoc($result)){
-			if($row['count']>1){
-				$r="Bewertungen";
-			}else{
-				$r="Bewertung";
-			}
-			echo "<h4>Platz ".$i.": ".$row['username']." (".$row['count']." ".$r.")</h4>";
-			if($i==3){
-				echo "<hr style=\"border-color:grey; margin-bottom:0\">";
-				echo "<p>(Wer am 05. Juni am Ende der Sitzung über dieser Linie steht, bekommt ein Bier im Ox!)";
-			}
-			$i++;
-		}
-		?>
-		<br>
-		<a href="hsg_ranking.php" class="btn noRatingButton">Ganze Liste Zeigen</a>
+		<div class="col-md-4 notesTop">
+			<div class="notes">
+				<div style="display: table-cell; vertical-align: middle;">
+					<h4>Bugs und Fehler</h4>
+					<p>Bugs und Vorschläge für neue/erweiterte Funktionen über "Kontakt" in der Navigationsleiste loswerden.<br><br>
+					Inhaltiche Fehler selbst beheben (falls Admin-Rechte vorhanden), sonst auch über "Kontakt".<p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-4">
+			<div class="notes" style="background-color: #fff0e2;">
+				<div style="display: table-cell; vertical-align: middle;">
+					<h3>Hochschulgruppen-Ranking</h3>
+					<h4>Wer hat am fleißigsten bewertet?</h4>
+					<a href="hsg_ranking.php" class="btn noRatingButton">Liste Zeigen</a>
+				</div>
+			</div>
+		</div>
 	</div>
-<!-- Vorrübergehend; Zum Launch löschen! ENDE -->	
-	<h3 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h3>
+	
+	<hr>
+
+	<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 	<div align="center">
 			<a id="treebutton" style="width:330px" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
 			<a id="searchbutton" style="width:330px" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
