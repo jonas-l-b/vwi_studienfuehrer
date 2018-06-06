@@ -81,7 +81,7 @@ if (isset($_GET['query'])){
 		}
 		$count = 0;
 		while(($row = mysqli_fetch_assoc($lectures)) && $counttotal<8 && $count<2){
-			$lecture_result .= '{ "value" :"'.$row['subject_name'].'", "data": {"category" : "Veranstaltung", "dest":"index.php?subject='.$row['code'].'" } },';
+			$lecture_result .= '{ "value" :"'.$row['subject_name'].'", "data": {"category" : "Veranstaltung", "dest":"index.php?subject='.$row['ID'].'" } },';
 			$counttotal++;
 			$count++;
 		}
