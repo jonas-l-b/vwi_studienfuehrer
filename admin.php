@@ -863,7 +863,7 @@ if($userRow['admin']==0){
 					<h4>HTML-Tags benutzen</h4>
 					<p>Für die Formatierung können HTML-Tags verwendet werden.</p>
 					<p>Grundsätzliche HTML-Tags werden hier aufgeführt. Viele weitere finden sich im Netz.</p>
-					<table class="table table-striped">
+					<table class="table table-striped" style="table-layout: fixed;">
 						<thead>
 							<tr>
 								<th>HTML-Code</th>
