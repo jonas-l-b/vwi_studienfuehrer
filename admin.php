@@ -700,8 +700,18 @@ if($userRow['admin']==0){
 		</div>
 		<div id="notes" class="tab-pane fade">
 			<br>
-			<p><i>Hier können die Meldungen, die auf der Startseite erscheinen, verändert werden.</i></p>
+			<p><i>Hier können die Meldungen, die auf der Startseite erscheinen, verändert werden.<br><span style="color:red">Vorsicht: Änderungen werden nur mit Klick auf "Änderung speichern" übernommen!</span></i></p>
 			<br>
+			
+			<?php
+			$note = array();
+			$sql = "SELECT * FROM notes";
+			$result = mysqli_query($con, $sql);
+			while($row = mysqli_fetch_assoc($result)){
+				$note[$row['name']] = $row['content'];
+			}
+			?>
+			
 			<h2>So sieht das Ergebnis aus</h2>
 			
 			<hr>
@@ -710,8 +720,7 @@ if($userRow['admin']==0){
 				<div class="col-md-4">
 					<div class="notes">
 						<div id="noteLeft" style="display: table-cell; vertical-align: middle;">
-							<h4>Studienführer noch nicht mobil</h4>
-							<p>Der Studienführer wurde als Desktop-Anwendung entwickelt, sodass bei mobiler Nutzung Design-Fehler auftreten können.<br><br>Die Anpassung an mobile Geräte ist geplant.<p>
+							<?php echo $note['noteLeft'];?>
 						</div>
 					</div>
 				</div>
@@ -719,9 +728,7 @@ if($userRow['admin']==0){
 				<div class="col-md-4 notesTop">
 					<div class="notes">
 						<div id="noteMiddle" style="display: table-cell; vertical-align: middle;">
-							<h4>Bugs und Fehler</h4>
-							<p>Bugs und Vorschläge für neue/erweiterte Funktionen über "Kontakt" in der Navigationsleiste loswerden.<br><br>
-							Inhaltiche Fehler selbst beheben (falls Admin-Rechte vorhanden), sonst auch über "Kontakt".<p>
+							<?php echo $note['noteMiddle'];?>
 						</div>
 					</div>
 				</div>
@@ -729,9 +736,7 @@ if($userRow['admin']==0){
 				<div class="col-md-4">
 					<div class="notes" style="background-color: #fff0e2;">
 						<div id="noteRight" style="display: table-cell; vertical-align: middle;">
-							<h3>Hochschulgruppen-Ranking</h3>
-							<h4>Wer hat am fleißigsten bewertet?</h4>
-							<a href="hsg_ranking.php" class="btn noRatingButton">Liste Zeigen</a>
+							<?php echo $note['noteRight'];?>
 						</div>
 					</div>
 				</div>	
@@ -746,23 +751,50 @@ if($userRow['admin']==0){
 					<form>
 						<h4>Meldung Links</h4>
 						<div class="form-group">
-							<textarea class="form-control note-input" rows="5" id="noteLeftInput"></textarea>
+							<textarea class="form-control note-input" rows="5" id="noteLeftInput">
+								<?php echo $note['noteLeft'];?>
+							</textarea>
 						</div>
 						<h4>Meldung Mitte</h4>
 						<div class="form-group">
-							<textarea class="form-control note-input" rows="5" id="noteMiddleInput"></textarea>
+							<textarea class="form-control note-input" rows="5" id="noteMiddleInput">
+								<?php echo $note['noteMiddle'];?>
+							</textarea>
 						</div>
 						<h4>Meldung Rechts</h4>
 						<div class="form-group">
-							<textarea class="form-control note-input" rows="5" id="noteRightInput"></textarea>
+							<textarea class="form-control note-input" rows="5" id="noteRightInput">
+								<?php echo $note['noteRight'];?>
+							</textarea>
 						</div>
+						<button id="changeNotesSubmit" class="btn btn-warning">Änderungen speichern</button>
 					</form>
 					
 					<script>
 						$(".note-input").on("change paste keyup", function() {
 							$('#' + $(this).attr('id').slice(0,-5)).html($(this).val());
 						});
+						
+						$("#changeNotesSubmit").click(function(){
+							noteLeftInput = $('#noteLeftInput').val();
+							noteMiddleInput = $('#noteMiddleInput').val();
+							noteRightInput = $('#noteRightInput').val();
+							
+							$.ajax({
+								url: "admin_changeNotes_submit.php",
+								type: "post",
+								data: {noteLeftInput: noteLeftInput, noteMiddleInput: noteMiddleInput, noteRightInput: noteRightInput} ,
+								success: function (data) {
+									alert(data);
+								},
+								error: function() {
+								   alert("Es ist ein Fehler aufgetreten!");
+								}
+							});
+							
+						});
 					</script>
+					
 				</div>
 				<div class="col-md-6">
 					<h4>HTML-Tags benutzen</h4>
@@ -811,6 +843,18 @@ if($userRow['admin']==0){
 							<tr>
 								<td>&lt;h4&gt;Überschrift 4&lt;/h4&gt;</td>
 								<td><h4>Überschrift 4</h4></td>
+							</tr>
+							<tr>
+								<td>&lt;a href="tree.php"&gt;Für Startseite hier klicken&lt;/a&gt;</td>
+								<td><a href="tree.php">Für Startseite hier klicken</a></td>
+							</tr>
+							<tr>
+								<td>&lt;a href="https://www.google.de/"&gt;Externer Link (Google)&lt;/a&gt;</td>
+								<td><a href="https://www.google.de/">Externer Link (Google)</a></td>
+							</tr>
+							<tr>
+								<td>&lt;a href="userProfile.php" class="btn btn-primary"&gt;Zum Profil&lt;/a&gt;</td>
+								<td><a href="userProfile.php" class="btn btn-primary">Zum Profil</a></td>
 							</tr>
 						</tbody>
 					</table>
