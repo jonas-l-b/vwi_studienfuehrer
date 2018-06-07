@@ -269,35 +269,79 @@ $("#changeButton").click(function () {
 	
 	<h2 align="center">Aktuelle Meldungen</h2>
 	
+	<?php
+	$note = array();
+	$color = array();
+	$sql = "SELECT * FROM notes";
+	$result = mysqli_query($con, $sql);
+	while($row = mysqli_fetch_assoc($result)){
+		$note[$row['name']] = $row['content'];
+		$color[$row['name']] = $row['color'];
+	}
+	
+	switch($color['noteLeft']) {
+		case "blue":
+			$colorLeft = "#e6f3ff";
+			break;
+		case "orange":
+			$colorLeft = "#fff0e2";
+			break;
+		default:
+			$colorLeft = "#ffffff";
+	}
+	
+	switch($color['noteMiddle']) {
+		case "blue":
+			$colorMiddle = "#e6f3ff";
+			break;
+		case "orange":
+			$colorMiddle = "#fff0e2";
+			break;
+		default:
+			$colorMiddle = "#ffffff";
+	}
+	
+	switch($color['noteRight']) {
+		case "blue":
+			$colorRight = "#e6f3ff";
+			break;
+		case "orange":
+			$colorRight = "#fff0e2";
+			break;
+		default:
+			$colorRight = "#ffffff";
+	}
+
+	?>
+	
+	<h2>So sieht das Ergebnis aus</h2>
+	
+	<hr>
+	
 	<div class="row">
 		<div class="col-md-4">
-			<div class="notes">
-				<div style="display: table-cell; vertical-align: middle;">
-					<h4>Studienführer noch nicht mobil</h4>
-					<p>Der Studienführer wurde als Desktop-Anwendung entwickelt, sodass bei mobiler Nutzung Design-Fehler auftreten können.<br><br>Die Anpassung an mobile Geräte ist geplant.<p>
+			<div class="notes" style="background-color:<?php echo $colorLeft?>">
+				<div id="noteLeft" style="display: table-cell; vertical-align: middle;">
+					<?php echo $note['noteLeft'];?>
 				</div>
 			</div>
 		</div>
 		
 		<div class="col-md-4 notesTop">
-			<div class="notes">
-				<div style="display: table-cell; vertical-align: middle;">
-					<h4>Bugs und Fehler</h4>
-					<p>Bugs und Vorschläge für neue/erweiterte Funktionen über "Kontakt" in der Navigationsleiste loswerden.<br><br>
-					Inhaltiche Fehler selbst beheben (falls Admin-Rechte vorhanden), sonst auch über "Kontakt".<p>
+			<div class="notes" style="background-color:<?php echo $colorMiddle?>">
+				<div id="noteMiddle" style="display: table-cell; vertical-align: middle;">
+					<?php echo $note['noteMiddle'];?>
 				</div>
 			</div>
 		</div>
 		
 		<div class="col-md-4">
-			<div class="notes" style="background-color: #fff0e2;">
-				<div style="display: table-cell; vertical-align: middle;">
-					<h3>Hochschulgruppen-Ranking</h3>
-					<h4>Wer hat am fleißigsten bewertet?</h4>
-					<a href="hsg_ranking.php" class="btn noRatingButton">Liste Zeigen</a>
+			<div class="notes" style="background-color:<?php echo $colorRight?>">
+				<div id="noteRight" style="display: table-cell; vertical-align: middle;">
+					<?php echo $note['noteRight'];?>
 				</div>
 			</div>
-		</div>
+		</div>	
 	</div>
 	
 	<hr>

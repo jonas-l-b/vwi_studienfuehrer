@@ -705,11 +705,47 @@ if($userRow['admin']==0){
 			
 			<?php
 			$note = array();
+			$color = array();
 			$sql = "SELECT * FROM notes";
 			$result = mysqli_query($con, $sql);
 			while($row = mysqli_fetch_assoc($result)){
 				$note[$row['name']] = $row['content'];
+				$color[$row['name']] = $row['color'];
 			}
+			
+			switch($color['noteLeft']) {
+				case "blue":
+					$colorLeft = "#e6f3ff";
+					break;
+				case "orange":
+					$colorLeft = "#fff0e2";
+					break;
+				default:
+					$colorLeft = "#ffffff";
+			}
+			
+			switch($color['noteMiddle']) {
+				case "blue":
+					$colorMiddle = "#e6f3ff";
+					break;
+				case "orange":
+					$colorMiddle = "#fff0e2";
+					break;
+				default:
+					$colorMiddle = "#ffffff";
+			}
+			
+			switch($color['noteRight']) {
+				case "blue":
+					$colorRight = "#e6f3ff";
+					break;
+				case "orange":
+					$colorRight = "#fff0e2";
+					break;
+				default:
+					$colorRight = "#ffffff";
+			}
+
 			?>
 			
 			<h2>So sieht das Ergebnis aus</h2>
@@ -718,7 +754,7 @@ if($userRow['admin']==0){
 			
 			<div class="row">
 				<div class="col-md-4">
-					<div class="notes">
+					<div class="notes" style="background-color:<?php echo $colorLeft?>">
 						<div id="noteLeft" style="display: table-cell; vertical-align: middle;">
 							<?php echo $note['noteLeft'];?>
 						</div>
@@ -726,7 +762,7 @@ if($userRow['admin']==0){
 				</div>
 				
 				<div class="col-md-4 notesTop">
-					<div class="notes">
+					<div class="notes" style="background-color:<?php echo $colorMiddle?>">
 						<div id="noteMiddle" style="display: table-cell; vertical-align: middle;">
 							<?php echo $note['noteMiddle'];?>
 						</div>
@@ -734,7 +770,7 @@ if($userRow['admin']==0){
 				</div>
 				
 				<div class="col-md-4">
-					<div class="notes" style="background-color: #fff0e2;">
+					<div class="notes" style="background-color:<?php echo $colorRight?>">
 						<div id="noteRight" style="display: table-cell; vertical-align: middle;">
 							<?php echo $note['noteRight'];?>
 						</div>
@@ -748,28 +784,51 @@ if($userRow['admin']==0){
 			
 			<div class="row">
 				<div class="col-md-6">
-					<form>
+
 						<h4>Meldung Links</h4>
 						<div class="form-group">
 							<textarea class="form-control note-input" rows="5" id="noteLeftInput">
 								<?php echo $note['noteLeft'];?>
 							</textarea>
+							<form class="form-inline" style="margin-top:5px">
+								<label for="noteLeftColor">Farbe:</label>
+								<select class="form-control note-color" id="noteLeftColor">
+									<option value="blue" <?php if($color['noteLeft'] == "blue") echo "selected"?>>blau</option>
+									<option value="white" <?php if($color['noteLeft'] == "white") echo "selected"?>>weiß</option>
+									<option value="orange" <?php if($color['noteLeft'] == "orange") echo "selected"?>>orange</option>
+								</select>
+							</form>
 						</div>
 						<h4>Meldung Mitte</h4>
 						<div class="form-group">
 							<textarea class="form-control note-input" rows="5" id="noteMiddleInput">
 								<?php echo $note['noteMiddle'];?>
 							</textarea>
+							<form class="form-inline" style="margin-top:5px">
+								<label for="noteMiddleColor">Farbe:</label>
+								<select class="form-control note-color" id="noteMiddleColor">
+									<option value="blue" <?php if($color['noteMiddle'] == "blue") echo "selected"?>>blau</option>
+									<option value="white" <?php if($color['noteMiddle'] == "white") echo "selected"?>>weiß</option>
+									<option value="orange" <?php if($color['noteMiddle'] == "orange") echo "selected"?>>orange</option>
+								</select>
+							</form>
 						</div>
 						<h4>Meldung Rechts</h4>
 						<div class="form-group">
 							<textarea class="form-control note-input" rows="5" id="noteRightInput">
 								<?php echo $note['noteRight'];?>
 							</textarea>
+							<form class="form-inline" style="margin-top:5px">
+								<label for="noteRightColor">Farbe:</label>
+								<select class="form-control note-color" id="noteRightColor">
+									<option value="blue" <?php if($color['noteRight'] == "blue") echo "selected"?>>blau</option>
+									<option value="white" <?php if($color['noteRight'] == "white") echo "selected"?>>weiß</option>
+									<option value="orange" <?php if($color['noteRight'] == "orange") echo "selected"?>>orange</option>
+								</select>
+							</form>
 						</div>
 						<button id="changeNotesSubmit" class="btn btn-warning">Änderungen speichern</button>
-					</form>
-					
+				
 					<script>
 						$(".note-input").on("change paste keyup", function() {
 							$('#' + $(this).attr('id').slice(0,-5)).html($(this).val());
@@ -777,15 +836,19 @@ if($userRow['admin']==0){
 						
 						$("#changeNotesSubmit").click(function(){
 							noteLeftInput = $('#noteLeftInput').val();
+							noteLeftColor = $('#noteLeftColor').val();
 							noteMiddleInput = $('#noteMiddleInput').val();
+							noteMiddleColor = $('#noteMiddleColor').val();
 							noteRightInput = $('#noteRightInput').val();
+							noteRightColor = $('#noteRightColor').val();
 							
 							$.ajax({
 								url: "admin_changeNotes_submit.php",
 								type: "post",
-								data: {noteLeftInput: noteLeftInput, noteMiddleInput: noteMiddleInput, noteRightInput: noteRightInput} ,
+								data: {noteLeftInput: noteLeftInput, noteMiddleInput: noteMiddleInput, noteRightInput: noteRightInput, noteLeftColor: noteLeftColor, noteMiddleColor: noteMiddleColor, noteRightColor: noteRightColor} ,
 								success: function (data) {
 									alert(data);
+									location.reload();
 								},
 								error: function() {
 								   alert("Es ist ein Fehler aufgetreten!");
