@@ -68,7 +68,7 @@ include "connect.php";
 	<div class="progress" style="height:40px;">
 		<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $ratingsDistinctPercent?>"	aria-valuemin="0" aria-valuemax="<?php echo $ratingsDistinctGoal?>" style="width:<?php echo $goalReached?>%; background-color:<?php echo $color2?>">
 			<div style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-				<span style="font-size:15px;"><?php echo round($ratingsDistinctPercent*100/$ratingsDistinctGoal,0)?>%</span>
+				<span style="font-size:15px;"><?php echo min(round($ratingsDistinctPercent*100/$ratingsDistinctGoal,0),100)?>%</span>
 			</div>
 		</div>
 	</div>
