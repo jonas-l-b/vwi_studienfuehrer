@@ -1,25 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
+-- version 4.1.14.8
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 04. Feb 2018 um 11:08
--- Server-Version: 10.1.26-MariaDB
--- PHP-Version: 7.1.8
+-- Host: db680704532.db.1and1.com
+-- Erstellungszeit: 08. Jun 2018 um 14:13
+-- Server Version: 5.5.60-0+deb7u1-log
+-- PHP-Version: 5.4.45-0+deb7u14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `studienfuehrer`
+-- Datenbank: `db680704532`
 --
 
 -- --------------------------------------------------------
@@ -28,20 +26,20 @@ SET time_zone = "+00:00";
 -- Tabellenstruktur für Tabelle `admin_notifications`
 --
 
-CREATE TABLE `admin_notifications` (
-  `ID` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `admin_notifications` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `admin_id` int(10) NOT NULL,
   `type` varchar(100) NOT NULL,
-  `time_stamp` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `time_stamp` varchar(100) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `admin_notifications`
 --
 
 INSERT INTO `admin_notifications` (`ID`, `admin_id`, `type`, `time_stamp`) VALUES
-(1, 1, 'messages', '2017-11-07 04:01:05'),
-(3, 2, 'messages', '2018-01-17 19:36:06');
+(4, 2, 'messages', '2018-05-04 11:05:54');
 
 -- --------------------------------------------------------
 
@@ -49,25 +47,24 @@ INSERT INTO `admin_notifications` (`ID`, `admin_id`, `type`, `time_stamp`) VALUE
 -- Tabellenstruktur für Tabelle `answers`
 --
 
-CREATE TABLE `answers` (
-  `ID` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `answers` (
+  `ID` int(100) NOT NULL AUTO_INCREMENT,
   `question_ID` int(100) NOT NULL,
   `user_ID` int(100) NOT NULL,
-  `answer` varchar(5000) COLLATE utf8_unicode_ci NOT NULL,
-  `time_stamp` varchar(100) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `answer` varchar(5000) COLLATE latin1_german2_ci NOT NULL,
+  `time_stamp` varchar(100) COLLATE latin1_german2_ci NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci AUTO_INCREMENT=80 ;
 
 --
 -- Daten für Tabelle `answers`
 --
 
 INSERT INTO `answers` (`ID`, `question_ID`, `user_ID`, `answer`, `time_stamp`) VALUES
-(1, 2, 8, 'Antwort1', '2018-02-03 19:27:01'),
-(2, 2, 9, 'Antwort2', '2018-02-03 19:27:01'),
-(3, 2, 10, 'Antwort3', '2018-02-03 19:27:01'),
-(4, 2, 11, 'Antwort4', '2018-02-03 19:27:01'),
-(6, 1, 2, 'Das ist das doch!', '2018-02-04 10:29:09'),
-(7, 1, 2, 'Das meine ich doch auch!', '2018-02-04 10:30:03');
+(79, 18, 23, 'Ich habe die Klausur ohne Vorlesung und Übung geschrieben, was gut machbar war. in der Klausur kamen keine SPSS-bezogenene Fragen dran. ', '2018-06-05 18:36:32'),
+(78, 16, 2, 'Nein, muss man mitschreiben.', '2018-05-18 16:18:35'),
+(77, 16, 2, 'Nein, muss man mitschreiben.', '2018-05-18 16:17:22'),
+(76, 16, 2, 'Nein, muss man mitschreiben.', '2018-05-18 16:13:58');
 
 -- --------------------------------------------------------
 
@@ -75,10 +72,18 @@ INSERT INTO `answers` (`ID`, `question_ID`, `user_ID`, `answer`, `time_stamp`) V
 -- Tabellenstruktur für Tabelle `anti_brute_force`
 --
 
-CREATE TABLE `anti_brute_force` (
+CREATE TABLE IF NOT EXISTS `anti_brute_force` (
   `login_failures` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `anti_brute_force`
+--
+
+INSERT INTO `anti_brute_force` (`login_failures`, `user_id`) VALUES
+(2, 11);
 
 -- --------------------------------------------------------
 
@@ -86,27 +91,45 @@ CREATE TABLE `anti_brute_force` (
 -- Tabellenstruktur für Tabelle `commentratings`
 --
 
-CREATE TABLE `commentratings` (
-  `ID` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `commentratings` (
+  `ID` int(100) NOT NULL AUTO_INCREMENT,
   `subject_ID` varchar(100) NOT NULL,
   `comment_ID` varchar(100) NOT NULL,
   `user_ID` varchar(100) NOT NULL,
   `rating_direction` varchar(100) NOT NULL,
-  `time_stamp` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `time_stamp` varchar(100) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `subject_ID` (`subject_ID`,`comment_ID`,`user_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=21 ;
 
 --
 -- Daten für Tabelle `commentratings`
 --
 
 INSERT INTO `commentratings` (`ID`, `subject_ID`, `comment_ID`, `user_ID`, `rating_direction`, `time_stamp`) VALUES
-(1, '5', '3', '1', '1', '2017-11-09 19:47:49'),
-(2, '22', '4', '3', '1', '2017-11-11 19:14:15'),
-(3, '197', '5', '3', '1', '2017-11-28 20:12:09'),
-(4, '5', '7', '2', '1', '2018-01-17 19:43:53'),
-(5, '5', '9', '17', '-1', '2018-01-17 19:44:02'),
-(6, '5', '10', '2', '1', '2018-01-23 20:30:05'),
-(7, '86', '11', '2', '1', '2018-01-24 22:53:24');
+(17, '197', '43', '3', '1', '2018-05-25 13:51:35'),
+(18, '52', '42', '3', '1', '2018-05-25 13:51:42'),
+(19, '195', '65', '12', '1', '2018-05-28 15:56:28'),
+(20, '195', '65', '3', '1', '2018-05-30 13:56:38');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `data_privacy`
+--
+
+CREATE TABLE IF NOT EXISTS `data_privacy` (
+  `item` varchar(100) COLLATE latin1_german2_ci NOT NULL,
+  `value` int(11) NOT NULL,
+  PRIMARY KEY (`item`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci;
+
+--
+-- Daten für Tabelle `data_privacy`
+--
+
+INSERT INTO `data_privacy` (`item`, `value`) VALUES
+('delete_prof_last_sent', 2018);
 
 -- --------------------------------------------------------
 
@@ -114,21 +137,22 @@ INSERT INTO `commentratings` (`ID`, `subject_ID`, `comment_ID`, `user_ID`, `rati
 -- Tabellenstruktur für Tabelle `favourites`
 --
 
-CREATE TABLE `favourites` (
-  `ID` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `favourites` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `user_ID` int(10) NOT NULL,
-  `subject_ID` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `subject_ID` int(10) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Daten für Tabelle `favourites`
 --
 
 INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
-(2, 1, 3),
-(3, 1, 3),
-(5, 1, 5),
-(7, 2, 5);
+(12, 20, 31),
+(13, 20, 242),
+(14, 10, 27),
+(18, 3, 23);
 
 -- --------------------------------------------------------
 
@@ -136,15 +160,16 @@ INSERT INTO `favourites` (`ID`, `user_ID`, `subject_ID`) VALUES
 -- Tabellenstruktur für Tabelle `institutes`
 --
 
-CREATE TABLE `institutes` (
-  `institute_ID` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `institutes` (
+  `institute_ID` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `abbr` varchar(100) NOT NULL,
   `user_ID` int(100) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `time_stamp2` varchar(100) NOT NULL,
+  PRIMARY KEY (`institute_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
 
 --
 -- Daten für Tabelle `institutes`
@@ -156,40 +181,40 @@ INSERT INTO `institutes` (`institute_ID`, `name`, `abbr`, `user_ID`, `time_stamp
 (8, 'Institut für Fahrzeugsystemtechnik', 'FAST', 8, '2017-11-09 20:41:16', 0, ''),
 (9, 'Institut für Technologie und Management im Baubetrieb', 'TMB', 8, '2017-11-09 20:50:16', 0, ''),
 (10, 'Institut für Angewandte Informatik und Formale Beschreibungsverfahren', 'AIFB', 10, '2017-11-09 20:53:17', 0, ''),
-(11, 'Institut für Industrieökonomie ', 'ECON', 9, '2017-11-09 20:55:12', 0, ''),
+(11, 'Institut für Industrieökonomie', 'ECON', 9, '2017-11-09 20:55:12', 0, ''),
 (12, 'Institut für Informationswirtschaft und Marketing', 'IISM', 9, '2017-11-09 21:01:47', 0, ''),
 (13, 'Informationsdienste und elektronische Märkte', 'IISM', 10, '2017-11-09 21:02:23', 0, ''),
 (14, 'Fachgebiet Immobilienwirtschaft', 'FIWI', 8, '2017-11-09 21:02:48', 0, ''),
 (15, 'Institut für Volkswirtschaftslehre', 'ECON', 1, '2017-11-09 21:03:15', 0, ''),
 (16, 'Institut für Operations Research', 'IOR', 9, '2017-11-09 21:09:28', 0, ''),
-(17, 'Ökonometrie ', 'STAT', 10, '2017-11-09 21:10:32', 0, ''),
+(17, 'Ökonometrie', 'STAT', 10, '2017-11-09 21:10:32', 0, ''),
 (18, 'Abteilung Finanzwirtschaft und Banken', 'FBV', 8, '2017-11-09 21:11:38', 0, ''),
 (19, 'Institut für Industriebetriebswirtschaftslehre und Produktion', 'IIP', 9, '2017-11-09 21:12:26', 0, ''),
 (20, 'Institut für Photogrammetrie und Fernerkundung', 'IPF', 11, '2017-11-09 21:26:47', 0, ''),
 (21, 'Institut für Unternehmensführung', 'IBU', 8, '2017-11-09 21:31:51', 0, ''),
 (22, 'Institut für Informationsmanagement im Ingenieurwesen', 'IMI', 1, '2017-11-09 21:36:40', 0, ''),
-(23, 'Institut für Produktionstechnik  ', 'WBK', 11, '2017-11-09 21:38:05', 0, ''),
+(23, 'Institut für Produktionstechnik', 'WBK', 11, '2017-11-09 21:38:05', 0, ''),
 (24, 'Zentrum für Angewandte Rechtswissenschaft', 'ZAR', 8, '2017-11-09 21:38:23', 0, ''),
 (25, 'Institut für Technische Mechanik', 'ITM', 9, '2017-11-09 21:41:50', 0, ''),
 (27, 'Institut für Mikrosystemtechnik', 'IMT', 8, '2017-11-09 21:50:44', 0, ''),
-(28, 'Institut für Angewandte Materialien  ', 'IAM', 8, '2017-11-09 21:58:34', 0, ''),
-(29, 'Institut für Angewandte Physik  ', 'APH', 8, '2017-11-09 22:01:06', 0, ''),
-(30, 'Karlsruhe Service Research Institute  ', 'KSRI', 11, '2017-11-09 22:01:47', 0, ''),
-(31, 'Institut für Fördertechnik und Logistiksysteme  ', 'IFL', 1, '2017-11-09 22:03:37', 0, ''),
+(28, 'Institut für Angewandte Materialien', 'IAM', 8, '2017-11-09 21:58:34', 0, ''),
+(29, 'Institut für Angewandte Physik', 'APH', 8, '2017-11-09 22:01:06', 0, ''),
+(30, 'Karlsruhe Service Research Institute', 'KSRI', 11, '2017-11-09 22:01:47', 0, ''),
+(31, 'Institut für Fördertechnik und Logistiksysteme', 'IFL', 1, '2017-11-09 22:03:37', 0, ''),
 (32, 'Institut für Straßen- und Eisenbahnwesen', 'ISE', 9, '2017-11-09 22:05:56', 0, ''),
-(33, 'Institut für Elektroenergiesysteme und Hochspannungstechnik  ', 'IEH', 1, '2017-11-09 22:15:05', 0, ''),
+(33, 'Institut für Elektroenergiesysteme und Hochspannungstechnik', 'IEH', 1, '2017-11-09 22:15:05', 0, ''),
 (34, 'Institut für Wasser und Gewässerentwicklung', 'IWG', 8, '2017-11-09 22:21:08', 0, ''),
 (35, 'Geophysikalisches Institut', 'GPI', 11, '2017-11-09 22:21:35', 0, ''),
 (36, 'Institut für Informationsmangement im Ingenieurwesen', 'IMI', 8, '2017-11-09 22:34:02', 0, ''),
 (37, 'Institut für Meterologie und Klimarforschung', 'IMK', 1, '2017-11-09 22:47:40', 0, ''),
-(38, ' Institut für Technische Chemie und Polymerchemie  ', 'ITCP', 11, '2017-11-09 22:54:49', 0, ''),
+(38, 'Institut für Technische Chemie und Polymerchemie', 'ITCP', 11, '2017-11-09 22:54:49', 0, ''),
 (39, 'Institut für Photonen und Quantenelektronik', 'IPQ', 8, '2017-11-09 23:34:34', 0, ''),
 (40, 'Institut für Stochastik', 'IFS', 1, '2017-11-09 23:49:51', 0, ''),
-(41, 'Institut für Regelungs- und Steuerungssysteme  ', 'IRS', 1, '2017-11-10 00:12:48', 0, ''),
+(41, 'Institut für Regelungs- und Steuerungssysteme', 'IRS', 1, '2017-11-10 00:12:48', 0, ''),
 (42, 'Institut für Soziologie, Medien- und Kulturwissenschaften', 'ISMK', 8, '2017-11-10 00:13:25', 0, ''),
 (43, 'Institut für Bio- und Lebensmitteltechnik', 'BLT', 1, '2017-11-10 00:44:51', 0, ''),
 (44, 'Institut für Entrepreneurship, Technologie-Management und Innovation', 'ENTECHNON', 17, '2018-01-17 20:53:01', 0, ''),
-(45, 'Institut für Technik der Informationsverarbeitung ', 'ITIV', 8, '2018-01-17 21:03:56', 0, ''),
+(45, 'Institut für Technik der Informationsverarbeitung', 'ITIV', 8, '2018-01-17 21:03:56', 0, ''),
 (46, 'Institut für Verkehrswesen', 'IFV', 17, '2018-01-17 21:35:34', 0, ''),
 (47, 'Institut für Geographie und Geoökologie', 'IFGG', 8, '2018-01-17 22:13:44', 0, ''),
 (48, 'Institut für Thermische Strömungsmaschinen', 'ITS', 14, '2018-01-17 22:16:58', 0, ''),
@@ -203,15 +228,16 @@ INSERT INTO `institutes` (`institute_ID`, `name`, `abbr`, `user_ID`, `time_stamp
 -- Tabellenstruktur für Tabelle `lecturers`
 --
 
-CREATE TABLE `lecturers` (
-  `lecturer_ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `lecturers` (
+  `lecturer_ID` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `user_ID` int(100) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `time_stamp2` varchar(100) NOT NULL,
+  PRIMARY KEY (`lecturer_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=274 ;
 
 --
 -- Daten für Tabelle `lecturers`
@@ -272,7 +298,7 @@ INSERT INTO `lecturers` (`lecturer_ID`, `first_name`, `last_name`, `user_ID`, `t
 (57, 'Niklas', 'Kühl', 11, '2017-11-09 22:02:02', 0, ''),
 (58, 'Gerhard', 'Satzger', 11, '2017-11-09 22:03:18', 0, ''),
 (59, 'Markus', 'Golder', 1, '2017-11-09 22:03:49', 0, ''),
-(60, 'Jörg', 'Franke', 8, '2017-11-09 22:04:38', 0, ''),
+(60, 'Jörg', 'Franke', 8, '2017-11-09 22:04:38', 2, '2018-01-18 11:17:17'),
 (61, 'Jörg', 'Föller', 1, '2017-11-09 22:06:32', 0, ''),
 (62, 'Eberhard', 'Hohnecker', 9, '2017-11-09 22:06:54', 0, ''),
 (63, 'Alexander', 'Mädche', 11, '2017-11-09 22:08:16', 0, ''),
@@ -484,21 +510,7 @@ INSERT INTO `lecturers` (`lecturer_ID`, `first_name`, `last_name`, `user_ID`, `t
 (270, 'Carsten', 'Linz', 14, '2018-01-17 22:56:09', 0, ''),
 (271, 'Armin', 'Ardone', 15, '2018-01-17 22:56:54', 0, ''),
 (272, 'Heinrich', 'Schlick', 14, '2018-01-17 23:03:26', 0, ''),
-(273, 'Andrej Marko', 'Pustisek', 14, '2018-01-17 23:06:17', 0, ''),
-(274, '', '', 2, '2018-01-21 11:37:54', 0, ''),
-(275, '', '', 2, '2018-01-21 11:37:58', 0, ''),
-(276, 'cages', '', 2, '2018-01-24 21:52:59', 0, ''),
-(277, 'f', 'f', 2, '2018-01-24 22:03:41', 0, ''),
-(278, 'f', '', 2, '2018-01-24 22:05:16', 0, ''),
-(279, 'e', '', 2, '2018-01-24 22:06:35', 0, ''),
-(280, '', 'e', 2, '2018-01-24 22:06:43', 0, ''),
-(281, '', 'd', 2, '2018-01-24 22:07:13', 0, ''),
-(282, 'd', '', 2, '2018-01-24 22:07:17', 0, ''),
-(283, 'e', 'e', 2, '2018-01-24 22:12:15', 0, ''),
-(284, 'a', 'b', 2, '2018-01-24 22:12:34', 0, ''),
-(285, 'h', 'h', 2, '2018-01-24 22:15:38', 0, ''),
-(286, 'g', 'g', 2, '2018-01-24 22:16:17', 0, ''),
-(287, 'qwertz', 'qwertzu', 2, '2018-01-30 10:59:31', 0, '');
+(273, 'Andrej Marko', 'Pustisek', 14, '2018-01-17 23:06:17', 0, '');
 
 -- --------------------------------------------------------
 
@@ -506,11 +518,12 @@ INSERT INTO `lecturers` (`lecturer_ID`, `first_name`, `last_name`, `user_ID`, `t
 -- Tabellenstruktur für Tabelle `lecturers_institutes`
 --
 
-CREATE TABLE `lecturers_institutes` (
-  `lecturers_institutes_ID` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `lecturers_institutes` (
+  `lecturers_institutes_ID` int(100) NOT NULL AUTO_INCREMENT,
   `lecturer_ID` int(100) NOT NULL,
-  `institute_ID` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `institute_ID` int(100) NOT NULL,
+  PRIMARY KEY (`lecturers_institutes_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=275 ;
 
 --
 -- Daten für Tabelle `lecturers_institutes`
@@ -571,7 +584,6 @@ INSERT INTO `lecturers_institutes` (`lecturers_institutes_ID`, `lecturer_ID`, `i
 (57, 57, 30),
 (58, 58, 30),
 (59, 59, 31),
-(60, 60, 6),
 (61, 61, 31),
 (62, 62, 32),
 (63, 63, 30),
@@ -681,7 +693,7 @@ INSERT INTO `lecturers_institutes` (`lecturers_institutes_ID`, `lecturer_ID`, `i
 (167, 167, 10),
 (168, 168, 8),
 (169, 169, 8),
-(170, 170, 10),
+(170, 170, 15),
 (171, 171, 23),
 (172, 172, 28),
 (173, 173, 11),
@@ -784,26 +796,7 @@ INSERT INTO `lecturers_institutes` (`lecturers_institutes_ID`, `lecturer_ID`, `i
 (271, 271, 30),
 (272, 272, 9),
 (273, 273, 19),
-(274, 274, 0),
-(275, 275, 0),
-(276, 276, 18),
-(277, 276, 14),
-(278, 276, 35),
-(279, 283, 35),
-(280, 284, 51),
-(281, 284, 14),
-(282, 284, 35),
-(283, 284, 13),
-(284, 284, 10),
-(285, 285, 18),
-(286, 285, 51),
-(287, 285, 14),
-(288, 286, 51),
-(289, 286, 13),
-(290, 287, 37),
-(291, 287, 27),
-(292, 287, 16),
-(293, 287, 20);
+(274, 60, 6);
 
 -- --------------------------------------------------------
 
@@ -811,10 +804,12 @@ INSERT INTO `lecturers_institutes` (`lecturers_institutes_ID`, `lecturer_ID`, `i
 -- Tabellenstruktur für Tabelle `levels`
 --
 
-CREATE TABLE `levels` (
-  `level_ID` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `levels` (
+  `level_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`level_ID`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Daten für Tabelle `levels`
@@ -831,8 +826,8 @@ INSERT INTO `levels` (`level_ID`, `name`) VALUES
 -- Tabellenstruktur für Tabelle `messages`
 --
 
-CREATE TABLE `messages` (
-  `message_id` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `messages` (
+  `message_id` int(100) NOT NULL AUTO_INCREMENT,
   `sender_id` int(100) NOT NULL,
   `receiver_id` int(100) NOT NULL,
   `message_type` varchar(100) NOT NULL,
@@ -850,26 +845,30 @@ CREATE TABLE `messages` (
   `processed_by_id` int(11) NOT NULL,
   `processed_comment` varchar(5000) NOT NULL,
   `processed_comment_for_admins` varchar(5000) NOT NULL,
-  `processed_time_stamp` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `processed_time_stamp` varchar(100) NOT NULL,
+  PRIMARY KEY (`message_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
 
 --
 -- Daten für Tabelle `messages`
 --
 
 INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`, `area`, `object_id`, `comment_id`, `answer_required`, `comment`, `time_stamp`, `read_last_id`, `read_last_time_stamp`, `assigned_to_id`, `assigned_to_time_stamp`, `processed`, `processed_by_id`, `processed_comment`, `processed_comment_for_admins`, `processed_time_stamp`) VALUES
-(3, 13, -1, 'feedback', '', 0, 0, 1, 'Heyho Info-Nerds,\r\nich schlage vor, die Module in der Übersicht alphabetisch zu sortieren. So findet man sich deutlich leichter zurecht!\r\nGrüßle aus Down-Under.\r\n', '2017-11-10 03:56:02', 2, '2018-01-21 10:55:39', 0, '', 0, 0, '', '', ''),
-(6, 3, -1, 'bug', '', 0, 0, 1, 'Testbug', '2017-11-11 19:27:28', 3, '2017-11-11 19:28:32', 3, '2017-11-11 19:28:28', 1, 3, 'Danke für deine Bugnachricht!', 'asdf', '2017-11-11 19:28:50'),
-(10, 2, -1, 'bug', '', 0, 0, 1, 'Das ist ein Testbug', '2018-01-18 10:31:10', 1, '2018-01-18 10:33:35', 2, '2018-01-18 10:31:37', 1, 1, 'war', '', '2018-01-18 10:33:42'),
-(11, 1, -1, 'bug', '', 0, 0, 1, 'testbug', '2018-01-30 14:55:47', 0, '', 0, '', 0, 0, '', '', ''),
-(12, 1, -1, 'bug', '', 0, 0, 1, 'fff', '2018-01-30 15:01:30', 0, '', 0, '', 0, 0, '', '', ''),
-(13, 1, -1, 'bug', '', 0, 0, 1, 'ggg', '2018-01-30 15:04:29', 0, '', 0, '', 0, 0, '', '', ''),
-(14, 1, -1, 'bug', '', 0, 0, 1, 'sdfghjkl', '2018-01-30 15:04:39', 0, '', 0, '', 0, 0, '', '', ''),
-(15, 1, -1, 'bug', '', 0, 0, 1, 'sdfghjk', '2018-01-30 15:05:23', 0, '', 0, '', 0, 0, '', '', ''),
-(16, 1, -1, 'bug', '', 0, 0, 1, 'ddd', '2018-01-30 15:07:36', 0, '', 0, '', 0, 0, '', '', ''),
-(17, 2, -1, 'bug', '', 0, 0, 1, 'ddd', '2018-01-30 15:20:36', 0, '', 0, '', 0, 0, '', '', ''),
-(18, 2, -1, 'bug', 'subject', 5, 0, 1, 'asdfghj', '2018-01-30 15:21:25', 0, '', 0, '', 0, 0, '', '', ''),
-(19, 2, -1, 'feedback', '', 0, 0, 1, 'zz', '2018-01-30 15:26:34', 0, '', 0, '', 0, 0, '', '', '');
+(40, 24, -1, 'mistake', 'subject', 206, 0, 1, 'Finanzwissenschaft ist m.M.n. kein BWL- sondern ein VWL-Modul.\r\nDer Dozent Bader ist relativ sicher nicht beim AIFB, sondern von extern (pwc).\r\n', '2018-05-23 08:26:27', 2, '2018-05-23 22:38:26', 0, '', 1, 2, 'Finanzwissenschaft ist in der Tat ein VWL-Modul, jetzt auch im Studienführer. Der Dozent Bader ist zwar extern, aber bei der Uni gelistet und dann reicht das für uns (extern bilden wir nicht ab, weiß auch nicht, ob das sinnvoll ist). Das richtige Institut ist allerdings das ECON, nicht das AIFB; das ist auch berichtigt.', '', '2018-05-23 22:49:12'),
+(41, -1, -1, 'mistake', 'lecturer', 0, 0, 0, '\r\n		Geltende Datenschutzgesetze verbieten, nicht mehr genutzte personenbezogene Daten weiterhin zu speichern. Darum ist es nötig, 1x jährlich zu prüfen, ob im Studienführer eingetragene Dozenten noch genutzt werden. <br>\r\n		Um zu sehen, welche Dozenten nicht mit Veranstaltungen im Studienführer verbunden sind, klicke bitte <a href="admin_deleteLecturerInstituteModule.php">hier</a> (Alternative: Admin-Bereich: "Daten bearbeiten" > "Dozenten/Institute/Module löschen").<br><br>\r\n		Bitte lösche Dozenten nur, wenn du dir sicher bist, dass sie tatsächlich nicht mehr benötigt werden.\r\n		<br><br>\r\n		Diese Nachricht wurde automatisch generiert.\r\n	', '2018-05-23 15:14:58', 2, '2018-05-23 15:15:16', 0, '', 1, 2, '', 'Erledigt.', '2018-05-23 15:15:27'),
+(42, 23, -1, 'bug', '', 0, 0, 1, 'Habe Experimentelle Wirtschaftsforschung ins Suchfeld eingegeben, das richtige Ergebnis wurde auch angezeigt. Durch Klicken auf das Ergebnis wurde ich allerdings zur Start- und nicht zur Veranstaltungsseite weitergeleitet', '2018-05-23 18:31:50', 2, '2018-05-23 22:27:23', 2, '2018-05-23 22:27:17', 1, 2, 'Hier gabs einen Fehler bei der Eintragung in der Datenbank. Der Fehler wurde behoben!', 'Veranstaltung hatte keine Verknüpfungen und damit kein SQL-Ergebnis. Fix: Über Admin > Veranstaltung bearbeiten einfach nochmal eintragen', '2018-05-23 22:28:35'),
+(43, 23, -1, 'mistake', 'subject', 547, 0, 1, 'Ich bin mir relativ sicher, dass ich mir kein Schweißpraktikum im VWL-Modul anrechnen lassen kann :D Vermutlich sollte diese Veranstaltung experimentelle Wirtschaftsforschung heißen.', '2018-05-23 18:34:13', 2, '2018-05-23 22:55:50', 0, '', 1, 2, 'Na Schweißen wäre doch auch mal was ;) Es gibt tatsächlich ein experimentelles Schweißpraktikum, jetzt auch in einem ING-Modul!', '', '2018-05-23 22:57:03'),
+(44, 23, -1, 'question', '', 0, 0, 1, 'Ist es beabsichtigt, dass das Kommentarfeld bei der Veranstaltungsbewertung ein Pflichtfeld ist?', '2018-05-23 18:36:09', 2, '2018-05-23 22:57:12', 0, '', 1, 2, 'Ja. Scheint aber nicht nur dich zu irritieren; siehe E-Mail.', '', '2018-05-23 22:58:26'),
+(45, 3, -1, 'bug', '', 0, 0, 1, 'Die Veranstaltung "TM 1" kann nicht über das Suchfeld aufgerufen werden, sondern nur über den Tree. ', '2018-05-27 17:35:18', 2, '2018-05-29 21:32:31', 0, '', 1, 2, 'Fehler nicht reproduzierbar. Was meinst du denn?', '', '2018-05-29 21:36:56'),
+(46, 27, -1, 'bug', 'subject', 0, 0, 1, 'Wenn ich den Reiter OR (im Kernprogramm) öffnen möchte, dann erscheint bei mir nicht die blau hinterlegte Veranstaltung auf die ich klicken kann um sie zu bewerten.', '2018-05-27 22:05:28', 2, '2018-05-29 21:27:03', 0, '', 1, 2, 'Fehler behoben. Viel Spaß beim Bewerten!', 'Veranstaltung war noch nicht eingetragen.', '2018-05-29 21:32:01'),
+(47, 34, -1, 'feedback', '', 0, 0, 0, 'Nachdem die Bewertung einer Vorlesung abgeschlossen ist, würde ich mir einen Button "Zurück zur Übersicht" (o.Ä.) wünschen, mit dem ich wieder auf die Startseite bzw. ins Vorlesungsverzeichnis springen kann. ', '2018-05-27 22:40:31', 2, '2018-06-07 14:46:43', 0, '', 0, 0, '', '', ''),
+(48, 35, -1, 'mistake', 'subject', 234, 0, 1, 'Veranstaltung ist auch im Bachelor belegbar im Modul "Angewandte Mikroökonomie"', '2018-05-28 15:34:45', 2, '2018-05-29 10:53:02', 0, '', 1, 2, 'Bist du dir sicher? Im Modulhandbuch kommt die Veranstaltung da nicht vor: https://www.dropbox.com/s/o7r27tiylqexedc/angewandte%20mikro.PNG?dl=0', 'Nichts geändert.', '2018-05-29 11:00:39'),
+(49, 9, -1, 'mistake', 'subject', 408, 0, 1, 'CAD Workshop kann auch im Bachelor Modul PLM belegt werden ', '2018-05-29 18:01:16', 2, '2018-05-29 23:15:23', 0, '', 1, 2, 'Erfolgreich geändert! Danke!', '', '2018-05-29 23:15:48'),
+(50, 9, -1, 'feedback', '', 0, 0, 1, 'Ich habe nicht auf Anhieb gefunden, wie ich noch eine Bewertung abgeben kann, wenn eine Veranstaltung bereits bewertet wurde. Vielleicht kann man den Plus-Button noch präsenter auf der Seite und nicht unten rechts in der Ecke platzieren? Oder vielleicht mit "hier bewerten" beschriften? \r\nAnsonsten habt ihr echt super Arbeit geleistet :) ', '2018-05-29 18:10:21', 2, '2018-06-06 12:17:41', 0, '', 0, 0, '', '', ''),
+(51, 36, -1, 'bug', '', 0, 0, 1, 'Zeilenumbrüche in Kommentaren werden nicht als Zeilenumbruch dargestellt. Evtl. ändern?', '2018-05-29 21:33:37', 2, '2018-05-30 16:52:26', 2, '2018-05-29 22:51:30', 1, 2, 'Geändert!', '', '2018-05-30 16:52:35'),
+(53, 23, -1, 'bug', '', 0, 0, 1, 'Grüzi, \r\n\r\nwenn ich rechts oben neben Hallo Sven! das Menü nach unten aufklappen lasse, sind die Schrift und die zugehörigen Symbole nicht auf einer horizontalen Linie, sondern leicht versetzt. Der genutzte Browser ist Firefox.', '2018-05-31 19:14:08', 2, '2018-06-07 14:46:49', 0, '', 0, 0, '', '', ''),
+(54, 23, -1, 'bug', '', 0, 0, 1, 'Als ich nach Mathematik 3 gesucht habe und dann unterhalb des Suchfelds auf das relevante Ergebnis geklickt habe, wurde ich wieder auf die Startseite geschickt, anstatt auf die Veranstaltungsseite', '2018-06-05 19:15:22', 2, '2018-06-06 12:14:51', 0, '', 1, 2, 'Fehler lag nicht in der Datenbank, sondern im Code und müsste jetzt behoben sein!', '', '2018-06-06 12:17:23'),
+(55, 37, -1, 'feedback', '', 0, 0, 1, 'Wie lassen sich die Bewertungen interpretieren, wenn in den letzten 8 Jahren teilweise einige Profs gewechselt haben? Ich würde versuchen so weit wie möglich in den Infos zur VL den Zeitpunkt zu hinterlegen, seit dem ein bestimmter Prof diese Vorlesung macht. Dann noch ein Options-Button, mit dem man nur Bewertungen von Klausur-Terminen anzeigen kann, seitdem der betreffende Prof die VL hält. ', '2018-06-05 19:54:47', 2, '2018-06-07 14:46:45', 0, '', 0, 0, '', '', '');
 
 -- --------------------------------------------------------
 
@@ -877,8 +876,8 @@ INSERT INTO `messages` (`message_id`, `sender_id`, `receiver_id`, `message_type`
 -- Tabellenstruktur für Tabelle `modules`
 --
 
-CREATE TABLE `modules` (
-  `module_ID` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `modules` (
+  `module_ID` int(10) NOT NULL AUTO_INCREMENT,
   `code` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
   `type` varchar(100) NOT NULL,
@@ -886,15 +885,15 @@ CREATE TABLE `modules` (
   `user_ID` int(10) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `time_stamp2` varchar(100) NOT NULL,
+  PRIMARY KEY (`module_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=198 ;
 
 --
 -- Daten für Tabelle `modules`
 --
 
 INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
-(4, 'M-WIWI-123456', 'BWL Grundlagen', 'BWL', 15, 0, '2017-11-09 19:43:20', 0, ''),
 (5, 'M-MACH-101303', 'Verbrennungsmotoren II', 'ING', 9, 0, '2017-11-09 20:30:16', 15, '2018-01-17 22:23:45'),
 (6, 'M-MACH-101274', 'Bahnsystemtechnik', 'ING', 9, 0, '2017-11-09 20:43:18', 0, ''),
 (7, 'M-BGU-101004', 'Grundlagen des Baubetriebs', 'ING', 9, 0, '2017-11-09 20:58:01', 0, ''),
@@ -910,8 +909,8 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (18, 'M-MACH-101264', 'Fahrzeugeigenschaften', 'ING', 9, 0, '2017-11-09 21:06:56', 15, '2018-01-17 21:04:02'),
 (19, 'M-WIWI-101418', 'Einführung in das Operations Research', 'OR', 9, 0, '2017-11-09 21:07:30', 0, ''),
 (21, 'M-WIWI-101464', 'Energiewirtschaft', 'BWL', 9, 0, '2017-11-09 21:13:07', 0, ''),
-(22, 'M-WIWI-101494', 'Grundlagen BWL 1', 'BWL', 9, 0, '2017-11-09 21:13:12', 0, ''),
-(24, 'M-WIWI-101403', 'Finanzwissenschaft', 'BWL', 9, 0, '2017-11-09 21:16:58', 0, ''),
+(22, 'M-WIWI-101494', 'Grundlagen BWL 1', 'BWL', 7, 0, '2017-11-09 21:13:12', 10, '2018-04-25 19:38:33'),
+(24, 'M-WIWI-101403', 'Finanzwissenschaft', 'VWL', 9, 0, '2017-11-09 21:16:58', 2, '2018-05-23 22:34:19'),
 (25, 'M-MACH-101265', 'Fahrzeugentwicklung', 'ING', 9, 0, '2017-11-09 21:17:46', 15, '2018-01-17 21:54:09'),
 (26, 'M-WIWI-101399', 'Vertiefung Informatik (Bachelor)', 'INFO', 9, 0, '2017-11-09 21:18:59', 2, '2017-11-20 04:34:35'),
 (27, 'M-WIWI-101426', 'Wahlpflicht Informatik (Bachelor)', 'INFO', 9, 0, '2017-11-09 21:19:59', 2, '2017-11-20 04:34:14'),
@@ -998,7 +997,7 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (113, 'M-WIWI-102808', 'Digital Service Systems in Industry', 'BWL', 9, 0, '2018-01-17 20:54:56', 0, ''),
 (114, 'M-WIWI-102832', 'Operations Research im Supply Chain Management', 'OR', 9, 0, '2018-01-17 20:55:10', 0, ''),
 (115, 'M-INFO-101242', 'Governance, Risk & Compliance', 'Sonstige', 9, 0, '2018-01-17 20:56:44', 10, '2018-01-17 22:42:41'),
-(116, 'M-MACH-101268', 'Spezielle Werkstoffkunde', 'BWL', 9, 0, '2018-01-17 20:57:24', 0, ''),
+(116, 'M-MACH-101268', 'Spezielle Werkstoffkunde', 'ING', 9, 0, '2018-01-17 20:57:24', 2, '2018-05-23 22:55:21'),
 (117, 'M-INFO-101217', 'Öffentliches Wirtschaftsrecht', 'Sonstige', 9, 0, '2018-01-17 20:57:58', 0, ''),
 (118, 'M-WIWI-103123', 'Quantitative Valuation', 'BWL', 9, 0, '2018-01-17 20:58:03', 0, ''),
 (119, 'M-WIWI-103122', 'Quantitative Risk Management', 'BWL', 9, 0, '2018-01-17 20:58:35', 0, ''),
@@ -1023,7 +1022,7 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (138, 'M-MACH-101283', 'Virtual Engineering A', 'ING', 9, 0, '2018-01-17 21:11:14', 0, ''),
 (139, 'M-WIWI-103120', 'Financial Economics', 'BWL', 9, 0, '2018-01-17 21:11:54', 0, ''),
 (140, 'M-MACH-101292', 'Mikrooptik', 'ING', 9, 0, '2018-01-17 21:13:02', 0, ''),
-(141, ' M-WIWI-101512', 'Computational Finance', 'BWL', 9, 0, '2018-01-17 21:13:07', 0, ''),
+(141, 'M-WIWI-101512', 'Computational Finance', 'BWL', 9, 0, '2018-01-17 21:13:07', 0, ''),
 (142, 'M-WIWI-103121', 'Financial Technology for Risk and Asset Management', 'BWL', 9, 0, '2018-01-17 21:13:48', 0, ''),
 (143, 'M-WIWI-103247', 'Intelligente Risiko- und Investitionsberatung', 'BWL', 9, 0, '2018-01-17 21:15:40', 0, ''),
 (144, 'M-MACH-101294	', 'Nanotechnologie', 'ING', 9, 0, '2018-01-17 21:16:52', 0, ''),
@@ -1040,7 +1039,7 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (155, 'M-WIWI-101451', 'Energiewirtschaft und Energiemärkte', 'BWL', 9, 0, '2018-01-17 21:30:22', 0, ''),
 (156, 'M-WIWI-103117', 'Data Science: Data-Driven Information Systems', 'BWL', 9, 0, '2018-01-17 21:30:53', 0, ''),
 (157, 'M-BGU-101066', 'Sicherheit, EDV und Recht im Straßenwesen', 'ING', 9, 0, '2018-01-17 21:32:04', 0, ''),
-(158, ' M-WIWI-101449', 'Insurance Management II', 'BWL', 9, 0, '2018-01-17 21:33:00', 0, ''),
+(158, 'M-WIWI-101449', 'Insurance Management II', 'BWL', 9, 0, '2018-01-17 21:33:00', 0, ''),
 (159, 'M-WIWI-101469', 'Insurance Management I', 'BWL', 9, 0, '2018-01-17 21:33:32', 0, ''),
 (160, 'M-INFO-101215', 'Recht des Geistigen Eigentums', 'INFO', 9, 0, '2018-01-17 21:33:34', 0, ''),
 (161, 'M-WIWI-101470', 'Data Science: Advanced CRM', 'BWL', 9, 0, '2018-01-17 21:34:27', 0, ''),
@@ -1069,7 +1068,7 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 (184, 'M-MACH-101296', 'Energie- und Prozesstechnik I', 'ING', 9, 0, '2018-01-17 22:23:33', 0, ''),
 (185, 'M-WIWI-101468', 'Umwelt- und Ressourcenökonomie', 'VWL', 9, 0, '2018-01-17 22:25:42', 0, ''),
 (186, 'M-CIWVT-101121', 'Wasserchemie und Wassertechnologie I', 'ING', 9, 0, '2018-01-17 22:27:58', 0, ''),
-(187, ' M-GEISTSOZ-101169', 'Soziologie', 'Sonstige', 9, 0, '2018-01-17 22:28:26', 0, ''),
+(187, 'M-GEISTSOZ-101169', 'Soziologie', 'Sonstige', 9, 0, '2018-01-17 22:28:26', 0, ''),
 (188, 'M-CIWVT-101122', 'Wasserchemie und Wassertechnologie II', 'ING', 9, 0, '2018-01-17 22:33:00', 0, ''),
 (189, 'M-CIWVT-101119', 'Vertiefung Lebensmittelverfahrenstechnik', 'ING', 9, 0, '2018-01-17 22:34:28', 0, ''),
 (190, 'M-WIWI-101504', 'Collective Decision Making', 'VWL', 9, 0, '2018-01-17 22:35:02', 0, ''),
@@ -1087,18 +1086,18 @@ INSERT INTO `modules` (`module_ID`, `code`, `name`, `type`, `ects`, `user_ID`, `
 -- Tabellenstruktur für Tabelle `modules_levels`
 --
 
-CREATE TABLE `modules_levels` (
-  `ID` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `modules_levels` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `module_ID` int(100) NOT NULL,
-  `level_ID` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `level_ID` int(100) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=243 ;
 
 --
 -- Daten für Tabelle `modules_levels`
 --
 
 INSERT INTO `modules_levels` (`ID`, `module_ID`, `level_ID`) VALUES
-(6, 4, 1),
 (8, 6, 2),
 (9, 7, 2),
 (10, 8, 2),
@@ -1112,9 +1111,7 @@ INSERT INTO `modules_levels` (`ID`, `module_ID`, `level_ID`) VALUES
 (19, 17, 2),
 (21, 19, 1),
 (23, 21, 2),
-(24, 22, 1),
 (25, 23, 1),
-(26, 24, 2),
 (31, 29, 2),
 (32, 30, 1),
 (33, 31, 2),
@@ -1195,7 +1192,6 @@ INSERT INTO `modules_levels` (`ID`, `module_ID`, `level_ID`) VALUES
 (125, 111, 3),
 (127, 113, 3),
 (128, 114, 3),
-(130, 116, 3),
 (131, 117, 3),
 (132, 118, 3),
 (133, 119, 3),
@@ -1301,7 +1297,10 @@ INSERT INTO `modules_levels` (`ID`, `module_ID`, `level_ID`) VALUES
 (235, 115, 3),
 (237, 195, 3),
 (238, 196, 3),
-(239, 197, 3);
+(239, 197, 3),
+(240, 22, 1),
+(241, 24, 2),
+(242, 116, 3);
 
 -- --------------------------------------------------------
 
@@ -1309,10 +1308,11 @@ INSERT INTO `modules_levels` (`ID`, `module_ID`, `level_ID`) VALUES
 -- Tabellenstruktur für Tabelle `moduletypes`
 --
 
-CREATE TABLE `moduletypes` (
-  `module_type_ID` int(100) NOT NULL,
-  `name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `moduletypes` (
+  `module_type_ID` int(100) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`module_type_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Daten für Tabelle `moduletypes`
@@ -1329,27 +1329,47 @@ INSERT INTO `moduletypes` (`module_type_ID`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `notes`
+--
+
+CREATE TABLE IF NOT EXISTS `notes` (
+  `name` varchar(100) COLLATE latin1_german2_ci NOT NULL,
+  `content` varchar(1000) COLLATE latin1_german2_ci NOT NULL,
+  `color` varchar(100) COLLATE latin1_german2_ci NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci;
+
+--
+-- Daten für Tabelle `notes`
+--
+
+INSERT INTO `notes` (`name`, `content`, `color`) VALUES
+('noteLeft', '<h4>Studienführer noch nicht mobil</h4>\n<p>Der Studienführer wurde als Desktop-Anwendung entwickelt, sodass bei mobiler Nutzung Design-Fehler auftreten können.<br><br>Die Anpassung an mobile Geräte ist geplant.<p>', 'blue'),
+('noteMiddle', '<h4>Bugs und Fehler</h4>\n<p>Bugs und Vorschläge für neue/erweiterte Funktionen über "Kontakt" in der Navigationsleiste loswerden.<br><br>\nInhaltiche Fehler selbst beheben (falls Admin-Rechte vorhanden), sonst auch über "Kontakt".<p>', 'white'),
+('noteRight', '<h3>Hochschulgruppen-Ranking</h3>\n<h4>Wer hat am fleißigsten bewertet?</h4>\n<a href="hsg_ranking.php" class="btn noRatingButton">Liste zeigen</a>', 'orange');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `questions`
 --
 
-CREATE TABLE `questions` (
-  `ID` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `questions` (
+  `ID` int(100) NOT NULL AUTO_INCREMENT,
   `subject_ID` int(100) NOT NULL,
   `user_ID` int(100) NOT NULL,
-  `question` varchar(5000) COLLATE utf8_unicode_ci NOT NULL,
-  `time_stamp` varchar(100) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `question` varchar(5000) COLLATE latin1_german2_ci NOT NULL,
+  `time_stamp` varchar(100) COLLATE latin1_german2_ci NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci AUTO_INCREMENT=19 ;
 
 --
 -- Daten für Tabelle `questions`
 --
 
 INSERT INTO `questions` (`ID`, `subject_ID`, `user_ID`, `question`, `time_stamp`) VALUES
-(1, 5, 2, 'Wie war das doch gleich?', '2018-02-03 03:56:02'),
-(2, 5, 3, 'Testfrage2', '2018-02-03 19:09:02'),
-(3, 5, 8, 'Testfrage3', '2018-02-03 19:11:05'),
-(6, 5, 2, 'Was ist da los?', '2018-02-04 00:02:24'),
-(9, 250, 2, 'Testi', '2018-02-04 11:04:40');
+(18, 514, 2, 'In der Übung wird mit SPSS gearbeitet. Ist das auch für die Prüfung relevant?', '2018-06-04 15:18:56'),
+(17, 120, 2, 'Wie sieht die Klausur aus, muss man eher theoretisch Folieninhalte wiedergeben oder diese in einem Case anwenden?', '2018-06-04 15:17:55');
 
 -- --------------------------------------------------------
 
@@ -1357,20 +1377,17 @@ INSERT INTO `questions` (`ID`, `subject_ID`, `user_ID`, `question`, `time_stamp`
 -- Tabellenstruktur für Tabelle `ratings`
 --
 
-CREATE TABLE `ratings` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `ratings` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `subject_ID` int(100) NOT NULL,
   `lecture0` int(100) NOT NULL,
   `lecture1` int(100) NOT NULL,
   `lecture2` int(100) NOT NULL,
-  `lecture3` int(100) NOT NULL,
   `examType` varchar(100) NOT NULL,
   `exam0` int(100) NOT NULL,
   `exam1` int(100) NOT NULL,
   `exam2` int(100) NOT NULL,
   `exam3` int(100) NOT NULL,
-  `exam4` int(100) NOT NULL,
-  `exam5` int(100) NOT NULL,
   `examText` varchar(2500) NOT NULL,
   `examSemester` varchar(100) NOT NULL,
   `general0` int(100) NOT NULL,
@@ -1379,21 +1396,258 @@ CREATE TABLE `ratings` (
   `comment_rating` int(100) NOT NULL,
   `user_ID` int(10) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
-  `time_stamp_change` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `time_stamp_change` varchar(100) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=273 ;
 
 --
 -- Daten für Tabelle `ratings`
 --
 
-INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `lecture3`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `exam4`, `exam5`, `examText`, `examSemester`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
-(1, 3, 1, 2, 3, 4, 'written', 1, 2, 3, 4, 5, 6, '', '', 7, 1, 'hey', 0, 3, '12345678', ''),
-(5, 197, 8, 4, 5, 8, 'written', 8, 7, 9, 5, 3, 5, '', '', 9, 1, 'Buch ist wichtig.', 1, 3, '2017-11-28 20:08:45', ''),
-(6, 12, 8, 3, 9, 7, 'written', 7, 3, 7, 0, 7, -6, '', '', 8, 1, 'Das ist ein Kommentar!', 0, 1, '2017-12-19 19:54:45', ''),
-(7, 5, 7, 9, 3, 10, 'written', 10, 7, 8, 6, -5, 9, '', '', 8, 1, 'Kommentar', 1, 1, '2018-01-08 18:00:24', ''),
-(8, 242, 5, 5, 7, 5, 'written', 5, 5, 10, 5, 0, 0, '', '', 6, 0, 'Test', 0, 1, '2018-01-12 12:09:26', ''),
-(12, 86, 8, 10, 2, 8, 'written', 5, 5, 5, 5, 0, 0, '', '', 5, 1, 'Interessante Veranstaltung, endlich habe ich das Gefühl, mich wirklich Ingenieur schimpfen zu dürfen.', 0, 1, '2018-01-24 22:54:53', ''),
-(15, 86, 5, 5, 5, 5, 'oral', 5, 5, 5, 5, 0, 0, '', 'ws15-16', 5, 0, 'dddd', 0, 2, '2018-02-02 21:58:12', '');
+INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `examText`, `examSemester`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
+(30, 118, 0, 1, -1, 'written', 1, 3, 0, 2, '', 'ws15-16', 8, 1, 'Vorlesung ist in Teilen interaktiv, manchmal auch etwas langatmig. Insgesamt wohl nice to have, sonst aber auch nicht schlimm.\nDer Bonus ist übertrieben viel Aufwand, allerdings lernt man dabei wenigstens was Brauchbares (war damals in Excel gestellt).', 0, 24, '2018-05-23 08:20:57', ''),
+(31, 140, -3, 0, -1, 'written', -2, 0, -1, 0, '', 'ss15', 6, 1, 'Wunderbar ohne Vorlesung zu machen, auch wenn die Folien lückenhaft sind. Am besten wohl mit Lernpartnern durchsprechen und die grundlegenden Frameworks verstehen, Geraden verschieben können etc. ', 0, 24, '2018-05-23 08:23:48', ''),
+(32, 206, -3, 0, 1, 'written', -2, 0, -2, 2, '', 'ss15', 7, 1, 'Super ohne Vorlesung machbar. Die Vorlesung selbst wird am Ende auf 60-80 Folien Zusammenfassung eingedampft, DIE sind wichtig.', 0, 24, '2018-05-23 08:27:52', ''),
+(33, 442, -2, 1, -1, 'written', 1, -2, 1, 3, '', 'ws17-18', 6, 1, 'Sehr viel Stoff, hoher Zeitdruck in der Klausur, aber sehr fair bewertet. Wird von verschiedenen Dozenten gehalten, Folien haben daher keine einheitliche Struktur.', 0, 23, '2018-05-23 18:30:09', ''),
+(34, 120, 1, 2, 3, 'written', -2, -1, -1, 3, '', 'ss17', 9, 1, '', 0, 23, '2018-05-23 18:35:37', '2018-05-23 18:35:37'),
+(35, 380, 1, 3, 1, 'written', -1, 1, 0, 2, '', 'ws17-18', 9, 1, 'Bester Dozent!', 0, 23, '2018-05-23 18:36:57', ''),
+(36, 433, -3, 0, 3, 'written', -2, 1, -1, 3, '', 'ss17', 8, 1, 'Kein Hexenwerk', 0, 23, '2018-05-23 18:38:01', ''),
+(37, 86, 2, 3, 3, 'written', -2, -1, 1, 3, '', 'ws15-16', 10, 1, 'Viel Aufwand, geht tief in die Materie, aber sehr interessant', 0, 23, '2018-05-23 18:39:24', ''),
+(38, 194, -2, 2, 3, 'written', 1, 0, 1, 3, '', 'ws17-18', 9, 1, 'Klausur fällt gerne mal etwas schlechter aus, was wohl an der sehr knappen Zeit liegt. Veranstaltung dennoch empfehlenswert, da das Thema interessant und vor allem praktisch für den Beruf ist!  Vorlesung wird aufgezeichnet.', 0, 2, '2018-05-23 22:03:40', '2018-05-23 22:04:10'),
+(39, 86, 3, 3, 2, 'oral', -3, -2, 1, 2, '', 'ws16-17', 10, 1, 'Veranstaltung super interessant! Vorlesung ist empfehlenswert, da man so das Skript besser versteht und nicht so viel googeln muss. Die Übungen waren sehr prüfungsrelevant!', 0, 2, '2018-05-23 22:07:28', ''),
+(40, 548, 1, 3, 1, 'written', 1, -1, -2, 3, '', 'ws17-18', 8, 1, 'Sehr motivierte Dozenten, viele Beispiele aus der Praxis, faire Klausur', 0, 23, '2018-05-24 08:36:58', ''),
+(41, 22, -3, -1, 2, 'written', -3, 2, 0, 2, '', 'ws13-14', 6, 1, 'Die Zeit in der Klausur ist sehr knapp', 0, 12, '2018-05-24 10:54:43', '2018-05-24 10:54:43'),
+(42, 52, -2, 1, 1, 'written', 1, -2, -1, 1, '', 'ws17-18', 7, 1, 'Insgesamt eine angenehme Möglichkeit das Info-Modul aufzufüllen.', 1, 3, '2018-05-25 13:48:15', ''),
+(43, 197, 1, 1, 1, 'written', 1, -2, 1, 3, '', 'ss16', 8, 1, 'Wer sich nicht durch Prog 1 &#34;durchquälen&#34; musste und halbwegs Spaß am Programmieren findet, der wird hier einen interessanten ersten Einblick in GUI und Programmsteuerung und -vernetzung erhalten.', 1, 3, '2018-05-25 13:51:28', ''),
+(44, 23, 2, 1, 0, 'written', 1, -1, -1, 1, '', 'ss17', 8, 1, '', 0, 31, '2018-05-25 15:16:43', '2018-05-25 15:16:43'),
+(45, 149, -1, 1, 2, 'written', -3, -2, 0, 1, '', 'ws17-18', 5, 0, 'In der Klausur wurden die Folien 1-zu-1 abgefragt. Es macht Sinn zusätzlich zu dem Titel und Inhalt der Folien auch den/die ErfinderIn der Konzepte zu lernen. ', 0, 31, '2018-05-25 15:21:08', ''),
+(46, 212, -1, 0, 2, 'written', -3, -2, 0, 0, '', 'ss17', 7, 1, 'In der Klausur werden die Folien 1-zu-1 abgefragt, das einzige wo man etwas nachdenken muss ist der spieltheoretische Teil (meist Aufgabe 3 der Klausur)', 0, 31, '2018-05-25 15:23:33', ''),
+(47, 154, 2, 1, -1, 'written', 0, -1, 0, 1, '', 'ws17-18', 7, 1, 'Die Veranstaltung war etwas unstrukturiert, aber trotzdem gut machbar.', 0, 31, '2018-05-25 15:25:21', ''),
+(48, 241, 1, 3, 1, 'written', 2, 1, 0, 2, '', 'ss17', 9, 1, 'Die Vorlesung bei Prof. Puppe war sehr interessant. Man kann die Prüfung auch ohne die VL gut schreiben, trotzdem empfehle ich euch sie zu besuchen.', 0, 31, '2018-05-25 15:28:02', ''),
+(49, 118, 1, 1, 0, 'written', 1, 0, 0, 2, '', 'ws17-18', 8, 1, 'Anders als bei der Bewertung vor mir gab es bei uns keinen Bonus in Excel, es gab nur Extrapunkte in der Klausur für ordentliches schreiben, da war die Korrektur sehr streng, ansonsten war es eine faire Klausur.', 0, 31, '2018-05-25 15:31:58', ''),
+(50, 116, 1, 1, 0, 'written', 1, 1, 0, 1, '', 'ss17', 8, 1, 'Die Konzepte aus den Übungen sollte man gut verstanden haben, in der Klausur sind die Aufgaben teilweise etwas anders gewesen. Der Bonus in der Klausur für ordentliches Schreiben war sehr schwer zu erreichen.', 0, 31, '2018-05-25 15:33:55', ''),
+(51, 105, -1, 1, 1, 'written', -1, 0, -1, 1, '', 'ss17', 7, 1, 'Der Bonus ist sehr zeitaufwendig und wird auch recht streng korrigiert. Sonst war das Fach gut machbar.', 0, 31, '2018-05-25 15:37:13', ''),
+(52, 30, 1, 1, 2, 'written', 0, 2, 0, 2, '', 'ss17', 8, 1, 'Sehr interessantes Fach und absolute Grundlage für viele andere VWL-Fächer. Ich habe die VL bei Prof. Reiß besucht.', 0, 31, '2018-05-25 15:40:01', ''),
+(53, 96, 2, 1, 2, 'written', 1, 2, 0, 3, '', 'ws16-17', 10, 1, 'Es gab in keinem anderen Fach so viel Lernmaterial wie in Info II. Es sind zwar viele Konzepte, wenn man sich jedoch für die Bonusklausur schon gut vorbereitet ist es bei der Hauptklausur gar nicht mehr so aufwendig.', 0, 31, '2018-05-25 15:42:04', ''),
+(54, 167, -2, 0, 0, 'written', 2, 3, 1, 1, '', 'ws17-18', 5, 1, 'Hier stellt sich die Frage ob die Veranstaltung empfehlenswert ist nicht, man muss halt durch. Auch wenn Mathe III mittlerweile als absolutes Angstfach gilt: wenn man sich hinsetzt und die Aufgaben einige Male durchrechnet ist es trotzdem machbar. Viel Erfolg!', 0, 31, '2018-05-25 15:45:13', ''),
+(55, 197, 2, 0, 2, 'written', 0, -1, 0, 1, '', 'ss16', 9, 1, 'Die Veranstaltung ist wirklich sinnvoll um über die Basics aus Prog 1 hinauszukommen. Es ist zwar nicht unbedingt einfach eine gute Note zu bekommen, es lohnt sich aber die Java-Kenntnisse zu vertiefen.', 0, 31, '2018-05-25 15:47:57', ''),
+(56, 195, 1, -1, 1, 'written', 0, 1, 0, 0, '', 'ws15-16', 8, 1, 'Wenn ihr etwas Spaß am programmieren habt sollte euch die Veranstaltung auch Spaß machen.', 0, 31, '2018-05-25 15:49:52', ''),
+(57, 242, 2, 3, 1, 'written', -1, 1, 0, 1, '', 'ws15-16', 8, 1, 'Ich habe die VL bei Prof. Puppe gehört und sie war sehr interessant und empfehlenswert. Einige Kommilitonen von mir haben die Klausur jedoch auch ohne die VL gut bestanden.', 0, 31, '2018-05-25 15:51:44', ''),
+(58, 154, 2, -1, -1, 'written', -2, -1, 1, -1, '', 'ws17-18', 7, 1, 'In diesem Semester hat die Vorlesung das erste Mal stattgefunden. Aus diesem Grund gab es einige organisatorische Unstimmigkeiten. Das wird in Zukunft denke ich auf jeden Fall besser!', 0, 32, '2018-05-25 18:44:54', ''),
+(59, 56, 1, -1, -1, 'written', -2, -1, 1, 2, '', 'ss17', 8, 1, 'Für die Vorlesung waren in diesem Semester Abgabeblätter und eine Praxisübung als Klausurzulassung vorgesehen.', 0, 32, '2018-05-25 18:48:19', ''),
+(60, 5, -3, 1, 3, 'written', -3, -2, 0, 2, '', 'ws13-14', 4, 1, '', 0, 12, '2018-05-27 15:56:01', '2018-05-27 15:56:01'),
+(61, 40, -2, 0, -1, 'written', -1, 2, -1, 0, '', 'ss17', 6, 1, 'Muss halt. Viele AK rechnen, dann ist es gar kein Problem...', 0, 3, '2018-05-27 17:36:52', ''),
+(62, 156, -3, -1, 3, 'written', -3, 2, -1, 3, '', 'ss18', 10, 1, '-Lernaufwand für eine 1,xx ca. 7 Tage (8h pro Tag)\n-70 % der Klausur besteht aus Rechnungen die identisch mit den Aufgaben aus den Übungen sind. (In der Klausur war auch eine Aufgabe zum Thema Anleihen relevant, steht nur in den Vorlesungsfolien)\n-30% ist die Theorie auswendig lernen.', 0, 27, '2018-05-27 21:38:44', ''),
+(63, 27, -3, 1, 3, 'written', -3, 1, 0, 2, '', 'ws17-18', 9, 1, 'In der Prüfung ist man ziemlich unter Zeitdruck. Man sollte stichwortartig antworten, damit man alle Aufgaben gut bearbeiten kann.', 0, 27, '2018-05-27 21:45:18', '2018-05-27 21:45:18'),
+(64, 96, 1, 2, 3, 'written', 2, -1, 2, 3, '', 'ws17-18', 9, 1, 'Was mir für die Prüfungsvorbereitung geholfen hat war, dass ich immer aufmerksam in den Tutorien mitgearbeitet habe und mich schon für die Bonusklausur sehr gut vorbereitet habe. Auch die Übungsbücher die angeboten werden sind gold wert. Sie vermitteln Verständnis und geben einfach nochmal Übung in die verschiedenen Aufgabenbereichen (die man auch für die Klausur braucht)', 0, 27, '2018-05-27 21:53:29', ''),
+(65, 195, -1, 3, 3, 'written', 2, -2, 1, 2, '', 'ws16-17', 10, 1, 'Setzt euch früh genug mit dem Stoff auseinander. Programmieren kann man sich nicht allzu gut kurz vor knapp reinziehen (Programmieren lernt man nicht in einer Nacht). Wendet am besten auch schon unter dem Semester 2-3 Stunden die Woche auf um die Rechnerpraktika gut zu verstehen.', 2, 27, '2018-05-27 22:01:28', ''),
+(66, 336, 2, 2, 3, 'written', -3, -3, 0, 2, '', 'ws17-18', 9, 1, 'Blockveranstaltung in der Vorlesung und Übung abgewechselt werden. Das Tempo der Vorlesung könnte zwar an der ein oder anderen Stelle erhöht werden, aber grundsätzlich interessante Vorlesung und gute Vorbereitung für die Klausur. ', 0, 34, '2018-05-27 22:15:14', ''),
+(67, 514, 3, 3, 1, 'written', 2, -2, 1, 1, '', 'ws17-18', 8, 1, 'Prüfung setzt stark auf Verständnis und Transfer. Die Übungen sind hilfreich um sich den Vorlesuungsstoff zu veranschaulichen. ', 0, 34, '2018-05-27 22:19:23', '2018-05-27 22:19:23'),
+(68, 194, 3, 1, 1, 'written', 1, -1, 0, 1, '', 'ws17-18', 9, 1, 'Sehr interessante Vorlesung, da Thema relevant für jeden Wiwi. Klausur fällt jedoch tendentiell eher schlecht aus. ', 0, 34, '2018-05-27 22:22:25', ''),
+(69, 104, -2, 1, 3, 'written', -2, 0, 1, 2, '', 'ss17', 9, 1, 'Sehr interessante Vorlesung für alle, die sich in Bereichen der Produktion vertiefen möchten. Vorlesung deckt großes Spektrum ab. Für die Prüfungsvorbereitung ist relativ viel Zeit nötig, da die Vorlesung einen großen Umfang hat. Dafür ist die Klausur absolut fair. - Vorlesung wurde im SoSe18 neu konzipiert. ', 0, 34, '2018-05-27 22:26:50', '2018-05-27 22:27:38'),
+(70, 480, -1, -1, 3, 'written', -3, -3, 0, 3, '', 'ws17-18', 8, 1, 'In den Übungen kann verschiedene CAD- und PDM-Software ausprobiert werden. Für die Klausur gibt es einen Fragenkatalog, der zur Klausurvorbereitung völlig ausreicht. Seit WiSe 17/18 ist die Prüfung schriftlich. ', 0, 34, '2018-05-27 22:34:04', '2018-05-27 22:34:29'),
+(71, 548, 2, 3, 3, 'written', 0, -1, 0, 3, '', 'ws17-18', 8, 1, '', 0, 34, '2018-05-27 22:37:47', '2018-05-27 22:37:47'),
+(72, 424, 3, 3, 0, 'other', 0, 0, 0, 0, 'Seminararbeit als Teil des Innovationsmanagement-Modul. Zwischenpräsentation und Schriftliche Ausarbeitung am Ende des Semesters. ', 'ss17', 7, 1, 'Anrechnung als Seminar oder als Modulleistung möglich. Dozent lässt Themenwahl relativ frei. ', 0, 34, '2018-05-27 22:42:45', ''),
+(73, 197, -1, 1, 2, 'written', 1, -2, 1, 3, '', 'ss17', 9, 1, 'Wenn man etwas programmier-affin ist, kann man auch ganz gut ohne Vorlesung auskommen. Der Besuch von Tutorium und Rechnerpraktikum ist aber definitiv empfehlenswert, vor allem das Nachbereiten der Programmieraufgaben, die tatsächlich sogar Spaß machen können.\nDie Veranstaltung ist eigentlich für empfehlenswert, die sich mit Prog1 anfreunden konnten und diese Kenntnisse vertiefen wollen. Man sollte sich aber unter dem Semester mit den Rechnerpraktikas beschäftigen, dann fällt einem die Klausur deutlich einfacher.', 0, 35, '2018-05-28 15:33:09', ''),
+(74, 234, 2, 2, -2, 'written', -2, -2, -2, 1, '', 'ws17-18', 7, 1, 'Vorlesung ist etwas unstrukturiert und durcheinander, mal gibt es VL-Folien, mal ein Skript - alles also ein bisschen wild. Ansonsten ist die Thematik super interessant und in der Vorlesung gibt es einige Beispiele für die Theorie. Die Klausur ist super fair und mit einem echt angemessenen Aufwand sehr gut zu meistern.', 0, 35, '2018-05-28 15:37:32', ''),
+(75, 195, 1, 1, 3, 'written', 1, 1, 1, 2, '', 'ws13-14', 9, 1, 'Immer fleißig ins Rechnerpraktikukmgehen', 0, 12, '2018-05-28 15:59:02', '2018-05-28 15:59:02'),
+(76, 121, 3, 3, 1, 'written', -2, -3, -1, 2, '', 'ss17', 9, 1, 'Vorlesung sehr interaktiv - Professor stellt Fragen, es werden kleine Gruppenarbeiten gemacht etc. ', 0, 21, '2018-05-29 12:46:23', '2018-05-29 12:46:23'),
+(77, 91, 1, 3, 2, 'oral', -2, -3, -1, 3, '', 'ss15', 10, 1, 'Prof. Breseke ist ein sehr, sehr kompetenter und auf seinem Gebiet rennomierter Professor. Die Vorlesung ist informativ und durch viele teils aktuelle Praxisbeispiele super interessant. Es macht wirklich Spaß ihm zuzuhören. Man merkt, dass er gerne lehrt.', 0, 20, '2018-05-29 12:47:45', ''),
+(78, 161, -3, -3, 0, 'written', -1, 3, 1, 1, '', 'ws13-14', 4, 0, ' ', 0, 21, '2018-05-29 12:49:03', ''),
+(79, 170, 2, 3, 3, 'oral', -2, -3, -1, 3, '', 'ss16', 10, 1, 'Kompetener, freundlicher und vorallem humaner Prof. Thema ist sowieso interessant. Die Prüfung ist locker. Bitte nicht von den phys. Formeln abschrecken, die ab und zu in der Folien bzw der Veranstaltung auftauchen. Diese sind (Stand SS16) für WIngs nicht relevant und müssen daher theoretisch nicht hergeleitet werden können. Wer´s kann und es in der Prüfung zum Ausdruck bringt, hinterlässt natürlich einen super Eindruck, der sich evtl. auch positiv auf die Prüfungsleistung auswirkt, da zusatzleistung, die über den eigentlich erwarteten Lernstoff geht.', 0, 20, '2018-05-29 12:51:42', ''),
+(80, 149, 1, 2, -1, 'written', -2, -3, 1, -1, '', 'ws16-17', 4, 0, ' ', 0, 21, '2018-05-29 12:51:48', ''),
+(81, 178, -1, 2, 1, 'written', -2, -3, 2, 0, '', 'ss16', 4, 0, 'Die Klausur dauerte nur eine halbe Stunde, und es wurrden zwei Konzepte abgefragt. Man muss alle Folien perfekt auswendig lernen, da es bei der Punktzahl von 30 keinen Platz für Unwissen gibt. ', 0, 21, '2018-05-29 12:54:04', ''),
+(82, 212, 2, 2, 1, 'written', -2, -2, 2, 1, '', 'ss17', 5, 0, ' ', 0, 21, '2018-05-29 12:55:45', ''),
+(83, 50, -3, -2, -2, 'written', -2, 0, 0, 3, '', 'ss16', 8, 1, 'Die Vorlesung orientiert sich am Buch &#34;Wirtschaftspolitik&#34; von Rainer Klump. Dieses ist sehr gut geschrieben und es macht bei Neigung zum Themengebiet Spaß, es durchzuarbeiten. Die Übung der VL bereitet sehr gut auf die Klausur vor. ', 0, 21, '2018-05-29 12:58:39', ''),
+(84, 208, -3, -1, 3, 'written', -2, 3, 0, 1, '', 'ws16-17', 6, 1, 'Die Klausur ist ein Sprintwettbewerb, wo es darum geht, viele Algorithmen korrekt und im höchstmöglichen Tempo zu rechnen. ', 0, 21, '2018-05-29 13:00:48', ''),
+(85, 199, 1, 1, 1, 'written', -1, 0, 1, 2, '', 'ws14-15', 8, 1, 'Sehr spannende Themen, die Klausur bestand im WS14/15 aus 50% Anwendung (Man sollte aus einer gegebenen Geschichte Petrinetze, Flussdiagramme, Prozessketten etc. erstellen) und aus 50% Auswendiglernen. ', 0, 21, '2018-05-29 13:03:13', ''),
+(86, 375, 0, 0, 0, 'written', 0, 0, 0, 1, '', 'ws17-18', 7, 1, ' ', 0, 21, '2018-05-29 13:03:58', '2018-05-29 13:03:58'),
+(87, 157, 2, 1, 1, 'written', -2, -3, -2, 1, '', 'ss16', 8, 1, 'Spannende Blockveranstaltung - Dozent teilt mit, welche Folien prüfungsrelevant sind.', 0, 21, '2018-05-29 13:05:25', ''),
+(88, 104, -2, 1, 2, 'written', -2, -1, 0, 2, '', 'ss17', 8, 1, 'Sehr umfangreich - die Lernvorbereitung sollte optimalerweise über 4-5 Wochen mit ca. 2 Stunden Lernen pro Tag erfolgen. So setzt sich der Stoff am besten ins Langzeitgedächtnis ab. Kurzfristige Lernstrategien sind für IPP nicht zu empfehlen.', 0, 21, '2018-05-29 13:09:08', ''),
+(89, 466, 3, 1, 1, 'other', 0, 0, 0, 0, 'Seminar mit zwei Zwischen- und einer Abschlusspräsentation. Gruppenarbeit in Fünferteams. ', 'ws17-18', 8, 1, 'Sehr arbeitsintensiv, jedoch ist die Benotung mehr als fair. ', 0, 21, '2018-05-29 13:11:42', ''),
+(90, 227, -2, 0, 1, 'written', -2, -1, 3, 1, '', 'ws13-14', 6, 1, ' ', 0, 21, '2018-05-29 13:12:46', '2018-05-29 13:12:46'),
+(91, 140, -1, 0, -3, 'written', 0, -1, 0, -1, '', 'ws16-17', 3, 0, 'Vorbereitung ohne Vorlesungsbesuch war nicht ganz so einfach, Übungs- und Vorlesungsfolien sehr lückenhaft und teilweise schwer zu verstehen. Klausur ist im &#34;Essay-Stil&#34;, das heißt es werden Fließtexte und Argumentationen vorausgesetzt. ', 0, 21, '2018-05-29 13:15:26', ''),
+(92, 366, 2, 1, 1, 'written', -2, -3, -1, 0, '', 'ws16-17', 8, 1, ' ', 0, 21, '2018-05-29 13:20:38', ''),
+(93, 7, 1, 3, -2, 'written', 1, -3, 0, -1, '', 'ws16-17', 8, 1, 'Sehr interessant. Es werden viele wissenschaftliche Experimente besprochen, aber man muss dementsprechend auch viele paper durchlesen.', 0, 9, '2018-05-29 17:40:52', '2018-05-29 17:44:37'),
+(94, 408, 0, 0, 0, 'other', 0, 0, 0, 0, 'Workshop mit Zwischen- und Endpräsentation. ', 'ws17-18', 8, 1, 'Am Anfang werden die verschiedene Programme (Siemens NX, Teamcenter, CAM und Digitale Fabrik) vorgestellt (sehr schnelles Tempo). Danach wird ein konkretes Projekt in der Gruppe bearbeitet. Man konstruiert eine Machine und druckt bzw. fräst einzelne Bauteile dafür. Zeitplan und Teamstrukturierung müssen in entsprechenden Programmen nachgeführt werden. \nMan hat viel Gestaltungsfreiraum und kann sehr praktisch arbeiten. Die Noten fallen tendenziell sehr gut aus. ', 0, 9, '2018-05-29 17:52:50', '2018-05-29 18:12:52'),
+(95, 276, -2, -3, 2, 'written', -2, 2, 0, 2, '', 'ws16-17', 4, 1, 'War damals Blockveranstaltung mit Prüfung im November, daher sehr angenehm außer der Klausurenphase.\nViel auswendig lernen, aber insgesamt sehr fair gestellte Klausur :)', 0, 36, '2018-05-29 20:55:16', ''),
+(96, 501, 0, 1, 1, 'written', -3, -2, 1, 0, '', 'ws16-17', 3, 0, 'Blockveranstaltung durch externen Dozenten von BMW gehalten.\nGegenüber anderen SCM- und Automotive-Vorlesungen nichts neues, nur halt mit BMW-Bezug.', 0, 36, '2018-05-29 20:59:08', ''),
+(97, 484, 2, 1, -2, 'oral', 0, -3, -1, -1, '', 'ss17', 7, 1, 'Vorlesung durch externe Dozenten von SAP gehalten.\nFolien sehr unstrukturiert und ohne Vorlesungsbesuch/Notizen schwer nachzuvollziehen.\nMündliche Prüfung sehr fair, insbesondere, wenn man nicht der Prüfling am Tag ist (ähnliche Fragen den gesamten Tag)', 0, 36, '2018-05-29 21:01:29', ''),
+(98, 433, -3, 0, 2, 'written', 1, 2, -1, 3, '', 'ss15', 7, 1, 'Übungsbesuch durchaus wichtig, da einige Verfahren/Algorithmen selber schwer nachzuvollziehen sind.\nTheorieanteil im Vergleich zu anderen IIP-Klausuren deutlich geringer.', 0, 36, '2018-05-29 21:05:35', ''),
+(99, 116, -2, -1, 2, 'written', 2, 2, 1, 2, '', 'ws16-17', 8, 1, 'Aufzeichnungen zu Vorlesungen vorhanden. Empfehlenswert, weil einzelne leichte Dinge lange durchgekaut werden und vorspulen sich empfiehlt.', 0, 36, '2018-05-29 21:09:15', ''),
+(100, 118, -1, 1, 2, 'written', 2, 2, 1, 2, '', 'ss16', 8, 1, 'Thematisch interessanter als MA I\nBearbeitung in umgekehrter Reihenfolge (2 --> 1) möglich.', 0, 36, '2018-05-29 21:12:08', ''),
+(101, 35, -3, -3, 3, 'written', -3, -3, -3, 3, '', 'ss16', 8, 1, 'Viele selbsterklärende, intuitive Themen. Folien sehr detailliert.\nIn der Klausur viele Fragen à la xx Vorteile von yy\nThema neuronaler Netze in Klausur und fast gar nicht auf Folien.', 0, 36, '2018-05-29 21:14:22', ''),
+(102, 536, -1, 1, 2, 'oral', 3, -3, 2, 0, '', 'ss15', 9, 1, 'Vorab-Anmeldung in den Semesterferien (März), es gibt nur 30 Plätze.\nBearbeitung einer Fallstudie in Dreier-Gruppen ersetzt Klausur.\n\nFallstudie:\n- Programmieren eines Simulationsmodells in AnyLogic (Java-basiert)\n- 12-15-seitige Ausarbeitung\n- Präsentation der Fallstudie und kurzes Q&A in mündlicher Prüfung\n\nVorlesungsbesuch insbesondere als Präsenz zum Zwecke der mündlichen Prüfung empfehlenswert (kleine Gruppe von max. 30 Leuten)', 0, 36, '2018-05-29 21:17:38', ''),
+(103, 355, 3, 2, 1, 'written', 2, -3, -1, 1, '', 'ss15', 7, 1, 'Software-Praktikum bestehend aus kurzem Vorlesungsteil und Bearbeiten einer Programmieraufgabe in Zweiergruppen. Im Laufe des Semester stellt jede Gruppe die Ergebnisse an einem der nächsten VL-Termine vor.\n\nNote zu 50% aus Abgabe der Übungen und 50% schriftliche Prüfung (sehr fair und leicht),', 0, 36, '2018-05-29 21:20:34', ''),
+(104, 208, -3, 0, 1, 'written', -2, 2, 0, 2, '', 'ss16', 6, 1, 'Guter Überblick über SCM-Themen.\nÜbungsbesuch zu empfehlen. Bei der Klausurvorbereitung auch mal einen Blick in die VL-Folien werfen.', 0, 36, '2018-05-29 21:22:41', ''),
+(105, 177, -1, 0, 1, 'written', -1, 0, 0, 2, '', 'ss15', 6, 0, 'Übungsblätterabgabe für 0,3er-Bonus\nzusätzlich Rechnerübung für weiteren 0,3er-Bonus', 0, 36, '2018-05-29 21:24:39', ''),
+(106, 108, 1, 1, -2, 'written', -1, -1, -1, 1, '', 'ws15-16', 7, 1, 'Altes Skript existiert in Dropboxen. Deutlich detaillierter als Folien (viele Lücken, die in VL gefüllt werden), aber auch nicht vollständig. VL dennoch nicht zwingend erforderlich.\n2-3 Übungen im Semester, die wichtig für Klausur sind.', 0, 36, '2018-05-29 21:27:34', ''),
+(107, 132, -1, 0, -1, 'written', 1, 2, 0, 1, '', 'ws13-14', 8, 1, 'Grundlegende Logistik-Vorlesung.\nVorlesungskonzept hat sich in den letzten Jahren stark und mehrfach geändert.\nBuch von Furmans parallel zur VL sehr hilfreich.', 0, 36, '2018-05-29 21:29:48', ''),
+(108, 357, 3, 3, 1, 'oral', 2, -2, 0, 3, '', 'ws15-16', 10, 1, 'Hate it or love it \nFür alle, die Logistiksystemen mal analytisch betrachten wollen.\nFokus und Vertiefung auf Warteschlangensysteme.\nMündliche Prüfung sehr sehr fair.\nVorlesung wird teilweise auf Englisch gehalten (ändert sich jedes Semester).', 0, 36, '2018-05-29 21:32:19', '2018-05-29 21:34:55'),
+(109, 187, -2, -2, 2, 'written', 1, 2, -2, 2, '', 'ss16', 6, 1, 'Absolut ohne VL-Besuch machbar.\nProduktions- und LOG-Bezug teilweise nicht wirklich gegeben --> gewisse Ähnlichkeiten zu Management Accounting (aber halt nur light)', 0, 36, '2018-05-29 21:36:37', ''),
+(110, 105, 0, 1, 2, 'written', -2, 1, -1, 1, '', 'ss15', 7, 1, 'Grundlagen-Veranstaltung.\nKlausur mit sehr vielen kleinen Wissensfragen (z.B. zwei Vor-/Nachteile, ...)\nBonus aufwendig, aber machbar.', 0, 36, '2018-05-29 21:40:10', ''),
+(111, 22, -3, -1, 2, 'written', 0, 2, -2, 3, '', 'ws14-15', 6, 0, 'Einfache Einführung in Finanzen und Rechnungswesen. Nichts Besonderes oder Gemeines. Materialien sind sehr gut (und interessant), die Vorlesung live dafür sehr langweilig.', 0, 17, '2018-05-29 22:07:49', ''),
+(112, 5, -2, 1, 2, 'written', -2, -1, -2, 2, '', 'ws14-15', 7, 1, 'Unternehmensführung-Teil ist eher langweilig (besonders für Leute mit Wirtschaft im Abitur). Informationswirtschaft-Teil der Vorlesung interessant und lohnt sich.', 0, 17, '2018-05-29 22:11:44', ''),
+(113, 27, -2, 2, 2, 'written', -3, -1, 0, 1, '', 'ss15', 7, 1, 'Einführung in Marketing gut, Produktionswirtschaftsteil nicht.', 0, 17, '2018-05-29 22:14:30', ''),
+(114, 44, 0, 0, 3, 'written', 0, 2, 0, 2, '', 'ss16', 8, 1, 'Der Name sagt es: Essentials! Sehr gute Übungs- und Vorlesungsmaterialien, VL aber oft mal langweilig. Für die Prüfung lohnt es sich in die Übung zu gehen. Allgemein ist die Übung deutlich relevanter und besser als die VL.', 0, 17, '2018-05-29 22:18:20', ''),
+(115, 115, 3, 2, 2, 'written', 0, 3, 2, 2, '', 'ss16', 9, 1, 'Sehr gute und interessante Vorlesung. Unbedingt in die Vorlesung gehen oder online anschauen, da Unterlagen als Lückentext ausgegeben werden. Hoher Aufwand. ', 0, 17, '2018-05-29 22:20:49', ''),
+(116, 19, 2, 1, 1, 'written', -1, 0, 0, 2, '', 'ss16', 8, 1, 'Gute Vorlesung, dafür aber oft unstrukturierte Übung. Vorlesung UND Übung sind klausurrelevant. Sehr umfangreiche Folien, von denen oft nicht alles wichtig ist.', 0, 17, '2018-05-29 22:23:43', ''),
+(117, 159, 2, 0, 0, 'written', 1, 1, -1, 0, '', 'ss16', 7, 1, 'An sich eine interessante Vorlesung, als Blockveranstaltung mit 4h Blöcken jedoch anstrengend. Relativ geringer Aufwand.', 0, 17, '2018-05-29 22:26:19', ''),
+(118, 7, 3, 3, -2, 'written', 1, -2, 0, 0, '', 'ws16-17', 9, 1, 'Sehr spannende und unterhaltsame Vorlesung. Unterlagen sind kaum vorhanden, daher sollte man anwesend sein. Das wichtigste ist, dass man alle relevanten Paper liest und versteht.', 0, 17, '2018-05-29 22:29:08', ''),
+(119, 30, 1, 2, 2, 'written', 0, 2, -3, 3, '', 'ws17-18', 8, 1, 'Wer in VWL 1 gut aufgepasst hat, für den sollte Spieltheorie ziemlich einfach sein. Dennoch sehr interessanter Kurs, aber nicht besonders herausfordernd.', 0, 17, '2018-05-29 22:32:08', ''),
+(120, 238, -1, 1, 3, 'written', 0, 0, 0, 2, '', 'ws16-17', 7, 1, 'Sehr interessantes Thema und sehr gute (hauptsächlich prüfungsrelevante) Übung. ', 0, 17, '2018-05-29 22:35:59', ''),
+(122, 197, 0, 1, 3, 'written', 1, 2, 1, 2, '', 'ss15', 7, 1, 'Die wöchentlichen Abgaben sind manchmal nervig. Vorlesungstermin 8:00 sorgt dafür, dass ich keinerlei Aussage über die VL treffen kann, Thema jedoch interessant. In der Klausur muss man manchmal knobeln, man sollte sich nicht zu lange mit einem Problem beschäftigen.', 0, 17, '2018-05-29 22:40:49', ''),
+(123, 98, 1, -1, 1, 'written', -2, -1, -2, 1, '', 'ss13', 6, 1, 'Durchaus interessante Thematik. Ggü. anderen LOG-Vorlesungen nicht viel Neues, daher gut machbar.\nIn der Klausur viele Fragen mit wenig Punkten à la 2 Vor-/Nachteile', 0, 36, '2018-05-29 23:34:42', ''),
+(124, 136, -1, -1, 1, 'written', 2, 1, 3, 1, '', 'ss13', 4, 0, 'Gefühlt wie eine Fortführung des Mathe-Grundprogramms. \nZulassung und Bonus über Abgabe von Übungsblättern.', 0, 36, '2018-05-29 23:36:29', ''),
+(125, 197, 1, 2, 2, 'written', 2, -2, 2, 2, '', 'ss12', 8, 1, 'Für Prog-Interessierte eine sinnvolle Ergänzung zu Prog 1. Am besten direkt im Anschluss im 2. Semester.', 0, 36, '2018-05-29 23:39:24', ''),
+(126, 195, 1, 0, 2, 'written', 1, -2, 0, 3, '', 'ws14-15', 9, 1, 'Der Übungsbetrieb ist wirklich klasse, davon sollte man gut Gebrauch machen. Das zur Veranstaltung gehörende Buch ist sehr, sehr gut. Damit kann man super lernen', 0, 3, '2018-05-30 13:59:06', ''),
+(127, 242, 2, -1, 0, 'written', 1, 1, 1, 1, '', 'ws14-15', 7, 1, 'Immer gut mit dem Buch lernen. Auf keinen Fall die Veranstaltung unterschätzen und früh ran setzen. Die Prüfung ist Pflicht Pflicht Pflicht. ', 0, 3, '2018-05-30 14:01:08', ''),
+(128, 22, -3, -1, 3, 'written', -3, 3, 0, 3, '', 'ws12-13', 9, 1, 'Interessante Grundlagen, die in der Prüfung unter großem Zeitdruck abgefragt werden.', 0, 2, '2018-05-31 12:10:23', ''),
+(129, 5, 1, 2, 1, 'written', -2, -2, 0, 2, '', 'ws12-13', 8, 0, 'Teilweise interessante Inhalte, die im Verlauf des Studiums immer wieder aufkommen.', 0, 2, '2018-05-31 12:13:00', '2018-05-31 12:13:00'),
+(130, 195, 1, 2, 3, 'written', -1, -1, 1, 2, '', 'ws12-13', 10, 1, 'Sehr gute Einführung ins Programmieren, auch für Neulinge. Das begleitende Buch war unerlässlich! Unbedingt während des Semesters dranbleiben, um den Anschluss nicht zu verlieren.', 0, 2, '2018-05-31 12:16:07', ''),
+(131, 242, 2, 2, 3, 'written', -2, -1, 0, 2, '', 'ws12-13', 8, 1, 'Tutorien waren wichtig, um die Inhalte zu verstehen.', 0, 2, '2018-05-31 12:17:58', '2018-05-31 12:18:11'),
+(132, 227, -2, 1, 1, 'written', -1, 1, 0, 2, '', 'ws12-13', 8, 1, 'Empfehlenswerte Grundlagen', 0, 2, '2018-05-31 12:19:38', ''),
+(133, 149, 1, 2, 3, 'written', -3, -2, 0, 1, '', 'ws15-16', 7, 1, 'Empfehlenswert für alle, die das Thema interessiert und gerne Folien auswendig lernen. Prof. Lindstädt plaudert gerne aus dem Nähkästchen und macht so den Vorlesungsbesuch empfehlenswert.', 0, 2, '2018-05-31 12:23:28', ''),
+(134, 178, -1, 2, 3, 'written', -3, -3, 0, 2, '', 'ss14', 8, 1, 'Empfehlenswert für alle, die das Thema interessiert und gerne Folien auswendig lernen. Prof. Lindstädt plaudert gerne aus dem Nähkästchen und macht so den Vorlesungsbesuch empfehlenswert.', 0, 2, '2018-05-31 12:24:35', ''),
+(135, 212, -1, 2, 3, 'written', -3, -3, 0, 2, '', 'ss15', 7, 1, 'Empfehlenswert für alle, die das Thema interessiert und gerne Folien auswendig lernen. Prof. Lindstädt plaudert gerne aus dem Nähkästchen und macht so den Vorlesungsbesuch empfehlenswert.', 0, 2, '2018-05-31 12:25:35', ''),
+(136, 30, 1, 3, 2, 'written', 0, 1, 0, 3, '', 'ss14', 9, 1, 'Spannende Konzepte; Klausur war sehr stark an die Übungen angelehnt und darum leicht zu meistern.', 0, 2, '2018-05-31 12:27:12', ''),
+(137, 52, -1, 0, 1, 'written', -1, 2, 0, 2, '', 'ws15-16', 8, 1, 'Wer nicht so Informatik-affin ist, ist hiermit sicherlich ganz gut beraten.', 0, 2, '2018-05-31 12:29:06', ''),
+(138, 197, 1, 2, 2, 'written', 1, 0, 2, 2, '', 'ws12-13', 9, 1, 'Empfehlenswerte Fortsetzung von Prog I, wenn man damit gut klargekommen ist. Am Anfang nicht abschrecken lassen, da wird wohl ein schwierigeres Thema behandelt, um ein bisschen auszusieben.', 0, 2, '2018-05-31 12:31:40', ''),
+(139, 192, 3, 3, 1, 'written', 1, -2, 1, 0, '', 'ws15-16', 8, 1, 'Interessant für alle, die gerne ein bisschen Programmieren (man braucht kein wirkliches Vorwissen, aber man tut sich sicher leichter, wenn man Code schreiben nicht verabscheut; es reicht schon, wenn man Prog I mochte oder gerne mal so etwas wie VBA ausprobiert).\n\nMan muss während des Semesters etwas mehr Zeit einplanen, um dranzubleiben und auch die Abgaben anzufertigen.\n\nDas größte Problem bei dieser Veranstaltung ist, dass die verwendete Programmiersprache anscheinend von nicht so vielen anderen verwendet wird und somit die Recherche bei Fehlern im Internet quasi nie zu Ergebnissen führt.\n\nAnsonsten ist der Kurs teilnehmerbeschränkt, sodass man sich frühzeitig anmelden sollte.', 0, 2, '2018-05-31 12:38:49', ''),
+(140, 205, 1, 2, 2, 'written', -2, 2, 0, 2, '', 'ss14', 8, 1, 'Interessante Algorithmen, die man so in der Klausur anwenden musste.', 0, 2, '2018-05-31 12:40:28', ''),
+(141, 48, 2, 2, 0, 'written', 3, 2, 1, 1, '', 'ws14-15', 9, 1, 'TM II ist deutlich kniffliger als TM I, hat zumindest mir jedoch viel Spaß gemacht. Ich würde sagen, die Konzepte sind für den Durchschnittswiwi etwas schwerer zu erfassen, sodass sich Vorlesungsbesuch und Übung sehr empfehlen. Zum Lernen auf die Klausur ist es sehr hilfreich, sich zusammen zu tun, um alles schneller zu verstehen und nicht an Kleinigkeiten hängenzubleiben. Die Klausur war insgesamt sehr fair - keine fiesen Sachen dabei, allerdings kann man die Aufgaben eben nur lösen, wenn man es verstanden hat. Mit Auswendiglernen kommt man hier nicht sehr weit.', 0, 2, '2018-05-31 14:23:13', ''),
+(142, 228, 0, 0, 1, 'oral', -1, -2, 0, 2, '', 'ss14', 8, 1, 'Knüpft nahtlos an Werkstoffkunde I an. Wem das gefallen hat, der mag auch diese Veranstaltung. Die Nachklausur war mündlich und ist deutlich besser ausgefallen. Ob die Nachklausur mündlich ist, hängt wohl von der Anzahl der Prüflinge ab.', 0, 2, '2018-05-31 14:25:56', ''),
+(143, 106, 1, 2, 2, 'written', -2, -1, 0, 2, '', 'ws15-16', 8, 1, 'Typische Marketing-Veranstaltung mit viel Auswendiglernen.', 0, 2, '2018-05-31 14:27:39', ''),
+(144, 33, 1, 2, 2, 'written', -2, 0, 0, 2, '', 'ws15-16', 8, 1, 'Typische Marketing-Veranstaltung.', 0, 2, '2018-05-31 14:29:09', ''),
+(145, 203, 1, 3, 1, 'other', 0, 0, 0, 0, 'Bearbeitung und Präsentation eines Papers. Aufwand gering.', 'ss15', 8, 1, 'Empfehlenswert, wenn man sich für Soziologie interessiert. Gibt die Möglichkeit, sich in ein Thema etwas tiefer reinzudenken.', 0, 2, '2018-05-31 14:34:34', ''),
+(146, 89, -2, 3, 3, 'written', -3, -1, 2, 3, '', 'ss15', 9, 1, 'Interessant, aber recht viel für 3 Credits', 0, 23, '2018-05-31 19:15:39', ''),
+(147, 123, -2, -2, 3, 'oral', -1, -3, -3, -3, '', 'ss17', 10, 1, 'Für einfache gute 3 credits', 0, 14, '2018-06-04 08:48:38', ''),
+(148, 54, 0, 1, 3, 'oral', -3, -3, 0, 1, '', 'ss14', 10, 1, 'Einfaches Fach für 3 gute credits', 0, 14, '2018-06-04 08:51:48', '2018-06-04 08:51:48'),
+(149, 106, 2, -1, -1, 'written', -1, -2, 0, 1, '', 'ss16', 8, 1, 'Wenn man Marketing mag, ists ganz nett', 0, 14, '2018-06-04 08:57:04', ''),
+(150, 122, 1, 2, -1, 'written', -1, -2, 0, 2, '', 'ss16', 8, 1, 'Typisch Klarmann', 0, 14, '2018-06-04 08:59:38', ''),
+(151, 5, -1, -1, 2, 'written', -3, -2, 0, 3, '', 'ws12-13', 7, 1, 'Grundlagenfach, wenig Tiefe, viel Breite', 0, 23, '2018-06-05 14:45:10', ''),
+(152, 27, -1, -1, 3, 'written', -3, 1, -1, 3, '', 'ss13', 8, 1, 'Machbare Grundlagenveranstaltung', 0, 23, '2018-06-05 14:46:16', ''),
+(153, 22, -3, -2, 3, 'written', -3, 2, -1, 1, '', 'ws12-13', 8, 1, 'Einfach alles auswendig lernen, Kennzahlenberechnung muss sitzen, dann ist die Klausur gut machbar', 0, 23, '2018-06-05 14:47:20', ''),
+(154, 156, -2, -1, 2, 'written', -3, 2, 0, 3, '', 'ws13-14', 7, 1, 'Kennzahlen runterrechnen und Folien wiedergeben', 0, 23, '2018-06-05 14:48:20', ''),
+(155, 242, 2, 3, 1, 'written', 1, 1, 1, 3, '', 'ws12-13', 9, 1, 'Sehr interessante und wichtige Grundlagen, allerdings relativ viel Stoff', 0, 23, '2018-06-05 14:49:22', ''),
+(156, 244, 2, 1, -3, 'written', 2, -2, -1, -2, '', 'ss13', 8, 1, 'Inhalt interessant, Folien sehr unstrukturiert, es gab bei uns aber eine sehr gute inoffizielle Zusammenfassung', 0, 23, '2018-06-05 14:50:25', ''),
+(157, 92, 1, 1, 2, 'written', 1, -2, 1, 2, '', 'ss14', 7, 1, 'Klassiche Grundlagenveranstaltung', 0, 23, '2018-06-05 14:51:49', ''),
+(158, 96, 1, 2, 3, 'written', 2, 1, 2, 1, '', 'ws13-14', 9, 1, 'Sehr viel Stoff, zusätzliche Übungsbücher waren klausurrelevant', 0, 23, '2018-06-05 14:53:01', ''),
+(159, 195, 1, 3, 3, 'written', -1, -3, 1, 3, '', 'ws12-13', 10, 1, 'Super für jeden, dem Programmieren Spaß macht', 0, 23, '2018-06-05 14:54:07', ''),
+(160, 555, -2, 1, 3, 'written', 1, 2, -1, 3, '', 'ws13-14', 9, 1, 'Klausur war viel Algorithmen runterrechnen, allerdings auch einige Beweise, für die die Theorie gut sitzen musste', 0, 23, '2018-06-05 14:55:12', ''),
+(161, 85, 1, 3, -1, 'written', -2, 2, -1, 2, '', 'ws13-14', 8, 1, 'Faire Prüfung, gute und entspannter Dozent', 0, 23, '2018-06-05 14:56:05', ''),
+(162, 40, -1, 3, 3, 'written', -2, 3, -1, 3, '', 'ws13-14', 9, 1, 'Klassiche Grundlagen, mit ausreichend Übung ist die Klausur sehr gut machbar', 0, 23, '2018-06-05 14:57:37', ''),
+(163, 227, -1, 1, 2, 'written', -2, -1, 1, 2, '', 'ws12-13', 9, 1, 'Super Dozent, interessante Grundlagen', 0, 23, '2018-06-05 14:58:29', ''),
+(164, 178, -1, 2, 3, 'written', -2, -1, 0, 2, '', 'ss14', 8, 1, 'Einige interessante Inhalte, Prüfung ging nur 30 Minuten, kann man gut machen', 0, 23, '2018-06-05 15:00:28', ''),
+(165, 212, 1, 3, 3, 'written', -3, -1, 0, 2, '', 'ss14', 8, 1, 'Klassisches BWL Fach mit ein paar interessanten Inhalten, insgesamt aber auf sehr hoher Flughöhe unterwegs', 0, 23, '2018-06-05 15:03:05', ''),
+(166, 71, 1, 2, 3, 'written', 1, 2, 1, 3, '', 'ss15', 8, 1, 'Recht Theorie- und rechenlastig, aber gut machbar, wenn man sich eindenkt', 0, 23, '2018-06-05 15:04:11', ''),
+(167, 105, -1, -1, 3, 'written', -1, 2, 0, 2, '', 'ws14-15', 9, 1, 'Es gab Gruppenarbeiten für Bonuspunkte', 0, 23, '2018-06-05 15:08:01', ''),
+(168, 208, -1, 1, 3, 'written', -2, 3, 1, 3, '', 'ws15-16', 10, 1, 'Mit ausreichend Übung ist die Klausur gut machbar', 0, 23, '2018-06-05 15:09:31', ''),
+(169, 205, -3, 1, 3, 'written', -3, 3, 1, 3, '', 'ss14', 9, 1, 'Viel Algorithmen rechnen, aber keine großen Überraschungen in der Klausur', 0, 23, '2018-06-05 15:10:37', ''),
+(170, 181, 1, -1, 2, 'written', -2, -1, 1, 2, '', 'ss14', 8, 1, 'Übungen waren sehr klausurrelevant. Es wurde auch neuer Stoff in den Übungen eingeführt', 0, 23, '2018-06-05 15:13:13', ''),
+(171, 197, -1, -2, 2, 'written', -2, -1, 1, 1, '', 'ss13', 8, 1, 'Wer Spaß am Programmieren hat, sollte ProKsy im Semester nach Prog 1 belegen', 0, 23, '2018-06-05 15:15:00', ''),
+(172, 180, -2, 2, 3, 'written', -3, -3, -1, 3, '', 'ws15-16', 10, 1, 'Viel Stoff, Absolute Auswendiglernklausur, aber interessanter Inhalt. Übungen sind nur sehr bedingt klausurrelevant', 0, 23, '2018-06-05 15:16:18', ''),
+(173, 408, 3, 0, 0, 'other', 0, 0, 0, 0, 'Semestergruppenprojekt mit Abschlusspräsentation. Es wird in CAD was konstruiert, ein Teil wird gefräst und alles parallel mit einem Workflow-Management Tool dokumentiert', 'ws15-16', 10, 1, 'Macht Spaß und man lernt, mit CAD-Programmen umzugehen', 0, 23, '2018-06-05 15:18:02', ''),
+(174, 314, 1, 2, 2, 'oral', -3, -3, 0, 2, '', 'ws15-16', 8, 1, 'Interessante Vorlesung mit Bezug auf die praktische Anwendung.', 0, 2, '2018-06-05 17:03:37', ''),
+(175, 111, 3, 0, 0, 'oral', 3, -3, 1, -1, '', 'ws15-16', 5, 0, 'Prüfung hatte nicht ganz so viel mit der Vorlesung zu tun. Während des Semesters müssen im Team Aufgaben bearbeitet werden; in jeder Vorlesung muss ein zufälliges Team präsentieren.\nInsgesamt relativ hoher Aufwand mit für mich mäßig spannenden Inhalten und damit nicht empfehlenswert.', 0, 2, '2018-06-05 17:06:20', ''),
+(176, 89, 1, 2, 1, 'written', -1, -2, 3, 1, '', 'ws17-18', 8, 1, 'Gute Weiterführung von Fahrzeugtechnik I, allerdings thematisch nicht ganz so gut. Vorlesung ist trotz der 3 Credits sehr umfangreich - in der Vorbereitung auf die Klausur nicht unterschätzen. Klausur selbst war zeitlich sehr knapp bemessen.', 0, 2, '2018-06-05 17:09:44', ''),
+(177, 196, 1, 1, 1, 'written', -1, -1, 0, 0, '', 'ws17-18', 6, 0, 'Thema war Industrie 4.0. In der Vorlesung wurden sehr viele Gebiete sehr oberflächlich angekratzt, was mir nicht so gefallen hat.', 0, 2, '2018-06-05 17:12:58', ''),
+(178, 514, -1, 0, 1, 'written', 3, -2, 0, -1, '', 'ss17', 8, 1, 'Inhaltilich sehr anpruchsvoll, aber interessant. Für die Klausur muss nichts auswenidig gelernt werden, der Stoff muss aber inhaltlich wirklich gut verstanden sein.', 0, 23, '2018-06-05 18:35:42', ''),
+(179, 332, 1, 3, 2, 'written', -2, -1, -1, 1, '', 'ss17', 10, 1, 'Recht aufwendige, semesterbegleitende Gruppenarbeit, mit der bis zu 6 Bonuspunkte geholt werden können (klausur hat 60 Punkte). Inhaltich interessant und mit vielen Praxisbeispielen. ', 0, 23, '2018-06-05 18:38:47', ''),
+(180, 456, 2, -2, 1, 'written', -1, -2, -1, -1, '', 'ws14-15', 4, 0, 'Prof ist die totale Schlaftablette. Er spricht extrem langsam und es fällt schwer, in der Vorlesung überhaupt aufmerksam zu bleiben. ', 0, 37, '2018-06-05 18:53:07', ''),
+(181, 314, -1, 3, 2, 'written', -2, -1, 0, 2, '', 'ws15-16', 9, 1, 'Spannende Vorlesung, Prof gibt sich viel Mühe sehr praxisnah zu sein', 0, 37, '2018-06-05 18:55:54', ''),
+(182, 433, -2, -1, 2, 'written', -2, 1, 0, 2, '', 'ws15-16', 8, 1, 'Mischung aus Rechnen und Auswendiglernen. Gute Vorbereitung mit ausreichend Zeit ist für die Klausur wichtig', 0, 37, '2018-06-05 18:58:28', '2018-06-05 18:58:28'),
+(183, 536, 3, 1, -1, 'other', 0, 0, 0, 0, 'Abgabe eines Simulations-Programms mit schriftlicher Ausarbeitung und Präsentation der Ergebnisse vor dem Prof (als Gruppenarbeit)', 'ss14', 8, 1, 'Spannende Abwechslung zu den immer gleichen Klausuren in anderen Fächern. Java-Grundkenntnisse für Simulation mit Anylogic erforderlich. Mit einem fähigen Team macht die Bearbeitung der Aufgabe Spaß. ', 0, 37, '2018-06-05 19:02:05', ''),
+(184, 177, -1, -1, 0, 'written', -1, 2, -1, 1, '', 'ss15', 4, 0, 'Sehr rechenlastig und insgesamt eher langweilig. ', 0, 37, '2018-06-05 19:04:11', ''),
+(185, 522, 1, 1, 1, 'written', 1, -3, -1, 1, '', 'ss14', 7, 1, 'Interessante Vorlesung, die einem die Denkweise der Juristen näher bringt. Wenn man das Schema für juristisches Schreiben (Gutachtenstil) einmal verinnerlicht hat, fallen einem die Übungsaufgaben und die Klausur relativ leicht.', 0, 37, '2018-06-05 19:07:07', ''),
+(186, 108, 1, 2, -1, 'written', -2, 1, -2, 2, '', 'ss14', 9, 1, 'Prof macht die Vorlesung relativ interessant. In den Folien gibt es ab und zu Lücken, die durch den VL-Besuch gefüllt werden. Irgendwo kursiert ein (inoffizielles) Skript, das eine gute Ergänzung zur Vorlesung darstellt. ', 0, 37, '2018-06-05 19:09:48', ''),
+(187, 158, -3, -1, 1, 'written', -1, 3, 1, -1, '', 'ws12-13', 6, 1, 'Ein unerwartet großer Unterschied zu Schulmathe. ', 0, 23, '2018-06-05 19:11:15', ''),
+(188, 100, 1, 3, -1, 'written', -3, -2, 0, 2, '', 'ss14', 9, 1, 'Vorlesung von Porsche-Mitarbeitern, dadurch sehr praxisnah mit einigen spannenden Geschichten aus dem Arbeitsleben einer Führungskraft. \nFür die Prüfung ist eigentlich nur Auswendiglernen erforderlich, dafür allerdings sehr genau an den Wortlaut der Folien halten. ', 0, 37, '2018-06-05 19:12:21', ''),
+(189, 161, -3, -1, 1, 'written', -3, 3, 1, 2, '', 'ws12-13', 7, 1, 'Muss man durch, nach der Semesterklausur weiß man, was einen erwartet', 0, 23, '2018-06-05 19:12:28', ''),
+(190, 190, 2, 1, 1, 'written', -2, -1, 0, 1, '', 'ws14-15', 7, 1, 'Prüfung ist zeitlich sehr knapp bemessen, man muss sich mit dem Schreiben extrem beeilen um rechtzeitig fertig zu werden. ', 0, 37, '2018-06-05 19:13:50', ''),
+(191, 163, -3, -2, 1, 'written', -3, 3, 0, 2, '', 'ss13', 7, 1, 'Inhalt wird im späteren Studium tatsächlich nochmal relevant. Einfach Tutorien und Altklausuren rauf und runter rechnen.', 0, 23, '2018-06-05 19:14:04', '2018-06-05 19:14:04'),
+(192, 132, 0, 1, 1, 'written', 0, 1, 0, 1, '', 'choose', 8, 1, 'Übungen sind hilfreich. Konzept von VL und Übung hat sich in den letzten Jahren ab und zu geändert. ', 0, 37, '2018-06-05 19:15:29', '2018-06-05 19:16:21'),
+(193, 199, 2, 0, 2, 'written', -2, -1, 0, 2, '', 'ws15-16', 7, 1, 'Ganz easy für die Programmierfaulen, hart auswendig lernen und eine paar Petri-Netze berechnen können. Aber nichts Unerwartetes!', 0, 24, '2018-06-05 19:16:50', ''),
+(194, 167, -3, -2, 1, 'written', -3, 3, 0, 2, '', 'ws13-14', 7, 1, 'Tutorien und Altklausuren rauf und runterrechnen, dann auf jeden Fall machbar', 0, 23, '2018-06-05 19:16:59', ''),
+(195, 113, -2, -1, 2, 'written', -2, 0, 0, 2, '', 'ss12', 7, 1, 'Prüfung hat einen hohen Auswendiglern-Anteil, kombiniert mit einigen Rechnungen. Insgesamt sehr faire Prüfung. ', 0, 37, '2018-06-05 19:19:07', ''),
+(196, 113, -2, -2, 2, 'written', -1, 2, -2, 2, '', 'ss13', 6, 1, 'Vorlesung unnötig, weil Unterlagen selbsterklärend.\nKlausur stark an Übungen orientiert.\nMeistens 1 Aufgabe auswendig lernen, Rest rechnen', 0, 36, '2018-06-05 19:19:45', ''),
+(197, 102, -2, -1, 2, 'written', -1, 0, 2, -1, '', 'ws12-13', 4, 0, 'Prüfung war für die wenigen ECTS relativ umfangreich und nicht ganz einfach. Inzwischen wurde am VL-Konzept allerdings auch ein bisschen was geändert. ', 0, 37, '2018-06-05 19:21:17', ''),
+(198, 186, -3, -2, 2, 'written', -3, -1, 1, -2, '', 'ws14-15', 3, 0, 'Thema nicht wirklich interessant.\nTeilweise Aufgaben in Klausur, die nichts mit VL-Stoff zu tun haben. \nAufwand für 3,5 Credits hoch (viel auswendig lernen)', 0, 36, '2018-06-05 19:22:02', ''),
+(199, 181, 0, 0, 2, 'written', -1, 0, -1, 2, '', 'ss16', 7, 1, 'Echt ganz interessant, praktisch Projektmanagement bei Software-Projekten. Rechnen nur bei Thema Testdaten, ist aber mit Übung alles gut machbar. Wieder Info für Programmierfaule.', 0, 24, '2018-06-05 19:22:36', ''),
+(200, 206, -1, -1, -1, 'written', -1, 1, 1, 1, '', 'choose', 6, 1, 'Für die Prüfung sollte man die Steuer-Rechnungen, die in der Vorlesung drankommen, gut können. An einem der letzten VL-Termine gibt es eine Zusammenfassung der für die Klausur relevanten Folien. Der Rest aus der Vorlesung ist praktisch egal. ', 0, 37, '2018-06-05 19:23:13', '2018-06-05 19:23:55'),
+(201, 208, -2, 0, 1, 'written', -1, 3, 0, 2, '', 'ws15-16', 5, 1, 'Kampfrechnen par excellence, Standortplanung rauf und runter. Standard-Vorlesung, obwohl sie danach wohl nochmal geändert wurde.', 0, 24, '2018-06-05 19:25:39', ''),
+(202, 197, 1, 1, 2, 'written', 0, 1, 1, 2, '', 'ss11', 7, 1, 'Am besten sollte man diese Vorlesung direkt im 2. Semester machen, wenn einem Prog1 im ersten Semster Spaß gemacht hat. VL baut direkt darauf auf und hat ein ähnliches Konzept (Tutorium mit Abgaben) wie Prog1. ', 0, 37, '2018-06-05 19:26:00', ''),
+(203, 157, -3, -2, -2, 'written', -3, -3, -2, -1, '', 'ss16', 3, 0, 'Bedingt weiterzuempfehlen, war vorher eigentlich immer mündlich, bei uns aber zu viele Leute dort. Reines Auswendiglernen, aber schlechte Unterlagen.', 0, 24, '2018-06-05 19:28:01', ''),
+(204, 208, -2, -1, 2, 'written', -2, 2, 0, 2, '', 'ss12', 7, 1, 'Für die Klausur: Üben, Üben, Üben. Man sollte alle Rechnungen aus der VL/Übung perfekt können. ', 0, 37, '2018-06-05 19:28:11', ''),
+(205, 205, -1, -1, 2, 'written', -2, 2, 0, 2, '', 'ss13', 7, 1, 'Für die Klausur: Üben, Üben, Üben. Man sollte alle Rechnungen aus der VL/Übung möglichst perfekt beherrschen. ', 0, 37, '2018-06-05 19:29:39', ''),
+(206, 180, -1, 1, 2, 'written', -3, -3, -2, 3, '', 'ws15-16', 7, 1, 'Perfekt für Schmalspur-Ingenieure. 1000e Folien werden am Ende auf 200 eingedampft, die man dann wirklich auswendig lernen muss! Vorlesung ist nur gut, wenn sie Prof. Ovtcharova selbst hält.', 0, 24, '2018-06-05 19:30:19', ''),
+(207, 86, 1, 2, 1, 'written', -2, 1, 1, 1, '', 'ss13', 7, 1, 'Sehr spannende Vorlesung, in der ich viel Neues gelernt habe. Die Prüfung besteht zu einem guten Teil aus Auswendig Lernen und es ist insgesamt relativ viel Stoff. ', 0, 37, '2018-06-05 19:31:35', ''),
+(208, 149, -3, 0, 1, 'written', -3, -2, -1, 1, '', 'ss15', 5, 1, 'Bedingt weiterzuempfehlen. Inhaltlich nicht uninteressant, aber hartes Auswendig Lernen.', 0, 24, '2018-06-05 19:32:23', ''),
+(209, 89, -1, 2, 1, 'written', -2, -1, 3, 1, '', 'ws13-14', 7, 1, 'Spannende Vorlesung, allerdings sehr hoher Lernaufwand für 3 ECTS. Gute Vorbereitung ist für die Klausur wichtig. ', 0, 37, '2018-06-05 19:33:13', ''),
+(210, 178, -3, 0, 2, 'written', -2, -1, -1, 1, '', 'ss15', 5, 1, 'Thematisch nicht uninteressant. Prüfung v.a. auswendig lernen und nicht gerade nett bewertet.', 0, 24, '2018-06-05 19:34:13', ''),
+(211, 19, 0, -1, 2, 'written', -2, -1, -1, 1, '', 'ss13', 8, 1, 'Faire Prüfung', 0, 37, '2018-06-05 19:34:55', ''),
+(212, 212, -2, 1, 2, 'written', -2, -1, 0, 1, '', 'ss16', 7, 1, 'Vorlesung ist richtig interessant, versch. Cases und Diskussionen. Prüfung v.a. auswendig lernen.', 0, 24, '2018-06-05 19:35:30', ''),
+(213, 101, -1, 1, 2, 'written', -2, -1, 1, 1, '', 'ws13-14', 8, 1, 'Spannende Einblicke in die Politik der Energiewirtschaft. Aufwand für 3,5 ECTS allerdings etwas hoch. ', 0, 37, '2018-06-05 19:36:36', ''),
+(214, 141, -1, 1, -2, 'written', 2, -3, 2, 2, '', 'ss13', 8, 1, 'ÖR1 und ÖR2 können in beliebiger Reihenfolge absolviert werden. Spannende Einblicke in die juristische Welt. Wenn man das Schema des Gutachten-Stils einmal verstanden hat, ist mit etwas Übung die Klausur gut machbar. ', 0, 37, '2018-06-05 19:39:14', ''),
+(215, 22, -1, -2, 2, 'written', -1, 2, -1, 0, '', 'ws13-14', 7, 1, 'Muss man ja sowieso hören. Der Prof. ist nicht so gut im Halten von Vorlesungen, die Klausur ist aber mit Übungen und co. super machbar!', 0, 24, '2018-06-05 19:39:49', ''),
+(216, 143, 1, 1, 0, 'written', 2, -3, 2, 2, '', 'ss12', 8, 1, 'ÖR1 und ÖR2 können in beliebiger Reihenfolge absolviert werden. Spannende Einblicke in die juristische Welt. Wenn man das Schema des Gutachten-Stils einmal verstanden hat, ist mit etwas Übung die Klausur gut machbar. ', 0, 37, '2018-06-05 19:40:14', ''),
+(217, 37, -2, -1, 2, 'written', 1, -3, 1, 2, '', 'ws12-13', 8, 1, 'Wenn man das Schema des Gutachten-Stils einmal verstanden hat, ist mit etwas Übung die Klausur gut machbar. Übungen zur VL sollte man auf jeden Fall besuchen, die VL braucht man nicht. ', 0, 37, '2018-06-05 19:41:51', ''),
+(218, 5, -2, -1, 2, 'written', -2, -1, -1, 1, '', 'ws13-14', 5, 1, 'Muss man ja sowieso hören, Rundumschlag und viel Reproduktion.', 0, 24, '2018-06-05 19:42:02', ''),
+(219, 555, -2, -1, 2, 'written', -1, 2, 0, 2, '', 'ws11-12', 8, 1, 'Für die Prüfung: Üben, Üben, Üben, Üben,... bis ihr die Aufgaben im Schlaf könnt', 0, 37, '2018-06-05 19:43:57', ''),
+(220, 27, -1, 2, 2, 'written', -2, 2, 0, 3, '', 'ss14', 7, 1, 'Marketing ist eine super Vorlesung, die Prüfung davon jedoch reine Reproduktion. Der zweite Teil scheint mehr ein Einschub zu sein, mit Tutorien alles super machbar!', 0, 24, '2018-06-05 19:44:35', ''),
+(221, 195, 1, 1, 2, 'written', 0, 1, 1, 2, '', 'ws10-11', 8, 1, 'Programmier-Aufgaben aus dem Tutorium selber machen, auch wenn es manchmal etwas Zeit kostet. Dadurch lernt man viel, z.T. auch Dinge, die man später an ganz anderen Stellen (z.B. in Praktika) gebrauchen kann.', 0, 37, '2018-06-05 19:46:13', ''),
+(222, 156, -2, -1, 0, 'written', 0, 2, 0, 1, '', 'ss15', 5, 0, 'Man muss es ja hören. Die Vorlesung ist nicht wirklich empfehlenswert. Mit Übung, Übung, Übung ist es gut machbar!', 0, 24, '2018-06-05 19:46:36', ''),
+(223, 555, -1, 0, 2, 'written', 0, 2, 1, -1, '', 'ws14-15', 3, 0, 'Mann muss es ja sowieso hören. Wir hatten damals einige recht unerwartete und unerwartet aufgeblähte Aufgaben in der Klausur. Viel viel rechnen üben, die erste Bewährungsprobe im Kampfrechnen.', 0, 24, '2018-06-05 19:49:54', ''),
+(224, 92, -1, -1, 2, 'written', -1, 1, -1, 3, '', 'ss12', 8, 1, 'Reihenfolge von Info1 und Info2 ist egal. Für die Prüfung sind Tutorium und die groben Zusammenhänge aus der VL wichtig. ', 0, 37, '2018-06-05 19:51:25', ''),
+(225, 85, -3, 0, 1, 'written', -1, 1, -1, 2, '', 'ws14-15', 7, 1, 'Übung war super, Vorlesung nicht nötig. Vor der Klausur vor allem das Gerechne üben, kaum Wissensfragen.', 0, 24, '2018-06-05 19:52:10', ''),
+(226, 96, -1, -1, 2, 'written', -1, 1, -1, 2, '', 'ws11-12', 8, 1, 'Reihenfolge von Info1 und Info2 ist egal. Für die Prüfung sind Tutorium und die groben Zusammenhänge aus der VL wichtig. ', 0, 37, '2018-06-05 19:52:24', ''),
+(227, 40, -3, 1, 1, 'written', -2, 2, -1, 2, '', 'ws14-15', 7, 1, 'Pflichtprogramm, wirklich sehr gut machbar. Kurze Vorbereitungszeit möglich.', 0, 24, '2018-06-05 19:53:35', ''),
+(228, 227, 1, 2, 1, 'written', -2, 1, -1, 2, '', 'ws13-14', 7, 1, 'Interessante Grundlagen-Vorlesung. Klausur mit etwas Übung davor gut machbar. Ist aber auch einiges auswendig zu lernen.', 0, 24, '2018-06-05 19:54:50', ''),
+(229, 242, 1, 2, -1, 'written', -2, 1, -1, 2, '', 'ws13-14', 8, 1, 'Wurde damals super gelesen, die Tutorien sind sehr relevant. Die Probe-Klausur war härter als die Hauptklausur, die war wirklich gut machbar!', 0, 24, '2018-06-05 19:57:08', '');
+INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `examType`, `exam0`, `exam1`, `exam2`, `exam3`, `examText`, `examSemester`, `general0`, `recommendation`, `comment`, `comment_rating`, `user_ID`, `time_stamp`, `time_stamp_change`) VALUES
+(230, 244, -1, 1, -1, 'written', -1, 0, -1, 2, '', 'ss14', 6, 1, 'War damals ein etwas &#34;schnoddriger&#34; Dozent, aber sehr unterhaltsam. Vorlesung ist nicht relevant für die Prüfung, aber interessant.', 0, 24, '2018-06-05 19:58:39', ''),
+(231, 211, -2, -2, -1, 'written', 0, 3, 1, -1, '', 'ss14', 3, 0, 'Ist seither stark geändert worden, daher ist die Bewertung schwierig vergleichbar. Damals wurde der Lehrstuhl nur in Vertretung geführt, daher eher Sparflamme.', 0, 24, '2018-06-05 20:00:32', ''),
+(232, 214, -2, -2, -1, 'written', 1, 3, 2, -2, '', 'ws14-15', 3, 0, 'Ist seither stark geändert worden, daher ist die Bewertung schwierig vergleichbar. Damals wurde der Lehrstuhl nur in Vertretung geführt, daher eher Sparflamme.', 0, 24, '2018-06-05 20:01:30', ''),
+(233, 453, 3, 2, 1, 'written', 3, 2, 3, 3, '', 'ss13', 9, 1, 'Sehr sehr rechenlastige Vorlesung.\nEs wird oft mit Ableitungen und zig Parametern hantiert, um am Ende eine makroökonomische Aussage zu treffen', 0, 36, '2018-06-05 20:03:15', ''),
+(234, 250, 3, 2, 2, 'oral', 2, -3, -3, 3, '', 'ws17-18', 9, 1, 'Unbedingte Empfehlung, wenn man Lust auf Fallstudien hat und häufig dazu Abgaben und Reports erstellen möchte. Richtig viel Aufwand im Semester, dafür war die Prüfungsvorbereitung viel entspannter. Richtig gute Anwendung von Accounting!\nÜberschaubare Gruppe (15-20 Leute).', 0, 24, '2018-06-05 20:03:50', ''),
+(235, 458, 3, 2, 1, 'written', 3, 2, 3, 2, '', 'ws12-13', 9, 1, 'Insgesamt verständlicher als Konjunkturtheorie, aber genauso rechenlastige.', 0, 36, '2018-06-05 20:04:52', ''),
+(236, 425, 2, -1, 0, 'written', -1, 2, -1, 1, '', 'ws17-18', 7, 1, 'Sehr interessanter Einstieg in das Thema Valuation. Die Vorlesung ist methodisch nicht besonders gut, die Saalübung ist aber hochgradig relevant und ganz interessant. Die Prüfung ist sehr fair!', 0, 24, '2018-06-05 20:05:58', ''),
+(237, 104, -1, 1, 2, 'written', -2, 1, 2, 2, '', 'ss13', 7, 1, 'Viel auswendig lernen.\nFragenkataloge existieren und bringen meist gute bis sehr gute Note', 0, 36, '2018-06-05 20:07:36', ''),
+(238, 26, -2, -1, 2, 'written', 1, -2, 1, 2, '', 'ss16', 4, 1, 'Grundlagen werden vorausgesetzt.\nEs existieren Aufzeichnungen', 0, 36, '2018-06-05 20:08:45', ''),
+(239, 314, -2, 1, 1, 'written', -2, -3, -1, 2, '', 'ws17-18', 5, 1, 'Rundumschlag in dem Thema, teilweise wirkten die behandelten Themen etwas willkürlich zusammengeworfen. Stark vorwiegend Reproduktion.', 0, 24, '2018-06-05 20:09:14', ''),
+(240, 182, -1, -1, 2, 'written', -2, -2, -1, 2, '', 'ss16', 5, 1, 'Stupidest auswendig lernen', 0, 36, '2018-06-05 20:09:46', ''),
+(241, 223, -2, 1, 2, 'written', -2, -1, -1, 2, '', 'ws15-16', 6, 1, 'Schwierigkeit der Klausur schwankt sehr stark. Insgesamt aber sehr machbar es Info-Fach', 0, 36, '2018-06-05 20:11:08', ''),
+(242, 529, -2, 3, 2, 'written', -3, -3, -1, 3, '', 'ss17', 7, 1, 'Interessant für das Thema, allerdings reine Reproduktion in der Klausur. Recht interaktive und unterhaltsame Vorlesung, Übungen sehr lohnend (Bonus sehr billig zu haben).', 0, 24, '2018-06-05 20:11:37', ''),
+(243, 504, 3, 2, 1, 'oral', 2, -1, 1, 2, '', 'ws14-15', 9, 1, 'Wird durch McKinsey-Consultant als Blockveranstaltung mit unmittelbar folgender mündlicher Prüfung gehalten.\nSehr faire Bewertung', 0, 36, '2018-06-05 20:12:35', ''),
+(244, 348, 2, 1, -1, 'written', -3, 1, -1, 1, '', 'ss17', 7, 1, 'Thematisch sehr interessant, Vorlesungsqualität stark variabel. Die Übung ist 1:1 die Klausur gewesen, also wirklich sehr fair. Der Stoff ist dafür davor schon etwas schwerer zugänglich, aber machbar!', 0, 24, '2018-06-05 20:14:06', ''),
+(245, 227, 1, 1, 2, 'written', 1, 2, -1, 2, '', 'ws11-12', 8, 1, 'Damals 3h-Klausur, dadurch überhaupt kein Zeitstress', 0, 36, '2018-06-05 20:14:32', ''),
+(246, 211, 2, 1, 0, 'written', -1, 3, 1, 1, '', 'ws12-13', 0, 1, 'Manchmal nicht ganz einfache Inhalte, aber letzlich nützlich für das weitere Studium! ', 0, 2, '2018-06-05 20:14:42', ''),
+(247, 40, -2, -1, 3, 'written', 1, 2, -1, 2, '', 'ss12', 8, 1, 'Ohne VL machbar.\nAlte Aufzeichnungen existieren.\nMenge an Stoff sehr überschaubar', 0, 36, '2018-06-05 20:16:01', ''),
+(248, 194, -3, 1, 2, 'written', 1, -1, 1, -1, '', 'ws17-18', 5, 0, 'Inhaltlich nicht uninteressant und gut machbar. Die Klausur war damals allerdings nicht gerade fair gestellt (nicht unmöglich, aber in der Zeit der Klausur nicht gut möglich).', 0, 24, '2018-06-05 20:17:22', ''),
+(249, 85, -2, -1, 2, 'written', 1, 2, -1, 2, '', 'ws12-13', 7, 1, 'Mit guten Physik-Kenntnissen aus der Schule geschenkt', 0, 36, '2018-06-05 20:17:26', ''),
+(250, 96, 2, 1, 1, 'written', 1, 1, 2, 3, '', 'ss12', 8, 1, 'Umfangreiche Aufgabensammlung, die fast gar nicht komplett durchzuarbeiten ist. Ermöglicht aber sehr gute Vorbereitung auf Klausur', 0, 36, '2018-06-05 20:18:59', ''),
+(251, 331, -2, 0, 2, 'written', 1, 1, 1, -1, '', 'ss17', 4, 0, 'Die Klausur war damals unerwartet viel an Definitionen und co. statt die (interessanteren) Algorithmen. Die Übung war nicht besonders gut gehalten.', 0, 24, '2018-06-05 20:19:43', ''),
+(252, 205, -2, 0, 2, 'written', -2, 3, -1, 2, '', 'ss17', 7, 1, 'Klassische Klausur, wo man viel aus der Übung in sehr kurzer Zeit reproduzieren (rechnen) muss. Also viel üben, dann sehr gut machbar!', 0, 24, '2018-06-05 20:21:51', ''),
+(253, 104, 1, 2, 1, 'written', -2, -1, 1, -1, '', 'ss17', 6, 1, 'Thematisch unglaublich umfassend und interessant. Die Prüfung ist dafür aber sehr krass in der Vorbereitung, da braucht man echt Zeit!', 0, 24, '2018-06-05 20:24:10', ''),
+(254, 555, -2, 1, 2, 'written', -1, 3, 1, 2, '', 'ws12-13', 8, 1, 'Schwierigkeit hängt oftmals stark vom Dozenten ab. Vielzahl an Altklausuren vorhanden', 0, 36, '2018-06-05 20:25:29', ''),
+(255, 522, 1, 2, 1, 'written', 1, -3, -2, 0, '', 'ws17-18', 8, 1, 'Man schreibt mehrere Klausuren unter dem Semester, hat dabei sogar die Möglichkeit, einzelne zu streichen. Ohne das Recht-Modul im Master wohl kaum machbar, hier muss man Gutachten schreiben können!', 0, 24, '2018-06-05 20:26:29', ''),
+(256, 195, 2, 1, 2, 'written', 1, -1, 2, 2, '', 'ws11-12', 9, 1, 'Arbeitsintensiver Übungsbetrieb. Auch für Leute ohne Vorkenntnisse absolut machbar.', 0, 36, '2018-06-05 20:27:14', ''),
+(257, 539, -2, -2, 2, 'written', -3, -3, -1, 2, '', 'ss15', 6, 1, 'Auswendig lernen, auswendig lernen ... Mehr nicht. Klausur absolut fair gestellt.', 0, 36, '2018-06-05 20:29:26', ''),
+(258, 37, 2, 1, 1, 'written', -2, -3, -1, 2, '', 'ws15-16', 7, 1, 'Sehr interessante Einführung in BGB, in der Vorlesung wird sehr viel der Gutachtenstil geübt, in der Klausur war dies aber kaum gefragt. Die Vorlesung ist daher sehr interaktiv, die Klausur recht viel auswendig lernen.', 0, 24, '2018-06-05 20:29:39', ''),
+(259, 412, -3, -2, 2, 'written', -3, -3, -1, 2, '', 'ss15', 7, 1, 'Schwieriger zu lernen als EuWi, aber auch hier nur auswendig lernen. Klausur fair gestellt.', 0, 36, '2018-06-05 20:30:39', ''),
+(260, 141, -1, 3, 0, 'written', -1, -3, 1, -1, '', 'ws15-16', 7, 1, 'Vorlesung wurde super gehalten, sehr interessante Einführung. Die Klausur ist fast ausschließlich Gutachten zu schreiben, das braucht Übung. Daher sollte man von Anfang an dabei bleiben und jede Übungsmöglichkeit mitnehmen.', 0, 24, '2018-06-05 20:31:38', ''),
+(261, 143, -2, 0, -1, 'written', -1, -3, -1, 2, '', 'ws15-16', 7, 1, 'Ging aufgrund des parallelen Besuchs ähnlicher Veranstaltungen auch ohne Vorlesung, wiederum reiner Gutachtenstil. Also vorher üben!', 0, 24, '2018-06-05 20:32:59', ''),
+(262, 94, 1, 1, 2, 'oral', 2, -1, -1, 2, '', 'ss17', 8, 1, 'Wurde als Blockveranstaltung gehalten. Viele Themen sehr intuitiv und nicht zwingend nur auf Logistik zutreffend. Prüfung sehr fair mit guter Note', 0, 36, '2018-06-05 20:33:08', ''),
+(263, 167, -3, 0, 1, 'written', 1, 3, 1, -1, '', 'ws14-15', 5, 1, 'Muss man ja sowieso machen. Die Klausur war damals sehr fair, wurde allerdings seither auch immer mal wieder umgestellt.', 0, 24, '2018-06-05 20:34:21', ''),
+(264, 165, -3, 0, 1, 'written', 1, 3, 1, 2, '', 'ss14', 5, 1, 'Muss man ja sowieso machen. Die Klausur war damals sehr fair, wurde allerdings seither auch immer mal wieder umgestellt.', 0, 24, '2018-06-05 20:35:11', ''),
+(265, 167, 1, 0, 2, 'written', 2, 3, 1, 2, '', 'ws12-13', 8, 1, 'Vielleicht die Mathe-VL, die einem für den weiteren Verlauf des Studiums am meisten bringt. \nWar damals eine Koffer-Klausur (1 Ordner zulässig). Zeit aber so knapp bemessen, dass man eigentlich nicht reinschauen kann.', 0, 36, '2018-06-05 20:35:56', ''),
+(266, 163, -3, 0, 1, 'written', 1, 3, 1, 2, '', 'ss14', 5, 1, 'Muss man ja sowieso machen. Die Klausur war damals sehr fair, wurde allerdings seither auch immer mal wieder umgestellt. Ist also schwierig vergleichbar.', 0, 24, '2018-06-05 20:36:22', ''),
+(267, 165, -3, -1, 2, 'written', 1, 2, 1, 2, '', 'ss12', 7, 1, 'Machbare Klausur, weil teilweise Stoff aus Schulzeiten wiederholt und erweitert wird (Ableitungen, ...). ', 0, 36, '2018-06-05 20:38:02', ''),
+(268, 161, -3, 0, 2, 'written', 1, 3, 2, 2, '', 'ws13-14', 5, 1, 'Muss man ja sowieso machen. Die Klausur war damals okay, Mathe ist halt zunächst gewöhnungsbedürftig.', 0, 24, '2018-06-05 20:38:10', ''),
+(269, 158, -3, 0, 2, 'written', 1, 3, 1, 2, '', 'ws13-14', 5, 1, 'Muss man ja sowieso machen. Die Klausur war damals okay, Mathe ist halt zunächst gewöhnungsbedürftig.', 0, 24, '2018-06-05 20:38:44', ''),
+(270, 158, -3, -1, 2, 'written', 2, 2, 1, 2, '', 'ws11-12', 8, 1, 'Erste Klausur im Studium. War damals fair gestellt. Mit guter Vorbereitung der Übungen und Tutorien machbar', 0, 36, '2018-06-05 20:40:26', ''),
+(271, 167, 1, -2, 1, 'written', 3, 3, 2, -2, '', 'ws17-18', 0, 1, 'Man muss durch. Seit dem PD Winter die Veranstaltung übernommen hat, ist die Klausur ein absolutes Fiasko mit Durchfallquoten jenseits der 60%. Hier hilft nichts, außer sich auf seinen Arsch zu setzen und von Anfang an zu pauken. Die Klausur ist sehr Transferlastig, Aufgaben aus Übungen und Tutorien bilden zwar ein gutes Grundverständnis, dieses reicht zum Bestehen aber nicht. ', 0, 30, '2018-06-06 11:06:15', ''),
+(272, 104, 1, 3, 3, 'written', -1, -1, 0, 2, '', 'ws15-16', 10, 1, 'Sehr spannende Verantaltung, Klausur benötigt viel Vorbereitungszeit. Dafür bleibt Inhalt bist heute hängen!', 0, 30, '2018-06-06 11:09:09', '');
 
 -- --------------------------------------------------------
 
@@ -1401,12 +1655,13 @@ INSERT INTO `ratings` (`ID`, `subject_ID`, `lecture0`, `lecture1`, `lecture2`, `
 -- Tabellenstruktur für Tabelle `remember_me`
 --
 
-CREATE TABLE `remember_me` (
-  `id` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `remember_me` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
   `series` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `token` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=53 ;
 
 --
 -- Daten für Tabelle `remember_me`
@@ -1414,11 +1669,25 @@ CREATE TABLE `remember_me` (
 
 INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
 (8, 12, '549a2fac47d713cc00f2db498ad6b5574fb03c9293aef6c7ad50a11b394c197d', '9869a8a3a11a33284dc2bcc3d2e6ffd52cad30e2009c11dfe604e74dc21a887e'),
-(11, 3, 'fc71f2d6d38dbfc752ecaf2262916dc8ad99a34243d47b34691f9f8a3afaeffd', 'c32ffef1ae0cabc0576614cb4d2064cea5bd9c0fa13c7b8bb9fb9b4e8ba950a9'),
-(16, 3, '39e18a493b913441c12fac89a09f24958e5da0ff6f3300c80c5359f36e3223aa', '3d34f102d1708fc5edd3111144f78764b4d7b745cb5450815780545495df1e68'),
 (17, 17, 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683', '1be00341082e25c4e251ca6713e767f7131a2823b0052caf9c9b006ec512f6cb'),
-(20, 2, '1de4d95a81eb1780d5c21a880a8be6595306670af426e40872b2a03c5cfb9996', '6cb6d4b2fa122bf8bd63280061e4a230565fdec3ce03268caa2f48ccd931c691'),
-(21, 1, '353767b239099863e13ca954e20a66c9d75f777baf239f56e399958de49bf79d', '983bd614bb5afece5ab3b6023f71147cd7b6bc2314f9d27af7422541c6558389');
+(26, 12, 'c75cb66ae28d8ebc6eded002c28a8ba0d06d3a78c6b5cbf9b2ade051f0775ac4', '200dd69b70a88134b3a939de5f0b10c44a1675344329b9d9a5ad6b7342f978b2'),
+(27, 12, '27d719c754aacd492a6dc8a1b76619355abcf5ef473cbec02018d3c57ebbf0d5', 'f57e5cb1f4532c008183057ecc94283801fcb5afe2d1c190e3dfd38c4da08042'),
+(28, 10, '41cfc0d1f2d127b04555b7246d84019b4d27710a3f3aff6e7764375b1e06e05d', 'e888a676e1926d0c08b5f11fb9116df58b62604b05846f39f8d6fc4dd0ba31f1'),
+(35, 28, '55e8ab098d48f8be5578e3d3708496d152a27c4c5713586a8d321ed84c239827', '7a84ae249fa744b8c1acb6c5247c2cf443e31870aa7217f4a9cd9b157dbd54ef'),
+(37, 29, '6f90a5a0d3234433d03c7a06fc4bd5c3ac1f21f33978292fee61323e22238a92', 'd6420a4ee44bc345c7bf3a2efbab98e08a4727016df8e8d6bb8375d0a23a8c72'),
+(39, 3, '41e521adf8ae7a0f419ee06e1d9fb794162369237b46f64bf5b2b9969b0bcd2e', '7559ca4a957c8c82ba04781cd66a68d6022229fca0e8e88d8e487c96ee4446d0'),
+(40, 31, 'd1c78c9aa5dcb0991f46b25fbaaa359d7d5823ac7a2a94c4d4a31da42a26c24f', 'e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683'),
+(41, 12, 'ac1270c5058af65025e5b2a3e3014cea69460e7d9f159ae667028e1b6eab433e', '18beb4813723e788a1d79bcbf80802538ec813aa19ded2e9c21cbf08bed6bee3'),
+(42, 33, '2d1007980f49215311f7f1012e84f99b801eb5daeca04dedea3ada41cc45353b', '388c2eafe5afd475492698c0995a2daf157eb3b3be8207391d3a023c97c8c034'),
+(43, 28, '5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9', '40f8d6d22b99ea3388538fd60bbf532256434b0eac401df1d9a2bdbb29354ae8'),
+(44, 35, '16badfc6202cb3f8889e0f2779b19218af4cbb736e56acadce8148aba9a7a9f8', '55e8ab098d48f8be5578e3d3708496d152a27c4c5713586a8d321ed84c239827'),
+(45, 12, '1f09802c4beac758321ae8a9f94d752b0976c7d54baa6e511bba8a7374107bef', '734d0759cdb4e0d0a35e4fd73749aee287e4fdcc8648b71a8d6ed591b7d4cb3f'),
+(47, 2, '8527a891e224136950ff32ca212b45bc93f69fbb801c3b1ebedac52775f99e61', '61a229bae1e90331edd986b6bbbe617f7035de88a5bf7c018c3add6c762a6e8d'),
+(48, 37, '766cb53c753baedac5dc782593e04694b3bae3aed057ac2ff98cc1aef6413137', 'b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0'),
+(49, 37, '4b8ba4b13094beaef100d3eb7d4c8e23600c30be4420c47e0d6b4e88dbd70abb', '4c970004b0678d439f177e77d3cabdb7e9a44df770948ddc2467cbc76b7211c3'),
+(50, 2, 'f7abf2a084c3668c7b90654bf01205085e5d0219ffad0564904e5c923af11523', '865736a1c30a82dc67aba820360a01b1d9d0da5643234cd07c4d60b06eb530c5'),
+(51, 36, 'ad57366865126e55649ecb23ae1d48887544976efea46a48eb5d85a6eeb4d306', '0c658eb5d61e88c86f37613342bbce6cbf278a9a86ba6514dc7e5c205f76c99f'),
+(52, 30, '2cfd4b162e427e8e59a2fedf7d5d138eb696d08b98ad9765da0af1690c77b280', '04edd1d7736883194af3ddb232c337e53d17bc93cfd2140c4f4c4e0d966798b1');
 
 -- --------------------------------------------------------
 
@@ -1426,8 +1695,8 @@ INSERT INTO `remember_me` (`id`, `user_id`, `series`, `token`) VALUES
 -- Tabellenstruktur für Tabelle `subjects`
 --
 
-CREATE TABLE `subjects` (
-  `ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `subjects` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `subject_name` varchar(100) NOT NULL,
   `identifier` varchar(100) NOT NULL,
   `lv_number` int(100) NOT NULL,
@@ -1437,15 +1706,17 @@ CREATE TABLE `subjects` (
   `createdBy_ID` varchar(100) NOT NULL,
   `time_stamp` varchar(100) NOT NULL,
   `lastChangedBy_ID` int(100) NOT NULL,
-  `time_stamp2` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `time_stamp2` varchar(100) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `subject_name` (`subject_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=556 ;
 
 --
 -- Daten für Tabelle `subjects`
 --
 
 INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
-(5, 'Betriebswirtschaftslehre: Unternehmensführung und Informationswirtschaft', 'T-WIWI-1234556', 12364785, '3', 'Winter', 'Deutsch', '1', '2017-11-09 19:43:42', 0, ''),
+(5, 'Betriebswirtschaftslehre: Unternehmensführung und Informationswirtschaft', 'T-WIWI-102817', 12364785, '3', 'Winter', 'Deutsch', '1', '2017-11-09 19:43:42', 2, '2018-05-29 10:56:32'),
 (6, 'Bahnsystemtechnik', 'T-MACH-102143', 2115919, '9', 'Ganzjährig', 'Deutsch', '8', '2017-11-09 20:44:16', 0, ''),
 (7, 'Economics and Behaviour', 'T-WIWI-102892', 2560137, '4,5', 'Winter', 'Englisch', '9', '2017-11-09 20:59:50', 0, ''),
 (8, 'Computational Economics', 'T-WIWI-102680', 2590458, '5', 'Winter', 'Englisch', '10', '2017-11-09 20:59:56', 2, '2017-11-20 05:01:55'),
@@ -1470,9 +1741,9 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (27, 'Betriebswirtschaftslehre: Produktionswirtschaft und Marketing', 'T-WIWI-102818', 2600024, '4', 'Sommer', 'Deutsch', '8', '2017-11-09 21:28:33', 0, ''),
 (28, 'Fernerkundung', 'T-BGU-101636', 6020241, '4', 'Sommer', 'Deutsch', '11', '2017-11-09 21:29:25', 0, ''),
 (29, 'Derivate', 'T-WIWI-102643', 2530550, '4,5', 'Sommer', 'Deutsch', '10', '2017-11-09 21:30:45', 0, ''),
-(30, 'Einführung in die Spieltheorie', 'T-WIWI-102850', 2520525, '4,5', 'Sommer', 'Deutsch', '9', '2017-11-09 21:30:50', 0, ''),
-(31, 'Fernerkundungsverfahren', 'T-BGU-103542', 0, '3', 'Unregelmäßig', 'Deutsch', '11', '2017-11-09 21:33:38', 0, ''),
-(32, 'Advanced Topics in Economic Theory', 'T-WIWI-102609', 0, '4,5', 'Unregelmäßig', 'Deutsch', '1', '2017-11-09 21:33:59', 0, ''),
+(30, 'Einführung in die Spieltheorie', 'T-WIWI-102850', 2520525, '4,5', 'Sommer', 'Deutsch', '9', '2017-11-09 21:30:50', 2, '2018-05-23 22:38:13'),
+(31, 'Fernerkundungsverfahren', 'T-BGU-103542', 0, '3', 'Unregelmäßig', 'Deutsch', '11', '2017-11-09 21:33:38', 10, '2018-04-25 19:43:56'),
+(32, 'Advanced Topics in Economic Theory', 'T-WIWI-102609', 0, '4,5', 'Unregelmäßig', 'Deutsch', '1', '2017-11-09 21:33:59', 22, '2018-04-25 21:29:24'),
 (33, 'Dienstleistungs- und B2B Marketing', 'T-WIWI-102806', 2572158, '3', 'Winter', 'Deutsch', '10', '2017-11-09 21:34:16', 0, ''),
 (34, 'Einführung in die Stochastische Optimierung', 'T-WIWI-106546', 2550470, '4,5', 'Sommer', 'Deutsch', '9', '2017-11-09 21:34:25', 0, ''),
 (35, 'Dokumentenmanagement und Groupwaresysteme', 'T-WIWI-102663', 2511212, '4', 'Sommer', 'Deutsch', '10', '2017-11-09 21:37:24', 2, '2017-11-20 05:03:04'),
@@ -1495,9 +1766,9 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (52, 'Angewandte Informatik I - Modellierung', 'T-WIWI-102652', 2511030, '4,5', 'Winter', 'Deutsch', '1', '2017-11-09 21:58:30', 2, '2017-11-20 04:53:12'),
 (53, 'Angewandte Informatik II - Informatiksysteme für eCommerce', 'T-WIWI-102651', 2511032, '4,5', 'Sommer', 'Englisch', '1', '2017-11-09 22:00:48', 2, '2017-11-20 04:54:20'),
 (54, 'Bionik für Ingenieure und Naturwissenschaftler', 'T-MACH-102172', 2142140, '3', 'Sommer', 'Deutsch', '8', '2017-11-09 22:02:04', 18, '2018-01-17 21:22:59'),
-(55, 'Anwendung der Technischen Logistik am Beispiel moderner Krananlagen', 'T-MACH-105149', 0, '4', 'Winter', 'Deutsch', '1', '2017-11-09 22:05:48', 0, ''),
+(55, 'Anwendung der Technischen Logistik am Beispiel moderner Krananlagen', 'T-MACH-105149', 0, '4', 'Winter', 'Deutsch', '1', '2017-11-09 22:05:48', 22, '2018-04-25 22:06:50'),
 (56, 'Foundations of Digital Services A', 'T-WIWI-105771', 2595466, '4,5', 'Sommer', 'Englisch', '11', '2017-11-09 22:06:25', 0, ''),
-(57, 'Anwendung der Technischen Logistik in der Warensortier- und - verteiltechnik', 'T-MACH-102092', 0, '4', 'Sommer', 'Deutsch', '1', '2017-11-09 22:06:52', 0, ''),
+(57, 'Anwendung der Technischen Logistik in der Warensortier- und - verteiltechnik', 'T-MACH-102092', 0, '4', 'Sommer', 'Deutsch', '1', '2017-11-09 22:06:52', 22, '2018-04-25 22:08:25'),
 (58, 'Börsen', 'T-WIWI-102625', 2530296, '1,5', 'Sommer', 'Deutsch', '8', '2017-11-09 22:08:11', 18, '2018-01-17 21:24:04'),
 (59, 'Anwendungen der KI', 'T-WIWI-106564', 2511314, '5', 'Winter', 'Deutsch', '1', '2017-11-09 22:08:34', 2, '2017-11-20 04:56:29'),
 (60, 'Asset Management', 'T-WIWI-102879', 2530219, '3', 'Winter', 'Englisch', '1', '2017-11-09 22:10:29', 0, ''),
@@ -1521,7 +1792,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (78, 'Information Engineering', 'T-MACH-102209', 2122014, '3', 'Sommer', 'Englisch', '8', '2017-11-09 22:36:38', 0, ''),
 (79, 'Elektroenergiesysteme', 'T-ETIT-101923', 23391, '5', 'Sommer', 'Deutsch', '9', '2017-11-09 22:37:24', 0, ''),
 (80, 'Globale Optimierung I', 'T-WIWI-102726', 2550134, '4,5', 'Winter', 'Deutsch', '11', '2017-11-09 22:38:21', 15, '2018-01-17 21:27:36'),
-(81, 'Globale Optimierung I und II', 'T-WIWI-103638', 0, '9', 'Winter', 'Deutsch', '11', '2017-11-09 22:39:54', 15, '2018-01-17 21:28:28'),
+(81, 'Globale Optimierung I und II', 'T-WIWI-103638', 0, '9', 'Ganzjährig', 'Deutsch', '11', '2017-11-09 22:39:54', 10, '2018-04-25 21:06:57'),
 (82, 'Automotive Engineering I', 'T-MACH-102203', 2113809, '6', 'Winter', 'Englisch', '1', '2017-11-09 22:40:39', 0, ''),
 (83, 'Information Service Engineering', 'T-WIWI-106423', 2511606, '5', 'Sommer', 'Englisch', '8', '2017-11-09 22:40:47', 2, '2017-11-20 05:04:07'),
 (84, 'Globale Optimierung II', 'T-WIWI-102727', 2550136, '4,5', 'Winter', 'Deutsch', '11', '2017-11-09 22:42:10', 15, '2018-01-17 21:29:26'),
@@ -1537,7 +1808,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (94, 'Informationssysteme in Logistik und Supply Chain Management', 'T-MACH-102128', 2118094, '4', 'Sommer', 'Deutsch', '8', '2017-11-09 22:51:16', 10, '2018-01-17 21:30:52'),
 (95, 'Knowledge Discovery', 'T-WIWI-102666', 2511302, '5', 'Winter', 'Englisch', '1', '2017-11-09 22:51:36', 2, '2017-11-20 05:04:39'),
 (96, 'Grundlagen der Informatik II', 'T-WIWI-102707', 2511012, '5', 'Winter', 'Deutsch', '11', '2017-11-09 22:51:50', 0, ''),
-(97, 'Energieeffiziente Intralogistiksysteme', 'T-MACH-105151', 2117500, '4', 'Winter', 'Deutsch', '9', '2017-11-09 22:52:51', 0, ''),
+(97, 'Energieeffiziente Intralogistiksysteme', 'T-MACH-105151', 2117500, '4', 'Winter', 'Deutsch', '9', '2017-11-09 22:52:51', 22, '2018-04-25 22:09:34'),
 (98, 'Lager- und Distributionssysteme', 'T-MACH-105174', 2118097, '4', 'Sommer', 'Deutsch', '1', '2017-11-09 22:54:55', 17, '2018-01-17 21:22:20'),
 (99, 'Grundlagen der katalytischen Abgasnachbehandlung bei Verbrennungs- motoren', 'T-MACH-105044', 2134138, '4', 'Sommer', 'Deutsch', '11', '2017-11-09 22:57:04', 0, ''),
 (100, 'Integrative Strategien und deren Umsetzung in Produktion und Entwicklung von Sportwagen', 'T-MACH-105188', 2150601, '4', 'Sommer', 'Deutsch', '8', '2017-11-09 22:57:07', 10, '2018-01-17 21:54:53'),
@@ -1548,9 +1819,9 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (105, 'Logistik - Aufbau, Gestaltung und Steuerung von Logistiksystemen', 'T-MACH-102089', 2118078, '6', 'Sommer', 'Deutsch', '1', '2017-11-09 23:01:04', 0, ''),
 (106, 'International Marketing', 'T-WIWI-102807', 2572155, '1,5', 'Winter', 'Englisch', '8', '2017-11-09 23:01:38', 0, ''),
 (107, 'Energieumsetzung und Wirkungsgradsteigerung bei Verbrennungsmotoren', 'T-MACH-105564', 2133121, '4', 'Sommer', 'Deutsch', '9', '2017-11-09 23:02:03', 0, ''),
-(108, 'Logistik in der Automobilindustrie', 'T-MACH-105165', 2118085, '4', 'Sommer', 'Deutsch', '1', '2017-11-09 23:02:05', 0, ''),
+(108, 'Logistik in der Automobilindustrie', 'T-MACH-105165', 2118085, '4', 'Sommer', 'Deutsch', '1', '2017-11-09 23:02:05', 22, '2018-04-25 21:49:12'),
 (109, 'Grundlagen der Mikrosystemtechnik II', 'T-MACH-105183', 2142874, '3', 'Sommer', 'Englisch', '11', '2017-11-09 23:03:04', 0, ''),
-(110, 'Logistiksysteme auf Flughäfen', 'T-MACH-105175', 2117056, '4', 'Winter', 'Deutsch', '1', '2017-11-09 23:04:19', 0, ''),
+(110, 'Logistiksysteme auf Flughäfen', 'T-MACH-105175', 2117056, '4', 'Winter', 'Deutsch', '1', '2017-11-09 23:04:19', 21, '2018-04-25 20:11:28'),
 (111, 'Enterprise Architecture Management', 'T-WIWI-102668', 2511600, '5', 'Winter', 'Deutsch', '9', '2017-11-09 23:04:22', 2, '2017-11-20 05:03:36'),
 (112, 'Internationale Finanzierung', 'T-WIWI-102646', 2530570, '3', 'Sommer', 'Deutsch', '8', '2017-11-09 23:06:20', 10, '2018-01-17 22:07:40'),
 (113, 'Grundlagen der Produktionswirtschaft', 'T-WIWI-102606', 2581950, '5,5', 'Sommer', 'Deutsch', '11', '2017-11-09 23:06:52', 0, ''),
@@ -1599,7 +1870,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (156, 'Rechnungswesen', 'T-WIWI-102816', 2600002, '4', 'Winter', 'Deutsch', '8', '2017-11-09 23:50:22', 0, ''),
 (157, 'PLM für mechatronische Produktentwicklung', 'T-MACH-102181', 2122376, '4', 'Ganzjährig', 'Deutsch', '11', '2017-11-09 23:50:29', 0, ''),
 (158, 'Mathematik 1 - Semesterklausur', 'T-MATH-102261', 0, '3,5', 'Winter', 'Deutsch', '1', '2017-11-09 23:52:01', 1, '2017-11-09 23:53:23'),
-(159, 'Renewable Energy-Resources, Technologies and Economics', 'T-WIWI-100806', 2581012, '3,5', 'Winter', 'Englisch', '8', '2017-11-09 23:52:32', 0, ''),
+(159, 'Renewable Energy-Resources, Technologies and Economics', 'T-WIWI-100806', 2581012, '3,5', 'Winter', 'Englisch', '8', '2017-11-09 23:52:32', 10, '2018-04-25 20:12:54'),
 (160, 'Polymerengineering I', 'T-MACH-102137', 2173590, '4', 'Ganzjährig', 'Deutsch', '11', '2017-11-09 23:54:15', 0, ''),
 (161, 'Mathematik 1 - Abschlussklausur', 'T-MATH-102261', 0, '3,5', 'Winter', 'Deutsch', '1', '2017-11-09 23:54:23', 0, ''),
 (162, 'Semantic Web Technologien', 'T-WIWI-102874', 2511310, '5', 'Sommer', 'Englisch', '8', '2017-11-09 23:54:59', 2, '2017-11-20 05:08:20'),
@@ -1607,18 +1878,18 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (164, 'Polymerengineering II', 'T-MACH-102138', 2174596, '4', 'Ganzjährig', 'Deutsch', '11', '2017-11-09 23:55:27', 0, ''),
 (165, 'Mathematik 2 - Semesterklausur', 'T-MATH-102262', 0, '3,5', 'Sommer', 'Deutsch', '1', '2017-11-09 23:57:09', 0, ''),
 (166, 'Service Oriented Computing', 'T-WIWI-105801', 2511308, '5', 'Sommer', 'Deutsch', '8', '2017-11-09 23:57:50', 2, '2017-11-20 05:08:53'),
-(167, 'Mathematik 3 - Abschlussklausur', 'T-MATH-102264', 0, '7', 'Winter', 'Deutsch', '1', '2017-11-09 23:58:07', 0, ''),
-(168, 'Sichere Mechatronische Systeme', 'T-MACH-105277', 2118077, '4', 'Ganzjährig', 'Deutsch', '8', '2017-11-09 23:58:53', 0, ''),
+(167, 'Mathematik 3 - Abschlussklausur', 'T-MATH-102264', 0, '7', 'Winter', 'Deutsch', '1', '2017-11-09 23:58:07', 23, '2018-06-05 19:36:08'),
+(168, 'Sichere Mechatronische Systeme', 'T-MACH-105277', 2118077, '4', 'Ganzjährig', 'Deutsch', '8', '2017-11-09 23:58:53', 22, '2018-04-25 22:11:32'),
 (169, 'Principles of Insurance Management', 'T-WIWI-102603', 2530055, '4,5', 'Sommer', 'Deutsch', '11', '2017-11-09 23:59:35', 0, ''),
 (170, 'Meteorologische Naturgefahren', 'T-PHYS-101557', 4052121, '0', 'Sommer', 'Deutsch', '1', '2017-11-09 23:59:43', 0, ''),
 (171, 'Methoden zur Analyse der motorischen Verbrennung', 'T-MACH-105167', 2134134, '4', 'Sommer', 'Deutsch', '1', '2017-11-10 00:01:18', 0, ''),
-(172, 'Sichere Tragwerke der Technischen Logistik', 'T-MACH-105200', 2117065, '4', 'Winter', 'Deutsch', '8', '2017-11-10 00:01:38', 0, ''),
+(172, 'Sichere Tragwerke der Technischen Logistik', 'T-MACH-105200', 2117065, '4', 'Winter', 'Deutsch', '8', '2017-11-10 00:01:38', 22, '2018-04-25 22:10:40'),
 (173, 'Mikroaktorik', 'T-MACH-101910', 2142881, '3', 'Sommer', 'Deutsch', '1', '2017-11-10 00:02:48', 0, ''),
 (174, 'Simulation gekoppelter Systeme', 'T-MACH-105172', 2114095, '3', 'Ganzjährig', 'Deutsch', '8', '2017-11-10 00:03:58', 0, ''),
 (175, 'Mobile Arbeitsmaschinen', 'T-MACH-105168', 2114073, '9', 'Sommer', 'Deutsch', '1', '2017-11-10 00:04:50', 0, ''),
 (176, 'Probabilistic Machine Learning for Finance and Data Science', 'T-WIWI-105712', 0, '4,5', 'Sommer', 'Deutsch', '11', '2017-11-10 00:04:53', 0, ''),
 (177, 'Simulation I', 'T-WIWI-102627', 0, '4,5', 'Sommer', 'Deutsch', '8', '2017-11-10 00:06:19', 18, '2018-01-17 22:52:25'),
-(178, 'Problemlösung, Kommunikation und Leadership', 'T-WIWI-102871', 0, '2', 'Sommer', 'Deutsch', '11', '2017-11-10 00:06:19', 0, ''),
+(178, 'Problemlösung, Kommunikation und Leadership', 'T-WIWI-102871', 0, '2', 'Sommer', 'Deutsch', '11', '2017-11-10 00:06:19', 2, '2018-04-29 23:01:16'),
 (179, 'Simulation II', 'T-WIWI-102703', 0, '4,5', 'Ganzjährig', 'Deutsch', '8', '2017-11-10 00:07:12', 18, '2018-01-17 22:51:31'),
 (180, 'Product Lifecycle Management', 'T-MACH-105147', 2121350, '6', 'Ganzjährig', 'Deutsch', '11', '2017-11-10 00:08:27', 0, ''),
 (181, 'Software Engineering', 'T-WIWI-100809', 2511206, 'e', 'Sommer', 'Deutsch', '8', '2017-11-10 00:08:28', 2, '2017-11-20 04:57:28'),
@@ -1674,7 +1945,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (231, 'Strukturkeramiken', 'T-MACH-102179', 2126775, '4', 'Ganzjährig', 'Deutsch', '8', '2017-11-10 00:47:26', 16, '2018-01-17 22:48:39'),
 (232, 'Werkzeugmaschinen und Handhabungstechnik', 'T-MACH-102158', 2149902, '9', 'Winter', 'Deutsch', '11', '2017-11-10 00:48:42', 0, ''),
 (233, 'Versagensverhalten von Konstruktionswerkstoffen: Ermüdung und Kriechen', 'T-MACH-102139', 2181715, '4', 'Winter', 'Deutsch', '1', '2017-11-10 00:49:37', 15, '2018-01-17 22:31:59'),
-(234, 'Wettbewerb in Netzen', 'T-WIWI-100005', 2561204, '4,5', 'Winter', 'Deutsch', '11', '2017-11-10 00:50:16', 0, ''),
+(234, 'Wettbewerb in Netzen', 'T-WIWI-100005', 2561204, '4,5', 'Winter', 'Deutsch', '11', '2017-11-10 00:50:16', 2, '2018-05-29 21:43:52'),
 (235, 'Systematische Werkstoffauswahl', 'T-MACH-100531', 2174576, '5', 'Sommer', 'Deutsch', '8', '2017-11-10 00:50:31', 2, '2018-01-17 22:35:17'),
 (236, 'Versagensverhalten von Konstruktionswerkstoffen: Verformung und Bruch', 'T-MACH-102140', 2181711, '4', 'Winter', 'Deutsch', '1', '2017-11-10 00:50:39', 15, '2018-01-17 22:33:00'),
 (237, 'Systemdynamik und Regelungstechnik', 'T-ETIT-101921', 23155, '6', 'Sommer', 'Deutsch', '8', '2017-11-10 00:51:26', 0, ''),
@@ -1684,23 +1955,23 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (241, 'Wohlfahrtstheorie', 'T-WIWI-102610', 2520517, '4,5', 'Sommer', 'Deutsch', '11', '2017-11-10 00:53:34', 0, ''),
 (242, 'Volkswirtschaftslehre I: Mikroökonomie', 'T-WIWI-102708', 2610012, '5', 'Winter', 'Deutsch', '1', '2017-11-10 00:54:53', 0, ''),
 (243, 'Volkswirtschaftslehre III: Einführung in die Ökonometrie', 'T-WIWI-102736', 2520016, '5', 'Sommer', 'Deutsch', '11', '2017-11-10 00:55:16', 0, ''),
-(244, 'Volkswirtschaftslehre II: Makroökonomie', 'T-WIWI-102709', 2600014, '5', 'Sommer', 'Deutsch', '8', '2017-11-10 00:56:11', 0, ''),
+(244, 'Volkswirtschaftslehre II: Makroökonomie', 'T-WIWI-102709', 2600014, '5', 'Sommer', 'Deutsch', '8', '2017-11-10 00:56:11', 17, '2018-04-25 19:51:16'),
 (245, 'Praktikum Informatik', 'T-WIWI-103523', 123456, '4', 'Ganzjährig', 'Deutsch', '2', '2017-11-20 05:16:26', 0, ''),
 (246, 'Geschäftsmodelle im Internet: Planung und Umsetzung', 'T-WIWI-102639', 0, '4,5', 'Sommer', 'Deutsch', '2', '2018-01-17 19:53:48', 0, ''),
 (247, 'Abgas- und Schmierölanalyse am Verbrennungsmotor', 'T-MACH-105173', 0, '4', 'Sommer', 'Deutsch', '17', '2018-01-17 20:28:54', 0, ''),
 (248, 'Advanced Game Theory', 'T-WIWI-102861', 0, '4,5', 'Winter', 'Englisch', '17', '2018-01-17 20:34:46', 0, ''),
 (249, 'CAD-Praktikum CATIA', 'T-MACH-102185', 0, '2', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 20:35:04', 0, ''),
 (250, 'Advanced Management Accounting', 'T-WIWI-102885', 0, '4,5', 'Winter', 'Englisch', '17', '2018-01-17 20:37:38', 0, ''),
-(251, ' Hausarbeit ”Betrieb im Öffentlichen Verkehr”', 'T-BGU-101857', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:37:43', 0, ''),
+(251, 'Hausarbeit ”Betrieb im Öffentlichen Verkehr”', 'T-BGU-101857', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:37:43', 0, ''),
 (252, 'CAD-Praktikum NX', 'T-MACH-102187', 0, '2', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 20:38:04', 0, ''),
-(253, 'Hausarbeit ”Technik Spurgeführte Transportsysteme” ', 'T-BGU-101858', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:39:39', 0, ''),
+(253, 'Hausarbeit ”Technik Spurgeführte Transportsysteme”', 'T-BGU-101858', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:39:39', 0, ''),
 (254, 'Bau und Instandhaltung von Schienenwegen', 'T-BGU-101851', 0, '1,5', 'Sommer', 'Deutsch', '18', '2018-01-17 20:40:11', 18, '2018-01-17 20:41:40'),
 (255, 'Hausarbeit ”Verkehrsprojekt im Öffentlichen Verkehr”', 'T-BGU-101856', 0, '3', 'Unregelmäßig', 'Deutsch', '10', '2018-01-17 20:42:23', 0, ''),
 (256, 'Case Studies in Sales and Pricing', 'T-WIWI-102834', 0, '1,5', 'Winter', 'Deutsch', '8', '2018-01-17 20:43:52', 0, ''),
 (257, 'Geländepraktikum Gewässergüte', 'T-MACH-101089', 0, '3', 'Unregelmäßig', 'Deutsch', '15', '2018-01-17 20:50:05', 0, ''),
 (258, 'Aktuelle Themen der BioMEMS', 'T-MACH-102176', 0, '3', 'Ganzjährig', 'Deutsch', '17', '2018-01-17 20:50:26', 0, ''),
 (259, 'Hochspannungsprüftechnik', 'T-ETIT-101915', 0, '4', 'Winter', 'Deutsch', '10', '2018-01-17 20:50:51', 0, ''),
-(260, 'Hochspannungstechnik I ', 'T-ETIT-101913', 0, '4,5', 'Winter', 'Deutsch', '10', '2018-01-17 20:53:20', 0, ''),
+(260, 'Hochspannungstechnik I', 'T-ETIT-101913', 0, '4,5', 'Winter', 'Deutsch', '10', '2018-01-17 20:53:20', 0, ''),
 (261, 'Asset Pricing', 'T-WIWI-102647', 0, '4,5', 'Sommer', 'Deutsch', '16', '2018-01-17 20:53:29', 0, ''),
 (262, 'Bauleitung', 'T-BGU-103427', 0, '1,5', 'Sommer', 'Deutsch', '18', '2018-01-17 20:53:53', 0, ''),
 (263, 'Aktuelle Themen im Innovationsmanagement', 'T-WIWI-102873', 0, '3', 'Unregelmäßig', 'Deutsch', '17', '2018-01-17 20:54:42', 0, ''),
@@ -1762,7 +2033,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (319, 'Liberalised Power Markets', 'T-WIWI-107043', 0, '3', 'Winter', 'Englisch', '17', '2018-01-17 21:30:37', 0, ''),
 (320, 'Management im ÖV', 'M-BGU-101113', 0, '3', 'Sommer', 'Deutsch', '16', '2018-01-17 21:30:56', 0, ''),
 (321, 'Globale Produktion und Logistik - Teil 1: Globale Produktion', 'T-MACH-105158', 0, '4', 'Winter', 'Deutsch', '15', '2018-01-17 21:31:07', 0, ''),
-(322, 'Business Data Strategy', ' T-WIWI-106187', 0, '4,5', 'Winter', 'Deutsch', '18', '2018-01-17 21:31:34', 0, ''),
+(322, 'Business Data Strategy', 'T-WIWI-106187', 0, '4,5', 'Winter', 'Deutsch', '18', '2018-01-17 21:31:34', 0, ''),
 (323, 'Globale Produktion und Logistik - Teil 2: Globale Logistik', 'T-MACH-105159', 0, '4', 'Sommer', 'Deutsch', '15', '2018-01-17 21:31:57', 0, ''),
 (324, 'Management neuer Technologien', 'T-WIWI-102612', 0, '5', 'Sommer', 'Deutsch', '16', '2018-01-17 21:32:17', 0, ''),
 (325, 'Infrastrukturausrüstung von Schienenfahrwegen', 'T-BGU-101849', 0, '1,5', 'Sommer', 'Deutsch', '10', '2018-01-17 21:32:27', 0, ''),
@@ -1785,7 +2056,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (342, 'Marketing Strategy Planspiel', 'T-WIWI-102835', 0, '1,5', 'Sommer', 'Deutsch', '16', '2018-01-17 21:39:51', 0, ''),
 (343, 'Modeling and Analyzing Consumer Behavior with R', 'T-WIWI-102899', 0, '4,5', 'Sommer', 'Deutsch', '17', '2018-01-17 21:40:22', 0, ''),
 (344, 'Marketingkommunikation', 'T-WIWI-102902', 0, '4,5', 'Sommer', 'Deutsch', '16', '2018-01-17 21:40:38', 0, ''),
-(345, 'Modeling Mass Fluxes in River Basins', 'T-BGU-106681', 0, '0', 'Winter', 'Englisch', '17', '2018-01-17 21:41:31', 0, ''),
+(345, 'Modeling Mass Fluxes in River Basins', 'T-BGU-106681', 0, '0', 'Winter', 'Deutsch', '17', '2018-01-17 21:41:31', 2, '2018-05-04 15:17:07'),
 (346, 'Eigenschaften von Verkehrsmitteln', 'T-BGU-106609', 0, '3', 'Sommer', 'Deutsch', '14', '2018-01-17 21:41:51', 0, ''),
 (347, 'BWL der Informationsunternehmen', 'T-WIWI-102886', 0, '5', 'Sommer', 'Deutsch', '18', '2018-01-17 21:41:56', 0, ''),
 (348, 'Innovationstheorie und -politik', 'T-WIWI-102840', 0, '4,5', 'Sommer', 'Deutsch', '10', '2018-01-17 21:42:00', 0, ''),
@@ -1813,12 +2084,12 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (370, 'Grundlagen der Lebensmittelverfahrenstechnik', 'T-CIWVT-101874', 0, '9', 'Unregelmäßig', 'Deutsch', '15', '2018-01-17 21:53:05', 0, ''),
 (371, 'Elemente und Systeme der Technischen Logistik und Projekt', 'T-MACH-102178', 0, '6', 'Winter', 'Deutsch', '14', '2018-01-17 21:53:13', 0, ''),
 (372, 'Nicht- und Semiparametrik', 'T-WIWI-103126', 0, '4,5', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 21:53:19', 0, ''),
-(373, 'Fertigungsprozesse der Mikrosystemtechnik', 'T-MACH-102166', 0, '3', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 21:53:42', 0, ''),
+(373, 'Fertigungsprozesse der Mikrosystemtechnik', 'T-MACH-102166', 0, '3', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 21:53:42', 0, '');
+INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
 (374, 'Ökobilanzen', 'T-WIWI-103133', 0, '3,5', 'Winter', 'Deutsch', '16', '2018-01-17 21:54:11', 0, ''),
 (375, 'Online Marketing', 'T-WIWI-103141', 0, '4,5', 'Winter', 'Deutsch', '16', '2018-01-17 21:54:52', 0, ''),
 (376, 'Multivariate Verfahren', 'T-WIWI-103124', 0, '4,5', 'Sommer', 'Deutsch', '17', '2018-01-17 21:55:57', 0, ''),
-(377, 'Open Innovation - Konzepte, Methoden und Best Practices', 'T-WIWI-102901', 0, '1,5', 'Sommer', 'Englisch', '16', '2018-01-17 21:57:01', 0, '');
-INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `lastChangedBy_ID`, `time_stamp2`) VALUES
+(377, 'Open Innovation - Konzepte, Methoden und Best Practices', 'T-WIWI-102901', 0, '1,5', 'Sommer', 'Englisch', '16', '2018-01-17 21:57:01', 0, ''),
 (378, 'Festverzinsliche Titel', 'T-WIWI-102644', 0, '4,5', 'Winter', 'Deutsch', '8', '2018-01-17 21:57:23', 0, ''),
 (379, 'Grundzüge der Informationswirtschaft', 'T-WIWI-102638', 0, '5', 'Winter', 'Deutsch', '15', '2018-01-17 21:57:50', 0, ''),
 (380, 'Operations Research in Health Care Management', 'T-WIWI-102884', 0, '4,5', 'Unregelmäßig', 'Deutsch', '16', '2018-01-17 21:58:23', 0, ''),
@@ -1831,7 +2102,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (387, 'Parametrische Optimierung', 'T-WIWI-102855', 0, '4,5', 'Unregelmäßig', 'Deutsch', '17', '2018-01-17 22:00:24', 0, ''),
 (388, 'Empirische Daten im Verkehrswesen', 'T-BGU-100010', 0, '3', 'Winter', 'Deutsch', '14', '2018-01-17 22:00:34', 0, ''),
 (389, 'Optical Transmitters and Receivers', 'T-ETIT-100639', 0, '4', 'Winter', 'Englisch', '16', '2018-01-17 22:00:38', 0, ''),
-(390, 'Field Training Water Quality', ' T-BGU-106668', 0, '0', 'Sommer', 'Deutsch', '8', '2018-01-17 22:01:16', 0, ''),
+(390, 'Field Training Water Quality', 'T-BGU-106668', 0, '0', 'Sommer', 'Deutsch', '8', '2018-01-17 22:01:16', 0, ''),
 (391, 'Optical Waveguides and Fibers', 'T-ETIT-101945', 0, '4', 'Winter', 'Englisch', '16', '2018-01-17 22:01:17', 0, ''),
 (392, 'Patentrecht', 'T-INFO-101310', 0, '3', 'Sommer', 'Deutsch', '17', '2018-01-17 22:01:20', 0, ''),
 (393, 'Interactive Systems', 'T-WIWI-106342', 0, '4,5', 'Sommer', 'Deutsch', '10', '2018-01-17 22:01:56', 0, ''),
@@ -1844,12 +2115,12 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (400, 'Recommendersysteme', 'T-WIWI-102847', 0, '4,5', 'Sommer', 'Deutsch', '15', '2018-01-17 22:04:34', 0, ''),
 (401, 'Qualitätssicherung II', 'T-WIWI-102729', 0, '4,5', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:04:49', 0, ''),
 (402, 'International Management in Engineering and Production', 'T-WIWI-102882', 0, '3,5', 'Winter', 'Englisch', '10', '2018-01-17 22:05:43', 0, ''),
-(403, 'Quanteneffektbauelemente und Halbleitertechnologie', ' T-ETIT-100740', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:06:09', 0, ''),
+(403, 'Quanteneffektbauelemente und Halbleitertechnologie', 'T-ETIT-100740', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:06:09', 0, ''),
 (404, 'Regelkonformes Verhalten im Unternehmensbereich', 'T-INFO-101288', 0, '3', 'Winter', 'Deutsch', '15', '2018-01-17 22:06:12', 0, ''),
 (405, 'Planspiel Energiewirtschaft', 'T-WIWI-108016', 0, '3', 'Sommer', 'Deutsch', '17', '2018-01-17 22:06:13', 0, ''),
 (406, 'Endogene Wachstumstheorie', 'T-WIWI-102785', 0, '4,5', 'Winter', 'Deutsch', '14', '2018-01-17 22:06:32', 0, ''),
 (407, 'Regelung linearer Mehrgrößensysteme', 'T-ETIT-100666', 0, '6', 'Winter', 'Deutsch', '15', '2018-01-17 22:08:09', 0, ''),
-(408, 'PLM-CAD Workshop', 'T-MACH-102153', 0, '4', 'Ganzjährig', 'Deutsch', '17', '2018-01-17 22:08:28', 0, ''),
+(408, 'PLM-CAD Workshop', 'T-MACH-102153', 0, '4', 'Ganzjährig', 'Deutsch', '17', '2018-01-17 22:08:28', 2, '2018-05-29 23:15:13'),
 (409, 'Regulierungstheorie und -praxis', 'T-WIWI-102712', 0, '4,5', 'Sommer', 'Deutsch', '15', '2018-01-17 22:08:54', 0, ''),
 (410, 'Quantitative Methods in Energy Economics', 'T-WIWI-107446', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:08:58', 0, ''),
 (411, 'Replikationsverfahren in der Mikrotechnik', 'T-MACH-102168', 0, '3', 'Ganzjährig', 'Deutsch', '15', '2018-01-17 22:09:49', 0, ''),
@@ -1867,8 +2138,8 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (423, 'Fortgeschrittene Stochastische Optimierung', 'T-WIWI-106548', 0, '4,5', 'Unregelmäßig', 'Deutsch', '8', '2018-01-17 22:18:35', 0, ''),
 (424, 'Roadmapping', 'T-WIWI-102853', 0, '3', 'Sommer', 'Deutsch', '15', '2018-01-17 22:19:18', 0, ''),
 (425, 'Valuation', 'T-WIWI-102621', 0, '4,5', 'Winter', 'Englisch', '15', '2018-01-17 22:21:04', 0, ''),
-(426, 'Technologien für das Innovationsmanagement', ' T-WIWI-102854', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:21:44', 0, ''),
-(427, 'Wärmewirtschaft', ' T-WIWI-102695', 0, '3', 'Sommer', 'Deutsch', '8', '2018-01-17 22:22:17', 0, ''),
+(426, 'Technologien für das Innovationsmanagement', 'T-WIWI-102854', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:21:44', 0, ''),
+(427, 'Wärmewirtschaft', 'T-WIWI-102695', 0, '3', 'Sommer', 'Deutsch', '8', '2018-01-17 22:22:17', 0, ''),
 (428, 'Technologischer Wandel in der Energiewirtschaft', 'T-WIWI-102694', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:22:21', 0, ''),
 (429, 'Produkt- und Innovationsmanagement', 'T-WIWI-102812', 0, '3', 'Sommer', 'Deutsch', '16', '2018-01-17 22:23:00', 0, ''),
 (430, 'Telekommunikations- und Internetökonomie', 'T-WIWI-102713', 0, '4,5', 'Winter', 'Deutsch', '18', '2018-01-17 22:23:40', 0, ''),
@@ -1877,7 +2148,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (433, 'Produktions- und Logistikmanagement', 'T-WIWI-102632', 0, '5,5', 'Sommer', 'Deutsch', '16', '2018-01-17 22:25:32', 0, ''),
 (434, 'Verfahrenstechniken der Demontage', 'T-BGU-101850', 0, '3', 'Sommer', 'Deutsch', '15', '2018-01-17 22:25:59', 0, ''),
 (435, 'Umwelt- und Ressourcenpolitik', 'T-WIWI-102616', 0, '4', 'Sommer', 'Deutsch', '10', '2018-01-17 22:26:00', 0, ''),
-(436, 'Telekommunikationsrecht', ' T-INFO-101309', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:27:02', 0, ''),
+(436, 'Telekommunikationsrecht', 'T-INFO-101309', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:27:02', 0, ''),
 (437, 'Programmierpraktikum: Solving Computational Risk and Asset Management Problems', 'T-WIWI-103110', 0, '4,5', 'Winter', 'Deutsch', '16', '2018-01-17 22:27:15', 0, ''),
 (438, 'Verkehrs-, Planungs- und Wegerecht', 'T-BGU-106615', 0, '3', 'Sommer', 'Deutsch', '15', '2018-01-17 22:27:45', 0, ''),
 (439, 'Polymers in MEMS B: Physics, Microstructuring and Applications', 'T-MACH-102191', 0, '3', 'Winter', 'Deutsch', '17', '2018-01-17 22:27:47', 0, ''),
@@ -1903,10 +2174,10 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (459, 'Projektseminar', 'T-GEISTSOZ-101958', 0, '4', 'Ganzjährig', 'Deutsch', '16', '2018-01-17 22:32:01', 0, ''),
 (460, 'Projektstudien', 'T-BGU-101847', 0, '3', 'Sommer', 'Deutsch', '16', '2018-01-17 22:32:29', 0, ''),
 (461, 'Schlüsselfertiges Bauen II - Gewerke und Technik', 'T-BGU-103431', 0, '3', 'Sommer', 'Deutsch', '3', '2018-01-17 22:32:38', 0, ''),
-(462, 'Tiefbau', ' T-BGU-101832', 0, '1,5', 'Winter', 'Deutsch', '18', '2018-01-17 22:32:38', 0, ''),
+(462, 'Tiefbau', 'T-BGU-101832', 0, '1,5', 'Winter', 'Deutsch', '18', '2018-01-17 22:32:38', 0, ''),
 (463, 'Prüfungsvorleistung Umweltkommunikation', 'T-BGU-106620', 0, '0', 'Sommer', 'Deutsch', '16', '2018-01-17 22:33:27', 0, ''),
 (464, 'Wasserchemie und Wassertechnologie II', 'T-CIWVT-101901', 0, '9', 'Unregelmäßig', 'Englisch', '8', '2018-01-17 22:33:45', 0, ''),
-(465, 'Topics in Experimental Economics', ' T-WIWI-102863', 0, '4,5', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:33:46', 0, ''),
+(465, 'Topics in Experimental Economics', 'T-WIWI-102863', 0, '4,5', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:33:46', 0, ''),
 (466, 'Practical Seminar: Digital Service Design', 'T-WIWI-105774', 0, '4,5', 'Sommer', 'Englisch', '17', '2018-01-17 22:33:52', 0, ''),
 (467, 'Umweltrecht', 'T-INFO-101348', 0, '3', 'Ganzjährig', 'Deutsch', '10', '2018-01-17 22:34:37', 0, ''),
 (468, 'Wasserchemisches Praktikum', 'T-CIWVT-103351', 0, '4', 'Unregelmäßig', 'Deutsch', '8', '2018-01-17 22:34:44', 0, ''),
@@ -1919,7 +2190,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (475, 'Transportökonomie', 'T-WIWI-100007', 0, '4,5', 'Sommer', 'Deutsch', '18', '2018-01-17 22:36:59', 0, ''),
 (476, 'Energiehandel und Risikomanagement', 'T-WIWI-102691', 0, '4', 'Sommer', 'Deutsch', '14', '2018-01-17 22:37:24', 0, ''),
 (477, 'Tunnelbau und Sprengtechnik', 'T-BGU-101846', 0, '3', 'Winter', 'Deutsch', '18', '2018-01-17 22:38:17', 0, ''),
-(478, 'Wastewater and Storm Water Treatment', ' T-BGU-106601', 0, '6', 'Sommer', 'Deutsch', '8', '2018-01-17 22:38:18', 0, ''),
+(478, 'Wastewater and Storm Water Treatment', 'T-BGU-106601', 0, '6', 'Sommer', 'Deutsch', '8', '2018-01-17 22:38:18', 0, ''),
 (479, 'Schweißtechnik', 'T-MACH-105170', 0, '4', 'Ganzjährig', 'Deutsch', '3', '2018-01-17 22:38:37', 0, ''),
 (480, 'Virtual Engineering I', 'T-MACH-102123', 0, '6', 'Winter', 'Deutsch', '15', '2018-01-17 22:38:49', 0, ''),
 (481, 'Energieübertragung und Netzregelung', 'T-ETIT-101941', 0, '5', 'Sommer', 'Deutsch', '14', '2018-01-17 22:38:54', 0, ''),
@@ -1933,7 +2204,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (489, 'Workshop Business Wargaming – Analyse strategischer Interaktionen', 'T-WIWI-106189', 0, '3', 'Sommer', 'Deutsch', '18', '2018-01-17 22:41:23', 0, ''),
 (490, 'Supply Chain Management in der Prozessindustrie', 'T-WIWI-102860', 0, '4,5', 'Winter', 'Englisch', '16', '2018-01-17 22:41:28', 0, ''),
 (491, 'Seminarpraktikum Digital Service Systems', 'T-WIWI-106563', 0, '4,5', 'Unregelmäßig', 'Deutsch', '3', '2018-01-17 22:41:32', 0, ''),
-(492, 'Wettbewerb, Planung und Finanzierung im ÖPNV', ' T-BGU-101005', 0, '3', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 22:41:56', 0, ''),
+(492, 'Wettbewerb, Planung und Finanzierung im ÖPNV', 'T-BGU-101005', 0, '3', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 22:41:56', 0, ''),
 (493, 'Workshop aktuelle Themen Strategie und Management', 'T-WIWI-106188', 0, '3', 'Unregelmäßig', 'Deutsch', '18', '2018-01-17 22:42:07', 0, ''),
 (494, 'Virtuelle Lernfabrik 4.X', 'T-MACH-106741', 0, '4', 'Ganzjährig', 'Deutsch', '15', '2018-01-17 22:42:15', 0, ''),
 (495, 'Urheberrecht', 'T-INFO-101308', 0, '3', 'Ganzjährig', 'Deutsch', '10', '2018-01-17 22:42:17', 0, ''),
@@ -1952,7 +2223,7 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (508, 'Preismanagement', 'T-WIWI-105946', 0, '4,5', 'Sommer', 'Deutsch', '17', '2018-01-17 22:46:27', 0, ''),
 (509, 'Sicherheitsmanagement im Straßenwesen', 'T-BGU-101674', 0, '3', 'Winter', 'Deutsch', '8', '2018-01-17 22:47:55', 0, ''),
 (510, 'Preisverhandlungen und Verkaufspräsentationen', 'T-WIWI-102891', 0, '1,5', 'Winter', 'Deutsch', '17', '2018-01-17 22:48:32', 0, ''),
-(511, 'Sensorsysteme', 'T-ETIT-100709', 0, '3', 'Sommer', 'Deutsch', '3', '2018-01-17 22:49:05', 0, ''),
+(511, 'Sensorsysteme', 'T-ETIT-100709', 0, '3', 'Sommer', 'Deutsch', '3', '2018-01-17 22:49:05', 17, '2018-04-25 19:26:01'),
 (512, 'Sicherheitstechnik', 'T-MACH-105171', 0, '4', 'Ganzjährig', 'Deutsch', '8', '2018-01-17 22:49:44', 0, ''),
 (513, 'Energy Networks and Regulation', 'T-WIWI-107503', 0, '4,5', 'Winter', 'Deutsch', '14', '2018-01-17 22:49:54', 0, ''),
 (514, 'Service Analytics A', 'T-WIWI-105778', 0, '4,5', 'Sommer', 'Deutsch', '3', '2018-01-17 22:50:23', 0, ''),
@@ -1988,10 +2259,15 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 (544, 'Spatial Economics', 'T-WIWI-103107', 0, '4,5', 'Winter', 'Deutsch', '15', '2018-01-17 23:00:44', 0, ''),
 (545, 'Environmental Management', 'T-BGU-106682', 0, '9', 'Sommer', 'Deutsch', '14', '2018-01-17 23:00:46', 0, ''),
 (546, 'Spurgeführte Transportsysteme - Betriebslogistik und -management', 'T-BGU-100060', 0, '6', 'Sommer', 'Deutsch', '2', '2018-01-17 23:01:12', 0, ''),
-(547, 'Experimentelles Schweißtechnisches Praktikum, in Gruppen', 'T-MACH-102099', 0, '4', 'Winter', 'Deutsch', '8', '2018-01-17 23:01:34', 0, ''),
-(548, 'Experimentelle Wirtschaftsforschung', 'T-WIWI-102614', 0, '4,5', 'Winter', 'Deutsch', '3', '2018-01-17 23:01:34', 0, ''),
+(547, 'Experimentelles Schweißtechnisches Praktikum, in Gruppen', 'T-MACH-102099', 0, '4', 'Winter', 'Deutsch', '8', '2018-01-17 23:01:34', 2, '2018-05-23 22:53:35'),
+(548, 'Experimentelle Wirtschaftsforschung', 'T-WIWI-102614', 0, '4,5', 'Winter', 'Deutsch', '3', '2018-01-17 23:01:34', 2, '2018-05-23 22:24:28'),
 (549, 'Erdbau', 'T-BGU-101801', 0, '1,5', 'Winter', 'Deutsch', '14', '2018-01-17 23:04:01', 0, ''),
-(550, 'Erdgasmärkte', 'T-WIWI-102692', 0, '3', 'Winter', 'Deutsch', '14', '2018-01-17 23:06:33', 0, '');
+(550, 'Erdgasmärkte', 'T-WIWI-102692', 0, '3', 'Winter', 'Deutsch', '14', '2018-01-17 23:06:33', 0, ''),
+(551, 'Ausgewählte Rechtsfragen des Internetrechts', 'T-INFO-108462', 0, '3', 'Sommer', 'Deutsch', '10', '2018-04-25 19:58:05', 0, ''),
+(552, ' Seminar Verkehrswesen', 'T-BGU-100014', 0, '3', 'Sommer', 'Deutsch', '2', '2018-05-04 15:20:19', 2, '2018-05-04 15:25:52'),
+(553, 'Seminar Mobility Services (Master)', 'T-WIWI-103174', 0, '3', 'Winter', 'Deutsch', '2', '2018-05-04 15:22:53', 2, '2018-05-04 15:26:16'),
+(554, 'Kommunales Finanzwesen', 'T-WIWI-107763', 0, '4,5', 'Winter', 'Deutsch', '2', '2018-05-23 22:37:12', 0, ''),
+(555, 'Einführung in das Operations Research I und II', 'T-WIWI-102758', 0, '9', 'Ganzjährig', 'Deutsch', '2', '2018-05-29 21:30:41', 0, '');
 
 -- --------------------------------------------------------
 
@@ -1999,18 +2275,18 @@ INSERT INTO `subjects` (`ID`, `subject_name`, `identifier`, `lv_number`, `ECTS`,
 -- Tabellenstruktur für Tabelle `subjects_lecturers`
 --
 
-CREATE TABLE `subjects_lecturers` (
-  `subjects_lecturers_ID` int(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `subjects_lecturers` (
+  `subjects_lecturers_ID` int(10) NOT NULL AUTO_INCREMENT,
   `subject_ID` int(10) NOT NULL,
-  `lecturer_ID` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `lecturer_ID` int(10) NOT NULL,
+  PRIMARY KEY (`subjects_lecturers_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=828 ;
 
 --
 -- Daten für Tabelle `subjects_lecturers`
 --
 
 INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lecturer_ID`) VALUES
-(5, 5, 5),
 (6, 6, 7),
 (7, 7, 11),
 (9, 9, 8),
@@ -2035,13 +2311,6 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (31, 27, 32),
 (32, 28, 33),
 (33, 29, 31),
-(34, 30, 34),
-(35, 31, 37),
-(36, 31, 5),
-(37, 31, 15),
-(38, 31, 35),
-(39, 31, 38),
-(40, 32, 18),
 (41, 33, 30),
 (42, 33, 36),
 (43, 34, 39),
@@ -2059,12 +2328,10 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (59, 48, 46),
 (61, 50, 52),
 (62, 51, 51),
-(69, 55, 59),
 (70, 56, 53),
 (71, 56, 15),
 (72, 56, 57),
 (73, 56, 58),
-(74, 57, 61),
 (77, 60, 65),
 (78, 61, 21),
 (79, 61, 63),
@@ -2096,7 +2363,6 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (121, 92, 90),
 (122, 93, 92),
 (125, 96, 10),
-(126, 97, 94),
 (128, 99, 97),
 (129, 99, 98),
 (131, 101, 99),
@@ -2106,10 +2372,8 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (135, 105, 95),
 (136, 106, 104),
 (137, 107, 103),
-(138, 108, 95),
 (139, 109, 102),
 (140, 109, 105),
-(141, 110, 106),
 (145, 113, 32),
 (146, 113, 109),
 (147, 114, 111),
@@ -2153,10 +2417,6 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (199, 154, 137),
 (201, 156, 5),
 (202, 157, 138),
-(206, 159, 142),
-(207, 159, 139),
-(208, 159, 140),
-(209, 159, 141),
 (210, 158, 139),
 (211, 158, 140),
 (212, 158, 141),
@@ -2173,14 +2433,9 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (225, 165, 139),
 (226, 165, 140),
 (227, 165, 141),
-(230, 167, 139),
-(231, 167, 140),
-(232, 167, 141),
-(233, 168, 59),
 (234, 169, 111),
 (235, 170, 147),
 (236, 171, 149),
-(237, 172, 59),
 (238, 173, 119),
 (239, 174, 66),
 (240, 174, 151),
@@ -2224,14 +2479,12 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (307, 228, 88),
 (308, 229, 177),
 (312, 232, 179),
-(316, 234, 18),
 (320, 237, 160),
 (322, 239, 183),
 (324, 241, 184),
 (325, 241, 27),
 (326, 242, 34),
 (327, 243, 48),
-(328, 244, 185),
 (333, 199, 40),
 (336, 52, 27),
 (337, 52, 53),
@@ -2361,7 +2614,6 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (466, 314, 58),
 (468, 80, 84),
 (469, 315, 134),
-(470, 81, 84),
 (471, 316, 150),
 (472, 317, 13),
 (473, 318, 150),
@@ -2398,7 +2650,6 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (504, 344, 36),
 (505, 64, 66),
 (506, 64, 67),
-(507, 345, 186),
 (508, 69, 72),
 (509, 69, 75),
 (510, 346, 156),
@@ -2479,7 +2730,6 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (585, 112, 31),
 (586, 112, 108),
 (587, 407, 160),
-(588, 408, 81),
 (589, 409, 18),
 (590, 410, 227),
 (591, 411, 194),
@@ -2617,7 +2867,6 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (724, 231, 88),
 (725, 230, 176),
 (726, 230, 178),
-(727, 511, 87),
 (728, 512, 264),
 (729, 513, 15),
 (730, 514, 197),
@@ -2664,15 +2913,48 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 (771, 544, 52),
 (772, 545, 186),
 (773, 546, 62),
-(774, 547, 182),
-(775, 547, 42),
-(776, 547, 15),
-(777, 547, 137),
 (778, 206, 170),
 (779, 206, 28),
 (780, 203, 161),
 (781, 549, 272),
-(782, 550, 273);
+(782, 550, 273),
+(783, 511, 87),
+(785, 31, 37),
+(787, 244, 185),
+(788, 244, 52),
+(789, 551, 199),
+(792, 110, 106),
+(793, 159, 142),
+(794, 81, 84),
+(796, 32, 18),
+(797, 108, 95),
+(798, 55, 59),
+(799, 57, 61),
+(800, 97, 94),
+(801, 172, 59),
+(802, 168, 59),
+(803, 178, 38),
+(804, 178, 132),
+(805, 345, 186),
+(809, 552, 156),
+(810, 552, 213),
+(811, 553, 58),
+(812, 548, 136),
+(813, 548, 137),
+(814, 548, 209),
+(815, 554, 28),
+(816, 30, 34),
+(817, 547, 42),
+(818, 547, 182),
+(819, 5, 5),
+(820, 555, 21),
+(821, 555, 39),
+(822, 555, 84),
+(823, 234, 18),
+(824, 408, 81),
+(825, 167, 139),
+(826, 167, 140),
+(827, 167, 141);
 
 -- --------------------------------------------------------
 
@@ -2680,18 +2962,18 @@ INSERT INTO `subjects_lecturers` (`subjects_lecturers_ID`, `subject_ID`, `lectur
 -- Tabellenstruktur für Tabelle `subjects_modules`
 --
 
-CREATE TABLE `subjects_modules` (
-  `subjects_modules_ID` int(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS `subjects_modules` (
+  `subjects_modules_ID` int(100) NOT NULL AUTO_INCREMENT,
   `subject_ID` int(11) NOT NULL,
-  `module_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `module_ID` int(11) NOT NULL,
+  PRIMARY KEY (`subjects_modules_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1136 ;
 
 --
 -- Daten für Tabelle `subjects_modules`
 --
 
 INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`) VALUES
-(5, 5, 4),
 (6, 6, 6),
 (7, 7, 8),
 (8, 7, 9),
@@ -2719,11 +3001,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (36, 29, 17),
 (37, 29, 12),
 (38, 29, 11),
-(39, 30, 24),
-(40, 30, 9),
-(41, 31, 31),
-(42, 31, 22),
-(43, 32, 9),
 (44, 33, 34),
 (45, 34, 32),
 (46, 34, 33),
@@ -2745,11 +3022,9 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (69, 50, 46),
 (70, 51, 47),
 (71, 51, 48),
-(77, 55, 50),
 (78, 56, 16),
 (79, 56, 42),
 (80, 56, 51),
-(81, 57, 50),
 (87, 60, 12),
 (88, 60, 11),
 (89, 61, 51),
@@ -2778,7 +3053,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (129, 92, 59),
 (130, 93, 50),
 (134, 96, 59),
-(135, 97, 50),
 (137, 99, 5),
 (139, 101, 21),
 (140, 102, 61),
@@ -2787,9 +3061,7 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (143, 105, 64),
 (144, 106, 34),
 (145, 107, 63),
-(146, 108, 50),
 (147, 109, 41),
-(148, 110, 50),
 (154, 113, 61),
 (155, 114, 65),
 (156, 115, 44),
@@ -2830,22 +3102,16 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (211, 154, 64),
 (213, 156, 30),
 (214, 157, 36),
-(216, 159, 21),
-(217, 159, 71),
 (218, 158, 71),
 (219, 160, 53),
 (220, 161, 71),
 (223, 163, 71),
 (224, 164, 53),
 (225, 165, 71),
-(228, 167, 71),
-(229, 168, 50),
-(230, 168, 60),
 (231, 169, 65),
 (232, 170, 31),
 (233, 170, 54),
 (234, 171, 5),
-(235, 172, 50),
 (236, 173, 41),
 (237, 174, 25),
 (238, 174, 48),
@@ -2889,9 +3155,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (317, 228, 40),
 (318, 229, 40),
 (321, 232, 79),
-(323, 234, 8),
-(324, 234, 42),
-(325, 234, 46),
 (328, 237, 74),
 (331, 239, 60),
 (334, 241, 9),
@@ -2900,7 +3163,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (337, 242, 80),
 (338, 243, 39),
 (339, 243, 8),
-(340, 244, 80),
 (347, 199, 26),
 (352, 52, 26),
 (353, 52, 27),
@@ -3131,8 +3393,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (590, 314, 134),
 (592, 80, 109),
 (593, 315, 116),
-(594, 81, 109),
-(595, 81, 33),
 (596, 316, 142),
 (597, 316, 119),
 (598, 317, 110),
@@ -3192,7 +3452,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (652, 344, 95),
 (653, 64, 47),
 (654, 64, 48),
-(655, 345, 98),
 (656, 69, 31),
 (657, 69, 54),
 (658, 346, 151),
@@ -3327,8 +3586,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (787, 112, 12),
 (788, 112, 11),
 (789, 407, 153),
-(790, 408, 138),
-(791, 408, 85),
 (792, 409, 155),
 (793, 409, 91),
 (794, 410, 155),
@@ -3513,8 +3770,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (976, 231, 53),
 (977, 230, 116),
 (978, 230, 53),
-(979, 511, 57),
-(980, 511, 192),
 (981, 512, 123),
 (982, 512, 126),
 (983, 513, 195),
@@ -3590,11 +3845,6 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (1053, 544, 182),
 (1054, 545, 180),
 (1055, 546, 89),
-(1056, 547, 116),
-(1057, 547, 86),
-(1058, 547, 167),
-(1059, 547, 124),
-(1060, 547, 133),
 (1061, 206, 24),
 (1062, 206, 12),
 (1063, 206, 11),
@@ -3602,7 +3852,65 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 (1065, 203, 187),
 (1066, 203, 75),
 (1067, 549, 170),
-(1068, 550, 155);
+(1068, 550, 155),
+(1069, 511, 192),
+(1070, 511, 193),
+(1073, 31, 31),
+(1074, 31, 54),
+(1076, 244, 80),
+(1077, 551, 160),
+(1081, 110, 123),
+(1082, 110, 147),
+(1083, 159, 21),
+(1084, 81, 109),
+(1085, 81, 33),
+(1087, 32, 91),
+(1088, 108, 123),
+(1089, 108, 154),
+(1090, 108, 148),
+(1091, 108, 147),
+(1092, 108, 149),
+(1093, 55, 123),
+(1094, 55, 50),
+(1095, 55, 126),
+(1096, 57, 123),
+(1097, 57, 50),
+(1098, 57, 126),
+(1099, 97, 123),
+(1100, 97, 50),
+(1101, 97, 126),
+(1102, 172, 123),
+(1103, 172, 50),
+(1104, 172, 126),
+(1105, 168, 123),
+(1106, 168, 50),
+(1107, 168, 126),
+(1108, 168, 60),
+(1109, 178, 68),
+(1110, 178, 69),
+(1111, 345, 180),
+(1114, 552, 151),
+(1115, 552, 131),
+(1116, 553, 151),
+(1117, 553, 131),
+(1118, 548, 86),
+(1119, 548, 167),
+(1120, 548, 124),
+(1121, 548, 133),
+(1122, 554, 24),
+(1123, 30, 8),
+(1124, 30, 9),
+(1125, 547, 116),
+(1126, 5, 22),
+(1127, 555, 19),
+(1128, 234, 8),
+(1129, 234, 91),
+(1130, 234, 42),
+(1131, 234, 46),
+(1132, 408, 36),
+(1133, 408, 138),
+(1134, 408, 85),
+(1135, 167, 71);
 
 -- --------------------------------------------------------
 
@@ -3610,8 +3918,8 @@ INSERT INTO `subjects_modules` (`subjects_modules_ID`, `subject_ID`, `module_ID`
 -- Tabellenstruktur für Tabelle `users`
 --
 
-CREATE TABLE `users` (
-  `user_ID` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_ID` int(11) NOT NULL AUTO_INCREMENT,
   `admin` int(10) NOT NULL,
   `super_admin` int(10) NOT NULL,
   `first_name` varchar(60) NOT NULL,
@@ -3625,255 +3933,79 @@ CREATE TABLE `users` (
   `semester` varchar(100) NOT NULL,
   `info` varchar(100) NOT NULL,
   `hash` varchar(100) NOT NULL,
-  `recoverhash` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `recoverhash` varchar(100) NOT NULL,
+  PRIMARY KEY (`user_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
 -- Daten für Tabelle `users`
 --
 
 INSERT INTO `users` (`user_ID`, `admin`, `super_admin`, `first_name`, `last_name`, `username`, `email`, `password`, `active`, `degree`, `advance`, `semester`, `info`, `hash`, `recoverhash`) VALUES
-(1, 0, 0, 'Albert', 'Einstein', 'der_albert', 'albert.einstein@student.kit.edu', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, 'Physik', 'bachelor', '5', 'yes', '2ca65f58e35d9ad45bf7f3ae5cfd08f1', ''),
-(2, 1, 1, 'Julian', 'Germek', 'juliangermek', 'julian.germek@gmail.com', '$2y$10$wVR2wJzMmBG2otaHWt4Ml.rIK0v7OAQHKZKmM6.HrVV2MWpj3lSaG', 1, 'wiwi', 'bachelor', '1', 'no', '1ff1de774005f8da13f42943881c655f', 'a4a042cf4fd6bfb47701cbc8a1653ada'),
-(3, 1, 1, 'Jonas', 'Bakker', 'jonasl', 'ueehp@student.kit.edu', '$2y$10$PkYqkdO59gxm/QqqC.YbheY1yGt5lFKooml5zLcJ6PNfFmukvqzYq', 1, 'wing', 'bachelor', '6', 'no', 'eeb69a3cb92300456b6a5f4162093851', ''),
-(8, 1, 0, 'Katja', 'Goller', 'Katja', 'ucrnh@student.kit.edu', '$2y$10$Xo.UCzDtWyVt8GPcszIrDe.wvJn6VkX43QSlnWj0tuRABRYkxFVxW', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '3', 'no', '352407221afb776e3143e8a1a0577885', ''),
+(1, 1, 0, 'Albert', 'Einstein', 'der_albert', 'albert.einstein@student.kit.edu', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, '', 'bachelor', '18', 'yes', '2ca65f58e35d9ad45bf7f3ae5cfd08f1', ''),
+(2, 1, 1, 'Julian', 'Germek', 'juliangermek', 'julian.germek@gmail.com', '$2y$10$wf3M7kBl13ekvwKAYczZIesfn1mNPz7iaQTMrvmGE6q/e9KJGOmKq', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '2', 'no', '1ff1de774005f8da13f42943881c655f', '5ef059938ba799aaa845e1c2e8a762bd'),
+(3, 1, 1, 'Jonas', 'Bakker', 'jonasl', 'ueehp@student.kit.edu', '$2y$10$Ep.Ddqf4iFUEiSn4qfzOJ.PT0JvN9fUmvtfLo0K2kg.XAigQgDVQ.', 1, 'wing', 'bachelor', '6', 'no', 'eeb69a3cb92300456b6a5f4162093851', ''),
+(8, 1, 0, 'Katja', 'Goller', 'Katja', 'ucrnh@student.kit.edu', '$2y$10$Xo.UCzDtWyVt8GPcszIrDe.wvJn6VkX43QSlnWj0tuRABRYkxFVxW', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '4', 'no', '352407221afb776e3143e8a1a0577885', ''),
 (9, 1, 0, 'Cornelia', 'Glitz', 'cornelia', 'utdtj@student.kit.edu', '$2y$10$/IbI6F6qyvj4bjb8eBaegeZ3fzogdG0ZhR0lb.FSr45db289FzVPG', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '6', 'no', 'eae27d77ca20db309e056e3d2dcd7d69', ''),
-(10, 1, 0, 'Begüm Serra', 'Güven', 'thehitchhiker42', 'urfml@student.kit.edu', '$2y$10$3UHDCQhNPXhFIEZ30XxFt.dB11w45z.Gu9CBPOXkXVOUHLazKpSBa', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '1', 'yes', '847cc55b7032108eee6dd897f3bca8a5', ''),
+(10, 1, 0, 'Begüm Serra', 'Güven', 'thehitchhiker42', 'urfml@student.kit.edu', '$2y$10$3UHDCQhNPXhFIEZ30XxFt.dB11w45z.Gu9CBPOXkXVOUHLazKpSBa', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '2', 'yes', '847cc55b7032108eee6dd897f3bca8a5', ''),
 (11, 1, 0, 'Alina', 'Trenkle', 'AlinaTrenkle', 'uboxu@student.kit.edu', '$2y$10$0Vl5GHakWWYinzx7Nw.7f.aUgGEcMHYtb3ixFU8YqdTfdT73xuwCa', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '3', 'no', '6da9003b743b65f4c0ccd295cc484e57', ''),
 (12, 1, 0, 'Robert', 'Ax', 'Robert', 'ucdxm@student.kit.edu', '$2y$10$I.sS5WJfEgrgApbBRnj5Suq/s/FLbZYWR.KykC.Jq/lai1xtwAnAO', 1, 'Technische Volkswirtschaftslehre', 'master', '1', 'no', 'c4ca4238a0b923820dcc509a6f75849b', ''),
 (13, 0, 0, 'Max', 'Stauder', 'MaxSta123', 'uodls@student.kit.edu', '$2y$10$3EZuX3Lo/1ivSCDnbAKh7eZ.FG1MmyXpQq4qdRqyzsF8Z5K0hIETG', 1, 'WiWi', 'master', '8', 'yes', '1595af6435015c77a7149e92a551338e', ''),
-(14, 1, 0, 'Yingkai', 'Yang', 'Yingkai', 'ugdqz@student.kit.edu', '$2y$10$Qx8Gy1JWEf/SMhOyygfS3uhlijBqsOHiLV3r74a6b4DCZ5yXwCVGy', 1, 'Wirtschaftsingenieurwesen', 'master', '11', 'no', 'df6d2338b2b8fce1ec2f6dda0a630eb0', ''),
+(14, 1, 0, 'Yingkai', 'Yang', 'Yingkai', 'ugdqz@student.kit.edu', '$2y$10$TGsCMm12nT0m7pFdhmypWeVQB4LLCCCZBJbVFH44iWtj10VKUZ8gG', 1, 'Wirtschaftsingenieurwesen', 'master', '11', 'no', 'df6d2338b2b8fce1ec2f6dda0a630eb0', ''),
 (15, 1, 0, 'Christoph', 'Stein', 'Quaselverzippelogyp', 'uqxqo@student.kit.edu', '$2y$10$qKfr72y6izPhG.qVRDGm1.CXEYHcN.VOgfB9TiumA3zsvElI0ZPkS', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '3', 'no', '4f6ffe13a5d75b2d6a3923922b3922e5', ''),
 (16, 1, 0, 'Marco', 'Gehring', 'derhahnmusslaufen', 'uodcf@student.kit.edu', '$2y$10$bBHUx28olKNOyNdLBdHIa.Tfb25DHr0QKaYsJe2q.2aNKPbxD1k1m', 1, 'Wirtschaftsingenieurswesen', 'master', '4', 'no', 'd67d8ab4f4c10bf22aa353e27879133c', ''),
 (17, 1, 0, 'Daniel', 'Englert', 'Mcduniel', 'utdqr@student.kit.edu', '$2y$10$JeHyF5ZAATlWJWoMH1u9ve1FChAJcvxE7XTc3zAwfFGoWxQ4akT8.', 1, 'Wirtschaftsingenieur', 'bachelor', '7', 'no', '149e9677a5989fd342ae44213df68868', ''),
-(18, 1, 0, 'Benedikt', 'Niedenthal', 'benedikt_n', 'utube@student.kit.edu', '$2y$10$6N/msTMyEwrSAoX83bFaq.cx6q9aboedj5Fu2kU.ZAAUVYHZ5p35O', 1, 'Wirtschaftsingenieuwesen', 'bachelor', '3', 'no', '1679091c5a880faf6fb5e6087eb1b2dc', '');
+(18, 1, 0, 'Benedikt', 'Niedenthal', 'benedikt_n', 'utube@student.kit.edu', '$2y$10$6N/msTMyEwrSAoX83bFaq.cx6q9aboedj5Fu2kU.ZAAUVYHZ5p35O', 1, 'Wirtschaftsingenieuwesen', 'bachelor', '3', 'no', '1679091c5a880faf6fb5e6087eb1b2dc', ''),
+(20, 1, 0, 'David', 'Schwab', 'DSchwab', 'urdhx@student.kit.edu', '$2y$10$LKO.MTjAhzAnb3PguMbSJO5lYiqoAs0st4.jAdvQhJDkbIbZaNmPu', 1, 'Wirtschaftsingenieurwesen', 'master', '2', 'no', '54a367d629152b720749e187b3eaa11b', ''),
+(21, 1, 0, 'Jochen', 'Di Vincenzo', 'JDpower910', 'uvdir@student.kit.edu', '$2y$10$aeUYYA6wb/.1fLy.W03Guebt4b0GaPvlffCMPIkEO.PIlG2x49NRS', 1, 'Wirtschaftsingenieurwesen', 'master', '2', 'no', '555d6702c950ecb729a966504af0a635', ''),
+(22, 1, 0, 'Johannes', 'Burger', 'Johannes', 'ubdrd@student.kit.edu', '$2y$10$WTQyUWsnoWBcNAXQEl0H9.1LluTuB.B22XxJdq.g/suW5jpn3osiG', 1, 'Wirtschaftsingenieurwesen', 'master', '3', 'no', '4e0928de075538c593fbdabb0c5ef2c3', '84f7e69969dea92a925508f7c1f9579a'),
+(23, 1, 0, 'Sven', 'Watzinger', 'Hannebambel', 'usdbj@student.kit.edu', '$2y$10$xD6vHSm28yLggKvjwZSKDukbFaoDnU77jBfirPzDR6CqhDw3wdi8y', 1, 'Wirtschaftsingenieurwesen', 'master', '3', 'no', '0efe32849d230d7f53049ddc4a4b0c60', ''),
+(24, 0, 0, 'Maximilian', 'Löffel', 'MaxEl', 'udebm@student.kit.edu', '$2y$10$f1qIi6eBDPpQMI3.B6AAIOYa1aRxGcgY0sOAMxBSw1TYorrL2BWM2', 1, 'Wirtschaftsingenieurwesen', 'master', '2', 'yes', '3cf166c6b73f030b4f67eeaeba301103', ''),
+(27, 0, 0, 'Simon', 'Schülle', 'WiWiWise', 'uzloc@student.kit.edu', '$2y$10$k2xq7XTiYFwsMVN1H3TJY.8XZSlsqLaTVzGExJQV4QHdBJEhDGKMy', 1, '', 'bachelor', '4', 'no', 'f0adc8838f4bdedde4ec2cfad0515589', ''),
+(28, 0, 0, 'Thomas', 'Unterladstätter', 'thomas1913', 'udurq@student.kit.edu', '$2y$10$Xu1Y84n2DFmE.6J9.qvP4eVZ2.JMntzxe.JgSrLW/Lw5i4M3qa25e', 1, '', 'bachelor', '4', 'no', 'aab3238922bcc25a6f606eb525ffdc56', ''),
+(29, 0, 0, 'Arseniy', 'Kurynyi', 'hanswiwi', 'ukebq@student.kit.edu', '$2y$10$qtbgAEgDTk3WfY20qesXPegmBqjMjqJs/S79BomZnEhhwzxLnH1QK', 1, '', 'master', '2', 'no', '1f0e3dad99908345f7439f8ffabdffc4', ''),
+(30, 0, 0, 'Felix', 'Frey', 'littleprincess92', 'urdjj@student.kit.edu', '$2y$10$JYfHUkMrV/7X3FtuM1hWM.Zc6YYognGgZKRhsrRyO9OR/G0ZGYbD2', 1, '', 'master', '10', 'no', '6ecbdd6ec859d284dc13885a37ce8d81', ''),
+(31, 0, 0, 'Niklas', 'Letmathe', 'NikLe', 'ugesh@student.kit.edu', '$2y$10$8bvbLgv1Hp.oBpu..czZNOtjqqns74rUBbua9l3ZgBKIGIH.LLEeC', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '6', 'no', '24896ee4c6526356cc127852413ea3b4', ''),
+(32, 0, 0, 'Julia', 'Seitz', 'seiju', 'ulefv@student.kit.edu', '$2y$10$0jZYOM5I3dMT7EA36JoxzOm7DrBMsazjAROGPyaYxjcvUaT6fpcl6', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '8', 'no', '5ef059938ba799aaa845e1c2e8a762bd', ''),
+(33, 0, 0, 'Philipp', 'Wilczek', 'PhilWil', 'uvdje@student.kit.edu', '$2y$10$1NJbg.b8FRRPChf1TgQzAu9hCSR1lTri2L.xpCifdJmz6IY04YWKa', 1, '', 'master', '10', 'no', '8f7d807e1f53eff5f9efbe5cb81090fb', ''),
+(34, 0, 0, 'Kirsten', 'Prill', 'Kikiri', 'uvdbf@student.kit.edu', '$2y$10$A/.W/ZR5ojVopX5RoJZJCO3ADXupWADavvLvq44jUTrXJNvucspwS', 1, 'Wirtschaftsingenieurwesen', 'master', '12', 'no', 'd1fe173d08e959397adf34b1d77e88d7', ''),
+(35, 0, 0, 'Niklas', 'Steinkühler', 'Nikki', 'upecv@student.kit.edu', '$2y$10$QXNZmLe4HW/5qCCg7JhAqO/mOZYpYQJF0inZwqLrfnTfxtSe.AAO.', 1, 'Wirtschaftsingenieurwesen', 'bachelor', '6', 'no', 'eba0dc302bcd9a273f8bbb72be3a687b', ''),
+(36, 0, 0, 'Lukas', 'Röring', 'LuRoe', 'Lukas.Roering@web.de', '$2y$10$iaCWFX2h82EUuTuLS2ifheu90W.zYo3gikxicnMPGSHrp5Ev3dMiW', 1, 'Wirtschaftsingenieurwesen', 'master', '4', 'no', '94c7bb58efc3b337800875b5d382a072', ''),
+(37, 0, 0, 'Jonas', 'Benterbusch', 'JoBen', 'jonas.benterbusch@estiem.org', '$2y$10$Olubv.Q98VXDGVHsNxXcU.wjL08FWSjZLQlSfg2epJ1enmNhLk6nW', 1, 'Wirtschaftsingenieurwesen', 'master', '4', 'no', 'bd686fd640be98efaae0091fa301e613', '577ef1154f3240ad5b9b413aa7346a1e');
+
+-- --------------------------------------------------------
 
 --
--- Indizes der exportierten Tabellen
+-- Tabellenstruktur für Tabelle `user_notifications`
 --
 
---
--- Indizes für die Tabelle `admin_notifications`
---
-ALTER TABLE `admin_notifications`
-  ADD PRIMARY KEY (`ID`);
+CREATE TABLE IF NOT EXISTS `user_notifications` (
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `own_questions` int(10) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_german2_ci AUTO_INCREMENT=22 ;
 
 --
--- Indizes für die Tabelle `answers`
---
-ALTER TABLE `answers`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `anti_brute_force`
---
-ALTER TABLE `anti_brute_force`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- Indizes für die Tabelle `commentratings`
---
-ALTER TABLE `commentratings`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `subject_ID` (`subject_ID`,`comment_ID`,`user_ID`);
-
---
--- Indizes für die Tabelle `favourites`
---
-ALTER TABLE `favourites`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `institutes`
---
-ALTER TABLE `institutes`
-  ADD PRIMARY KEY (`institute_ID`);
-
---
--- Indizes für die Tabelle `lecturers`
---
-ALTER TABLE `lecturers`
-  ADD PRIMARY KEY (`lecturer_ID`);
-
---
--- Indizes für die Tabelle `lecturers_institutes`
---
-ALTER TABLE `lecturers_institutes`
-  ADD PRIMARY KEY (`lecturers_institutes_ID`);
-
---
--- Indizes für die Tabelle `levels`
---
-ALTER TABLE `levels`
-  ADD PRIMARY KEY (`level_ID`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indizes für die Tabelle `messages`
---
-ALTER TABLE `messages`
-  ADD PRIMARY KEY (`message_id`);
-
---
--- Indizes für die Tabelle `modules`
---
-ALTER TABLE `modules`
-  ADD PRIMARY KEY (`module_ID`);
-
---
--- Indizes für die Tabelle `modules_levels`
---
-ALTER TABLE `modules_levels`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `moduletypes`
---
-ALTER TABLE `moduletypes`
-  ADD PRIMARY KEY (`module_type_ID`);
-
---
--- Indizes für die Tabelle `questions`
---
-ALTER TABLE `questions`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `ratings`
---
-ALTER TABLE `ratings`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indizes für die Tabelle `remember_me`
---
-ALTER TABLE `remember_me`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indizes für die Tabelle `subjects`
---
-ALTER TABLE `subjects`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `subject_name` (`subject_name`);
-
---
--- Indizes für die Tabelle `subjects_lecturers`
---
-ALTER TABLE `subjects_lecturers`
-  ADD PRIMARY KEY (`subjects_lecturers_ID`);
-
---
--- Indizes für die Tabelle `subjects_modules`
---
-ALTER TABLE `subjects_modules`
-  ADD PRIMARY KEY (`subjects_modules_ID`);
-
---
--- Indizes für die Tabelle `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_ID`);
-
---
--- AUTO_INCREMENT für exportierte Tabellen
+-- Daten für Tabelle `user_notifications`
 --
 
---
--- AUTO_INCREMENT für Tabelle `admin_notifications`
---
-ALTER TABLE `admin_notifications`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT für Tabelle `answers`
---
-ALTER TABLE `answers`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT für Tabelle `commentratings`
---
-ALTER TABLE `commentratings`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT für Tabelle `favourites`
---
-ALTER TABLE `favourites`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT für Tabelle `institutes`
---
-ALTER TABLE `institutes`
-  MODIFY `institute_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
---
--- AUTO_INCREMENT für Tabelle `lecturers`
---
-ALTER TABLE `lecturers`
-  MODIFY `lecturer_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=288;
---
--- AUTO_INCREMENT für Tabelle `lecturers_institutes`
---
-ALTER TABLE `lecturers_institutes`
-  MODIFY `lecturers_institutes_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
---
--- AUTO_INCREMENT für Tabelle `levels`
---
-ALTER TABLE `levels`
-  MODIFY `level_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT für Tabelle `messages`
---
-ALTER TABLE `messages`
-  MODIFY `message_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
---
--- AUTO_INCREMENT für Tabelle `modules`
---
-ALTER TABLE `modules`
-  MODIFY `module_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
---
--- AUTO_INCREMENT für Tabelle `modules_levels`
---
-ALTER TABLE `modules_levels`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
---
--- AUTO_INCREMENT für Tabelle `moduletypes`
---
-ALTER TABLE `moduletypes`
-  MODIFY `module_type_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT für Tabelle `questions`
---
-ALTER TABLE `questions`
-  MODIFY `ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT für Tabelle `ratings`
---
-ALTER TABLE `ratings`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- AUTO_INCREMENT für Tabelle `remember_me`
---
-ALTER TABLE `remember_me`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
---
--- AUTO_INCREMENT für Tabelle `subjects`
---
-ALTER TABLE `subjects`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=551;
---
--- AUTO_INCREMENT für Tabelle `subjects_lecturers`
---
-ALTER TABLE `subjects_lecturers`
-  MODIFY `subjects_lecturers_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=783;
---
--- AUTO_INCREMENT für Tabelle `subjects_modules`
---
-ALTER TABLE `subjects_modules`
-  MODIFY `subjects_modules_ID` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1069;
---
--- AUTO_INCREMENT für Tabelle `users`
---
-ALTER TABLE `users`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;COMMIT;
+INSERT INTO `user_notifications` (`ID`, `user_id`, `own_questions`) VALUES
+(8, 8, 1),
+(7, 2, 1),
+(9, 29, 1),
+(10, 9, 1),
+(11, 12, 1),
+(12, 3, 1),
+(13, 34, 1),
+(14, 35, 1),
+(15, 21, 1),
+(16, 20, 1),
+(17, 17, 1),
+(18, 36, 1),
+(19, 23, 1),
+(20, 14, 1),
+(21, 37, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
