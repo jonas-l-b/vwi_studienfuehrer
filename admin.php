@@ -830,10 +830,29 @@ if($userRow['admin']==0){
 						<button id="changeNotesSubmit" class="btn btn-warning">Änderungen speichern</button>
 				
 					<script>
+					$(document).ready(function(){
+						//Text direkt in Meldungsblock schreiben
 						$(".note-input").on("change paste keyup", function() {
 							$('#' + $(this).attr('id').slice(0,-5)).html($(this).val());
 						});
 						
+						//Farbe direkt in Meldungsblock ändern
+						$(".note-color").change(function(){
+							switch($(this).val()) {
+								case "blue":
+									bColor = "#e6f3ff";
+									break;
+								case "orange":
+									bColor = "#fff0e2";
+									break;
+								default:
+									bColor = "#ffffff";
+							}
+
+							$('#' + $(this).attr('id').slice(0,-5)).parent().css("background-color", bColor);
+						});
+						
+						//Änderungen in Datenbank speichern
 						$("#changeNotesSubmit").click(function(){
 							noteLeftInput = $('#noteLeftInput').val();
 							noteLeftColor = $('#noteLeftColor').val();
@@ -852,10 +871,11 @@ if($userRow['admin']==0){
 								},
 								error: function() {
 								   alert("Es ist ein Fehler aufgetreten!");
+								   location.reload();
 								}
 							});
-							
 						});
+					});
 					</script>
 					
 				</div>
