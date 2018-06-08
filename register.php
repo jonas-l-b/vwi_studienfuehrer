@@ -256,15 +256,15 @@ include "header.php";
 			<br /> <br />
 			-->
 			
-			<div class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
+			<div style="margin-bottom:0px;" class="form-group has-feedback <?php if(isset($hightlight_upass)) echo 'has-error' ?>">
 				<input id="userpassword2" type="password" class="form-control" placeholder="Passwort erneut eingeben" data-match="#userpassword" name="password2" required data-error="Die Eingaben stimmen nicht überein." />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
 
 <br />
-
-			<div class="form-group has-feedback">
+<!--
+			<div class="form-group has-feedback" style="border:solid lightgrey 1px; border-radius: 4px">
 				<div class="ui dropdown">
 				  <input data-error="Gib deinen Studiengang ein!" required class="form-control" type="hidden" name="degree">
 				  <i class="dropdown icon"></i>
@@ -280,16 +280,23 @@ include "header.php";
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<div class="help-block with-errors"></div>
 			</div>
+-->			
+			<div class="form-group" style="margin-bottom:0px;">
+				<select class="form-control" id="degreeSelect" name="degree" required>
+					<option disabled selected value><span style="color:lightgrey"> -- Studiengang -- </span></option>
+					<option value="Wirtschaftsingenieurwesen">Wirtschaftsingenieurwesen</option>
+					<option value="Technische Volkswirtschaftslehre">Technische Volkswirtschaftslehre</option>
+					<option value="Informationswirtschaft">Informationswirtschaft</option>
+					<option value="Wirtschaftsmathematik">Wirtschaftsmathematik</option>
+					<option value="Sonstige">Sonstige</option>
+				</select>
+			</div>
 
 			<script>
-			$('.ui.dropdown')
-				.dropdown(
-					<?php if(isset($memorey_degree)) echo "'set selected', '$memorey_degree'" ?>
-				)
-				;
+			$('#degreeSelect').val("<?php if(isset($memorey_degree)) echo $memorey_degree?>");
 			</script>
 
-<br />
+			<br />
 
 			<div class="form-group has-feedback">
 				<select class="form-control" name="advance" required style="-moz-appearance: none;-webkit-appearance: none;appearance: none;">

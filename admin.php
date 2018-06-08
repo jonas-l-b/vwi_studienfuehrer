@@ -700,8 +700,7 @@ if($userRow['admin']==0){
 		</div>
 		<div id="notes" class="tab-pane fade">
 			<br>
-			<p><i>Hier können die Meldungen, die auf der Startseite erscheinen, verändert werden.<br><span style="color:red">Vorsicht: Änderungen werden nur mit Klick auf "Änderung speichern" übernommen!</span></i></p>
-			<br>
+			<p><i>Hier können die Meldungen, die auf der Startseite erscheinen, verändert werden. <span style="color:red">Vorsicht: Änderungen werden nur mit Klick auf "Änderung speichern" übernommen!</span></i></p>
 			
 			<?php
 			$note = array();
@@ -879,8 +878,7 @@ if($userRow['admin']==0){
 				</div>
 				<div class="col-md-6">
 					<h4>HTML-Tags benutzen</h4>
-					<p>Für die Formatierung können HTML-Tags verwendet werden.</p>
-					<p>Grundsätzliche HTML-Tags werden hier aufgeführt. Viele weitere finden sich im Netz.</p>
+					<p>Für die Formatierung können HTML-Tags verwendet werden. Grundsätzliche HTML-Tags werden hier aufgeführt. Viele weitere finden sich im Netz.</p>
 					<table class="table table-striped" style="table-layout: fixed;">
 						<thead>
 							<tr>
