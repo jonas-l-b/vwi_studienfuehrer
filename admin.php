@@ -867,11 +867,9 @@ if($userRow['admin']==0){
 								data: {noteLeftInput: noteLeftInput, noteMiddleInput: noteMiddleInput, noteRightInput: noteRightInput, noteLeftColor: noteLeftColor, noteMiddleColor: noteMiddleColor, noteRightColor: noteRightColor} ,
 								success: function (data) {
 									alert(data);
-									location.reload();
 								},
 								error: function() {
 								   alert("Es ist ein Fehler aufgetreten!");
-								   location.reload();
 								}
 							});
 						});

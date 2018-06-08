@@ -314,10 +314,6 @@ $("#changeButton").click(function () {
 
 	?>
 	
-	<h2>So sieht das Ergebnis aus</h2>
-	
-	<hr>
-	
 	<div class="row">
 		<div class="col-md-4">
 			<div class="notes" style="background-color:<?php echo $colorLeft?>">
@@ -344,18 +340,18 @@ $("#changeButton").click(function () {
 		</div>	
 	</div>
 	
-	<hr>
-
+	<br><br>
+	
 	<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 	<div align="center">
-			<a id="treebutton" style="width:330px" class="btn btn-primary" >Veranstaltung aus Verzeichnis wählen</a>
+			<a id="treebutton" style="width:330px" class="btn btn-primary">Veranstaltung aus Verzeichnis wählen</a>
 			<a id="searchbutton" style="width:330px" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
 	</div>
-
+	
 	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
 
-		<h2>Veranstaltungsverzeichnis</h2>
+		<h3>Veranstaltungsverzeichnis</h3>
 		<div class="" style="width:500px; padding: 8px 0;">
 			<div>
 				<ul class="nav nav-list">
