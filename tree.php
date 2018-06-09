@@ -693,6 +693,9 @@ $("#changeButton").click(function () {
 				<button type="submit" class="btn btn-primary" id="btn-filterSort">Filtern & Sortieren</button>
 			</div></div></div>
 		</form>
+		
+		<br>
+		<p style="color:red">Vorsicht: Filter sind noch nicht an geänderte Bewertungskriterien angepasst, sodass manchmal Quatsch entsteht. Wird bald behoben - bis dahin am besten nicht nutzen!</p>
 
 		<div style="align:center;display:none;" id="tabelleLaden"></div>
 
