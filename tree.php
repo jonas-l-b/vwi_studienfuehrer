@@ -884,4 +884,5 @@ $("#changeButton").click(function () {
 <br />
 <br />
 </body>
+<?php include "footer.php" ?>
 </html>

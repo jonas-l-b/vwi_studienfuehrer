@@ -939,7 +939,7 @@ if($userRow['admin']==0){
 					</table>
 				
 				</div>
-			
+			</div>
 		</div>
 	</div>
 </div>
@@ -986,4 +986,5 @@ $('#linkToNotes').click(function(event){
 </script>
 
 </body>
+<?php include "footer.php" ?>
 </html>
