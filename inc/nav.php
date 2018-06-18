@@ -46,9 +46,15 @@ $name = $userRow['first_name'];
 				</a>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li style="background-color: #F0F8FF"><a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a></li>
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
-					<li><a href="about.php" style="cursor: pointer; cursor: hand;">Über</a></li>
+					<li><a id="contact" style="cursor: pointer; cursor: hand;">Impressum & Datenschutz</a></li>
+					<li>
+						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;">Mehr <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li style="background-color: #F0F8FF"><a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a></li>
+							<li><a href="about.php" style="cursor: pointer; cursor: hand;">Über</a></li>
+						</ul>
+					</li>
 					<?php echo $admin;?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
