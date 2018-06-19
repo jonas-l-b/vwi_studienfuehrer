@@ -179,6 +179,7 @@ include "header.php";
 	<div class="container">
 		<form class="form-signin" method="post" id="register-form" action="register.php">
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
+			<p><u>Wichtig</u>: Für andere Nutzer ist lediglich dein Benutzername sichtbar.</p>
 
 			<?php
 
