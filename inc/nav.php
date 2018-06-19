@@ -46,14 +46,22 @@ $name = $userRow['first_name'];
 				</a>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li style="background-color: #F0F8FF"><a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a></li>
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
-					<li><a href="about.php" style="cursor: pointer; cursor: hand;">Über</a></li>
+					<li><a href="impressum.php" style="cursor: pointer; cursor: hand;">Impressum & Datenschutz</a></li>
+					<li>
+						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;">Mehr <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li style="background-color: #F0F8FF"><a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a></li>
+							<li><a href="about.php" style="cursor: pointer; cursor: hand;">Über</a></li>
+						</ul>
+					</li>
 					<?php echo $admin;?>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
 						<a data-toggle="dropdown" style="cursor: pointer; cursor: hand;"><span class="glyphicon glyphicon-user"></span> Hallo <?php echo $name;?>! <span class="caret"></span></a>
+						<!-- BUGS IN FIREFOX! BIS ZUR BEHEBUNG OHNE GLYPHICONS!-->
+						<!--
 						<ul class="dropdown-menu">
 							<li><a id="linkToUserProfile" href="userProfile.php">Profil <span class="pull-right"><span class="glyphicon glyphicon-list-alt"></span></span></a></li>
 							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten <span class="pull-right"><span class="glyphicon glyphicon-star"></span></span></a></li>
@@ -62,6 +70,16 @@ $name = $userRow['first_name'];
 							<li><a id="linkToNotifications" href="userProfile.php#notifications">Mails <span class="pull-right"><span class="glyphicon glyphicon-envelope"></span></span></a></li>
 							<li class="divider"></li>
 							<li><a href="logout.php">Logout <span class="pull-right"><span class="glyphicon glyphicon-log-out"></span></span></a></li>
+						</ul>
+						-->
+						<ul class="dropdown-menu">
+							<li><a id="linkToUserProfile" href="userProfile.php">Profil</a></li>
+							<li><a id="linkToUserFavorites" href="userProfile.php#favourites">Favoriten</a></li>
+							<li><a id="linkToUserRatings" href="userProfile.php#userRatings">Bewertungen</a></li>
+							<li><a id="linkToQuestions" href="userProfile.php#questions">Fragen</a></li>
+							<li><a id="linkToNotifications" href="userProfile.php#notifications">Mails</a></li>
+							<li class="divider"></li>
+							<li><a href="logout.php">Logout</a></li>
 						</ul>
 					</li>
 				</ul>
