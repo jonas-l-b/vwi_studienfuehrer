@@ -351,7 +351,7 @@ $("#changeButton").click(function () {
 	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
 
-		<h3>Veranstaltungsverzeichnis</h3>
+		<h2>Veranstaltungsverzeichnis</h2>
 		<div class="" style="width:500px; padding: 8px 0;">
 			<div>
 				<ul class="nav nav-list">
