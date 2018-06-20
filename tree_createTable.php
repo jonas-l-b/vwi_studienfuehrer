@@ -83,23 +83,22 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 	if (mysqli_num_rows($result) == 0){ //Falls noch keine Bewertungen vorhanden
 		$overallRating[$subjects['ID']] = "-";
 		$recoms[$subjects['ID']] = "-";
-		$overallLecture[$subjects['ID']] = "-";
-		$relevance[$subjects['ID']] = "-";
-		$interest[$subjects['ID']] = "-";
-		$quality[$subjects['ID']] = "-";
-		$overallExam[$subjects['ID']] = "-";
-		$effort[$subjects['ID']] = "-";
-		$fairness[$subjects['ID']] = "-";
-		$timePressure[$subjects['ID']] = "-";
+		$relevance[$subjects['ID']] = 0;
+		$interest[$subjects['ID']] = 0;
+		$quality[$subjects['ID']] = 0;
+		$reproductionTransfer[$subjects['ID']] = 0;
+		$calculative[$subjects['ID']] = 0;
+		$effort[$subjects['ID']] = 0;
+		$training[$subjects['ID']] = 0;
 		$reproductionTransfer[$subjects['ID']] = 0;
 		$qualitativeQuantitative[$subjects['ID']] = 0;
 		$amountRatings[$subjects['ID']] = "-";
 	}
 	else{ //Falls Bewertungen vorhanden
-		$db = array("general0", "lecture0", "lecture1", "lecture2", "lecture3", "exam0", "exam1", "exam2", "exam3", "exam4", "exam5");
-		$name = array("overallRating", "overallLecture", "relevance", "interest", "quality", "overallExam", "effort", "fairness", "timePressure", "reproductionTransfer", "qualitativeQuantitative");
+		$db = array("general0", "lecture0", "lecture1", "lecture2", "exam0", "exam1", "exam2", "exam3");
+		$name = array("overallRating", "relevance", "interest", "quality", "reproductionTransfer", "calculative", "effort", "training");
 
-		for ($i = 0; $i < 11; $i++) {
+		for ($i = 0; $i < sizeof($db); $i++) {
 			$row = mysqli_fetch_array(mysqli_query($con, "SELECT AVG(".$db[$i].") FROM ratings WHERE subject_ID = '".$subjects['ID']."'"));
 			${$name[$i]}[$subjects['ID']] = $row[0];
 		}
@@ -210,16 +209,16 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 		'overallRating' => $overallRating[$subjects['ID']],
 		'recoms' => $recoms[$subjects['ID']],
-		'overallLecture' => $overallLecture[$subjects['ID']],
+
 		'relevance' => $relevance[$subjects['ID']],
 		'interest' => $interest[$subjects['ID']],
 		'quality' => $quality[$subjects['ID']],
-		'overallExam' => $overallExam[$subjects['ID']],
-		'effort' => $effort[$subjects['ID']],
-		'fairness' => $fairness[$subjects['ID']],
-		'timePressure' => $timePressure[$subjects['ID']],
+		
 		'reproductionTransfer' => $reproductionTransfer[$subjects['ID']],
-		'qualitativeQuantitative' => $qualitativeQuantitative[$subjects['ID']],
+		'calculative' => $calculative[$subjects['ID']],
+		'effort' => $effort[$subjects['ID']],
+		'training' => $training[$subjects['ID']],
+		
 		'amountRatings' => $amountRatings[$subjects['ID']],
 	);
 }
@@ -240,55 +239,55 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 			case "recoms":
 				$orderBy = "recoms";
 				$orderByHeader = "Anzahl Empfehlungen";
+				$displayFromMax = "display:none";
+				$displayNote = "";
 				break;
 		}
 	}elseif($sortArea == "lecture"){
 		switch ($sortLecture){
-			case "overallLecture":
-				$orderBy = "overallLecture";
-				$orderByHeader = "Overall Vorlesung";
-				break;
 			case "relevance":
 				$orderBy = "relevance";
 				$orderByHeader = "Relevanz";
+				$displayFromMax = "display:none";
+				$displayNote = "";
 				break;
 			case "interest":
 				$orderBy = "interest";
 				$orderByHeader = "Interessantheit";
+				$displayFromMax = "display:none";
+				$displayNote = "";
 				break;
 			case "quality":
 				$orderBy = "quality";
 				$orderByHeader = "Qualität Materialien";
+				$displayFromMax = "display:none";
+				$displayNote = "";
 				break;
 		}
 	}elseif($sortArea == "exam"){
 		if($sortExamType == "written_oral"){
 		switch ($sortExamItem){
-			case "overallExam":
-				$orderBy = "overallExam";
-				$orderByHeader = "Overall Prüfung";
-				break;
-			case "effort":
-				$orderBy = "effort";
-				$orderByHeader = "Aufwand";
-				break;
-			case "fairness":
-				$orderBy = "fairness";
-				$orderByHeader = "Fairness";
-				break;
-			case "timePressure":
-				$orderBy = "timePressure";
-				$orderByHeader = "Zeitdruck";
-				break;
-			case "reproductionTransfer":
+				case "reproductionTransfer":
 				$orderBy = "reproductionTransfer";
 				$orderByHeader = "Reprod./Transfer";
 				$displayFromMax = "display:none";
 				$displayNote = "";
 				break;
-			case "qualitativeQuantitative":
-				$orderBy = "qualitativeQuantitative";
-				$orderByHeader = "Qualit./Quantit.";
+			case "calculative":
+				$orderBy = "calculative";
+				$orderByHeader = "Rechenlastigkeit";
+				$displayFromMax = "display:none";
+				$displayNote = "";
+				break;
+			case "effort":
+				$orderBy = "effort";
+				$orderByHeader = "Aufwand";
+				$displayFromMax = "display:none";
+				$displayNote = "";
+				break;
+			case "training":
+				$orderBy = "training";
+				$orderByHeader = "Pr.vorbereitung";
 				$displayFromMax = "display:none";
 				$displayNote = "";
 				break;
@@ -321,7 +320,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				<td><div>".$item['semester']."</div></td>
 				<td><div>".$item['language']."</div></td>
 				<td><div>".round($item[$orderBy],1)."
-					<span style=\"$displayFromMax\"> /10</span>
+					<span style=\"$displayFromMax\"> /3</span>
 				</div></td>
 			</tr>
 		";
@@ -329,7 +328,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 
 	$table="
 
-		<span style=\"$displayNote\"><br><i>Hinweis:</i> Der Maximalwert für Reproduktion und Qualitativ ist -10; der Maximalwert für Transfer und Quantitativ ist 10.</span>
+		<span style=\"$displayNote\"><br><i>Hinweis:</i> Die Skala der Bewertungskriterien von Vorlesung und Prüfung reicht von -3 bis 3 (\"#Anmerkungen Prüfung\" ausgenommen).</span>
 		<table class=\"table table-striped table-condensed searchresulttable\">
 			<thead>
 				<tr>

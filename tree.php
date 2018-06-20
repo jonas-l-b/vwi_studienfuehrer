@@ -660,7 +660,6 @@ $("#changeButton").click(function () {
 				</select>
 
 				<select class="form-control treeSort" id="sortLecture" style="display:none" name="sortLecture">
-					<option value="overallLecture">Overall Vorlesung</option>
 					<option value="relevance">Prüfungsrelevanz</option>
 					<option value="interest">Interessantheit</option>
 					<option value="quality">Qualität der Arbeitsmaterialien</option>
@@ -673,12 +672,10 @@ $("#changeButton").click(function () {
 				</select>
 
 				<select class="form-control treeSort" id="sortExamItem" style="display:none" name="sortExamItem">
-					<option value="overallExam">Overall Prüfung</option>
-					<option value="effort">Aufwand</option>
-					<option value="fairness">Fairness</option>
-					<option value="timePressure">Zeitdruck</option>
 					<option value="reproductionTransfer">Reproduktion/Transfer</option>
-					<option value="qualitativeQuantitative">Qualitativ/Quantiativ</option>
+					<option value="calculative">Rechenlastigkeit</option>
+					<option value="effort">Aufwand</option>
+					<option value="training">Prüfungsvorbereitung</option>
 				</select>
 
 				<select class="form-control treeSort" id="sortExamOther" style="display:none" name="sortExamOther">
@@ -695,7 +692,6 @@ $("#changeButton").click(function () {
 		</form>
 		
 		<br>
-		<p style="color:red">Vorsicht: Filter sind noch nicht an geänderte Bewertungskriterien angepasst, sodass manchmal Quatsch entsteht. Wird bald behoben - bis dahin am besten nicht nutzen!</p>
 
 		<div style="align:center;display:none;" id="tabelleLaden"></div>
 
@@ -712,28 +708,66 @@ $("#changeButton").click(function () {
 				case "lecture":
 					$('.treeSort').hide();
 					$('#sortLecture').show();
-					$('#auf').html("Aufsteigend");
-					$('#ab').html("Absteigend");
+					
+					switch($('#sortLecture').val()){
+						case "relevance":
+							$('#auf').html("Nicht prüfungsrelevant zuerst");
+							$('#ab').html("Sehr prüfungsrelevant zuerst");
+							break;
+						case "interest":
+							$('#auf').html("Nicht interessant zuerst");
+							$('#ab').html("Sehr interessant zuerst");
+							break;
+						case "quality":
+							$('#auf').html("Materialien schlecht zuerst");
+							$('#ab').html("Materialien gut zuerst");
+							break;
+					}
+					
+					//$('#auf').html("Aufsteigend");
+					//$('#ab').html("Absteigend");
 					break;
 				case "exam":
 					$('.treeSort').hide();
 					$('#sortExamType').show();
 					$('#sortExamItem').show();
-					if($('#sortExamItem').val() != "reproductionTransfer" && $('#sortExamItem').val() != "qualitativeQuantitative"){
-						$('#auf').html("Aufsteigend");
-						$('#ab').html("Absteigend");
-					}else{
-						switch($('#sortExamItem').val()){
-							case "reproductionTransfer":
-								$('#auf').html("Reproduktion zuerst");
-								$('#ab').html("Transfer zuerst");
-								break;
-							case "qualitativeQuantitative":
-								$('#auf').html("Qualitativ zuerst");
-								$('#ab').html("Quantitativ zuerst");
-								break;
-						}
+
+					switch($('#sortExamItem').val()){
+						case "reproductionTransfer":
+							$('#auf').html("Reproduktion zuerst");
+							$('#ab').html("Transfer zuerst");
+							break;
+						case "calculative":
+							$('#auf').html("Nicht rechenlastig zuerst");
+							$('#ab').html("Sehr rechenlastig zuerst");
+							break;
+						case "effort":
+							$('#auf').html("Kleiner Aufwand zuerst");
+							$('#ab').html("Großer Aufwand zuerst");
+							break;
+						case "training":
+							$('#auf').html("Schlechte Vorbereitung zuerst");
+							$('#ab').html("Gute Vorbereitung zuerst");
+							break;
 					}
+
+					break;
+			}
+		})
+		
+		$('#sortLecture').on('change', function() {
+			switch($('#sortLecture').val()){
+				case "relevance":
+					$('#auf').html("Nicht prüfungsrelevant zuerst");
+					$('#ab').html("Sehr prüfungsrelevant zuerst");
+					break;
+				case "interest":
+					$('#auf').html("Nicht interessant zuerst");
+					$('#ab').html("Sehr interessant zuerst");
+					break;
+				case "quality":
+					$('#auf').html("Materialien schlecht zuerst");
+					$('#ab').html("Materialien gut zuerst");
 					break;
 			}
 		})
@@ -749,38 +783,46 @@ $("#changeButton").click(function () {
 				default:
 					$('#sortExamOther').hide();
 					$('#sortExamItem').show();
-					if($('#sortExamItem').val() != "reproductionTransfer" && $('#sortExamItem').val() != "qualitativeQuantitative"){
-						$('#auf').html("Aufsteigend");
-						$('#ab').html("Absteigend");
-					}else{
-						switch($('#sortExamItem').val()){
-							case "reproductionTransfer":
-								$('#auf').html("Reproduktion zuerst");
-								$('#ab').html("Transfer zuerst");
-								break;
-							case "qualitativeQuantitative":
-								$('#auf').html("Qualitativ zuerst");
-								$('#ab').html("Quantitativ zuerst");
-								break;
-						}
+					
+					switch($('#sortExamItem').val()){
+						case "reproductionTransfer":
+							$('#auf').html("Reproduktion zuerst");
+							$('#ab').html("Transfer zuerst");
+							break;
+						case "calculative":
+							$('#auf').html("Nicht rechenlastig zuerst");
+							$('#ab').html("Sehr rechenlastig zuerst");
+							break;
+						case "effort":
+							$('#auf').html("Kleiner Aufwand zuerst");
+							$('#ab').html("Großer Aufwand zuerst");
+							break;
+						case "training":
+							$('#auf').html("Schlechte Vorbereitung zuerst");
+							$('#ab').html("Gute Vorbereitung zuerst");
+							break;
 					}
 					break;
 			}
 		})
 
 		$('#sortExamItem').on('change', function() {
-			switch(this.value){
+			switch($('#sortExamItem').val()){
 				case "reproductionTransfer":
 					$('#auf').html("Reproduktion zuerst");
 					$('#ab').html("Transfer zuerst");
 					break;
-				case "qualitativeQuantitative":
-					$('#auf').html("Qualitativ zuerst");
-					$('#ab').html("Quantitativ zuerst");
+				case "calculative":
+					$('#auf').html("Nicht rechenlastig zuerst");
+					$('#ab').html("Sehr rechenlastig zuerst");
 					break;
-				default:
-					$('#auf').html("Aufsteigend");
-					$('#ab').html("Absteigend");
+				case "effort":
+					$('#auf').html("Kleiner Aufwand zuerst");
+					$('#ab').html("Großer Aufwand zuerst");
+					break;
+				case "training":
+					$('#auf').html("Schlechte Vorbereitung zuerst");
+					$('#ab').html("Gute Vorbereitung zuerst");
 					break;
 			}
 		})
