@@ -23,6 +23,9 @@ function endsWith($haystack, $needle)
 }
 
 if(isset($_POST['btn-signup'])) {
+	
+	$code = strip_tags($_POST['code']); //<!--vorrübergehend-->	
+	
 	$firstName = strip_tags($_POST['first_name']);
 	$lastName = strip_tags($_POST['last_name']);
 	$username = strip_tags($_POST['username']);
@@ -53,15 +56,56 @@ if(isset($_POST['btn-signup'])) {
 
 	$hashed_password = password_hash($upass, PASSWORD_DEFAULT); // this function works only in PHP 5.5 or latest version
 
+	//<!--vorrübergehend START-->	
+	$check_code1 = $con->query("SELECT code FROM codes WHERE code='$code'"); 
+	$check_code2 = $con->query("SELECT code FROM codes WHERE code='$code' AND used=0"); 
+	$count_code1=$check_code1->num_rows; //1=existiert
+	$count_code2=$check_code2->num_rows; //1=unverbraucht
+	//<!--vorrübergehend ENDE-->	
+	
 	$check_email = $con->query("SELECT email FROM users WHERE email='$email'");
 	$count=$check_email->num_rows;
 
 	$check_username = $con->query("SELECT username FROM users WHERE username='$username'");
 	$count2=$check_username->num_rows;
-
-	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
+	
+	//<!--vorrübergehend START-->	
+	if($count_code1==1 && $count_code2==0){
+		$msg = "<div class='alert alert-danger'>
+		<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Der angegebene Einladungscode wurde bereits verbraucht!
+		</div>";
+		
+		$memorey_firstName = $firstName;
+		$memorey_lastName = $lastName;
+		$memorey_username = $username;
+		$memorey_email = $email;
+		$memorey_degree = $degree;
+		$memorey_advance = $advance;
+		$memorey_semester = $semester;
+		$memorey_info = $info;
+	}elseif($count_code1==0){
+		$msg = "<div class='alert alert-danger'>
+		<span class='glyphicon glyphicon-info-sign'></span> &nbsp; Der angegebene Einladungscode existiert nicht!
+		</div>";
+		$memorey_firstName = $firstName;
+		$memorey_lastName = $lastName;
+		$memorey_username = $username;
+		$memorey_email = $email;
+		$memorey_degree = $degree;
+		$memorey_advance = $advance;
+		$memorey_semester = $semester;
+		$memorey_info = $info;
+	}elseif ($count==0 && $count2==0 && $count_code1==1 && $count_code2==1 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
+	//<!--vorrübergehend ENDE-->	
+//	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
 		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash')";
 		if ($con->query($query)) {
+			//<!--vorrübergehend START-->	
+			if($code!="vwiESTIEM"){
+				mysqli_query($con,"UPDATE codes SET used = 1 WHERE code='$code';");
+			}
+			//<!--vorrübergehend ENDE-->	
+			
 			$subject = 'Aktivierung deines Studienführer-Accounts'; // Give the email a subject
 			$message="
 			<p>vielen Dank für deine Registrierung!</p>
@@ -195,6 +239,15 @@ include "header.php";
 			}
 		?>
 
+<!--vorrübergehend START-->						
+			<div class="form-group has-feedback">
+				<input  type="text" class="form-control" placeholder="Einladungscode" name="code" id="bad_code" data-error="" required  />
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+				<div class="help-block">Um vor dem offiziellen Launch einen Account zu erstellen, benötigst du einen Einladungscode.</div>
+				<div class="help-block with-errors"></div>
+			</div>
+<!--vorrübergehend ENDE-->		
+		
 			<div class="form-group has-feedback">
 				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" id="bad1" data-error="Gib deinen Vornamen ein." required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
