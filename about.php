@@ -60,7 +60,7 @@ include "connect.php";
 				</h4>
 			  </div>
 			  <div id="collapse3" class="panel-collapse collapse">
-				<div class="panel-body">Der Studienführer ist ein Projekt der VWI-ESTIEM Karlsruhe Hochschulgruppe e.V.</div>
+				<div class="panel-body">Der Studienführer ist ein Projekt der VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</div>
 			  </div>
 			</div>
 		</div>
