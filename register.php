@@ -223,7 +223,6 @@ include "header.php";
 	<div class="container">
 		<form class="form-signin" method="post" id="register-form" action="register.php">
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
-			<p><u>Wichtig</u>: Für andere Nutzer ist lediglich dein Benutzername sichtbar.</p>
 
 			<?php
 
@@ -246,8 +245,11 @@ include "header.php";
 				<div class="help-block">Um vor dem offiziellen Launch einen Account zu erstellen, benötigst du einen Einladungscode.</div>
 				<div class="help-block with-errors"></div>
 			</div>
+			<hr>
 <!--vorrübergehend ENDE-->		
-		
+
+			<p><u>Wichtig</u>: Für andere Nutzer ist lediglich dein Benutzername sichtbar.</p>
+			
 			<div class="form-group has-feedback">
 				<input value="<?php if(isset($memorey_firstName)) echo $memorey_firstName ?>" type="text" class="form-control" placeholder="Vorname" name="first_name" id="bad1" data-error="Gib deinen Vornamen ein." required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
