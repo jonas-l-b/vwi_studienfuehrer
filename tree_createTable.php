@@ -320,7 +320,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				<td><div>".$item['semester']."</div></td>
 				<td><div>".$item['language']."</div></td>
 				<td><div>".round($item[$orderBy],1)."
-					<span style=\"$displayFromMax\"> /3</span>
+					<span style=\"$displayFromMax\"> /10</span>
 				</div></td>
 			</tr>
 		";
