@@ -36,8 +36,20 @@ include "connect.php";
 		$dis = "";
 	}
 	?>
+
 	<div style="background: #F7D358; padding:20px; text-align:center; border: solid 1px lightgrey; border-radius:3px; display:<?php echo $dis?>">
-		<h3 style="padding:0;margin:0">Rising Star dieser Woche: <strong><?php echo $row['username']?></strong></h3>
+		<h3 style="padding:0;margin:0">
+			<?php
+			if(mysqli_num_rows($result)!=0){?>
+				Rising Star dieser Woche: <strong><?php echo $row['username']?></strong>
+			<?php
+			}else{
+			?>
+				Noch kein Rising Star diese Woche - Gib jetzt eine Bewertung ab!
+			<?php
+			}
+			?>
+		</h3>
 	</div>
 		
 	<div class="row">
