@@ -322,6 +322,19 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				<td><div>".round($item[$orderBy],1)."
 					<span style=\"$displayFromMax\"> /10</span>
 				</div></td>
+				
+				<td>
+				<!--
+				<div style=\"width:40%; text-align:right\"><span class=\"glyphicon glyphicon-arrow-down\" style=\"color:orange\"></span></div>
+				<div style=\"border-top:solid 2px;\"></div>
+				<div class=\"contenedor\">
+					<div class=\"contenido\">3</div>
+					<div class=\"contenido\">0</div>
+					<div class=\"contenido\">-3</div>
+				</div>
+				-->
+				</td>
+				
 			</tr>
 		";
 	}

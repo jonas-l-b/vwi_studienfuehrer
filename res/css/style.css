@@ -380,3 +380,10 @@ span.ects {
 #infobox{
   max-width: 250px;
 }
+
+//Skala
+	.contenedor{
+		width:100%;
+		display:flex;
+		justify-content: space-between;
+	}
