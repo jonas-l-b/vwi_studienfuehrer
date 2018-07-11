@@ -25,7 +25,7 @@ include "connect.php";
 	E-Mail: <a href="mailto:studienführer@vwi-karlsruhe.de"> studienführer@vwi-karlsruhe.de</a></p>
 
 	<h4>Vertreten durch:</h4>
-	<p>Maximilian Löffel (Vorsitzender), Sven Watzinger (Stellvertretender Vorsitzender), Charlott Jakob Schatzmeister), Christoph Stein (Local Responsible), Julia Seitz (Vorstand für Kommunikation und Weiterentwicklung)</p>
+	<p>Felix Bock (Vorsitzender), Niklas Steinkühler (Stellvertretender Vorsitzender), Benedikt Niedenthal (Schatzmeister), Begüm Serra Güven (Local Responsible), Theresa Hillemann (Vorstand für Kommunikation und Weiterentwicklung)</p>
 
 	<h4>Eingetragen am</h4>
 	<p>Amtsgericht Mannheim, Sitz Karlsruhe<br>
