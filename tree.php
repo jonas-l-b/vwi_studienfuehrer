@@ -347,6 +347,7 @@ $("#changeButton").click(function () {
 		SELECT DISTINCT *, questions.time_stamp AS q_time_stamp FROM questions
 		JOIN subjects ON questions.subject_ID = subjects.ID
 		WHERE questions.ID NOT IN (SELECT DISTINCT answers.question_ID FROM answers) AND questions.subject_ID IN (SELECT DISTINCT ratings.subject_ID FROM ratings WHERE user_ID = 2)
+		LIMIT 5
 	";
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)!=0){
