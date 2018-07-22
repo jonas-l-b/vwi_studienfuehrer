@@ -35,7 +35,7 @@ include "header.php";
  ?>
 <div class="container">
 	<p>
-		Hier kannst du neue Einladungscodes generieren.
+		Hier kannst du neue Einladungscodes generieren (Refresh, damit sie auch in der Tabelle angezeigt werden).
 	</p>
 	<br >
 	<button type="button" id="generierButton" class="btn btn-primary">Code generieren.</button>
@@ -52,8 +52,6 @@ include "header.php";
 		});
 	</script>
 	<br >
-	<br >
-	<p>Hier können Einladungscodes eingesehen werden.</p>
 	<br>
 
 	<table class="table table-striped">
