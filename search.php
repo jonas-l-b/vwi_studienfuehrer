@@ -55,8 +55,8 @@ include "connect.php";
 
 	<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 	<div align="center">
-			<a id="treebutton" style="width:330px" class="btn btn-primary" <?php echo $displayButtonTree?>>Veranstaltung aus Verzeichnis wählen</a>
-			<a id="searchbutton" style="width:330px" class="btn btn-primary" <?php echo $displayButtonSearch?>>Veranstaltungen nach Kriterien durchsuchen</a>
+			<a id="treebutton" style="width:330px" class="btn btn-primary <?php echo $displayButtonTree?>">Veranstaltung aus Verzeichnis wählen</a>
+			<a id="searchbutton" style="width:330px" class="btn btn-primary <?php echo $displayButtonSearch?>">Veranstaltungen nach Kriterien durchsuchen</a>
 	</div>
 	
 	<div id="treeSide" <?php echo $displayTree ?>>
