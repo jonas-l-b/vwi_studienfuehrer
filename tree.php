@@ -342,6 +342,34 @@ $("#changeButton").click(function () {
 	
 	<br><br>
 	
+	<?php
+	$sql="
+		SELECT DISTINCT * FROM questions
+		JOIN subjects ON questions.subject_ID = subjects.ID
+		WHERE questions.ID NOT IN (SELECT DISTINCT answers.question_ID FROM answers) AND questions.subject_ID IN (SELECT DISTINCT ratings.subject_ID FROM ratings WHERE user_ID = 2)
+	";
+	$result=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result)!=0){
+		echo "<h2 align=\"center\">Interessantes aus dem Studienführer</h2>";
+		echo "Es gibt unbeantwortete Fragen zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
+	}
+	while($row = mysqli_fetch_assoc($result)){
+		?>
+			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
+				<p>
+					<a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a>
+					<span style="color:grey;">| <?php echo time_elapsed_string($row['time_stamp'])?></span>
+				</p>
+				<div>
+					<?php echo $row['question']?>
+				</div>
+			</div>
+		<?php
+	}
+	?>
+	
+	<br><br>
+	
 	<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 	<div align="center">
 			<a id="treebutton" style="width:330px" class="btn btn-primary">Veranstaltung aus Verzeichnis wählen</a>
