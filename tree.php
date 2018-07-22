@@ -344,7 +344,7 @@ $("#changeButton").click(function () {
 	
 	<?php
 	$sql="
-		SELECT DISTINCT * FROM questions
+		SELECT DISTINCT *, questions.time_stamp AS q_time_stamp FROM questions
 		JOIN subjects ON questions.subject_ID = subjects.ID
 		WHERE questions.ID NOT IN (SELECT DISTINCT answers.question_ID FROM answers) AND questions.subject_ID IN (SELECT DISTINCT ratings.subject_ID FROM ratings WHERE user_ID = 2)
 	";
@@ -358,7 +358,7 @@ $("#changeButton").click(function () {
 			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
 				<p>
 					<a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a>
-					<span style="color:grey;">| <?php echo time_elapsed_string($row['time_stamp'])?></span>
+					<span style="color:grey;">| <?php echo time_elapsed_string($row['q_time_stamp'])?></span>
 				</p>
 				<div>
 					<?php echo $row['question']?>
