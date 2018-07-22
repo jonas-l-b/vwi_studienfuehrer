@@ -282,7 +282,7 @@ $("#changeButton").click(function () {
 	?>
 	
 	<div style="border: lightgrey solid 1px; border-radius:3px; background-color:#e6f3ff; padding:15px; text-align:center">
-		<p style="color:grey">Offen für Neues? Veranstaltung des Tages!</p>
+		<p style="color:grey">Offen für Neues? Veranstaltung des Tages! Was hälst du von:</p>
 		<h3 style="margin:0">
 			<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
 		</h3>
@@ -396,11 +396,14 @@ $("#changeButton").click(function () {
 	
 	<?php
 	$sql="
-		SELECT DISTINCT ratings.time_stamp AS r_time_stamp, ratings.subject_ID, ratings.comment, subjects.subject_name FROM ratings
+	SELECT DISTINCT * FROM(		
+		SELECT DISTINCT ratings.time_stamp AS r_time_stamp, ratings.subject_ID AS subject_ID, ratings.comment, subjects.subject_name FROM ratings
 		JOIN subjects ON ratings.subject_ID = subjects.ID
 		WHERE ratings.subject_ID IN (SELECT DISTINCT favourites.subject_ID FROM favourites WHERE user_ID = $id)
-		ORDER BY ratings.time_stamp DESC
-		LIMIT 5
+		ORDER BY ratings.subject_ID, ratings.time_stamp DESC
+	) AS subquery
+	GROUP BY subject_ID
+	LIMIT 5
 	";
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)!=0){
@@ -411,7 +414,7 @@ $("#changeButton").click(function () {
 		?>
 			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
 				<p>
-					<a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a>
+					<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
 					<span style="color:grey;">| <?php echo time_elapsed_string($row['r_time_stamp'])?></span>
 				</p>
 				<div>
