@@ -369,6 +369,8 @@ $("#changeButton").click(function () {
 	}
 	?>
 	
+	<!--Neue Bewertungen zu Veranstaltungen, die als Fav markiert wurden?-->
+	
 	<br><br>
 	
 	<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
