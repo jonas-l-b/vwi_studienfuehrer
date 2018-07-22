@@ -351,7 +351,7 @@ $("#changeButton").click(function () {
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)!=0){
 		echo "<h2 align=\"center\">Interessantes aus dem Studienführer</h2>";
-		echo "Es gibt unbeantwortete Fragen zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
+		echo "Es gibt <strong>unbeantwortete Fragen</strong> zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
 	}
 	while($row = mysqli_fetch_assoc($result)){
 		?>
