@@ -246,11 +246,7 @@ include "sumVotes.php";
 
 	<!--Bewertungsübersicht Start-->
 	<div>
-		<div class="row">
-			<div class="col-md-10" id="bewertungstitel">
-				<h2 <?php echo $displayRatings ?> style="text-align:center;">Gesamtbewertung</h2>
-			</div><div class="col-md-2"></div>
-		</div>
+		<br>
 		<div class="row">
 			<div class="col-sm-8 col-md-10 col-lg-10 well">
 
