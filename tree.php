@@ -338,7 +338,7 @@ $("#changeButton").click(function () {
 	<div class="row">
 		<div class="col-md-4">
 			<div class="notes" style="background-color:<?php echo $colorLeft?>">
-				<div id="noteLeft" style="display: table-cell; vertical-align: middle;">
+				<div class="innernote" id="noteLeft">
 					<?php echo $note['noteLeft'];?>
 				</div>
 			</div>
@@ -346,7 +346,7 @@ $("#changeButton").click(function () {
 		
 		<div class="col-md-4 notesTop">
 			<div class="notes" style="background-color:<?php echo $colorMiddle?>">
-				<div id="noteMiddle" style="display: table-cell; vertical-align: middle;">
+				<div class="innernote" id="noteMiddle">
 					<?php echo $note['noteMiddle'];?>
 				</div>
 			</div>
@@ -354,7 +354,7 @@ $("#changeButton").click(function () {
 		
 		<div class="col-md-4">
 			<div class="notes" style="background-color:<?php echo $colorRight?>">
-				<div id="noteRight" style="display: table-cell; vertical-align: middle;">
+				<div class="innernote" id="noteRight">
 					<?php echo $note['noteRight'];?>
 				</div>
 			</div>
