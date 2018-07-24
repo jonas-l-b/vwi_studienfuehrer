@@ -371,13 +371,12 @@ $("#changeButton").click(function () {
 		LIMIT 5
 	";
 	
-	$result=mysqli_query($con, $sql);
-	if(mysqli_num_rows($result)!=0){
+	$result_q=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result_q)!=0){
 		echo "<hr>";
-
 		echo "Es gibt <strong>unbeantwortete Fragen</strong> zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
 	}
-	while($row = mysqli_fetch_assoc($result)){
+	while($row = mysqli_fetch_assoc($result_q)){
 		?>
 			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
 				<p>
@@ -408,6 +407,7 @@ $("#changeButton").click(function () {
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)!=0){
 		echo "<br>";
+		if(mysqli_num_rows($result_q)==0) echo "<hr>";
 		echo "Hier sind die <strong>neusten Kommentare</strong> zu Veranstaltungen, die du als Favorit markiert hast.";
 	}
 	while($row = mysqli_fetch_assoc($result)){
