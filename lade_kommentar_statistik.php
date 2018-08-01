@@ -32,6 +32,10 @@ if (isset($_GET['kommentar'])){
 		}
 		
 		?>
+		
+		<h4><strong>Gesamtbewertung</strong>: <strong><?php echo $row['general0']?></strong> / 10</h4>
+		<br>
+		
 		<h4><strong>Vorlesung</strong></h4>
 
 		<table class="ratingtable" style="width:100%">
