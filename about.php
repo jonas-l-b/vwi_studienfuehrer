@@ -16,7 +16,7 @@ include "connect.php";
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#info">Infos und FAQ</a></li>
 		<li><a data-toggle="tab" href="#newFeatures">Neue Features</a></li>
-		<!--<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>-->
+		<li><a data-toggle="tab" href="#community_guidelines">Selbstverständnis & Nutzungsrichtlinien</a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -102,10 +102,16 @@ include "connect.php";
 		</ul>
 	</div>
 
-	<!--<div id="menu3" class="tab-pane fade">
-		<h3>Menu 3</h3>
-		<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-	</div>-->
+	<div id="community_guidelines" class="tab-pane fade">
+		<h3>Selbstverständnis & Nutzungsrichtlinien</h3>
+		<?php
+		$sql="SELECT * FROM multiple_location_content WHERE name = 'community_guidelines'";
+		$result=mysqli_query($con, $sql);
+		$row = mysqli_fetch_assoc($result);
+
+		echo $row['value']
+		?>
+	</div>
 	</div>
 </div>
 

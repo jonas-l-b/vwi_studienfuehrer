@@ -233,7 +233,8 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 				<li class="active"><a href="#section1">Einloggen - Registrieren</a></li>
 				<li><a href="#section2">Studienführer?</a></li>
 				<li><a href="#section3">FAQ</a></li>
-				<li><a href="#section4">Kontakt</a></li>
+				<li><a href="#section4">Selbstverständnis</a></li>
+				<li><a href="#section5">Kontakt</a></li>
 			</ul>
 		</nav>
 		<div class="col-sm-10">
@@ -391,8 +392,20 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 				
 				<br><hr><br>
 			</div>
+
+			<div id="section4">
+				<h1 style="text-align:center">Selbstverständnis und Nutzungsrichtlinien</h1>
+				<?php
+				$sql="SELECT * FROM multiple_location_content WHERE name = 'community_guidelines'";
+				$result=mysqli_query($con, $sql);
+				$row = mysqli_fetch_assoc($result);
+	
+				echo $row['value']
+				?>
+				<br><hr><br>
+			</div>
 			
-			<div id="section4">         
+			<div id="section5">         
 				<br>
 				<h1 style="text-align:center">Kontakt</h1>
 				<br>
