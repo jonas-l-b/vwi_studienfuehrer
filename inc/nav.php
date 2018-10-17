@@ -1,4 +1,9 @@
 <?php
+require_once 'Mobile_Detect.php';
+$detect = new Mobile_Detect;
+?>
+
+<?php
 
 //Admin im Menü
 $admin = "";
@@ -34,18 +39,22 @@ $name = $userRow['first_name'];
 <nav class="navbar navbar-default navbar-fixed-top menu">
 	<div class="container">
 		    <div class="navbar-header">
-			  <a id="menulogohandy" class="navbar-brand" href="tree.php"><img src="pictures/nav1.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
-				</a>
-			  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			  </button>
+				<!--DESKTOP-->
+				<a style="<?php if($detect->isMobile()) echo "display:none" ?>" id="menulogohandy" class="navbar-brand" href="tree.php"><img src="pictures/nav1.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V."></a>
+				<!--ENDE-->
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 			</div>
 			<a id="menulogo" class="navbar-brand" href="tree.php"><img src="pictures/nav1.png" alt="VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.">
 				</a>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
+					<!--MOBILE-->
+					<li style="<?php if(!($detect->isMobile())) echo "display:none" ?>"><a href="tree.php" style="cursor: pointer; cursor: hand;">Startseite</a></li>
+					<!--ENDE-->
 					<li><a id="contact" style="cursor: pointer; cursor: hand;">Kontakt</a></li>
 					<li><a href="impressum.php" style="cursor: pointer; cursor: hand;">Impressum & Datenschutz</a></li>
 					<li>

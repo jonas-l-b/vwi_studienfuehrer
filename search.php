@@ -55,9 +55,17 @@ include "connect.php";
 
 	<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 	<div align="center">
-			<a id="treebutton" style="width:330px" class="btn btn-primary <?php echo $displayButtonTree?>">Veranstaltung aus Verzeichnis wählen</a>
-			<a id="searchbutton" style="width:330px" class="btn btn-primary <?php echo $displayButtonSearch?>">Veranstaltungen nach Kriterien durchsuchen</a>
+		<a id="treebutton" style="margin-bottom:5px" class="btn btn-primary <?php echo $displayButtonTree?>">Aus Verzeichnis wählen</a>
+		<a id="searchbutton" style="margin-bottom:5px" class="btn btn-primary <?php echo $displayButtonSearch?>">Nach Kriterien durchsuchen</a>
 	</div>
+	<script>
+	//Buttons gleich breit machen; Hoffentlich haut mich niemand für diese Lösung.
+	if($('#searchbutton').width() >= $('#treebutton').width()){
+		$('#treebutton').width($('#searchbutton').width());
+	}else{
+		$('#searchbutton').width($('#treebutton').width());
+	}
+	</script>
 	
 	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
@@ -67,68 +75,70 @@ include "connect.php";
 			<div>
 				<ul class="nav nav-list">
 
-	<?php
+				<?php
 
-	//Super sexy Caching startet
-	$key = "treeside";
-	$CachedString = $InstanceCache->getItem($key);
+				//Super sexy Caching startet
+				$key = "treeside";
+				$CachedString = $InstanceCache->getItem($key);
 
+				if (is_null($CachedString->get())) {
 
-	if (is_null($CachedString->get())) {
+					$content = "";
+					//Erstellt das Verzeichnis
+					$array = array(array("Bachelor - Kernprogramm", "bachelor_basic"), array("Bachelor - Vertiefungsprogramm", "bachelor"), array("Master", "master"));
+					for($x = 0; $x <= 2; $x++) {
+						$content .= "<li><label class=\"tree-toggler nav-header treetop\" style=\"color:rgb(0, 51, 153)\"><strong>".$array[$x][0]."</strong></label>";
 
-		$content = "";
-		//Erstellt das Verzeichnis
-		$array = array(array("Bachelor - Kernprogramm", "bachelor_basic"), array("Bachelor - Vertiefungsprogramm", "bachelor"), array("Master", "master"));
-		for($x = 0; $x <= 2; $x++) {
-			$content .= "<li><label class=\"tree-toggler nav-header treetop\" style=\"color:rgb(0, 51, 153)\"><strong>".$array[$x][0]."</strong></label>";
+							$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
+							$result = mysqli_query($con,"SELECT * FROM moduletypes");
+							while($modulTypes = mysqli_fetch_assoc($result)){ //Modultyp
+								$content .= "<li><label class=\"tree-toggler nav-header\">".$modulTypes['name']."</label>";
 
-				$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
-				$result = mysqli_query($con,"SELECT * FROM moduletypes");
-				while($modulTypes = mysqli_fetch_assoc($result)){ //Modultyp
-					$content .= "<li><label class=\"tree-toggler nav-header\">".$modulTypes['name']."</label>";
+								$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
+								$result2 = mysqli_query($con,"
+									SELECT modules.name AS module_name, levels.name AS level_name, type
+									FROM modules
+									JOIN modules_levels ON modules.module_ID = modules_levels.module_ID
+									JOIN levels ON modules_levels.level_ID = levels.level_ID
+									WHERE levels.name = '".$array[$x][1]."' AND type = '".$modulTypes['name']."'
+						ORDER BY TRIM(modules.name);
+								");
+								while($modules = mysqli_fetch_assoc($result2)){ //Modulname
+									$content .= "<li><label class=\"tree-toggler nav-header\">".$modules['module_name']."</label>";
 
-					$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
-					$result2 = mysqli_query($con,"
-						SELECT modules.name AS module_name, levels.name AS level_name, type
-						FROM modules
-						JOIN modules_levels ON modules.module_ID = modules_levels.module_ID
-						JOIN levels ON modules_levels.level_ID = levels.level_ID
-						WHERE levels.name = '".$array[$x][1]."' AND type = '".$modulTypes['name']."'
-			ORDER BY TRIM(modules.name);
-					");
-					while($modules = mysqli_fetch_assoc($result2)){ //Modulname
-						$content .= "<li><label class=\"tree-toggler nav-header\">".$modules['module_name']."</label>";
-
-						$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
-						$result3 = mysqli_query($con,"
-							SELECT subject_name, subjects.ID AS subject_id, modules.name AS module_name
-							FROM subjects
-							JOIN subjects_modules ON subjects.ID = subjects_modules.subject_ID
-							JOIN modules ON subjects_modules.module_ID = modules.module_ID
-							WHERE modules.name = '".$modules['module_name']."'
-			  ORDER BY TRIM(subject_name);
-						");
-						while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
-							$content .= "<li><a href=\"index.php?subject=".$subjects['subject_id']."\">".$subjects['subject_name']."</a></li>";
-						}
-						$content .= "</ul>";
+									$content .= "<ul class=\"nav nav-list tree\" style=\"display:none\">";
+									$result3 = mysqli_query($con,"
+										SELECT subject_name, subjects.ID AS subject_id, modules.name AS module_name
+										FROM subjects
+										JOIN subjects_modules ON subjects.ID = subjects_modules.subject_ID
+										JOIN modules ON subjects_modules.module_ID = modules.module_ID
+										WHERE modules.name = '".$modules['module_name']."'
+						  ORDER BY TRIM(subject_name);
+									");
+									while($subjects = mysqli_fetch_assoc($result3)){ //Veranstaltungsname
+										$content .= "<li><a href=\"index.php?subject=".$subjects['subject_id']."\">".$subjects['subject_name']."</a></li>";
+									}
+									$content .= "</ul>";
+									$content .= "</li>";
+								}
+								$content .= "</ul>";
+								$content .= "</li>";
+							}
+							$content .= "</ul>";
 						$content .= "</li>";
 					}
-					$content .= "</ul>";
-					$content .= "</li>";
+					$CachedString->set($content)->expiresAfter(300000);//in seconds, also accepts Datetime
+					$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
+
+					echo $CachedString->get();
+
+				} else {
+					echo $CachedString->get();
 				}
-				$content .= "</ul>";
-			$content .= "</li>";
-		}
-		$CachedString->set($content)->expiresAfter(300000);//in seconds, also accepts Datetime
-		$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
-
-		echo $CachedString->get();
-
-	} else {
-		echo $CachedString->get();
-	}
-?>
+				?>
+				<script>
+				//$('ul.tree').css("max-width","screen.width");
+				</script>
 				</ul>
 			</div>
 		</div>

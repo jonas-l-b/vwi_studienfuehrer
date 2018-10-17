@@ -242,9 +242,17 @@ $("#changeButton").click(function () {
 	<div style="border: lightgrey solid 1px; border-radius:3px; background-color:#e6f3ff; padding:15px; padding-bottom:30px;">
 		<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 		<div align="center">
-				<a href="search.php?manner=list" style="width:330px" class="btn btn-primary">Veranstaltung aus Verzeichnis wählen</a>
-				<a href="search.php?manner=search" style="width:330px" class="btn btn-primary" >Veranstaltungen nach Kriterien durchsuchen</a>
+				<a style="margin-bottom:5px;" id="b1" href="search.php?manner=list"  class="btn btn-primary">Aus Verzeichnis wählen</a>
+				<a style="margin-bottom:5px;" id="b2" href="search.php?manner=search"  class="btn btn-primary" >Nach Kriterien durchsuchen</a>
 		</div>
+		<script>
+		//Buttons gleich breit machen; Hoffentlich haut mich niemand für diese Lösung.
+		if($('#b2').width() >= $('#b1').width()){
+			$('#b1').width($('#b2').width());
+		}else{
+			$('#b2').width($('#b1').width());
+		}
+		</script>
 	</div>
 	
 	<hr>
