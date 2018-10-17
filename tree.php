@@ -289,7 +289,7 @@ $("#changeButton").click(function () {
 	
 	?>
 	
-	<div style="border: lightgrey solid 1px; border-radius:3px; background-color:#e6f3ff; padding:15px; text-align:center">
+	<div style="padding:15px; text-align:center">
 		<p style="color:grey">Offen für Neues? Veranstaltung des Tages! Was hälst du von:</p>
 		<h3 style="margin:0">
 			<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
@@ -345,7 +345,7 @@ $("#changeButton").click(function () {
 	
 	<div class="row">
 		<div class="col-md-4">
-			<div class="notes" style="background-color:<?php echo $colorLeft?>">
+			<div class="notes" style="background-color:<?php echo $colorLeft?>;margin-bottom:5px;">
 				<div class="innernote" id="noteLeft">
 					<?php echo $note['noteLeft'];?>
 				</div>
@@ -353,7 +353,7 @@ $("#changeButton").click(function () {
 		</div>
 		
 		<div class="col-md-4 notesTop">
-			<div class="notes" style="background-color:<?php echo $colorMiddle?>">
+			<div class="notes" style="background-color:<?php echo $colorMiddle?>;margin-bottom:5px;">
 				<div class="innernote" id="noteMiddle">
 					<?php echo $note['noteMiddle'];?>
 				</div>
