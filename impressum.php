@@ -35,7 +35,9 @@ include "connect.php";
 	<p>DE200335514</p>
 	
 	<h4>Gestaltung und Programmierung:</h4>
-	<p>Julian Germek<br>Jonas Bakker</p>
+	<p>Julian Germek</p>
+	
+	<!-- Legacy contributions: Jonas Bakker -->
 	
 	<h2>Datenschutz</h2>
 	
