@@ -14,7 +14,7 @@ if (isset($_GET['subject'])){
 	$userID = $userRow['user_ID'];
 
 	$lectureItems = array(
-		"Für wie relevant bewertest du den Vorlesungsbesuch (Folien selbsterklärend? Vorlesung behandelt zusätzlichen Stoff?)?",
+		"Für wie prüfungsrelevant bewertest du den Vorlesungsbesuch (Folien selbsterklärend? Vorlesung behandelt zusätzlichen Stoff?)?",
 		"Wie interessant war die Vorlesung gestaltet?",
 		"Wie bewertest du die Veranstaltungsmaterialien?"
 	);

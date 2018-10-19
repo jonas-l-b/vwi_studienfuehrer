@@ -76,7 +76,7 @@ if(mysqli_query($con,$sql)){
 		</table>
 		<br>
 			
-		<span class='foo'><a href=\"studienführer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"studienfuehrer.vwi-karlsruhe.de/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
+		<span class='foo'><a href=\"studienführer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"studienführer.vwi-karlsruhe.de/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
 	";
 
 	$sql = "

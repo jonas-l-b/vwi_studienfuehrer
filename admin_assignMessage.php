@@ -54,7 +54,7 @@ if(mysqli_query($con, $sql)){
 			<p>Betreff: <strong>".$type."</strong></p>
 			<span>".$row['comment']."</span>
 			<hr>
-			<span class='foo'><a href=\"studienfuehrer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.</span>
+			<span class='foo'><a href=\"studienführer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen.</span>
 		";
 		
 		EmailService::getService()->sendEmail($assigned_to['email'], $assigned_to['username'], $subject, $body);
