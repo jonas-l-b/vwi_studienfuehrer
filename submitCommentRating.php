@@ -37,6 +37,52 @@ if ($con->query($sql) == TRUE) {
 	echo 'erfolgreich';
 }
 
+//Badge evtl. freischalten (Downvote)
+$sql="
+	SELECT COUNT(user_ID) AS count FROM commentratings
+	WHERE user_ID = ".$userID." AND rating_direction = -1
+";
+$result=mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+$counts = array(1,15);
+$badges = array(69,70);
+
+for ($i = 0; $i <= count($counts)-1; $i++) {
+	if($row['count'] >= $counts[$i]){ //Wenn genügend ratings vorhanden
+		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$userID' AND badge_id = '$badges[$i]'");
+		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ($userID,'$badges[$i]')";
+			if ($con->query($sql2) == TRUE) {
+				echo 'achievement';
+			}
+		}
+	}
+}
+
+//Badge evtl. freischalten (Upvote)
+$sql="
+	SELECT COUNT(user_ID) AS count FROM commentratings
+	WHERE user_ID = ".$userID." AND rating_direction = 1
+";
+$result=mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+$counts = array(1,15);
+$badges = array(71,72);
+
+for ($i = 0; $i <= count($counts)-1; $i++) {
+	if($row['count'] >= $counts[$i]){ //Wenn genügend ratings vorhanden
+		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$userID' AND badge_id = '$badges[$i]'");
+		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ($userID,'$badges[$i]')";
+			if ($con->query($sql2) == TRUE) {
+				echo 'achievement';
+			}
+		}
+	}
+}
+
 ?>
 
 <?php
@@ -60,7 +106,4 @@ $sql="
 if ($con->query($sql) == TRUE) {
 	echo 'erfolgreich';
 }
-
-
-
 ?>

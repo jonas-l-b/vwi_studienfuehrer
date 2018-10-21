@@ -891,9 +891,9 @@ include "sumVotes.php";
 
 								//Datenbank aktualisieren
 								if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-									xmlhttp=new XMLHttpRequest();
+									xmlhttp2=new XMLHttpRequest();
 								}else{// AJAX mit IE6, IE5
-									xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+									xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
 								}
 
 								var commentID = id.substring(0, id.length - 2);
@@ -901,8 +901,20 @@ include "sumVotes.php";
 								var subjectID = <?php echo $subjectData['ID']; ?>;
 								var ratingDirection = id.substring(id.length - 2, id.length);
 
-								xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
-								xmlhttp.send();
+								xmlhttp2.onreadystatechange = function() {
+									if (xmlhttp2.readyState == XMLHttpRequest.DONE) {
+										//alert(xmlhttp2.responseText.trim());
+										if(xmlhttp2.responseText.trim().includes("achievement")){
+											alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+										}
+									}
+								}
+								
+								xmlhttp2.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
+								xmlhttp2.send();
+								
+
+
 							}
 						}
 					};

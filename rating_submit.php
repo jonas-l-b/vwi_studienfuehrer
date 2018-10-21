@@ -77,9 +77,9 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$nameID' AND badge_id = '$badges[$i]'");
 		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
 			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ($nameID,'$badges[$i]')";
-	if ($con->query($sql) == TRUE) {
-		echo 'achievement';
-	}
+			if ($con->query($sql2) == TRUE) {
+				echo 'achievement';
+			}
 		}
 	}
 }
