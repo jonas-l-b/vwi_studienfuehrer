@@ -238,6 +238,10 @@ $("#submitButton").click(function(){
 				}else{
 					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung deiner Bewertung ist ein Fehler aufgetreten. Bitte wende dich an VWI-ESTIEM Karlsruhe.</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary btn-dismiss\" data-dismiss=\"modal\">Schließen</button>");
 				}
+				
+				if(data.trim().substr(6,11) == "achievement"){
+					alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+				}
 			}
 		});
 		e.preventDefault();
