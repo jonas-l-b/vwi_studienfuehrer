@@ -374,7 +374,7 @@ include "header.php";
 
 			<div class="checkbox has-feedback">
 				<label><input type="checkbox" name="nutzungsbedingungen" id="bedingungen" required
-				value="yes">Hiermit bestätigst du, dass du unsere <a href="#" data-toggle="modal" data-target="#bedingungenModal">Datenschutzerklärung, Nutzungsbedingungen und Gemeinschaftsstandards</a> gelesen hast und diese akzeptierst.</label>
+				value="yes">Hiermit bestätigst du, dass du unsere <a href="#" data-toggle="modal" data-target="#bedingungenModal1">Datenschutzerklärung</a> und <a href="#" data-toggle="modal" data-target="#bedingungenModal2">Gemeinschaftsrichtlinien</a> gelesen hast und diese akzeptierst.</label>
 			</div>
 
 			<hr>
@@ -393,17 +393,16 @@ include "header.php";
 </div>
 
 <!-- Bedingungen Modal -->
-<div id="bedingungenModal" class="modal fade" role="dialog">
+<div id="bedingungenModal1" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Datenschutzerklärung, Nutzungsbedingungen und Gemeinschaftsstandards</h4>
+        <h4 class="modal-title">Datenschutzerklärung</h4>
       </div>
       <div class="modal-body">
-				<h4>Datenschutzerklärung</h4>
 				<p><strong>Allgemeine Datenschutzerklärung</strong></p>
 				<p>Durch die Nutzung unserer Website erklären Sie sich mit der Erhebung, Verarbeitung und Nutzung von Daten gemäß der nachfolgenden Beschreibung einverstanden. Der Studienführer des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V. kann grundsätzlich nicht ohne Registrierung besucht werden. Personenbezogene Daten, insbesondere Name und E-Mail-Adresse, aber auch andere personenbezogene Daten, werden bei der Registrierung von uns erhoben. Die Registrierung auf dieser Seite erfolgt auf freiwilliger Basis durch Sie. Ohne Ihre ausdrückliche Einwilligung erfolgt keine Weitergabe der Daten an Dritte. Der VWI-ESTIEM Hochschulgruppe Karlsruhe e.V. verwendet Ihre Daten ausschließlich für den Studienführer und die Bereitstellung eines Newsletters. (Dazu mehr unter "Newsletter".)</p>
 				<p><strong>Datenschutzerklärung für Cookies</strong></p>
@@ -412,19 +411,6 @@ include "header.php";
 				<p>Unsere Website verwendet Google Analytics, einen Webanalysedienst von Google Inc., 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA. Zur Deaktivierung von Google Analytiscs stellt Google unter http://tools.google.com/dlpage/gaoptout?hl=de ein Browser-Plug-In zur Verfügung. Google Analytics verwendet Cookies. Das sind kleine Textdateien, die es möglich machen, auf dem Endgerät des Nutzers spezifische, auf den Nutzer bezogene Informationen zu speichern. Diese ermöglichen eine Analyse der Nutzung unseres Websiteangebotes durch Google. Die durch den Cookie erfassten Informationen über die Nutzung unserer Seiten (einschließlich Ihrer IP-Adresse) werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Wir weisen darauf hin, dass auf dieser Website Google Analytics um den Code „gat._anonymizeIp();“ erweitert wurde, um eine anonymisierte Erfassung von IP-Adressen (sog. IP-Masking) zu gewährleisten. Ist die Anonymisierung aktiv, kürzt Google IP-Adressen innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum, weswegen keine Rückschlüsse auf Ihre Identität möglich sind. Nur in Ausnahmefällen wird die volle IP-Adresse an einen Server von Google in den USA übertragen und dort gekürzt. Google beachtet die Datenschutzbestimmungen des „Privacy Shield“-Abkommens und ist beim „Privacy Shield“-Programm des US-Handelsministeriums registriert und nutzt die gesammelten Informationen, um die Nutzung unserer Websites auszuwerten, Berichte für uns diesbezüglich zu verfassen und andere diesbezügliche Dienstleistungen an uns zu erbringen. Mehr erfahren Sie unter<a href="http://www.google.com/intl/de/analytics/privacyoverview.html"> http://www.google.com/intl/de/analytics/privacyoverview.html</a>.</p>
 
 				<p>Nach einer Vorlage <a href="https://www.anwalt.de/vorlage/muster-datenschutzerklaerung.php">von anwalt.de</a> mit Ergänzungen des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</p>
-
-        <p>&nbsp;</p><h4>Besondere Nutzungsbedingungen für die Registrierung im Studienführer des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</h4><p>&nbsp;</p><p><strong>§ 1 Geltungsbereich</strong></p><p>(1)&nbsp;Die nachfolgenden Bedingungen gelten für die Nutzung des Studienführer des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V. - im folgenden "Unsere Webseite" genannt - Forums.&nbsp;Für die Nutzung des Forums ist wichtig, dass Sie als Nutzer/Nutzerin die nachfolgenden Forenregeln bzw. –bedingungen akzeptieren. Die Registrierung und Benutzung unseres Forums ist kostenlos.</p><p>(2)&nbsp;Mit der Registrierung sind Sie mit den Nutzungsbedingungen unserer Webseite einverstanden. Durch Ihr Einverständnis garantieren Sie uns, dass Sie keine Beiträge erstellen werden, die gegen die Nutzungsbedingung verstoßen.</p><p>(3) Durch das Benutzen von unserer Webseite kommt kein Vertrag zwischen den Nutzern/Nutzerinnen und uns zustande.</p><p><strong>&nbsp;</strong></p><p><strong>§ 2 Pflichten als Forum-Nutzer/Forum-Nutzerinnen</strong></p><p><sup>&nbsp;</sup>(1) Einer Ihrer Pflichten als Nutzer/Nutzerin ist es, dass Sie keine Beiträge veröffentlichen, die gegen diese Forenregeln, gegen die guten Sitten oder sonst gegen geltendes deutsches Recht verstoßen.</p><p><span style="text-decoration: underline;">Folgende Punkte sind Ihnen nicht genehmigt:</span></p><p>1. Inhalte zu veröffentlichen, die unwahr sind und deren Veröffentlichung einen Straftatbestand oder eine Ordnungswidrigkeit erfüllt,<br />2. Versendung von Spam über das Forum an andere Forum-Nutzer/Form-Nutzerin,<br />3. Verwendung von gesetzlich durch Urheber- und Markenrecht geschützte Inhalte ohne rechtmäßige Berechtigung (z.B. Pressemitteilungen etc.),<br />4. Handlungen, die wettbewerbswidrig sind,<br />5. mehrfache Einstellung von Themen ins Forum (sogenannte Doppelpostings),<br />6. eigene Werbung, folglich Schleichwerbung, zu betreiben und<br />7. Inhalte zu veröffentlichen, die beleidigend, rassistisch, diskriminierend oder pornographische Elemente aufweisen gegenüber anderen Nutzern/Nutzerinnen und der Allgemeinheit.</p><p>Ihre Pflicht als Forum-Nutzer/ Forum-Nutzerin ist es, auf § 2 Abs. 1 Nr. 1-7 dieser Nutzungsbedingung, vor&nbsp; der Veröffentlichung Ihres Beitrages im Forum zu beachten und zu überprüfen, ob Sie sich an diese Punkte gehalten haben.</p><p>(2)&nbsp;&nbsp;&nbsp;Sollten Sie gegen § 2 Abs. 1 Nr. 1-7 dieser Nutzungsbedingung verstoßen, behalten wir uns das Recht vor, gegen Sie folgende Schritte vorzunehmen:</p><p>1. Ihre eingestellten Beiträge zu löschen und diese abzuändern,</p><p>2. Verbot weiterhin im Forum Beiträge zu verfassen und</p><p>3. Sperrung des Zugangs als Nutzer/Nutzerin.</p><p>(3)&nbsp;&nbsp;Haben Sie als Forum-Nutzer/Forum-Nutzerin nicht die Forenregeln beachtet und sind hierdurch mögliche Rechtsverstöße entstanden, die durch Ihre eingestellten Inhalte in unserem Forum entstanden sind (Pflichtverletzung), verpflichten Sie sich als Nutzer/Nutzerin, <em>uns </em>von jeglichen Ansprüchen, auch den Schadenersatzansprüchen, freizustellen und diesen die Kosten zu ersetzen.</p><p>Zudem ist der Nutzer/die Nutzerin verpflichtet uns, bei Schadenersatzansprüchen hinsichtlich der Abwehr des durch ihn entstandenen Rechtsverstoßes (Pflichtverletzung s.o.), zu unterstützen und die Kosten einer angemessenen Rechtsverteidigung für uns zu tragen.</p><p>(4)&nbsp;&nbsp; Durch Ihr Einverständnis garantieren Sie uns, dass Sie keine Beträge erstellen werden, die gegen die Nutzungsbedingung verstoßen. Entsprechendes gilt auch für das Setzen von externen Links und die Signaturen.</p><p>&nbsp;</p><p><strong>§ 3 Übertragung von Nutzungsrechten</strong></p><p>Sie, als Forum-Nutzer/Forum-Nutzerin&nbsp; haben die alleinige Verantwortung des Urheberrechts i.S.d. Urhebergesetzes bei Veröffentlichung von Beiträgen und Themen im Forum zu beachten. <sup>2</sup>Als Nutzer/Nutzerin räumen Sie lediglich uns mit Veröffentlichung Ihres Beitrages auf deren Homepage das Recht ein, den Beitrag dauerhaft zum Abruf bereitzustellen. <sup>3</sup>Ferner hat unser Team das Recht, Ihre Themen und Beiträge zu löschen, zu bearbeiten und innerhalb seiner Homepage zu verschieben, um diese mit anderen Inhalten zu verknüpfen oder zu schließen.</p><p>&nbsp;</p><p><strong>§ 4 Haftungsbeschränkung</strong></p><p>(1) Wir übernimmen keinerlei Gewähr für die im Forum veröffentlichten und eingestellten Beiträge, Themen, externen Links und die daraus resultierenden Inhalte, insbesondere nicht für deren Richtigkeit, Vollständigkeit und Aktualität. Wir sind auch nicht verpflichtet, permanent die übermittelten und gespeicherten Beiträge der Nutzer/Nutzerinnen zu überwachen oder nach den Umständen zu erforschen, ob sie auf einen rechtswidrigen Inhalt hinweisen. Wir haften grundsätzlich nur im Falle einer vorsätzlichen oder grob fahrlässigen Pflichtverletzung.</p><p>(2) WIr weisen ausdrücklich darauf hin, dass die juristischen Beiträge und Diskussionen im Forum vollkommen unverbindlich sind. <sup>2</sup>Die Nutzung der Beiträge und deren Verwertung erfolgt auf Ihre eigene Gefahr.</p><p>(3)&nbsp;&nbsp; Bei Werbeschaltungen übernimmen wir keine Haftung für den Inhalt und die Richtigkeit. <sup>2 </sup>Für den Inhalt der Werbeanzeigen ist der jeweilige Autor einzig und allein verantwortlich; gleiches gilt für den Inhalt der beworbenen Webseite. <sup>3</sup>Bei Darstellung der Werbeanzeige auf unserer Webseite , sind wir nicht gleichzeitig mit dem rechtswidrigen Inhalt einverstanden. <sup>4</sup>Daher liegt die Haftung ausschließlich bei dem Werbekunden.</p><p>(4)&nbsp;&nbsp; Es ist wird nicht für einen ständigen unterbrechungsfreien Abruf der Webseite garantiert. <sup>2</sup>Einer Haftung diesbezüglich wird hiermit ausdrücklich widersprochen. <sup>3</sup>Auch bei großer Sorgfalt können Ausfallzeiten leider nicht ausgeschlossen werden.</p><p>&nbsp;</p><p><strong>§ 5 Urheberrecht</strong></p><p>Sämtliche Texte, Bilder und andere auf unserer Webseite veröffentlichten Informationen und Daten unterliegen - sofern nicht anders gekennzeichnet - dem Copyright unserer Seite. Jede Form von Wiedergabe und/oder Modifikation darf nur mit der schriftlichen Genehmigung durch uns erfolgen. Andersfalls behalten wir uns das Recht vor gerichtlich gegen diese Rechtsverletzung vorzugehen. <sup>4</sup>Alle Kosten, die durch eine Rechtsverletzung seitens eines Benutzers verursacht werden, werden diesem in Rechnung gestellt.</p><p><strong>&nbsp;</strong></p><p><strong>§ 6 Änderungsvorbehalt</strong></p><p>Wir haben jederzeit das Recht die Nutzungsbedingungen zu ändern. Die Änderung wird dann per E-Mail-Benachrichtigung veröffentlicht.</p><p>&nbsp;</p><p><strong>§ 7 Kündigung und Laufzeit der Mitgliedschaft bei unserer Webseite <br /></strong></p><p>Die Laufzeit der Mitgliedschaft beginnt mit der Registrierung und mit dem Einverständnis unseren Nutzungsbedingungen und besteht auf eine unbestimmte Zeit. Die Mitgliedschaft kann jederzeit ohne Angabe von Gründen fristlos gekündigt werden.</p><p>&nbsp;</p><p><strong>§ 8 Salvatorische Klausel</strong></p><p>Diese Forum-Nutzungsbedingung ist als Teil unserer Webseite zu betrachten, von dem aus auf diese Seite verwiesen wird. Sind einzelne Formulierungen dieser Forum-Nutzungsbedingung nicht mehr ganz oder nicht mehr vollständig konform mit der geltenden Rechtslage, so ist davon auszugehen, dass die übrigen Regelungen der Forum-Nutzungsbedingungen bestehen bleiben.</p><p>Diese <a href="http://www.jurarat.de/muster-nutzungsbedingungen">Nutzungsbedingungen</a> wurden freundlicherweise von www.jurarat.de zur Verfügung
-				<p></p>
-				<br/>
-				<h4>Gemeinschaftsstandards</h4>
-        <p>An die folgenden Gemeinschaftsstandards hat sich der Nutzer zu halten. Ein Verstoß gegen die Gemeinschaftsstandards kann zur dauerhaften Sperrung des Kontos und Nutzers führen. Wir bitte die Gemeinschaftsstandards möglichst sorgfältig zu beachten, damit wir eine weitere Verfügbarkeit des Studienführer des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V. gewährleisten können:</p>
-				<ul>
-					<li>Der Nutzer defamiert, beleidigt oder greift keine Person namentlich oder anderweitig an.</li>
-					<li>Der Nutzer gibt seine Bewertungen im Studienführer nach bestem Wissen und Gewissen ab. Höchstes Ziel bei der Bereitstellung und dem Teilen von Wissen besteht darin, anderen Nutzern einen Mehrwert bei der Veranstaltungswahl zu schaffen.</li>
-					<li>Der Nutzer ist freundlich und sachlich in seiner ausdrucksweise.</li>
-					<li>Der Nutzer weißt bei Kenntlichwerden einer groben Verletzung der Gemeinschaftsstandards durch einen anderen Nutzer die Betreiber des Studienführer des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V. unverzüglich über die entsprechenden Kontaktformulare darauf hin. Wir bedanken uns hierbei ausdrücklich für die Mithilfe.</li>
-				</ul>
-				<p>Wir freunen uns über das Interesse des Nutzers.!<p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -434,6 +420,43 @@ include "header.php";
   </div>
 </div>
 
+<!-- Bedingungen Modal -->
+<div id="bedingungenModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Gemeinschaftsstandards</h4>
+      </div>
+      <div class="modal-body">
+		<?php
+		$sql="SELECT * FROM multiple_location_content WHERE name = 'community_guidelines'";
+		$result=mysqli_query($con, $sql);
+		$row = mysqli_fetch_assoc($result);
+
+		echo $row['value']
+		?>	  
+<!--
+				<h4>Gemeinschaftsstandards</h4>
+        <p>An die folgenden Gemeinschaftsstandards hat sich der Nutzer zu halten. Ein Verstoß gegen die Gemeinschaftsstandards kann zur dauerhaften Sperrung des Kontos und Nutzers führen. Wir bitte die Gemeinschaftsstandards möglichst sorgfältig zu beachten, damit wir eine weitere Verfügbarkeit des Studienführer des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V. gewährleisten können:</p>
+				<ul>
+					<li>Der Nutzer defamiert, beleidigt oder greift keine Person namentlich oder anderweitig an.</li>
+					<li>Der Nutzer gibt seine Bewertungen im Studienführer nach bestem Wissen und Gewissen ab. Höchstes Ziel bei der Bereitstellung und dem Teilen von Wissen besteht darin, anderen Nutzern einen Mehrwert bei der Veranstaltungswahl zu schaffen.</li>
+					<li>Der Nutzer ist freundlich und sachlich in seiner ausdrucksweise.</li>
+					<li>Der Nutzer weißt bei Kenntlichwerden einer groben Verletzung der Gemeinschaftsstandards durch einen anderen Nutzer die Betreiber des Studienführer des VWI-ESTIEM Hochschulgruppe Karlsruhe e.V. unverzüglich über die entsprechenden Kontaktformulare darauf hin. Wir bedanken uns hierbei ausdrücklich für die Mithilfe.</li>
+				</ul>
+				<p>Wir freunen uns über das Interesse des Nutzers.!<p>
+-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
 
