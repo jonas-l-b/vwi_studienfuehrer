@@ -239,6 +239,26 @@ $("#changeButton").click(function () {
  
 	<hr>
 -->	
+
+	<?php
+	//Badge beim ersten Besuch vergeben
+	$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$userRow['user_ID']." AND badge_id = 59");
+	if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+		$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$userRow['user_ID'].",59)";
+		if ($con->query($sql2) == TRUE) {
+			echo "
+				<div>
+					<div style=\"border: lightgrey solid 1px; border-radius:3px; background-color:#f4dc42; padding:10px; padding-bottom:20px;\">
+						<h3 align=\"center\">Herzlich Willkommen beim Studienführer</h3>
+						<p align=\"center\">Du hast eine neue Errungenschaft freigeschaltet. Sieh sie dir gleich an unter: <a href=\"userProfile.php#achievements\">Meine Errungenschaften</a>!</p>
+					</div>
+					<hr>
+				</div>
+			";
+		}
+	}
+	?>
+	
 	<div style="border: lightgrey solid 1px; border-radius:3px; background-color:#e6f3ff; padding:15px; padding-bottom:30px;">
 		<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 		<div align="center">

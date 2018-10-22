@@ -164,7 +164,7 @@ include "connect.php";
 			<div>
 				<p id="communityGuidelineFormFalse" style="display:none">Da stimmt leider noch nicht alles. Gleich nochmal probieren!</p>
 				<p id="communityGuidelineFormCorrect" style="display:none">Alles richtig beantwortet! Danke, dass du dir Zeit genommen hast, unsere Gemeinschaftsrichtlinien zu lesen.</p>
-				<p id="newAchievement" style="display:none"><b>Du hast du eine neue Errungenschaft freigeschaltet. Schau sie dir gleich an: <a href="userProfile.php#achievements">Meine Errungenschaften</a>!</b></p>
+				<p id="newAchievement" style="display:none"><b>Du hast du eine neue Errungenschaft freigeschaltet. Schau sie dir gleich an unter: <a href="userProfile.php#achievements">Deine Errungenschaften</a>!</b></p>
 				<div id="AgainButton" style="display:none"><button class="btn-default btn" onClick="window.location.reload()">Nochmal</button></div>
 			</div>
 		</div>
