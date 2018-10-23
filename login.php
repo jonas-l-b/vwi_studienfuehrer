@@ -99,8 +99,23 @@ if (isset($_SESSION['userSession'])!="") {
 					echo "<script>alert(\"Du hast die neue Errungenschaft >Wiederkehrer< freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
 				}
 			}
-			
 			/*Dieser Teil existiert 2x in einer ähnlichen Form in dieser Datei*/
+			//Special day badges
+			$days = array("12-24","02-14","10-03");
+			$badges = array(82,83,84);
+			
+			for ($i = 0; $i <= count($badges)-1; $i++) {
+				if(date('m-d') == $days[$i]){
+					$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$cUser." AND badge_id = '$badges[$i]'");
+					if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+						$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$cUser.",'$badges[$i]')";
+						if ($con->query($sql2) == TRUE) {
+							echo "<script>alert(\"Du hast eine neue Errungenschaft freigeschaltet, weil du dich an einem besonderen Tag eingeloggt hast! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+						}
+					}
+				}
+			}
+			
 			//Login zählen
 			$sql="INSERT INTO `users_logins`(`user_id`, `time_stamp`) VALUES (".$cUser.",now())";
 			$con->query($sql);
@@ -217,6 +232,23 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 				
 				/*Dieser Teil existiert 2x in einer ähnlichen Form in dieser Datei*/
 				$user_id = $row['user_ID'];
+				
+				//Special day badges
+				$days = array("12-24","02-14","10-03");
+				$badges = array(82,83,84);
+				
+				for ($i = 0; $i <= count($badges)-1; $i++) {
+					if(date('m-d') == $days[$i]){
+						$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$user_id." AND badge_id = '$badges[$i]'");
+						if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+							$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$user_id.",'$badges[$i]')";
+							if ($con->query($sql2) == TRUE) {
+								echo "<script>alert(\"Du hast eine neue Errungenschaft freigeschaltet, weil du dich an einem besonderen Tag eingeloggt hast! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+							}
+						}
+					}
+				}
+				
 				//Login zählen
 				$sql="INSERT INTO `users_logins`(`user_id`, `time_stamp`) VALUES (".$user_id.",now())";
 				$con->query($sql);
