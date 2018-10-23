@@ -96,9 +96,10 @@ if (isset($_SESSION['userSession'])!="") {
 			if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
 				$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$cUser.",74)";
 				if ($con->query($sql2) == TRUE) {
-					echo "<script>alert(\"Du hast die neue Errungenschaft >Wiederkehrer< freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+					echo "<script>alert(\"Du hast die neue Errungenschaft \"Wiederkehrer\" freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
 				}
 			}
+			
 			/*Dieser Teil existiert 2x in einer ähnlichen Form in dieser Datei*/
 			//Special day badges
 			$days = array("12-24","02-14","10-03");
