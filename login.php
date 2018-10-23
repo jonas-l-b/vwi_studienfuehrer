@@ -90,7 +90,41 @@ if (isset($_SESSION['userSession'])!="") {
 
 		$result = mysqli_query($con, "SELECT * FROM remember_me WHERE series = '$cSeries' AND token = '$cToken' AND user_id = '$cUser'");
 		if(mysqli_num_rows($result) == 1){
-			//echo "LOGIN!";
+			
+			//Wiederkehrer-Badge
+			$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$cUser." AND badge_id = 74");
+			if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+				$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$cUser.",74)";
+				if ($con->query($sql2) == TRUE) {
+					echo "<script>alert(\"Du hast die neue Errungenschaft >Wiederkehrer< freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+				}
+			}
+			
+			/*Dieser Teil existiert 2x in einer ähnlichen Form in dieser Datei*/
+			//Login zählen
+			$sql="INSERT INTO `users_logins`(`user_id`, `time_stamp`) VALUES (".$cUser.",now())";
+			$con->query($sql);
+			//Login-Badges
+			$sql="SELECT COUNT(user_id) AS count FROM `users_logins` WHERE user_id = ".$cUser."";
+			$result=mysqli_query($con, $sql);
+			$row = mysqli_fetch_assoc($result);
+			
+			$counts = array(10,100);
+			$badges = array(85,86);
+			
+			for ($i = 0; $i <= count($counts)-1; $i++) {
+				if($row['count'] >= $counts[$i]){ //Wenn genügend ratings vorhanden
+					$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$cUser' AND badge_id = '$badges[$i]'");
+					if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+						$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ($cUser,'$badges[$i]')";
+						if ($con->query($sql2) == TRUE) {
+							echo "<script>alert(\"Du hast eine neue Errungenschaft für ".$counts[$i]."x einloggen freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+						}
+					}
+				}
+			}
+			/*Ende*/
+			
 			$_SESSION['userSession'] = $cUser;
 			$u_logger->info("Der User mit der ID $cUser hat sich soeben über Cookie eingeloggt.");
 			if (isset($_GET['url'])) {
@@ -180,7 +214,32 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					";
 			}else{
 				$_SESSION['userSession'] = $row['user_ID'];
-				//header('Location: tree.php');
+				
+				/*Dieser Teil existiert 2x in einer ähnlichen Form in dieser Datei*/
+				$user_id = $row['user_ID'];
+				//Login zählen
+				$sql="INSERT INTO `users_logins`(`user_id`, `time_stamp`) VALUES (".$user_id.",now())";
+				$con->query($sql);
+				//Login-Badges
+				$sql="SELECT COUNT(user_id) AS count FROM `users_logins` WHERE user_id = ".$user_id."";
+				$result=mysqli_query($con, $sql);
+				$row = mysqli_fetch_assoc($result);
+				
+				$counts = array(10,100);
+				$badges = array(85,86);
+				
+				for ($i = 0; $i <= count($counts)-1; $i++) {
+					if($row['count'] >= $counts[$i]){ //Wenn genügend ratings vorhanden
+						$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '".$user_id."' AND badge_id = '$badges[$i]'");
+						if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+							$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ('".$user_id."','$badges[$i]')";
+							if ($con->query($sql2) == TRUE) {
+								echo "<script>alert(\"Du hast eine neue Errungenschaft für ".$counts[$i]."x einloggen freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+							}
+						}
+					}
+				}
+				/*Ende*/
 
 				//Set cookie if remember me checked
 				if(isset($_POST['rememberMe'])){
@@ -191,7 +250,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					<!--Infos unsichtbar speichern, um sie so JS übergeben zu können-->
 					<span id="series" style="display:none"><?php echo $series ?></span>
 					<span id="token" style="display:none"><?php echo $token ?></span>
-					<span id="user-id" style="display:none"><?php echo $row['user_ID'] ?></span>
+					<span id="user-id" style="display:none"><?php echo $user_id ?></span>
 
 					<script>
 					var s = $('#series').text();
@@ -203,7 +262,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 
 					<?php
 				}
-				$u_logger->info("Der User mit der ID". $row['user_ID'] ."hat sich soeben eingeloggt.");
+				$u_logger->info("Der User mit der ID". $user_id ."hat sich soeben eingeloggt.");
 				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
 			}
 		}else{
