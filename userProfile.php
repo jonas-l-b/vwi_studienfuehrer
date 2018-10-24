@@ -539,6 +539,7 @@ include "connect.php";
 				$sql="
 					SELECT * FROM badges
 					LEFT JOIN users_badges ON badges.id = users_badges.badge_id
+                    WHERE users_badges.user_id = ".$userRow['user_ID']." OR users_badges.user_id IS NULL
 					ORDER BY badges.id
 				";
 				$result=mysqli_query($con, $sql);
@@ -557,7 +558,7 @@ include "connect.php";
 						$description = "Don't use source code to spy on badges!";
 						$blurryimage = "blurryimage";
 						
-						//For development, please keep uncomment
+						//For development, comment for use
 						/*
 						$color = "rgb(20,90,157)";
 						$blurry = "";
