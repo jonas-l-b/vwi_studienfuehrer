@@ -537,15 +537,15 @@ include "connect.php";
 			
 				<?php
 				$sql="
-					SELECT * FROM badges
-					LEFT JOIN users_badges ON badges.id = users_badges.badge_id
-                    WHERE users_badges.user_id = ".$userRow['user_ID']." OR users_badges.user_id IS NULL
-					ORDER BY badges.id
+					SELECT b.*, (CASE WHEN ub.id IS NOT NULL THEN '1' ELSE NULL END) AS badgeStatus
+					FROM badges b
+					LEFT JOIN users_badges ub ON b.id = ub.badge_id AND ub.user_id = ".$userRow['user_ID']."
+					ORDER BY b.id
 				";
 				$result=mysqli_query($con, $sql);
 				
 				while($row = mysqli_fetch_assoc($result)){
-					if($row['user_id'] == $userRow['user_ID']){
+					if($row['badgeStatus'] == 1){
 						$color = "rgb(20,90,157)";
 						$blurry = "";
 						$name = $row['name'];
