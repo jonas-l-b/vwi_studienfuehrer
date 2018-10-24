@@ -43,7 +43,7 @@ include "connect.php";
 			if($lineExistsNot AND $row3['sum_of_points'] < 2500){
 				echo "
 					<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
-						<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen Gutschein! <span class=\"glyphicon glyphicon-arrow-up\"></span>
+						<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal\"><u>Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
 					</td>
 				";
 				$lineExistsNot = false;
@@ -155,13 +155,33 @@ include "connect.php";
 		if($lineExistsNot){ //Falls alle Nutzer mehr als 2500 Punkte haben und Linie darum noch nicht eingefügt wurde
 			echo "
 				<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
-					<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen Gutschein <span class=\"glyphicon glyphicon-arrow-up\"></span>
+					<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal\"><u>Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
 				</td>
 			";
 			$lineExistsNot = false;
 		}
 		?>
 	</table>
+	
+	<!-- Gutschein Modal -->
+	<div id="gutscheinModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Wie komme ich an den Gutschein?</h4>
+				</div>
+				<div class="modal-body">
+					<p>Erstmal herzlichen Glückwunsch zum Gewinn deines Gutscheins und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
+					<p>Um das so zu honorieren möchten wir dir den angekündigten Gutschein schenken. Prinzipiell kannst du ihn während unserer Sitzung (der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Um sicherzustellen, dass wir den Gutschein auch dabei haben, schreib uns bitte vorher eine E-Mail mit dem Datum, an dem du vorbeischauen willst. Die E-Mail geht an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
+					<p>Bitte nimm einen Ausweis (z.B. Studi-Ausweis) mit, damit wir sichergehen können, dass du es auch wirklich bist. Wir kennen dich ja nicht - und sonst könnte ja jeder kommen :)</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	
 </div>
