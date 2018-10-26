@@ -112,7 +112,7 @@ include "connect.php";
 		echo $row['value']
 		?>
 		<br>
-		<div id="communityGuidelineFormDiv" style="margin:auto; padding:20px; width: 70%; min-width: 300px; background-color:#f2f2f2; border-radius:5px">
+		<div id="communityGuidelineFormDiv" style="margin:auto; padding:20px; width: 100%; min-width: 300px; background-color:#f2f2f2; border-radius:5px">
 			<div id="communityGuidelineFormQuestionDiv">
 				<form id="communityGuidelineForm">
 					
