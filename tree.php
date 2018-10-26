@@ -248,7 +248,7 @@ $("#changeButton").click(function () {
 		if ($con->query($sql2) == TRUE) {
 			echo "
 				<div>
-					<div style=\"border: lightgrey solid 1px; border-radius:3px; background-color:#f4dc42; padding:10px; padding-bottom:20px;\">
+					<div style=\"border: lightgrey solid 1px; border-radius:3px; background-color:#F7D358; padding:10px; padding-bottom:20px;\">
 						<h3 align=\"center\">Herzlich Willkommen beim Studienführer</h3>
 						<p align=\"center\">Du hast eine neue Errungenschaft freigeschaltet. Sieh sie dir gleich an unter: <a href=\"userProfile.php#achievements\">Meine Errungenschaften</a>!</p>
 					</div>

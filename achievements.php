@@ -172,9 +172,10 @@ include "connect.php";
 					<h4 class="modal-title">Wie komme ich an den Gutschein?</h4>
 				</div>
 				<div class="modal-body">
-					<p>Erstmal herzlichen Glückwunsch zum Gewinn deines Gutscheins und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
-					<p>Um das so zu honorieren möchten wir dir den angekündigten Gutschein schenken. Prinzipiell kannst du ihn während unserer Sitzung (der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Um sicherzustellen, dass wir den Gutschein auch dabei haben, schreib uns bitte vorher eine E-Mail mit dem Datum, an dem du vorbeischauen willst. Die E-Mail geht an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
+					<p>Erstmal herzlichen Glückwunsch zum Gewinn deines Gutscheins (oder zumindest dein Interesse daran) und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
+					<p>Um das zu honorieren, möchten wir dir einen Gutschein schenken. Prinzipiell kannst du ihn während unserer Sitzung (der Sitzung der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Um sicherzustellen, dass wir den Gutschein auch dabei haben, schreib uns bitte vorher eine E-Mail mit dem Datum, an dem du vorbeischauen willst. Die E-Mail geht an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
 					<p>Bitte nimm einen Ausweis (z.B. Studi-Ausweis) mit, damit wir sichergehen können, dass du es auch wirklich bist. Wir kennen dich ja nicht - und sonst könnte ja jeder kommen :)</p>
+					<p>Wir freuen uns darauf, dich kennenzulernen!</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
