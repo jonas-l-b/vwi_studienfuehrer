@@ -12,8 +12,14 @@ include "connect.php";
 <?php include "inc/nav.php" ?>
 
 <div class="container">
-	<h3>Errungenschaften-Rangliste</h3>
-
+	<h3 style="margin-bottom:0">Errungenschaften-Rangliste</h3>
+	<p>
+	<?php
+	$result = mysqli_query($con, "SELECT SUM(points) AS sum_points FROM badges");
+	$row = mysqli_fetch_assoc($result);
+	echo "Maximalpunktzahl: " . $row['sum_points'] . " Punkte";
+	?>
+	</p>
 	
 	<table style="width:100%; text-align:left;">
 		<?php
@@ -174,7 +180,7 @@ include "connect.php";
 				<div class="modal-body">
 					<p>Für besonders aktive Nutzer ist nach dem Launch des Studienführers die Ausgabe von Gutscheinen geplant. Da musst du dich noch ein bisschen gedulden :)</p>
 					<p>Danke dennoch für deinen Einsatz!</p>
-					<p>In der Zwischenzeit hier ein Apfel: <span class="glyphicon glyphicon-apple"></span></p>
+					<p>In der Zwischenzeit hast du hier einen Apfel: <span class="glyphicon glyphicon-apple"></span></p>
 					<!--
 					<p>Erstmal herzlichen Glückwunsch zum Gewinn deines Gutscheins (oder zumindest dein Interesse daran) und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
 					<p>Um das zu honorieren, möchten wir dir einen Gutschein schenken. Prinzipiell kannst du ihn während unserer Sitzung (der Sitzung der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Um sicherzustellen, dass wir den Gutschein auch dabei haben, schreib uns bitte vorher eine E-Mail mit dem Datum, an dem du vorbeischauen willst. Die E-Mail geht an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
