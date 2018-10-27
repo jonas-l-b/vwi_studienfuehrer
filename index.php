@@ -809,7 +809,7 @@ include "sumVotes.php";
 					?>
 				
 					<button <?php echo $facebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $facebook_disabled ?>>Facebook-Gruppe <span class="glyphicon glyphicon-new-window"></span></button>
-					<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $studydrive_disabled ?>>StudyDrive <span class="glyphicon glyphicon-new-window"></span></button>
+					<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $studydrive_disabled ?>>Studydrive <span class="glyphicon glyphicon-new-window"></span></button>
 					<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
 				</p>
 				<p><a href=\"#\" data-toggle="modal" data-target="#changeLinksModal">Links hinzufügen oder bearbeiten</a></p>
@@ -819,22 +819,72 @@ include "sumVotes.php";
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title"><!--Wie komme ich an den Gutschein?-->Gutscheine nach dem Launch geplant!</h4>
+								<button type="button" class="close" data-dismiss="modal" onClick="window.location.reload()">&times;</button>
+								<h4 class="modal-title">Links hinzufügen oder bearbeiten</h4>
 							</div>
 							<div class="modal-body">
-								<p>Für besonders aktive Nutzer ist nach dem Launch des Studienführers die Ausgabe von Gutscheinen geplant. Da musst du dich noch ein bisschen gedulden :)</p>
-								<p>Danke dennoch für deinen Einsatz!</p>
-								<p>In der Zwischenzeit hier ein Apfel: <span class="glyphicon glyphicon-apple"></span></p>
-								<!--
-								<p>Erstmal herzlichen Glückwunsch zum Gewinn deines Gutscheins (oder zumindest dein Interesse daran) und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
-								<p>Um das zu honorieren, möchten wir dir einen Gutschein schenken. Prinzipiell kannst du ihn während unserer Sitzung (der Sitzung der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Um sicherzustellen, dass wir den Gutschein auch dabei haben, schreib uns bitte vorher eine E-Mail mit dem Datum, an dem du vorbeischauen willst. Die E-Mail geht an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
-								<p>Bitte nimm einen Ausweis (z.B. Studi-Ausweis) mit, damit wir sichergehen können, dass du es auch wirklich bist. Wir kennen dich ja nicht - und sonst könnte ja jeder kommen :)</p>
-								<p>Wir freuen uns darauf, dich kennenzulernen!</p>
-								-->
+								<p>Hier kannst du Links hinzufügen oder bearbeiten. Bitte füge keinen Quatsch hinzu - wir können nachvollziehen, wer was hinzufügt oder ändert :)</p>
+
+								<form id="linkForm">
+
+									<div class="form-group">
+										<label for="usr">Link zur Facebook-Gruppe:</label>
+										<input type="text" class="form-control" value="<?php echo $row['facebook']?>" name="facebook_link">
+									</div>
+
+									<div class="form-group">
+										<label for="usr">Link zum Studydrive:</label>
+										<input type="text" class="form-control" value="<?php echo $row['studydrive']?>" name="studydrive_link">
+									</div>
+									
+									<div class="form-group">
+										<label for="usr">Link zum Modulhandbuch:</label>
+										<input type="text" class="form-control" value="Umsetzung ist geplant, existiert aber noch nicht." name="modulhandbuch_link" disabled>
+									</div>
+									
+									<br>
+									<button class="btn btn-primary">Änderungen speichern</button>
+								</form>
+								
+								<div id="linkFormSuccess" style="display:none">
+									<br>
+									<div class="alert alert-success">
+										Deine Änderung wurde erfolgreich übernommen. Vielen Dank!
+									</div>
+								</div>
+								
+								<script>
+								$(document).ready(function(){
+							
+									$("#linkForm").submit(function(e) {
+
+
+										var form = $(this);
+										var url = 'linkForm_submit.php';
+
+										$.ajax({
+											type: "POST",
+											url: url,
+											data: form.serialize() + "&user_id=" + <?php echo $userRow['user_ID']?> + "&subject_id=" + <?php echo $subject?>, // serializes the form's elements.
+											success: function(data){
+												//alert(data);
+												if(data.includes("achievement")){
+													alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+												}
+												if(data.includes("erfolg")){
+													$('#linkFormSuccess').show();
+												}
+											}
+										});
+										e.preventDefault(); // avoid to execute the actual submit of the form.
+									});
+									
+								});	
+								</script>
+								
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload()">Schließen</button>
 							</div>
 						</div>
 					</div>

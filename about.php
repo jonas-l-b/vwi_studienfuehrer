@@ -16,7 +16,7 @@ include "connect.php";
 	<ul class="nav nav-tabs">
 		<li class="active"><a data-toggle="tab" href="#info">Infos und FAQ</a></li>
 		<li><a data-toggle="tab" href="#newFeatures">Neue Features</a></li>
-		<li><a data-toggle="tab" href="#community_guidelines">Selbstverständnis & Nutzungsrichtlinien</a></li>
+		<li><a data-toggle="tab" href="#community_guidelines">Gemeinschaftsrichtlinien</a></li>
 	</ul>
 
 	<div class="tab-content">
