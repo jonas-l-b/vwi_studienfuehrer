@@ -381,6 +381,26 @@ $("#changeButton").click(function () {
 		</div>	
 	</div>
 	
+	<div id="thisModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Bereits erbrachte Leistungen freischalten</h4>
+				</div>
+				<div class="modal-body">
+					<p>Um beispielsweise die Errungenschaft für 10 Bewertungen freizuschalten, musst du 10 Veranstaltungen bewerten. Hast du das bereits vor der Einführung der Errungenschaften getan, musst du eine weitere Veranstaltung bewerten, damit das Script deine Bewertungen zählt.</p>
+					<p>So verhält es sich auch mit weiteren Errungenschaften wie bspw. beantworteten Fragen oder bewerteten Kommentaren.</p>
+					<p>Sorry dafür - jetzt aber viel Spaß!</p>
+					<p>PS: Auch wenn bei der Entwicklung viel getestet wurde, konnten sich womöglich Fehler eingeschlichen haben. Bitte direkt über Kontakt in der Navigationsleiste oder per Mail an studienfuehrer@vwi-karlsruhe.de melden. Danke!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- Unbeantwortete Fragen -->
 	<?php
 	$id=$userRow['user_ID'];
