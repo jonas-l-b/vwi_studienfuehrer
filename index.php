@@ -738,7 +738,7 @@ include "sumVotes.php";
 				data: $("#questionForm").serialize() + "&subject_id=" + "<?php echo $subjectData['ID']?>",
 				success: function(data) {
 					//alert(data);
-					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
+					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wird wenn E-Mail-Fehler auftritt
 						$('.question-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Frage wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 					}else{
 						$('.question-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Frage ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
@@ -766,10 +766,132 @@ include "sumVotes.php";
 					}else{
 						$('.answer-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Antwort ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 					}
+					if(data.includes("achievement")){
+						alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+					}
 				}
 			});
 		});
 		</script>
+		
+		<div class="row">
+			<div class="col-md-10 well">
+				<p style="font-size: 1.5em;font-weight:bold;">Hilfreiche Links</p>
+				<p class="contenedor">
+				
+					<?php
+					$result=mysqli_query($con, "SELECT facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
+					$row = mysqli_fetch_assoc($result);
+					//facebook
+					if($row['facebook'] != ""){
+						$facebook_link = "onClick=\"window.open('".$row['facebook']."')\"";
+						$facebook_disabled = "";
+					}else{
+						$facebook_link = "";
+						$facebook_disabled = "disabled";
+					}
+					//studydrive
+					if($row['studydrive'] != ""){
+						$studydrive_link = "onClick=\"window.open('".$row['studydrive']."')\"";
+						$studydrive_disabled = "";
+					}else{
+						$studydrive_link = "";
+						$studydrive_disabled = "disabled";
+					}
+					//modulebook
+					if($row['modulebook'] != ""){
+						$modulebook_link = "onClick=\"window.open('".$row['modulebook']."')\"";
+						$modulebook_disabled = "";
+					}else{
+						$modulebook_link = "";
+						$modulebook_disabled = "disabled";
+					}					
+					?>
+				
+					<button <?php echo $facebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $facebook_disabled ?>>Facebook-Gruppe <span class="glyphicon glyphicon-new-window"></span></button>
+					<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $studydrive_disabled ?>>Studydrive <span class="glyphicon glyphicon-new-window"></span></button>
+					<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
+				</p>
+				<p><a href=\"#\" data-toggle="modal" data-target="#changeLinksModal">Links hinzufügen oder bearbeiten</a></p>
+				
+				<!-- Gutschein Modal -->
+				<div id="changeLinksModal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" onClick="window.location.reload()">&times;</button>
+								<h4 class="modal-title">Links hinzufügen oder bearbeiten</h4>
+							</div>
+							<div class="modal-body">
+								<p>Hier kannst du Links hinzufügen oder bearbeiten. Bitte füge keinen Quatsch hinzu - wir können nachvollziehen, wer was hinzufügt oder ändert :)</p>
+
+								<form id="linkForm">
+
+									<div class="form-group">
+										<label for="usr">Link zur Facebook-Gruppe:</label>
+										<input type="text" class="form-control" value="<?php echo $row['facebook']?>" name="facebook_link">
+									</div>
+
+									<div class="form-group">
+										<label for="usr">Link zum Studydrive:</label>
+										<input type="text" class="form-control" value="<?php echo $row['studydrive']?>" name="studydrive_link">
+									</div>
+									
+									<div class="form-group">
+										<label for="usr">Link zum Modulhandbuch:</label>
+										<input type="text" class="form-control" value="Umsetzung ist geplant, existiert aber noch nicht." name="modulhandbuch_link" disabled>
+									</div>
+									
+									<br>
+									<button class="btn btn-primary">Änderungen speichern</button>
+								</form>
+								
+								<div id="linkFormSuccess" style="display:none">
+									<br>
+									<div class="alert alert-success">
+										Deine Änderung wurde erfolgreich übernommen. Vielen Dank!
+									</div>
+								</div>
+								
+								<script>
+								$(document).ready(function(){
+							
+									$("#linkForm").submit(function(e) {
+
+
+										var form = $(this);
+										var url = 'linkForm_submit.php';
+
+										$.ajax({
+											type: "POST",
+											url: url,
+											data: form.serialize() + "&user_id=" + <?php echo $userRow['user_ID']?> + "&subject_id=" + <?php echo $subject?>, // serializes the form's elements.
+											success: function(data){
+												//alert(data);
+												if(data.includes("achievement")){
+													alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+												}
+												if(data.includes("erfolg")){
+													$('#linkFormSuccess').show();
+												}
+											}
+										});
+										e.preventDefault(); // avoid to execute the actual submit of the form.
+									});
+									
+								});	
+								</script>
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload()">Schließen</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>	
 
 		<div class="row">
 			<!--Kommentare Start-->
@@ -891,9 +1013,9 @@ include "sumVotes.php";
 
 								//Datenbank aktualisieren
 								if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-									xmlhttp=new XMLHttpRequest();
+									xmlhttp2=new XMLHttpRequest();
 								}else{// AJAX mit IE6, IE5
-									xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+									xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
 								}
 
 								var commentID = id.substring(0, id.length - 2);
@@ -901,8 +1023,20 @@ include "sumVotes.php";
 								var subjectID = <?php echo $subjectData['ID']; ?>;
 								var ratingDirection = id.substring(id.length - 2, id.length);
 
-								xmlhttp.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
-								xmlhttp.send();
+								xmlhttp2.onreadystatechange = function() {
+									if (xmlhttp2.readyState == XMLHttpRequest.DONE) {
+										//alert(xmlhttp2.responseText.trim());
+										if(xmlhttp2.responseText.trim().includes("achievement")){
+											alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+										}
+									}
+								}
+								
+								xmlhttp2.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
+								xmlhttp2.send();
+								
+
+
 							}
 						}
 					};
@@ -976,10 +1110,13 @@ $(document).ready(function(){
 			data: $("#reportForm").serialize(),
 			success: function(data) {
 				//alert(data);
+				if(data.includes("achievement")){
+					alert("Du hast die Errungenschaft \"Nachwächter\" freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+				}
 				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
-					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 				}else{
-					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deines Anliegens ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deines Anliegens ist womöglich ein Fehler aufgetreten!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\ onClick=\"window.location.reload()\">Schließen</button>");
 				}
 			}
 		});
@@ -992,7 +1129,7 @@ $(document).ready(function(){
 	<div class="modal-dialog">
 	<div class="modal-content">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<button type="button" class="close" data-dismiss="modal" onClick="window.location.reload()" aria-hidden="true">&times;</button>
 		<h2 class="modal-title">Kommentar melden</h2>
 	</div>
 		<div class="modal-body">

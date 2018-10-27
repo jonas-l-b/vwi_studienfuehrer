@@ -87,6 +87,7 @@ $name = $userRow['first_name'];
 							<li><a id="linkToUserRatings" href="userProfile.php#userRatings">Bewertungen</a></li>
 							<li><a id="linkToQuestions" href="userProfile.php#questions">Fragen</a></li>
 							<li><a id="linkToNotifications" href="userProfile.php#notifications">Mails</a></li>
+							<li><a id="linkToAchievements" href="userProfile.php#achievements">Errungenschaften</a></li>
 							<li class="divider"></li>
 							<li><a href="logout.php">Logout</a></li>
 						</ul>

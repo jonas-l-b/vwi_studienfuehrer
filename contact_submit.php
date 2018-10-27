@@ -46,6 +46,24 @@ $sql = "
 if(mysqli_query($con,$sql)){
 	echo "erfolg";
 	
+	//Badge Verbesserer
+	$sql="
+		SELECT COUNT(sender_id) AS count FROM messages
+		WHERE sender_id = '$user_id' AND (message_type = 'mistake' OR message_type = 'bug')
+	";
+	$result=mysqli_query($con, $sql);
+	$row = mysqli_fetch_assoc($result);
+
+	if($row['count'] >= 4){ //Wenn genügend counts vorhanden
+		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$user_id' AND badge_id = '80'");
+		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ($user_id,'80')";
+			if ($con->query($sql2) == TRUE) {
+				echo 'achievement';
+			}
+		}
+	}
+	
 	//E-Mail-Benachrichtigungen verschicken
 	$subject = "[Studienführer: Benachrichtigung] Neue Nachricht für Admins eingegangen";
 		

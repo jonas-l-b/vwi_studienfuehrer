@@ -239,6 +239,26 @@ $("#changeButton").click(function () {
  
 	<hr>
 -->	
+
+	<?php
+	//Badge beim ersten Besuch vergeben
+	$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$userRow['user_ID']." AND badge_id = 59");
+	if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+		$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$userRow['user_ID'].",59)";
+		if ($con->query($sql2) == TRUE) {
+			echo "
+				<div>
+					<div style=\"border: lightgrey solid 1px; border-radius:3px; background-color:#F7D358; padding:10px; padding-bottom:20px;\">
+						<h3 align=\"center\">Herzlich Willkommen beim Studienführer</h3>
+						<p align=\"center\">Du hast eine neue Errungenschaft freigeschaltet. Sieh sie dir gleich an unter: <a href=\"userProfile.php#achievements\">Meine Errungenschaften</a>!</p>
+					</div>
+					<hr>
+				</div>
+			";
+		}
+	}
+	?>
+	
 	<div style="border: lightgrey solid 1px; border-radius:3px; background-color:#e6f3ff; padding:15px; padding-bottom:30px;">
 		<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
 		<div align="center">
@@ -367,6 +387,26 @@ $("#changeButton").click(function () {
 				</div>
 			</div>
 		</div>	
+	</div>
+	
+	<div id="thisModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Bereits erbrachte Leistungen freischalten</h4>
+				</div>
+				<div class="modal-body">
+					<p>Um beispielsweise die Errungenschaft für 10 Bewertungen freizuschalten, musst du 10 Veranstaltungen bewerten. Hast du das bereits vor der Einführung der Errungenschaften getan, musst du eine weitere Veranstaltung bewerten, damit das Script deine Bewertungen zählt.</p>
+					<p>So verhält es sich auch mit weiteren Errungenschaften wie bspw. beantworteten Fragen oder bewerteten Kommentaren.</p>
+					<p>Sorry dafür - jetzt aber viel Spaß!</p>
+					<p>PS: Auch wenn bei der Entwicklung viel getestet wurde, konnten sich womöglich Fehler eingeschlichen haben. Bitte direkt über Kontakt in der Navigationsleiste oder per Mail an studienfuehrer@vwi-karlsruhe.de melden. Danke!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 	<!-- Unbeantwortete Fragen -->

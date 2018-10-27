@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="res/css/admin.css">
 	<link rel="stylesheet" href="res/css/autocomplete.css">
 	<link rel="stylesheet" href="res/css/index.css">
+	<link rel="stylesheet" href="res/css/achievements.css">
 	<link rel="stylesheet" href="res/lib/bootstrap-combobox/css/bootstrap-combobox.css">
 	<link rel="stylesheet" href="res/css/userProfile.css">
 	<link rel="stylesheet" href="res/css/snackbar.css">

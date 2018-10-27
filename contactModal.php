@@ -261,7 +261,10 @@ $("#submitButton").one('click', function(){
 			url: "contact_submit.php",
 			data: $("#contactForm").serialize(),
 			success: function(data) {
-				//alert(data);	
+				//alert(data);
+				if(data.includes("achievement")){
+					alert("Du hast die Errungenschaft \"Verbesserer\" freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+				}
 				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
 					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Anliegen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 				}else{

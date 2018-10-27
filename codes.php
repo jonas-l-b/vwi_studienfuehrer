@@ -9,7 +9,7 @@ if(isset($_GET["code"])){
 		exit();
 	}
 	$neuercode = substr(md5(rand()),0,7);
-  $con->query("INSERT INTO codes (code, used) VALUES ('".$neuercode."', 0)");
+	$con->query("INSERT INTO codes (code, used) VALUES ('".$neuercode."', 0)");
 	echo $neuercode;
 	exit();
 }
@@ -80,5 +80,14 @@ include "header.php";
 	</table>
 </div>
 
+<?php
+//Mehrere Codes generieren
+/*
+for ($i = 1; $i <= 39; $i++) {
+    $neuercode = substr(md5(rand()),0,7);
+	$con->query("INSERT INTO codes (code, used) VALUES ('".$neuercode."', 0)");
+}
+*/
+?>
 
 </body>

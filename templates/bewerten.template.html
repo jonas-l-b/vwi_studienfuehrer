@@ -171,12 +171,14 @@
 
 	<hr>
 
-	<button id="submitButton" type="submit" class="btn btn-primary">{{button_text}}</button>
+	<button id="submitButton" type="submit" class="btn btn-primary"><div id="submitButton">{{button_text}}</div></button>
+	
 </form>
 
 <script>
 //send to DP
 $("#submitButton").click(function(){
+
 	var lecture0 = $(".sliderLecture"+0).val();
 	var lecture1 = $(".sliderLecture"+1).val();
 	var lecture2 = $(".sliderLecture"+2).val();
@@ -200,6 +202,8 @@ $("#submitButton").click(function(){
 	var subject = getUrlParameter('subject');
 
 	$("#ratingForm").submit(function(e){
+		$('#submitButton').html("Verarbeite...");
+		
 		$.ajax({
 			type: "POST",
 			url: "rating_submit.php",
@@ -237,6 +241,10 @@ $("#submitButton").click(function(){
 					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Bewertung wurde erfolgreich geändert!</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 				}else{
 					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung deiner Bewertung ist ein Fehler aufgetreten. Bitte wende dich an VWI-ESTIEM Karlsruhe.</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary btn-dismiss\" data-dismiss=\"modal\">Schließen</button>");
+				}
+				
+				if(data.trim().substr(6,11) == "achievement"){
+					alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
 				}
 			}
 		});

@@ -81,5 +81,28 @@ if(mysqli_query($con, $sql)){
 	}
 	
 	echo "erfolg";
+	
+	//Bewertungen zählen und evtl. Errungenschaft freischalten
+	$sql="
+		SELECT COUNT(user_ID) AS count FROM answers
+		WHERE user_ID = ".$userRow['user_ID']."
+	";
+	$result=mysqli_query($con, $sql);
+	$row = mysqli_fetch_assoc($result);
+
+	$counts = array(1,15);
+	$badges = array(88,89);
+
+	for ($i = 0; $i <= count($counts)-1; $i++) {
+		if($row['count'] >= $counts[$i]){ //Wenn genügend ratings vorhanden
+			$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$userRow['user_ID']." AND badge_id = '$badges[$i]'");
+			if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+				$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$userRow['user_ID'].",'$badges[$i]')";
+				if ($con->query($sql2) == TRUE) {
+					echo 'achievement';
+				}
+			}
+		}
+	}
 }
 ?>
