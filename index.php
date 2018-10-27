@@ -773,6 +773,75 @@ include "sumVotes.php";
 			});
 		});
 		</script>
+		
+		<div class="row">
+			<div class="col-md-10 well">
+				<p style="font-size: 1.5em;font-weight:bold;">Hilfreiche Links</p>
+				<p class="contenedor">
+				
+					<?php
+					$result=mysqli_query($con, "SELECT facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
+					$row = mysqli_fetch_assoc($result);
+					//facebook
+					if($row['facebook'] != ""){
+						$facebook_link = "onClick=\"window.open('".$row['facebook']."')\"";
+						$facebook_disabled = "";
+					}else{
+						$facebook_link = "";
+						$facebook_disabled = "disabled";
+					}
+					//studydrive
+					if($row['studydrive'] != ""){
+						$studydrive_link = "onClick=\"window.open('".$row['studydrive']."')\"";
+						$studydrive_disabled = "";
+					}else{
+						$studydrive_link = "";
+						$studydrive_disabled = "disabled";
+					}
+					//modulebook
+					if($row['modulebook'] != ""){
+						$modulebook_link = "onClick=\"window.open('".$row['modulebook']."')\"";
+						$modulebook_disabled = "";
+					}else{
+						$modulebook_link = "";
+						$modulebook_disabled = "disabled";
+					}					
+					?>
+				
+					<button <?php echo $facebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $facebook_disabled ?>>Facebook-Gruppe <span class="glyphicon glyphicon-new-window"></span></button>
+					<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $studydrive_disabled ?>>StudyDrive <span class="glyphicon glyphicon-new-window"></span></button>
+					<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
+				</p>
+				<p><a href=\"#\" data-toggle="modal" data-target="#changeLinksModal">Links hinzufügen oder bearbeiten</a></p>
+				
+				<!-- Gutschein Modal -->
+				<div id="changeLinksModal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title"><!--Wie komme ich an den Gutschein?-->Gutscheine nach dem Launch geplant!</h4>
+							</div>
+							<div class="modal-body">
+								<p>Für besonders aktive Nutzer ist nach dem Launch des Studienführers die Ausgabe von Gutscheinen geplant. Da musst du dich noch ein bisschen gedulden :)</p>
+								<p>Danke dennoch für deinen Einsatz!</p>
+								<p>In der Zwischenzeit hier ein Apfel: <span class="glyphicon glyphicon-apple"></span></p>
+								<!--
+								<p>Erstmal herzlichen Glückwunsch zum Gewinn deines Gutscheins (oder zumindest dein Interesse daran) und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
+								<p>Um das zu honorieren, möchten wir dir einen Gutschein schenken. Prinzipiell kannst du ihn während unserer Sitzung (der Sitzung der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Um sicherzustellen, dass wir den Gutschein auch dabei haben, schreib uns bitte vorher eine E-Mail mit dem Datum, an dem du vorbeischauen willst. Die E-Mail geht an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
+								<p>Bitte nimm einen Ausweis (z.B. Studi-Ausweis) mit, damit wir sichergehen können, dass du es auch wirklich bist. Wir kennen dich ja nicht - und sonst könnte ja jeder kommen :)</p>
+								<p>Wir freuen uns darauf, dich kennenzulernen!</p>
+								-->
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>	
 
 		<div class="row">
 			<!--Kommentare Start-->

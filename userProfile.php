@@ -540,7 +540,7 @@ include "connect.php";
 					SELECT b.*, (CASE WHEN ub.id IS NOT NULL THEN '1' ELSE NULL END) AS badgeStatus
 					FROM badges b
 					LEFT JOIN users_badges ub ON b.id = ub.badge_id AND ub.user_id = ".$userRow['user_ID']."
-					ORDER BY b.id
+					ORDER BY b.sequence
 				";
 				$result=mysqli_query($con, $sql);
 				

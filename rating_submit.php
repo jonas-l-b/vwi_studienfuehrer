@@ -94,7 +94,8 @@ for ($i = 0; $i <= count($types)-1; $i++) {
 		SELECT COUNT(ratings.user_ID) AS count FROM ratings
 		JOIN subjects_modules ON ratings.subject_ID = subjects_modules.subject_ID
 		JOIN modules ON subjects_modules.module_ID = modules.module_ID
-		WHERE ratings.user_ID = ".$nameID." AND modules.type = '$types[$i]'
+        JOIN modules_levels ON modules.module_ID = modules_levels.module_ID
+		WHERE ratings.user_ID = ".$nameID." AND modules.type = '$types[$i]' AND NOT modules_levels.level_ID = 1
 	";
 	$result=mysqli_query($con, $sql);
 	$row = mysqli_fetch_assoc($result);
@@ -109,5 +110,33 @@ for ($i = 0; $i <= count($types)-1; $i++) {
 		}
 	}
 }
-echo "blablabla";
+
+//Generalist
+$types = array("BWL","VWL","INFO","OR","ING");
+$check = array(false,false,false,false,false);
+
+for ($i = 0; $i <= count($types)-1; $i++) {
+	$sql="
+		SELECT COUNT(ratings.user_ID) AS count FROM ratings
+		JOIN subjects_modules ON ratings.subject_ID = subjects_modules.subject_ID
+		JOIN modules ON subjects_modules.module_ID = modules.module_ID
+        JOIN modules_levels ON modules.module_ID = modules_levels.module_ID
+		WHERE ratings.user_ID = ".$nameID." AND modules.type = '$types[$i]' AND NOT modules_levels.level_ID = 1
+	";
+	$result=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result) >= 1){
+		$check[$i] = true;
+	}
+}
+
+if($check[0] AND $check[1] AND $check[2] AND $check[3] AND $check[4]){
+	$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$nameID' AND badge_id = 90");
+	if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+		$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ($nameID,90)";
+		if ($con->query($sql2) == TRUE) {
+			echo 'achievement';
+		}
+	}
+}
+
 ?>

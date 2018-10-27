@@ -171,12 +171,14 @@
 
 	<hr>
 
-	<button id="submitButton" type="submit" class="btn btn-primary">{{button_text}}</button>
+	<button id="submitButton" type="submit" class="btn btn-primary"><div id="submitButton">{{button_text}}</div></button>
+	
 </form>
 
 <script>
 //send to DP
 $("#submitButton").click(function(){
+
 	var lecture0 = $(".sliderLecture"+0).val();
 	var lecture1 = $(".sliderLecture"+1).val();
 	var lecture2 = $(".sliderLecture"+2).val();
@@ -200,6 +202,8 @@ $("#submitButton").click(function(){
 	var subject = getUrlParameter('subject');
 
 	$("#ratingForm").submit(function(e){
+		$('#submitButton').html("Verarbeite...");
+		
 		$.ajax({
 			type: "POST",
 			url: "rating_submit.php",

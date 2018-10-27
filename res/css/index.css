@@ -89,3 +89,16 @@ hr.style {
 a{
 	cursor: pointer; cursor: hand;
 }
+
+.contenedor{
+	width:100%;
+	height:100px;
+	display:flex;
+	justify-content: space-between;
+}
+.contenido{
+	height:80px;
+	width:10%;
+	float:left;
+	margin: 10px;
+}
