@@ -47,7 +47,7 @@ if ($m == "no_institute_in_db"){
 }
 
 if ($m == "verify_error"){
-	$msg = "Der Verifizierungslink is fehlerhaft. Stelle sicher, dass du ihn richtig aus der E-Mail kopiert hast und wende dich bei weiteren Problemen an VWI-ESTIEM.";
+	$msg = "Der Verifizierungslink is fehlerhaft oder du hast deinen Account bereits aktiviert. Stelle sicher, dass du den Link richtig aus der E-Mail kopiert hast bzw. versuche, ob du dich anmelden kannst. Wenn das Problem sich so nicht lösen lässt, wende dich an <a href=\"mailto:studienfuehrer@vwi-karlsruhe.de\">studienfuehrer@vwi-karlsruhe.de</a>.";
 }
 
 if ($m == "verify_successful"){
