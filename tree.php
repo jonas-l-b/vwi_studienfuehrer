@@ -434,7 +434,7 @@ $("#changeButton").click(function () {
 	$sql="
 		SELECT subjects.ID AS subject_ID, subjects.subject_name AS subject_name FROM `subjects`
 		LEFT JOIN ratings ON subjects.ID = ratings.subject_ID
-		WHERE (subjects.facebook = '' AND subjects.studydrive = '') AND ratings.user_ID = 2
+		WHERE (subjects.facebook = '' AND subjects.studydrive = '') AND ratings.user_ID = $id
 		ORDER BY ratings.time_stamp
 		LIMIT 5
 	";
