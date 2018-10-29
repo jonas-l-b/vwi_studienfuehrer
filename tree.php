@@ -199,46 +199,6 @@ $("#changeButton").click(function () {
 					</div>';
 		}
 	 ?>
-	 
-	<!--Karussell
-	<div class="container">	
-	  <div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
-		<!-- Indicators 
-		<ol class="carousel-indicators">
-		  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-		  <li data-target="#myCarousel" data-slide-to="1"></li>
-		  <li data-target="#myCarousel" data-slide-to="2"></li>
-		</ol>
-
-		<!-- Wrapper for slides 
-		<div class="carousel-inner">
-		  <div class="item active">
-			<img src="pictures/carousel_afterLogin/carouselAfter_one.jpg" style="width:100%;">
-		  </div>
-
-		  <div class="item">
-			<img src="pictures/carousel_afterLogin/carouselAfter_two.jpg" style="width:100%;">
-		  </div>
-
-		  <div class="item">
-			<img src="pictures/carousel_afterLogin/carouselAfter_three.jpg" style="width:100%;">
-		  </div>
-		</div>
-
-		<!-- Left and right controls 
-		<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-		  <span class="glyphicon glyphicon-chevron-left"></span>
-		  <span class="sr-only">Previous</span>
-		</a>
-		<a class="right carousel-control" href="#myCarousel" data-slide="next">
-		  <span class="glyphicon glyphicon-chevron-right"></span>
-		  <span class="sr-only">Next</span>
-		</a>
-	  </div>
-	</div>
- 
-	<hr>
--->	
 
 	<?php
 	//Badge beim ersten Besuch vergeben
@@ -259,20 +219,17 @@ $("#changeButton").click(function () {
 	}
 	?>
 	
-	<div style="border: lightgrey solid 1px; border-radius:3px; background-color:#e6f3ff; padding:15px; padding-bottom:30px;">
-		<h2 id="auswahl" align="center">Wie möchtest du deine Veranstaltung finden?</h2>
-		<div align="center">
-				<a style="margin-bottom:5px;" id="b1" href="search.php?manner=list"  class="btn btn-primary">Aus Verzeichnis wählen</a>
-				<a style="margin-bottom:5px;" id="b2" href="search.php?manner=search"  class="btn btn-primary" >Nach Kriterien durchsuchen</a>
+	<!--Quicklinks-->
+	<div>
+		<h4 style="margin-botttom:0" align="center"><b>Quicklinks</b></h4>
+		
+		<div class="contenedor_tree">
+			<button onclick="location.href='search.php?manner=list'" class="btn btn-primary contenido_tree">Veranstaltungsverzeichnis</button>
+			<button onclick="location.href='search.php?manner=search'" class="btn btn-primary contenido_tree">Veranstaltungssuche</button>
+			<button onclick="location.href='achievements.php'" class="btn btn-primary contenido_tree">Errungenschaften-Ranking</button>
+			<button onclick="location.href='ranking.php'" class="btn btn-primary contenido_tree">Bewertungs-Ranking</button>
 		</div>
-		<script>
-		//Buttons gleich breit machen; Hoffentlich haut mich niemand für diese Lösung.
-		if($('#b2').width() >= $('#b1').width()){
-			$('#b1').width($('#b2').width());
-		}else{
-			$('#b2').width($('#b1').width());
-		}
-		</script>
+	
 	</div>
 	
 	<hr>
@@ -440,17 +397,16 @@ $("#changeButton").click(function () {
 	?>
 	
 	<!--Neue Bewertungen zu Veranstaltungen, die als Fav markiert wurden?-->
-	
 	<?php
 	$sql="
-	SELECT DISTINCT * FROM(		
-		SELECT DISTINCT ratings.time_stamp AS r_time_stamp, ratings.subject_ID AS subject_ID, ratings.comment, subjects.subject_name FROM ratings
-		JOIN subjects ON ratings.subject_ID = subjects.ID
-		WHERE ratings.subject_ID IN (SELECT DISTINCT favourites.subject_ID FROM favourites WHERE user_ID = $id)
-		ORDER BY ratings.subject_ID, ratings.time_stamp DESC
-	) AS subquery
-	GROUP BY subject_ID
-	LIMIT 5
+		SELECT DISTINCT * FROM(		
+			SELECT DISTINCT ratings.time_stamp AS r_time_stamp, ratings.subject_ID AS subject_ID, ratings.comment, subjects.subject_name FROM ratings
+			JOIN subjects ON ratings.subject_ID = subjects.ID
+			WHERE ratings.subject_ID IN (SELECT DISTINCT favourites.subject_ID FROM favourites WHERE user_ID = $id)
+			ORDER BY ratings.subject_ID, ratings.time_stamp DESC
+		) AS subquery
+		GROUP BY subject_ID
+		LIMIT 5
 	";
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)!=0){
@@ -468,6 +424,30 @@ $("#changeButton").click(function () {
 				<div>
 					<?php echo $row['comment']?>
 				</div>
+			</div>
+		<?php
+	}
+	?>
+	
+	<!--Veranstaltungen ohne Links-->
+	<?php
+	$sql="
+		SELECT subjects.ID AS subject_ID, subjects.subject_name AS subject_name FROM `subjects`
+		LEFT JOIN ratings ON subjects.ID = ratings.subject_ID
+		WHERE (subjects.facebook = '' AND subjects.studydrive = '') AND ratings.user_ID = 2
+		ORDER BY ratings.time_stamp
+		LIMIT 5
+	";
+	$result=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result)!=0){
+		echo "<br>";
+		if(mysqli_num_rows($result_q)==0) echo "<hr>";
+		echo "Hier sind die von dir zuletzt bewerteten Veranstaltungen, zu denen <b>noch keine hilfreichen Links eingetragen</b> wurden. Hast du welche parat?";
+	}
+	while($row = mysqli_fetch_assoc($result)){
+		?>
+			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
+				<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
 			</div>
 		<?php
 	}
