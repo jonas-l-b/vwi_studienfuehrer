@@ -364,7 +364,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 				</label>
 			</div>
 
-			<a href="#" id="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
+			<a href="#" class="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
 
 			<hr>
 
@@ -545,7 +545,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 							</label>
 						</div>
 
-						<a href="#" id="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
+						<a href="#" class="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
 
 						<hr>
 
@@ -733,10 +733,12 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	</div><!-- End of Modal dialog -->
 </div><!-- End of Modal -->
 <script>
+$( document ).ready(function() {
+		
 	$('#passwortvergessenmodal').on('shown.bs.modal', function () {
 		$("#PWrecoveryEmailInput").focus(); //fokussiert den email input automatisch
 	});
-	$('#openPWRModal').click(function () {
+	$('.openPWRModal').click(function () {
 		$('#passwortvergessenmodal').modal({
 			show: true						//triggert das öffnen des modals
 		});
@@ -765,6 +767,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 	function closeModal(){
 		$('#alertMessage').empty();
 	}
+});
 </script>
 
 </body>
