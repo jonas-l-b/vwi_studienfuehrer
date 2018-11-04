@@ -17,7 +17,7 @@ if(mysqli_num_rows($result) == 1){
 	$message="
 	<p>vielen Dank für deine Registrierung!</p>
 	<p>Dein Account wurde erstellt. Um ihn zu aktivieren, klicke bitte auf diesen Link:<br>
-	http://studienführer.vwi-karlsruhe.de/verify.php?email=".$row['email']."&hash=".$row['hash']."</p>
+	https://xn--studienfhrer-klb.vwi-karlsruhe.de/verify.php?email=".$row['email']."&hash=".$row['hash']."</p>
 	";
 	$mailService = EmailService::getService();
 	if($mailService->sendEmail($row['email'], $row['first_name'], $subject, $message)){

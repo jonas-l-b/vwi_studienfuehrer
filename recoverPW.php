@@ -44,7 +44,7 @@ if (mysqli_num_rows($result)==0){
 
 		$message="
 		<p>Um dein Passwort zu ändern, klicke auf diesen Link und folge den Anweisungen:<br>
-		<a href=\"http://studienführer.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."\">http://studienführer.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."</a></p>
+		<a href=\"https://xn--studienfhrer-klb.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."\">http://studienführer.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."</a></p>
 		<p>Falls du diese Mail nicht angefordert hast oder du dein Passwort doch nicht ändern willst, ignoriere diese Mail einfach.<p>
 		";
 	} else{
@@ -52,7 +52,7 @@ if (mysqli_num_rows($result)==0){
 
 		$message="
 		<p>Um dein Passwort zurückzusetzen, klicke auf diesen Link und folge den Anweisungen:<br>
-		<a href=\"http://studienführer.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."\">http://studienführer.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."</a></p>
+		<a href=\"https://xn--studienfhrer-klb.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."\">http://studienführer.vwi-karlsruhe.de/resetPW.php?recoverhash=".$recoverhash."</a></p>
 		<p>Falls du diese Mail nicht angefordert hast oder dir dein Passwort inzwischen wieder eingefallen ist, ignoriere diese Mail einfach.<p>
 		";
 	}	

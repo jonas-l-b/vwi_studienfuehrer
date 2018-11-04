@@ -54,7 +54,7 @@ if(mysqli_query($con,$sql)){
 	$result=mysqli_query($con, $sql);
 	$row = mysqli_fetch_assoc($result);
 
-	if($row['count'] >= 4){ //Wenn genügend counts vorhanden
+	if($row['count'] >= 15){ //Wenn genügend counts vorhanden
 		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$user_id' AND badge_id = '80'");
 		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
 			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ($user_id,'80')";
@@ -94,7 +94,7 @@ if(mysqli_query($con,$sql)){
 		</table>
 		<br>
 			
-		<span class='foo'><a href=\"studienführer.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"studienführer.vwi-karlsruhe.de/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
+		<span class='foo'><a href=\"https://xn--studienfhrer-klb.vwi-karlsruhe.de/admin.php#messages\">Hier</a> kannst du die Nachricht online anschauen. Du erhälst diese Nachricht, weil du als Administrator <a href=\"https://xn--studienfhrer-klb.vwi-karlsruhe.de/admin.php#notifications\">hier</a> in die Benachrichtigungs-Liste eingetragen wurdest.</span>
 	";
 
 	$sql = "
