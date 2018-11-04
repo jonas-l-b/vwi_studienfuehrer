@@ -110,7 +110,7 @@ include "connect.php";
 				</table>
 				<form method="post">
 					<button type="submit" class="btn btn-primary" name="btn-edit">Daten bearbeiten</button>
-					<button type="button" href="#myModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
+					<button type="button" href="#changePasswordModal" role="button" class="btn btn-primary" data-toggle="modal">Passwort ändern</button>
 					<button style="float:right;" type="button" id="deleteProfileButton" role="button" class="btn btn-danger<?php if($userRow['admin']!='0') echo ' disabled" data-toggle="tooltip" title="Nur `normale` Nutzer können ihr Profil löschen. Gibt zunächst deine Admin-Rechte ab.'; ?>">Profil löschen</button>
 				</form>
 			</div>
@@ -685,7 +685,7 @@ $('#linkToAchievements').click(function(event){
 </script>
 
 <!-- End of page. Modal für Passwort vergessen -->
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="changePasswordModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	<div class="modal-content">
 	<div class="modal-header">
