@@ -126,11 +126,11 @@ include "connect.php";
 														<tr>
 															<td <?php echo $blurry?> style="text-align:left; font-size:15px;"><b><?php echo $name?></b></td> 
 														</tr>
-														
+														<!--
 														<tr>
 															<td <?php echo $blurry?> style="text-align:left;"><?php echo $description?> | <?php echo $row_ach['points']?> Punkte</td> 
 														</tr>
-														
+														-->
 													</table>
 												</td> 
 											</tr>

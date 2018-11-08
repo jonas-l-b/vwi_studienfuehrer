@@ -84,7 +84,7 @@ include "connect.php";
 		JOIN lecturers_institutes ON lecturers.lecturer_ID = lecturers_institutes.lecturer_ID
 		JOIN institutes ON lecturers_institutes.institute_ID = institutes.institute_ID
 		WHERE institutes.institute_ID = '".$institute_id."'
-		ORDER BY subject_name
+		ORDER BY levels.name, modules.name
 	";
 	$result = mysqli_query($con,$sql);
 	$modules = "";
