@@ -65,6 +65,8 @@ if (mysqli_num_rows($result)==0){
 <div style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 50%; height: 30%; margin: auto; padding:25px;">
 	<div align="center" style="margin:auto;">
 		<h4><?php if(isset($msg)) echo $msg ?></h4>
+		<br>
+		<h4><a href="login.php">Zum Login</a></h4>
 	</div>
 </div>
 

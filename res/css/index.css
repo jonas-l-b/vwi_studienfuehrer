@@ -103,3 +103,15 @@ a{
 	margin: 10px;
 }
 
+.info-flex-container {
+	display: flex;
+	align-items: center;
+
+	-webkit-flex-flow: row wrap;
+	justify-content: space-around;
+}
+
+.info-flex-item {
+	margin: 5px;
+	padding: 10px;
+}
