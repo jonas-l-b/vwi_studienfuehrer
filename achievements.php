@@ -6,6 +6,9 @@ include "header.php";
 
 include "connect.php";
 
+require_once 'Mobile_Detect.php';
+$detect = new Mobile_Detect;
+
 ?>
 <body>
 
@@ -56,19 +59,28 @@ include "connect.php";
 			}
 			
 			?>
-			<!--<tr style="border-top:solid 1px lightgrey">-->
+			
+			<?php
+			if($detect->isMobile()){
+				$fontsize = "";
+			}else{
+				$fontsize = "font-size:18px;";
+			}
+			
+			?>
+			
 			<tr <?php if($row['user_id'] == $userRow['user_ID']) echo "bgcolor=\"#F7D358\""?>>
-				<td style="font-size:18px; padding-bottom: 10px; padding-top:10px; padding-right:10px;text-align:center">
+				<td style="<?php echo $fontsize ?>; padding-bottom: 10px; padding-top:10px; padding-right:10px;text-align:center">
 					<?php echo $i ?>
 				</td>
-				<td style="font-size:18px;">
+				<td style="<?php echo $fontsize ?>">
 					<?php echo $row2['username'];?>
 				</td>
-				<td style="font-size:18px;">
+				<td style="<?php echo $fontsize ?>">
 					<?php echo $row3['sum_of_points']?> Punkte
 				</td>
 				<td>
-					<a style="font-size:18px;" href="#" data-toggle="modal" data-target="#achievementsModal<?php echo $row['user_id']?>">Errungenschaften ansehen</a>
+					<a style="<?php echo $fontsize ?>" href="#" data-toggle="modal" data-target="#achievementsModal<?php echo $row['user_id']?>">Errungenschaften ansehen</a>
 
 					<!--Liste Errungenschaften Start-->
 					<div id="achievementsModal<?php echo $row['user_id']?>" class="modal fade" role="dialog">

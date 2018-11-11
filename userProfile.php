@@ -518,7 +518,7 @@ include "connect.php";
 		}
 		?>
 		
-		<h1 style="text-align:center"><i class="fa fa-trophy" style="color:#FACC2E"></i> <u>Meine Errungenschaften</u> <i class="fa fa-trophy" style="color:#FACC2E"></i></h1>
+		<h1 style="text-align:center"><i class="fa fa-trophy" style="color:#FACC2E"></i> <u>Meine Er&shy;run&shy;gen&shy;schaf&shy;ten</u> <i class="fa fa-trophy" style="color:#FACC2E"></i></h1>
 
 			<?php
 			$sql="

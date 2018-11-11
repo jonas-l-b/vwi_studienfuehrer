@@ -348,7 +348,8 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 			<div style="<?php if(!($detect->isMobile())) echo "display:none" ?>">
 				<br>
 				<div class="alert alert-warning" style="text-align:center">
-					Die mobile Version des Studienführers ist noch in der Beta-Version. Design-Fehler können auftreten, aber wir arbeiten dran :)</div>
+					Die mobile Version des Studienführers ist noch in der Beta-Version. Design-Fehler können auftreten, aber wir arbeiten dran :)
+				</div>
 			</div>
 		
 			<h1 style="text-align:center">Willkommen beim Studienführer!</h1>
