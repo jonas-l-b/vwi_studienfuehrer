@@ -122,3 +122,11 @@ a{
 .general-flex-item {
 	margin: 5px;
 }
+
+.enter{
+	-moz-hyphens: auto;
+	-o-hyphens: auto;
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
+}
