@@ -348,8 +348,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 			<div style="<?php if(!($detect->isMobile())) echo "display:none" ?>">
 				<br>
 				<div class="alert alert-warning" style="text-align:center">
-					Der Studienführer wurde als Desktop-Anwendung entwickelt, sodass bei mobiler Nutzung Design-Fehler auftreten können. Auch wenn du dich durch einige Sachen möglicherweise durchklicken kannst, empfehlen wir dir die Nutzung an einem Computer. Wir arbeiten bereits an der Anpassung an mobile Geräte!
-				</div>
+					Die mobile Version des Studienführers ist noch in der Beta-Version. Design-Fehler können auftreten, aber wir arbeiten dran :)</div>
 			</div>
 		
 			<h1 style="text-align:center">Willkommen beim Studienführer!</h1>
@@ -503,7 +502,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 		</div>
 		
 		<div id="section4" class="container-fluid">
-			<h1 style="text-align:center">Richtlinien</h1>
+			<h1 style="text-align:center">Gemeinschafts&shy;richtlinien</h1>
 			<?php
 			$sql="SELECT * FROM multiple_location_content WHERE name = 'community_guidelines'";
 			$result=mysqli_query($con, $sql);

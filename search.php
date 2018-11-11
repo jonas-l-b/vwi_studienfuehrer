@@ -70,8 +70,8 @@ include "connect.php";
 	<div id="treeSide" <?php echo $displayTree ?>>
 	<hr>
 
-		<h2>Veranstaltungsverzeichnis</h2>
-		<div class="" style="width:500px; padding: 8px 0;">
+		<h2>Veranstaltungs&shy;verzeichnis</h2>
+		<div class="" style="width:100%; padding: 8px 0;">
 			<div>
 				<ul class="nav nav-list">
 
@@ -155,10 +155,10 @@ include "connect.php";
 
 	<div id="searchSide" <?php echo $displaySearch ?>>
 		<hr>
-		<h2>Veranstaltungssuche</h2>
+		<h2>Veranstaltungs&shy;suche</h2>
 		<p><i>Vorsicht beim Filtern: Wird beim Modul-Typ "BWL" angegeben, beim Modul aber "Informatik", kann es natürlich keine Ergebnisse geben. Ebenso können sich beispielsweise Dozent und Institut schnell gegenseitig ausschließen.</i></p>
 
-		<form id="filtersort" class="form-horizontal" method="post">
+		<form id="filtersort" class="form-horizontal" method="post" style="margin:5px">
 			<div class="row">
 				<div class="col-md-4">
 
