@@ -1,9 +1,3 @@
-.noRatingBox{
-	padding:5px;
-	width:80%;
-	margin:auto;
-}
-
 .noRatingText{
 	text-align:center;
 	margin:0px;
@@ -16,6 +10,7 @@
 	color:white;
 	font-weight:normal;
 	border-radius:5px;
+	white-space: normal;
 }
 
 .editTrashButton{
@@ -92,14 +87,38 @@ a{
 
 .contenedor{
 	width:100%;
-	height:100px;
 	display:flex;
 	justify-content: space-between;
+	flex-wrap: wrap;
 }
 .contenido{
+	/*width:330px;*/
 	height:80px;
-	width:10%;
 	float:left;
 	margin: 10px;
+	flex-grow:1;
 }
 
+.info-flex-container {
+	display: flex;
+	align-items: center;
+
+	-webkit-flex-flow: row wrap;
+	justify-content: space-around;
+}
+
+.info-flex-item {
+	margin: 5px;
+	padding: 10px;
+}
+
+.general-flex-container{
+	width:100%;
+	display:flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.general-flex-item {
+	margin: 5px;
+}

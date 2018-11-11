@@ -138,25 +138,22 @@ include "sumVotes.php";
 	}
 	?>
 
-	<div class="row" id="firstrow">
-		<!--
-		<div class="alert alert-info" role="alert">
-			Auf dieser Seite können design-technische Fehler auftreten - besonders wenn noch keine Bewertungen abgegeben wurden. Wir arbeiten daran, diese Fehler zu beheben und nutzen dabei die Gelegenheit, das Design etwas zu überarbeiten!
-		</div>
-		-->
-		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="border-bottom: 1px solid #dedede; ">
-			<h1> <?php echo $subjectData['subject_name'] ?> </h1>
-		</div>
-		<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align:center;">
-			<h1 style="font-size:50px !important; margin-bottom:-10px;"><span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span> </h1>
-		</div>
-	</div>
-	<div class="row">
 
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><span style="font-size:.9em; margin-top:2px;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?></span></div>
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="text-align:right;"><span style="font-size:.9em; margin-top:2px;"><a id="contact2" style="cursor: pointer; cursor: hand;">Inhaltlichen Fehler auf dieser Seite melden</a></span></div>
-			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2"></div>
+	<div style="border-bottom: 1px solid #dedede;">
+		<p>
+			<h1>
+				<?php echo $subjectData['subject_name'] ?>
+				<span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span>	
+			</h1>
+		</p>
 	</div>
+
+	<div class="general-flex-container">
+		<div class="general-flex-item" style="font-size:.9em;"><b>Kennung: </b><?php echo $subjectData['identifier'] ?></div>
+		<div class="general-flex-item" style="font-size:.9em;"><a id="contact2" style="cursor: pointer; cursor: hand;">Fehler dieser Seite melden</a></div>
+	</div>
+	
+
 
 	<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -242,434 +239,328 @@ include "sumVotes.php";
 		$noRatingsYet = TRUE;
 	}
 	?>
-	<!--Überschirft, Veranstaltungsinfos und Favourite Icon Ende-->
+	<!--ENDE Überschirft, Veranstaltungsinfos und Favourite Icon-->
 
-	<!--Bewertungsübersicht Start-->
-	<div>
-		<br>
-		<div class="row">
-			<div class="col-sm-8 col-md-10 col-lg-10 well">
+	<!-- Infobox-->
+	<div id="" class="well">
+	
+		<div class="info-flex-container">
 
-				<div class="noRatingBox" <?php echo $displayNoRatings ?>> <!--Anzeige falls noch kein Rating vorhanden-->
-					<div style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-						<br>
-						<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
-						<div style="text-align:center">
-							<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
-						</div>
-					</div>
+			<div class="info-flex-item">
+				<div style="text-align:center">
+					<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span><br /><?php echo $subjectData['semester'] ?>
 				</div>
+			</div>
+			
+			<div class="info-flex-item">
+				<div style="text-align:center">
+					<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Leistungsumfang" class="glyphicon glyphicon-briefcase"></span></strong></span><br /><?php echo $subjectData['subject_ECTS'] ?> ECTS
+				</div>
+			</div>
 
-				<div <?php echo $displayRatings ?>>
+			<div class="info-flex-item">
+				<div style="text-align:center">
+					<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span><br /><?php echo $subjectData['language'] ?>
+				</div>
+			</div>		
+	<!--
+		</div>
+		
+		<div class="info-flex-container">
+	-->
+			<div class="info-flex-item">
+				<div style="text-align:center">
+					<b>Level</b><br />
+					<?php echo $levels ?>
+				</div>
+			</div>
+			
+			<div class="info-flex-item">
+				<div style="text-align:center">
+					<b>Teile der Module</b><br />
+					<?php echo $part_of_modules ?>
+				</div>
+			</div>
 
+			<div class="info-flex-item">
+				<div style="text-align:center">
+					<b>Dozent(en)</b><br />
+					<?php echo $lecturers; ?>
+				</div>
+			</div>		
+
+		</div>
+	
+	</div>
+	<!--ENDE Infobox-->	
+
+	<!--START Bewertungsübersicht-->
+	<div class="well">
+	
+		<div <?php echo $displayNoRatings ?>>
+			<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
+			<div style="text-align:center">
+				<button style="font-size:20px" id="jetztBewertenButton" type="button" href="#" role="button" class="btn noRatingButton">Diese Veranstaltung jetzt bewerten!</button>
+			</div>
+		
+		</div>
+
+		<div <?php echo $displayRatings ?>>
+
+			<?php
+			$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
+			$row = mysqli_fetch_assoc($result);
+			$yes = $row['value_sum'];
+			if ($yes == "") $yes = 0;
+
+			$result = mysqli_query($con,"SELECT COUNT(recommendation) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
+			$row = mysqli_fetch_assoc($result);
+			$total = $row['value_count'];
+			?>
+			
+			<?php
+			$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+			$row = mysqli_fetch_assoc($result);
+			?>
+			
+			<div class="general-flex-container">
+				<div class="general-flex-item" style="font-size:20px;"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</div>
+				<div class="general-flex-item" style="font-size:20px;<?php if(isset($ratingButtonDisabled)) echo "padding-right: 25px;"?>">Gesamtbewertung: <b><?php echo round($row['AVG(general0)'], 1) ?></b> / 10</div>
+			</div>
+			
+			<hr>
+			<div <?php if(!isset($ratingButtonDisabled)) echo "style=\"display:none;\""?> class="ribbon"><span>Bewertet!</span></div>
+
+			<div class="row">
+				<div class="col-md-6">
 					<?php
-					$result = mysqli_query($con,"SELECT SUM(recommendation) AS value_sum FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-					$row = mysqli_fetch_assoc($result);
-					$yes = $row['value_sum'];
-					if ($yes == "") $yes = 0;
+					//Lecture
+					$items = array("lecture0", "lecture1", "lecture2");
+					foreach($items as $key => $item){
+						$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+						$row = mysqli_fetch_assoc($result);
+						if(round($row['AVG('.$item.')'],1) < 0 ){
+							$lecture[$key][0] = abs(round($row['AVG('.$item.')'],1));
+							$lecture[$key][1] = 0;
+						}else{
+							$lecture[$key][0] = 0;
+							$lecture[$key][1] = round($row['AVG('.$item.')'],1);
+						}
+					}
 
-					$result = mysqli_query($con,"SELECT COUNT(recommendation) AS value_count FROM ratings WHERE subject_ID = '".$subjectData['ID']."'");
-					$row = mysqli_fetch_assoc($result);
-					$total = $row['value_count'];
-					?>
-					<span style="font-size:20px;"><strong><?php echo $yes ?></strong> von <strong><?php echo $total ?></strong> <?php if($yes == 1){echo "würde";} else echo "würden" ?> diese Veranstaltung weiterempfehlen.</span>
-
-					<?php
-					$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
-					$row = mysqli_fetch_assoc($result);
-					?>
-					<span style="float:right; font-size:20px;<?php if(isset($ratingButtonDisabled)) echo "padding-right: 25px;"?>">Gesamtbewertung: <b><?php echo round($row['AVG(general0)'], 1) ?></b> / 10</span>
-					<hr>
-					<div <?php if(!isset($ratingButtonDisabled)) echo "style=\"display:none;\""?> class="ribbon"><span>Bewertet!</span></div>
-
-					<div class="row">
-						<div class="col-md-6">
-							<?php
-							//Lecture
-							$items = array("lecture0", "lecture1", "lecture2");
-							foreach($items as $key => $item){
-								$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']);
-								$row = mysqli_fetch_assoc($result);
-								if(round($row['AVG('.$item.')'],1) < 0 ){
-									$lecture[$key][0] = abs(round($row['AVG('.$item.')'],1));
-									$lecture[$key][1] = 0;
-								}else{
-									$lecture[$key][0] = 0;
-									$lecture[$key][1] = round($row['AVG('.$item.')'],1);
-								}
+					//$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
+					$lectureCaptions = array(array("Relevanz des Vorlesungsbesuches", "Hinblicklich: Folien selbsterklärend, Vorlesung behandelt zusätzlichen Stoff"), array("Gestaltung der Vorlesung", ""), array("Qualität der Vorlesungsmaterialien", "Hinblicklich: Vollständigkeit, Struktur"));
+					$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien schlecht", "Materialien gut"));
+					
+					//Exam
+					$items = array("exam0", "exam1", "exam2", "exam3");
+					$examType = array("written", "oral");
+					for($i=0;$i<count($examType);$i++){
+						foreach($items as $key => $item){
+							$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = '".$examType[$i]."'");
+							$row = mysqli_fetch_assoc($result);
+							if(round($row['AVG('.$item.')'],1) < 0 ){
+								$exam[$i][$key][0] = abs(round($row['AVG('.$item.')'],1));
+								$exam[$i][$key][1] = 0;
+							}else{
+								$exam[$i][$key][0] = 0;
+								$exam[$i][$key][1] = round($row['AVG('.$item.')'],1);
 							}
+						}
+					}
+					$examHeadings = array(array("Reproduktion", "Transfer"), array("Nicht rechenlastig", "Sehr rechenlastig"), array("Aufwand < ECTS", "Aufwand > ECTS"), array("Prüfungsvorbereitung schlecht", "Prüfungsvorbereitung gut"));
 
-							//$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien unstrukturiert/unvollständig", "Materialien strukturiert, selbsterklärend, vollständig"));
-							$lectureCaptions = array(array("Relevanz des Vorlesungsbesuches", "Hinblicklich: Folien selbsterklärend, Vorlesung behandelt zusätzlichen Stoff"), array("Gestaltung der Vorlesung", ""), array("Qualität der Vorlesungsmaterialien", "Hinblicklich: Vollständigkeit, Struktur"));
-							$lectureHeadings = array(array("Nicht Prüfungsrelevant", "Sehr prüfungsrelevant"), array("Uninteressant", "Sehr interessant"), array("Materialien schlecht", "Materialien gut"));
-							
-							//Exam
-							$items = array("exam0", "exam1", "exam2", "exam3");
-							$examType = array("written", "oral");
-							for($i=0;$i<count($examType);$i++){
-								foreach($items as $key => $item){
-									$result = mysqli_query($con, "SELECT AVG(".$item.") FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = '".$examType[$i]."'");
-									$row = mysqli_fetch_assoc($result);
-									if(round($row['AVG('.$item.')'],1) < 0 ){
-										$exam[$i][$key][0] = abs(round($row['AVG('.$item.')'],1));
-										$exam[$i][$key][1] = 0;
-									}else{
-										$exam[$i][$key][0] = 0;
-										$exam[$i][$key][1] = round($row['AVG('.$item.')'],1);
-									}
-								}
-							}
-							$examHeadings = array(array("Reproduktion", "Transfer"), array("Nicht rechenlastig", "Sehr rechenlastig"), array("Aufwand < ECTS", "Aufwand > ECTS"), array("Prüfungsvorbereitung schlecht", "Prüfungsvorbereitung gut"));
+					$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'written'"));
+					$writtenBadge = $row['COUNT(examType)'];
+					$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'oral'"));
+					$oralBadge = $row['COUNT(examType)'];
+					$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'"));
+					$otherBadge = $row['COUNT(examType)'];
 
-							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'written'"));
-							$writtenBadge = $row['COUNT(examType)'];
-							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'oral'"));
-							$oralBadge = $row['COUNT(examType)'];
-							$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'"));
-							$otherBadge = $row['COUNT(examType)'];
-
+					?>
+					<h4><strong>Vorlesung</strong></h4>
+					<br>
+					<!--<div style="height: 42px;"></div>-->
+					<table class="ratingtable" style="width:100%">
+						<?php
+						for($i=0;$i<count($lectureHeadings);$i++){
 							?>
-							<h4><strong>Vorlesung</strong></h4>
-							<br>
-							<!--<div style="height: 42px;"></div>-->
-							<table class="ratingtable" style="width:100%">
-								<?php
-								for($i=0;$i<count($lectureHeadings);$i++){
-									?>
-									
-									<tr>
-										<td colspan="2">
-											<span><strong><?php echo $lectureCaptions[$i][0]?></strong></span>
-											<br>
-											<span style="font-size:12px;"><i><?php echo $lectureCaptions[$i][1]?></i></span>
-											<div style="height: 7px;"></div>
-										</td>
-									</tr>
-									
-									<tr>
-										<td>
-											<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i][0] ?></span>
-										</td>
-										<td>
-											<span style="float:right; text-align: right; margin-right:3px;"><?php echo $lectureHeadings[$i][1] ?></span>
-										</td>
-									</tr>
+							
+							<tr>
+								<td colspan="2">
+									<span><strong><?php echo $lectureCaptions[$i][0]?></strong></span>
+									<br>
+									<span style="font-size:12px;"><i><?php echo $lectureCaptions[$i][1]?></i></span>
+									<div style="height: 7px;"></div>
+								</td>
+							</tr>
+							
+							<tr>
+								<td>
+									<span style="float:left; margin-left:3px;"><?php echo $lectureHeadings[$i][0] ?></span>
+								</td>
+								<td>
+									<span style="float:right; text-align: right; margin-right:3px;"><?php echo $lectureHeadings[$i][1] ?></span>
+								</td>
+							</tr>
 
-									<tr>
-										<td valign="center" style="width:50%">
-											<div style="font-size:15px; font-weight:bold; line-height:2">
-												<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][0]*(100/3) ?>%"></div>
-												</div>
-											</div>
-										</td>
-
-										<td valign="center" style="width:50%">
-											<div style="font-size:15px; font-weight:bold; line-height:2">
-												<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-													<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][1]*(100/3) ?>%"></div>
-												</div>
-											</div>
-										</td>
-									</tr>
-								<?php
-								}
-								?>
-							</table>
-						</div>
-						<div class="col-md-6">
-							<h4><strong>Prüfung</strong></h4>
-
-							<ul class="nav nav-pills">
-								<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" data-number-of-reviews="<?php echo $writtenBadge ?>" class="badge"><?php echo $writtenBadge ?></span></a></li>
-								<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" data-number-of-reviews="<?php echo $oralBadge ?>" class="badge"><?php echo $oralBadge ?></span></a></li>
-								<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" data-number-of-reviews="<?php echo $otherBadge ?>" class="badge"><?php echo $otherBadge ?></span></a></li>
-							</ul>
-
-							<div class="tab-content">
-								<br>
-								<?php
-								for($j=0;$j<count($examType);$j++){
-									?>
-									<div id="<?php echo $examType[$j] ?>" class="tab-pane fade">
-
-										<table class="ratingtable" style="width:100%">
-											<?php
-											for($i=0;$i<count($examHeadings);$i++){
-												?>
-												<tr>
-													<td>
-														<span style="float:left; margin-left:3px;"><?php echo $examHeadings[$i][0] ?></span>
-													</td>
-													<td>
-														<span style="float:right; text-align: right; margin-right:3px;"><?php echo $examHeadings[$i][1] ?></span>
-													</td>
-												</tr>
-
-												<tr>
-													<td valign="center" style="width:50%">
-														<div style="font-size:15px; font-weight:bold; line-height:2">
-															<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][0]*(100/3) ?>%"></div>
-															</div>
-														</div>
-													</td>
-
-													<td valign="center" style="width:50%">
-														<div style="font-size:15px; font-weight:bold; line-height:2">
-															<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
-																<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][1]*(100/3) ?>%"></div>
-															</div>
-														</div>
-													</td>
-												</tr>
-												<?php
-											}
-											?>
-										</table>
+							<tr>
+								<td valign="center" style="width:50%">
+									<div style="font-size:15px; font-weight:bold; line-height:2">
+										<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+											<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][0]*(100/3) ?>%"></div>
+										</div>
 									</div>
-									<?php
-								}?>
+								</td>
 
-								<div id="other" class="tab-pane fade otherTab">
+								<td valign="center" style="width:50%">
+									<div style="font-size:15px; font-weight:bold; line-height:2">
+										<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+											<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $lecture[$i][1]*(100/3) ?>%"></div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						<?php
+						}
+						?>
+					</table>
+				</div>
+				<div class="col-md-6">
+					<h4><strong>Prüfung</strong></h4>
+
+					<ul class="nav nav-pills">
+						<li class="written" ><a data-toggle="pill" href="#written">Schriftlich <span id="writtenBadge" data-number-of-reviews="<?php echo $writtenBadge ?>" class="badge"><?php echo $writtenBadge ?></span></a></li>
+						<li class="oral" ><a data-toggle="pill" href="#oral">Mündlich <span id="oralBadge" data-number-of-reviews="<?php echo $oralBadge ?>" class="badge"><?php echo $oralBadge ?></span></a></li>
+						<li class="other" ><a data-toggle="pill" href="#other">Sonstige <span id="otherBadge" data-number-of-reviews="<?php echo $otherBadge ?>" class="badge"><?php echo $otherBadge ?></span></a></li>
+					</ul>
+
+					<div class="tab-content">
+						<br>
+						<?php
+						for($j=0;$j<count($examType);$j++){
+							?>
+							<div id="<?php echo $examType[$j] ?>" class="tab-pane fade">
+
+								<table class="ratingtable" style="width:100%">
 									<?php
-									$result = mysqli_query($con, "SELECT ID, examText FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
-									while($row = mysqli_fetch_assoc($result)){
+									for($i=0;$i<count($examHeadings);$i++){
 										?>
-										<p class="otherComment"><?php echo $row['examText'] ?> <a href="#bewertungMitID<?php echo $row['ID'] ?>" data-comment-id="<?php echo $row['ID'] ?>"  class="sonstigesZuCommentLink"><span class="pull-right"><span class="glyphicon glyphicon-comment"></span></span></a></p>
+										<tr>
+											<td>
+												<span style="float:left; margin-left:3px;"><?php echo $examHeadings[$i][0] ?></span>
+											</td>
+											<td>
+												<span style="float:right; text-align: right; margin-right:3px;"><?php echo $examHeadings[$i][1] ?></span>
+											</td>
+										</tr>
+
+										<tr>
+											<td valign="center" style="width:50%">
+												<div style="font-size:15px; font-weight:bold; line-height:2">
+													<div class="progress" style="transform: rotate(-180deg); border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+														<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][0]*(100/3) ?>%"></div>
+													</div>
+												</div>
+											</td>
+
+											<td valign="center" style="width:50%">
+												<div style="font-size:15px; font-weight:bold; line-height:2">
+													<div class="progress" style="border-top-left-radius:0; border-bottom-left-radius:0; border-left:solid 0.5px grey;">
+														<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $exam[$j][$i][1]*(100/3) ?>%"></div>
+													</div>
+												</div>
+											</td>
+										</tr>
 										<?php
 									}
 									?>
-								</div>
+								</table>
 							</div>
-						</div>
-
-						<script>
-						written = $('#writtenBadge').text();
-						oral = $('#oralBadge').text();
-						other = $('#otherBadge').text();
-						var max = Math.max(written, oral, other);
-
-						switch (true){
-							case written == max:
-								$('li.written').addClass("active");
-								$('#written').addClass("in active");
-								break;
-							case oral == max:
-								$('li.oral').addClass("active");
-								$('#oral').addClass("in active");
-								break;
-							case other == max:
-								$('li.other').addClass("active");
-								$('#other').addClass("in active");
-								break;
-						}
-						</script>
-
-	<!--
-						<?php
-						$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
-						$row = mysqli_fetch_assoc($result);
-						?>
-
-						<div style="display:inline-block">
-							<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
-								<span><?php echo round($row['AVG(general0)'], 1) ?></span>
-								<div class="slice">
-									<div class="bar"></div>
-									<div class="fill"></div>
-								</div>
-							</div>
-						</div>
-						<p align="center">Gesamtbewertung</p>
-	-->
-					</div>
-				</div>
-			</div>
-			<!--<div class="col-md-1">
-			</div>-->
-			<div class="col-md-2 col-lg-2 col-sm-4">
-				<div id="infobox" class="well" style="width:250px;">
-				<div style="margin-top:-15px;"><h4 style="font-size:2em;text-align:center;">Info</h4></div>
-				<div class="row" style="text-align:center;">
-					<div class="col-md-4">
-						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungsturnus" class="glyphicon glyphicon-calendar"></span></strong></span><br /><?php echo $subjectData['semester'] ?>
-					</div>
-					<div class="col-md-4">
-						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Leistungsumfang" class="glyphicon glyphicon-briefcase"></span></strong></span><br /><?php echo $subjectData['subject_ECTS'] ?> ECTS
-					</div>
-					<div class="col-md-4">
-						<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span><br /><?php echo $subjectData['language'] ?>
-					</div>
-				</div><p></p>
-				<p>
-					<b>Level</b><br />
-					<?php echo $levels ?>
-				</p>
-				<p>
-					<b>Teile der Module</b><br />
-					<?php echo $part_of_modules ?>
-				</p>
-				<p>
-					<b>Dozent(en)</b><br />
-					<?php echo $lecturers; ?>
-				</p>
-
-				</div>
-			</div>
-			<?php
-			if(!$noRatingsYet){ //Deaktivert affix, wenn noch keine Bewertungen vorhanden -> Verhindert Scrollfehler (hoffentlich)
-				?>
-				<script>
-					$('#infobox').affix({
-						  offset: {
-							top: $('#infobox').offset().top - 100
-						  }
-					});
-					$(window).on("resize", function(){
-						$('#infobox').data('bs.affix').options.offset = $('#infobox').offset().top - 100
-					})
-				</script>
-				<?php
-			}
-			?>
-			
-			<script>
-				$('.noRatingBox').height($('#infobox').height()-9);
-			</script>
-
-			<!--Bewertungsübersicht Ende-->
-		</div>
-
-		<div class="row"> <!--Fragen Start-->
-			<div class="col-md-10 well">
-
-				<span style="font-size: 1.5em;font-weight:bold;">Fragen
-					<span style="float:right;">
-						<button id="newQuestionButton" type="button" class="btn btn-primary">Neue Frage stellen</button>
-					</span>
-				</span>
-
-				<!-- Modal neue Frage stellen-->
-				<div id="questionModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-					<div class="modal-dialog">
-					<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Frage stellen für:<br><strong><?php echo $subjectData['subject_name'] ?></strong></h4>
-					</div>
-					<div class="modal-body question-modal-body">
-						<form id="questionForm">
-							<div class="form-group">
-								<textarea name="formQuestion" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Frage ein." required></textarea>
-							</div>
-							<button id="submitQuestionButton" type="button" class="btn btn-primary">Abschicken</button>
-							<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-						</form>
-					</div><!-- End of Modal body -->
-					</div><!-- End of Modal content -->
-					</div><!-- End of Modal dialog -->
-				</div><!-- End of Modal -->
-
-				<br><br>
-
-				<div id="questionBody" style="max-height:800px; overflow:auto">
-
-					<?php
-					$sql = "
-						SELECT questions.ID AS ID, questions.subject_ID AS subject_ID, questions.user_ID AS user_ID, questions.question AS question, questions.time_stamp AS time_stamp, users.username AS username
-						FROM questions
-						JOIN users ON questions.user_ID = users.user_ID
-						WHERE subject_ID = ".$subjectData['ID']."
-						ORDER BY time_stamp DESC;
-					";
-					$result = mysqli_query($con, $sql);
-
-					if(mysqli_num_rows($result)==0){
-						echo "<i>Noch keine Fragen vorhanden.</i>";
-					}
-
-					while($row = mysqli_fetch_assoc($result)){
-						?>
-						<div class="well" style="background-color:white; border-radius:none">
-							<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo nl2br($row['question'])?></span>
-							<hr style="margin:10px">
-							<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?></p>
-
 							<?php
-							$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
-							?>
-							<p style="margin-bottom:0px">
-								<a class="answerThisQuestion">Frage beantworten</a> <!-- answerModal weiter unten-->
-								<span class="showAnswers" style="float:right">
-									<?php
-									switch($num){
-										case 0:
-											echo "Keine Antworten zum Anzeigen vorhanden";
-											break;
-										default:
-											echo "<a>Antworten anzeigen</a>";
-											break;
-									}
-									?>
-								</span>
-							</p>
+						}?>
 
-							<div class="answerSection" style="display:none"> <!--Antworten-->
-								<hr class="style">
-
-								<?php
-								$sql2 = "
-									SELECT answers.ID AS ID, answers.question_ID AS question_ID, answers.user_ID AS user_ID, answers.answer AS answer, answers.time_stamp AS time_stamp, users.username AS username
-									FROM answers
-									JOIN users ON answers.user_ID = users.user_ID
-									WHERE question_ID = ".$row['ID']."
-									ORDER BY time_stamp DESC;
-								";
-								$result2 = mysqli_query($con, $sql2);
-
-								while($row2 = mysqli_fetch_assoc($result2)){
-									?>
-									<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
-										<?php echo nl2br($row2['answer'])?>
-										<hr style="margin:10px">
-										<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
-									</div>
-									<?php
-								}
+						<div id="other" class="tab-pane fade otherTab">
+							<?php
+							$result = mysqli_query($con, "SELECT ID, examText FROM ratings WHERE subject_ID = ".$subjectData['ID']." AND examType = 'other'");
+							while($row = mysqli_fetch_assoc($result)){
 								?>
-							</div>
+								<p class="otherComment"><?php echo $row['examText'] ?> <a href="#bewertungMitID<?php echo $row['ID'] ?>" data-comment-id="<?php echo $row['ID'] ?>"  class="sonstigesZuCommentLink"><span class="pull-right"><span class="glyphicon glyphicon-comment"></span></span></a></p>
+								<?php
+							}
+							?>
 						</div>
-						<?php
-					}
-					?>
+					</div>
 				</div>
 
-				<br>
-				<p style="text-align:center; margin-bottom:0"><a id="showAllQuestions" style="cursor: pointer; cursor: hand;">Alle Fragen aufklappen (Scrollbar entfernen)</a></p>
-			</div>
-			<div class="col-md-2">
+				<script>
+				written = $('#writtenBadge').text();
+				oral = $('#oralBadge').text();
+				other = $('#otherBadge').text();
+				var max = Math.max(written, oral, other);
+
+				switch (true){
+					case written == max:
+						$('li.written').addClass("active");
+						$('#written').addClass("in active");
+						break;
+					case oral == max:
+						$('li.oral').addClass("active");
+						$('#oral').addClass("in active");
+						break;
+					case other == max:
+						$('li.other').addClass("active");
+						$('#other').addClass("in active");
+						break;
+				}
+				</script>
+
+<!--
+				<?php
+				$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
+				$row = mysqli_fetch_assoc($result);
+				?>
+
+				<div style="display:inline-block">
+					<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
+						<span><?php echo round($row['AVG(general0)'], 1) ?></span>
+						<div class="slice">
+							<div class="bar"></div>
+							<div class="fill"></div>
+						</div>
+					</div>
+				</div>
+				<p align="center">Gesamtbewertung</p>
+-->
 			</div>
 		</div>
+	</div>
+	<!--ENDE Bewertungsübersicht-->
+			
+			
+	<!--START Fragen-->
+	<div class="well">
 
-		<!-- Modal Frage beantworten-->
-		<div id="answerModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<span style="font-size: 1.5em;font-weight:bold;">Fragen
+			<span style="float:right;">
+				<button id="newQuestionButton" type="button" class="btn btn-primary">Neue Frage stellen</button>
+			</span>
+		</span>
+
+		<!-- Modal neue Frage stellen-->
+		<div id="questionModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog">
 			<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" onclick="javascript:window.location.reload()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Antwort schreiben</h4>
+				<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Frage stellen für:<br><strong><?php echo $subjectData['subject_name'] ?></strong></h4>
 			</div>
-			<div class="modal-body answer-modal-body">
-				<p><strong>Frage:</strong></p>
-				<p id="questionForAnswerModal"></p>
-				<p style="display:none" id="questionID"></p>
-				<p><strong>Deine Antwort:</strong></p>
-				<form id="answerForm">
+			<div class="modal-body question-modal-body">
+				<form id="questionForm">
 					<div class="form-group">
-						<textarea name="formAnswer" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Antwort ein." required></textarea>
+						<textarea name="formQuestion" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Frage ein." required></textarea>
 					</div>
-					<button id="submitAnswerButton" type="button" class="btn btn-primary">Abschicken</button>
+					<button id="submitQuestionButton" type="button" class="btn btn-primary">Abschicken</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
 				</form>
 			</div><!-- End of Modal body -->
@@ -677,383 +568,482 @@ include "sumVotes.php";
 			</div><!-- End of Modal dialog -->
 		</div><!-- End of Modal -->
 
-		<script>
-		$( document ).ready(function() {
-			(function($) { //Scrollbar vorhanden?
-				$.fn.hasScrollBarIH = function() {
-					return this.get(0).scrollHeight > this.innerHeight();
-				}
-			})(jQuery);
+		<br><br>
 
-			if(!$('#questionBody').hasScrollBarIH()){
-				$('#showAllQuestions').hide();
+		<div id="questionBody" style="max-height:800px; overflow:auto">
+
+			<?php
+			$sql = "
+				SELECT questions.ID AS ID, questions.subject_ID AS subject_ID, questions.user_ID AS user_ID, questions.question AS question, questions.time_stamp AS time_stamp, users.username AS username
+				FROM questions
+				JOIN users ON questions.user_ID = users.user_ID
+				WHERE subject_ID = ".$subjectData['ID']."
+				ORDER BY time_stamp DESC;
+			";
+			$result = mysqli_query($con, $sql);
+
+			if(mysqli_num_rows($result)==0){
+				echo "<i>Noch keine Fragen vorhanden.</i>";
 			}
-		});
+
+			while($row = mysqli_fetch_assoc($result)){
+				?>
+				<div class="well" style="background-color:white; border-radius:none">
+					<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo nl2br($row['question'])?></span>
+					<hr style="margin:10px">
+					<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?></p>
+
+					<?php
+					$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
+					?>
+					<p style="margin-bottom:0px">
+						<a class="answerThisQuestion">Frage beantworten</a> <!-- answerModal weiter unten-->
+						<span class="showAnswers" style="float:right">
+							<?php
+							switch($num){
+								case 0:
+									echo "Keine Antworten zum Anzeigen vorhanden";
+									break;
+								default:
+									echo "<a>Antworten anzeigen</a>";
+									break;
+							}
+							?>
+						</span>
+					</p>
+
+					<div class="answerSection" style="display:none"> <!--Antworten-->
+						<hr class="style">
+
+						<?php
+						$sql2 = "
+							SELECT answers.ID AS ID, answers.question_ID AS question_ID, answers.user_ID AS user_ID, answers.answer AS answer, answers.time_stamp AS time_stamp, users.username AS username
+							FROM answers
+							JOIN users ON answers.user_ID = users.user_ID
+							WHERE question_ID = ".$row['ID']."
+							ORDER BY time_stamp DESC;
+						";
+						$result2 = mysqli_query($con, $sql2);
+
+						while($row2 = mysqli_fetch_assoc($result2)){
+							?>
+							<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
+								<?php echo nl2br($row2['answer'])?>
+								<hr style="margin:10px">
+								<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
+							</div>
+							<?php
+						}
+						?>
+					</div>
+				</div>
+				<?php
+			}
+			?>
+		</div>
+
+		<br>
+		<p style="text-align:center; margin-bottom:0"><a id="showAllQuestions" style="cursor: pointer; cursor: hand;">Alle Fragen aufklappen (Scrollbar entfernen)</a></p>
+	</div>
+	
+	<!-- Modal Frage beantworten-->
+	<div id="answerModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" onclick="javascript:window.location.reload()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title">Antwort schreiben</h4>
+		</div>
+		<div class="modal-body answer-modal-body">
+			<p><strong>Frage:</strong></p>
+			<p id="questionForAnswerModal"></p>
+			<p style="display:none" id="questionID"></p>
+			<p><strong>Deine Antwort:</strong></p>
+			<form id="answerForm">
+				<div class="form-group">
+					<textarea name="formAnswer" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Antwort ein." required></textarea>
+				</div>
+				<button id="submitAnswerButton" type="button" class="btn btn-primary">Abschicken</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+			</form>
+		</div><!-- End of Modal body -->
+		</div><!-- End of Modal content -->
+		</div><!-- End of Modal dialog -->
+	</div><!-- End of Modal -->
+	
+	<script>
+	$( document ).ready(function() {
+		(function($) { //Scrollbar vorhanden?
+			$.fn.hasScrollBarIH = function() {
+				return this.get(0).scrollHeight > this.innerHeight();
+			}
+		})(jQuery);
+
+		if(!$('#questionBody').hasScrollBarIH()){
+			$('#showAllQuestions').hide();
+		}
+	});
 
 
-		//Fragen auf- und zuklappen
-		$('#showAllQuestions').click(function() {
-			if(!($('#questionBody').css("max-height")=="none")){
-				$('#questionBody').css("max-height", "");
-				$('#showAllQuestions').html("Fragen wieder einklappen");
+	//Fragen auf- und zuklappen
+	$('#showAllQuestions').click(function() {
+		if(!($('#questionBody').css("max-height")=="none")){
+			$('#questionBody').css("max-height", "");
+			$('#showAllQuestions').html("Fragen wieder einklappen");
+		}else{
+			$('#questionBody').css("max-height", "800px");
+			$('#questionBody').css("overflow", "auto");
+			$('#showAllQuestions').html("Alle Fragen aufklappen (Scrollbar entfernen)");
+		}
+	});
+
+	//Antworten anzeigen
+	$('.showAnswers').click(function() {
+		if(!($(this).text().trim() == "Keine Antworten zum Anzeigen vorhanden")){
+			if(($(this).text().trim() == "Schließen")){
+				$(this).parent().next(".answerSection").hide(); //Bin nicht ganz sicher, wie stabil das ist
+				$(this).html("<a>Antworten anzeigen</a>");
+				if($('#questionBody').hasScrollBarIH()){
+					$('#showAllQuestions').show();
+				}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
+					$('#showAllQuestions').hide();
+				}
 			}else{
-				$('#questionBody').css("max-height", "800px");
-				$('#questionBody').css("overflow", "auto");
-				$('#showAllQuestions').html("Alle Fragen aufklappen (Scrollbar entfernen)");
+				$(this).parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
+				$(this).html("<a>Schließen</a>");
+				if($('#questionBody').hasScrollBarIH()){
+					$('#showAllQuestions').show();
+				}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
+					$('#showAllQuestions').hide();
+				}
 			}
-		});
+		}
+	});
 
-		//Antworten anzeigen
-		$('.showAnswers').click(function() {
-			if(!($(this).text().trim() == "Keine Antworten zum Anzeigen vorhanden")){
-				if(($(this).text().trim() == "Schließen")){
-					$(this).parent().next(".answerSection").hide(); //Bin nicht ganz sicher, wie stabil das ist
-					$(this).html("<a>Antworten anzeigen</a>");
-					if($('#questionBody').hasScrollBarIH()){
-						$('#showAllQuestions').show();
-					}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
-						$('#showAllQuestions').hide();
-					}
+	//neue Frage stellen
+	$('#newQuestionButton').click(function(){
+		$('#questionModal').modal('show');
+	});
+
+	$("#submitQuestionButton").click(function(){
+		$.ajax({
+			type: "POST",
+			url: "question_submit.php",
+			data: $("#questionForm").serialize() + "&subject_id=" + "<?php echo $subjectData['ID']?>",
+			success: function(data) {
+				//alert(data);
+				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wird wenn E-Mail-Fehler auftritt
+					$('.question-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Frage wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 				}else{
-					$(this).parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
-					$(this).html("<a>Schließen</a>");
-					if($('#questionBody').hasScrollBarIH()){
-						$('#showAllQuestions').show();
-					}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
-						$('#showAllQuestions').hide();
-					}
+					$('.question-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Frage ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 				}
 			}
 		});
+	});
 
-		//neue Frage stellen
-		$('#newQuestionButton').click(function(){
-			$('#questionModal').modal('show');
-		});
+	//Frage beantworten
+	$('.answerThisQuestion').click(function(){
+		$('#answerModal').modal('show');
+		$('#questionForAnswerModal').html($(this).parent().prevAll(".actualQuestion:first").text());
+		$('#questionID').html($(this).parent().prevAll(".actualQuestion:first").attr('id').slice(8));
+	});
 
-		$("#submitQuestionButton").click(function(){
-			$.ajax({
-				type: "POST",
-				url: "question_submit.php",
-				data: $("#questionForm").serialize() + "&subject_id=" + "<?php echo $subjectData['ID']?>",
-				success: function(data) {
-					//alert(data);
-					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wird wenn E-Mail-Fehler auftritt
-						$('.question-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Frage wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
-					}else{
-						$('.question-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Frage ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
-					}
+	$("#submitAnswerButton").click(function(){
+		$.ajax({
+			type: "POST",
+			url: "answer_submit.php",
+			data: $("#answerForm").serialize() + "&question_id=" + $('#questionID').html(),
+			success: function(data) {
+				//alert(data);
+				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
+					$('.answer-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Antwort wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+				}else{
+					$('.answer-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Antwort ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 				}
-			});
+				if(data.includes("achievement")){
+					alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+				}
+			}
 		});
+	});
+	</script>
+	<!--ENDE Fragen-->
+	
+	<!--START Hilfreiche Links-->
+	<div class="well" id="links">
+		<p style="font-size: 1.5em;font-weight:bold;">Hilfreiche Links</p>
+		<p class="contenedor">
+		
+			<?php
+			$result=mysqli_query($con, "SELECT facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
+			$row = mysqli_fetch_assoc($result);
+			//facebook
+			if($row['facebook'] != ""){
+				$facebook_link = "onClick=\"window.open('".$row['facebook']."')\"";
+				$facebook_disabled = "";
+			}else{
+				$facebook_link = "";
+				$facebook_disabled = "disabled";
+			}
+			//studydrive
+			if($row['studydrive'] != ""){
+				$studydrive_link = "onClick=\"window.open('".$row['studydrive']."')\"";
+				$studydrive_disabled = "";
+			}else{
+				$studydrive_link = "";
+				$studydrive_disabled = "disabled";
+			}
+			//modulebook
+			if($row['modulebook'] != ""){
+				$modulebook_link = "onClick=\"window.open('".$row['modulebook']."')\"";
+				$modulebook_disabled = "";
+			}else{
+				$modulebook_link = "";
+				$modulebook_disabled = "disabled";
+			}					
+			?>
+		
+			<button id="but" <?php echo $facebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $facebook_disabled ?>>Facebook-Gruppe <span class="glyphicon glyphicon-new-window"></span></button>
+			<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $studydrive_disabled ?>>Studydrive <span class="glyphicon glyphicon-new-window"></span></button>
+			<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
+		</p>
+		
+		<p><a href=\"#\" data-toggle="modal" data-target="#changeLinksModal">Links hinzufügen oder bearbeiten</a></p>
+		
+		<!-- Gutschein Modal -->
+		<div id="changeLinksModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" onClick="window.location.reload()">&times;</button>
+						<h4 class="modal-title">Links hinzufügen oder bearbeiten</h4>
+					</div>
+					<div class="modal-body">
+						<p>Hier kannst du Links hinzufügen oder bearbeiten. Bitte füge keinen Quatsch hinzu - wir können nachvollziehen, wer was hinzufügt oder ändert :)</p>
 
-		//Frage beantworten
-		$('.answerThisQuestion').click(function(){
-			$('#answerModal').modal('show');
-			$('#questionForAnswerModal').html($(this).parent().prevAll(".actualQuestion:first").text());
-			$('#questionID').html($(this).parent().prevAll(".actualQuestion:first").attr('id').slice(8));
-		});
+						<form id="linkForm">
 
-		$("#submitAnswerButton").click(function(){
+							<div class="form-group">
+								<label for="usr">Link zur Facebook-Gruppe:</label>
+								<input type="text" class="form-control" value="<?php echo $row['facebook']?>" name="facebook_link">
+							</div>
+
+							<div class="form-group">
+								<label for="usr">Link zum Studydrive:</label>
+								<input type="text" class="form-control" value="<?php echo $row['studydrive']?>" name="studydrive_link">
+							</div>
+							
+							<div class="form-group">
+								<label for="usr">Link zum Modulhandbuch:</label>
+								<input type="text" class="form-control" value="Umsetzung ist geplant, existiert aber noch nicht." name="modulhandbuch_link" disabled>
+							</div>
+							
+							<br>
+							<button class="btn btn-primary">Änderungen speichern</button>
+						</form>
+						
+						<div id="linkFormSuccess" style="display:none">
+							<br>
+							<div class="alert alert-success">
+								Deine Änderung wurde erfolgreich übernommen. Vielen Dank!
+							</div>
+						</div>
+						
+						<script>
+						$(document).ready(function(){
+					
+							$("#linkForm").submit(function(e) {
+
+
+								var form = $(this);
+								var url = 'linkForm_submit.php';
+
+								$.ajax({
+									type: "POST",
+									url: url,
+									data: form.serialize() + "&user_id=" + <?php echo $userRow['user_ID']?> + "&subject_id=" + <?php echo $subject?>, // serializes the form's elements.
+									success: function(data){
+										//alert(data);
+										if(data.includes("achievement")){
+											alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
+										}
+										if(data.includes("erfolg")){
+											$('#linkFormSuccess').show();
+										}
+									}
+								});
+								e.preventDefault(); // avoid to execute the actual submit of the form.
+							});
+							
+						});	
+						</script>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload()">Schließen</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<!--ENDE Hilfreiche Links-->
+	
+	<!--START Kommentare-->
+	<div <?php echo $displayRatings ?> class="well" id="commentsection">
+
+		<div>
+			<p style="font-size: 1.5em;font-weight:bold;">Kommentare und Einzelbewertungen</p>
+			<p>
+				<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
+				<label>
+					<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp;
+					<div class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></div>
+				</label>
+				<select class="form-control" style="  width: auto; display:inline;" name="commentorder" id="commentorder">
+					<option value="date_newFirst">Datum (Neuste zuerst)</option>
+					<option value="date_newLast">Datum (Älteste zuerst)</option>
+					<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
+					<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
+				</select>
+				</form>
+			</p>
+			<div style="margin-top: 1em;"></div>
+		</div>
+
+		<br>
+
+		<!--Für Übergabe an JS-->
+		<span id="hiddenSubjectId" style="display:none"><?php echo $subjectData['ID']?></span>
+		<span id="hiddenUserId" style="display:none"><?php echo $userRow['user_ID']?></span>
+
+		<div id="commentDiv">
+			<?php
+			include "loadComments.php";
+			?>
+		</div>
+
+		<script>
+		$('#commentorder').change(function () {
+			$('#filterIcon').hide();
+			$('#load').show();
+
 			$.ajax({
 				type: "POST",
-				url: "answer_submit.php",
-				data: $("#answerForm").serialize() + "&question_id=" + $('#questionID').html(),
+				url: "loadComments.php",
+				data: {order: $('#commentorder').val(), subject_id: $('#hiddenSubjectId').html(), user_id: $('#hiddenUserId').html()},
 				success: function(data) {
-					//alert(data);
-					if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
-						$('.answer-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Antwort wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
-					}else{
-						$('.answer-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Antwort ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
-					}
-					if(data.includes("achievement")){
-						alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
-					}
+					$('#load').fadeOut(function(){
+						$('#filterIcon').fadeIn();
+					});
+					$('#commentDiv').fadeOut(function() {
+						$('#commentDiv').html(data);
+						$('#commentDiv').fadeIn();
+					});
 				}
 			});
 		});
 		</script>
-		
-		<div class="row">
-			<div class="col-md-10 well">
-				<p style="font-size: 1.5em;font-weight:bold;">Hilfreiche Links</p>
-				<p class="contenedor">
-				
-					<?php
-					$result=mysqli_query($con, "SELECT facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
-					$row = mysqli_fetch_assoc($result);
-					//facebook
-					if($row['facebook'] != ""){
-						$facebook_link = "onClick=\"window.open('".$row['facebook']."')\"";
-						$facebook_disabled = "";
-					}else{
-						$facebook_link = "";
-						$facebook_disabled = "disabled";
-					}
-					//studydrive
-					if($row['studydrive'] != ""){
-						$studydrive_link = "onClick=\"window.open('".$row['studydrive']."')\"";
-						$studydrive_disabled = "";
-					}else{
-						$studydrive_link = "";
-						$studydrive_disabled = "disabled";
-					}
-					//modulebook
-					if($row['modulebook'] != ""){
-						$modulebook_link = "onClick=\"window.open('".$row['modulebook']."')\"";
-						$modulebook_disabled = "";
-					}else{
-						$modulebook_link = "";
-						$modulebook_disabled = "disabled";
-					}					
-					?>
-				
-					<button <?php echo $facebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $facebook_disabled ?>>Facebook-Gruppe <span class="glyphicon glyphicon-new-window"></span></button>
-					<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $studydrive_disabled ?>>Studydrive <span class="glyphicon glyphicon-new-window"></span></button>
-					<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="width:100%; border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
-				</p>
-				<p><a href=\"#\" data-toggle="modal" data-target="#changeLinksModal">Links hinzufügen oder bearbeiten</a></p>
-				
-				<!-- Gutschein Modal -->
-				<div id="changeLinksModal" class="modal fade" role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" onClick="window.location.reload()">&times;</button>
-								<h4 class="modal-title">Links hinzufügen oder bearbeiten</h4>
-							</div>
-							<div class="modal-body">
-								<p>Hier kannst du Links hinzufügen oder bearbeiten. Bitte füge keinen Quatsch hinzu - wir können nachvollziehen, wer was hinzufügt oder ändert :)</p>
-
-								<form id="linkForm">
-
-									<div class="form-group">
-										<label for="usr">Link zur Facebook-Gruppe:</label>
-										<input type="text" class="form-control" value="<?php echo $row['facebook']?>" name="facebook_link">
-									</div>
-
-									<div class="form-group">
-										<label for="usr">Link zum Studydrive:</label>
-										<input type="text" class="form-control" value="<?php echo $row['studydrive']?>" name="studydrive_link">
-									</div>
-									
-									<div class="form-group">
-										<label for="usr">Link zum Modulhandbuch:</label>
-										<input type="text" class="form-control" value="Umsetzung ist geplant, existiert aber noch nicht." name="modulhandbuch_link" disabled>
-									</div>
-									
-									<br>
-									<button class="btn btn-primary">Änderungen speichern</button>
-								</form>
-								
-								<div id="linkFormSuccess" style="display:none">
-									<br>
-									<div class="alert alert-success">
-										Deine Änderung wurde erfolgreich übernommen. Vielen Dank!
-									</div>
-								</div>
-								
-								<script>
-								$(document).ready(function(){
-							
-									$("#linkForm").submit(function(e) {
-
-
-										var form = $(this);
-										var url = 'linkForm_submit.php';
-
-										$.ajax({
-											type: "POST",
-											url: url,
-											data: form.serialize() + "&user_id=" + <?php echo $userRow['user_ID']?> + "&subject_id=" + <?php echo $subject?>, // serializes the form's elements.
-											success: function(data){
-												//alert(data);
-												if(data.includes("achievement")){
-													alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
-												}
-												if(data.includes("erfolg")){
-													$('#linkFormSuccess').show();
-												}
-											}
-										});
-										e.preventDefault(); // avoid to execute the actual submit of the form.
-									});
-									
-								});	
-								</script>
-								
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal" onClick="window.location.reload()">Schließen</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-		</div>	
-
-		<div class="row">
-			<!--Kommentare Start-->
-			<!--<div class="col-md-1">
-			</div>-->
-			<div <?php echo $displayRatings ?> class="col-md-10 well" id="commentsection">
-
-				<span style="font-size: 1.5em;font-weight:bold;">
-				Kommentare und Einzelbewertungen
-				</span>
-				<span style="float:right;">
-					<form class="form-inline" action="orderComments_submit.php?subject=<?php echo $subject ?>" method="post">
-					<label>
-						<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp;
-						<div class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></div>
-					</label>
-					<select class="form-control" name="commentorder" id="commentorder">
-						<option value="date_newFirst">Datum (Neuste zuerst)</option>
-						<option value="date_newLast">Datum (Älteste zuerst)</option>
-						<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>
-						<option value="rating_worstFirst">Bewertung (Schlechteste zuerst)</option>
-					</select>
-					</form>
-				</span>
-				<div style="margin-top: 1em;"></div>
-
-				<br>
-
-				<!--Für Übergabe an JS-->
-				<span id="hiddenSubjectId" style="display:none"><?php echo $subjectData['ID']?></span>
-				<span id="hiddenUserId" style="display:none"><?php echo $userRow['user_ID']?></span>
-
-				<div id="commentDiv">
-					<?php
-					include "loadComments.php";
-					?>
-				</div>
-
-				<script>
-				$('#commentorder').change(function () {
-					$('#filterIcon').hide();
-					$('#load').show();
-
-					$.ajax({
-						type: "POST",
-						url: "loadComments.php",
-						data: {order: $('#commentorder').val(), subject_id: $('#hiddenSubjectId').html(), user_id: $('#hiddenUserId').html()},
-						success: function(data) {
-							$('#load').fadeOut(function(){
-								$('#filterIcon').fadeIn();
-							});
-							$('#commentDiv').fadeOut(function() {
-								$('#commentDiv').html(data);
-								$('#commentDiv').fadeIn();
-							});
-						}
+		<!-- Zeig Stats zu Kommentar -->
+		<script>
+			function showStats(id){
+					$('#commentsStatsModal').modal('show');
+					$('#commentStats').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
+					$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function( response, status, xhr ) {
+					  if ( status == "error" ) {
+						$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
+					  }
 					});
-				});
-				</script>
-				<!-- Zeig Stats zu Kommentar -->
-				<script>
-					function showStats(id){
-							$('#commentsStatsModal').modal('show');
-							$('#commentStats').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
-							$('#commentStats').load("lade_kommentar_statistik.php?kommentar="+id.replace( /^\D+/g, ''), function( response, status, xhr ) {
-							  if ( status == "error" ) {
-								$('#commentStats').html('<strong>Daten können nicht geladen werden.</strong>');
-							  }
-							});
-					}
-				</script>
+			}
+		</script>
 
-				<!-- Farbänderung bei Kommentarbewertung -->
-				<script>
-				function colorChange(id) {
-					// Check, ob User Kommentar bereits bewertet hat
-					if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-						xmlhttp=new XMLHttpRequest();
-					}else{// AJAX mit IE6, IE5
-						xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-					}
+		<!-- Farbänderung bei Kommentarbewertung -->
+		<script>
+		function colorChange(id) {
+			// Check, ob User Kommentar bereits bewertet hat
+			if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
+				xmlhttp=new XMLHttpRequest();
+			}else{// AJAX mit IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
 
-					xmlhttp.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-							if (this.responseText.trim() == true){
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'red';
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Bereits <br> bewertet';
-								setTimeout(function() {
-									document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = '';
-								}, 3000);
-								document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
-								document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
-								document.getElementById(id.substring(0, id.length - 2) + 'up').style.color = 'lightgrey';
-								document.getElementById(id.substring(0, id.length - 2) + 'do').style.color = 'lightgrey';
-							} else{
-								// Frontend ändern
-								if (id.substring(id.length - 2, id.length) == 'do') {
-									document.getElementById(id).style.color = 'red';
-									document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - 1;
-									document.getElementById(id).onclick = '';
-									document.getElementById(id).style.cursor = 'default';
-									document.getElementById(id.substring(0, id.length - 2) + 'up').onclick = '';
-									document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
-								} else {
-									document.getElementById(id).style.color = 'green';
-									document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - (-1);
-									document.getElementById(id).onclick = '';
-									document.getElementById(id).style.cursor = 'default';
-									document.getElementById(id.substring(0, id.length - 2) + 'do').onclick = '';
-									document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
+			xmlhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					if (this.responseText.trim() == true){
+						document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'red';
+						document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Bereits <br> bewertet';
+						setTimeout(function() {
+							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = '';
+						}, 3000);
+						document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
+						document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
+						document.getElementById(id.substring(0, id.length - 2) + 'up').style.color = 'lightgrey';
+						document.getElementById(id.substring(0, id.length - 2) + 'do').style.color = 'lightgrey';
+					} else{
+						// Frontend ändern
+						if (id.substring(id.length - 2, id.length) == 'do') {
+							document.getElementById(id).style.color = 'red';
+							document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - 1;
+							document.getElementById(id).onclick = '';
+							document.getElementById(id).style.cursor = 'default';
+							document.getElementById(id.substring(0, id.length - 2) + 'up').onclick = '';
+							document.getElementById(id.substring(0, id.length - 2) + 'up').style.cursor = 'default';
+						} else {
+							document.getElementById(id).style.color = 'green';
+							document.getElementById(id.substring(0, id.length - 2)).innerHTML = document.getElementById(id.substring(0, id.length - 2)).innerHTML - (-1);
+							document.getElementById(id).onclick = '';
+							document.getElementById(id).style.cursor = 'default';
+							document.getElementById(id.substring(0, id.length - 2) + 'do').onclick = '';
+							document.getElementById(id.substring(0, id.length - 2) + 'do').style.cursor = 'default';
+						}
+
+						document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'green';
+						document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Gewertet';
+
+						setTimeout(function() {
+							document.getElementById(id.substring(0, id.length - 2) + 'confirmation').remove();
+						}, 3000);
+
+						//Datenbank aktualisieren
+						if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
+							xmlhttp2=new XMLHttpRequest();
+						}else{// AJAX mit IE6, IE5
+							xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
+						}
+
+						var commentID = id.substring(0, id.length - 2);
+						var userID = <?php echo $userRow['user_ID']; ?>;
+						var subjectID = <?php echo $subjectData['ID']; ?>;
+						var ratingDirection = id.substring(id.length - 2, id.length);
+
+						xmlhttp2.onreadystatechange = function() {
+							if (xmlhttp2.readyState == XMLHttpRequest.DONE) {
+								//alert(xmlhttp2.responseText.trim());
+								if(xmlhttp2.responseText.trim().includes("achievement")){
+									alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
 								}
-
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').style.color = 'green';
-								document.getElementById(id.substring(0, id.length - 2) + 'confirmation').innerHTML = 'Gewertet';
-
-								setTimeout(function() {
-									document.getElementById(id.substring(0, id.length - 2) + 'confirmation').remove();
-								}, 3000);
-
-								//Datenbank aktualisieren
-								if (window.XMLHttpRequest){ // AJAX nutzen mit IE7+, Chrome, Firefox, Safari, Opera
-									xmlhttp2=new XMLHttpRequest();
-								}else{// AJAX mit IE6, IE5
-									xmlhttp2=new ActiveXObject("Microsoft.XMLHTTP");
-								}
-
-								var commentID = id.substring(0, id.length - 2);
-								var userID = <?php echo $userRow['user_ID']; ?>;
-								var subjectID = <?php echo $subjectData['ID']; ?>;
-								var ratingDirection = id.substring(id.length - 2, id.length);
-
-								xmlhttp2.onreadystatechange = function() {
-									if (xmlhttp2.readyState == XMLHttpRequest.DONE) {
-										//alert(xmlhttp2.responseText.trim());
-										if(xmlhttp2.responseText.trim().includes("achievement")){
-											alert("Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.");
-										}
-									}
-								}
-								
-								xmlhttp2.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
-								xmlhttp2.send();
-								
-
-
 							}
 						}
-					};
+						
+						xmlhttp2.open("POST","submitCommentRating.php?commentID="+commentID+"&userID="+userID+"&subjectID="+subjectID+"&ratingDirection="+ratingDirection,true);
+						xmlhttp2.send();
+						
 
-					var commentID = id.substring(0, id.length - 2);
-					var userID = <?php echo $userRow['user_ID']; ?>;
 
-					xmlhttp.open("GET","checkExistence.php?commentID="+commentID+"&userID="+userID,true);
-					xmlhttp.send();
+					}
 				}
-				</script>
-			</div>
-			<!--Kommentare Ende-->
-			<div class="col-md-2">
-			</div>
-		</div>
+			};
+
+			var commentID = id.substring(0, id.length - 2);
+			var userID = <?php echo $userRow['user_ID']; ?>;
+
+			xmlhttp.open("GET","checkExistence.php?commentID="+commentID+"&userID="+userID,true);
+			xmlhttp.send();
+		}
+		</script>
 	</div>
+	<!--ENDE Kommentare-->
+
 </div>
 
 

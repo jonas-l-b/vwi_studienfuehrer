@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 session_start();
 require_once 'connect.php';
@@ -7,7 +8,7 @@ $detect = new Mobile_Detect;
 
 <?php
 
-include "header.php";
+//include "header.php";
 /*
 //Für testzwecke:
 error_reporting(E_ALL);
@@ -17,24 +18,21 @@ ini_set('display_errors', 1);
 
 <html>
 <head>
-
-  <style>
-  body {
-      position: relative;
-  }
-  ul.nav-pills {
-      top: 20px;
-      position: fixed;
-  }
-  div.col-sm-10 div {
-  }
-  
-  @media screen and (max-width: 810px) {
-    #section1, #section2, #section3, #section4  {
-        margin-left: 150px;
-    }
-  }
-  </style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		body {
+			position: relative; 
+		}
+		#section1 {padding-top:50px}
+		#section2 {padding-top:50px}
+		#section3 {padding-top:50px}
+		#section4 {padding-top:50px}
+		#section5 {padding-top:50px}
+	</style>
 </head>
 
 <script>
@@ -318,457 +316,296 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 ?>
 
 
-<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
 
-<!--MOBILE-->
-<div class="container" style="<?php if(!($detect->isMobile())) echo "display:none" ?>">
-	
-	<br>
-	<div class="alert alert-warning" style="text-align:center">
-		Der Studienführer wurde als Desktop-Anwendung entwickelt, sodass bei mobiler Nutzung Design-Fehler auftreten können. Auch wenn du dich durch einige Sachen möglicherweise durchklicken kannst, empfehlen wir dir die Nutzung an einem Computer. Die Anpassung an mobile Geräte ist geplant!
-	</div>
-	
-	<h1 style="text-align:center">Willkommen beim Studienführer!</h1>
-	<br>
-	<div class="signin-form well" style="border-radius:5px">
-		<h3 id="loginStart" class="form-signin-heading">Hier einloggen</h3><hr />
-		<div id="alertMessage">
-		<?php
-		if(isset($msg)){
-			echo $msg;
-		}
-		?>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
 		</div>
-		
-		<form class="form-signin" method="post" id="login-form">
-			<div class="form-group">
-				<input value="<?php if(isset($memory_mail)) echo $memory_mail ?>" type="email" class="form-control" placeholder="E-Mail" name="email" required />
-			<span id="check-e"></span>
-			</div>
-
-			<div class="form-group">
-				<input type="password" class="form-control" placeholder="Passwort" name="password" required />
-			</div>
-
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="rememberMe" id="rememberMe"> Eingeloggt bleiben
-					<a href="#" data-trigger="focus" data-toggle="popoverRememberMe" title="Um eingeloggt zu bleiben wird ein Cookie auf deiner Festplatte gespeichert." data-content="Nach 30 Tagen wird dieser Cookie ungültig und du musst dich erneut einloggen. Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du die Verwendung der nötigen Cookies. Loggst du dich aus, werden die Cookies gelöscht. Cookies können außerdem jederzeit über deinen Browser gelöscht werden.">
-						<span class="glyphicon glyphicon-question-sign"></span>
-					</a>
-					<script>
-					$(document).ready(function () {
-						$('[data-toggle="popoverRememberMe"]').popover();
-					});
-					</script>
-				</label>
-			</div>
-
-			<a href="#" class="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
-
-			<hr>
-
-			<div class="form-group">
-				<button type="submit" class="btn btn-primary" name="btn-login" id="btn-login">
-					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Einloggen
-				</button>
-
-				<a href="register.php" class="btn btn-default" style="float:right;">Registrieren</a>
-
-			</div>
-		</form>
-	</div>
-	
-	<br><hr><br>
-	
-	<h1 style="text-align:center">Was ist der Studienführer?</h1>
-	<br>
-	<div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
-	<!-- Indicators -->
-	<ol class="carousel-indicators">
-		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-		<li data-target="#myCarousel" data-slide-to="1"></li>
-		<li data-target="#myCarousel" data-slide-to="2"></li>
-		<li data-target="#myCarousel" data-slide-to="3"></li>
-	</ol>
-
-	<!-- Wrapper for slides -->
-	<div class="carousel-inner">
-		<div class="item active">
-			<img src="pictures/carousel/carousel_one.jpg" style="width:100%;">
-		</div>
-
-		<div class="item">
-			<img src="pictures/carousel/carousel_two.jpg" style="width:100%;">
-		</div>
-
-		<div class="item">
-			<img src="pictures/carousel/carousel_three.jpg" style="width:100%;">
-		</div>
-
-		<div class="item">
-			<img src="pictures/carousel/carousel_four.jpg" style="width:100%;">
-		</div>
-	</div>
-
-	<!-- Left and right controls -->
-	<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-		<span class="glyphicon glyphicon-chevron-left"></span>
-		<span class="sr-only">Previous</span>
-	</a>
-	<a class="right carousel-control" href="#myCarousel" data-slide="next">
-		<span class="glyphicon glyphicon-chevron-right"></span>
-		<span class="sr-only">Next</span>
-	</a>
-	</div>
-	<p style="text-align:center"><i>Display drehen für größere Bilder</i></p>
-	
-	<div style="text-align:center;font-size: 1.4em;">
-		<br>
-		<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
-		<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Auf diesem Weg stellen wir die höchstmögliche Qualität der Informationen sicher.</p>
-		<p><b>Viel Spaß beim Stöbern!</b></p>
-	</div>
-	
-	<br><hr><br>
-	    
-	<h1 style="text-align:center">Frequently Asked Questions</h1>
-	<br>
-	
-	<!-- FAQs auch in about.php. Auch dort aktualisieren!-->
-	<div class="panel-group" id="accordion">
-		<div class="panel panel-default">
-		  <div class="panel-heading">
-			<h4 class="panel-title">
-			  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Warum muss ich mich für die Nutzung des Studienführers registrieren?</a>
-			</h4>
-		  </div>
-		  <div id="collapse1" class="panel-collapse collapse">
-			<div class="panel-body">Die Registrierung der einzelnen Nutzer ist notwendig, damit wir eine hohe Datenqualität gewährleisten können. 
-			So wird beispielsweise verhindert, dass Nutzer die gleiche Veranstaltung mehrere Male bewerten. Durch die Bindung der Registrierung an
-			die KIT-E-Mail-Adresse verhindern wir außerdem, dass Fake-Accounts angelegt werden können.<br>
-			Weiterhin können wir so weitere Services wie das Speichern von Favoriten oder die Benachrichtigung für
-			beantwortete Fragen zur Verfügung stellen.</div>
-		  </div>
-		</div>
-		<div class="panel panel-default">
-		  <div class="panel-heading">
-			<h4 class="panel-title">
-			  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Fallen Kosten für die Registrierung und Nutzung des Studienführers an?</a>
-			</h4>
-		  </div>
-		  <div id="collapse2" class="panel-collapse collapse">
-			<div class="panel-body">Nein. Wir sind auch Studenten des KIT und haben den Studienführer ohne Gewinnabsichten entwickelt. Der Studienführer wird
-			auch in Zukunft kostenlos bleiben: Kostenlos von Studenten für Studenten.</div>
-		  </div>
-		</div>
-		<div class="panel panel-default">
-		  <div class="panel-heading">
-			<h4 class="panel-title">
-			  <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Wer hat den Studienführer entwickelt und wer betreibt ihn?</a>
-			</h4>
-		  </div>
-		  <div id="collapse3" class="panel-collapse collapse">
-			<div class="panel-body">Der Studienführer ist ein Projekt der VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</div>
-		  </div>
-		</div>
-	</div>
-	
-	<br><hr><br>
-
-	<h1 style="text-align:center">Selbstverständnis und Nutzungsrichtlinien</h1>
-	<?php
-	$sql="SELECT * FROM multiple_location_content WHERE name = 'community_guidelines'";
-	$result=mysqli_query($con, $sql);
-	$row = mysqli_fetch_assoc($result);
-
-	echo $row['value']
-	?>
-	<br><hr><br>
-       
-	<h1 style="text-align:center">Kontakt</h1>
-	<br>
-	<p>Um mit uns bezüglich des Studienführers in Kontakt zu treten, wende dich bitte an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
-	<p>Informationen zu unserer Hochschulgruppe findest du unter <a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a>.</p>
-	
-</div>
-
-<!--DESKTOP-->
-<div class="container" style="<?php if($detect->isMobile()) echo "display:none" ?>">
-	<div class="row">
-		<nav class="col-sm-2" id="myScrollspy">
-			<ul class="nav nav-pills nav-stacked">
-				<li class="active"><a href="#section1">Einloggen - Registrieren</a></li>
-				<li><a href="#section2">Studienführer?</a></li>
-				<li><a href="#section3">FAQ</a></li>
-				<li><a href="#section4">Gemeinschaftsrichtlinien</a></li>
-				<li><a href="#section5">Kontakt</a></li>
+		<div>
+		  <div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+			  <li><a href="#section1">Einloggen - Registrieren</a></li>
+			  <li><a href="#section2">Was ist der Studienführer?</a></li>
+			  <li><a href="#section3">FAQ</a></li>
+			  <li><a href="#section4">Gemeinschaftsrichtlinien</a></li>
+			  <li><a href="#section5">Kontakt</a></li>
 			</ul>
-		</nav>
-		<div class="col-sm-10">
-			
-			<div id="section1">
-				<br>
-				<h1 style="text-align:center">Willkommen beim Studienführer!</h1>
-				<br>
-				<div class="signin-form well" style="border-radius:5px">
-					<h3 id="loginStart" class="form-signin-heading">Hier einloggen</h3><hr />
-					<div id="alertMessage">
-					<?php
-					if(isset($msg)){
-						echo $msg;
-					}
-					?>
-					</div>
-					
-					<form class="form-signin" method="post" id="login-form">
-						<div class="form-group">
-							<input value="<?php if(isset($memory_mail)) echo $memory_mail ?>" type="email" class="form-control" placeholder="E-Mail" name="email" required />
-						<span id="check-e"></span>
-						</div>
-
-						<div class="form-group">
-							<input type="password" class="form-control" placeholder="Passwort" name="password" required />
-						</div>
-
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" name="rememberMe" id="rememberMe"> Eingeloggt bleiben
-								<a href="#" data-trigger="focus" data-toggle="popoverRememberMe" title="Um eingeloggt zu bleiben wird ein Cookie auf deiner Festplatte gespeichert." data-content="Nach 30 Tagen wird dieser Cookie ungültig und du musst dich erneut einloggen. Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du die Verwendung der nötigen Cookies. Loggst du dich aus, werden die Cookies gelöscht. Cookies können außerdem jederzeit über deinen Browser gelöscht werden.">
-									<span class="glyphicon glyphicon-question-sign"></span>
-								</a>
-								<script>
-								$(document).ready(function () {
-									$('[data-toggle="popoverRememberMe"]').popover();
-								});
-								</script>
-							</label>
-						</div>
-
-						<a href="#" class="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
-
-						<hr>
-
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary" name="btn-login" id="btn-login">
-								<span class="glyphicon glyphicon-log-in"></span> &nbsp; Einloggen
-							</button>
-
-							<a href="register.php" class="btn btn-default" style="float:right;">Registrieren</a>
-
-						</div>
-					</form>
-				</div>
-				<br><hr><br>
-			</div>
-			
-			<div id="section2">
-				<br>
-				<h1 style="text-align:center">Was ist der Studienführer?</h1>
-				<br>
-				<div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
-				<!-- Indicators -->
-				<ol class="carousel-indicators">
-					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-					<li data-target="#myCarousel" data-slide-to="1"></li>
-					<li data-target="#myCarousel" data-slide-to="2"></li>
-					<li data-target="#myCarousel" data-slide-to="3"></li>
-				</ol>
-
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner">
-					<div class="item active">
-						<img src="pictures/carousel/carousel_one.jpg" style="width:100%;">
-					</div>
-
-					<div class="item">
-						<img src="pictures/carousel/carousel_two.jpg" style="width:100%;">
-					</div>
-
-					<div class="item">
-						<img src="pictures/carousel/carousel_three.jpg" style="width:100%;">
-					</div>
-
-					<div class="item">
-						<img src="pictures/carousel/carousel_four.jpg" style="width:100%;">
-					</div>
-				</div>
-
-				<!-- Left and right controls -->
-				<a class="left carousel-control" href="#myCarousel" data-slide="prev">
-					<span class="glyphicon glyphicon-chevron-left"></span>
-					<span class="sr-only">Previous</span>
-				</a>
-				<a class="right carousel-control" href="#myCarousel" data-slide="next">
-					<span class="glyphicon glyphicon-chevron-right"></span>
-					<span class="sr-only">Next</span>
-				</a>
-				</div>
-				
-				<div style="text-align:center;font-size: 1.4em;">
-					<br>
-					<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
-					<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Auf diesem Weg stellen wir die höchstmögliche Qualität der Informationen sicher.</p>
-					<p><b>Viel Spaß beim Stöbern!</b></p>
-				</div>
-				<br><hr><br>
-			</div>	  
-			
-			<div id="section3">         
-				<br>
-				<h1 style="text-align:center">Frequently Asked Questions</h1>
-				<br>
-				
-				<!-- FAQs auch in about.php. Auch dort aktualisieren!-->
-				<div class="panel-group" id="accordion">
-					<div class="panel panel-default">
-					  <div class="panel-heading">
-						<h4 class="panel-title">
-						  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Warum muss ich mich für die Nutzung des Studienführers registrieren?</a>
-						</h4>
-					  </div>
-					  <div id="collapse1" class="panel-collapse collapse">
-						<div class="panel-body">Die Registrierung der einzelnen Nutzer ist notwendig, damit wir eine hohe Datenqualität gewährleisten können. 
-						So wird beispielsweise verhindert, dass Nutzer die gleiche Veranstaltung mehrere Male bewerten. Durch die Bindung der Registrierung an
-						die KIT-E-Mail-Adresse verhindern wir außerdem, dass Fake-Accounts angelegt werden können.<br>
-						Weiterhin können wir so weitere Services wie das Speichern von Favoriten oder die Benachrichtigung für
-						beantwortete Fragen zur Verfügung stellen.</div>
-					  </div>
-					</div>
-					<div class="panel panel-default">
-					  <div class="panel-heading">
-						<h4 class="panel-title">
-						  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Fallen Kosten für die Registrierung und Nutzung des Studienführers an?</a>
-						</h4>
-					  </div>
-					  <div id="collapse2" class="panel-collapse collapse">
-						<div class="panel-body">Nein. Wir sind auch Studenten des KIT und haben den Studienführer ohne Gewinnabsichten entwickelt. Der Studienführer wird
-						auch in Zukunft kostenlos bleiben: Kostenlos von Studenten für Studenten.</div>
-					  </div>
-					</div>
-					<div class="panel panel-default">
-					  <div class="panel-heading">
-						<h4 class="panel-title">
-						  <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Wer hat den Studienführer entwickelt und wer betreibt ihn?</a>
-						</h4>
-					  </div>
-					  <div id="collapse3" class="panel-collapse collapse">
-						<div class="panel-body">Der Studienführer ist ein Projekt der VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</div>
-					  </div>
-					</div>
-				</div>
-				
-				<br><hr><br>
-			</div>
-
-			<div id="section4">
-				<h1 style="text-align:center">Gemeinschaftsrichtlinien</h1>
-				<?php
-				$sql="SELECT * FROM multiple_location_content WHERE name = 'community_guidelines'";
-				$result=mysqli_query($con, $sql);
-				$row = mysqli_fetch_assoc($result);
-	
-				echo $row['value']
-				?>
-				<br><hr><br>
-			</div>
-			
-			<div id="section5">         
-				<br>
-				<h1 style="text-align:center">Kontakt</h1>
-				<br>
-				<p>Um mit uns bezüglich des Studienführers in Kontakt zu treten, wende dich bitte an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
-				<p>Informationen zu unserer Hochschulgruppe findest du unter <a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a>.</p>
-				
-				<!--Damit man ein bisschen weiter runterscrollen kann-->
-				<div id="whiteSpace"></div>
-				<script>$('#whiteSpace').height(screen.height/1.5);</script>
-			</div>
-			
+		  </div>
 		</div>
-	</div>
-</div>
+	  </div>
+	</nav>    
 
-<!-- End of page. Modal für Passwort vergessen -->
-<div id="passwortvergessenmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-	<div class="modal-content">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Passwort vergessen</h2> <!-- Dynamisch Name anpassen! -->
-	</div>
-	<div class="modal-body">
-		<p id="pwrecovery"></p>
-		<form action="recoverPW.php" method="POST">
-			<p>Trage hier die E-Mail-Adresse ein, mit der du dich registriert hast:</p>
-
-			<div class="form-group">
-				<input type="email" class="form-control" id="PWrecoveryEmailInput" placeholder="E-Mail-Adresse" name="email" required />
-			</div>
-
-			<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
-		</form>
-
-	</div><!-- End of Modal body -->
-	</div><!-- End of Modal content -->
-	</div><!-- End of Modal dialog -->
-</div><!-- End of Modal -->
-
-<!--Modal für Aktivierungsmail -->
-<div id="resendactivationmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-	<div class="modal-content">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h2 class="modal-title">Aktivierungslink erneut zusenden</h2> <!-- Dynamisch Name anpassen! -->
-	</div>
-	<div class="modal-body">
-		<div id="resendactivationmessage">
-			<p>Durch Klick auf den Button senden wir dir erneut den Aktivierungslink an die von dir angegebene E-Mail-Adresse <strong><span id="activationMail">"uxxxx@student.kit.edu<span></strong>.<br>Falls du dich beim Eingeben deiner E-Mail vertippt hast, registriere dich bitte erneut.</p>
-			<button class="btn btn-primary" onclick="reSendActivation_submit()">Link zuschicken</button>
-			<button class="btn btn-default" data-dismiss="modal">Schließen</button>
-		</div>
-	</div><!-- End of Modal body -->
-	</div><!-- End of Modal content -->
-	</div><!-- End of Modal dialog -->
-</div><!-- End of Modal -->
-<script>
-$( document ).ready(function() {
+	<div class="container">
 		
-	$('#passwortvergessenmodal').on('shown.bs.modal', function () {
-		$("#PWrecoveryEmailInput").focus(); //fokussiert den email input automatisch
-	});
-	$('.openPWRModal').click(function () {
-		$('#passwortvergessenmodal').modal({
-			show: true						//triggert das öffnen des modals
-		});
-	});
-	
-	function reSendActivation(email){
-		$('#resendactivationmodal').modal('show');
-		$('#activationMail').html(email);
-	};
-	
-	function reSendActivation_submit(){
-		$.ajax({
-			type: "POST",
-			url: "reSendActivation2.php",
-			data: {email: $('#activationMail').text().trim()},
-			success: function(data) {
-				if(data.trim() == "erfolg"){
-					$('#resendactivationmessage').html("<div class='alert alert-success'><span class='glyphicon glyphicon-ok-sign'></span> &nbsp; Dein Aktivierungslink wurde erfolgreich verschickt!</div><button class=\"btn btn-default\" data-dismiss=\"modal\" onClick=\"closeModal()\">Schließen</button>");
-				}else{
-					$('#resendactivationmessage').html("<div class='alert alert-danger'><span class='glyphicon glyphicon-info-sign'></span> &nbsp; Beim Verschicken deines Aktivierungslinks ist ein Fehler aufgetreten. Bitte setze dich mit VWI-ESTIEM in Verbindung.</div><button class=\"btn btn-default\" data-dismiss=\"modal\" onClick=\"closeModal()\">Schließen</button>");
+		<div id="section1" class="container-fluid">
+		
+			<div style="<?php if(!($detect->isMobile())) echo "display:none" ?>">
+				<br>
+				<div class="alert alert-warning" style="text-align:center">
+					Die mobile Version des Studienführers ist noch in der Beta-Version. Design-Fehler können auftreten, aber wir arbeiten dran :)</div>
+			</div>
+		
+			<h1 style="text-align:center">Willkommen beim Studienführer!</h1>
+			<br>
+			<div class="signin-form well" style="border-radius:5px">
+				<h3 id="loginStart" class="form-signin-heading">Hier einloggen</h3><hr />
+				<div id="alertMessage">
+				<?php
+				if(isset($msg)){
+					echo $msg;
 				}
-			}
-		});
-	}
+				?>
+				</div>
+				
+				<form class="form-signin" method="post" id="login-form">
+					<div class="form-group">
+						<input value="<?php if(isset($memory_mail)) echo $memory_mail ?>" type="email" class="form-control" placeholder="E-Mail" name="email" required />
+					<span id="check-e"></span>
+					</div>
+
+					<div class="form-group">
+						<input type="password" class="form-control" placeholder="Passwort" name="password" required />
+					</div>
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="rememberMe" id="rememberMe"> Eingeloggt bleiben
+							<a href="#" data-trigger="focus" data-toggle="popoverRememberMe" title="Um eingeloggt zu bleiben wird ein Cookie auf deiner Festplatte gespeichert." data-content="Nach 30 Tagen wird dieser Cookie ungültig und du musst dich erneut einloggen. Mit der Auswahl dieser Checkbox und damit der Nutzung dieser Funktion akzeptierst du die Verwendung der nötigen Cookies. Loggst du dich aus, werden die Cookies gelöscht. Cookies können außerdem jederzeit über deinen Browser gelöscht werden.">
+								<span class="glyphicon glyphicon-question-sign"></span>
+							</a>
+							<script>
+							$(document).ready(function () {
+								$('[data-toggle="popoverRememberMe"]').popover();
+							});
+							</script>
+						</label>
+					</div>
+
+					<a href="#" class="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
+
+					<hr>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary" name="btn-login" id="btn-login">
+							<span class="glyphicon glyphicon-log-in"></span> &nbsp; Einloggen
+						</button>
+
+						<a href="register.php" class="btn btn-default" style="float:right;">Registrieren</a>
+
+					</div>
+				</form>
+			</div>
+			<br><hr>
+		</div>
+		
+		<div id="section2" class="container-fluid">
+			<h1 style="text-align:center">Was ist der Studienführer?</h1>
+			<br>
+			<div style="margin-left:10%; margin-right:10%" id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+				<li data-target="#myCarousel" data-slide-to="3"></li>
+			</ol>
+
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner">
+				<div class="item active">
+					<img src="pictures/carousel/carousel_one.jpg" style="width:100%;">
+				</div>
+
+				<div class="item">
+					<img src="pictures/carousel/carousel_two.jpg" style="width:100%;">
+				</div>
+
+				<div class="item">
+					<img src="pictures/carousel/carousel_three.jpg" style="width:100%;">
+				</div>
+
+				<div class="item">
+					<img src="pictures/carousel/carousel_four.jpg" style="width:100%;">
+				</div>
+			</div>
+
+			<!-- Left and right controls -->
+			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="right carousel-control" href="#myCarousel" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right"></span>
+				<span class="sr-only">Next</span>
+			</a>
+			</div>
+			
+			<div style="text-align:center;font-size: 1.4em;">
+				<br>
+				<p><b>Der Studienführer sammelt die Erfahrungen vieler Wiwis am KIT, um den nächsten Generationen die Fächerwahl zu erleichtern.</b></p>
+				<p>Um ihn zu nutzen musst du dich zuerst einloggen oder - falls noch nicht geschehen - registrieren. Auf diesem Weg stellen wir die höchstmögliche Qualität der Informationen sicher.</p>
+				<p><b>Viel Spaß beim Stöbern!</b></p>
+			</div>
+			<br><hr>
+		</div>
+		
+		<div id="section3" class="container-fluid">
+			<h1 style="text-align:center">Frequently Asked Questions</h1>
+			<br>
+			
+			<!-- FAQs auch in about.php. Auch dort aktualisieren!-->
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+					<h4 class="panel-title">
+					  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Warum muss ich mich für die Nutzung des Studienführers registrieren?</a>
+					</h4>
+				  </div>
+				  <div id="collapse1" class="panel-collapse collapse">
+					<div class="panel-body">Die Registrierung der einzelnen Nutzer ist notwendig, damit wir eine hohe Datenqualität gewährleisten können. 
+					So wird beispielsweise verhindert, dass Nutzer die gleiche Veranstaltung mehrere Male bewerten. Durch die Bindung der Registrierung an
+					die KIT-E-Mail-Adresse verhindern wir außerdem, dass Fake-Accounts angelegt werden können.<br>
+					Weiterhin können wir so weitere Services wie das Speichern von Favoriten oder die Benachrichtigung für
+					beantwortete Fragen zur Verfügung stellen.</div>
+				  </div>
+				</div>
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+					<h4 class="panel-title">
+					  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Fallen Kosten für die Registrierung und Nutzung des Studienführers an?</a>
+					</h4>
+				  </div>
+				  <div id="collapse2" class="panel-collapse collapse">
+					<div class="panel-body">Nein. Wir sind auch Studenten des KIT und haben den Studienführer ohne Gewinnabsichten entwickelt. Der Studienführer wird
+					auch in Zukunft kostenlos bleiben: Kostenlos von Studenten für Studenten.</div>
+				  </div>
+				</div>
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+					<h4 class="panel-title">
+					  <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Wer hat den Studienführer entwickelt und wer betreibt ihn?</a>
+					</h4>
+				  </div>
+				  <div id="collapse3" class="panel-collapse collapse">
+					<div class="panel-body">Der Studienführer ist ein Projekt der VWI-ESTIEM Hochschulgruppe Karlsruhe e.V.</div>
+				  </div>
+				</div>
+			</div>
+			
+			<br><hr>
+		</div>
+		
+		<div id="section4" class="container-fluid">
+			<h1 style="text-align:center">Gemeinschafts&shy;richtlinien</h1>
+			<?php
+			$sql="SELECT * FROM multiple_location_content WHERE name = 'community_guidelines'";
+			$result=mysqli_query($con, $sql);
+			$row = mysqli_fetch_assoc($result);
+
+			echo $row['value']
+			?>
+			<br><hr>
+		</div>
+		
+		<div id="section5" class="container-fluid">
+			<h1 style="text-align:center">Kontakt</h1>
+			<br>
+			<p>Um mit uns bezüglich des Studienführers in Kontakt zu treten, wende dich bitte an <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
+			<p>Informationen zu unserer Hochschulgruppe findest du unter <a target="_blank" href="http://www.vwi-karlsruhe.de">vwi-karlsruhe.de</a>.</p>
+			
+			<!--Damit man ein bisschen weiter runterscrollen kann-->
+			<div id="whiteSpace"></div>
+			<script>$('#whiteSpace').height(screen.height/1.5);</script>
+		</div>
+		
+	</div>
 	
-	function closeModal(){
-		$('#alertMessage').empty();
-	}
-});
-</script>
+	<!-- End of page. Modal für Passwort vergessen -->
+	<div id="passwortvergessenmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h2 class="modal-title">Passwort vergessen</h2> <!-- Dynamisch Name anpassen! -->
+		</div>
+		<div class="modal-body">
+			<p id="pwrecovery"></p>
+			<form action="recoverPW.php" method="POST">
+				<p>Trage hier die E-Mail-Adresse ein, mit der du dich registriert hast:</p>
+
+				<div class="form-group">
+					<input type="email" class="form-control" id="PWrecoveryEmailInput" placeholder="E-Mail-Adresse" name="email" required />
+				</div>
+
+				<button type="submit" class="btn btn-primary" >Passwort zurücksetzen</button>
+			</form>
+
+		</div><!-- End of Modal body -->
+		</div><!-- End of Modal content -->
+		</div><!-- End of Modal dialog -->
+	</div><!-- End of Modal -->
+
+	<!--Modal für Aktivierungsmail -->
+	<div id="resendactivationmodal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h2 class="modal-title">Aktivierungslink erneut zusenden</h2> <!-- Dynamisch Name anpassen! -->
+		</div>
+		<div class="modal-body">
+			<div id="resendactivationmessage">
+				<p>Durch Klick auf den Button senden wir dir erneut den Aktivierungslink an die von dir angegebene E-Mail-Adresse <strong><span id="activationMail">"uxxxx@student.kit.edu<span></strong>.<br>Falls du dich beim Eingeben deiner E-Mail vertippt hast, registriere dich bitte erneut.</p>
+				<button class="btn btn-primary" onclick="reSendActivation_submit()">Link zuschicken</button>
+				<button class="btn btn-default" data-dismiss="modal">Schließen</button>
+			</div>
+		</div><!-- End of Modal body -->
+		</div><!-- End of Modal content -->
+		</div><!-- End of Modal dialog -->
+	</div><!-- End of Modal -->
+	<script>
+	$( document ).ready(function() {
+			
+		$('#passwortvergessenmodal').on('shown.bs.modal', function () {
+			$("#PWrecoveryEmailInput").focus(); //fokussiert den email input automatisch
+		});
+		$('.openPWRModal').click(function () {
+			$('#passwortvergessenmodal').modal({
+				show: true						//triggert das öffnen des modals
+			});
+		});
+		
+		function reSendActivation(email){
+			$('#resendactivationmodal').modal('show');
+			$('#activationMail').html(email);
+		};
+		
+		function reSendActivation_submit(){
+			$.ajax({
+				type: "POST",
+				url: "reSendActivation2.php",
+				data: {email: $('#activationMail').text().trim()},
+				success: function(data) {
+					if(data.trim() == "erfolg"){
+						$('#resendactivationmessage').html("<div class='alert alert-success'><span class='glyphicon glyphicon-ok-sign'></span> &nbsp; Dein Aktivierungslink wurde erfolgreich verschickt!</div><button class=\"btn btn-default\" data-dismiss=\"modal\" onClick=\"closeModal()\">Schließen</button>");
+					}else{
+						$('#resendactivationmessage').html("<div class='alert alert-danger'><span class='glyphicon glyphicon-info-sign'></span> &nbsp; Beim Verschicken deines Aktivierungslinks ist ein Fehler aufgetreten. Bitte setze dich mit VWI-ESTIEM in Verbindung.</div><button class=\"btn btn-default\" data-dismiss=\"modal\" onClick=\"closeModal()\">Schließen</button>");
+					}
+				}
+			});
+		}
+		
+		function closeModal(){
+			$('#alertMessage').empty();
+		}
+	});
+	</script>
 
 </body>
 </html>
