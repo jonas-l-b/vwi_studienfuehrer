@@ -1,3 +1,5 @@
+<html lang="de">
+
 <?php
 include "sessionsStart.php";
 include "header.php";
@@ -142,8 +144,10 @@ include "sumVotes.php";
 	<div style="border-bottom: 1px solid #dedede;">
 		<p>
 			<h1>
-				<?php echo $subjectData['subject_name'] ?>
-				<span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span>	
+				<div class="enter">
+					<?php echo $subjectData['subject_name'] ?>
+					<span id="favIcon" style="color:<?php echo $favColor ?>;cursor: pointer; cursor: hand;" class="<?php echo $favClass ?>"></span>
+				</div>
 			</h1>
 		</p>
 	</div>
