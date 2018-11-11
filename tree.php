@@ -233,47 +233,6 @@ $("#changeButton").click(function () {
 	</div>
 	
 	<hr>
-	<?php
-	$result=mysqli_query($con, "SELECT value FROM help WHERE name='subjectOfTheDay'");
-	$row=mysqli_fetch_assoc($result);
-	$today = date("Ymd");
-	if($row['value'] != $today){ //Update if necessary
-		$sql="
-			SELECT subjects.ID AS subject_ID, subject_name FROM subjects
-			ORDER BY RAND()
-			LIMIT 1
-		";
-		$result2=mysqli_query($con, $sql);
-		$row2=mysqli_fetch_assoc($result2);
-		$newSubjectId = $row2['subject_ID'];
-		
-		mysqli_query($con, "UPDATE help SET value=$today WHERE  name='subjectOfTheDay'");
-		
-		mysqli_query($con, "UPDATE help SET value2='$newSubjectId' WHERE name='subjectOfTheDay'");
-	}
-	
-	$result=mysqli_query($con, "SELECT value2 FROM help WHERE name='subjectOfTheDay'");
-	$row=mysqli_fetch_assoc($result);
-	
-	$sid = $row['value2'];
-	$sql="
-		SELECT subjects.ID AS subject_ID, subject_name FROM subjects
-		WHERE subjects.ID = $sid
-	";
-	$result=mysqli_query($con, $sql);
-	$row=mysqli_fetch_assoc($result);
-	
-	
-	?>
-	
-	<div style="padding:15px; text-align:center">
-		<p style="color:grey">Offen für Neues? Veranstaltung des Tages! Was hälst du von:</p>
-		<h3 style="margin:0">
-			<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
-		</h3>
-	</div>
-
-	<hr>
 	
 	<?php
 	$note = array();
@@ -364,6 +323,48 @@ $("#changeButton").click(function () {
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	<?php
+	$result=mysqli_query($con, "SELECT value FROM help WHERE name='subjectOfTheDay'");
+	$row=mysqli_fetch_assoc($result);
+	$today = date("Ymd");
+	if($row['value'] != $today){ //Update if necessary
+		$sql="
+			SELECT subjects.ID AS subject_ID, subject_name FROM subjects
+			ORDER BY RAND()
+			LIMIT 1
+		";
+		$result2=mysqli_query($con, $sql);
+		$row2=mysqli_fetch_assoc($result2);
+		$newSubjectId = $row2['subject_ID'];
+		
+		mysqli_query($con, "UPDATE help SET value=$today WHERE  name='subjectOfTheDay'");
+		
+		mysqli_query($con, "UPDATE help SET value2='$newSubjectId' WHERE name='subjectOfTheDay'");
+	}
+	
+	$result=mysqli_query($con, "SELECT value2 FROM help WHERE name='subjectOfTheDay'");
+	$row=mysqli_fetch_assoc($result);
+	
+	$sid = $row['value2'];
+	$sql="
+		SELECT subjects.ID AS subject_ID, subject_name FROM subjects
+		WHERE subjects.ID = $sid
+	";
+	$result=mysqli_query($con, $sql);
+	$row=mysqli_fetch_assoc($result);
+	
+	
+	?>
+	
+	<hr>
+	
+	<div style="padding-top:15px; text-align:center">
+		<p style="color:grey">Offen für Neues? Veranstaltung des Tages! Was hälst du von:</p>
+		<h3 style="margin:0">
+			<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
+		</h3>
 	</div>
 	
 	<!-- Unbeantwortete Fragen -->
