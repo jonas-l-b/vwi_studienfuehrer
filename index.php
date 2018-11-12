@@ -708,7 +708,7 @@ include "sumVotes.php";
 	$('.showAnswers').click(function() {
 		if(!($(this).text().trim() == "Keine Antworten zum Anzeigen vorhanden")){
 			if(($(this).text().trim() == "Schließen")){
-				$(this).parent().next(".answerSection").hide(); //Bin nicht ganz sicher, wie stabil das ist
+				$(this).parent().parent().next(".answerSection").hide(); //Bin nicht ganz sicher, wie stabil das ist
 				$(this).html("<a>Antworten anzeigen</a>");
 				if($('#questionBody').hasScrollBarIH()){
 					$('#showAllQuestions').show();
@@ -716,7 +716,7 @@ include "sumVotes.php";
 					$('#showAllQuestions').hide();
 				}
 			}else{
-				$(this).parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
+				$(this).parent().parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
 				$(this).html("<a>Schließen</a>");
 				if($('#questionBody').hasScrollBarIH()){
 					$('#showAllQuestions').show();
@@ -751,8 +751,8 @@ include "sumVotes.php";
 	//Frage beantworten
 	$('.answerThisQuestion').click(function(){
 		$('#answerModal').modal('show');
-		$('#questionForAnswerModal').html($(this).parent().prevAll(".actualQuestion:first").text());
-		$('#questionID').html($(this).parent().prevAll(".actualQuestion:first").attr('id').slice(8));
+		$('#questionForAnswerModal').html($(this).parent().parent().prevAll(".actualQuestion:first").text());
+		$('#questionID').html($(this).parent().parent().prevAll(".actualQuestion:first").attr('id').slice(8));
 	});
 
 	$("#submitAnswerButton").click(function(){
