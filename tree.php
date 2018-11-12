@@ -367,38 +367,11 @@ $("#changeButton").click(function () {
 		</h3>
 	</div>
 	
-	<!-- Unbeantwortete Fragen -->
-	<?php
-	$id=$userRow['user_ID'];
-	$sql="
-		SELECT DISTINCT *, questions.time_stamp AS q_time_stamp FROM questions
-		JOIN subjects ON questions.subject_ID = subjects.ID
-		WHERE questions.ID NOT IN (SELECT DISTINCT answers.question_ID FROM answers) AND questions.subject_ID IN (SELECT DISTINCT ratings.subject_ID FROM ratings WHERE user_ID = $id)
-		LIMIT 5
-	";
-	
-	$result_q=mysqli_query($con, $sql);
-	if(mysqli_num_rows($result_q)!=0){
-		echo "<hr>";
-		echo "Es gibt <strong>unbeantwortete Fragen</strong> zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
-	}
-	while($row = mysqli_fetch_assoc($result_q)){
-		?>
-			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
-				<p>
-					<a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a>
-					<span style="color:grey;">| <?php echo time_elapsed_string($row['q_time_stamp'])?></span>
-				</p>
-				<div>
-					<?php echo $row['question']?>
-				</div>
-			</div>
-		<?php
-	}
-	?>
+	<hr>
 	
 	<!--Neue Bewertungen zu Veranstaltungen, die als Fav markiert wurden?-->
 	<?php
+	$id=$userRow['user_ID'];
 	$sql="
 		SELECT DISTINCT * FROM(		
 			SELECT DISTINCT ratings.time_stamp AS r_time_stamp, ratings.subject_ID AS subject_ID, ratings.comment, subjects.subject_name FROM ratings
@@ -411,9 +384,9 @@ $("#changeButton").click(function () {
 	";
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)!=0){
-		echo "<br>";
-		if(mysqli_num_rows($result_q)==0) echo "<hr>";
 		echo "Hier sind die <strong>neusten Kommentare</strong> zu Veranstaltungen, die du als Favorit markiert hast.";
+	}else{
+		echo "<i>Hier erscheinen die neusten Kommentare zu Veranstaltungen, die du als Favorit markiert hast.</i><br>";
 	}
 	while($row = mysqli_fetch_assoc($result)){
 		?>
@@ -429,6 +402,38 @@ $("#changeButton").click(function () {
 		<?php
 	}
 	?>
+	<br>
+	
+	<!-- Unbeantwortete Fragen -->
+	<?php
+	$sql="
+		SELECT DISTINCT *, questions.time_stamp AS q_time_stamp FROM questions
+		JOIN subjects ON questions.subject_ID = subjects.ID
+		WHERE questions.ID NOT IN (SELECT DISTINCT answers.question_ID FROM answers) AND questions.subject_ID IN (SELECT DISTINCT ratings.subject_ID FROM ratings WHERE user_ID = $id) AND questions.user_ID != $id
+		LIMIT 5
+	";
+	
+	$result_q=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result_q)!=0){
+		echo "Es gibt <strong>unbeantwortete Fragen</strong> zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
+	}
+	while($row = mysqli_fetch_assoc($result_q)){
+		?>
+			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
+				<p>
+					<a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a>
+					<span style="color:grey;">| <?php echo time_elapsed_string($row['q_time_stamp'])?></span>
+				</p>
+				<div>
+					<?php echo $row['question']?>
+				</div>
+			</div>
+		<?php
+	}
+	if(mysqli_num_rows($result_q)!=0){
+		echo "<br>";
+	}
+	?>
 	
 	<!--Veranstaltungen ohne Links-->
 	<?php
@@ -441,8 +446,6 @@ $("#changeButton").click(function () {
 	";
 	$result=mysqli_query($con, $sql);
 	if(mysqli_num_rows($result)!=0){
-		echo "<br>";
-		if(mysqli_num_rows($result_q)==0) echo "<hr>";
 		echo "Hier sind die von dir zuletzt bewerteten Veranstaltungen, zu denen <b>noch keine hilfreichen Links eingetragen</b> wurden. Hast du welche parat?";
 	}
 	while($row = mysqli_fetch_assoc($result)){

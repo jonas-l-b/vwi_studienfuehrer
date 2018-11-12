@@ -600,21 +600,24 @@ include "sumVotes.php";
 					<?php
 					$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
 					?>
-					<p style="margin-bottom:0px">
-						<a class="answerThisQuestion">Frage beantworten</a> <!-- answerModal weiter unten-->
-						<span class="showAnswers" style="float:right">
-							<?php
-							switch($num){
-								case 0:
-									echo "Keine Antworten zum Anzeigen vorhanden";
-									break;
-								default:
-									echo "<a>Antworten anzeigen</a>";
-									break;
-							}
-							?>
-						</span>
-					</p>
+				
+					<div class="general-flex-container">
+						<div><a class="answerThisQuestion">Frage beantworten</a></div>
+						<div>
+							<span class="showAnswers">
+								<?php
+								switch($num){
+									case 0:
+										echo "Keine Antworten zum Anzeigen vorhanden";
+										break;
+									default:
+										echo "<a>Antworten anzeigen</a>";
+										break;
+								}
+								?>
+							</span>
+						</div>
+					</div>
 
 					<div class="answerSection" style="display:none"> <!--Antworten-->
 						<hr class="style">
