@@ -571,7 +571,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 		</div><!-- End of Modal dialog -->
 	</div><!-- End of Modal -->
 	<script>
-	$( document ).ready(function() {
+	//$( document ).ready(function() {
 			
 		$('#passwortvergessenmodal').on('shown.bs.modal', function () {
 			$("#PWrecoveryEmailInput").focus(); //fokussiert den email input automatisch
@@ -605,7 +605,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 		function closeModal(){
 			$('#alertMessage').empty();
 		}
-	});
+	//});
 	</script>
 
 </body>
