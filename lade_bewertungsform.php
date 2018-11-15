@@ -100,6 +100,11 @@ if (isset($_GET['subject'])){
 		$recom0 = "";
 		$comment = "";
 	}
+	
+	//Erfolgstext
+	$result = mysqli_query($con, "SELECT * FROM `rating_submit_messages` ORDER BY rand() LIMIT 1");
+	$row = mysqli_fetch_assoc($result);
+	$successMessage = $row['message'];
 
 	echo $twig->render('bewerten.template.html',
 						array(	'subject' => $subject,
@@ -122,6 +127,8 @@ if (isset($_GET['subject'])){
 								'weiterempfehlen_ja' => $recom1,
 								'weiterempfehlen_nein' => $recom0,
 								'comment' => $comment,
+								
+								'successMessage' => $successMessage,
 							));
 }else{
 	exit;

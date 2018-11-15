@@ -234,7 +234,7 @@ $("#submitButton").click(function(){
 							   location.reload();
 				});
 				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
-					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Vielen Dank für deine Bewertung. Deine eingetragene Erfahrung trägt nun dazu bei, anderen Wiwis die Fächerwahl zu erleichtern!</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+					$('.modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; {{successMessage}} </div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 				}else if(data.trim().substr(0,6) == "errorM"){
 					$('.modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Fehler! Es befinden sich mehrere Bewertungen von dir zu dieser Veranstaltung in der Datenbank. Bitte wende dich an VWI-ESTIEM Karlsruhe.</div><button type=\"button\" onclick=\"reload()\" class=\"btn btn-primary btn-dismiss\" data-dismiss=\"modal\">Schließen</button>");
 				}else if(data.trim().substr(0,6) == "change"){
