@@ -299,7 +299,7 @@ include "sumVotes.php";
 	<!--ENDE Infobox-->	
 
 	<!--START Bewertungsübersicht-->
-	<div class="well">
+	<div class="well" style="position:relative">
 	
 		<div <?php echo $displayNoRatings ?>>
 			<h3 class="noRatingText">Über diese Veranstaltung wissen wir bisher leider noch gar nichts -<br>sei der Erste, der sie bewertet!<h3>
