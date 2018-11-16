@@ -519,23 +519,6 @@ include "sumVotes.php";
 				}
 				</script>
 
-<!--
-				<?php
-				$result = mysqli_query($con, "SELECT AVG(general0) FROM ratings WHERE subject_ID = ".$subjectData['ID']);
-				$row = mysqli_fetch_assoc($result);
-				?>
-
-				<div style="display:inline-block">
-					<div class="c100 p<?php echo round($row['AVG(general0)']*10) ?>">
-						<span><?php echo round($row['AVG(general0)'], 1) ?></span>
-						<div class="slice">
-							<div class="bar"></div>
-							<div class="fill"></div>
-						</div>
-					</div>
-				</div>
-				<p align="center">Gesamtbewertung</p>
--->
 			</div>
 		</div>
 	</div>
@@ -595,7 +578,91 @@ include "sumVotes.php";
 				<div class="well" style="background-color:white; border-radius:none">
 					<span class="actualQuestion" id="question<?php echo $row['ID']?>"><?php echo nl2br($row['question'])?></span>
 					<hr style="margin:10px">
-					<p style="font-size:10px"><?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?></p>
+					
+					<?php
+					//Erstellt Variable, um Bearbeiten-Button nur für Ersteller anzuzeigen
+					$displayEdit = "display:none;";
+					$editClassIdentifier = "";
+					$displayReport ="";
+
+					if($row['user_ID'] == $userRow['user_ID']){
+						$displayEdit = "";
+						$editClassIdentifier = "editButtonIdentificationClassQuestions";
+						$displayReport = "display:none;";
+					}
+					
+					//Löschen-Button Anzeige
+					$displayAdminDelete = "none";
+					if($userRow['super_admin'] == 1){
+						$displayAdminDelete = "";
+					}
+					
+					?>
+					
+					<div class="general-flex-container" style="font-size:10px; margin-bottom:7px;">
+						<div style="margin-top:3px; margin-bottom:3px">
+							<?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?>
+						</div>
+						<div style="margin-top:3px; margin-bottom:3px">
+							<button data-toggle="modal" data-target="#editQuestionModal<?php echo $row['ID']?>" type="button" style="<?php echo $displayEdit ?>" role="button" class="editTrashButton <?php echo $editClassIdentifier ?>"  title="Frage bearbeiten"> <span class="glyphicon glyphicon-pencil"></span></button>
+							<!--
+							<button type="button" style="<?php echo $displayEdit ?>" href="#deleteModal" role="button" class="editTrashButton" data-toggle="modal" title="Frage löschen"> <span class="glyphicon glyphicon-trash"></span></button>
+							<button style="<?php echo $displayReport ?>" type="button" role="button" data-toggle="modal" data-id="<?php echo $row['ID'] ?>" class="editTrashButton reportButton" title="Frage melden"> <span class="glyphicon glyphicon-exclamation-sign"></span></button>
+							<button style="display:<?php echo $displayAdminDelete ?>" onclick="deleteRatingByAdmin(this.id)" id="deleteratingbyadmin<?php echo $row['ID']?>" type="button" href="#" role="button" class="editTrashButton"> <span style="color:red" class="glyphicon glyphicon-trash" title="Frage als Admin löschen" ></span></button>
+							-->
+						</div>
+					</div>
+					
+					<!-- Modal für Fragenänderung-->
+					<div id="editQuestionModal<?php echo $row['ID']?>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+						<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title">Frage ändern</strong></h4>
+						</div>
+						<div class="modal-body change-question-body">
+							<p>Falls du deine Frage ausführlicher oder erweitert stellen willst, hilfst du anderen, indem du den Zusatz mit &ldquo;Nachtrag&rdquo; oder &ldquo;Edit&rdquo; kennzeichnest.</p>
+							<form id="ChangeQuestionForm<?php echo $row['ID']?>">
+								<div class="form-group">
+									<textarea name="formQuestion" class="form-control" rows="6" maxlength="3000" placeholder="Gib hier deine Frage ein." required><?php echo nl2br($row['question'])?></textarea>
+								</div>
+								<button id="changeQuestionButton<?php echo $row['ID']?>" type="button" class="btn btn-primary">Abschicken</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+							</form>
+						</div><!-- End of Modal body -->
+						</div><!-- End of Modal content -->
+						</div><!-- End of Modal dialog -->
+					</div><!-- End of Modal -->
+					
+					<script>
+					$( document ).ready(function() {
+
+						$("#changeQuestionButton<?php echo $row['ID']?>").click(function(){
+							$.ajax({
+								type: "POST",
+								url: "changeQuestion_submit.php",
+								data: $("#ChangeQuestionForm<?php echo $row['ID']?>").serialize() + "&subject_id=" + "<?php echo $subjectData['ID']?>" + "&question_id=<?php echo $row['ID']?>",
+								success: function(data) {
+									//alert(data);
+									if(data.includes("erfolg")){
+										$('.change-question-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Frage wurde erfolgreich geändert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+									}else{
+										$('.change-question-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Ändern Deiner Frage ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienfuehrer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+									}
+								}
+							});
+						});		
+						
+					
+					});
+					</script>
+					
+					<!--
+					<button type="button" id="bewertungAendernButton" style="<?php echo $displayEdit ?>" role="button" class="editTrashButton <?php echo $editClassIdentifier ?>"  title="Frage bearbeiten"> <span class="glyphicon glyphicon-pencil"></span></button>
+							
+					<a href="#" data-toggle="modal" data-target="#bedingungenModal1">Datenschutzerklärung</a>
+					-->
 
 					<?php
 					$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
@@ -762,7 +829,7 @@ include "sumVotes.php";
 			data: $("#answerForm").serialize() + "&question_id=" + $('#questionID').html(),
 			success: function(data) {
 				//alert(data);
-				if(data.trim().substr(0,6) == "erfolg"){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
+				if(data.includes("erfolg")){ //substring stellt sicher, dass hier auch reingegangen wenn E-Mail-Fehler auftritt
 					$('.answer-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Antwort wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 				}else{
 					$('.answer-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung Deiner Antwort ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
@@ -1312,6 +1379,9 @@ $(document).ready(function(){
 			});
 	}
 	$('.editButtonIdentificationClass').click(aendernLaden);
+	
+	
+
 
 	// Noch verbuggt. Funktioniert nur 1 mal
 	/*$('.sonstigesZuCommentLink').click(function(){
