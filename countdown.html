@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+p {
+  text-align: center;
+  font-size: 60px;
+  margin-top: 0px;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  font-family:calibri;
+}
+
+.box{
+	width:200px;
+	height:200px;
+
+	border-radius:3px;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 200px; 
+	
+	font-size:80px;
+	margin:5px;
+	background-color:rgb(20,90,157);
+	color:white;
+}
+
+.box2{
+	width:200px;
+	text-align:center;
+	margin:5px;
+	
+	font-size:40px;
+}
+
+.container {
+  display: flex; /* or inline-flex */
+}
+</style>
+</head>
+<body>
+
+
+
+<p id="demo" style="display:none"></p>
+
+<div class="centered">
+
+	<h2 style="text-align:center; font-size:40px">Zeit bis zum Studienführer-Launch:</h2>
+
+	<div class="container">
+		<div id="1" class="box">
+			Laden
+		</div>
+		<div id="2" class="box">
+			Laden
+		</div>
+		<div id="3" class="box">
+			Laden
+		</div>
+		<div id="4" class="box">
+			Laden
+		</div>
+	</div>	<div class="container">
+		<div class="box2">
+			Tage
+		</div>
+		<div class="box2">
+			Stunden
+		</div>
+		<div class="box2">
+			Minuten
+		</div>
+		<div class="box2">
+			Sekunden
+		</div>
+	</div>
+</div>
+
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Dec 07, 2018 20:00:00").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("demo").innerHTML = days + " Tage " + hours + " Stunden "
+    + minutes + " Minuten " + seconds + " Sekunden ";
+	
+    document.getElementById("1").innerHTML = days;
+	document.getElementById("2").innerHTML = hours;
+	document.getElementById("3").innerHTML = minutes;
+	document.getElementById("4").innerHTML = seconds;
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+}, 1000);
+</script>
+
+</body>
+</html>
