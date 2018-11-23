@@ -96,7 +96,8 @@ if(isset($_POST['btn-signup'])) {
 		$memorey_semester = $semester;
 		$memorey_info = $info;
 	}elseif ($count==0 && $count2==0 && $count_code1==1 && $count_code2==1 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
-	//<!--vorrübergehend ENDE-->	
+	//<!--vorrübergehend ENDE-->
+	
 //	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
 		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash')";
 		if ($con->query($query)) {
