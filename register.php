@@ -22,7 +22,7 @@ function endsWith($haystack, $needle)
     (substr($haystack, -$length) === $needle);
 }
 
-if(isset($_POST['btn-signup'])) {
+if(isset($_POST['email'])) {
 	
 	$code = strip_tags($_POST['code']); //<!--vorrübergehend-->	
 	
@@ -214,10 +214,6 @@ include "header.php";
 	<h1>Willkommen beim Studienführer!</h1>
 	<p>Um dich zu registieren, musst du lediglich die Felder unten ausfüllen und auf den Button klicken. Sofern nicht explizit von dir erlaubt, werden wir deine Daten lediglich für den Studienführer nutzen.</p>
 	<p style="font-weight:bold">Der Studienführer ist und bleibt kostenlos.</p>
-	<br>
-	<div class="alert alert-warning" role="alert">
-		Die Registrierung mit Safari funktioniert möglicherweise nicht. Wenn Du nach einem Klick auf "Account erstellen" keine E-Mail von uns bekommst (SPAM-Ordner checken!), ist die Registrierung leider fehlgeschlagen. Bitte verwende vorrübergehend einen anderen Browser - Google Chrome bietet sich beispielsweise an. Vielen Dank für Dein Verständnis!
-	</div>
 </div>
 
 <div class="signin-form">
@@ -381,7 +377,7 @@ include "header.php";
 			<hr>
 			<?php /*Hier wäre es sinnvoll noch ein ReCAPTCHA von Google einzubauen */ ?>
 			<div class="form-group">
-				<button id="submitbutton" class="btn btn-primary" name="btn-signup">
+				<button id="submitbutton" class="btn btn-primary" name="btn-signup" value="clicked">
 					<span class="glyphicon glyphicon-log-in"></span> &nbsp; Account erstellen
 				</button>
 				<a href="login.php" class="btn btn-default" style="float:right;">Zum Login</a>
