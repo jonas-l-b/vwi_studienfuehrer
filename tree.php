@@ -459,5 +459,27 @@ $("#changeButton").click(function () {
 	
 	<br><br>
 	
+<?php
+//Badges: Freunde geworben
+$sql="SELECT COUNT(user_ID) AS count FROM `users` WHERE advertised_by = ".$userRow['user_ID']." AND active = 1";
+$result=mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+$counts = array(1,2,3);
+$badges = array(93,94,95);
+
+for ($i = 0; $i <= count($counts)-1; $i++) {
+	if($row['count'] >= $counts[$i]){ //Wenn genügend Werbungen vorhanden
+		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '".$userRow['user_ID']."' AND badge_id = '$badges[$i]'");
+		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$userRow['user_ID'].",'$badges[$i]')";
+			if ($con->query($sql2) == TRUE) {
+				echo "<script>alert(\"Du hast eine neue Errungenschaft für das erfolgreiche Werben eines Kommilitonenden freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+			}
+		}
+	}
+}	
+?>
+	
 </body>
 </html>
