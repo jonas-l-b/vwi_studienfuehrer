@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['userSession'])!="") {
-	header("Location: home.php");
+	header("Location: tree.php");
 }
 require_once 'connect.php';
 
