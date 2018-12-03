@@ -391,7 +391,9 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					<a href="#" class="openPWRModal">Passwort vergessen/Passwort zurücksetzen</a>
 
 					<hr>
-
+					
+					<p>Damit der Studienführer funktionieren kann, werden Cookies auf deiner Festplatte gespeichert. Mit deinem Login erklärst du dich damit einverstanden.</p>
+					
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary" name="btn-login" id="btn-login">
 							<span class="glyphicon glyphicon-log-in"></span> &nbsp; Einloggen
