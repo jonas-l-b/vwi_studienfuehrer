@@ -527,7 +527,7 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 		<div class="well" style="padding:auto">
 			<p style="text-align:center; font-size:20px">
 				Freunde werben: 
-				<span style="display:inline-block; border: solid lightgrey 1px; border-radius:3px; padding:10px; background-color:white">studienführer.vwi-karlsruhe.de/register.php?f=<?php echo $userRow['user_ID'] ?></span>
+				<span style="display:inline-block; border: solid lightgrey 1px; border-radius:3px; padding:10px; background-color:white">https://xn--studienfhrer-klb.vwi-karlsruhe.de/register.php?f=<?php echo $userRow['user_ID'] ?></span>
 			</p>
 			<p style="text-align:center;">
 				Wenn sich deine Kommiltonen mit diesem Link erfolgreich registrieren, besteht die Möglichkeit, dass du weitere Errungenschaften freischaltest!
