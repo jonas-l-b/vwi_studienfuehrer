@@ -226,6 +226,22 @@ include "header.php";
 	<div class="container">
 		<form class="form-signin" method="post" id="register-form" action="register.php?f=<?php echo $f ?>"> <!-- advertised_by: Wenn von jemanden geworben -->
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
+			
+			<?php
+			if($f != 0){
+				$sql="SELECT * FROM users WHERE user_ID = $f";
+				$result=mysqli_query($con, $sql);
+				if(mysqli_num_rows($result) > 0){			
+					$row = mysqli_fetch_assoc($result);
+					$username = $row['username'];
+					echo "
+						<div class=\"alert alert-info\">
+							Du wurdest von <strong>$username</strong> geworben!
+						</div>
+					";
+				}
+			}
+			?>
 
 			<?php
 
