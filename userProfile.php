@@ -524,7 +524,7 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 		
 		<br>
 		
-		<div class="well" style="padding:auto">
+		<div class="well" style="background-color: #e6f3ff; border-radius:3px;">
 			<p style="text-align:center; font-size:20px">
 				Freunde werben: 
 				<span style="display:inline-block; border: solid lightgrey 1px; border-radius:3px; padding:10px; background-color:white">https://xn--studienfhrer-klb.vwi-karlsruhe.de/register.php?f=<?php echo $userRow['user_ID'] ?></span>
