@@ -35,7 +35,8 @@ $detect = new Mobile_Detect;
 		$result=mysqli_query($con, $sql);
 		
 		$i = 1;
-		$lineExistsNot = true;
+		$lineExistsNot1500 = true;
+		$lineExistsNot2500 = true;
 		while($row = mysqli_fetch_assoc($result)){
 			//username
 			$row2 = mysqli_fetch_assoc(mysqli_query($con, "SELECT username FROM `users` WHERE user_ID = ".$row['user_id'].""));
@@ -49,13 +50,27 @@ $detect = new Mobile_Detect;
 			$row3 = mysqli_fetch_assoc($result3);
 			
 			//Divider: over 2500 points
-			if($lineExistsNot AND $row3['sum_of_points'] < 2500){
+			if($lineExistsNot2500 AND $row3['sum_of_points'] < 2500){
 				echo "
-					<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
-						<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal\"><u>Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
-					</td>
+					<tr>
+						<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
+							<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal2500\"><u>weiteren Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
+						</td>
+					</tr>	
 				";
-				$lineExistsNot = false;
+				$lineExistsNot2500 = false;
+			}
+			
+			//Divider: over 1500 points
+			if($lineExistsNot1500 AND $row3['sum_of_points'] < 1500){
+				echo "
+					<tr>
+						<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
+							<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 1500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal1500\"><u>Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
+						</td>
+					</tr>
+				";
+				$lineExistsNot1500 = false;
 			}
 			
 			?>
@@ -170,19 +185,32 @@ $detect = new Mobile_Detect;
 			<?php
 			$i++;
 		}
-		if($lineExistsNot){ //Falls alle Nutzer mehr als 2500 Punkte haben und Linie darum noch nicht eingefügt wurde
+		if($lineExistsNot2500){ //Falls alle Nutzer mehr als 2500 Punkte haben und Linie darum noch nicht eingefügt wurde
 			echo "
-				<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
-					<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal\"><u>Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
-				</td>
+				<tr>
+					<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
+						<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 2500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal2500\"><u>weiteren Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
+					</td>
+				</tr>
 			";
-			$lineExistsNot = false;
+			$lineExistsNot2500 = false;
+		}
+		
+		if($lineExistsNot1500){ //Falls alle Nutzer mehr als 1500 Punkte haben und Linie darum noch nicht eingefügt wurde
+			echo "
+				<tr>
+					<td colspan=\"4\" style=\"border-top:solid white 5px; border-bottom: solid white 5px; color:white; text-align:center\" bgcolor=\"grey\">
+						<span class=\"glyphicon glyphicon-arrow-up\"></span> Errungenschaften-Erringer mit 1500 Punkten oder mehr erhalten einen <a style=\"color:white\" href=\"#\" data-toggle=\"modal\" data-target=\"#gutscheinModal1500\"><u>Gutschein</u></a>! <span class=\"glyphicon glyphicon-arrow-up\"></span>
+					</td>
+				</tr>
+			";
+			$lineExistsNot1500 = false;
 		}
 		?>
 	</table>
 	
-	<!-- Gutschein Modal -->
-	<div id="gutscheinModal" class="modal fade" role="dialog">
+	<!-- Gutschein Modal 1500 -->
+	<div id="gutscheinModal1500" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -223,6 +251,33 @@ $detect = new Mobile_Detect;
 					</ul>
 
 					<p>Wir freuen uns darauf, dich kennenzulernen!</p>
+					-->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Gutschein Modal 2500-->
+	<div id="gutscheinModal2500" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"><!--Wie komme ich an den Gutschein?-->Gutscheine nach dem Launch geplant!</h4>
+				</div>
+				<div class="modal-body">
+					<p>Für ganz besonders aktive Nutzer ist nach dem Launch des Studienführers die Ausgabe eines weiteren Gutscheins geplant. Da musst du dich noch ein bisschen gedulden :)</p>
+					<p>Danke dennoch für deinen Einsatz!</p>
+					<p>In der Zwischenzeit hast du hier einen Apfel: <span class="glyphicon glyphicon-apple"></span></p>
+					
+					<!--
+					<p>Erstmal herzlichen Glückwunsch zum Gewinn deines zweiten Gutscheins (oder zumindest dein Interesse daran) und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
+					<p>Mit dem Überschreiten dieser Linie hast du dir einen zweiten Gutschein mehr als verdient! Die Koditionen sind wie beim ersten :)</p>
+
+					<p>Wir freuen uns darauf, dich erneut zu treffen!</p>
 					-->
 				</div>
 				<div class="modal-footer">

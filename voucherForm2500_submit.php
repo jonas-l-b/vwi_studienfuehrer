@@ -6,7 +6,7 @@ include "connect.php";
 ?>
 
 <?php
-$result=mysqli_query($con, "SELECT * FROM vouchers");
+$result=mysqli_query($con, "SELECT * FROM vouchers2500");
 
 while($row = mysqli_fetch_assoc($result)){
 	
@@ -16,15 +16,15 @@ while($row = mysqli_fetch_assoc($result)){
 		$email = 0;
 	}
 
-	if(isset($_POST['voucher'.$row['user_id'].''])){
-		$voucher = 1;
+	if(isset($_POST['voucher2500'.$row['user_id'].''])){
+		$voucher2500 = 1;
 	}else{
-		$voucher = 0;
+		$voucher2500 = 0;
 	}
 	
 	$sql2="
-		UPDATE `vouchers`
-		SET `email`=$email,`voucher`=$voucher
+		UPDATE `vouchers2500`
+		SET `email`=$email,`voucher2500`=$voucher2500
 		WHERE user_id = ".$row['user_id']."
 	";
 	if(mysqli_query($con, $sql2)){
