@@ -16,6 +16,28 @@ include "connect.php";
 
 <?php include "inc/nav.php" ?>
 
+<?php
+//Badges: Freunde geworben
+$sql="SELECT COUNT(user_ID) AS count FROM `users` WHERE advertised_by = ".$userRow['user_ID']." AND active = 1";
+$result=mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+$counts = array(1,2,3);
+$badges = array(93,94,95);
+
+for ($i = 0; $i <= count($counts)-1; $i++) {
+	if($row['count'] >= $counts[$i]){ //Wenn genügend Werbungen vorhanden
+		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '".$userRow['user_ID']."' AND badge_id = '$badges[$i]'");
+		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$userRow['user_ID'].",'$badges[$i]')";
+			if ($con->query($sql2) == TRUE) {
+				echo "<script>alert(\"Du hast eine neue Errungenschaft für das erfolgreiche Werben eines Kommilitonenden freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+			}
+		}
+	}
+}	
+?>
+
 <div class="container" style="margin-top:60px">
 
 	<?php
@@ -500,6 +522,19 @@ include "connect.php";
 		
 		<div id="achievements" class="tab-pane fade">
 		
+		<br>
+		
+		<div class="well" style="padding:auto">
+			<p style="text-align:center; font-size:20px">
+				Freunde werben: 
+				<span style="display:inline-block; border: solid lightgrey 1px; border-radius:3px; padding:10px; background-color:white">https://xn--studienfhrer-klb.vwi-karlsruhe.de/register.php?f=<?php echo $userRow['user_ID'] ?></span>
+			</p>
+			<p style="text-align:center;">
+				Wenn sich deine Kommiltonen mit diesem Link erfolgreich registrieren, besteht die Möglichkeit, dass du weitere Errungenschaften freischaltest!
+			</p>
+		</div>
+		
+		
 		<?php
 		//Check if badges were earned
 		$sql="
@@ -519,7 +554,7 @@ include "connect.php";
 		?>
 		
 		<h1 style="text-align:center"><i class="fa fa-trophy" style="color:#FACC2E"></i> <u>Meine Er&shy;run&shy;gen&shy;schaf&shy;ten</u> <i class="fa fa-trophy" style="color:#FACC2E"></i></h1>
-
+			
 			<?php
 			$sql="
 				SELECT sum(badges.points) AS sum_of_points FROM badges
@@ -632,6 +667,9 @@ include "connect.php";
 						<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 						<div>Icons made by <a href="https://www.flaticon.com/authors/creaticca-creative-agency" title="Creaticca Creative Agency">Creaticca Creative Agency</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 						<div>Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+						<div>Icons made by <a href="https://www.flaticon.com/authors/srip" title="srip">srip</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+						<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+						<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['userSession'])!="") {
-	header("Location: home.php");
+	header("Location: tree.php");
 }
 require_once 'connect.php';
 
@@ -20,6 +20,12 @@ function endsWith($haystack, $needle)
 
     return $length === 0 ||
     (substr($haystack, -$length) === $needle);
+}
+
+if(isset($_GET['f'])){ //advertised_by: Wenn von jemanden geworben
+	$f = $_GET['f'];
+}else{
+	$f = 0;
 }
 
 if(isset($_POST['email'])) {
@@ -99,7 +105,7 @@ if(isset($_POST['email'])) {
 	//<!--vorrübergehend ENDE-->
 	
 //	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
-		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash')";
+		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash,advertised_by) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash','$f')";
 		if ($con->query($query)) {
 			//<!--vorrübergehend START-->	
 			if($code!="vwiESTIEM"){
@@ -218,8 +224,24 @@ include "header.php";
 
 <div class="signin-form">
 	<div class="container">
-		<form class="form-signin" method="post" id="register-form" action="register.php">
+		<form class="form-signin" method="post" id="register-form" action="register.php?f=<?php echo $f ?>"> <!-- advertised_by: Wenn von jemanden geworben -->
 			<h3 class="form-signin-heading">Hier registrieren:</h3><hr />
+			
+			<?php
+			if($f != 0){
+				$sql="SELECT * FROM users WHERE user_ID = $f";
+				$result=mysqli_query($con, $sql);
+				if(mysqli_num_rows($result) > 0){			
+					$row = mysqli_fetch_assoc($result);
+					$username = $row['username'];
+					echo "
+						<div class=\"alert alert-info\">
+							Du wurdest von <strong>$username</strong> geworben!
+						</div>
+					";
+				}
+			}
+			?>
 
 			<?php
 
