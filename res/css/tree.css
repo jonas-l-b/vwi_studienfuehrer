@@ -177,3 +177,17 @@
 	float:left;
 	margin: 10px;
 }
+
+.goToBox{
+	/*border: solid 2px grey;*/
+	border-radius:3px;
+	padding:15px;
+	background-color:#e6f3ff;
+}
+.contenido_boxtree{
+	width:100%;
+	max-width:300px;
+	min-width:180px;
+	float:left;
+	margin: 10px;
+}

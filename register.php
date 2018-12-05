@@ -30,7 +30,7 @@ if(isset($_GET['f'])){ //advertised_by: Wenn von jemanden geworben
 
 if(isset($_POST['email'])) {
 	
-	$code = strip_tags($_POST['code']); //<!--vorrübergehend-->	
+	//$code = strip_tags($_POST['code']); //<!--vorrübergehend-->	
 	
 	$firstName = strip_tags($_POST['first_name']);
 	$lastName = strip_tags($_POST['last_name']);
@@ -62,12 +62,14 @@ if(isset($_POST['email'])) {
 
 	$hashed_password = password_hash($upass, PASSWORD_DEFAULT); // this function works only in PHP 5.5 or latest version
 
+	/*
 	//<!--vorrübergehend START-->	
 	$check_code1 = $con->query("SELECT code FROM codes WHERE code='$code'"); 
 	$check_code2 = $con->query("SELECT code FROM codes WHERE code='$code' AND used=0"); 
 	$count_code1=$check_code1->num_rows; //1=existiert
 	$count_code2=$check_code2->num_rows; //1=unverbraucht
-	//<!--vorrübergehend ENDE-->	
+	//<!--vorrübergehend ENDE-->
+	*/
 	
 	$check_email = $con->query("SELECT email FROM users WHERE email='$email'");
 	$count=$check_email->num_rows;
@@ -75,6 +77,7 @@ if(isset($_POST['email'])) {
 	$check_username = $con->query("SELECT username FROM users WHERE username='$username'");
 	$count2=$check_username->num_rows;
 	
+	/*
 	//<!--vorrübergehend START-->	
 	if($count_code1==1 && $count_code2==0){
 		$msg = "<div class='alert alert-danger'>
@@ -103,15 +106,18 @@ if(isset($_POST['email'])) {
 		$memorey_info = $info;
 	}elseif ($count==0 && $count2==0 && $count_code1==1 && $count_code2==1 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
 	//<!--vorrübergehend ENDE-->
+	*/
 	
-//	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
+	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
 		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash,advertised_by) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash','$f')";
 		if ($con->query($query)) {
+			/*
 			//<!--vorrübergehend START-->	
 			if($code!="vwiESTIEM"){
 				mysqli_query($con,"UPDATE codes SET used = 1 WHERE code='$code';");
 			}
-			//<!--vorrübergehend ENDE-->	
+			//<!--vorrübergehend ENDE-->
+			*/
 			
 			$subject = 'Aktivierung deines Studienführer-Accounts'; // Give the email a subject
 			$message="
@@ -257,7 +263,7 @@ include "header.php";
 			}
 		?>
 
-<!--vorrübergehend START-->						
+<!--vorrübergehend START--><!--				
 			<div class="form-group has-feedback">
 				<input  type="text" class="form-control" placeholder="Einladungscode" name="code" id="bad_code" data-error="" required  />
 				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
