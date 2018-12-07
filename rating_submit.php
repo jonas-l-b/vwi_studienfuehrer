@@ -91,7 +91,7 @@ $badges = array(75,76,77,78,79);
 for ($i = 0; $i <= count($types)-1; $i++) {
 	
 	$sql="
-		SELECT COUNT(ratings.user_ID) AS count FROM ratings
+		SELECT COUNT(DISTINCT ratings.subject_ID) AS count FROM ratings
 		JOIN subjects_modules ON ratings.subject_ID = subjects_modules.subject_ID
 		JOIN modules ON subjects_modules.module_ID = modules.module_ID
         JOIN modules_levels ON modules.module_ID = modules_levels.module_ID
