@@ -50,6 +50,7 @@ function setCookie(svalue,tvalue,uvalue,exdays) {
 		type: "post",
 		data: {series: svalue, token: tvalue, user_id: uvalue},
 		success: function (data){
+			//alert(data);
 		},
 		error: function() {
 			alert("error");
@@ -90,13 +91,12 @@ if (isset($_SESSION['userSession'])!="") {
 
 		$result = mysqli_query($con, "SELECT * FROM remember_me WHERE series = '$cSeries' AND token = '$cToken' AND user_id = '$cUser'");
 		if(mysqli_num_rows($result) == 1){
-			
 			//Wiederkehrer-Badge
 			$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$cUser." AND badge_id = 74");
 			if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
 				$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$cUser.",74)";
 				if ($con->query($sql2) == TRUE) {
-					echo "<script>alert(\"Du hast die neue Errungenschaft \"Wiederkehrer\" freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
+					echo "<script>alert(\"Du hast die neue Errungenschaft Wiederkehrer freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.\");</script>";
 				}
 			}
 			
