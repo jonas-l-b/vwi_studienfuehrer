@@ -240,40 +240,26 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 					<h4 class="modal-title"><!--Wie komme ich an den Gutschein?-->Gutscheine nach dem Launch geplant!</h4>
 				</div>
 				<div class="modal-body">
+					<!--
 					<p>Für besonders aktive Nutzer ist nach dem Launch des Studienführers die Ausgabe von Gutscheinen geplant. Da musst du dich noch ein bisschen gedulden :)</p>
 					<p>Danke dennoch für deinen Einsatz!</p>
 					<p>In der Zwischenzeit hast du hier einen Apfel: <span class="glyphicon glyphicon-apple"></span></p>
-					<!--
-					<p>Erstmal herzlichen Glückwunsch zum Gewinn deines Gutscheins (oder zumindest dein Interesse daran) und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
+					-->
+					<p>Wenn du über dieser Linie stehst: Herzlichen Glückwunsch zum Gewinn deines Gutscheins und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
 					<p>Um das zu honorieren, möchten wir dir einen Gutschein schenken. Du kannst ihn während unserer Sitzung (der Sitzung der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Bitte nimm einen Ausweis (z.B. Studi-Ausweis) mit, damit wir sichergehen können, dass du es auch wirklich bist. Wir kennen dich ja nicht - und sonst könnte ja jeder kommen :)</p>
 
 					<p>Wir konnten folgende Partner für unsere Gutschein-Aktion gewinnen:</p>
 					<ul style="list-style-position:inside">
-						<li>Waldemars Suppenküche: 15 Gutscheine</li>
-						<li>Habibi: 30 Gutscheine</li>
-						<li>Vogelbräu: 30 Gutscheine</li>
-						<li>Papier Fischer: 50 Gutscheine</li>
-						<li>...</li>
+						<li>Phono Kraftbierbar</li>
+						<li>Waldemars Suppenstüble</li>
+						<li>Habibi</li>
+						<li>Vogelbräu</li>
+						<li>Oxford Pub</li>
+						<li>AppClub</li>
 					</ul>
 					
-					<?php
-					$result=mysqli_query($con, "SELECT count(id) AS count FROM `vouchers`");
-					$row = mysqli_fetch_assoc($result);
+					<p>Gutscheine gibt es nur so lange der Vorrat reicht!</p>
 					
-					$result2=mysqli_query($con, "SELECT count(id) AS count FROM `vouchers` WHERE voucher=1");
-					$row2 = mysqli_fetch_assoc($result2);
-					?>
-					
-					<p>Bei den Gutscheinen gilt <b>first come, first served bzw. wenn weg, dann weg</b>.</p>
-					<ul style="list-style-position:inside">
-						<li>Anfangs insgesamt verfügbare Gutscheine: x Stück</li>
-						<li>Von folgenden Partner noch verfügbare Gutscheine: Waldemars Suppenküche, Habibi, Vogelbräu, Papier Fischer</li>
-						<li>Anzahl an Gutscheinen, die bereits gewonnen wurden: <?php echo $row['count'] ?></li>
-						<li>Anzahl an Gutscheinen, die bereits abgeholt wurden: <?php echo $row2['count'] ?></li>
-					</ul>
-
-					<p>Wir freuen uns darauf, dich kennenzulernen!</p>
-					-->
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -291,16 +277,8 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 					<h4 class="modal-title"><!--Wie komme ich an den Gutschein?-->Gutscheine nach dem Launch geplant!</h4>
 				</div>
 				<div class="modal-body">
-					<p>Für ganz besonders aktive Nutzer ist nach dem Launch des Studienführers die Ausgabe eines weiteren Gutscheins geplant. Da musst du dich noch ein bisschen gedulden :)</p>
-					<p>Danke dennoch für deinen Einsatz!</p>
-					<p>In der Zwischenzeit hast du hier einen Apfel: <span class="glyphicon glyphicon-apple"></span></p>
-					
-					<!--
-					<p>Erstmal herzlichen Glückwunsch zum Gewinn deines zweiten Gutscheins (oder zumindest dein Interesse daran) und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
-					<p>Mit dem Überschreiten dieser Linie hast du dir einen zweiten Gutschein mehr als verdient! Die Koditionen sind wie beim ersten :)</p>
-
-					<p>Wir freuen uns darauf, dich erneut zu treffen!</p>
-					-->
+					<p>Wenn du über dieser Linie stehst: Wow super, du bist ja super aktiv! Mit dem Überschreiten dieser Linie hast du dir einen zweiten Gutschein mehr als verdient!</p>
+					<p>Die Koditionen sind wie beim ersten Gutschein und es gilt immer noch: Nur so lange der Vorrat reicht :)</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
