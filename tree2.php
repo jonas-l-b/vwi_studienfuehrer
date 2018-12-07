@@ -189,8 +189,6 @@ $("#changeButton").click(function () {
 <!-- FEED ENDE -->
 
 <div id="treebody" class="container">
-	<h3 style="margin-botttom:0" align="center">Herzlich Willkommen beim Studienführer!</h3>
-	<br>
 	
 	<div id="result"></div>
 	<?php
@@ -211,61 +209,31 @@ $("#changeButton").click(function () {
 			echo "
 				<div>
 					<div style=\"border: lightgrey solid 1px; border-radius:3px; background-color:#F7D358; padding:10px; padding-bottom:20px;\">
-						<h4 align=\"center\"><b>Schön, dass du es hierher geschafft hast!</b></h4>
+						<h3 align=\"center\">Herzlich Willkommen beim Studienführer</h3>
 						<p align=\"center\">Du hast eine neue Errungenschaft freigeschaltet. Sieh sie dir gleich an unter: <a href=\"userProfile.php#achievements\">Meine Errungenschaften</a>!</p>
 					</div>
-					<br>
+					<hr>
 				</div>
 			";
 		}
 	}
 	?>
 	
-	<div class="goToBox" id="goToBox">
-		<h4 style="margin-botttom:0" align="center"><b>Hier findest du deine Veranstaltung</b></h4>
-
+	<!--Quicklinks-->
+	<div>
+		<h4 style="margin-botttom:0" align="center"><b>Quicklinks</b></h4>
+		
 		<div class="contenedor_tree">
-			<div id="searchfield2" style="width:100%; max-width:620px; min-width:180px; margin:10px">
-				<form action="tree.php" method="get" class="navbar-form" style="padding:0;margin:0">
-				  <div style="display:table;" class="input-group">
-					<input type="text" class="form-control suchen-autocomplete" name="suchfeld" placeholder="Suchen">
-					<!--<span style="width: 1%;" class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>-->
-					<div class="input-group-btn" style="width:1%">
-					  <button class="btn btn-default">
-						<i class="glyphicon glyphicon-search"></i>
-					  </button>
-					</div>
-				  </div>
-				</form>
-			</div>
-		</div>
-
-		<div class="contenedor_tree">		
-			<button onclick="location.href='search.php?manner=list'" class="btn btn-primary contenido_boxtree" style="">Veranstaltungsverzeichnis</button>
-			<button onclick="location.href='search.php?manner=search'" class="btn btn-primary contenido_boxtree" style="">Veranstaltungssuche</button>
+			<button onclick="location.href='search.php?manner=list'" class="btn btn-primary contenido_tree">Veranstaltungsverzeichnis</button>
+			<button onclick="location.href='search.php?manner=search'" class="btn btn-primary contenido_tree">Veranstaltungssuche</button>
+			<button onclick="location.href='achievements.php'" class="btn btn-primary contenido_tree">Errungenschaften-Ranking</button>
+			<button onclick="location.href='ranking.php'" class="btn btn-primary contenido_tree">Bewertungs-Ranking</button>
 		</div>
 	
 	</div>
 	
-	<script>
-	$(document).ready(function(){ //Größe Suchfeld
-		if($('#goToBox').height() > 150){
-			$("#searchfield2").css("maxWidth", 300);
-		}
-		
-		$(window).resize(function(){
-			if($('#goToBox').height() > 150){
-				$("#searchfield2").css("maxWidth", 300);
-			}else{
-				$("#searchfield2").css("maxWidth", 620);
-			}
-		});
-	});
-	</script>
-
-	<br>
+	<hr>
 	
-	<!--Neuigkeiten-->
 	<?php
 	$note = array();
 	$color = array();
@@ -311,139 +279,52 @@ $("#changeButton").click(function () {
 
 	?>
 	
-	<div style="background-color:#F8F8F8; padding: 10px">
-	
-		<h4 style="margin-botttom:0" align="center"><b>Das sind aktuelle Neuigkeiten</b></h4>
-		<br>
-		
-		<div class="row">
-			<div class="col-md-4">
-				<div class="notes" style="background-color:<?php echo $colorLeft?>;margin-bottom:5px;">
-					<div class="innernote" id="noteLeft">
-						<?php echo $note['noteLeft'];?>
-					</div>
+	<div class="row">
+		<div class="col-md-4">
+			<div class="notes" style="background-color:<?php echo $colorLeft?>;margin-bottom:5px;">
+				<div class="innernote" id="noteLeft">
+					<?php echo $note['noteLeft'];?>
 				</div>
 			</div>
-			
-			<div class="col-md-4 notesTop">
-				<div class="notes" style="background-color:<?php echo $colorMiddle?>;margin-bottom:5px;">
-					<div class="innernote" id="noteMiddle">
-						<?php echo $note['noteMiddle'];?>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-4">
-				<div class="notes" style="background-color:<?php echo $colorRight?>">
-					<div class="innernote" id="noteRight">
-						<?php echo $note['noteRight'];?>
-					</div>
-				</div>
-			</div>	
 		</div>
-	
+		
+		<div class="col-md-4 notesTop">
+			<div class="notes" style="background-color:<?php echo $colorMiddle?>;margin-bottom:5px;">
+				<div class="innernote" id="noteMiddle">
+					<?php echo $note['noteMiddle'];?>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-4">
+			<div class="notes" style="background-color:<?php echo $colorRight?>">
+				<div class="innernote" id="noteRight">
+					<?php echo $note['noteRight'];?>
+				</div>
+			</div>
+		</div>	
 	</div>
 	
-	<br>
-	
-	<!--Feed-->
-	<div style="background-color:#F8F8F8; padding: 10px">
-	
-		<h4 style="margin-botttom:0" align="center"><b>Dein Feed zeigt für dich relevante Informationen</b></h4>
-		<br>
-			
-		<!--Neue Bewertungen zu Veranstaltungen, die als Fav markiert wurden?-->
-		<?php
-		$id=$userRow['user_ID'];
-		$sql="
-			SELECT DISTINCT * FROM(		
-				SELECT DISTINCT ratings.time_stamp AS r_time_stamp, ratings.subject_ID AS subject_ID, ratings.comment, subjects.subject_name FROM ratings
-				JOIN subjects ON ratings.subject_ID = subjects.ID
-				WHERE ratings.subject_ID IN (SELECT DISTINCT favourites.subject_ID FROM favourites WHERE user_ID = $id)
-				ORDER BY ratings.subject_ID, ratings.time_stamp DESC
-			) AS subquery
-			GROUP BY subject_ID
-			LIMIT 5
-		";
-		$result=mysqli_query($con, $sql);
-		if(mysqli_num_rows($result)!=0){
-			echo "Hier sind die <strong>neusten Kommentare</strong> zu Veranstaltungen, die du als Favorit markiert hast.";
-		}else{
-			echo "<i>Hier erscheinen die neusten Kommentare zu Veranstaltungen, die du als Favorit markiert hast.</i><br>";
-		}
-		while($row = mysqli_fetch_assoc($result)){
-			?>
-				<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
-					<p>
-						<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
-						<span style="color:grey;">| <?php echo time_elapsed_string($row['r_time_stamp'])?></span>
-					</p>
-					<div>
-						<?php echo $row['comment']?>
-					</div>
+	<div id="thisModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Bereits erbrachte Leistungen freischalten</h4>
 				</div>
-			<?php
-		}
-		?>
-		<br>
-		
-		<!-- Unbeantwortete Fragen -->
-		<?php
-		$sql="
-			SELECT DISTINCT *, questions.time_stamp AS q_time_stamp FROM questions
-			JOIN subjects ON questions.subject_ID = subjects.ID
-			WHERE questions.ID NOT IN (SELECT DISTINCT answers.question_ID FROM answers) AND questions.subject_ID IN (SELECT DISTINCT ratings.subject_ID FROM ratings WHERE user_ID = $id) AND questions.user_ID != $id
-			LIMIT 5
-		";
-		
-		$result_q=mysqli_query($con, $sql);
-		if(mysqli_num_rows($result_q)!=0){
-			echo "Es gibt <strong>unbeantwortete Fragen</strong> zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
-		}
-		while($row = mysqli_fetch_assoc($result_q)){
-			?>
-				<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
-					<p>
-						<a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a>
-						<span style="color:grey;">| <?php echo time_elapsed_string($row['q_time_stamp'])?></span>
-					</p>
-					<div>
-						<?php echo $row['question']?>
-					</div>
+				<div class="modal-body">
+					<p>Um beispielsweise die Errungenschaft für 10 Bewertungen freizuschalten, musst du 10 Veranstaltungen bewerten. Hast du das bereits vor der Einführung der Errungenschaften getan, musst du eine weitere Veranstaltung bewerten, damit das Script deine Bewertungen zählt.</p>
+					<p>So verhält es sich auch mit weiteren Errungenschaften wie bspw. beantworteten Fragen oder bewerteten Kommentaren.</p>
+					<p>Sorry dafür - jetzt aber viel Spaß!</p>
+					<p>PS: Auch wenn bei der Entwicklung viel getestet wurde, konnten sich womöglich Fehler eingeschlichen haben. Bitte direkt über Kontakt in der Navigationsleiste oder per Mail an studienfuehrer@vwi-karlsruhe.de melden. Danke!</p>
 				</div>
-			<?php
-		}
-		if(mysqli_num_rows($result_q)!=0){
-			echo "<br>";
-		}
-		?>
-		
-		<!--Veranstaltungen ohne Links-->
-		<?php
-		$sql="
-			SELECT subjects.ID AS subject_ID, subjects.subject_name AS subject_name FROM `subjects`
-			LEFT JOIN ratings ON subjects.ID = ratings.subject_ID
-			WHERE (subjects.facebook = '' AND subjects.studydrive = '') AND ratings.user_ID = $id
-			ORDER BY ratings.time_stamp
-			LIMIT 5
-		";
-		$result=mysqli_query($con, $sql);
-		if(mysqli_num_rows($result)!=0){
-			echo "Hier sind die von dir zuletzt bewerteten Veranstaltungen, zu denen <b>noch keine hilfreichen Links eingetragen</b> wurden. Hast du welche parat?";
-		}
-		while($row = mysqli_fetch_assoc($result)){
-			?>
-				<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
-					<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
 				</div>
-			<?php
-		}
-		?>
+			</div>
+		</div>
 	</div>
 	
-	<br>
-	
-	<!--Veranstaltung des Tages-->
 	<?php
 	$result=mysqli_query($con, "SELECT value FROM help WHERE name='subjectOfTheDay'");
 	$row=mysqli_fetch_assoc($result);
@@ -477,18 +358,6 @@ $("#changeButton").click(function () {
 	
 	?>
 	
-	<!--Quicklinks-->
-	<div>
-		<h4 style="margin-botttom:0" align="center"><b>Interessante Links</b></h4>
-		
-		<div class="contenedor_tree">
-			<button onclick="location.href='achievements.php'" class="btn contenido_tree">Errungenschaften-Ranking</button>
-			<button onclick="location.href='ranking.php'" class="btn contenido_tree">Bewertungs-Ranking</button>
-			<button onclick="location.href='about.php#community_guidelines'" class="btn contenido_tree">Gemeinschaftsrichtlinien</button>
-		</div>
-	
-	</div>
-	
 	<hr>
 	
 	<div style="padding-top:15px; text-align:center">
@@ -498,8 +367,97 @@ $("#changeButton").click(function () {
 		</h3>
 	</div>
 	
-	<br><br>
+	<hr>
 	
+	<!--Neue Bewertungen zu Veranstaltungen, die als Fav markiert wurden?-->
+	<?php
+	$id=$userRow['user_ID'];
+	$sql="
+		SELECT DISTINCT * FROM(		
+			SELECT DISTINCT ratings.time_stamp AS r_time_stamp, ratings.subject_ID AS subject_ID, ratings.comment, subjects.subject_name FROM ratings
+			JOIN subjects ON ratings.subject_ID = subjects.ID
+			WHERE ratings.subject_ID IN (SELECT DISTINCT favourites.subject_ID FROM favourites WHERE user_ID = $id)
+			ORDER BY ratings.subject_ID, ratings.time_stamp DESC
+		) AS subquery
+		GROUP BY subject_ID
+		LIMIT 5
+	";
+	$result=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result)!=0){
+		echo "Hier sind die <strong>neusten Kommentare</strong> zu Veranstaltungen, die du als Favorit markiert hast.";
+	}else{
+		echo "<i>Hier erscheinen die neusten Kommentare zu Veranstaltungen, die du als Favorit markiert hast.</i><br>";
+	}
+	while($row = mysqli_fetch_assoc($result)){
+		?>
+			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
+				<p>
+					<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
+					<span style="color:grey;">| <?php echo time_elapsed_string($row['r_time_stamp'])?></span>
+				</p>
+				<div>
+					<?php echo $row['comment']?>
+				</div>
+			</div>
+		<?php
+	}
+	?>
+	<br>
+	
+	<!-- Unbeantwortete Fragen -->
+	<?php
+	$sql="
+		SELECT DISTINCT *, questions.time_stamp AS q_time_stamp FROM questions
+		JOIN subjects ON questions.subject_ID = subjects.ID
+		WHERE questions.ID NOT IN (SELECT DISTINCT answers.question_ID FROM answers) AND questions.subject_ID IN (SELECT DISTINCT ratings.subject_ID FROM ratings WHERE user_ID = $id) AND questions.user_ID != $id
+		LIMIT 5
+	";
+	
+	$result_q=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result_q)!=0){
+		echo "Es gibt <strong>unbeantwortete Fragen</strong> zu Veranstaltungen, die du bewertet hast. Kannst du helfen?";
+	}
+	while($row = mysqli_fetch_assoc($result_q)){
+		?>
+			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
+				<p>
+					<a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a>
+					<span style="color:grey;">| <?php echo time_elapsed_string($row['q_time_stamp'])?></span>
+				</p>
+				<div>
+					<?php echo $row['question']?>
+				</div>
+			</div>
+		<?php
+	}
+	if(mysqli_num_rows($result_q)!=0){
+		echo "<br>";
+	}
+	?>
+	
+	<!--Veranstaltungen ohne Links-->
+	<?php
+	$sql="
+		SELECT subjects.ID AS subject_ID, subjects.subject_name AS subject_name FROM `subjects`
+		LEFT JOIN ratings ON subjects.ID = ratings.subject_ID
+		WHERE (subjects.facebook = '' AND subjects.studydrive = '') AND ratings.user_ID = $id
+		ORDER BY ratings.time_stamp
+		LIMIT 5
+	";
+	$result=mysqli_query($con, $sql);
+	if(mysqli_num_rows($result)!=0){
+		echo "Hier sind die von dir zuletzt bewerteten Veranstaltungen, zu denen <b>noch keine hilfreichen Links eingetragen</b> wurden. Hast du welche parat?";
+	}
+	while($row = mysqli_fetch_assoc($result)){
+		?>
+			<div style="border-left:solid 5px grey; border-radius:3px; padding:5px; margin:5px; margin-top:8px; margin-bottom:8px;">
+				<a href="index.php?subject=<?php echo $row['subject_ID']?>"><?php echo $row['subject_name']?></a>
+			</div>
+		<?php
+	}
+	?>
+	
+	<br><br>
 	
 <?php
 //Badges: Freunde geworben

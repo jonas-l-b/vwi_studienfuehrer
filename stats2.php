@@ -13,8 +13,12 @@ include "connect.php";
 
 <div class="container">
 	<h2>Studienführer-Statistiken</h2>
+	<h4>Was fehlt noch vor dem Launch?</h4>
 	
 	<br>
+<!--<p><i>- Wenn alle Balken voll sind, wird unten etwas Wunderbares stehen... -</i></p>
+	<br>
+-->	
 
 <!--STAT 1-->
 	<?php
@@ -28,7 +32,14 @@ include "connect.php";
 	if($ratingsPercent == 100) $color1 = "rgb(37, 160, 3)";
 	?>
 	
-	<h4>Anzahl abgegebener Bewertungen insgesamt: <?php echo $ratingsCount?></h4>
+	<h4>Anzahl abgegebene Bewertungen: <?php echo $ratingsCount?> von <?php echo $ratingsGoal?></h4>
+	<div class="progress" style="height:40px;">
+		<div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $ratingsCount?>"	aria-valuemin="0" aria-valuemax="<?php echo $ratingsGoal?>" style="width:<?php echo $ratingsPercent?>%; background-color:<?php echo $color1?>">
+			<div style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+				<span style="font-size:15px;"><?php echo $ratingsPercent?>%</span>
+			</div>
+		</div>
+	</div>
 
 	<br>
 
@@ -104,8 +115,8 @@ include "connect.php";
 	if($goalReached == 100) $color3 = "rgb(37, 160, 3)";
 	?>
 	
-	<h4>Anteil Nicht-Kernprogramm-Veranstaltungen, die mindestens eine Bewertung besitzen: <?php echo $ratingsDistinctPercent?> %
-	<a href="#" data-trigger="focus" data-toggle="popoverPercent2" data-content="Der Studienführer umfasst <?php echo $subjectsCount?> Nicht-Kernprogramm-Veranstaltungen von denen bisher <?php echo $ratingsDistinctPercent?> %, also <?php echo $ratingsDistinctCount?> Veranstaltungen,  mindestens 1x bewertet wurden.">
+	<h4>Anteil Nicht-Kernprogramm-Veranstaltungen, die mindestens eine Bewertung besitzen: <?php echo $ratingsDistinctPercent?> % von <?php echo $ratingsDistinctGoal;?> % 
+	<a href="#" data-trigger="focus" data-toggle="popoverPercent2" data-content="Der Studienführer umfasst <?php echo $subjectsCount?> Nicht-Kernprogramm-Veranstaltungen. Davon sollen <?php echo $ratingsDistinctGoal?> %, also <?php echo round($subjectsCount*($ratingsDistinctGoal/100),0)?> Veranstaltungen, mindestens 1x bewertet worden sein. Bisher wurden <?php echo $ratingsDistinctPercent?> %, also <?php echo $ratingsDistinctCount?> Veranstaltungen,  mindestens 1x bewertet.">
 		<span class="glyphicon glyphicon-question-sign"></span>
 	</a>
 	<script>$('[data-toggle="popoverPercent2"]').popover();</script>
@@ -159,11 +170,11 @@ include "connect.php";
 				if($goalReached == 100) $color3 = "rgb(37, 160, 3)";
 				?>
 				
-				<h4><?php echo $area ?>: <?php echo $ratingsDistinctPercent?> %
-				<a href="#" data-trigger="focus" data-toggle="popoverPercent3" data-content="Der Studienführer umfasst <?php echo $subjectsCount?> <?php echo $area?>-Veranstaltungen außerhalb des Kernprogramms von denen bisher <?php echo $ratingsDistinctPercent?> %, also <?php echo $ratingsDistinctCount?> Veranstaltungen,  mindestens 1x bewertet wurden.">
+				<h4><?php echo $area ?>: <?php echo $ratingsDistinctPercent?> % von <?php echo $ratingsDistinctGoal;?> % 
+				<a href="#" data-trigger="focus" data-toggle="popoverPercent2" data-content="Der Studienführer umfasst <?php echo $subjectsCount?> <?php echo $area?>-Veranstaltungen außerhalb des Kernprogramms. Davon sollen <?php echo $ratingsDistinctGoal?> %, also <?php echo round($subjectsCount*($ratingsDistinctGoal/100),0)?> Veranstaltungen, mindestens 1x bewertet worden sein. Bisher wurden <?php echo $ratingsDistinctPercent?> %, also <?php echo $ratingsDistinctCount?> Veranstaltungen,  mindestens 1x bewertet.">
 					<span class="glyphicon glyphicon-question-sign"></span>
 				</a>
-				<script>$('[data-toggle="popoverPercent3"]').popover();</script>
+				<script>$('[data-toggle="popoverPercent2"]').popover();</script>
 				</h4>
 				
 				<div class="progress" style="height:40px;">
