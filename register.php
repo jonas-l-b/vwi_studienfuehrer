@@ -109,7 +109,7 @@ if(isset($_POST['email'])) {
 	*/
 	
 	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
-		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash,advertised_by) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash','$f')";
+		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash,advertised_by,time_stamp_reg) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash','$f',now())";
 		if ($con->query($query)) {
 			/*
 			//<!--vorrübergehend START-->	

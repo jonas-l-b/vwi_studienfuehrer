@@ -246,7 +246,10 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 					<p>In der Zwischenzeit hast du hier einen Apfel: <span class="glyphicon glyphicon-apple"></span></p>
 					-->
 					<p>Wenn du über dieser Linie stehst: Herzlichen Glückwunsch zum Gewinn deines Gutscheins und vielen Dank, dass du den Studienführer so aktiv nutzt! Du trägst so bedeutend dazu bei, anderen Wiwis die Fächerwahl zu erleichtern.</p>
-					<p>Um das zu honorieren, möchten wir dir einen Gutschein schenken. Du kannst ihn während unserer Sitzung (der Sitzung der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Bitte nimm einen Ausweis (z.B. Studi-Ausweis) mit, damit wir sichergehen können, dass du es auch wirklich bist. Wir kennen dich ja nicht - und sonst könnte ja jeder kommen :)</p>
+					<p>Um das zu honorieren, möchten wir dir einen Gutschein schenken. Du kannst ihn prinzipiell während unserer Sitzung (der Sitzung der VWI-ESTIEM Hochschulgruppe) abholen - sie findet jeden Dienstag um 19:30 Uhr in Gebäude 05.20, Raum 1C-01 statt. Bitte nimm einen Ausweis (z.B. Studi-Ausweis) mit, damit wir sichergehen können, dass du es auch wirklich bist. Wir kennen dich ja nicht - und sonst könnte ja jeder kommen :)</p>
+					<p>Um sicherzugehen, dass wir deinen Gutschein auch dabei haben, melde dein Kommen vorher an: <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</p>
+
+					<p><b>Aktuelle Meldung: Dieses Semester gibt es keine Sitzung mehr. Wer trotzdem an seinen Gutschein will, kann sich gerne melden: <a href="mailto:studienfuehrer@vwi-karlsruhe.de">studienfuehrer@vwi-karlsruhe.de</a>.</b></p>
 
 					<p>Wir konnten folgende Partner für unsere Gutschein-Aktion gewinnen:</p>
 					<ul style="list-style-position:inside">
