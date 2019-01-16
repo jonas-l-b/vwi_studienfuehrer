@@ -37,6 +37,86 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 ?>
 
 <div class="container">
+
+	<!--Errungenschaft des Tages-->
+	<?php
+	$result=mysqli_query($con, "SELECT value FROM help WHERE name='achievementOfTheDay'");
+	$row=mysqli_fetch_assoc($result);
+	$today = date("Ymd");
+	if($row['value'] != $today){ //Update if necessary
+		$sql="
+			SELECT * FROM badges
+			ORDER BY RAND()
+			LIMIT 1
+		";
+		$result2=mysqli_query($con, $sql);
+		$row2=mysqli_fetch_assoc($result2);
+		$newBadgeId = $row2['id'];
+		
+		mysqli_query($con, "UPDATE help SET value=$today WHERE  name='achievementOfTheDay'");
+		
+		mysqli_query($con, "UPDATE help SET value2='$newBadgeId' WHERE name='achievementOfTheDay'");
+	}
+	
+	$result=mysqli_query($con, "SELECT value2 FROM help WHERE name='achievementOfTheDay'");
+	$row=mysqli_fetch_assoc($result);
+	
+	$b_id = $row['value2'];
+	$sql="
+		SELECT * FROM badges
+		WHERE id = $b_id
+	";
+	$result=mysqli_query($con, $sql);
+	$row=mysqli_fetch_assoc($result);
+	?>
+
+	<?php
+	if($userRow['super_admin']==1){
+	?>
+
+	<h4><a href="#" data-toggle="modal" data-target="#sneakAnAchievementModal">Sneak a Errungenschaft</a></h4>
+
+	<!-- Gutschein Modal 2500-->
+	<div id="sneakAnAchievementModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Sneak a Errungenschaft!</h4>
+				</div>
+				<div class="modal-body">
+					<p>Jeden Tag wird hier angezeigt, wie du eine zufällig ausgewählte Errungenschaft erringen kannst. Reinschauen lohnt sich!</p>
+					
+					<div style="border: solid lightgrey 3px; width: 330px; padding: 5px; background-color:#f2f2f2; display: inline-block; margin:5px;">
+						<table style="width:100%">
+							<tr>
+								<td style="width:1%; padding:5px;"><img src="pictures/badges/<?php echo $row['image']?>" class="media-object" style="width:80px; background:rgb(20,90,157); border: 4px solid white; padding:5px;"></td>
+								<td>
+									<table style="width:100%">
+										<tr>
+											<td style="text-align:left; font-size:20px;"><b><?php echo $row['name']?></b></td> 
+										</tr>
+										<tr>
+											<td style="text-align:left;"><?php echo $row['description']?> | <?php echo $row['points']?> Punkte</td> 
+										</tr>
+									</table>
+								</td> 
+							</tr>
+						</table>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<?php
+	}
+	?>
+
 	<h3 style="margin-bottom:0">Errungenschaften-Rangliste</h3>
 	<p>
 	<?php

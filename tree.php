@@ -466,15 +466,13 @@ $("#changeButton").click(function () {
 	$result=mysqli_query($con, "SELECT value2 FROM help WHERE name='subjectOfTheDay'");
 	$row=mysqli_fetch_assoc($result);
 	
-	$sid = $row['value2'];
+	$s_id = $row['value2'];
 	$sql="
 		SELECT subjects.ID AS subject_ID, subject_name FROM subjects
-		WHERE subjects.ID = $sid
+		WHERE subjects.ID = $s_id
 	";
 	$result=mysqli_query($con, $sql);
 	$row=mysqli_fetch_assoc($result);
-	
-	
 	?>
 	
 	<!--Quicklinks-->
