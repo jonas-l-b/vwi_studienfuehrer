@@ -76,7 +76,6 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 
 	<h4><a href="#" data-toggle="modal" data-target="#sneakAnAchievementModal">Sneak a Errungenschaft</a></h4>
 
-	<!-- Gutschein Modal 2500-->
 	<div id="sneakAnAchievementModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
