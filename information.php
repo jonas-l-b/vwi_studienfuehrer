@@ -10,76 +10,10 @@ include "connect.php";
 
 <div class="container">
 
-<h2>Infos rund ums Wiwi-Studium!</h2>
+	<h2>Infos rund ums Wiwi-Studium!</h2>
     <p>Hier steht dir Wissen zur Verfügung, das über Erfahrungen zu Veranstaltungen hinausgeht. Über den entsprechenden Button kannst du die Sammlung um dein Wissen erweitern!</p>
     
     <button id="newKnowledgeButton" class="btn btn-warning">Wissen hinzufügen</button>
-
-    <!--Hinzufügen-->
-	<div id="KnowledgeModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog">
-		<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 class="modal-title">Füge dein Wissen hinzu!</h4>
-		</div>
-		<div class="modal-body" id="knowledge-modal-body">
-			<form id="knowledgeForm">
-			<div class="form-group">
-				<label for="category">Kategorie auswählen:</label>
-				<select class="form-control" id="category" name="category">
-					<?php
-					$sql = "SELECT * FROM info_categories";
-					$result = mysqli_query($con, $sql);
-					while($row = mysqli_fetch_assoc($result)){
-						?>
-						<option value="<?php echo $row['name']?>"><?php echo $row['name']?></option>
-						<?php
-					}
-					?>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="title">Titel:</label>
-				<input type="text" class="form-control" id="title" name="title" minlength="15">
-			</div>
-			<div class="form-group">
-				<label for="content">Inhalt:</label>
-				<textarea class="form-control" rows="5" id="content" name="content" minlength="30"></textarea>
-			</div>
-			
-			<button type="button" id="submitKnowledgeButton" class="btn btn-primary">Abschicken</button>
-		</form>
-		</div><!-- End of Modal body -->
-		</div><!-- End of Modal content -->
-		</div><!-- End of Modal dialog -->
-	</div><!-- End of Modal -->
-
-    <script>
-	$( document ).ready(function() {
-
-		$('#newKnowledgeButton').click(function(){
-			$('#KnowledgeModal').modal('show');
-		});
-
-		$("#submitKnowledgeButton").click(function(){
-			$.ajax({
-				type: "POST",
-				url: "info_submit.php",
-				data: $("#knowledgeForm").serialize(),
-				success: function(data) {
-					//alert(data);
-					if(data.includes("erfolg")){
-						$('#knowledge-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Wissen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
-					}else{
-						$('#knowledge-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung deines Wissens ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
-					}
-				}
-			});
-		});
-
-	});
-    </script>
 
     <br><br>
 
@@ -157,6 +91,74 @@ include "connect.php";
         ?>
 </div>
 
+<!--Wissen hinzufügen START-->
+<div id="KnowledgeModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+	<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="modal-title">Füge dein Wissen hinzu!</h4>
+	</div>
+	<div class="modal-body" id="knowledge-modal-body">
+		<form id="knowledgeForm">
+		<div class="form-group">
+			<label for="category">Kategorie auswählen:</label>
+			<select class="form-control" id="category" name="category">
+				<?php
+				$sql = "SELECT * FROM info_categories";
+				$result = mysqli_query($con, $sql);
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<option value="<?php echo $row['name']?>"><?php echo $row['name']?></option>
+					<?php
+				}
+				?>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="title">Titel:</label>
+			<input type="text" class="form-control" id="title" name="title" minlength="15">
+		</div>
+		<div class="form-group">
+			<label for="content">Inhalt:</label>
+			<textarea class="form-control" rows="5" id="content" name="content" minlength="30"></textarea>
+		</div>
+		
+		<button type="button" id="submitKnowledgeButton" class="btn btn-primary">Abschicken</button>
+	</form>
+	</div><!-- End of Modal body -->
+	</div><!-- End of Modal content -->
+	</div><!-- End of Modal dialog -->
+</div><!-- End of Modal -->
+
+<script>
+$( document ).ready(function() {
+
+	$('#newKnowledgeButton').click(function(){
+		$('#KnowledgeModal').modal('show');
+	});
+
+	$("#submitKnowledgeButton").click(function(){
+		$.ajax({
+			type: "POST",
+			url: "info_submit.php",
+			data: $("#knowledgeForm").serialize(),
+			success: function(data) {
+				//alert(data);
+				if(data.includes("erfolg")){
+					$('#knowledge-modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Wissen wurde erfolgreich an uns übermittelt!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+				}else{
+					$('#knowledge-modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Bei der Übermittlung deines Wissens ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+				}
+			}
+		});
+	});
+
+});
+</script>
+<!--Wissen hinzufügen ENDE-->
+
+<!--Wissen ändern START-->
 <div id="changeKnowledgeModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -167,24 +169,6 @@ include "connect.php";
 			<div class="modal-body" id="changeKnowledgeModalBodyAll">
 				<div id="changeKnowledgeModalBody"></div>
 				<button type="button" id="submitChangedKnowledgeButton" class="btn btn-primary">Abschicken</button> <!--Muss bereits bei pageload hier sein und kann nicht gesendet werden, da sonst click event nicht funktioniert-->
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="deleteKnowledgeModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-			<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Wissen löschen</h4>
-			</div>
-			<div class="modal-body" id="deleteKnowledgeModalBody">
-				<div style="display:none" id="deleteId"></div>
-				<p>Bist du dir sicher, dass du dein Wissen löschen möchtest? Dieser Schritt kann nicht widerrufen werden.</p>
-				<br>
-				<button type="button" id="submitDeleteKnowledgeButton" class="btn btn-danger">Unwiderruflich löschen</button>
-				<button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
 			</div>
 		</div>
 	</div>
@@ -223,6 +207,32 @@ $( document ).ready(function() {
 		});
 	});
 
+});
+</script>
+<!--Wissen ändern ENDE-->
+
+<!--Wissen löschen START-->
+<div id="deleteKnowledgeModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" onclick="javascript:window.location.reload()" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Wissen löschen</h4>
+			</div>
+			<div class="modal-body" id="deleteKnowledgeModalBody">
+				<div style="display:none" id="deleteId"></div>
+				<p>Bist du dir sicher, dass du dein Wissen löschen möchtest? Dieser Schritt kann nicht widerrufen werden.</p>
+				<br>
+				<button type="button" id="submitDeleteKnowledgeButton" class="btn btn-danger">Unwiderruflich löschen</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Doch nicht löschen :)</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$( document ).ready(function() {
+
 	$('.deleteKnowledgeButton').click(function(){
 		var k_id = $(this).attr('data-id');
 		$('#deleteKnowledgeModal').modal('show');
@@ -238,7 +248,7 @@ $( document ).ready(function() {
 			success: function(data) {
 				//alert(data);
 				if(data.includes("erfolg")){
-					$('#deleteKnowledgeModalBody').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Wissen wurde erfolgreich gelöscht!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+					$('#deleteKnowledgeModalBody').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Dein Wissen wurde erfolgreich gelöscht!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
 				}else{
 					$('#deleteKnowledgeModalBody').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Löschen deines Wissens ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
 				}
@@ -248,5 +258,6 @@ $( document ).ready(function() {
 
 });
 </script>
+<!--Wissen löschen ENDE-->
 
 </body>

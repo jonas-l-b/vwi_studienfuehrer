@@ -526,8 +526,7 @@ include "sumVotes.php";
 		</div>
 	</div>
 	<!--ENDE Bewertungsübersicht-->
-			
-			
+				
 	<!--START Fragen-->
 	<div class="well">
 
@@ -608,8 +607,9 @@ include "sumVotes.php";
 						</div>
 						<div style="margin-top:3px; margin-bottom:3px">
 							<button data-toggle="modal" data-target="#editQuestionModal<?php echo $row['ID']?>" type="button" style="<?php echo $displayEdit ?>" role="button" class="editTrashButton <?php echo $editClassIdentifier ?>"  title="Frage bearbeiten"> <span class="glyphicon glyphicon-pencil"></span></button>
+							
+							<button data-id="<?php echo $row['ID']?>" type="button" style="<?php echo $displayEdit ?>" href="#deleteQuestionModal" role="button" class="editTrashButton deleteQuestionButton" data-toggle="modal" title="Frage löschen"> <span class="glyphicon glyphicon-trash"></span></button>
 							<!--
-							<button type="button" style="<?php echo $displayEdit ?>" href="#deleteModal" role="button" class="editTrashButton" data-toggle="modal" title="Frage löschen"> <span class="glyphicon glyphicon-trash"></span></button>
 							<button style="<?php echo $displayReport ?>" type="button" role="button" data-toggle="modal" data-id="<?php echo $row['ID'] ?>" class="editTrashButton reportButton" title="Frage melden"> <span class="glyphicon glyphicon-exclamation-sign"></span></button>
 							<button style="display:<?php echo $displayAdminDelete ?>" onclick="deleteRatingByAdmin(this.id)" id="deleteratingbyadmin<?php echo $row['ID']?>" type="button" href="#" role="button" class="editTrashButton"> <span style="color:red" class="glyphicon glyphicon-trash" title="Frage als Admin löschen" ></span></button>
 							-->
@@ -661,12 +661,6 @@ include "sumVotes.php";
 					});
 					</script>
 					
-					<!--
-					<button type="button" id="bewertungAendernButton" style="<?php echo $displayEdit ?>" role="button" class="editTrashButton <?php echo $editClassIdentifier ?>"  title="Frage bearbeiten"> <span class="glyphicon glyphicon-pencil"></span></button>
-							
-					<a href="#" data-toggle="modal" data-target="#bedingungenModal1">Datenschutzerklärung</a>
-					-->
-
 					<?php
 					$num = mysqli_num_rows(mysqli_query($con, "SELECT * FROM answers WHERE question_ID = ".$row['ID']));
 					?>
@@ -717,6 +711,54 @@ include "sumVotes.php";
 				<?php
 			}
 			?>
+
+			<!-- Modal für Fragenlöschung-->
+			<div id="deleteQuestionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+				<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Frage löschen</strong></h4>
+				</div>
+				<div class="modal-body" id="deleteQuestionModalBody">
+					<div style="display:none" id="deleteId"></div>
+					<p>Bist du dir sicher, dass du deine Frage löschen möchtest? Dieser Schritt kann nicht widerrufen werden.</p>
+					<br>
+					<button type="button" id="submitDeleteQuestionButton" class="btn btn-danger">Unwiderruflich löschen</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Doch nicht löschen :)</button>
+				</div><!-- End of Modal body -->
+				</div><!-- End of Modal content -->
+				</div><!-- End of Modal dialog -->
+			</div><!-- End of Modal -->
+
+			<script>
+			$( document ).ready(function() {
+
+				$('.deleteQuestionButton').click(function(){
+					var k_id = $(this).attr('data-id');
+					$('#deleteId').html(k_id);
+				});
+
+				$('#submitDeleteQuestionButton').click(function(){
+					var q_id = $('#deleteId').html();
+					$.ajax({
+						type: "POST",
+						url: "delete_question.php",
+						data: "&q_id=" + q_id,
+						success: function(data) {
+							//alert(data);
+							if(data.includes("erfolg")){
+								$('#deleteQuestionModalBody').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Deine Frage wurde erfolgreich gelöscht!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen</button>");
+							}else{
+								$('#deleteQuestionModalBody').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Löschen deiner Frage ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt); falls es immernoch nicht funktioniert, schreib uns: studienführer@vwi-karlsruhe.de.</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen</button>");
+							}
+						}
+					});
+				});
+
+			});
+			</script>
+
 		</div>
 
 		<br>
