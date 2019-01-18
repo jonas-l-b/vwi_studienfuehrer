@@ -77,7 +77,7 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 	<h4><a href="#" data-toggle="modal" data-target="#sneakAnAchievementModal">Sneak a Errungenschaft</a></h4>
 
 	<div id="sneakAnAchievementModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+		<div class="modal-dialog" >
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -86,14 +86,14 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 				<div class="modal-body">
 					<p>Jeden Tag wird hier angezeigt, wie du eine zufällig ausgewählte Errungenschaft erringen kannst. Reinschauen lohnt sich!</p>
 					
-					<div style="border: solid lightgrey 3px; width: 330px; padding: 5px; background-color:#f2f2f2; display: inline-block; margin:5px;">
+					<div style="border: solid lightgrey 3px;  padding: 5px; background-color:#f2f2f2; display: inline-block; margin:5px;">
 						<table style="width:100%">
 							<tr>
 								<td style="width:1%; padding:5px;"><img src="pictures/badges/<?php echo $row['image']?>" class="media-object" style="width:80px; background:rgb(20,90,157); border: 4px solid white; padding:5px;"></td>
 								<td>
 									<table style="width:100%">
 										<tr>
-											<td style="text-align:left; font-size:20px;"><b><?php echo $row['name']?></b></td> 
+											<td class="enter" style="text-align:left; font-size:17px;"><b><?php echo $row['name']?></b></td> 
 										</tr>
 										<tr>
 											<td style="text-align:left;"><?php echo $row['description']?> | <?php echo $row['points']?> Punkte</td> 
