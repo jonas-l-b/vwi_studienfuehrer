@@ -86,7 +86,7 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 				<div class="modal-body">
 					<p>Jeden Tag wird hier angezeigt, wie du eine zufällig ausgewählte Errungenschaft erringen kannst. Reinschauen lohnt sich!</p>
 					
-					<div style="border: solid lightgrey 3px;  padding: 5px; background-color:#f2f2f2; display: inline-block; margin:5px;">
+					<div style="border: solid lightgrey 3px; max-width: 330px; padding: 5px; background-color:#f2f2f2; display: inline-block; margin:5px;">
 						<table style="width:100%">
 							<tr>
 								<td style="width:1%; padding:5px;"><img src="pictures/badges/<?php echo $row['image']?>" class="media-object" style="width:80px; background:rgb(20,90,157); border: 4px solid white; padding:5px;"></td>
