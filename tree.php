@@ -481,6 +481,7 @@ $("#changeButton").click(function () {
 		
 		<div class="contenedor_tree">
 			<button onclick="location.href='achievements.php'" class="btn contenido_tree">Errungenschaften-Ranking</button>
+			<button onclick="location.href='userProfile.php#achievements'" class="btn contenido_tree">Freunde werben</button>
 			<button onclick="location.href='ranking.php'" class="btn contenido_tree">Bewertungs-Ranking</button>
 			<button onclick="location.href='stats.php'" class="btn contenido_tree">Bewertungs-Statistiken</button>
 			<button onclick="location.href='about.php#community_guidelines'" class="btn contenido_tree">Gemeinschaftsrichtlinien</button>

@@ -70,10 +70,6 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 	$row=mysqli_fetch_assoc($result);
 	?>
 
-	<?php
-	if($userRow['super_admin']==1){
-	?>
-
 	<h4><a href="#" data-toggle="modal" data-target="#sneakAnAchievementModal">Sneak a Errungenschaft</a></h4>
 
 	<div id="sneakAnAchievementModal" class="modal fade" role="dialog">
@@ -111,10 +107,6 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 			</div>
 		</div>
 	</div>
-
-	<?php
-	}
-	?>
 
 	<h3 style="margin-bottom:0">Errungenschaften-Rangliste</h3>
 	<p>
