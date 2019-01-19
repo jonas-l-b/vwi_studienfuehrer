@@ -1,44 +1,13 @@
-<?php
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" crossorigin="anonymous">
 
-include "sessionsStart.php";
+<select multiple data-role="tagsinput">
+  <option value="Amsterdam">Amsterdam</option>
+  <option value="Washington">Washington</option>
+  <option value="Sydney">Sydney</option>
+  <option value="Beijing">Beijing</option>
+  <option value="Cairo">Cairo</option>
+</select>
 
-include "header.php";
-
-include "connect.php";
-
-?>
-
-<input type="text" />
-<script>
-var cities = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: 'assets/cities.json'
-});
-cities.initialize();
-
-var elt = $('input');
-elt.tagsinput({
-  tagClass: function(item) {
-    switch (item.continent) {
-      case 'Europe'   : return 'label label-primary';
-      case 'America'  : return 'label label-danger label-important';
-      case 'Australia': return 'label label-success';
-      case 'Africa'   : return 'label label-default';
-      case 'Asia'     : return 'label label-warning';
-    }
-  },
-  itemValue: 'value',
-  itemText: 'text',
-  typeaheadjs: {
-    name: 'cities',
-    displayKey: 'text',
-    source: cities.ttAdapter()
-  }
-});
-elt.tagsinput('add', { "value": 1 , "text": "Amsterdam"   , "continent": "Europe"    });
-elt.tagsinput('add', { "value": 4 , "text": "Washington"  , "continent": "America"   });
-elt.tagsinput('add', { "value": 7 , "text": "Sydney"      , "continent": "Australia" });
-elt.tagsinput('add', { "value": 10, "text": "Beijing"     , "continent": "Asia"      });
-elt.tagsinput('add', { "value": 13, "text": "Cairo"       , "continent": "Africa"    });
-</script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" crossorigin="anonymous"></script>
