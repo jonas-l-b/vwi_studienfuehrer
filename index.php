@@ -666,7 +666,7 @@ include "sumVotes.php";
 					?>
 				
 					<div class="general-flex-container">
-						<div><a class="answerThisQuestion">Frage beantworten</a></div>
+						
 						<div>
 							<span class="showAnswers">
 								<?php
@@ -675,15 +675,18 @@ include "sumVotes.php";
 										echo "Keine Antworten zum Anzeigen vorhanden";
 										break;
 									default:
-										echo "<a>Antworten anzeigen</a>";
+										echo "<a>Antworten verbergen</a>";
 										break;
 								}
 								?>
 							</span>
 						</div>
+
+						<div><a class="answerThisQuestion">Frage beantworten</a></div>
+
 					</div>
 
-					<div class="answerSection" style="display:none"> <!--Antworten-->
+					<div class="answerSection" style=""> <!--Antworten-->
 						<hr class="style">
 
 						<?php
@@ -819,7 +822,7 @@ include "sumVotes.php";
 	//Antworten anzeigen
 	$('.showAnswers').click(function() {
 		if(!($(this).text().trim() == "Keine Antworten zum Anzeigen vorhanden")){
-			if(($(this).text().trim() == "Schließen")){
+			if(($(this).text().trim() == "Antworten verbergen")){
 				$(this).parent().parent().next(".answerSection").hide(); //Bin nicht ganz sicher, wie stabil das ist
 				$(this).html("<a>Antworten anzeigen</a>");
 				if($('#questionBody').hasScrollBarIH()){
@@ -829,7 +832,7 @@ include "sumVotes.php";
 				}
 			}else{
 				$(this).parent().parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
-				$(this).html("<a>Schließen</a>");
+				$(this).html("<a>Antworten verbergen</a>");
 				if($('#questionBody').hasScrollBarIH()){
 					$('#showAllQuestions').show();
 				}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
