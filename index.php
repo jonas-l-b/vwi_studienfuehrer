@@ -666,7 +666,9 @@ include "sumVotes.php";
 					?>
 				
 					<div class="general-flex-container">
-						
+
+						<div><a class="answerThisQuestion">Frage beantworten</a></div>	
+
 						<div>
 							<span class="showAnswers">
 								<?php
@@ -681,8 +683,6 @@ include "sumVotes.php";
 								?>
 							</span>
 						</div>
-
-						<div><a class="answerThisQuestion">Frage beantworten</a></div>
 
 					</div>
 
@@ -832,7 +832,7 @@ include "sumVotes.php";
 				}
 			}else{
 				$(this).parent().parent().next(".answerSection").show(); //Bin nicht ganz sicher, wie stabil das ist
-				$(this).html("<a>Antworten verbergen</a>");
+				$(this).html("<a>Antworten verbergen	</a>");
 				if($('#questionBody').hasScrollBarIH()){
 					$('#showAllQuestions').show();
 				}else if($('#showAllQuestions').text()!="Fragen wieder einklappen"){
