@@ -687,7 +687,6 @@ include "sumVotes.php";
 					</div>
 
 					<div class="answerSection" style=""> <!--Antworten-->
-						<hr class="style">
 
 						<?php
 						$sql2 = "
@@ -698,6 +697,10 @@ include "sumVotes.php";
 							ORDER BY time_stamp DESC;
 						";
 						$result2 = mysqli_query($con, $sql2);
+
+						if(mysqli_num_rows($result2) > 0){
+							echo "<hr class=\"style\">";
+						}
 
 						while($row2 = mysqli_fetch_assoc($result2)){
 							?>
