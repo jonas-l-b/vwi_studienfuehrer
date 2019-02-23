@@ -139,4 +139,15 @@ if($check[0] AND $check[1] AND $check[2] AND $check[3] AND $check[4]){
 	}
 }
 
+//Nachtschärmer
+if(date('G') >= 22 OR date('G') <= 5){
+	$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$nameID' AND badge_id = 96");
+	if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+		$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ('$nameID',96)";
+		if ($con->query($sql2) == TRUE) {
+			echo "achievement";
+		}
+	}
+}
+
 ?>

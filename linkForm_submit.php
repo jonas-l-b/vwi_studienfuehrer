@@ -25,7 +25,15 @@ if($row['facebook'] != $facebook){ //Wenn Datenbankeintrag sich von Formulardate
 	";
 	if ($con->query($sql) == TRUE) {
 		echo 'erfolg';
-		mysqli_query($con, "INSERT INTO `users_links`(`user_id`, `subject_id`, `type`) VALUES ($user_id,$subject_id,'facebook')");
+		
+		$sql2="
+			SELECT * FROM users_links
+			WHERE user_id = $user_id AND subject_id = $subject_id AND type = 'facebook'
+		";
+		$result2 = mysqli_query($con, $sql2);
+		if(mysqli_num_rows($result2) == 0 ){
+			mysqli_query($con, "INSERT INTO `users_links`(`user_id`, `subject_id`, `type`) VALUES ($user_id,$subject_id,'facebook')");
+		}
 	}
 }
 
@@ -36,7 +44,16 @@ if($row['studydrive'] != $studydrive){ //Wenn Datenbankeintrag sich von Formular
 	";
 	if ($con->query($sql) == TRUE) {
 		echo 'erfolg';
-		mysqli_query($con, "INSERT INTO `users_links`(`user_id`, `subject_id`, `type`) VALUES ($user_id,$subject_id,'studydrive')");
+		
+		$sql2="
+			SELECT * FROM users_links
+			WHERE user_id = $user_id AND subject_id = $subject_id AND type = 'studydrive'
+		";
+		$result2 = mysqli_query($con, $sql2);
+		if(mysqli_num_rows($result2) == 0 ){
+			mysqli_query($con, "INSERT INTO `users_links`(`user_id`, `subject_id`, `type`) VALUES ($user_id,$subject_id,'studydrive')");
+		}
+		
 	}
 }
 
@@ -49,11 +66,11 @@ $sql="
 $result=mysqli_query($con, $sql);
 $row = mysqli_fetch_assoc($result);
 
-$counts = array(1,40);
+$counts = array(1,15);
 $badges = array(91,92);
 
 for ($i = 0; $i <= count($counts)-1; $i++) {
-	if($row['count'] >= $counts[$i]){ //Wenn genÃ¼gend ratings vorhanden
+	if($row['count'] >= $counts[$i]){ //Wenn genügend ratings vorhanden
 		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$user_id." AND badge_id = '$badges[$i]'");
 		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
 			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$user_id.",'$badges[$i]')";
