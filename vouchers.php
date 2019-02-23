@@ -56,17 +56,19 @@ th, td {
 				<th>Username</th>
 				<th>Vorname</th> 
 				<th>Nachname</th>
+				<th>Mail schicken</th>
 				<th>E-Mail verschickt?</th>
 				<th>Gutschein 2500 Punkte erhalten?</th> 
 			</tr>
 			<?php
-			$result=mysqli_query($con, "SELECT vouchers2500.user_id, username, first_name, last_name, vouchers2500.email, voucher2500 FROM vouchers2500 JOIN users ON vouchers2500.user_id = users.user_ID");
+			$result=mysqli_query($con, "SELECT users.email AS userMail, vouchers2500.user_id, username, first_name, last_name, vouchers2500.email, voucher2500 FROM vouchers2500 JOIN users ON vouchers2500.user_id = users.user_ID");
 			while($row = mysqli_fetch_assoc($result)){
 				?>
 				<tr>
 					<td><?php echo $row['username']?></td>
 					<td><?php echo $row['first_name']?></td> 
 					<td><?php echo $row['last_name']?></td>
+					<td><a href="mailto:<?php echo $row['userMail']?>?subject=[Studienführer]%20Du%20hast%20dir%20einen%20Gutschein%20verdient!">E-Mail senden</a></td>
 					<td><input type="checkbox" name="email<?php echo $row['user_id']?>" value="1" <?php if($row['email'] == 1) echo "checked"?>></td> 
 					<td><input type="checkbox" name="voucher2500<?php echo $row['user_id']?>" value="1" <?php if($row['voucher2500'] == 1) echo "checked"?>></td>
 				</tr>
@@ -111,17 +113,19 @@ th, td {
 				<th>Username</th>
 				<th>Vorname</th> 
 				<th>Nachname</th>
+				<th>Mail schicken</th>
 				<th>E-Mail verschickt?</th>
 				<th>Gutschein 1500 Punkte erhalten?</th> 
 			</tr>
 			<?php
-			$result=mysqli_query($con, "SELECT vouchers1500.user_id, username, first_name, last_name, vouchers1500.email, voucher1500 FROM vouchers1500 JOIN users ON vouchers1500.user_id = users.user_ID");
+			$result=mysqli_query($con, "SELECT users.email AS userMail, vouchers1500.user_id, username, first_name, last_name, vouchers1500.email, voucher1500 FROM vouchers1500 JOIN users ON vouchers1500.user_id = users.user_ID");
 			while($row = mysqli_fetch_assoc($result)){
 				?>
 				<tr>
 					<td><?php echo $row['username']?></td>
 					<td><?php echo $row['first_name']?></td> 
 					<td><?php echo $row['last_name']?></td>
+					<td><a href="mailto:<?php echo $row['userMail']?>?subject=[Studienführer]%20Du%20hast%20dir%20einen%20Gutschein%20verdient!">E-Mail senden</a></td>
 					<td><input type="checkbox" name="email<?php echo $row['user_id']?>" value="1" <?php if($row['email'] == 1) echo "checked"?>></td> 
 					<td><input type="checkbox" name="voucher1500<?php echo $row['user_id']?>" value="1" <?php if($row['voucher1500'] == 1) echo "checked"?>></td>
 				</tr>

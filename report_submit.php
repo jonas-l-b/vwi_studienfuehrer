@@ -26,7 +26,7 @@ if(mysqli_query($con,$sql)){
 	echo "erfolg";
 	
 	//Nachtwächter-Badge
-	if(date('G') >= 23 OR date('G') <= 11){
+	if(date('G') >= 23 OR date('G') <= 5){
 		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$user_id." AND badge_id = 73");
 		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
 			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$user_id.",73)";
