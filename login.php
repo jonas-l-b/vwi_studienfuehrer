@@ -102,8 +102,8 @@ if (isset($_SESSION['userSession'])!="") {
 			
 			/*Dieser Teil existiert 2x in einer ähnlichen Form in dieser Datei*/
 			//Special day badges
-			$days = array("12-24","02-14","10-03");
-			$badges = array(82,83,84);
+			$days = array("12-24","02-14","10-03","01-04");
+			$badges = array(82,83,84,98);
 			
 			for ($i = 0; $i <= count($badges)-1; $i++) {
 				if(date('m-d') == $days[$i]){
