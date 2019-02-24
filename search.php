@@ -561,7 +561,8 @@ include "connect.php";
 				$.ajax({
 					url: "tree_createTable.php",
 					type: "get",
-					data: $("#filtersort").serialize(),
+					//data: {$("#filtersort").serialize() + "&user_id=" + <?php echo $userRow['user_ID']?>},
+					data: $("#filtersort").serialize() + "&user_id=" + "<?php echo $userRow['user_ID']?>",
 					success: function (data) {
 						var help = $('#resultTable').html();
 						$('#resultTable').show();

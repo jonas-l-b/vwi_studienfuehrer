@@ -2,10 +2,12 @@
 
 include "connect.php";
 
+
 ?>
 
 
 <?php
+$user_id = $_GET['user_id'];
 
 //This creates the table containing the requested subjects after search
 //Creation in 4 steps:
@@ -401,6 +403,20 @@ function sksort(&$array, $subkey="id", $sort_ascending=false) {
 
 	else $array = $temp_array;
 }
+
+//Planer badge
+mysqli_query($con, "INSERT INTO `users_search`(`user_id`, `time_stamp`) VALUES ($user_id, now())");
+$result = mysqli_query($con, "SELECT * FROM users_search");
+if(mysqli_num_rows($result) >= 15){
+	$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '$user_id' AND badge_id = 97");
+	if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+		$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES ('$user_id',97)";
+		if ($con->query($sql2) == TRUE) {
+			echo "Du hast eine neue Errungenschaft freigeschaltet! Schau gleich nach unter Profil > Errungenschaften.";
+		}
+	}	
+}
+
 
 echo $table;
 ?>
