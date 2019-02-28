@@ -573,7 +573,7 @@ include "connect.php";
 							}, 1500);
 						}
 			$('#tabelleLaden').hide();
-						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+encodeURI($("#filtersort").serialize()));
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "search.php?filterandsearch=filterandsearch&val="+encodeURI($("#filtersort").serialize()));
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
@@ -614,7 +614,7 @@ include "connect.php";
 								scrollTop: $("#btn-filterSort").offset().top -100
 							}, 500);
 						}
-						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "tree.php?filterandsearch=filterandsearch&val="+$("#filtersort").serialize());
+						history.replaceState("Studienführer Such- und Filterseite", "Such- und Filterergebnis", "search.php?filterandsearch=filterandsearch&val="+$("#filtersort").serialize());
 					},
 					error: function() {
 						$('#tabelleLaden').hide();
