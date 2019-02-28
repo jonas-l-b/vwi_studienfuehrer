@@ -36,7 +36,19 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 }	
 ?>
 
-<div class="container">
+<div id="load">
+	<br><br><div class="loader"><div></div></div><br><br>
+	<p style="text-align:center">Die Errungenschaften werden geladen.</p>
+</div>
+
+<script>
+window.onload = function () {
+	$("#main").show();
+	$("#load").hide();
+}
+</script>
+
+<div id="main" style="display:none" class="container">
 
 	<!--Errungenschaft des Tages-->
 	<?php
