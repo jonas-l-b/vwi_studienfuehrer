@@ -210,7 +210,7 @@ $("#changeButton").click(function () {
 		if ($con->query($sql2) == TRUE) {
 			echo "
 				<div>
-					<div style=\"border: lightgrey solid 1px; border-radius:3px; background-color:#F7D358; padding:10px; padding-bottom:20px;\">
+					<div style=\"border: none; border-radius:3px; background-color:#F7D358; padding:10px; padding-bottom:20px;\">
 						<h4 align=\"center\"><b>Schön, dass du es hierher geschafft hast!</b></h4>
 						<p align=\"center\">Du hast eine neue Errungenschaft freigeschaltet. Sieh sie dir gleich an unter: <a href=\"userProfile.php#achievements\">Meine Errungenschaften</a>!</p>
 					</div>
