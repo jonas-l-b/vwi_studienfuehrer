@@ -234,7 +234,7 @@ window.onload = function () {
 									}else{
 										$color = "lightgrey";
 										$blurry = "class=\"blurry\"";
-										$name = "This name, you know!";
+										$name = "A name not yet detected!";
 										$description = "Don't use source code to spy on badges!";
 										$blurryimage = "blurryimage";
 										
@@ -260,7 +260,7 @@ window.onload = function () {
 														</tr>
 														<!--
 														<tr>
-															<td <?php echo $blurry?> style="text-align:left;"><?php echo $description?> | <?php echo $row_ach['points']?> Punkte</td> 
+															<td <?php echo $blurry?> style="text-align:left;"><?php //echo $description?> | <?php //echo $row_ach['points']?> Punkte</td> 
 														</tr>
 														-->
 													</table>
