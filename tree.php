@@ -84,7 +84,7 @@ include "dataPrivacy.php";
 					<br>
 					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
-				<p class="more">
+				<p class="more" style="word-break: break-all;">
 					<?php echo $row['comment']?>
 				</p>
 				<hr>
@@ -124,7 +124,7 @@ include "dataPrivacy.php";
 					<br>
 					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
-				<p class="more">
+				<p class="more" style="word-break: break-all;">
 					<?php echo $row['question']?>
 				</p>
 				<hr>
