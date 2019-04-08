@@ -33,7 +33,31 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 			}
 		}
 	}
-}	
+}
+
+//Badges: Upvotes gesammelt
+$sql="
+	SELECT count(commentratings.ID) AS count FROM `commentratings`
+	JOIN ratings ON commentratings.comment_ID = ratings.ID
+	WHERE comment_ID = ANY (SELECT ID FROM `ratings` WHERE user_ID = ".$userRow['user_ID'].") AND rating_direction = 1
+";
+$result=mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+$counts = array(15,30,50);
+$badges = array(99,100,101);
+
+for ($i = 0; $i <= count($counts)-1; $i++) {
+	if($row['count'] >= $counts[$i]){ //Wenn genügend Upvotes vorhanden
+		$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = '".$userRow['user_ID']."' AND badge_id = '$badges[$i]'");
+		if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
+			$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$userRow['user_ID'].",'$badges[$i]')";
+			if ($con->query($sql2) == TRUE) {
+				echo "<script>alert(\"Du hast eine neue Errungenschaft für das Sammeln von Upvotes freigeschaltet!\");</script>";
+			}
+		}
+	}
+}
 ?>
 
 <div id="load">
