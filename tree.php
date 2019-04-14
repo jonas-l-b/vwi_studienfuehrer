@@ -66,7 +66,7 @@ include "dataPrivacy.php";
 		<div class="feedbody">
 			<?php
 			$sql = "
-				SELECT subjects.ID AS ID, subject_name, username, ratings.time_stamp AS time_stamp, comment
+				SELECT subjects.ID AS ID, subject_name, username, users.user_ID, ratings.time_stamp AS time_stamp, comment
 				FROM ratings
 				JOIN subjects ON ratings.subject_ID = subjects.ID
 				JOIN users ON ratings.user_ID = users.user_ID
@@ -82,7 +82,7 @@ include "dataPrivacy.php";
 				<p>
 					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
 					<br>
-					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+					<span style="color:grey; font-size:10px;"><a href="sendMessage.php?recipient_id=<?php echo $row['user_ID']?>"><?php echo $row['username']?></a>  <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
 				<p class="more" style="word-break: break-all;">
 					<?php echo $row['comment']?>
@@ -106,7 +106,7 @@ include "dataPrivacy.php";
 		<div class="feedbody">
 			<?php
 			$sql = "
-				SELECT subjects.ID AS ID, subject_name, username, questions.time_stamp AS time_stamp, question
+				SELECT subjects.ID AS ID, subject_name, username, users.user_ID, questions.time_stamp AS time_stamp, question
 				FROM questions
 				JOIN subjects ON questions.subject_ID = subjects.ID
 				JOIN users ON questions.user_ID = users.user_ID
@@ -122,7 +122,7 @@ include "dataPrivacy.php";
 				<p>
 					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
 					<br>
-					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+					<span style="color:grey; font-size:10px;"><a href="sendMessage.php?recipient_id=<?php echo $row['user_ID']?>"><?php echo $row['username']?></a>  <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
 				<p class="more" style="word-break: break-all;">
 					<?php echo $row['question']?>

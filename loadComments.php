@@ -142,7 +142,7 @@ while($comments = mysqli_fetch_assoc($result)){
 					<div class=\"general-flex-container\" style=\"font-size:10px;\">
 						<div style=\"margin-top:3px; margin-bottom:3px\">
 							<span class=\"glyphicon glyphicon-user\" style=\"".$displayEdit."color:gold;\"></span>
-							".$rows['username']." &#124; ". time_elapsed_string($comments['time_stamp'])."
+							<a href='sendMessage.php?recipient_id=".$rows['user_ID']."'>".$rows['username']."</a> &#124; ". time_elapsed_string($comments['time_stamp'])."
 						</div>
 						<div style=\"margin-top:3px; margin-bottom:3px\">
 							<button type=\"button\" id=\"bewertungAendernButton\" style=\"".$displayEdit."\" role=\"button\" class=\"editTrashButton $editClassIdentifier\"  title=\"Kommentar bearbeiten\"> <span class=\"glyphicon glyphicon-pencil\"></span></button>
