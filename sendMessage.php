@@ -32,7 +32,7 @@ include "connect.php";
 	$row = mysqli_fetch_assoc($result);
 	
 	if ($row["user_messages"] != 1){
-		echo "Um diese Funktion nutzen zu können, musst du selbst zustimmen, dass Nutzer die Nachrichten schicken dürfen. Tu das in deinem <a href='userProfile.php#notifications'>Profil</a> und komme hierher zurück.";
+		echo "Um diese Funktion nutzen zu können, musst du selbst zustimmen, dass Nutzer dir Nachrichten schicken dürfen. Tu das in deinem <a href='userProfile.php#notifications'>Profil</a> und komme hierher zurück.";
 	}else{
 		if (isset($_GET['recipient_id'])){
 			$recipient_id = strval($_GET['recipient_id']);
