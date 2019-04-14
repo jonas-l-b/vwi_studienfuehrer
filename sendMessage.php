@@ -50,18 +50,33 @@ include "connect.php";
 				<p>Die Nutzer-ID, die in der URL übergeben wurde, passt zu keinem Nutzer in der Datenbank.</p>
 				<?php
 			}else{
-				?>
-				<h3>Nachricht an Nutzer <b><i><?php echo $row["username"] ?></i></b> schicken:</h3>
-				<div id="messageBody">
-					<form id="submit_message">
-						<div class="form-group">
-							<label for="message">Nachricht:</label>
-							<textarea class="form-control" rows="5" id="message" name="message"></textarea>
-						</div>
-						<button id="submitMessageButton" class="btn btn-primary">Jetzt verschicken</button>
-					</form>
-				</div>
-				<?php	
+				$sql2 = "SELECT * FROM user_notifications WHERE user_id = $recipient_id";
+				$result2 = mysqli_query($con, $sql2);
+				$row2 = mysqli_fetch_assoc($result2);
+				
+				if($row2['user_messages'] == 1){
+					?>
+					<h3>Nachricht an Nutzer <b><i><?php echo $row["username"] ?></i></b> schicken:</h3>
+					<?php
+					if($recipient_id == $userRow['user_ID']) echo "<p style='color:rgb(0, 204, 0)'><i>Du kannst dir natürlich auch selbst eine Nachricht schreiben, aber dann musst du dir natürlich auch selbst antworten :)</i></p>";
+					?>
+					<div id="messageBody">
+						<form id="submit_message">
+							<div class="form-group">
+								<label for="message">Nachricht:</label>
+								<textarea class="form-control" rows="5" id="message" name="message"></textarea>
+							</div>
+							<button id="submitMessageButton" class="btn btn-primary">Jetzt verschicken</button>
+						</form>
+					</div>
+					<?php
+				}else{
+					?>
+					<p>
+						Der Nutzer <b><i><?php echo $row["username"] ?></i></b> möchte leider keine Nachrichten empfangen.	
+					</p>
+					<?php
+				}
 			}
 
 		}else{
