@@ -66,7 +66,7 @@ include "dataPrivacy.php";
 		<div class="feedbody">
 			<?php
 			$sql = "
-				SELECT subjects.ID AS ID, subject_name, username, ratings.time_stamp AS time_stamp, comment
+				SELECT subjects.ID AS ID, subject_name, username, users.user_ID, ratings.time_stamp AS time_stamp, comment
 				FROM ratings
 				JOIN subjects ON ratings.subject_ID = subjects.ID
 				JOIN users ON ratings.user_ID = users.user_ID
@@ -82,9 +82,9 @@ include "dataPrivacy.php";
 				<p>
 					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
 					<br>
-					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+					<span style="color:grey; font-size:10px;"><a href="sendMessage.php?recipient_id=<?php echo $row['user_ID']?>"><?php echo $row['username']?></a>  <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
-				<p class="more" style="word-break: break-all;">
+				<p class="more" style="word-break: break-word;">
 					<?php echo $row['comment']?>
 				</p>
 				<hr>
@@ -106,7 +106,7 @@ include "dataPrivacy.php";
 		<div class="feedbody">
 			<?php
 			$sql = "
-				SELECT subjects.ID AS ID, subject_name, username, questions.time_stamp AS time_stamp, question
+				SELECT subjects.ID AS ID, subject_name, username, users.user_ID, questions.time_stamp AS time_stamp, question
 				FROM questions
 				JOIN subjects ON questions.subject_ID = subjects.ID
 				JOIN users ON questions.user_ID = users.user_ID
@@ -122,9 +122,9 @@ include "dataPrivacy.php";
 				<p>
 					<strong><a href="index.php?subject=<?php echo $row['ID']?>"><?php echo $row['subject_name']?></a></strong>
 					<br>
-					<span style="color:grey; font-size:10px;"><?php echo $row['username']?> <?php echo time_elapsed_string($row['time_stamp'])?></span>
+					<span style="color:grey; font-size:10px;"><a href="sendMessage.php?recipient_id=<?php echo $row['user_ID']?>"><?php echo $row['username']?></a>  <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
-				<p class="more" style="word-break: break-all;">
+				<p class="more" style="word-break: break-word;">
 					<?php echo $row['question']?>
 				</p>
 				<hr>
@@ -203,7 +203,7 @@ $("#changeButton").click(function () {
 	 ?>
 
 	<?php
-	//Badge beim ersten Besuch vergeben
+	//Beim ersten Besuch: Badge vergeben
 	$result2 = mysqli_query($con, "SELECT * FROM users_badges WHERE user_id = ".$userRow['user_ID']." AND badge_id = 59");
 	if(mysqli_num_rows($result2) == 0){ //Wenn badge noch nicht vorhanden
 		$sql2="INSERT INTO `users_badges`(`user_id`, `badge_id`) VALUES (".$userRow['user_ID'].",59)";
@@ -219,6 +219,17 @@ $("#changeButton").click(function () {
 			";
 		}
 	}
+	
+	//Beim ersten Besuch: Zeile in user_notifications für neue User erstellen
+	$result3 = mysqli_query($con, "SELECT * FROM user_notifications WHERE user_id = ".$userRow['user_ID']."");
+	if(mysqli_num_rows($result3) == 0){
+		$sql3 = "
+			INSERT INTO `user_notifications`(`user_id`, `own_questions`, `user_messages`)
+			VALUES (".$userRow['user_ID'].",1,1)
+		";
+		mysqli_query($con, $sql3);
+	}
+		
 	?>
 	
 	<div class="goToBox" id="goToBox">
