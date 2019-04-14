@@ -435,12 +435,12 @@ $("#changeButton").click(function () {
 			SELECT subjects.ID AS subject_ID, subjects.subject_name AS subject_name FROM `subjects`
 			LEFT JOIN ratings ON subjects.ID = ratings.subject_ID
 			WHERE (subjects.facebook = '' AND subjects.studydrive = '') AND ratings.user_ID = $id
-			ORDER BY ratings.time_stamp
+			ORDER BY RAND()
 			LIMIT 5
 		";
 		$result=mysqli_query($con, $sql);
 		if(mysqli_num_rows($result)!=0){
-			echo "Hier sind die von dir zuletzt bewerteten Veranstaltungen, zu denen <b>noch keine hilfreichen Links eingetragen</b> wurden. Hast du welche parat?";
+			echo "Hier sind die von dir bewertete Veranstaltungen, zu denen <b>noch keine hilfreichen Links eingetragen</b> wurden. Hast du welche parat?";
 		}
 		while($row = mysqli_fetch_assoc($result)){
 			?>
