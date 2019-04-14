@@ -603,7 +603,7 @@ include "sumVotes.php";
 					
 					<div class="general-flex-container" style="font-size:10px; margin-bottom:7px;">
 						<div style="margin-top:3px; margin-bottom:3px">
-							<?php echo $row['username']?> &#124; <?php echo time_elapsed_string($row['time_stamp']);?>
+							<a href="sendMessage.php?recipient_id=<?php echo $row['user_ID']?>"><?php echo $row['username']?></a> &#124; <?php echo time_elapsed_string($row['time_stamp']);?>
 						</div>
 						<div style="margin-top:3px; margin-bottom:3px">
 							<button data-toggle="modal" data-target="#editQuestionModal<?php echo $row['ID']?>" type="button" style="<?php echo $displayEdit ?>" role="button" class="editTrashButton <?php echo $editClassIdentifier ?>"  title="Frage bearbeiten"> <span class="glyphicon glyphicon-pencil"></span></button>
@@ -707,7 +707,7 @@ include "sumVotes.php";
 							<div class="well" style="background-color:white; border-radius:none; margin-bottom:5px; margin-left:3%">
 								<?php echo nl2br($row2['answer'])?>
 								<hr style="margin:10px">
-								<p style="font-size:10px; margin-bottom:0px"><?php echo $row2['username']?> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
+								<p style="font-size:10px; margin-bottom:0px"><a href="sendMessage.php?recipient_id=<?php echo $row2['user_ID']?>"><?php echo $row2['username']?></a> &#124; <?php echo time_elapsed_string($row2['time_stamp']);?></p>
 							</div>
 							<?php
 						}

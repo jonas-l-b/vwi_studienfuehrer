@@ -101,8 +101,8 @@
 											
 											$body
 											
-											<p>Viel Spaß mit dem Studienführer,<br>
-											Deine Studienführer-Team der VWI-ESTIEM Hochschulgruppe Karlsruhe<br>
+											<p>Viele Grüße!<br>
+											Dein Studienführer-Team der VWI-ESTIEM Hochschulgruppe Karlsruhe<br>
 											<a href=\"mailto:studienfuehrer@vwi-karlsruhe.de\"/>studienfuehrer@vwi-karlsruhe.de</a></p>
 										".'
 

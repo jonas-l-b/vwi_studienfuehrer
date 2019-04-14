@@ -482,6 +482,8 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 			<p>Hier kannst du einstellen, bei welchen Ereignissen du per Mail benachrichtigt werden willst. Vergiss nicht, Änderungen durch den Klick auf den Button zu speichern.</p>
 			<p>Leider landen unserer E-Mails oft im <strong>SPAM-Ordner</strong>. Bitte überprüfe ihn und füge <strong>noreply@studienführer.vwi-karlsruhe.de</strong> zu deinen Ausnahmen hinzu!</p>
 			
+			<hr>
+			
 			<?php //Script für Datenbankänderung		
 			if(isset($_POST['btn-change-questions'])) {
 				
@@ -491,10 +493,16 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 				}else{
 					$changedQuestionValue = 0;
 				}
+				
+				if(isset($_POST['user_messages']) && $_POST['user_messages'] == '1') {
+					$changedUserMessagesValue = 1;
+				}else{
+					$changedUserMessagesValue = 0;
+				}
 
 				$sql="
 					UPDATE user_notifications
-					SET own_questions = ".$changedQuestionValue."
+					SET own_questions = ".$changedQuestionValue.", user_messages = ".$changedUserMessagesValue."
 					WHERE user_id = ".$userRow['user_ID'].";
 				";
 				
@@ -510,7 +518,6 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 			}
 			?>
 			
-			<h3>Fragen</h3>
 			<?php if (isset($msg_questions)) echo $msg_questions;?>
 			<form method="post">
 				<?php
@@ -519,8 +526,8 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 					$result = mysqli_query($con, $sql);
 					if(mysqli_num_rows($result)==0){ //Zeile für Benutzer anlegen falls noch nicht vorhanden
 						$sql1="
-							INSERT INTO user_notifications (user_id, own_questions)
-							VALUE (".$userRow['user_ID'].", 1)
+							INSERT INTO user_notifications (user_id, own_questions, user_messages)
+							VALUE (".$userRow['user_ID'].", 1, 1)
 						";
 						mysqli_query($con, $sql1);
 					}elseif(mysqli_num_rows($result)>1){
@@ -534,10 +541,18 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 					$result = mysqli_query($con, $sql);
 					$row = mysqli_fetch_assoc($result);
 					if($row['own_questions']=="1"){
-						$check = "checked";
+						$check_own_questions = "checked";
+					}
+					if($row['user_messages']=="1"){
+						$check_user_messages = "checked";
 					}
 				?>
-				<input type="checkbox" name="own_questions" value="1" <?php if (isset($check)) echo $check?>> Ich möchte benachrichtigt werden, wenn jemand auf eine von mir gestellte Frage antwortet.<br>
+				<h3>Fragen</h3>
+				<input type="checkbox" name="own_questions" value="1" <?php if (isset($check_own_questions)) echo $check_own_questions?>> Ich möchte benachrichtigt werden, wenn jemand auf eine von mir gestellte Frage antwortet.<br>
+				<h3>Nachrichten</h3>
+				<p>Es kann vorkommen, dass ein Nutzer eine Nachfrage (bspw. auf eines deiner Kommentare) für dich hat. Falls du hier zustimmst, kann ein Nutzer dir eine Nachricht schreiben. Wir geben jedoch nicht deine E-Mail-Adresse heraus, sondern verschicken die Nachricht über unseren Server. Falls du eine Nachricht an einen anderen Nutzer schicken willst, kannst du dies nur tun, wenn du selbst Nachrichten empfängst.</p>
+				<input type="checkbox" name="user_messages" value="1" <?php if (isset($check_user_messages)) echo $check_user_messages?>> Nutzer dürfen mir Nachrichten schicken<br>
+				
 				<br>
 				<button class="btn btn-primary" name="btn-change-questions">Änderungen speichern</button>
 			</form>
