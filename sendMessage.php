@@ -15,8 +15,8 @@ include "connect.php";
 	<h3>Nachricht an Nutzer verschicken</h3>
 	<p>Falls du weitere Fragen an einen Nutzer des Studienführers hast, kannst du hier diesem Nutzer eine Nachricht schicken, sofern:</p>
 	<ul style="padding-left: 1em">
-		<li>dieser Nutzer dem Empfang von Nachrichten zugestimmt hat</li>
-		<li>du dem Empfang von Nachrichten zugestimmt hast (das kannst du in deinem <a href="userProfile.php#notifications">Profil</a> tun)</li>
+		<li>dieser Nutzer dem Empfang von Nachrichten nicht widersprochen hat</li>
+		<li>du dem Empfang von Nachrichten nicht widersprochen hast (das kannst du in deinem <a href="userProfile.php#notifications">Profil</a> tun)</li>
 	</ul>
 	<p>Der Empfänger deiner Nachricht bekommt diese von uns zusammen mit deiner E-Mail-Adresse zugeschickt, sodass er dir direkt antworten kann. Zur weiteren Kommunikation kannst du natürlich direkt auf seine E-Mail antworten; diese Seite dient also nur zur Kontaktaufnahme.</p>
 

@@ -84,7 +84,7 @@ include "dataPrivacy.php";
 					<br>
 					<span style="color:grey; font-size:10px;"><a href="sendMessage.php?recipient_id=<?php echo $row['user_ID']?>"><?php echo $row['username']?></a>  <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
-				<p class="more" style="word-break: break-all;">
+				<p class="more" style="word-break: break-word;">
 					<?php echo $row['comment']?>
 				</p>
 				<hr>
@@ -124,7 +124,7 @@ include "dataPrivacy.php";
 					<br>
 					<span style="color:grey; font-size:10px;"><a href="sendMessage.php?recipient_id=<?php echo $row['user_ID']?>"><?php echo $row['username']?></a>  <?php echo time_elapsed_string($row['time_stamp'])?></span>
 				</p>
-				<p class="more" style="word-break: break-all;">
+				<p class="more" style="word-break: break-word;">
 					<?php echo $row['question']?>
 				</p>
 				<hr>
