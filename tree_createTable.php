@@ -106,13 +106,14 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 		}
 
 		$row = mysqli_fetch_array(mysqli_query($con, "SELECT COUNT(recommendation) FROM ratings WHERE subject_ID = '".$subjects['ID']."' AND recommendation = 1"));
-		$recoms[$subjects['ID']] = $row[0];
+		$row2 = mysqli_fetch_array(mysqli_query($con, "SELECT COUNT(recommendation) FROM ratings WHERE subject_ID = '".$subjects['ID']."'"));
+		$recoms[$subjects['ID']] = round(($row[0]/$row2[0])*100,0);
 
 		$row = mysqli_fetch_array(mysqli_query($con, "SELECT COUNT(examType) FROM ratings WHERE subject_ID = '".$subjects['ID']."' AND examType = 'other'"));
 		$amountRatings[$subjects['ID']] = $row[0];
 	}
 
-	/*3. Put all in one array*/
+/*3. Put all in one array*/
 	//module_types
 	$sql = "
 		SELECT DISTINCT type
@@ -240,7 +241,7 @@ if(mysqli_num_rows($allSubjects)!=0){ //Nur ausführen, wenn ganz am Anfang Fäc
 				break;
 			case "recoms":
 				$orderBy = "recoms";
-				$orderByHeader = "Anzahl Empfehlungen";
+				$orderByHeader = "Anzahl Empfehlungen (in %)";
 				$displayFromMax = "display:none";
 				$displayNote = "";
 				break;
