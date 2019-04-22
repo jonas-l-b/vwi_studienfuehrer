@@ -83,7 +83,7 @@ if($goalReached == 100) $color3 = "rgb(37, 160, 3)";
 <button class="btn" id="detailedStatsButton">Diesen Bereich laden</button>
 <div id="loadDetails" style="display:none">
 	<br><br><div class="loader"><div></div></div><br><br>
-	<p style="text-align:center">Die detailierten Bewertungsstatistiken werden geladen</p>
+	<p style="text-align:center">Der detaillierte Bereich wird geladen</p>
 </div>
 <div id="details"></div>
 
