@@ -270,11 +270,7 @@ include "sumVotes.php";
 					<span style="font-size:1.3em;"><strong><span data-toggle="tooltip" title="Veranstaltungssprache" class="glyphicon glyphicon-bullhorn"></span></strong></span><br /><?php echo $subjectData['language'] ?>
 				</div>
 			</div>		
-	<!--
-		</div>
-		
-		<div class="info-flex-container">
-	-->
+
 			<div class="info-flex-item">
 				<div style="text-align:center">
 					<b>Level</b><br />
@@ -296,6 +292,49 @@ include "sumVotes.php";
 				</div>
 			</div>		
 
+		</div>
+		
+		<div align="center">
+			<a data-toggle="collapse" href="#additionalInfo" id="moreInfo" style="background-color:white; padding:4px; border-radius:5px">Weitere Infos anzeigen</a>
+		</div>
+		
+		<script>
+		$(document).ready(function(){
+			$("#moreInfo").click(function(){
+				if($("#moreInfo").html() == "Weitere Infos anzeigen"){
+					$("#moreInfo").html("Weniger Infos anzeigen");
+				}else{
+					$("#moreInfo").html("Weitere Infos anzeigen");
+				}
+			});
+		});
+		</script>
+		
+		<div id="additionalInfo" class="collapse">
+			<div class="info-flex-container">
+				
+				<div class="info-flex-item">
+					<div style="text-align:center">
+						<b>Voraussetungen</b><br />
+						<?php echo $lecturers; ?>
+					</div>
+				</div>
+				
+				<div class="info-flex-item">
+					<div style="text-align:center">
+						<b>Prüfungsform</b><br />
+						<?php echo $lecturers; ?>
+					</div>
+				</div>
+
+				<div class="info-flex-item">
+					<div style="text-align:center">
+						<b>Notenskala</b><br />
+						<?php echo $lecturers; ?>
+					</div>
+				</div>
+				
+			</div>
 		</div>
 	
 	</div>

@@ -63,6 +63,7 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 <div id="load">
 	<br><br><div class="loader"><div></div></div><br><br>
 	<p style="text-align:center">Die Errungenschafts-Rangliste wird geladen.</p>
+	<p style="text-align:center"><b>In der Zwischenzeit kannst du <a href="#" data-toggle="modal" data-target="#sneakAnAchievementModal">eine Errungenschaft sneaken</a>!</b></p>
 </div>
 
 <script>
@@ -72,8 +73,7 @@ window.onload = function () {
 }
 </script>
 
-<div id="main" style="display:none" class="container">
-
+<div class="container">
 	<!--Errungenschaft des Tages-->
 	<?php
 	$result=mysqli_query($con, "SELECT value FROM help WHERE name='achievementOfTheDay'");
@@ -105,8 +105,6 @@ window.onload = function () {
 	$result=mysqli_query($con, $sql);
 	$row=mysqli_fetch_assoc($result);
 	?>
-
-	<h4><a href="#" data-toggle="modal" data-target="#sneakAnAchievementModal">Sneak a Errungenschaft</a></h4>
 
 	<div id="sneakAnAchievementModal" class="modal fade" role="dialog">
 		<div class="modal-dialog" >
@@ -143,6 +141,11 @@ window.onload = function () {
 			</div>
 		</div>
 	</div>
+</div>
+
+<div id="main" style="display:none" class="container">
+
+	<h4><a href="#" data-toggle="modal" data-target="#sneakAnAchievementModal">Sneak a Errungenschaft</a></h4>
 
 	<h3 style="margin-bottom:0">Errungenschaften-Rangliste</h3>
 	<p>
