@@ -13,7 +13,7 @@ include "connect.php";
 
 <div id="load">
 	<br><br><div class="loader"><div></div></div><br><br>
-	<p style="text-align:center">Die Bewertungsstatistiken werden geladen.</p>
+	<p style="text-align:center">Die Bewertungsstatistiken werden geladen</p>
 </div>
 
 <div id="main" class="container">
