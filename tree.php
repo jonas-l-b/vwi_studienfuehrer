@@ -223,9 +223,18 @@ $("#changeButton").click(function () {
 	//Beim ersten Besuch: Zeile in user_notifications für neue User erstellen
 	$result3 = mysqli_query($con, "SELECT * FROM user_notifications WHERE user_id = ".$userRow['user_ID']."");
 	if(mysqli_num_rows($result3) == 0){
+		
+		//Get value for vwi_newsletter
+		$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM users WHERE user_ID = ".$userRow['user_ID'].""));
+		if($row['info'] == "yes"){
+			$vwi_newsletter_value = 1;
+		}else{
+			$vwi_newsletter_value = 0;
+		}
+		
 		$sql3 = "
-			INSERT INTO `user_notifications`(`user_id`, `own_questions`, `user_messages`)
-			VALUES (".$userRow['user_ID'].",1,1)
+			INSERT INTO user_notifications (user_id, own_questions, user_messages, vwi_newsletter)
+			VALUE (".$userRow['user_ID'].", 1, 1, $vwi_newsletter_value)
 		";
 		mysqli_query($con, $sql3);
 	}
@@ -353,6 +362,51 @@ $("#changeButton").click(function () {
 			</div>	
 		</div>
 	
+	</div>
+	
+	<br>
+	
+	<!--Bewertungsranking-->
+	<div style="background-color:#F8F8F8; padding: 10px">
+		<h4 align="center"><b>Bewertungsranking</b></h4>
+		
+		<?php
+		$sql="
+			SELECT ratings.user_ID AS user_ID, username, COUNT(ratings.user_ID) AS count, time_stamp FROM ratings
+			JOIN users ON ratings.user_ID = users.user_ID
+			WHERE time_stamp >= DATE_ADD(CURDATE(), INTERVAL -(WEEKDAY(CURDATE())+5-(IF(WEEKDAY(CURDATE())>=2,7,0))) DAY)
+			GROUP BY ratings.user_ID
+			ORDER BY COUNT(ratings.user_ID) DESC
+		";
+		$result = mysqli_query($con, $sql);
+		$row = mysqli_fetch_assoc($result);
+		
+		if(date('w')==2){
+			$dis = "";
+		}else{
+			$dis = "";
+		}
+		?>
+
+		<div style="background: #f8d86d; padding:20px; text-align:center; border-radius:3px; display:<?php echo $dis?>">
+		
+			<h4 style="padding:0;margin:0">
+				<?php
+				if(mysqli_num_rows($result)!=0){?>
+					Rising Star dieser Woche: <strong><?php echo $row['username']?></strong>
+				<?php
+				}else{
+				?>
+					Noch kein Rising Star diese Woche - Gib jetzt eine Bewertung ab!
+				<?php
+				}
+				?>
+			</h4>
+		</div>
+		
+		<br>
+		<p align="center"><a href="ranking.php"><span class="glyphicon glyphicon-arrow-right"></span> Hier geht's zum Ranking</a></p>
+		
 	</div>
 	
 	<br>

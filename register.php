@@ -109,7 +109,7 @@ if(isset($_POST['email'])) {
 	*/
 	
 	if ($count==0 && $count2==0 && strtolower($username) != strtolower(explode("@", $email, 2)[0])) {
-		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash,advertised_by,time_stamp_reg) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash','$f',now())";
+		$query = "INSERT INTO users(admin,first_name,last_name,username,email,password,active,degree,advance,semester,info,hash,advertised_by,time_stamp_reg) VALUES(0,'$firstName','$lastName','$username','$email','$hashed_password',0,'$degree','$advance','$semester','$info','$hash','$f',now())";		
 		if ($con->query($query)) {
 			/*
 			//<!--vorrübergehend START-->	
@@ -394,7 +394,13 @@ include "header.php";
 			</div>
 
 			<div class="checkbox has-feedback">
-				<label><input type="checkbox" name="info" value="yes" <?php if(isset($memorey_info))if($memorey_info == "yes") echo "checked" ?> >Ich möchte über interessante Events informiert werden. Das können beispielsweise Einladungen zu (kostenlosen) Events wie Workshops, Vorträgen oder Fallstudien sein, die die Hochschulgruppe VWI-ESTIEM Karlsruhe zusammen mit Unternehmen veranstaltet.</label>
+				<label>
+					<input type="checkbox" name="info" value="yes" <?php if(isset($memorey_info))if($memorey_info == "yes") echo "checked" ?> >
+					<?php
+					$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM multiple_location_content WHERE name = 'vwi_newsletter'"));
+					echo $row['value'] . "(Diese Option kann jederzeit im Profil geändert werden)";
+					?>
+					</label>
 			</div>
 
 			<div class="checkbox has-feedback">

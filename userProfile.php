@@ -499,10 +499,16 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 				}else{
 					$changedUserMessagesValue = 0;
 				}
+				
+				if(isset($_POST['vwi_newsletter']) && $_POST['vwi_newsletter'] == '1') {
+					$changedVwiNewsletter = 1;
+				}else{
+					$changedVwiNewsletter = 0;
+				}
 
 				$sql="
 					UPDATE user_notifications
-					SET own_questions = ".$changedQuestionValue.", user_messages = ".$changedUserMessagesValue."
+					SET own_questions = ".$changedQuestionValue.", user_messages = ".$changedUserMessagesValue.", vwi_newsletter = ".$changedVwiNewsletter."
 					WHERE user_id = ".$userRow['user_ID'].";
 				";
 				
@@ -521,13 +527,21 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 			<?php if (isset($msg_questions)) echo $msg_questions;?>
 			<form method="post">
 				<?php
+					/*Wird mittlerweile auf tree.php behandelt. Code ist lediglich sicherheitshalber immer noch hier*/
 					//Check, ob Zeile in user_notifications bereits vorhanden ist (und ggfls. erstellen)
 					$sql="SELECT * FROM user_notifications WHERE user_id = ".$userRow['user_ID']."";
 					$result = mysqli_query($con, $sql);
 					if(mysqli_num_rows($result)==0){ //Zeile für Benutzer anlegen falls noch nicht vorhanden
+						//Get value for vwi_newsletter
+						$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM users WHERE user_ID = ".$userRow['user_ID'].""));
+						if($row['info'] == "yes"){
+							$vwi_newsletter_value = 1;
+						}else{
+							$vwi_newsletter_value = 0;
+						}
 						$sql1="
-							INSERT INTO user_notifications (user_id, own_questions, user_messages)
-							VALUE (".$userRow['user_ID'].", 1, 1)
+							INSERT INTO user_notifications (user_id, own_questions, user_messages, vwi_newsletter)
+							VALUE (".$userRow['user_ID'].", 1, 1, $vwi_newsletter_value)
 						";
 						mysqli_query($con, $sql1);
 					}elseif(mysqli_num_rows($result)>1){
@@ -536,6 +550,7 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 						</div>";
 						exit();
 					}
+					/*(Bis hier auf tree.php*/
 					
 					$sql="SELECT * FROM user_notifications WHERE user_id = ".$userRow['user_ID']."";
 					$result = mysqli_query($con, $sql);
@@ -546,14 +561,40 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 					if($row['user_messages']=="1"){
 						$check_user_messages = "checked";
 					}
+					if($row['vwi_newsletter']=="1"){
+						$check_vwi_newsletter = "checked";
+					}
 				?>
 				<h3>Fragen</h3>
-				<input type="checkbox" name="own_questions" value="1" <?php if (isset($check_own_questions)) echo $check_own_questions?>> Ich möchte benachrichtigt werden, wenn jemand auf eine von mir gestellte Frage antwortet.<br>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="own_questions" value="1" <?php if (isset($check_own_questions)) echo $check_own_questions?>>
+						Ich möchte benachrichtigt werden, wenn jemand auf eine von mir gestellte Frage antwortet.
+					</label>
+				</div>
+				
 				<h3>Nachrichten</h3>
 				<p>Es kann vorkommen, dass ein Nutzer eine Nachfrage (bspw. auf eines deiner Kommentare) für dich hat. Falls du hier zustimmst, kann ein Nutzer dir eine Nachricht schreiben. Wir geben jedoch nicht deine E-Mail-Adresse heraus, sondern verschicken die Nachricht über unseren Server. Falls du eine Nachricht an einen anderen Nutzer schicken willst, kannst du dies nur tun, wenn du selbst Nachrichten empfängst.</p>
-				<input type="checkbox" name="user_messages" value="1" <?php if (isset($check_user_messages)) echo $check_user_messages?>> Nutzer dürfen mir Nachrichten schicken<br>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="user_messages" value="1" <?php if (isset($check_user_messages)) echo $check_user_messages?>>
+						Nutzer dürfen mir Nachrichten schicken
+					</label>
+				</div>
+				
+				<h3>VWI-ESTIEM</h3>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="vwi_newsletter" value="1" <?php if (isset($check_vwi_newsletter)) echo $check_vwi_newsletter?>>
+						<?php
+						$row = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM multiple_location_content WHERE name = 'vwi_newsletter'"));
+						echo $row['value'];
+						?>
+					</label>
+				</div>
 				
 				<br>
+				
 				<button class="btn btn-primary" name="btn-change-questions">Änderungen speichern</button>
 			</form>
 			
