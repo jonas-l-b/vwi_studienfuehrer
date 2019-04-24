@@ -51,7 +51,7 @@
 		   $this->mail = new PHPMailer();
 
 		   $configs = ConfigService::getService()->getConfigs();
-		   $this->mail->SMTPDebug = 3;			//Gibt starke Debugging Ausgaben aus - für Realease Deaktivieren (später auf 2 vgl. Homepage2016)
+		   $this->mail->SMTPDebug = 2;			//Gibt starke Debugging Ausgaben aus - für Realease Deaktivieren (später auf 2 vgl. Homepage2016)
 		   $this->mail->setLanguage('de');
 		   $this->mail->IsSendmail();
            $this->mail->Host = $configs['email_host'];
