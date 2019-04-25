@@ -1,13 +1,33 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" crossorigin="anonymous">
+<?php
 
-<select multiple data-role="tagsinput">
-  <option value="Amsterdam">Amsterdam</option>
-  <option value="Washington">Washington</option>
-  <option value="Sydney">Sydney</option>
-  <option value="Beijing">Beijing</option>
-  <option value="Cairo">Cairo</option>
-</select>
+include "sessionsStart.php";
 
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" crossorigin="anonymous"></script>
+include "connect.php";
+
+?>
+
+<?php
+
+$mails = array(
+	"julian.germek@estiem.org",
+	"sven.watzinger@estiem.org",
+	"niklas.steinkuehler@estiem.org",
+	"felix.bock@estiem.org",
+	"theresa.hillemann@estiem.org"
+);
+
+$subject = "[Studienführer] Nur ein Test";
+
+$body = "
+	<p>Wir hatten beim Studienführer das Problem, dass beim Senden von E-Mails an eine Liste von Empfängern jeder mehrere Mails empfangen hat - unter anderem welche, die nicht für ihn bestimmt waren.</p>
+	<p>Das Problem sollte behoben sein. Schreib doch bitte trotzdem eine kurze Nachricht mit der Anzahl an Mails, die du empfangen hast, an
+	<a href='mailto:julian.germek@estiem.org?subject=Rückmeldung%20Studienführermailtest&amp;body=Hallo%20Julian,%0D%0A%0D%0Aso%20viele%20Mails%20habe%20ich%20empfangen:%20%0D%0A%0D%0AViele%20Grüße!'>julian.germek@estiem.org</a>
+	.</p>
+	<p>Danke</p>
+";
+
+foreach ($mails as &$mail) {
+    EmailService::getService()->sendEmail($mail, 'du', $subject, $body);
+}
+
+?>
