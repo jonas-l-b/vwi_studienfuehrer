@@ -73,6 +73,7 @@
 		* Sendet eine Email an den Nutzer. Gibt ein gewisses Format vor
 		*/
 	   public function sendEmail($toEmail, $userName, $subject, $body){
+		   $this->mail->ClearAllRecipients();  
 		   $this->mail->AddAddress($toEmail, $userName);
 		   $this->mail->Subject = $subject;
 
