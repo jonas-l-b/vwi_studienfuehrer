@@ -294,9 +294,11 @@ include "sumVotes.php";
 
 		</div>
 		
+		<!--
 		<div align="center">
-			<a data-toggle="collapse" href="#additionalInfo" id="moreInfo" style="background-color:white; padding:4px; border-radius:5px">Weitere Infos anzeigen</a>
+			<a data-toggle="collapse" href="#additionalInfo" id="moreInfo" style="background-color:white; padding:4px; border-radius:5px; text-decoration:none">Weitere Infos anzeigen</a>
 		</div>
+		-->
 		
 		<script>
 		$(document).ready(function(){
@@ -939,7 +941,7 @@ include "sumVotes.php";
 		<p class="contenedor">
 		
 			<?php
-			$result=mysqli_query($con, "SELECT facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
+			$result=mysqli_query($con, "SELECT ilias_pw, facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
 			$row = mysqli_fetch_assoc($result);
 			//facebook
 			if($row['facebook'] != ""){
@@ -967,14 +969,33 @@ include "sumVotes.php";
 			}					
 			?>
 		
+			<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $modulebook_disabled ?>>ILIAS <span class="glyphicon glyphicon-new-window"></span></button>
+			<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
 			<button id="but" <?php echo $facebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $facebook_disabled ?>>Facebook-Gruppe <span class="glyphicon glyphicon-new-window"></span></button>
 			<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $studydrive_disabled ?>>Studydrive <span class="glyphicon glyphicon-new-window"></span></button>
-			<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
+			
 		</p>
 		
-		<p><a href=\"#\" data-toggle="modal" data-target="#changeLinksModal">Links hinzufügen oder bearbeiten</a></p>
+		<label>ILIAS-Passwort: </label>
+		<input id="iliasPW" class="form-control" style="width: auto; display:inline; background-color: white" type="text" value="<?php echo ($row['ilias_pw'] != "") ? $row['ilias_pw'] : "(Nichts eingetragen)";?>">
+		<button type="button" class="btn btn-default" onclick="copyLink()" style="margin-bottom:2px">Kopieren</button>
+		<div class="snackbar" id="snackbarIliasPwCopied">Das ILIAS-Passwort wurde kopiert.</div>
+
+		<script>
+		function copyLink() {
+			var copyText = document.getElementById("iliasPW");
+			copyText.select();
+			document.execCommand("copy");
+			
+			$('#snackbarIliasPwCopied').addClass('show');
+			setTimeout(function(){ $('#snackbarIliasPwCopied').removeClass('show'); }, 3000);
+		}
+		</script>
 		
-		<!-- Gutschein Modal -->
+		<br><br>
+		<p><a href=\"#\" data-toggle="modal" data-target="#changeLinksModal">Links und Passwort bearbeiten</a></p>
+		
+		<!-- Links Modal -->
 		<div id="changeLinksModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -988,18 +1009,28 @@ include "sumVotes.php";
 						<form id="linkForm">
 
 							<div class="form-group">
-								<label for="usr">Link zur Facebook-Gruppe:</label>
+								<label>Link zum ILIAS-Kurs:</label>
+								<input type="text" class="form-control" value="Automatisierte Umsetzung ist geplant, existiert aber noch nicht." name="ilias_link" disabled>
+							</div>
+							
+							<div class="form-group">
+								<label>ILIAS-Passwort:</label>
+								<input type="text" class="form-control" value="<?php echo $row['ilias_pw']?>" name="ilias_pw">
+							</div>
+							
+							<div class="form-group">
+								<label>Link zum Modulhandbuch:</label>
+								<input type="text" class="form-control" value="Automatisierte Umsetzung ist geplant, existiert aber noch nicht." name="modulhandbuch_link" disabled>
+							</div>
+							
+							<div class="form-group">
+								<label>Link zur Facebook-Gruppe:</label>
 								<input type="text" class="form-control" value="<?php echo $row['facebook']?>" name="facebook_link">
 							</div>
 
 							<div class="form-group">
-								<label for="usr">Link zum Studydrive:</label>
+								<label>Link zum Studydrive:</label>
 								<input type="text" class="form-control" value="<?php echo $row['studydrive']?>" name="studydrive_link">
-							</div>
-							
-							<div class="form-group">
-								<label for="usr">Link zum Modulhandbuch:</label>
-								<input type="text" class="form-control" value="Umsetzung ist geplant, existiert aber noch nicht." name="modulhandbuch_link" disabled>
 							</div>
 							
 							<br>
@@ -1064,7 +1095,7 @@ include "sumVotes.php";
 					<span id="filterIcon" style="font-size: 1.5em;vertical-align:bottom;" class="glyphicon glyphicon-filter"></span>&nbsp;
 					<div class="loader" id="load" style="display:none; padding-right: 5em;"><div></div></div>
 				</label>
-				<select class="form-control" style="  width: auto; display:inline;" name="commentorder" id="commentorder">
+				<select class="form-control" style="width: auto; display:inline;" name="commentorder" id="commentorder">
 					<option value="date_newFirst">Datum (Neuste zuerst)</option>
 					<option value="date_newLast">Datum (Älteste zuerst)</option>
 					<option value="rating_bestFirst" selected>Bewertung (Beste zuerst)</option>

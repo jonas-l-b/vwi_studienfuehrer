@@ -388,7 +388,7 @@ $("#changeButton").click(function () {
 		}
 		?>
 
-		<div style="background: #f8d86d; padding:20px; text-align:center; border-radius:3px; display:<?php echo $dis?>">
+		<div style="background: #f8d86d; padding:20px; text-align:center; border-radius:3px; display: table; margin:auto">
 		
 			<h4 style="padding:0;margin:0">
 				<?php

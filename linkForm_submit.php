@@ -8,15 +8,36 @@ include "connect.php";
 
 <?php
 
+//$ilias = $_POST['ilias_link'];
+$ilias_pw = $_POST['ilias_pw'];
+//$modulebook = $_POST['modulhandbuch_link'];
 $facebook = $_POST['facebook_link'];
 $studydrive = $_POST['studydrive_link'];
-//$modulebook = $_POST['modulhandbuch_link'];
 
 $user_id = $_POST['user_id'];
 $subject_id = $_POST['subject_id'];
 
-$result=mysqli_query($con, "SELECT facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject_id."");
+$result=mysqli_query($con, "SELECT ilias_pw, facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject_id."");
 $row = mysqli_fetch_assoc($result);
+
+if($row['ilias_pw'] != $ilias_pw){ //Wenn Datenbankeintrag sich von Formulardaten unterscheidet
+	$sql="
+		UPDATE `subjects` SET `ilias_pw`='$ilias_pw',`ilias_pw_user_id`='$user_id'
+		WHERE ID = $subject_id
+	";
+	if ($con->query($sql) == TRUE) {
+		echo 'erfolg';
+		
+		$sql2="
+			SELECT * FROM users_links
+			WHERE user_id = $user_id AND subject_id = $subject_id AND type = 'ilias_pw'
+		";
+		$result2 = mysqli_query($con, $sql2);
+		if(mysqli_num_rows($result2) == 0 ){
+			mysqli_query($con, "INSERT INTO `users_links`(`user_id`, `subject_id`, `type`) VALUES ($user_id,$subject_id,'ilias_pw')");
+		}
+	}
+}
 
 if($row['facebook'] != $facebook){ //Wenn Datenbankeintrag sich von Formulardaten unterscheidet
 	$sql="
