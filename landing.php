@@ -22,30 +22,6 @@ if ($m == "no_subject_in_db"){
 	$msg = "Diese Veranstaltung existiert nicht in der Datenbank. Klick auf das Logo, um zur Startseite zugelangen.";
 }
 
-if ($m == "no_module_in_url"){
-	$msg = "Kein Modul in der URL hinterlegt. Bitte zurückgehen und erneut versuchen.";
-}
-
-if ($m == "no_module_in_db"){
-	$msg = "Modul existiert nicht in der Datenbank.";
-}
-
-if ($m == "no_lecturer_in_url"){
-	$msg = "Kein Dozent in der URL hinterlegt. Bitte zurückgehen und erneut versuchen.";
-}
-
-if ($m == "no_lecturer_in_db"){
-	$msg = "Dozent existiert nicht in der Datenbank.";
-}
-
-if ($m == "no_institute_in_url"){
-	$msg = "Kein Institut in der URL hinterlegt. Bitte zurückgehen und erneut versuchen.";
-}
-
-if ($m == "no_institute_in_db"){
-	$msg = "Institut existiert nicht in der Datenbank.";
-}
-
 if ($m == "verify_error"){
 	$msg = "Der Verifizierungslink is fehlerhaft oder du hast deinen Account bereits aktiviert. Stelle sicher, dass du den Link richtig aus der E-Mail kopiert hast bzw. versuche, ob du dich anmelden kannst. Wenn das Problem sich so nicht lösen lässt, wende dich an <a href=\"mailto:studienfuehrer@vwi-karlsruhe.de\">studienfuehrer@vwi-karlsruhe.de</a>.";
 }

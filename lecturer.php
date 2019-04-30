@@ -13,12 +13,17 @@ include "connect.php";
 
 <div class="container" style="margin-top:60px">
 	<?php
+	//Variablen, die dafür sorgen, dass im Falle einer fehlerhaften oder fehlenden ID in der URL eine entsprechende Nachricht angezeigt wird
+	$showMain = "";
+	$showFailedLoad = "none";
+	
 	// Modul aus URL speichern
 	if (isset($_GET['lecturer_id'])){
 		$lecturer_id = strval ($_GET['lecturer_id']);
 	}
 	else{
-		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_lecturer_in_url';</SCRIPT>");
+		$showMain = "none";
+		$showFailedLoad = "";
 	}
 	
 	//Moduldatensatz laden
@@ -33,7 +38,8 @@ include "connect.php";
 	if (mysqli_num_rows($result) >= 1 ) {
 		$lecturerData = mysqli_fetch_assoc($result);
 	} else {
-		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_lecturer_in_db';</SCRIPT>");
+		$showMain = "none";
+		$showFailedLoad = "";
 	}
 	
 	/*Lade alle Einträge mit mehreren möglichen Einträgen*/
@@ -69,22 +75,27 @@ include "connect.php";
 	$subjects = substr($subjects, 0, -4);
 	?>
 	
-	<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">DOZENT</p>
-	<h2 style="margin-top:0px"><?php echo $lecturerData['first_name']." ".$lecturerData['last_name']?></h2>
-	<hr>
-	<table class="table" style="border-top:solid; border-top-color:white">
-		<tbody>
-			<tr>
-				<th>Institut(e):</th>
-				<td><?php echo $institutes?></td>
-			</tr>
-			<tr>
-				<th>Veranstaltung(en):</th>
-				<td><?php echo $subjects?></td>
-			</tr>
-		</tbody>
-	</table>
-
+	<div style="display:<?php echo $showMain?>">
+		<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">DOZENT</p>
+		<h2 style="margin-top:0px"><?php echo $lecturerData['first_name']." ".$lecturerData['last_name']?></h2>
+		<hr>
+		<table class="table" style="border-top:solid; border-top-color:white">
+			<tbody>
+				<tr>
+					<th>Institut(e):</th>
+					<td><?php echo $institutes?></td>
+				</tr>
+				<tr>
+					<th>Veranstaltung(en):</th>
+					<td><?php echo $subjects?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div style="display:<?php echo $showFailedLoad?>">
+		Der Dozent konnte nicht geladen werden. Entweder wurde keine Donzenten-ID übergeben oder die übergebene Donzenten-ID existiert nicht in unserer Datenbank.
+	</div>
 
 </div>
 

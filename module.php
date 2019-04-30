@@ -14,12 +14,17 @@ include "connect.php";
 <div class="container" style="margin-top:60px">
 
 	<?php
+	//Variablen, die dafür sorgen, dass im Falle einer fehlerhaften oder fehlenden ID in der URL eine entsprechende Nachricht angezeigt wird
+	$showMain = "";
+	$showFailedLoad = "none";
+	
 	// Modul aus URL speichern
 	if (isset($_GET['module_id'])){
 		$module_id = strval ($_GET['module_id']);
 	}
 	else{
-		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_module_in_url';</SCRIPT>");
+		$showMain = "none";
+		$showFailedLoad = "";
 	}
 	
 	//Moduldatensatz laden
@@ -34,7 +39,8 @@ include "connect.php";
 	if (mysqli_num_rows($result) >= 1 ) {
 		$moduleData = mysqli_fetch_assoc($result);
 	} else {
-		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_module_in_db';</SCRIPT>");
+		$showMain = "none";
+		$showFailedLoad = "";
 	}
 	
 	/*Lade alle Einträge mit mehreren möglichen Einträgen*/
@@ -120,91 +126,85 @@ include "connect.php";
 	}
 	?>
 	
-	<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">MODUL</p>
-	<h2 style="margin-top:0px"><?php echo $moduleData['module_name']?></h2>
-	<hr>
-			
-	<div class="row">
-		<div class="col-md-8">			
-<!--
-			<h4>
-				Gesamtbewertung: <strong><?php echo round($avg,1) ?> / 10</strong>, basierend auf <strong><?php echo $count ?></strong> Bewertungen
-				<a href="#" data-trigger="focus" data-toggle="popoverCalc"data-content="Diese Gesamtbewertung ist der nach ECTS-Punkten gewichtete Durchschnitt der Gesamtbewertungen der Veranstaltungen in diesem Modul. Eine Veranstaltungsbewertung wird also stärker gewichtet, wenn die zugehörige Veranstaltung mehr ECTS-Punkte zum Modul beisteuert.">
-					<span class="glyphicon glyphicon-question-sign"></span>
-				</a>
-				<script>
-				$(document).ready(function () {
-					$('[data-toggle="popoverCalc"]').popover();
-				});
-				</script>
-			</h4>
--->			
-			<table class="table" style="border-top:solid; border-top-color:white">
-				<tbody>
-					<tr>
-						<th>Kennung:</th>
-						<td><?php echo $moduleData['code']?></td>
-					</tr>
-					<tr>
-						<th>Level:</th>
-						<td><?php echo $levels?></td>
-					</tr>
-					<tr>
-						<th>Typ:</th>
-						<td><?php echo $moduleData['type']?></td>
-					</tr>
-					<tr>
-						<th>ECTS:</th>
-						<td><?php echo $moduleData['ects']?></td>
-					</tr>
-					<tr>
-						<th>Veranstaltungen:</th>
-						<td>
-							<?php echo $subjects?>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-4">
-			<div style="width: 33%; margin: 0 auto;">
+	<div style="display:<?php echo $showMain?>">
+		<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">MODUL</p>
+		<h2 style="margin-top:0px"><?php echo $moduleData['module_name']?></h2>
+		<hr>
 				
-				<span id="value" style="display:none"><?php echo round($avg,1) ?></span>
-				<div class="c100 p0" id="div_loading_progress"><span id="span_progress">0</span>
-				  <div class="slice">
-					<div class="bar"></div>
-					<div class="fill"></div>
-				  </div>
+		<div class="row">
+			<div class="col-md-8">			
+			
+				<table class="table" style="border-top:solid; border-top-color:white">
+					<tbody>
+						<tr>
+							<th>Kennung:</th>
+							<td><?php echo $moduleData['code']?></td>
+						</tr>
+						<tr>
+							<th>Level:</th>
+							<td><?php echo $levels?></td>
+						</tr>
+						<tr>
+							<th>Typ:</th>
+							<td><?php echo $moduleData['type']?></td>
+						</tr>
+						<tr>
+							<th>ECTS:</th>
+							<td><?php echo $moduleData['ects']?></td>
+						</tr>
+						<tr>
+							<th>Veranstaltungen:</th>
+							<td>
+								<?php echo $subjects?>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-4">
+				<div style="width: 33%; margin: 0 auto;">
+					
+					<span id="value" style="display:none"><?php echo round($avg,1) ?></span>
+					<div class="c100 p0" id="div_loading_progress"><span id="span_progress">0</span>
+					  <div class="slice">
+						<div class="bar"></div>
+						<div class="fill"></div>
+					  </div>
+					</div>
+				</div>
+				<br />
+				<div style="width: 66%; margin: 0 auto;">
+				<h4 style="text-align: center; margin-bottom:0.5px;">Gesamtbewertung</h4>
+				<p style="text-align: center;">Basierend auf <strong><?php echo $count ?></strong> <?php if($count == 1) echo "Bewertung"; else echo "Bewertungen" ?></p>
 				</div>
 			</div>
-			<br />
-			<div style="width: 66%; margin: 0 auto;">
-			<h4 style="text-align: center; margin-bottom:0.5px;">Gesamtbewertung</h4>
-			<p style="text-align: center;">Basierend auf <strong><?php echo $count ?></strong> <?php if($count == 1) echo "Bewertung"; else echo "Bewertungen" ?></p>
-			</div>
 		</div>
+		
+		<script>
+		var pct = 0,
+			span_progress = document.getElementById("span_progress"),
+			div_loading_progress = document.getElementById("div_loading_progress");
+			
+		function display_pct(p) {
+			span_progress.innerHTML=""+p/10+" /10";
+			div_loading_progress.className="c100 p"+p;
+		}
+
+		function update_pct(){
+			display_pct(pct++);
+				
+			if (pct<=$('#value').html()*10) {
+				setTimeout(update_pct,10);
+			}
+		}
+
+		setTimeout(update_pct,100);
+		</script>
 	</div>
 	
-	<script>
-	var pct = 0,
-		span_progress = document.getElementById("span_progress"),
-		div_loading_progress = document.getElementById("div_loading_progress");
-		
-	function display_pct(p) {
-		span_progress.innerHTML=""+p/10+" /10";
-		div_loading_progress.className="c100 p"+p;
-	}
-
-	function update_pct(){
-		display_pct(pct++);
-			
-		if (pct<=$('#value').html()*10) {
-			setTimeout(update_pct,10);
-		}
-	}
-
-	setTimeout(update_pct,100);
-	</script>
+	<div style="display:<?php echo $showFailedLoad?>">
+		Das Modul konnte nicht geladen werden. Entweder wurde keine Modul-ID übergeben oder die übergebene Modul-ID existiert nicht in unserer Datenbank.
+	</div>
 	
 </div>
 

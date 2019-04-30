@@ -13,12 +13,17 @@ include "connect.php";
 
 <div class="container" style="margin-top:60px">
 	<?php
+	//Variablen, die dafür sorgen, dass im Falle einer fehlerhaften oder fehlenden ID in der URL eine entsprechende Nachricht angezeigt wird
+	$showMain = "";
+	$showFailedLoad = "none";
+	
 	// Modul aus URL speichern
 	if (isset($_GET['institute_id'])){
 		$institute_id = strval ($_GET['institute_id']);
 	}
 	else{
-		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_institute_in_url';</SCRIPT>");
+		$showMain = "none";
+		$showFailedLoad = "";
 	}
 	
 	//Moduldatensatz laden
@@ -33,7 +38,8 @@ include "connect.php";
 	if (mysqli_num_rows($result) >= 1 ) {
 		$instituteData = mysqli_fetch_assoc($result);
 	} else {
-		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=no_institute_in_db';</SCRIPT>");
+		$showMain = "none";
+		$showFailedLoad = "";
 	}
 	
 	/*Lade alle Einträge mit mehreren möglichen Einträgen*/
@@ -111,29 +117,35 @@ include "connect.php";
 	$modules = substr($modules, 0, -5);
 	?>
 	
-	<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">INSTITUT</p>
-	<h2 style="margin-top:0px"><?php echo $instituteData['name']." (".$instituteData['abbr'].")"?></h2>
-	<hr>
+	<div style="display:<?php echo $showMain?>">
+		<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">INSTITUT</p>
+		<h2 style="margin-top:0px"><?php echo $instituteData['name']." (".$instituteData['abbr'].")"?></h2>
+		<hr>
+		
+		<div class="row">
+			<div class="col-md-4">
+				<h3>Veranstaltungen</h3>
+				<ul>
+				<?php echo $subjects?>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				<h3>Module</h3>
+				<ul>
+				<?php echo $modules?>
+				</ul>
+			</div>
+			<div class="col-md-4">
+				<h3>Dozenten</h3>
+				<ul>
+				<?php echo $lecturers?>
+				</ul>
+			</div>
+		</div>
+	</div>
 	
-	<div class="row">
-		<div class="col-md-4">
-			<h3>Veranstaltungen</h3>
-			<ul>
-			<?php echo $subjects?>
-			</ul>
-		</div>
-		<div class="col-md-4">
-			<h3>Module</h3>
-			<ul>
-			<?php echo $modules?>
-			</ul>
-		</div>
-		<div class="col-md-4">
-			<h3>Dozenten</h3>
-			<ul>
-			<?php echo $lecturers?>
-			</ul>
-		</div>
+	<div style="display:<?php echo $showFailedLoad?>">
+		Das Institut konnte nicht geladen werden. Entweder wurde keine Institut-ID übergeben oder die übergebene Institut-ID existiert nicht in unserer Datenbank.
 	</div>
 
 
