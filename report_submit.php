@@ -1,16 +1,14 @@
 <?php
-
 include "sessionsStart.php";
-
 include "connect.php";
-
+include "processInput.php";
 ?>
 
 <?php
 
-$commentId = strip_tags($_POST['commentId']);
-$comment = strip_tags($_POST['comment']);
-if(!empty($_POST['answer'])){
+$commentId = process_input($_POST['commentId']);
+$comment = process_input($_POST['comment']);
+if(!empty(process_input($_POST['answer']))){
 	$answer = 1;
 }else{
 	$answer = 0;

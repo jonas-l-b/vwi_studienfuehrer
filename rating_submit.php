@@ -1,39 +1,30 @@
 <?php
-
-//include "header.php";
-
 include "sessionsStart.php";
-
 include "connect.php";
-
-/*
-include "saveSubjectToVariable.php";
-
-include "loadSubjectData.php";
-*/
+include "processInput.php";
 ?>
 
 <?php
-$lecture0 = filter_var($_POST['lecture0'], FILTER_SANITIZE_STRING);
-$lecture1 = filter_var($_POST['lecture1'], FILTER_SANITIZE_STRING);
-$lecture2 = filter_var($_POST['lecture2'], FILTER_SANITIZE_STRING);
+$lecture0 = process_input($_POST['lecture0']);
+$lecture1 = process_input($_POST['lecture1']);
+$lecture2 = process_input($_POST['lecture2']);
 
-$examType = filter_var($_POST['examType'], FILTER_SANITIZE_STRING);
+$examType = process_input($_POST['examType']);
 
-$exam0 = filter_var($_POST['exam0'], FILTER_SANITIZE_STRING);
-$exam1 = filter_var($_POST['exam1'], FILTER_SANITIZE_STRING);
-$exam2 = filter_var($_POST['exam2'], FILTER_SANITIZE_STRING);
-$exam3 = filter_var($_POST['exam3'], FILTER_SANITIZE_STRING);
+$exam0 = process_input($_POST['exam0']);
+$exam1 = process_input($_POST['exam1']);
+$exam2 = process_input($_POST['exam2']);
+$exam3 = process_input($_POST['exam3']);
 
-$examText = filter_var($_POST['examText'], FILTER_SANITIZE_STRING);
+$examText = process_input($_POST['examText']);
 
-$examSemester = filter_var($_POST['examSemester'], FILTER_SANITIZE_STRING);
+$examSemester = process_input($_POST['examSemester']);
 
-$general0 = filter_var($_POST['general0'], FILTER_SANITIZE_STRING);
-$recommendation = filter_var($_POST['recommendation'], FILTER_SANITIZE_STRING);
-$comment = filter_var($_POST['comment'], FILTER_SANITIZE_STRING);
+$general0 = process_input($_POST['general0']);
+$recommendation = process_input($_POST['recommendation']);
+$comment = process_input($_POST['comment']);
 
-$subject = filter_var($_POST['subject'], FILTER_SANITIZE_STRING);
+$subject = process_input($_POST['subject']);
 
 $nameID = $userRow['user_ID'];
 

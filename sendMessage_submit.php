@@ -1,16 +1,14 @@
 <?php
-
 include "sessionsStart.php";
-
 include "connect.php";
-
+include "processInput.php";
 ?>
 
 <?php
 
 $user_id = $userRow['user_ID'];
-$recipient = $_POST['recipient'];
-$message = $_POST['message'];
+$recipient = process_input($_POST['recipient']);
+$message = process_input($_POST['message']);
 
 $sql = "
 	INSERT INTO `user_messages`(`from_id`, `to_id`, `message`, `time_stamp`)

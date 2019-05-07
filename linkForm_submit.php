@@ -1,21 +1,19 @@
 <?php
-
 include "sessionsStart.php";
-
 include "connect.php";
-
+include "processInput.php";
 ?>
 
 <?php
 
-//$ilias = $_POST['ilias_link'];
-$ilias_pw = $_POST['ilias_pw'];
-//$modulebook = $_POST['modulhandbuch_link'];
-$facebook = $_POST['facebook_link'];
-$studydrive = $_POST['studydrive_link'];
+//$ilias = process_input($_POST['ilias_link']);
+$ilias_pw = process_input($_POST['ilias_pw']);
+//$modulebook = process_input($_POST['modulhandbuch_link']);
+$facebook = process_input($_POST['facebook_link']);
+$studydrive = process_input($_POST['studydrive_link']);
 
-$user_id = $_POST['user_id'];
-$subject_id = $_POST['subject_id'];
+$user_id = process_input($_POST['user_id']);
+$subject_id = process_input($_POST['subject_id']);
 
 $result=mysqli_query($con, "SELECT ilias_pw, facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject_id."");
 $row = mysqli_fetch_assoc($result);

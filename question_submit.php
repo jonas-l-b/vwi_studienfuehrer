@@ -1,16 +1,14 @@
 <?php
-
 include "sessionsStart.php";
-
 include "connect.php";
-
+include "processInput.php";
 ?>
 
 <?php
 
-$subject_id = $_POST['subject_id'];
+$subject_id = process_input($_POST['subject_id']);
 $user_id = $userRow['user_ID'];
-$question = $_POST['formQuestion'];
+$question = process_input($_POST['formQuestion']);
 
 $sql = "
 	INSERT INTO questions (subject_ID, user_ID, question, time_stamp)
