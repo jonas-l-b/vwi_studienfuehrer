@@ -8,15 +8,23 @@ include "connect.php";
 
 <?php
 
+//$sql = "SELECT first_name, email FROM `users` WHERE info = 'yes'";
+$sql = "SELECT first_name, email FROM `users` WHERE user_ID IN (2,3,49)";
+$result = mysqli_query($con, $sql);
+
+while($row = mysqli_fetch_assoc($result)){
+	echo $row['first_name'] . "<br>";
+}
+/*
 $mails = array(
 	"julian.germek@estiem.org",
-	"sven.watzinger@estiem.org",
-	"niklas.steinkuehler@estiem.org",
-	"felix.bock@estiem.org",
-	"theresa.hillemann@estiem.org"
+	"jonas.bakker@estiem.org",
+	"felix.bock@estiem.org"
+
 );
 
-$subject = "[Studienführer] Nur ein Test";
+$subject = "[Studienführer] Nur ein zweiter Test";
+
 
 $body = "
 	<p>Wir hatten beim Studienführer das Problem, dass beim Senden von E-Mails an eine Liste von Empfängern jeder mehrere Mails empfangen hat - unter anderem welche, die nicht für ihn bestimmt waren.</p>
@@ -26,8 +34,10 @@ $body = "
 	<p>Danke</p>
 ";
 
+$body = "Das ist Test #2!";
+
 foreach ($mails as &$mail) {
     EmailService::getService()->sendEmail($mail, 'du', $subject, $body);
 }
-
+*/
 ?>
