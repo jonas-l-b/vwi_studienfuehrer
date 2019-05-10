@@ -1,14 +1,15 @@
 <?php
 include "sessionsStart.php";
 include "connect.php";
+include "processInput.php";
 ?>
 
 <?php
 
-$k_id = $_POST['k_id'];
-$category = $_POST['category'];
-$title = $_POST['title'];
-$content = $_POST['content'];
+$k_id = process_input($_POST['k_id']);
+$category = process_input($_POST['category']);
+$title = process_input($_POST['title']);
+$content = process_input($_POST['content']);
 
 $user_id = $userRow['user_ID'];
 
