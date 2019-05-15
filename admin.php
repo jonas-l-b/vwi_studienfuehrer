@@ -1,11 +1,7 @@
 <?php
-
 include "sessionsStart.php";
-
 include "header.php";
-
 include "connect.php";
-
 ?>
 
 <?php
@@ -36,6 +32,9 @@ if($userRow['admin']==0){
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 		<li><a data-toggle="tab" href="#userProfiles">Nutzerprofile</a></li>
 		<li><a data-toggle="tab" href="#notes">Meldungen Startseite</a></li>
+		<?php if($userRow['super_admin'] == 1){ ?>
+		<li><a data-toggle="tab" href="#spam">Spam</a></li>
+		<?php } ?>
 	</ul>
 
 	<div class="tab-content">
@@ -939,8 +938,113 @@ if($userRow['admin']==0){
 					</table>
 				
 				</div>
-			
+			</div>
 		</div>
+		<?php if($userRow['super_admin'] == 1){ ?>
+		<div id="spam" class="tab-pane fade">
+		
+			<?php //FORM HANDLING
+			$displaySpamDetails = "display:none";
+			$spamDetails = "";
+			if (isset($_POST['test_button'])) {
+				$subject =  $_POST['subject'];
+				$body = $_POST['body'];
+				$email = $_POST['email'];
+				if ((EmailService::getService()->sendEmail($email, $userRow['first_name'], $subject, $body)) == 1 ){
+					$testMailMessage = "<br><br><div class='alert alert-success'><span class='glyphicon glyphicon-info-sign'></span> &nbsp; Mail erfolgreich gesendet an: <b>$email</b></div>";
+				}else{
+					$testMailMessage = "<br><br><div class='alert alert-danger'><span class='glyphicon glyphicon-info-sign'></span> &nbsp; Etwas ist schief gelaufen!</b></div>";
+				}
+			} else if (isset($_POST['spam_button'])) {
+				$sql = "SELECT first_name, email FROM `users` WHERE info = 'yes'";
+				//$sql = "SELECT first_name, email FROM `users` WHERE user_ID IN (2)"; //Zum Testen
+				$result = mysqli_query($con, $sql);
+			
+				$subject =  $_POST['subject'];
+				$body = $_POST['body'];
+
+				$spamSuccess = False;
+				while($row = mysqli_fetch_assoc($result)){
+					if ((EmailService::getService()->sendEmail($row["email"], $row["first_name"], $subject, $body)) == 1 ){
+						$spamDetails .= "Mail gesendet an: <b>" . $row['email'] . "</b><br>";
+						$spamSuccess = True;
+					}else{
+						$spamMailMessage = "<br><br><div class='alert alert-danger'><span class='glyphicon glyphicon-info-sign'></span> &nbsp; Etwas ist schief gelaufen!</b></div>";
+					}
+
+					if($spamSuccess == True){
+						$spamMailMessage = "<br><br><div class='alert alert-success'><span class='glyphicon glyphicon-info-sign'></span> &nbsp; SPAM erfolgreich versendet!</b></div>";
+						$displaySpamDetails = "";
+						unset($subject); //Variablen löschen, damit nicht einfach so erneut Mail an alle geschickt werden kann
+						unset($body);
+					}
+				}
+			} else {
+				//no button pressed
+			}
+			?>
+
+			<br>
+			
+			<p>Hier hast du die Möglichkeit, eine Massenmail an alle Nutzer des Studienführers zu schicken, die angekreuzt haben, dass sie "über interessante Events informiert werden wollen".</p>
+			<br>
+
+			<h3>1. Betreff und Inhalt erstellen</h3>
+			<!--<form method="post" action="spam_submit.php">-->
+			<form id="spamForm" method="post" action="admin.php#spam">
+				<div class="form-group">
+					<label>Betreff:</label>
+					<input type="text" class="form-control" name="subject" id="mailSubject" value="<?php if (isset($subject)) echo $subject?>" required>
+				</div>
+				<div class="form-group">
+					<p><span style="color:red">Wichtig</span>: Studienführer-E-Mails verfügen bereits über eine Anrede ("Lieber Nutzer") sowie eine Grußformel ("Viele Grüße, Dein Studienführer-Team"). Verzichte also darauf, wenn du das Inhaltsfeld ausfüllst.</p>
+					<label>Inhalt:</label>
+					<textarea class="form-control" rows="7" name="body" id="mailBody" required><?php if (isset($body)) echo $body?></textarea>
+				</div>
+		
+				<br>
+				<h3>2. (Mindestens eine) Testmail verschicken</h3>
+
+				<div class="form-group">
+					<label>Deine E-Mail-Adresse:</label>
+					<input type="email" class="form-control" name="email" id="testmail" value="<?php if (isset($email)) echo $email?>" required>
+				</div>
+				<input class="btn btn-primary" type="submit" name="test_button" value="Testmail verschicken">
+
+				<?php if (isset($testMailMessage)) echo $testMailMessage ?>
+
+				<br><br>
+				<h3>3. Release the Spam!</h3>
+
+				<?php
+				$sql = "SELECT count(user_ID) as yesmen FROM `users` WHERE info = 'yes'";
+				$result = mysqli_query($con, $sql);
+				$row = mysqli_fetch_assoc($result);
+				?>
+
+				<p>Wenn die Testmail deinen Wünschen entspricht, kannst du jetzt diese Mail an alle Nutzer schicken, die angekreuzt haben, dass sie "über interessante Events informiert werden wollen".<br>
+				Im Moment sind das: <b><?php echo $row['yesmen']?> Nutzer</b></p>
+
+				<input class="btn btn-danger" type="submit" name="spam_button" id="spam_button" value="SPAM jetzt verschicken">
+
+				<?php if (isset($spamMailMessage)) echo $spamMailMessage ?>
+
+				<br>
+				<button style="<?php echo $displaySpamDetails?>" type='button' class='btn btn-light' data-toggle='collapse' data-target='#spamDetails'>Details anzeigen/ausblenden</button>
+				<div id='spamDetails' class='collapse show'>
+					<?php echo $spamDetails?>
+				</div>
+
+			</form>
+
+			<script>
+				$('#spam_button').click(function() { //Mail muss nicht eingegeben werden, wenn SPAM verschickt wird
+					$('#testmail').removeAttr('required');
+				});
+			</script>
+		
+		</div>
+		<?php } ?>
 	</div>
 </div>
 
@@ -982,6 +1086,10 @@ $('#linkToUserProfiles').click(function(event){
 $('#linkToNotes').click(function(event){
  	event.preventDefault();
  	$('.nav-tabs a[href="#notes"]').tab('show');
+});
+$('#linkToSpam').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#spam"]').tab('show');
 });
 </script>
 

@@ -16,6 +16,13 @@ if($userRow['admin']!=0){
 		$envelope = "";
 		$space = "";
 	}
+	
+	//Menüpunkt für Super-Admins
+	if($userRow['super_admin'] == 1){
+		$liSpam = "<li><a id=\"linkToSpam\" href=\"admin.php#spam\">Spam</a></li>";
+	}else{
+		$liSpam = "";
+	}
 
 	$admin = "
 		<li>
@@ -27,6 +34,7 @@ if($userRow['admin']!=0){
 				<li><a id=\"linkToAdminList\" href=\"admin.php#adminList\">Admin-Liste</a></li>
 				<li><a id=\"linkToUserProfiles\" href=\"admin.php#userProfiles\">Nutzerprofile</a></li>
 				<li><a id=\"linkToNotes\" href=\"admin.php#notes\">Meldungen Startseite</a></li>
+				$liSpam
 			</ul>
 		</li>
 	";
