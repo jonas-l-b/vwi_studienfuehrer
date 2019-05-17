@@ -23,8 +23,9 @@ include "sumVotes.php";
 		$subject = strval ($_GET['subject']);
 	}
 	else{
-		$showMain = "none";
-		$showFailedLoad = "";
+		//$showMain = "none";
+		//$showFailedLoad = "";
+		echo "<script>window.location.href = 'tree.php';</script>";
 	}
 	
 	/*Infos aus DB ziehen*/
@@ -1253,7 +1254,7 @@ include "sumVotes.php";
 	</div>
 	
 	<div style="display:<?php echo $showFailedLoad?>">
-		Die Veranstaltung konnte nicht geladen werden. Entweder wurde keine Veranstaltungs-ID übergeben oder die übergebene Veranstaltungs-ID existiert nicht in unserer Datenbank.
+		Die Veranstaltung konnte nicht geladen werden, da die übergebene Veranstaltungs-ID nicht in unserer Datenbank existiert.
 	</div>
 </div>
 
