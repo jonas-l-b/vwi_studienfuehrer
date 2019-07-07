@@ -580,7 +580,40 @@ include "sumVotes.php";
 			</div>
 		</div>
 		<!--ENDE Bewertungsübersicht-->
-					
+
+		<!--START Werbung-->
+		<div class="well ad" style="display:none">
+
+			<?php
+/*			
+			$user = 'dbo455676310';
+			$password = 'vwi!est?';
+			$db = 'db455676310';
+			$db_url = 'db455676310.db.1and1.com';
+
+			$user = 'dbo680704532';
+			$password = 'vwi!est?';
+			$db = 'db680704532';
+			$db_url = 'db680704532.db.1and1.com';
+
+			if(!$con_website = mysqli_connect($db_url, $user, $password, $db)){
+				echo ("Kann keine Verbindung mit der Datenbank herstellen.<br>");
+			}
+*/
+			?>
+
+			31. Mai 2019: Projektmanagement-Training mit TARGUS
+			<div style="display:flex; align-items: center">
+			  <div>
+					Bild
+				</div>
+			  <div>
+					Text
+				</div>
+			</div>
+		</div>
+		<!--ENDE Werbung-->
+
 		<!--START Fragen-->
 		<div class="well">
 
@@ -1497,12 +1530,15 @@ $(document).ready(function(){
 
 	var bewertenLaden = function(){
 			$('#jetztBewertenModal').modal('show');
+			/*
 			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
 			$('#bewertungAbgebenForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>", function( response, status, xhr ) {
 			  if ( status == "error" ) {
 				$('#bewertungAbgebenForm').html('<strong>Daten können nicht geladen werden.</strong>');
 			  }
 			});
+			*/
+			$('#bewertungAbgebenForm').html('Leider können gerade keine Bewertungen abgegeben werden - wir sind dabei, den Fehler zu beheben!');
 	}
 	$('#jetztBewertenButton').click(bewertenLaden);
 	$('#jetztBewertenButton2').click(bewertenLaden);
