@@ -26,9 +26,7 @@ if (mysqli_num_rows($result1)==0){
 		VALUES ($subject_id, $event_id)
 	";
 
-	if(mysqli_query($con,$sql2)){
-		echo "Erfolgreich eingetragen";
-	}else{
+	if(!mysqli_query($con,$sql2)){
 		echo "Es ist ein Fehler aufgetreten";
 	}
 

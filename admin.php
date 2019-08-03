@@ -955,6 +955,8 @@ if($userRow['admin']==0){
 				Nach Ablauf des SemPro-Events wird die geschaltete Werbung automatisch gelöscht.
 			</p>
 			
+			<hr>
+			
 			<?php
 			$sql = "
 				SELECT * FROM `jom_vwi_semesterprogramm`
@@ -971,78 +973,69 @@ if($userRow['admin']==0){
 			}
 			
 			?>
-			<div class="panel-group" id="accordion">
+
 			<?php
 			$i = 1;
 			while($row = mysqli_fetch_assoc($result)){
 				?>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $i?>"><?php echo $row["event_name"]?></a>
-						</h4>
+				<h4>
+					<?php echo $row["event_name"]?>
+				</h4>
+				
+				<form id="addSubjectForm<?php echo $i?>" method="POST">
+					<div class="form-group">
+						<select id="subject_selection" name="subject_selection" class="search ui fluid dropdown form-control" required>
+							<?php echo $subject_selection ?>
+						</select>
 					</div>
-					<div id="collapse<?php echo $i?>" class="panel-collapse collapse">
-						<div class="panel-body">
-							
-							<form id="addSubjectForm<?php echo $i?>" method="POST">
-								<div class="form-group">
-									<select id="subject_selection" name="subject_selection" class="search ui fluid dropdown form-control" required>
-										<?php echo $subject_selection ?>
-									</select>
-								</div>
-								
-								<div class="form-group" style="display:none">
-									<input id="event_id" name="event_id" value="<?php echo $row['event_id']?>">
-								</div>
-								
-								<button type="submit" class="btn btn-default">Veranstaltung hinzufügen</button>
-							</form>
-							
-							<script>
-							$(document).ready(function(){
-								$("#addSubjectForm<?php echo $i?>").submit(function(e){
-									$.ajax({
-										type: "POST",
-										url: "admin_addSubject_submit.php",
-										data: $("#addSubjectForm<?php echo $i?>").serialize(),
-										success: function(data) {
-											alert(data);
-										}
-									});
-									//e.preventDefault();
-								});
-							});	
-							</script>
-							
-							<?php
-							$sql = "
-								SELECT * FROM `sempro_ads`
-								JOIN subjects ON sempro_ads.subject_id = subjects.ID
-								WHERE event_id = ".$row['event_id']."
-							";
-							$event_result = mysqli_query($con, $sql);
-							
-							if(mysqli_num_rows($event_result)>0) echo "<br>";
-							
-							while($ad_subject = mysqli_fetch_assoc($event_result)){
-								echo "
-									<p style=\"font-size:17px; display:flex; align-items: center;\">
-										<span subject_id=".$ad_subject['ID']." event_id=".$row['event_id']." class=\"glyphiconRemoveSubject glyphicon glyphicon-minus-sign\" title=\"Auf dieser Veranstaltung nicht mehr werben\" style=\"color:lightgrey; cursor: pointer; cursor: hand;\">&nbsp</span>
-										".$ad_subject['subject_name']."
-									</p>
-								";
+					
+					<div class="form-group" style="display:none">
+						<input id="event_id" name="event_id" value="<?php echo $row['event_id']?>">
+					</div>
+					
+					<button type="submit" class="btn btn-default">Veranstaltung hinzufügen</button>
+				</form>
+				
+				<script>
+				$(document).ready(function(){
+					$("#addSubjectForm<?php echo $i?>").submit(function(e){
+						$.ajax({
+							type: "POST",
+							url: "admin_addSubject_submit.php",
+							data: $("#addSubjectForm<?php echo $i?>").serialize(),
+							success: function(data) {
+								if(data.trim() != ""){
+									alert(data);
+								}
 							}
-							?>
-							
-						</div>
-					</div>
-				</div>
+						});
+						//e.preventDefault();
+					});
+				});	
+				</script>
+				
 				<?php
+				$sql = "
+					SELECT * FROM `sempro_ads`
+					JOIN subjects ON sempro_ads.subject_id = subjects.ID
+					WHERE event_id = ".$row['event_id']."
+				";
+				$event_result = mysqli_query($con, $sql);
+				
+				if(mysqli_num_rows($event_result)>0) echo "<br>";
+				
+				while($ad_subject = mysqli_fetch_assoc($event_result)){
+					echo "
+						<p style=\"font-size:17px; display:flex; align-items: center;\">
+							<span subject_id=".$ad_subject['ID']." event_id=".$row['event_id']." class=\"glyphiconRemoveSubject glyphicon glyphicon-minus-sign\" title=\"Auf dieser Veranstaltung nicht mehr werben\" style=\"color:lightgrey; cursor: pointer; cursor: hand;\">&nbsp</span>
+							".$ad_subject['subject_name']."
+						</p>
+					";
+				}
 				$i++;
+				echo "<hr>";
 			}
 			?>
-			</div>
 			
 			<script>		
 			$(document).ready(function(){
