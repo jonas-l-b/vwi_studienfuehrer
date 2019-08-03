@@ -1,53 +1,29 @@
+<?php
+$host_name = 'db455676310.db.1and1.com';
+$database = 'db455676310';
+$user_name = 'dbo455676310';
+$password = 'vwiestiemka';
+$con_hp = mysqli_connect($host_name, $user_name, $password, $database);
 
-<head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-</head>
+if (mysqli_connect_errno()) {
+	die('<p>Verbindung zum MySQL Server fehlgeschlagen: '.mysqli_connect_error().'</p>');
+}else{
+echo "erfolg";
+}
 
-<form id="spamForm">
-	<div class="form-group">
-		<label>Subject:</label>
-		<input type="text" class="form-control" name="subject" id="mailSubject" required>
-	</div>
-	<div class="form-group">
-		<label>Body:</label>
-		<textarea class="form-control" rows="7" name="body" required></textarea>
-	</div>
+$sql = "SELECT * FROM `jom_vwi_semesterprogramm` WHERE event_date_start >= '2019-07-02 00:00:00'";
+$result = mysqli_query($con_hp, $sql);
 
-	<div class="form-group">
-		<label>Mail:</label>
-		<input type="email" class="form-control" name="email" id="testmail">
-	</div>
-	<button class="btn btn-primary" id="mailTestButton">Send</button>
-</form>
+while($row = mysqli_fetch_assoc($result)){
+	echo $row["event_name"];
+	echo "<br>";
+}
 
-<script>
-$(document).ready(function(){
 
-	$('#mailTestButton').on('click', function() {
-		if($('#testmail').val() == ""){
-			alert("Mail needed.");
-			return false;
-		}
-		$("#spamForm").submit(function(){
-			$.ajax({
-				url: "spam_submit.php",
-				type: "post",
-				data: $("#spamForm").serialize(),
-				success: function (data) {
-					alert(data);
-					location.reload();
-				},
-				error: function(data) {
-					alert(data);
-				}
-			});
-		});
-	});
-	
-});
-</script>
+
+  
+  
+?>
+
+
+<img src="https://www.vwi-karlsruhe.de/images/semesterprogramm/6555230957targus.png" alt="Girl in a jacket!">
