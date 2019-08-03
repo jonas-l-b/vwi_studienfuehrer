@@ -32,6 +32,7 @@ if($userRow['admin']==0){
 		<li><a data-toggle="tab" href="#adminList">Admin-Liste</a></li>
 		<li><a data-toggle="tab" href="#userProfiles">Nutzerprofile</a></li>
 		<li><a data-toggle="tab" href="#notes">Meldungen Startseite</a></li>
+		<li><a data-toggle="tab" href="#semproAds">SemPro-Werbung</a></li>
 		<?php if($userRow['super_admin'] == 1){ ?>
 		<li><a data-toggle="tab" href="#spam">Spam</a></li>
 		<?php } ?>
@@ -940,6 +941,29 @@ if($userRow['admin']==0){
 				</div>
 			</div>
 		</div>
+		
+		<div id="semproAds" class="tab-pane fade">
+			<br>
+			<p>Hier kannst du Werbung für kommende SemPro-Events auf Veranstaltungsseiten schalten. Pro Veranstaltung ist gleichzeitig nur eine Werbung möglich. Nach Ablauf des SemPro-Events wird die geschaltete Werbung automatisch gelöscht.</p>
+			
+			<?php
+			$sql = "
+				SELECT * FROM `jom_vwi_semesterprogramm`
+				WHERE event_date_start >= '2019-05-01 00:00:00'
+				ORDER BY event_date_start
+			";
+			$result = mysqli_query($con_hp, $sql);
+			while($row = mysqli_fetch_assoc($result)){
+				
+			}	
+			
+			
+			?>
+			
+			(Im Aufbau)
+			
+		</div>
+		
 		<?php if($userRow['super_admin'] == 1){ ?>
 		<div id="spam" class="tab-pane fade">
 		
@@ -1086,6 +1110,10 @@ $('#linkToUserProfiles').click(function(event){
 $('#linkToNotes').click(function(event){
  	event.preventDefault();
  	$('.nav-tabs a[href="#notes"]').tab('show');
+});
+$('#linkToSemproAds').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#semproAds"]').tab('show');
 });
 $('#linkToSpam').click(function(event){
  	event.preventDefault();

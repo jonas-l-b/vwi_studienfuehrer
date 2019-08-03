@@ -581,38 +581,64 @@ include "sumVotes.php";
 		</div>
 		<!--ENDE Bewertungsübersicht-->
 
-		<!--START Werbung-->
-		<div class="well ad" style="display:none">
-
-			<?php
-/*			
-			$user = 'dbo455676310';
-			$password = 'vwi!est?';
-			$db = 'db455676310';
-			$db_url = 'db455676310.db.1and1.com';
-
-			$user = 'dbo680704532';
-			$password = 'vwi!est?';
-			$db = 'db680704532';
-			$db_url = 'db680704532.db.1and1.com';
-
-			if(!$con_website = mysqli_connect($db_url, $user, $password, $db)){
-				echo ("Kann keine Verbindung mit der Datenbank herstellen.<br>");
-			}
-*/
-			?>
-
-			31. Mai 2019: Projektmanagement-Training mit TARGUS
-			<div style="display:flex; align-items: center">
-			  <div>
-					Bild
+		<!--START Sempro-Werbung-->
+		<?php
+		$sql = "
+			SELECT * FROM sempro_ads
+			WHERE subject_id = ".$subjectData['ID']."
+			LIMIT 1
+		";
+		$result = mysqli_query($con, $sql);
+		$row = mysqli_fetch_assoc($result);
+		
+		$event_id = $row["event_id"];
+		
+		$sql = "
+			SELECT * FROM `jom_vwi_semesterprogramm`
+			WHERE event_id = $event_id
+		";
+		$result = mysqli_query($con_hp, $sql);
+		$row = mysqli_fetch_assoc($result);
+		
+		if(mysqli_num_rows($result) != 0){
+		?>
+			
+			<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
+				<div style="display: flex; align-items: flex-start; align-items:center;">
+					<div>
+						<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">
+					</div>
+					<div>
+						<p>
+							<strong><?php echo $row["event_name"]?></strong><br>
+							<?php
+							echo date('d.', strtotime($row['event_date_start'])).date('m.', strtotime($row['event_date_start'])).date('Y', strtotime($row['event_date_start']));
+							if($row['multiday']=='on') {
+								echo ' - ' . date('d.', strtotime($row['event_date_end'])).date('m.', strtotime($row['event_date_end'])).date('Y', strtotime($row['event_date_end']));
+							}
+							echo '</p>';
+							?>
+						</p>
+						<p>
+							<?php echo $row["event_text"]?>
+						</p>
+						<p style="margin-bottom:0">
+							Interesse? Zur Anmeldung geht's hier: <a href="https://www.vwi-karlsruhe.de/veranstaltungen" target="_blank">vwi-karlsuhe.de/veranstaltungen</a>
+						</p>
+					</div>
 				</div>
-			  <div>
-					Text
-				</div>
+			
+				<hr>
+				
+				<p style="font-size:10px">
+					Dies ist Veranstaltungwerbung der Hochschulgruppe VWI-ESTIEM. Unsere Veranstaltungen werden kostenlos von Studierenden für Studierende organisiert. Mehr Infos zur Hochschulgruppe: <a href="https://www.vwi-karlsruhe.de/" target="_blank">vwi-karlsuhe.de</a>.
+				</p>
 			</div>
-		</div>
-		<!--ENDE Werbung-->
+		
+			<br>
+		<?php
+		}?>
+		<!--ENDE Sempro-Werbung-->
 
 		<!--START Fragen-->
 		<div class="well">

@@ -380,7 +380,6 @@ $("#changeButton").click(function () {
 	
 	if(mysqli_num_rows($result) != 0){
 		?>
-		
 
 		<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
 			<div style="display: flex; align-items: flex-start; align-items:center;">
