@@ -59,7 +59,9 @@ if ($m == "cookie_theft_error"){
 	$msg = "Du bist entweder Opfer eines Cookie-Räubers geworden und hast selbst nicht an dich halten können. Leider ist beim Löschen der mit diesem Nutzer verbundenen Auto-Login-Daten ein Fehler aufgetreten. Lösche deine Cookies über das Browser-Menü und melde dich erneut mit der Eingeloggt-bleiben-Funktion beim Studienführer an, um deine Daten zu überschreiben (Krümelmonster: Der Cookie ist dennoch wertlos!). Solltest du Fragen haben, wende dich direkt an die VWI-ESTIEM Hochschulgruppe.";
 }
 
-
+if ($m == "php_update"){
+	$msg = "<h1>Der Studienführer wird gewartet</h1><br><h3>Wir updaten gerade auf eine neue PHP-Version; Bitte versuche es später erneut (sollte nicht zu lange dauern) :)</h3>";
+}
 
 ?>
 <body>

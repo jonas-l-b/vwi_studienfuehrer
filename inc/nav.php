@@ -34,6 +34,7 @@ if($userRow['admin']!=0){
 				<li><a id=\"linkToAdminList\" href=\"admin.php#adminList\">Admin-Liste</a></li>
 				<li><a id=\"linkToUserProfiles\" href=\"admin.php#userProfiles\">Nutzerprofile</a></li>
 				<li><a id=\"linkToNotes\" href=\"admin.php#notes\">Meldungen Startseite</a></li>
+				<li><a id=\"linkToSemproAds\" href=\"admin.php#semproAds\">Sempro-Werbung</a></li>
 				$liSpam
 			</ul>
 		</li>

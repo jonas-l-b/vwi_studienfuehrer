@@ -30,4 +30,14 @@ if(!$con = mysqli_connect($configs['db_url'], $user, $pass, $db)){
   die("Kann keine Verbindung mit der Datenbank herstellen.");
 }
 $con->set_charset("utf8");
+
+$host_name = 'db455676310.db.1and1.com';
+$database = $configs['db_hp_database'];
+$user_name = $configs['db_hp_user'];
+$password = $configs['db_hp_password'];
+$con_hp = mysqli_connect($configs['db_hp_url'], $user_name, $password, $database);
+if (mysqli_connect_errno()) {
+	die('<p>Verbindung zum MySQL Server fehlgeschlagen: '.mysqli_connect_error().'</p>');
+}
+$con_hp->set_charset("utf8");
 ?>

@@ -18,14 +18,16 @@ if (!function_exists('endsWith1')) {
 }
 
 if (!isset($_SESSION['userSession'])) {
-  $url =  urlencode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+	$url =  urlencode((isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 	if(endsWith1($url, urlencode('vwi-karlsruhe.de')) || endsWith1($url, urlencode('vwi-karlsruhe.de/')) || endsWith1($url, urlencode('login.php')) || endsWith1($url, urlencode('vwi_studienfuehrer/')) || endsWith1($url, urlencode('logout.php'))){
 		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php';</SCRIPT>");
 	}else{
 		echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='login.php?url=$url';</SCRIPT>");
+		//echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='landing.php?m=php_update';</SCRIPT>");
 	}
 
 }
+
 
 $query = $con->query("SELECT * FROM users WHERE user_ID=".$_SESSION['userSession']);
 $userRow=$query->fetch_array();

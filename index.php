@@ -580,7 +580,90 @@ include "sumVotes.php";
 			</div>
 		</div>
 		<!--ENDE Bewertungsübersicht-->
-					
+
+		<!--START Sempro-Werbung-->
+		<?php
+		/*Check for passed events and delete from database*/
+		//Get upcoming event_ids
+		$sql = "
+			SELECT * FROM `jom_vwi_semesterprogramm`
+			WHERE application_date >= now()
+		";			
+		$result = mysqli_query($con_hp, $sql);
+
+		$ids = array(0);
+		while($row = mysqli_fetch_assoc($result)) {
+			$ids[] = $row['event_id'];
+		}
+		$upcoming_events_ids = implode(',', $ids);
+
+		//Delete passed events
+		mysqli_query($con, "DELETE FROM `sempro_ads` WHERE event_id NOT IN ($upcoming_events_ids)");
+		?>
+		
+		<?php
+		$sql = "
+			SELECT event_id FROM sempro_ads
+			WHERE subject_id = ".$subjectData['ID']."
+
+		";
+		$result = mysqli_query($con, $sql);
+
+		$ids = array();
+		while($row = mysqli_fetch_assoc($result)) {
+			$ids[] = $row['event_id'];
+		}
+		$query_ids = implode(',', $ids);
+		
+		$sql = "
+			SELECT * FROM `jom_vwi_semesterprogramm`
+			WHERE event_id IN ($query_ids)
+			ORDER BY application_date
+			LIMIT 1
+		";
+		$result = mysqli_query($con_hp, $sql);
+		$row = mysqli_fetch_assoc($result);
+		
+		if(mysqli_num_rows($result) != 0){
+		?>
+			
+			<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
+				<div style="display: flex; align-items:center" class="row">
+					<div class="col-sm-3">
+						<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">
+					</div>
+					<div class="col-sm-9">
+						<p>
+							<strong><?php echo $row["event_name"]?></strong><br>
+							<?php
+							echo date('d.', strtotime($row['event_date_start'])).date('m.', strtotime($row['event_date_start'])).date('Y', strtotime($row['event_date_start']));
+							if($row['multiday']=='on') {
+								echo ' - ' . date('d.', strtotime($row['event_date_end'])).date('m.', strtotime($row['event_date_end'])).date('Y', strtotime($row['event_date_end']));
+							}
+							echo '</p>';
+							?>
+						</p>
+						<p>
+							<?php echo $row["event_text"]?>
+						</p>
+						<p style="margin-bottom:0">
+							Interesse? Zur Anmeldung geht's hier: <a href="https://www.vwi-karlsruhe.de/veranstaltungen" target="_blank">vwi-karlsuhe.de/veranstaltungen</a>
+						</p>
+					</div>
+				</div>
+			
+				<hr>
+				
+				<p style="font-size:10px">
+					Dies ist Veranstaltungwerbung der Hochschulgruppe VWI-ESTIEM. Unsere Veranstaltungen werden kostenlos von Studierenden für Studierende organisiert. Mehr Infos zur Hochschulgruppe: <a href="https://www.vwi-karlsruhe.de/" target="_blank">vwi-karlsuhe.de</a>.
+				</p>
+			</div>
+		
+			<br>
+		<?php
+		}?>
+		<!--ENDE Sempro-Werbung-->
+
 		<!--START Fragen-->
 		<div class="well">
 
@@ -1497,12 +1580,15 @@ $(document).ready(function(){
 
 	var bewertenLaden = function(){
 			$('#jetztBewertenModal').modal('show');
+			/*
 			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
 			$('#bewertungAbgebenForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>", function( response, status, xhr ) {
 			  if ( status == "error" ) {
 				$('#bewertungAbgebenForm').html('<strong>Daten können nicht geladen werden.</strong>');
 			  }
 			});
+			*/
+			$('#bewertungAbgebenForm').html('Leider können gerade keine Bewertungen abgegeben werden - wir sind dabei, den Fehler zu beheben!');
 	}
 	$('#jetztBewertenButton').click(bewertenLaden);
 	$('#jetztBewertenButton2').click(bewertenLaden);
