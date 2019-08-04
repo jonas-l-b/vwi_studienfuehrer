@@ -33,7 +33,7 @@ $result = mysqli_query($con, "SELECT * FROM ratings WHERE subject_ID = '$subject
 if(mysqli_num_rows($result) == 1){
 	$sql="
 		UPDATE ratings
-		SET lecture0 = '$lecture0', lecture1 = '$lecture1', lecture2 = '$lecture2', examType = '$examType', exam0 = '$exam0', exam1 = '$exam1', exam3 = '$exam3', examText = '$examText', examSemester = '$examSemester', general0 = '$general0', recommendation = '$recommendation', comment = '$comment', time_stamp_change = now()
+		SET lecture0 = '$lecture0', lecture1 = '$lecture1', lecture2 = '$lecture2', examType = '$examType', exam0 = '$exam0', exam1 = '$exam1', exam2 = '$exam2', exam3 = '$exam3', examText = '$examText', examSemester = '$examSemester', general0 = '$general0', recommendation = '$recommendation', comment = '$comment', time_stamp_change = now()
 		WHERE subject_ID = '$subject' AND user_ID = '$nameID';
 	";
 	if ($con->query($sql) == TRUE) {
