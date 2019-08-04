@@ -951,17 +951,38 @@ if($userRow['admin']==0){
 			<br>
 			<p>
 				Hier kannst du Werbung für kommende SemPro-Events auf Veranstaltungsseiten schalten. Pro Veranstaltung ist gleichzeitig nur eine Werbung möglich.
-				<span style="color:red">Sind für eine Veranstaltung mehrere Events eingetragen, so wird nur eines beworben.</span>
+				<span style="color:red">Sind für eine Veranstaltung mehrere Events eingetragen, so wird nur das Event mit der nächsten <u>Anmeldungs</u>deadline beworben.</span>
 				Nach Ablauf des SemPro-Events wird die geschaltete Werbung automatisch gelöscht.
 			</p>
+			
+			<h3>Kommende SemPro-Events:</h3>
 			
 			<hr>
 			
 			<?php
+			/*Check for passed events and delete from database*/
+			//Get upcoming event_ids
 			$sql = "
 				SELECT * FROM `jom_vwi_semesterprogramm`
-				WHERE event_date_start >= '2019-07-01 00:00:00'
-				ORDER BY event_date_start
+				WHERE application_date >= now()
+			";			
+			$result = mysqli_query($con_hp, $sql);
+
+			$ids = array(0);
+			while($row = mysqli_fetch_assoc($result)) {
+				$ids[] = $row['event_id'];
+			}
+			$upcoming_events_ids = implode(',', $ids);
+
+			//Delete passed events
+			mysqli_query($con, "DELETE FROM `sempro_ads` WHERE event_id NOT IN ($upcoming_events_ids)");
+			?>
+			
+			<?php
+			$sql = "
+				SELECT * FROM `jom_vwi_semesterprogramm`
+				WHERE application_date >= now()
+				ORDER BY application_date
 			";
 			$result = mysqli_query($con_hp, $sql);
 			
@@ -1025,10 +1046,20 @@ if($userRow['admin']==0){
 				if(mysqli_num_rows($event_result)>0) echo "<br>";
 				
 				while($ad_subject = mysqli_fetch_assoc($event_result)){
+					//Mark subject that exists multiple times
+					$color_result = mysqli_query($con, "SELECT * FROM `sempro_ads` WHERE subject_id = ".$ad_subject['ID']);
+					if(mysqli_num_rows($color_result)>1){
+						$show_warning = "";
+					}else{
+						$show_warning = "display:none";
+					}
+					
 					echo "
 						<p style=\"font-size:17px; display:flex; align-items: center;\">
 							<span subject_id=".$ad_subject['ID']." event_id=".$row['event_id']." class=\"glyphiconRemoveSubject glyphicon glyphicon-minus-sign\" title=\"Auf dieser Veranstaltung nicht mehr werben\" style=\"color:lightgrey; cursor: pointer; cursor: hand;\">&nbsp</span>
 							".$ad_subject['subject_name']."
+							<span>&nbsp</span>
+							<span style='$show_warning' class='glyphicon glyphicon-exclamation-sign' data-toggle='tooltip' title='Auf dieser Veranstaltung werden mehrere Events beworben; es wird nur das Event mit der nächsten Deadline angezeigt.'></span>
 						</p>
 					";
 				}
@@ -1039,6 +1070,8 @@ if($userRow['admin']==0){
 			
 			<script>		
 			$(document).ready(function(){
+				
+				$('[data-toggle="tooltip"]').tooltip();
 				
 				$(".glyphiconRemoveSubject").click(function(){
 					help_this = this;

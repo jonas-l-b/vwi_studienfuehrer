@@ -583,19 +583,43 @@ include "sumVotes.php";
 
 		<!--START Sempro-Werbung-->
 		<?php
+		/*Check for passed events and delete from database*/
+		//Get upcoming event_ids
 		$sql = "
-			SELECT * FROM sempro_ads
+			SELECT * FROM `jom_vwi_semesterprogramm`
+			WHERE application_date >= now()
+		";			
+		$result = mysqli_query($con_hp, $sql);
+
+		$ids = array(0);
+		while($row = mysqli_fetch_assoc($result)) {
+			$ids[] = $row['event_id'];
+		}
+		$upcoming_events_ids = implode(',', $ids);
+
+		//Delete passed events
+		mysqli_query($con, "DELETE FROM `sempro_ads` WHERE event_id NOT IN ($upcoming_events_ids)");
+		?>
+		
+		<?php
+		$sql = "
+			SELECT event_id FROM sempro_ads
 			WHERE subject_id = ".$subjectData['ID']."
-			LIMIT 1
+
 		";
 		$result = mysqli_query($con, $sql);
-		$row = mysqli_fetch_assoc($result);
-		
-		$event_id = $row["event_id"];
+
+		$ids = array();
+		while($row = mysqli_fetch_assoc($result)) {
+			$ids[] = $row['event_id'];
+		}
+		$query_ids = implode(',', $ids);
 		
 		$sql = "
 			SELECT * FROM `jom_vwi_semesterprogramm`
-			WHERE event_id = $event_id
+			WHERE event_id IN ($query_ids)
+			ORDER BY application_date
+			LIMIT 1
 		";
 		$result = mysqli_query($con_hp, $sql);
 		$row = mysqli_fetch_assoc($result);
@@ -604,11 +628,11 @@ include "sumVotes.php";
 		?>
 			
 			<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
-				<div style="display: flex; align-items: flex-start; align-items:center;">
-					<div>
+				<div style="display: flex; align-items:center" class="row">
+					<div class="col-sm-3">
 						<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">
 					</div>
-					<div>
+					<div class="col-sm-9">
 						<p>
 							<strong><?php echo $row["event_name"]?></strong><br>
 							<?php
