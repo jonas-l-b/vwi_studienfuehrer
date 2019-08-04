@@ -416,10 +416,10 @@ $("#changeButton").click(function () {
 						?>
 					</p>
 					<p>
-						<?php echo $next_event["event_text"]?>
+						<?php echo nl2br($next_event["event_text"])?>
 					</p>
 					<p style="margin-bottom:0">
-						Interesse? Zur Anmeldung geht's hier: <a href="https://www.vwi-karlsruhe.de/veranstaltungen" target="_blank">vwi-karlsuhe.de/veranstaltungen</a>
+						Hier geht es zur Veranstaltungsseite von VWI-ESTIEM: <a href="https://www.vwi-karlsruhe.de/veranstaltungen" target="_blank">vwi-karlsuhe.de/veranstaltungen</a>
 					</p>
 				</div>
 			</div>
