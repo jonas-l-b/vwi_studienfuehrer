@@ -199,12 +199,27 @@ $InstanceCache->deleteItem("treeside");
 	<?php if(isset($msg)) echo $msg ?>
 	
 	<!-- COMBOBOX -->
-	
-	<?php
-		echo $twig->render('admin_edit_auswahl_form.template.html', 
-							array(	'rows' => $rows,
-									'buttontext' => 'Diese Veranstaltung bearbeiten'));
-	?>
+	<form class="form-inline" method="GET">
+		<div class="form-group">
+			<?php
+			$rand_id = rand();
+			?>
+			<select id="combobox<?php echo $rand_id?>" class="combobox form-control input-large" name="select" required>
+				<option></option>
+				<?php
+				foreach ($rows as &$row) {
+					echo "<option value='".$row['id']."' ".$row['selected'].">".$row['subject_name']." ".$row['identifier']."</option>";
+				}
+				?>
+			</select>
+			<script>
+				$(document).ready(function(){
+					$('#combobox<?php echo $rand_id?>').combobox();
+				});
+			</script>
+			<button type="submit" class="btn btn-primary" id="btn-edit" name="btn-edit">Diese Veranstaltung bearbeiten</button>
+		</div>
+	</form>
 	
 	<div <?php echo $display ?>>
 	
