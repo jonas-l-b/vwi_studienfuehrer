@@ -298,7 +298,7 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					<?php
 				}
 				$u_logger->info("Der User mit der ID". $user_id ."hat sich soeben eingeloggt.");
-				echo ("<SCRIPT LANGUAGE='JavaScript'>window.location.href='tree.php';</SCRIPT>");
+				echo ("<SCRIPT LANGUAGE='JavaScript'>$(document).ready(function () {window.location.href='tree.php';});</SCRIPT>");
 			}
 		}else{
 			$msg = "<div class='alert alert-danger'>
