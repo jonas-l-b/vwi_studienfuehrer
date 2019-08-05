@@ -286,11 +286,13 @@ if (isset($_POST['btn-login']) && $_POST['password'] != "") {
 					<span id="user-id" style="display:none"><?php echo $user_id ?></span>
 
 					<script>
-					var s = $('#series').text();
-					var t = $('#token').text();
-					var u = $('#user-id').text();
+					$(document).ready(function () {
+						var s = $('#series').text();
+						var t = $('#token').text();
+						var u = $('#user-id').text();
 
-					setCookie(s,t,u,30);
+						setCookie(s,t,u,30);
+					});
 					</script>
 
 					<?php
