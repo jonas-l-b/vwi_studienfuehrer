@@ -1580,15 +1580,15 @@ $(document).ready(function(){
 
 	var bewertenLaden = function(){
 			$('#jetztBewertenModal').modal('show');
-			/*
+			
 			$('#bewertungAbgebenForm').html('<br /><br /><div class="loader"><div></div></div><br /><br />');
 			$('#bewertungAbgebenForm').load("lade_bewertungsform.php?subject=<?php echo $subject?>", function( response, status, xhr ) {
 			  if ( status == "error" ) {
 				$('#bewertungAbgebenForm').html('<strong>Daten können nicht geladen werden.</strong>');
 			  }
 			});
-			*/
-			$('#bewertungAbgebenForm').html('Leider können gerade keine Bewertungen abgegeben werden - wir sind dabei, den Fehler zu beheben!');
+			
+			//$('#bewertungAbgebenForm').html('Leider können gerade keine Bewertungen abgegeben werden - wir sind dabei, den Fehler zu beheben!');
 	}
 	$('#jetztBewertenButton').click(bewertenLaden);
 	$('#jetztBewertenButton2').click(bewertenLaden);
