@@ -950,9 +950,11 @@ if($userRow['admin']==0){
 		<div id="semproAds" class="tab-pane fade">
 			<br>
 			<p>
-				Hier kannst du Werbung für kommende SemPro-Events auf Veranstaltungsseiten schalten. Pro Veranstaltung ist gleichzeitig nur eine Werbung möglich.
-				<span style="color:red">Sind für eine Veranstaltung mehrere Events eingetragen, so wird nur das Event mit der nächsten <u>Anmeldungs</u>deadline beworben.</span>
-				Nach Ablauf des SemPro-Events wird die geschaltete Werbung automatisch gelöscht.
+				<i>
+					Hier kannst du Werbung für kommende SemPro-Events auf Veranstaltungsseiten schalten. Pro Veranstaltung ist gleichzeitig nur eine Werbung möglich.
+					<span style="color:red">Sind für eine Veranstaltung mehrere Events eingetragen, so wird nur das Event mit der nächsten <u>Anmeldungs</u>deadline beworben.</span>
+					Nach Ablauf des SemPro-Events wird die geschaltete Werbung automatisch gelöscht.
+				</i>
 			</p>
 			
 			<h3>Kommende SemPro-Events:</h3>
@@ -1156,7 +1158,7 @@ if($userRow['admin']==0){
 
 			<br>
 			
-			<p>Hier hast du die Möglichkeit, eine Massenmail an alle Nutzer des Studienführers zu schicken, die angekreuzt haben, dass sie "über interessante Events informiert werden wollen".</p>
+			<p><i>Hier hast du die Möglichkeit, eine Massenmail an alle Nutzer des Studienführers zu schicken, die angekreuzt haben, dass sie "über interessante Events informiert werden wollen".</i></p>
 			<br>
 
 			<h3>1. Betreff und Inhalt erstellen</h3>
