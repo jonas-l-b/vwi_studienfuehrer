@@ -157,37 +157,29 @@ if (isset($_GET['subject'])){
 		<p>Wann wurdest du geprüft?</p>
 		<select id="examSemester" class="form-control" style="width:100%" required>
 			<option disabled selected value="" style=\"display:none\"> -- Bitte wählen -- </option>
-			<option value="ss10">SS10</option>
-			<option value="ws10-11">WS10-11</option>
-			<option value="ss11">SS11</option>
-			<option value="ws11-12">WS11-12</option>
-			<option value="ss12">SS12</option>
-			<option value="ws12-13">WS12-13</option>
-			<option value="ss13">SS13</option>
-			<option value="ws13-14">WS13-14</option>
-			<option value="ss14">SS14</option>
-			<option value="ws14-15">WS14-15</option>
-			<option value="ss15">SS15</option>
-			<option value="ws15-16">WS15-16</option>
-			<option value="ss16">SS16</option>
-			<option value="ws16-17">WS16-17</option>
-			<option value="ss17">SS17</option>
-			<option value="ws17-18">WS17-18</option>
-			<option value="ss18">SS18</option>
-			<option value="ws18-19">WS18-19</option>
-			<option value="ss19">SS19</option><!--
-			<option value="ws19-20">WS19-20</option>
-			<option value="ss20">SS20</option>
-			<option value="ws20-21">WS20-21</option>
-			<option value="ss21">SS21</option>
-			<option value="ws21-22">WS21-22</option>
-			<option value="ss22">SS22</option>
-			<option value="ws22-23">WS22-23</option>
-			<option value="ss23">SS23</option>
-			<option value="ws23-24">WS23-24</option>
-			<option value="ss24">SS24</option>
-			<option value="ws24-25">WS24-25</option>
-			<option value="ss25">SS25</option>-->
+			
+			<?php
+			$current_year = date('y');
+			$current_month = date('m');
+			
+			$summer_term_months = array(4,5,6,7,8,9);
+			$last_winter_term_months = array(10,11,12);
+
+			
+			for($i = $current_year-8;$i <= $current_year; $i++){
+				if($i < $current_year){
+					echo "<option value='ss".$i."'>SS".$i."</option>";
+					echo "<option value='ws".$i."-".($i+1)."'>WS".$i."-".($i+1)."</option>";
+				}else{
+					if(in_array($current_month, $summer_term_months)){
+						echo "<option value='ss".$i."'>SS".$i."</option>";
+					}elseif(in_array($current_month, $last_winter_term_months)){
+						echo "<option value='ss".$i."'>SS".$i."</option>";
+						echo "<option value='ws".$i."-".($i+1)."'>WS".$i."-".($i+1)."</option>";		
+					}
+				}
+			}
+			?>
 		</select>
 
 		<script>
