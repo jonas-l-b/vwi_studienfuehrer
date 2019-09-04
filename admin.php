@@ -959,8 +959,6 @@ if($userRow['admin']==0){
 			
 			<h3>Kommende SemPro-Events:</h3>
 			
-			<hr>
-			
 			<?php
 			/*Check for passed events and delete from database*/
 			//Get upcoming event_ids
@@ -1001,72 +999,76 @@ if($userRow['admin']==0){
 			$i = 1;
 			while($row = mysqli_fetch_assoc($result)){
 				?>
-				<h4>
-					<?php echo $row["event_name"]?>
-				</h4>
-				
-				<form id="addSubjectForm<?php echo $i?>" method="POST">
-					<div class="form-group">
-						<select id="subject_selection" name="subject_selection" class="search ui fluid dropdown form-control" required>
-							<?php echo $subject_selection ?>
-						</select>
-					</div>
+				<div style="background-color:#F8F8F8; border-radius:3px; padding: 10px">
+					<h4>
+						<?php echo $row["event_name"]?>
+					</h4>
 					
-					<div class="form-group" style="display:none">
-						<input id="event_id" name="event_id" value="<?php echo $row['event_id']?>">
-					</div>
+					<form id="addSubjectForm<?php echo $i?>" method="POST">
+						<div class="form-group">
+							<select id="subject_selection" name="subject_selection" class="search ui fluid dropdown form-control" required>
+								<?php echo $subject_selection ?>
+							</select>
+						</div>
+						
+						<div class="form-group" style="display:none">
+							<input id="event_id" name="event_id" value="<?php echo $row['event_id']?>">
+						</div>
+						
+						<button type="submit" class="btn btn-default">Veranstaltung hinzufügen</button>
+					</form>
 					
-					<button type="submit" class="btn btn-default">Veranstaltung hinzufügen</button>
-				</form>
-				
-				<script>
-				$(document).ready(function(){
-					$("#addSubjectForm<?php echo $i?>").submit(function(e){
-						$.ajax({
-							type: "POST",
-							url: "admin_addSubject_submit.php",
-							data: $("#addSubjectForm<?php echo $i?>").serialize(),
-							success: function(data) {
-								if(data.trim() != ""){
-									alert(data);
+					<script>
+					$(document).ready(function(){
+						$("#addSubjectForm<?php echo $i?>").submit(function(e){
+							$.ajax({
+								type: "POST",
+								url: "admin_addSubject_submit.php",
+								data: $("#addSubjectForm<?php echo $i?>").serialize(),
+								success: function(data) {
+									if(data.trim() != ""){
+										alert(data);
+									}
 								}
-							}
+							});
+							//e.preventDefault();
 						});
-						//e.preventDefault();
-					});
-				});	
-				</script>
-				
-				<?php
-				$sql = "
-					SELECT * FROM `sempro_ads`
-					JOIN subjects ON sempro_ads.subject_id = subjects.ID
-					WHERE event_id = ".$row['event_id']."
-				";
-				$event_result = mysqli_query($con, $sql);
-				
-				if(mysqli_num_rows($event_result)>0) echo "<br>";
-				
-				while($ad_subject = mysqli_fetch_assoc($event_result)){
-					//Mark subject that exists multiple times
-					$color_result = mysqli_query($con, "SELECT * FROM `sempro_ads` WHERE subject_id = ".$ad_subject['ID']);
-					if(mysqli_num_rows($color_result)>1){
-						$show_warning = "";
-					}else{
-						$show_warning = "display:none";
-					}
+					});	
+					</script>
 					
-					echo "
-						<p style=\"font-size:17px; display:flex; align-items: center;\">
-							<span subject_id=".$ad_subject['ID']." event_id=".$row['event_id']." class=\"glyphiconRemoveSubject glyphicon glyphicon-minus-sign\" title=\"Auf dieser Veranstaltung nicht mehr werben\" style=\"color:lightgrey; cursor: pointer; cursor: hand;\">&nbsp</span>
-							".$ad_subject['subject_name']."
-							<span>&nbsp</span>
-							<span style='$show_warning' class='glyphicon glyphicon-exclamation-sign' data-toggle='tooltip' title='Auf dieser Veranstaltung werden mehrere Events beworben; es wird nur das Event mit der nächsten Deadline angezeigt.'></span>
-						</p>
+					<?php
+					$sql = "
+						SELECT * FROM `sempro_ads`
+						JOIN subjects ON sempro_ads.subject_id = subjects.ID
+						WHERE event_id = ".$row['event_id']."
 					";
-				}
-				$i++;
-				echo "<hr>";
+					$event_result = mysqli_query($con, $sql);
+					
+					if(mysqli_num_rows($event_result)>0) echo "<br>";
+					
+					while($ad_subject = mysqli_fetch_assoc($event_result)){
+						//Mark subject that exists multiple times
+						$color_result = mysqli_query($con, "SELECT * FROM `sempro_ads` WHERE subject_id = ".$ad_subject['ID']);
+						if(mysqli_num_rows($color_result)>1){
+							$show_warning = "";
+						}else{
+							$show_warning = "display:none";
+						}
+						
+						echo "
+							<p style=\"font-size:17px; display:flex; align-items: center;\">
+								<span subject_id=".$ad_subject['ID']." event_id=".$row['event_id']." class=\"glyphiconRemoveSubject glyphicon glyphicon-minus-sign\" title=\"Auf dieser Veranstaltung nicht mehr werben\" style=\"color:lightgrey; cursor: pointer; cursor: hand;\">&nbsp</span>
+								".$ad_subject['subject_name']."
+								<span>&nbsp</span>
+								<span style='$show_warning' class='glyphicon glyphicon-exclamation-sign' data-toggle='tooltip' title='Auf dieser Veranstaltung werden mehrere Events beworben; es wird nur das Event mit der nächsten Deadline angezeigt.'></span>
+							</p>
+						";
+					}
+					$i++;
+					?>
+				</div>
+				<br>
+				<?php
 			}
 			?>
 			
