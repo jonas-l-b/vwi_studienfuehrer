@@ -607,12 +607,26 @@ for ($i = 0; $i <= count($counts)-1; $i++) {
 		<div class="well" style="background-color: #e6f3ff; border-radius:3px;">
 			<p style="text-align:center; font-size:20px">
 				Freunde werben: 
-				<span style="display:inline-block; border: solid lightgrey 1px; border-radius:3px; padding:10px; background-color:white">https://xn--studienfhrer-klb.vwi-karlsruhe.de/register.php?f=<?php echo $userRow['user_ID'] ?></span>
+				<input id="recruitLink" style="display:inline-block; border: solid lightgrey 1px; border-radius:3px; padding:10px; background-color:white" value="https://studienführer.vwi-karlsruhe.de/register.php?f=<?php echo $userRow['user_ID'] ?>">
+				<!--<button type="button" class="btn btn-default" onclick="copyLink()" style="margin-bottom:2px">Kopieren</button>-->
 			</p>
 			<p style="text-align:center;">
 				Wenn sich deine Kommiltonen mit diesem Link erfolgreich registrieren, besteht die Möglichkeit, dass du weitere Errungenschaften freischaltest!
 			</p>
 		</div>
+		<div class="snackbar" id="recruitLinkCopied">Dein Werbe-Link wurde kopiert.</div>
+		
+		<script>
+		function copyLink() {
+			
+			var copyText = document.getElementById("recruitLink").innerHTML;
+			copyText.select();
+			//document.execCommand("copy");
+			
+			$('#recruitLinkCopied').addClass('show');
+			setTimeout(function(){ $('#recruitLinkCopied').removeClass('show'); }, 3000);
+		}
+		</script>
 		
 		
 		<?php
