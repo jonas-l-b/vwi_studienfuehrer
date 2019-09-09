@@ -363,8 +363,8 @@ if($userRow['admin']==0){
 		
 			
 	<div id="notifications" class="tab-pane fade">
-			<h3>Nachrichten</h3>
-			<p>Diese Administratoren werden benachrichtigt, wenn neue Nachrichten empfangen werden oder wenn andere ihnen Nachrichten zuweisen:</p>
+			<br>
+			<p><i>Diese Administratoren werden benachrichtigt, wenn neue Nachrichten empfangen werden oder wenn andere ihnen Nachrichten zuweisen:</i></p>
 			<?php
 			$sql = "
 				SELECT *
