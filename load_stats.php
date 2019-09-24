@@ -27,6 +27,10 @@ if($ratingsPercent == 100) $color1 = "rgb(37, 160, 3)";
 <h4>Anzahl abgegebener Bewertungen insgesamt: <b><?php echo $ratingsCount?></b></h4>
 
 <br>
+<div style="border: solid lightgrey 1px; border-radius:3px">
+	<div id="chart_div" style="width: 100%; height: 300px;"></div>
+</div>
+<br>
 
 <!--Anteil Nicht-Kernprogramm-Veranstaltungen-->	
 <?php
