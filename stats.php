@@ -62,6 +62,7 @@ $( document ).ready(function() {
 					hAxis: {title: '',  titleTextStyle: {color: '#333'}},
 					vAxis: {minValue: 0},
 					//chartArea:{left:10,top:20,width:"100%",height:"100%"}
+					legend: {position: 'none'}
 				};
 
 				var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
