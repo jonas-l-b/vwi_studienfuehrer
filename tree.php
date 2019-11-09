@@ -400,9 +400,11 @@ $("#changeButton").click(function () {
 		?>
 
 		<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
-			<div style="display: flex; align-items: flex-start; align-items:center;">
+			<div class="row">
 				<div class="col-sm-3">
-					<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $next_event["event_picture"]?>">
+					<div class="align-self-center" style="display: flex; align-items:center;">
+						<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $next_event["event_picture"]?>">
+					</div>
 				</div>
 				<div class="col-sm-9">
 					<p>
