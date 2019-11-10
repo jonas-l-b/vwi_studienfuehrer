@@ -1,6 +1,16 @@
 <!Doctype html>
 <html lang="de">
 <head>
+	<style>
+		@media (min-width: 768px) {
+		.row {
+		  display:flex;
+			align-items:center;
+		}
+		}
+	</style>
+	
+
 	<title>Studienführer VWI-ESTIEM Karlsruhe</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">

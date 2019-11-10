@@ -628,13 +628,9 @@ include "sumVotes.php";
 		?>
 			
 			<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
-				<div class="row">
+				<div class="row align-items-sm-center">
 					<div class="col-sm-3">
-						<!--<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">-->
-
-							<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">
-
-						
+						<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">
 					</div>
 					<div class="col-sm-9">
 						<p>
