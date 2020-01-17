@@ -152,7 +152,11 @@ window.onload = function () {
 	<?php
 	$result = mysqli_query($con, "SELECT SUM(points) AS sum_points FROM badges");
 	$row = mysqli_fetch_assoc($result);
-	echo "Maximalpunktzahl: " . $row['sum_points'] . " Punkte";
+	echo "Maximalpunktzahl: " . $row['sum_points'] . " Punkte<br>";
+	
+	$result = mysqli_query($con, "SELECT SUM(points) AS sum_points FROM `users_badges` LEFT JOIN badges ON users_badges.badge_id = badges.id");
+	$row = mysqli_fetch_assoc($result);
+	echo "Summe aller Nutzer: " . $row['sum_points'] . " Punkte";
 	?>
 	</p>
 	
