@@ -12,15 +12,8 @@ include "connect.php";
 <?php include "inc/nav.php" ?>
 
 <div id="main" class="container">
-	<h3>Nachricht an Nutzer verschicken</h3>
-	<p>Falls du weitere Fragen an einen Nutzer des Studienführers hast, kannst du hier diesem Nutzer eine Nachricht schicken, sofern:</p>
-	<ul style="padding-left: 1em">
-		<li>dieser Nutzer dem Empfang von Nachrichten nicht widersprochen hat</li>
-		<li>du dem Empfang von Nachrichten nicht widersprochen hast (das kannst du in deinem <a href="userProfile.php#notifications">Profil</a> tun)</li>
-	</ul>
-	<p>Der Empfänger deiner Nachricht bekommt diese von uns zusammen mit deiner E-Mail-Adresse zugeschickt, sodass er dir direkt antworten kann. Zur weiteren Kommunikation kannst du natürlich direkt auf seine E-Mail antworten; diese Seite dient also nur zur Kontaktaufnahme.</p>
-
-	<hr>
+	<h2>Erfahrungen & Kontakt</h2>
+	<p>Auf dieser Seite werden alle geteilten Erfahrungen eines Nutzers gelistet. Außerdem besteht die Möglichkeit zur Kontaktaufnahme.</p>
 
 	<?php
 	//Check if current user activated messages
@@ -34,7 +27,7 @@ include "connect.php";
 	if ($row["user_messages"] != 1){
 		echo "Um diese Funktion nutzen zu können, musst du selbst zustimmen, dass Nutzer dir Nachrichten schicken dürfen. Tu das in deinem <a href='userProfile.php#notifications'>Profil</a> und komme hierher zurück.";
 	}else{
-		if (isset($_GET['recipient_id'])){
+		if (isset($_GET['recipient_id']) && !empty($_GET['recipient_id'])){
 			$recipient_id = strval($_GET['recipient_id']);
 			$sql = "
 				SELECT * FROM `users`
@@ -46,18 +39,52 @@ include "connect.php";
 			
 			if ($row["username"] == ""){
 				?>
-				<h3>Ungültiger Nutzer ausgewählt!</h3>
-				<p>Die Nutzer-ID, die in der URL übergeben wurde, passt zu keinem Nutzer in der Datenbank.</p>
+				<p>Allerdings passt die Nutzer-ID, die in der URL übergeben wurde, zu keinem Nutzer in der Datenbank.
+				Klicke unter Kommentaren auf den Nutzernamen des Verfassers, um mit einer passenden Nutzer-ID hierherzugelangen.</p>				
 				<?php
 			}else{
 				$sql2 = "SELECT * FROM user_notifications WHERE user_id = $recipient_id";
 				$result2 = mysqli_query($con, $sql2);
 				$row2 = mysqli_fetch_assoc($result2);
 				
-				if($row2['user_messages'] == 1){
+				//Alle Erfahrungen
+				?>
+				<h3>Zu diesen Veranstaltungen hat <b><i><?php echo $row["username"] ?></i></b> Erfahrungen geteilt:</h3>
+				<?php
+				$sql3 = "
+					SELECT ratings.subject_ID AS subject_id, subjects.subject_name AS subject_name FROM `ratings`
+					JOIN subjects on ratings.subject_ID = subjects.ID
+					WHERE user_ID = $recipient_id
+				";
+				$result3 = mysqli_query($con, $sql3);
+				
+				if (mysqli_num_rows($result3) == 0 ) {
 					?>
-					<h3>Nachricht an Nutzer <b><i><?php echo $row["username"] ?></i></b> schicken:</h3>
+					<i><?php echo $row["username"] ?> hat noch keine Erfahrungen geteilt.</i>
 					<?php
+				}
+				?>
+				<ul style="padding-left: 1em">
+				<?php
+				while($row3 = mysqli_fetch_assoc($result3)){
+					?>
+					<li><a href="index.php?subject=<?php echo $row3['subject_id']?>"><?php echo $row3['subject_name']?></a></li>
+					<?php
+				}?>
+				</ul>
+				<?php
+				//Nachricht an Nutzer
+				?>
+				<h3>Nachricht an <b><i><?php echo $row["username"] ?></i></b> schicken:</h3>
+				<p>Falls du weitere Fragen an einen Nutzer des Studienführers hast, kannst du hier diesem Nutzer eine Nachricht schicken, sofern:</p>
+				<ul style="padding-left: 1em">
+					<li>dieser Nutzer dem Empfang von Nachrichten nicht widersprochen hat</li>
+					<li>du dem Empfang von Nachrichten nicht widersprochen hast (das kannst du in deinem <a href="userProfile.php#notifications">Profil</a> tun)</li>
+				</ul>
+				<p>Der Empfänger deiner Nachricht bekommt diese von uns zusammen mit deiner E-Mail-Adresse zugeschickt, sodass er dir direkt antworten kann. Zur weiteren Kommunikation kannst du natürlich direkt auf seine E-Mail antworten; diese Seite dient also nur zur Kontaktaufnahme.</p>
+
+				<?php				
+				if($row2['user_messages'] == 1){
 					if($recipient_id == $userRow['user_ID']) echo "<p style='color:rgb(0, 204, 0)'><i>Du kannst dir natürlich auch selbst eine Nachricht schreiben, aber dann musst du dir natürlich auch selbst antworten :)</i></p>";
 					?>
 					<div id="messageBody">
@@ -81,8 +108,8 @@ include "connect.php";
 
 		}else{
 			?>
-			<h3>Kein Nutzer ausgewählt!</h3>
-			<p>Unter Kommentaren wird der Benutzername des Verfassers angezeigt. Klicke darauf, um ihn auszuwählen und auf diese Seite zu gelangen.</p>
+			<p>Allerdings wurde keine Nutzer-ID in der URL übergeben.
+			Klicke unter Kommentaren auf den Nutzernamen des Verfassers, um mit einer passenden Nutzer-ID hierherzugelangen.</p>
 			<?php
 		}
 	}
