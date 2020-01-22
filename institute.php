@@ -45,7 +45,7 @@ include "connect.php";
 	/*Lade alle Einträge mit mehreren möglichen Einträgen*/
 	//lecturers
 	$sql = "
-		SELECT DISTINCT lecturers.lecturer_ID, lecturers.last_name, lecturers.first_name, institutes.institute_ID, abbr
+		SELECT DISTINCT lecturers.lecturer_ID, lecturers.name, institutes.institute_ID, abbr
 		FROM lecturers
 		JOIN lecturers_institutes ON lecturers.lecturer_ID = lecturers_institutes.lecturer_ID
 		JOIN institutes ON lecturers_institutes.institute_ID = institutes.institute_ID
@@ -55,7 +55,7 @@ include "connect.php";
 	$result = mysqli_query($con,$sql);
 	$lecturers = "";
 	while($row = mysqli_fetch_assoc($result)){
-		$lecturers .= "<li><a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a></li>";
+		$lecturers .= "<li><a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".$row['name']."</a></li>";
 	}
 	$lecturers = substr($lecturers, 0, -5);
 	

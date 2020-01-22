@@ -28,7 +28,7 @@ include "connect.php";
 	
 	//Moduldatensatz laden
 	$sql = "
-		SELECT lecturers.lecturer_ID, first_name, last_name, active
+		SELECT lecturers.lecturer_ID, name, active
 		FROM lecturers
 		WHERE lecturers.lecturer_ID = '".$lecturer_id."'
 	";
@@ -77,7 +77,7 @@ include "connect.php";
 	
 	<div style="display:<?php echo $showMain?>">
 		<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">DOZENT</p>
-		<h2 style="margin-top:0px"><?php echo $lecturerData['first_name']." ".$lecturerData['last_name']?></h2>
+		<h2 style="margin-top:0px"><?php echo $lecturerData['name'] ?></h2>
 		<hr>
 		
 		<?php
