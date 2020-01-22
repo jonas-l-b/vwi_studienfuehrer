@@ -29,7 +29,7 @@ include "connect.php";
 	
 	//Moduldatensatz laden
 	$sql = "
-		SELECT code, modules.name AS module_name, type, ects
+		SELECT code, modules.name AS module_name, type, ects, active
 		FROM modules
 		WHERE modules.module_ID = '".$module_id."'
 	";
@@ -130,6 +130,17 @@ include "connect.php";
 		<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">MODUL</p>
 		<h2 style="margin-top:0px"><?php echo $moduleData['module_name']?></h2>
 		<hr>
+		
+		<?php
+		if ($moduleData['active'] == 0){
+			echo '
+				<br>
+				<div class="alert alert-danger">
+					Dieses Modul existiert im aktuellen Modulhandbuch nicht mehr.
+				</div>
+			';
+		}
+		?>
 				
 		<div class="row">
 			<div class="col-md-8">			

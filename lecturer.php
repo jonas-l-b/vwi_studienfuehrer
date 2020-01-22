@@ -28,7 +28,7 @@ include "connect.php";
 	
 	//Moduldatensatz laden
 	$sql = "
-		SELECT lecturers.lecturer_ID, first_name, last_name
+		SELECT lecturers.lecturer_ID, first_name, last_name, active
 		FROM lecturers
 		WHERE lecturers.lecturer_ID = '".$lecturer_id."'
 	";
@@ -79,6 +79,18 @@ include "connect.php";
 		<p style="margin-bottom:0px; margin-left:1px; font-weight:bold; color:grey; letter-spacing: 0.5px; font-family:open sans">DOZENT</p>
 		<h2 style="margin-top:0px"><?php echo $lecturerData['first_name']." ".$lecturerData['last_name']?></h2>
 		<hr>
+		
+		<?php
+		if ($lecturerData['active'] == 0){
+			echo '
+				<br>
+				<div class="alert alert-danger">
+					Dieser Dozent existiert im aktuellen Modulhandbuch nicht mehr.
+				</div>
+			';
+		}
+		?>
+		
 		<table class="table" style="border-top:solid; border-top-color:white">
 			<tbody>
 				<tr>

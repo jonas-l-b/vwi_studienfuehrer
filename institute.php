@@ -122,6 +122,17 @@ include "connect.php";
 		<h2 style="margin-top:0px"><?php echo $instituteData['name']." (".$instituteData['abbr'].")"?></h2>
 		<hr>
 		
+		<?php
+		if ($instituteData['active'] == 0){
+			echo '
+				<br>
+				<div class="alert alert-danger">
+					Dieses Institut existiert im aktuellen Modulhandbuch nicht mehr.
+				</div>
+			';
+		}
+		?>
+		
 		<div class="row">
 			<div class="col-md-4">
 				<h3>Veranstaltungen</h3>

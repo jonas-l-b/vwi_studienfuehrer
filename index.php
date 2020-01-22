@@ -41,7 +41,7 @@ include "sumVotes.php";
 		JOIN levels ON modules_levels.level_ID = levels.level_ID
 	";
 	$sql = "
-		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ID AS subject_id, identifier, subjects.ECTS AS subject_ECTS, semester, language
+		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ID AS subject_id, identifier, subjects.ECTS AS subject_ECTS, semester, language, subjects.active AS active
 		".$sqlBody."
 		WHERE subjects.ID = '".$subject."'
 	";
@@ -170,7 +170,16 @@ include "sumVotes.php";
 			<div class="general-flex-item" style="font-size:.9em;"><a id="contact2" style="cursor: pointer; cursor: hand;">Fehler dieser Seite melden</a></div>
 		</div>
 		
-
+		<?php
+		if ($subjectData['active'] == 0){
+			echo '
+				<br>
+				<div class="alert alert-danger">
+					Diese Veranstaltung existiert im aktuellen Modulhandbuch nicht mehr.
+				</div>
+			';
+		}
+		?>
 
 		<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
