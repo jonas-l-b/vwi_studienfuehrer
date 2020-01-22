@@ -38,6 +38,7 @@ if($userRow['admin']==0){
 		<li><a data-toggle="tab" href="#userProfiles">Nutzerprofile</a></li>
 		<li><a data-toggle="tab" href="#notes">Meldungen Startseite</a></li>
 		<li><a data-toggle="tab" href="#semproAds">SemPro-Werbung</a></li>
+		<li><a data-toggle="tab" href="#update">Update</a></li>
 		<?php if($userRow['super_admin'] == 1){ ?>
 		<li><a data-toggle="tab" href="#spam">Spam</a></li>
 		<?php } ?>
@@ -1114,6 +1115,16 @@ if($userRow['admin']==0){
 			
 		</div>
 		
+		<div id="update" class="tab-pane fade">
+			<br>
+			<i>Hier können bald automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
+			
+			<h2>Vorlesungen</h2>
+			<h3>Geänderte</h3>
+			<h3>Hinzugekommene</h3>
+			<h3>Gelöschte</h3>
+		</div>
+		
 		<?php if($userRow['super_admin'] == 1){ ?>
 		<div id="spam" class="tab-pane fade">
 		
@@ -1264,6 +1275,10 @@ $('#linkToNotes').click(function(event){
 $('#linkToSemproAds').click(function(event){
  	event.preventDefault();
  	$('.nav-tabs a[href="#semproAds"]').tab('show');
+});
+$('#linkToUpdate').click(function(event){
+ 	event.preventDefault();
+ 	$('.nav-tabs a[href="#update"]').tab('show');
 });
 $('#linkToSpam').click(function(event){
  	event.preventDefault();
