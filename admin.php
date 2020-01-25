@@ -1125,9 +1125,10 @@ if($userRow['admin']==0){
 			
 			<h2>Vorlesungen</h2>
 			<h3>Geänderte</h3>
-			<h3>Hinzugekommene</h3>
+			<h3 style="display:inline; padding-right: 10px">Hinzugekommene</h3> <a id="display_leactures_added"><span class="glyphicon glyphicon-chevron-down"></span></a>
+			<br><br>
 			
-			<table class="table table-striped">
+			<table class="table table-striped" id="table_leactures_added">
 				<tr>
 					<th>Name</th>
 					<th>Kennung</th>
@@ -1136,6 +1137,7 @@ if($userRow['admin']==0){
 					<th>Sprache</th>
 					<th>Bearbeiten</th>
 					<th>Hinzufügen</th>
+					<th>Löschen</th>
 				</tr>
 			
 			<?php
@@ -1160,7 +1162,7 @@ if($userRow['admin']==0){
 							>Bearbeiten</button>
 						</td>
 						<td>
-							<button type="button" class="btn btn-primary addSubjectButton"
+							<button type="button" class="btn btn-primary addSubject_addButton"
 								data-id="<?php echo $row['ID'] ?>"
 								data-subject_name="<?php echo $row['subject_name'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
@@ -1168,6 +1170,12 @@ if($userRow['admin']==0){
 								data-semester="<?php echo $row['semester'] ?>"
 								data-language="<?php echo $row['language'] ?>"
 							>Hinzufügen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger addSubject_deleteButton"
+								data-id="<?php echo $row['ID'] ?>"
+								data-subject_name="<?php echo $row['subject_name'] ?>"
+							>Löschen</button>
 						</td>
 					</tr>
 				<?php
@@ -1217,6 +1225,16 @@ if($userRow['admin']==0){
 			
 			<script>
 			$( document ).ready(function() {
+				//Show and hide
+				$("#display_leactures_added").click(function() {
+					if($("#table_leactures_added").is(":visible")){
+						$("#table_leactures_added").hide();
+					}else{
+						$("#table_leactures_added").show();
+					}
+					
+				});
+				
 				//show modal
 				$('#editSubjectModal').on('show.bs.modal', function (event) {
 					var button = $(event.relatedTarget) // Button that triggered the modal
@@ -1256,7 +1274,7 @@ if($userRow['admin']==0){
 				});
 				
 				//Add subject
-				$('.addSubjectButton').click(function(){
+				$('.addSubject_addButton').click(function(){
 					var id = $(this).data('id')
 					var subject_name = $(this).data('subject_name')
 					var identifier = $(this).data('identifier')
@@ -1273,18 +1291,31 @@ if($userRow['admin']==0){
 							success: function(data) {
 								alert(data);
 								window.location.reload(true);
-								/*
-								if(data.includes("erfolg")){
-									$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Änderungen erfolgreich gespeichert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen & Seite neu laden</button>");
-								}else{
-									$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Speichern ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt).</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen & Seite neu laden</button>");
-								}
-								$('#addedSubject_edit_modal-footer').hide();
-								*/
 							}
 						});
 					}else{
 						alert("Veranstaltung wurde nicht hinzugefügt.");
+					}
+				});
+				
+				//Delete subject
+				$('.addSubject_deleteButton').click(function(){
+					var id = $(this).data('id')
+					var subject_name = $(this).data('subject_name')
+					
+					var result = confirm('Veranstaltung "' + subject_name + '" wirklich löschen?');
+					if(result){
+						$.ajax({
+							type: "POST",
+							url: "admin_updateLectureAdded_delete_submit.php",
+							data: "id=" + id,
+							success: function(data) {
+								alert(data);
+								window.location.reload(true);
+							}
+						});
+					}else{
+						alert("Veranstaltung wurde nicht gelöscht.");
 					}
 				});
 			});
