@@ -1118,10 +1118,178 @@ if($userRow['admin']==0){
 		<div id="update" class="tab-pane fade">
 			<br>
 			<i>Hier können bald automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
+			<br><br>
+			<div class="alert alert-danger">
+				<strong>Vorsicht!</strong> Diese Seite befindet sich noch im Aufbau - alle Daten sind Beispieldaten.
+			</div>
 			
 			<h2>Vorlesungen</h2>
 			<h3>Geänderte</h3>
 			<h3>Hinzugekommene</h3>
+			
+			<table class="table table-striped">
+				<tr>
+					<th>Name</th>
+					<th>Kennung</th>
+					<th>ECTS</th>
+					<th>Semester</th>
+					<th>Sprache</th>
+					<th>Bearbeiten</th>
+					<th>Hinzufügen</th>
+				</tr>
+			
+			<?php
+			$sql = "SELECT * FROM `ADDED_LECTURES`";
+			$result = mysqli_query($con,$sql);
+			while($row = mysqli_fetch_assoc($result)){
+				?>
+					<tr>
+						<td><?php echo $row['subject_name'] ?></td>
+						<td><?php echo $row['identifier'] ?></td>
+						<td><?php echo $row['ECTS'] ?></td>
+						<td><?php echo $row['semester'] ?></td>
+						<td><?php echo $row['language'] ?></td>
+						<td>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editSubjectModal"
+								data-id="<?php echo $row['ID'] ?>"
+								data-subject_name="<?php echo $row['subject_name'] ?>"
+								data-identifier="<?php echo $row['identifier'] ?>"
+								data-ects="<?php echo $row['ECTS'] ?>"
+								data-semester="<?php echo $row['semester'] ?>"
+								data-language="<?php echo $row['language'] ?>"
+							>Bearbeiten</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-primary addSubjectButton"
+								data-id="<?php echo $row['ID'] ?>"
+								data-subject_name="<?php echo $row['subject_name'] ?>"
+								data-identifier="<?php echo $row['identifier'] ?>"
+								data-ects="<?php echo $row['ECTS'] ?>"
+								data-semester="<?php echo $row['semester'] ?>"
+								data-language="<?php echo $row['language'] ?>"
+							>Hinzufügen</button>
+						</td>
+					</tr>
+				<?php
+			}
+			?>
+			</table>
+			
+			<div class="modal fade" id="editSubjectModal" tabindex="-1" role="dialog" aria-labelledby="editSubjectModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-body" id="addedSubject_edit_modal-body">
+						<form id="addedSubject_edit_form">
+							<div class="form-group">
+								<label class="col-form-label">ID:</label>
+								<input type="text" class="form-control" name ="id" id="id">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Name:</label>
+								<input type="text" class="form-control" name="subject_name" id="subject_name">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Kennung:</label>
+								<input type="text" class="form-control" name="identifier" id="identifier">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">ECTS:</label>
+								<input type="text" class="form-control" name="ECTS" id="ECTS">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Semester:</label>
+								<input type="text" class="form-control" name="semester" id="semester">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Sprache:</label>
+								<input type="text" class="form-control" name="language" id="language">
+							</div>
+
+						</form>
+					</div>
+					<div class="modal-footer" id="addedSubject_edit_modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+						<button type="button" class="btn btn-primary" id="save-changes-button">Änderungen speichern</button>
+					</div>
+				</div>
+			  </div>
+			</div>
+			
+			<script>
+			$( document ).ready(function() {
+				//show modal
+				$('#editSubjectModal').on('show.bs.modal', function (event) {
+					var button = $(event.relatedTarget) // Button that triggered the modal
+					
+					var id = button.data('id')
+					var subject_name = button.data('subject_name')
+					var identifier = button.data('identifier')
+					var ECTS = button.data('ects')
+					var semester = button.data('semester')
+					var language = button.data('language')
+					
+					var modal = $(this)
+					modal.find('.modal-body #id').val(id)
+					modal.find('.modal-body #subject_name').val(subject_name)
+					modal.find('.modal-body #identifier').val(identifier)
+					modal.find('.modal-body #ECTS').val(ECTS)
+					modal.find('.modal-body #semester').val(semester)
+					modal.find('.modal-body #language').val(language)
+				})
+				
+				//save changes
+				$('#save-changes-button').click(function() {
+					$.ajax({
+						type: "POST",
+						url: "admin_updateLectureAdded_edit_submit.php",
+						data: $("#addedSubject_edit_form").serialize(),
+						success: function(data) {
+							//alert(data);
+							if(data.includes("erfolg")){
+								$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Änderungen erfolgreich gespeichert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen & Seite neu laden</button>");
+							}else{
+								$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Speichern ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt).</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen & Seite neu laden</button>");
+							}
+							$('#addedSubject_edit_modal-footer').hide();
+						}
+					});
+				});
+				
+				//Add subject
+				$('.addSubjectButton').click(function(){
+					var id = $(this).data('id')
+					var subject_name = $(this).data('subject_name')
+					var identifier = $(this).data('identifier')
+					var ECTS = $(this).data('ects')
+					var semester = $(this).data('semester')
+					var language = $(this).data('language')
+					
+					var result = confirm('Veranstaltung "' + subject_name + '" wirklich hinzufügen?');
+					if(result){
+						$.ajax({
+							type: "POST",
+							url: "admin_updateLectureAdded_add_submit.php",
+							data: "id=" + id + "&subject_name=" + subject_name + "&identifier=" + identifier + "&ECTS=" + ECTS + "&semester=" + semester + "&language=" + language,
+							success: function(data) {
+								alert(data);
+								window.location.reload(true);
+								/*
+								if(data.includes("erfolg")){
+									$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Änderungen erfolgreich gespeichert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen & Seite neu laden</button>");
+								}else{
+									$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Speichern ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt).</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen & Seite neu laden</button>");
+								}
+								$('#addedSubject_edit_modal-footer').hide();
+								*/
+							}
+						});
+					}else{
+						alert("Veranstaltung wurde nicht hinzugefügt.");
+					}
+				});
+			});
+			</script>
+			
 			<h3>Gelöschte</h3>
 		</div>
 		
