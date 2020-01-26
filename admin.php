@@ -1124,11 +1124,228 @@ if($userRow['admin']==0){
 			</div>
 			
 			<h2>Vorlesungen</h2>
-			<h3>Geänderte</h3>
-			<h3 style="display:inline; padding-right: 10px">Hinzugekommene</h3> <a id="display_leactures_added"><span class="glyphicon glyphicon-chevron-down"></span></a>
-			<br><br>
 			
-			<table class="table table-striped" id="table_leactures_added">
+			<!-- Changed -->
+			<?php
+			$sql = "
+				SELECT subjects.subject_name AS subject_name, CHANGED_LECTURES.id AS id, CHANGED_LECTURES.identifier AS identifier, CHANGED_LECTURES.changed_field AS changed_field, CHANGED_LECTURES.value_old AS value_old, CHANGED_LECTURES.value_new AS value_new  FROM `CHANGED_LECTURES`
+				JOIN subjects ON CHANGED_LECTURES.identifier = subjects.identifier
+			";
+			$result = mysqli_query($con,$sql);
+			?>
+			
+			<h3>
+				<span>Geänderte</span>
+				<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+				<a id="display_lectures_changed"><span id="display_lectures_changed_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+			</h3>
+			
+			<table class="table table-striped" id="table_lectures_changed" style="margin-top:15px; display:none">
+				<tr>
+					<th>Name</th>
+					<th>Kennung</th>
+					<th>Geändertes Feld</th>
+					<th>Alter Wert</th>
+					<th>Neuer Wert</th>
+					<th>Bearbeiten</th>
+					<th>Ändern</th>
+					<th>Löschen</th>
+				</tr>
+			
+			<?php
+			while($row = mysqli_fetch_assoc($result)){
+				?>
+				<tr>
+					<td><?php echo $row['subject_name'] ?></td>
+					<td><?php echo $row['identifier'] ?></td>
+					<td><?php echo $row['changed_field'] ?></td>
+					<td><?php echo $row['value_old'] ?></td>
+					<td><?php echo $row['value_new'] ?></td>
+					<td>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editChangedSubjectModal"
+							data-id="<?php echo $row['id'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+							data-identifier="<?php echo $row['identifier'] ?>"
+							data-changed_field="<?php echo $row['changed_field'] ?>"
+							data-value_old="<?php echo $row['value_old'] ?>"
+							data-value_new="<?php echo $row['value_new'] ?>"
+						>Bearbeiten</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-primary addSubject_addButton"
+							data-id="<?php echo $row['ID'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+							data-identifier="<?php echo $row['identifier'] ?>"
+							data-ects="<?php echo $row['ECTS'] ?>"
+							data-semester="<?php echo $row['semester'] ?>"
+							data-language="<?php echo $row['language'] ?>"
+						>Hinzufügen</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger addSubject_deleteButton"
+							data-id="<?php echo $row['id'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+						>Löschen</button>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			
+			<div class="modal fade" id="editChangedSubjectModal" tabindex="-1" role="dialog" aria-labelledby="editChangedSubjectModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-body" id="addedSubject_edit_modal-body">
+						<form id="addedSubject_edit_form">
+							<div class="form-group" style="display:">
+								<label class="col-form-label">ID:</label>
+								<input type="text" class="form-control" name ="id" id="id">
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Name:</label>
+								<input type="text" class="form-control" name="subject_name" id="subject_name" disabled>
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Kennung:</label>
+								<input type="text" class="form-control" name="identifier" id="identifier" disabled>
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Geändertes Feld:</label>
+								<input type="text" class="form-control" name="changed_field" id="changed_field" disabled>
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Alter Wert:</label>
+								<input type="text" class="form-control" name="value_old" id="value_old" disabled>
+							</div>
+							<div class="form-group">
+								<label class="col-form-label">Neuer Wert:</label>
+								<input type="text" class="form-control" name="value_new" id="value_new">
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer" id="addedSubject_edit_modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+						<button type="button" class="btn btn-primary" id="lecture-changed_save-changes-button">Änderungen speichern</button>
+					</div>
+				</div>
+			  </div>
+			</div>
+			
+			<script>
+			$( document ).ready(function() {
+				//Show and hide
+				$("#display_lectures_changed").click(function() {
+					if($("#table_lectures_changed").is(":visible")){
+						$("#table_lectures_changed").hide();
+						$("#display_lectures_changed_glyph").removeClass("glyphicon glyphicon-chevron-up");
+						$("#display_lectures_changed_glyph").addClass("glyphicon glyphicon-chevron-down");
+					}else{
+						$("#table_lectures_changed").show();
+						$("#display_lectures_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
+						$("#display_lectures_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
+					}
+				});
+				
+				//show modal
+				$('#editChangedSubjectModal').on('show.bs.modal', function (event) {
+					var button = $(event.relatedTarget) // Button that triggered the modal
+					
+					var id = button.data('id')
+					var subject_name = button.data('subject_name')
+					var identifier = button.data('identifier')
+					var changed_field = button.data('changed_field')
+					var value_old = button.data('value_old')
+					var value_new = button.data('value_new')
+					
+					var modal = $(this)
+					modal.find('.modal-body #id').val(id)
+					modal.find('.modal-body #subject_name').val(subject_name)
+					modal.find('.modal-body #identifier').val(identifier)
+					modal.find('.modal-body #changed_field').val(changed_field)
+					modal.find('.modal-body #value_old').val(value_old)
+					modal.find('.modal-body #value_new').val(value_new)
+				})
+				
+				//save changes
+				$('#lecture-changed_save-changes-button').click(function() {
+					$.ajax({
+						type: "POST",
+						url: "admin_updateLectureAdded_edit_submit.php",
+						data: $("#addedSubject_edit_form").serialize(),
+						success: function(data) {
+							//alert(data);
+							if(data.includes("erfolg")){
+								$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Änderungen erfolgreich gespeichert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen & Seite neu laden</button>");
+							}else{
+								$('#addedSubject_edit_modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Speichern ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt).</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen & Seite neu laden</button>");
+							}
+							$('#addedSubject_edit_modal-footer').hide();
+						}
+					});
+				});
+				
+				//Add subject
+				$('.addSubject_addButton').click(function(){
+					var id = $(this).data('id')
+					var subject_name = $(this).data('subject_name')
+					var identifier = $(this).data('identifier')
+					var ECTS = $(this).data('ects')
+					var semester = $(this).data('semester')
+					var language = $(this).data('language')
+					
+					var result = confirm('Veranstaltung "' + subject_name + '" wirklich hinzufügen?');
+					if(result){
+						$.ajax({
+							type: "POST",
+							url: "admin_updateLectureAdded_add_submit.php",
+							data: "id=" + id + "&subject_name=" + subject_name + "&identifier=" + identifier + "&ECTS=" + ECTS + "&semester=" + semester + "&language=" + language,
+							success: function(data) {
+								alert(data);
+								window.location.reload(true);
+							}
+						});
+					}else{
+						alert("Veranstaltung wurde nicht hinzugefügt.");
+					}
+				});
+				
+				//Delete subject
+				$('.addSubject_deleteButton').click(function(){
+					var id = $(this).data('id')
+					var subject_name = $(this).data('subject_name')
+					
+					var result = confirm('Veranstaltung "' + subject_name + '" wirklich löschen?');
+					if(result){
+						$.ajax({
+							type: "POST",
+							url: "admin_updateLectureAdded_delete_submit.php",
+							data: "id=" + id,
+							success: function(data) {
+								alert(data);
+								window.location.reload(true);
+							}
+						});
+					}else{
+						alert("Veranstaltung wurde nicht gelöscht.");
+					}
+				});
+			});
+			</script>
+			
+			<!-- Added -->
+			<?php
+			$sql = "SELECT * FROM `ADDED_LECTURES`";
+			$result = mysqli_query($con,$sql);
+			?>
+			
+			<h3>
+				<span>Hinzugekommene</span>
+				<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+				<a id="display_lectures_added"><span id="display_lectures_added_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+			</h3>
+			
+			<table class="table table-striped" id="table_lectures_added" style="margin-top:15px; display:none">
 				<tr>
 					<th>Name</th>
 					<th>Kennung</th>
@@ -1141,54 +1358,52 @@ if($userRow['admin']==0){
 				</tr>
 			
 			<?php
-			$sql = "SELECT * FROM `ADDED_LECTURES`";
-			$result = mysqli_query($con,$sql);
 			while($row = mysqli_fetch_assoc($result)){
 				?>
-					<tr>
-						<td><?php echo $row['subject_name'] ?></td>
-						<td><?php echo $row['identifier'] ?></td>
-						<td><?php echo $row['ECTS'] ?></td>
-						<td><?php echo $row['semester'] ?></td>
-						<td><?php echo $row['language'] ?></td>
-						<td>
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editSubjectModal"
-								data-id="<?php echo $row['ID'] ?>"
-								data-subject_name="<?php echo $row['subject_name'] ?>"
-								data-identifier="<?php echo $row['identifier'] ?>"
-								data-ects="<?php echo $row['ECTS'] ?>"
-								data-semester="<?php echo $row['semester'] ?>"
-								data-language="<?php echo $row['language'] ?>"
-							>Bearbeiten</button>
-						</td>
-						<td>
-							<button type="button" class="btn btn-primary addSubject_addButton"
-								data-id="<?php echo $row['ID'] ?>"
-								data-subject_name="<?php echo $row['subject_name'] ?>"
-								data-identifier="<?php echo $row['identifier'] ?>"
-								data-ects="<?php echo $row['ECTS'] ?>"
-								data-semester="<?php echo $row['semester'] ?>"
-								data-language="<?php echo $row['language'] ?>"
-							>Hinzufügen</button>
-						</td>
-						<td>
-							<button type="button" class="btn btn-danger addSubject_deleteButton"
-								data-id="<?php echo $row['ID'] ?>"
-								data-subject_name="<?php echo $row['subject_name'] ?>"
-							>Löschen</button>
-						</td>
-					</tr>
+				<tr>
+					<td><?php echo $row['subject_name'] ?></td>
+					<td><?php echo $row['identifier'] ?></td>
+					<td><?php echo $row['ECTS'] ?></td>
+					<td><?php echo $row['semester'] ?></td>
+					<td><?php echo $row['language'] ?></td>
+					<td>
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editAddedSubjectModal"
+							data-id="<?php echo $row['ID'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+							data-identifier="<?php echo $row['identifier'] ?>"
+							data-ects="<?php echo $row['ECTS'] ?>"
+							data-semester="<?php echo $row['semester'] ?>"
+							data-language="<?php echo $row['language'] ?>"
+						>Bearbeiten</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-primary addSubject_addButton"
+							data-id="<?php echo $row['ID'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+							data-identifier="<?php echo $row['identifier'] ?>"
+							data-ects="<?php echo $row['ECTS'] ?>"
+							data-semester="<?php echo $row['semester'] ?>"
+							data-language="<?php echo $row['language'] ?>"
+						>Hinzufügen</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger addSubject_deleteButton"
+							data-id="<?php echo $row['ID'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+						>Löschen</button>
+					</td>
+				</tr>
 				<?php
 			}
 			?>
 			</table>
 			
-			<div class="modal fade" id="editSubjectModal" tabindex="-1" role="dialog" aria-labelledby="editSubjectModalLabel" aria-hidden="true">
+			<div class="modal fade" id="editAddedSubjectModal" tabindex="-1" role="dialog" aria-labelledby="editAddedSubjectModalLabel" aria-hidden="true">
 			  <div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-body" id="addedSubject_edit_modal-body">
 						<form id="addedSubject_edit_form">
-							<div class="form-group">
+							<div class="form-group" style="display:none">
 								<label class="col-form-label">ID:</label>
 								<input type="text" class="form-control" name ="id" id="id">
 							</div>
@@ -1212,12 +1427,11 @@ if($userRow['admin']==0){
 								<label class="col-form-label">Sprache:</label>
 								<input type="text" class="form-control" name="language" id="language">
 							</div>
-
 						</form>
 					</div>
 					<div class="modal-footer" id="addedSubject_edit_modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-						<button type="button" class="btn btn-primary" id="save-changes-button">Änderungen speichern</button>
+						<button type="button" class="btn btn-primary" id="lecture-added_save-changes-button">Änderungen speichern</button>
 					</div>
 				</div>
 			  </div>
@@ -1226,17 +1440,21 @@ if($userRow['admin']==0){
 			<script>
 			$( document ).ready(function() {
 				//Show and hide
-				$("#display_leactures_added").click(function() {
-					if($("#table_leactures_added").is(":visible")){
-						$("#table_leactures_added").hide();
+				$("#display_lectures_added").click(function() {
+					if($("#table_lectures_added").is(":visible")){
+						$("#table_lectures_added").hide();
+						$("#display_lectures_added_glyph").removeClass("glyphicon glyphicon-chevron-up");
+						$("#display_lectures_added_glyph").addClass("glyphicon glyphicon-chevron-down");
 					}else{
-						$("#table_leactures_added").show();
+						$("#table_lectures_added").show();
+						$("#display_lectures_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+						$("#display_lectures_added_glyph").addClass("glyphicon glyphicon-chevron-up");
 					}
 					
 				});
 				
 				//show modal
-				$('#editSubjectModal').on('show.bs.modal', function (event) {
+				$('#editAddedSubjectModal').on('show.bs.modal', function (event) {
 					var button = $(event.relatedTarget) // Button that triggered the modal
 					
 					var id = button.data('id')
@@ -1256,7 +1474,7 @@ if($userRow['admin']==0){
 				})
 				
 				//save changes
-				$('#save-changes-button').click(function() {
+				$('#lecture-added_save-changes-button').click(function() {
 					$.ajax({
 						type: "POST",
 						url: "admin_updateLectureAdded_edit_submit.php",
