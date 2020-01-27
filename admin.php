@@ -1162,7 +1162,7 @@ if($userRow['admin']==0){
 					<td><?php echo $row['value_old'] ?></td>
 					<td><?php echo $row['value_new'] ?></td>
 					<td>
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editChangedSubjectModal"
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editChangedSubjectModal"
 							data-id="<?php echo $row['id'] ?>"
 							data-subject_name="<?php echo $row['subject_name'] ?>"
 							data-identifier="<?php echo $row['identifier'] ?>"
@@ -1172,17 +1172,17 @@ if($userRow['admin']==0){
 						>Bearbeiten</button>
 					</td>
 					<td>
-						<button type="button" class="btn btn-primary addSubject_addButton"
-							data-id="<?php echo $row['ID'] ?>"
+						<button type="button" class="btn btn-primary changeSubject_confirmButton"
+							data-id="<?php echo $row['id'] ?>"
 							data-subject_name="<?php echo $row['subject_name'] ?>"
 							data-identifier="<?php echo $row['identifier'] ?>"
-							data-ects="<?php echo $row['ECTS'] ?>"
-							data-semester="<?php echo $row['semester'] ?>"
-							data-language="<?php echo $row['language'] ?>"
-						>Hinzufügen</button>
+							data-changed_field="<?php echo $row['changed_field'] ?>"
+							data-value_old="<?php echo $row['value_old'] ?>"
+							data-value_new="<?php echo $row['value_new'] ?>"
+						>Änderung bestätigen</button>
 					</td>
 					<td>
-						<button type="button" class="btn btn-danger addSubject_deleteButton"
+						<button type="button" class="btn btn-danger changeSubject_deleteButton"
 							data-id="<?php echo $row['id'] ?>"
 							data-subject_name="<?php echo $row['subject_name'] ?>"
 						>Löschen</button>
@@ -1197,7 +1197,7 @@ if($userRow['admin']==0){
 			  <div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-body" id="addedSubject_edit_modal-body">
-						<form id="addedSubject_edit_form">
+						<form id="changedSubject_edit_form">
 							<div class="form-group" style="display:">
 								<label class="col-form-label">ID:</label>
 								<input type="text" class="form-control" name ="id" id="id">
@@ -1271,8 +1271,8 @@ if($userRow['admin']==0){
 				$('#lecture-changed_save-changes-button').click(function() {
 					$.ajax({
 						type: "POST",
-						url: "admin_updateLectureAdded_edit_submit.php",
-						data: $("#addedSubject_edit_form").serialize(),
+						url: "admin_updateLectureChanged_edit_submit.php",
+						data: $("#changedSubject_edit_form").serialize(),
 						success: function(data) {
 							//alert(data);
 							if(data.includes("erfolg")){
@@ -1285,41 +1285,42 @@ if($userRow['admin']==0){
 					});
 				});
 				
-				//Add subject
-				$('.addSubject_addButton').click(function(){
+				//Change subject
+				$('.changeSubject_confirmButton').click(function(){
+					
 					var id = $(this).data('id')
 					var subject_name = $(this).data('subject_name')
 					var identifier = $(this).data('identifier')
-					var ECTS = $(this).data('ects')
-					var semester = $(this).data('semester')
-					var language = $(this).data('language')
-					
-					var result = confirm('Veranstaltung "' + subject_name + '" wirklich hinzufügen?');
+					var changed_field = $(this).data('changed_field')
+					var value_old = $(this).data('value_old')
+					var value_new = $(this).data('value_new')
+
+					var result = confirm('Bei Veranstaltung "'+subject_name+'" wirklich den Wert von '+changed_field+' von '+value_old+' zu '+value_new+' ändern?');
 					if(result){
 						$.ajax({
 							type: "POST",
-							url: "admin_updateLectureAdded_add_submit.php",
-							data: "id=" + id + "&subject_name=" + subject_name + "&identifier=" + identifier + "&ECTS=" + ECTS + "&semester=" + semester + "&language=" + language,
+							url: "admin_updateLectureChanged_confirm_submit.php",
+							data: "id=" + id + "&identifier=" + identifier + "&changed_field=" + changed_field + "&value_new=" + value_new,
 							success: function(data) {
 								alert(data);
 								window.location.reload(true);
 							}
 						});
 					}else{
-						alert("Veranstaltung wurde nicht hinzugefügt.");
+						alert("Nichts wurde geändert.");
 					}
 				});
 				
 				//Delete subject
-				$('.addSubject_deleteButton').click(function(){
+				$('.changeSubject_deleteButton').click(function(){
 					var id = $(this).data('id')
 					var subject_name = $(this).data('subject_name')
 					
-					var result = confirm('Veranstaltung "' + subject_name + '" wirklich löschen?');
+					var result = confirm('Änderungen bei Veranstaltung "' + subject_name + '" wirklich löschen?');
 					if(result){
 						$.ajax({
 							type: "POST",
-							url: "admin_updateLectureAdded_delete_submit.php",
+							url: "admin_updateLectureChanged_delete_submit.php",
 							data: "id=" + id,
 							success: function(data) {
 								alert(data);
@@ -1367,7 +1368,7 @@ if($userRow['admin']==0){
 					<td><?php echo $row['semester'] ?></td>
 					<td><?php echo $row['language'] ?></td>
 					<td>
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editAddedSubjectModal"
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAddedSubjectModal"
 							data-id="<?php echo $row['ID'] ?>"
 							data-subject_name="<?php echo $row['subject_name'] ?>"
 							data-identifier="<?php echo $row['identifier'] ?>"
