@@ -1117,11 +1117,13 @@ if($userRow['admin']==0){
 		
 		<div id="update" class="tab-pane fade">
 			<br>
-			<i>Hier können bald automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
+			<i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
 			<br><br>
 			<div class="alert alert-danger">
 				<strong>Vorsicht!</strong> Diese Seite befindet sich noch im Aufbau - alle Daten sind Beispieldaten.
 			</div>
+			
+			<button type="button" class="btn btn-default" id="close-all">Alle Listen schließen</button>
 			
 			<h2>Vorlesungen</h2>
 			
@@ -1198,7 +1200,7 @@ if($userRow['admin']==0){
 				<div class="modal-content">
 					<div class="modal-body" id="addedSubject_edit_modal-body">
 						<form id="changedSubject_edit_form">
-							<div class="form-group" style="display:">
+							<div class="form-group" style="display:none">
 								<label class="col-form-label">ID:</label>
 								<input type="text" class="form-control" name ="id" id="id">
 							</div>
@@ -1240,10 +1242,12 @@ if($userRow['admin']==0){
 						$("#table_lectures_changed").hide();
 						$("#display_lectures_changed_glyph").removeClass("glyphicon glyphicon-chevron-up");
 						$("#display_lectures_changed_glyph").addClass("glyphicon glyphicon-chevron-down");
+						$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=subject_changed&value=0"});
 					}else{
 						$("#table_lectures_changed").show();
 						$("#display_lectures_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
 						$("#display_lectures_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
+						$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=subject_changed&value=1"});
 					}
 				});
 				
@@ -1446,10 +1450,12 @@ if($userRow['admin']==0){
 						$("#table_lectures_added").hide();
 						$("#display_lectures_added_glyph").removeClass("glyphicon glyphicon-chevron-up");
 						$("#display_lectures_added_glyph").addClass("glyphicon glyphicon-chevron-down");
+						$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=subject_added&value=0"});
 					}else{
 						$("#table_lectures_added").show();
 						$("#display_lectures_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
 						$("#display_lectures_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+						$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=subject_added&value=1"});
 					}
 					
 				});
@@ -1540,7 +1546,157 @@ if($userRow['admin']==0){
 			});
 			</script>
 			
-			<h3>Gelöschte</h3>
+			<!-- Deleted -->
+			<?php
+			$sql = "SELECT * FROM `DELETED_LECTURES`";
+			$result = mysqli_query($con,$sql);
+			?>
+			
+			<h3>
+				<span>Gelöschte</span>
+				<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+				<a id="display_lectures_deleted"><span id="display_lectures_deleted_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+			</h3>
+			
+			<table class="table table-striped" id="table_lectures_deleted" style="margin-top:15px; display:none">
+				<tr>
+					<th>Name</th>
+					<th>Kennung</th>
+					<th>Aus Studi löschen</th>
+					<th>Hier löschen</th>
+				</tr>
+			
+			<?php
+			while($row = mysqli_fetch_assoc($result)){
+				?>
+				<tr>
+					<td><?php echo $row['subject_name'] ?></td>
+					<td><?php echo $row['identifier'] ?></td>
+					<td>
+						<button type="button" class="btn btn-primary deleteSubject_deleteInStudiButton"
+							data-id="<?php echo $row['id'] ?>"
+							data-identifier="<?php echo $row['identifier'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+						>Aus Studi löschen</button>
+					</td>
+					<td>
+						<button type="button" class="btn btn-danger deleteSubject_deleteButton"
+							data-id="<?php echo $row['id'] ?>"
+							data-subject_name="<?php echo $row['subject_name'] ?>"
+						>Hier löschen</button>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+			</table>
+			
+			<script>
+			$( document ).ready(function() {
+				//Show and hide
+				$("#display_lectures_deleted").click(function() {
+					if($("#table_lectures_deleted").is(":visible")){
+						$("#table_lectures_deleted").hide();
+						$("#display_lectures_deleted_glyph").removeClass("glyphicon glyphicon-chevron-up");
+						$("#display_lectures_deleted_glyph").addClass("glyphicon glyphicon-chevron-down");
+						$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=subject_deleted&value=0"});
+					}else{
+						$("#table_lectures_deleted").show();
+						$("#display_lectures_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+						$("#display_lectures_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+						$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=subject_deleted&value=1"});
+					}
+					
+				});
+				
+				//Delete subject in studi
+				$('.deleteSubject_deleteInStudiButton').click(function(){
+					var id = $(this).data('id')
+					var identifier = $(this).data('identifier')
+					var subject_name = $(this).data('subject_name')
+					
+					var result = confirm('Veranstaltung "' + subject_name + '" wirklich aus dem Studienführer löschen?');
+					if(result){
+						$.ajax({
+							type: "POST",
+							url: "admin_updateLectureDeleted_deleteFromStudi_submit.php",
+							data: "id=" + id + "&identifier=" + identifier + "&subject_name=" + subject_name,
+							success: function(data) {
+								alert(data);
+								window.location.reload(true);
+							}
+						});
+					}else{
+						alert("Veranstaltung wurde nicht hinzugefügt.");
+					}
+				});
+				
+				//Delete subject
+				$('.deleteSubject_deleteButton').click(function(){
+					var id = $(this).data('id')
+					var subject_name = $(this).data('subject_name')
+					
+					var result = confirm('Veranstaltung "' + subject_name + '" wirklich aus dieser Liste löschen?');
+					if(result){
+						$.ajax({
+							type: "POST",
+							url: "admin_updateLectureDeleted_delete_submit.php",
+							data: "id=" + id,
+							success: function(data) {
+								alert(data);
+								window.location.reload(true);
+							}
+						});
+					}else{
+						alert("Veranstaltung wurde nicht gelöscht.");
+					}
+				});
+			});
+			</script>
+			
+			<!-- Set table visabilities -->
+			<!-- subject_changed -->
+			<?php
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'subject_changed'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$subject_changed = $row['value'];
+			
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'subject_added'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$subject_added = $row['value'];
+			
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'subject_deleted'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$subject_deleted = $row['value'];
+			?>
+			<script>
+			$( document ).ready(function() {
+				$('#close-all').click(function(){
+					$.ajax({type: "POST", url: "admin_update_closeAll.php", success: function(){window.location.reload(true)}});
+				});
+				
+				if (<?php echo $subject_changed ?> == 1){
+					$('#table_lectures_changed').show();
+					$("#display_lectures_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_lectures_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+				
+				if (<?php echo $subject_added ?> == 1){
+					$('#table_lectures_added').show();
+					$("#display_lectures_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_lectures_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+				
+				if (<?php echo $subject_deleted ?> == 1){
+					$('#table_lectures_deleted').show();
+					$("#display_lectures_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_lectures_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+			});
+			</script>
 		</div>
 		
 		<?php if($userRow['super_admin'] == 1){ ?>
