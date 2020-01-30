@@ -1119,6 +1119,122 @@ if($userRow['admin']==0){
 			<br>
 			<i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
 			<br><br>
+			
+			<h2>Schritt 1: Tabellen downloaden</h2>
+			<?php
+
+			$tables = array("subjects", "lecturers", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
+
+			foreach ($tables as $table) {
+				?>
+				<button onclick="Export('<?php echo $table ?>')" class="btn btn-default" style="margin:5px"><?php echo $table ?></button>
+				<?php
+			}
+			?>
+			
+			<!--
+			<div class="panel-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a data-toggle="collapse" href="#collapse1">Download Tabellen</a>
+					</h4>
+				</div>
+				<div id="collapse1" class="panel-collapse collapse">
+					<?php
+
+					$tables = array("subjects", "lecturers", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
+
+					foreach ($tables as $table) {
+						?>
+						<button onclick="Export('<?php echo $table ?>')" class="btn btn-default" style="margin:5px"><?php echo $table ?></button>
+						<?php
+					}
+					?>
+				</div>
+			</div>
+			</div>
+			-->
+			
+			<script>
+			function Export(table){
+				window.open("export.php?table_name="+table, '_blank');
+			}
+			</script>
+			
+			<!-- Upload SQL txt -->
+			<div style="border:solid 1px; border-radius:3px; border-color: lightgrey; padding:10px">
+				<input id="fileToUpload" type="file" name="fileToUpload" style="margin-top:10px; margin-bottom:10px;"/>
+				<button class="btn btn-primary" id="uploadButton">Hochladen</button>
+				<br>
+				<hr>
+				<p>Diese Dateien befinden sich derzeit auf dem Server:</p>
+				<?php
+				$files = scandir("uploads/");
+				array_shift($files);
+				array_shift($files);
+				
+				foreach ($files as $file) {
+					echo "<li><b>$file</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime("uploads/$file")).")</li>";
+				}
+				?>
+			</div>
+			
+			<script>
+			$( document ).ready(function() {
+				$('#uploadButton').click(function(){
+
+					var file_data = $('#fileToUpload').prop('files')[0];   
+					var form_data = new FormData();                  
+					form_data.append('file', file_data);
+					
+					$.ajax({
+						url: 'upload.php', // point to server-side PHP script 
+						dataType: 'text',  // what to expect back from the PHP script, if anything
+						cache: false,
+						contentType: false,
+						processData: false,
+						data: form_data,                         
+						type: 'post',
+						success: function(data){
+							alert(data); // display response from the PHP script, if any
+							
+						}
+					});
+				});
+			});			
+			</script>
+			
+			<br>
+			<h2>Tabellen aktualisieren</h2>
+			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
+			<?php
+			foreach ($files as $file) {
+				$trimmedName = substr($file, 0, -4);
+				echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktulisieren</button>';
+			}
+			?>
+			
+			<script>
+			$( document ).ready(function() {
+				$('.sqlUpdate').click(function(){
+					var table = $(this).data('table');
+
+					$.ajax({
+						type: "POST",
+						url: "sqlUpdate.php",
+						data: "table=" + table,
+						success: function(data) {
+							alert(data);
+							//window.location.reload();
+						}
+					});
+				});
+			});
+			</script>
+			
+			<br>
+			
 			<div class="alert alert-danger">
 				<strong>Vorsicht!</strong> Diese Seite befindet sich noch im Aufbau - alle Daten sind Beispieldaten.
 			</div>

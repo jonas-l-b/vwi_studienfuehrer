@@ -801,8 +801,7 @@ include "sumVotes.php";
 										}
 									}
 								});
-							});		
-							
+							});
 						
 						});
 						</script>
