@@ -49,6 +49,7 @@ if($userRow['admin']==0){
 			<br>
 			
 			<p><i>Hier kann die Datenbank maßgeblich verändert werden. Vorsicht dabei, Backups und Validierungen gibt's quasi (noch) nicht :)</i></p>
+			<p><i>Edit: Mittlerweile gibt es automatische Backups (ca. 1x pro Woche). Sie befinden sich auf dem Server im Ordner <b>studienfuehrer/database_backup</b>.</i></p>
 			
 			<h3 class="adminHeader">Eintragen</h3>
 			<p>Über diesen Button können <strong>Veranstaltungen</strong> und in diesem Zuge auch <strong>Dozenten</strong>, <strong>Institute</strong> und <strong>Module</strong> eingetragen werden.</p>
@@ -1120,14 +1121,15 @@ if($userRow['admin']==0){
 			<i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
 			<br><br>
 			
-			<h2>Schritt 1: Tabellen downloaden</h2>
+			<h2>Schritt 1: Tabellen downloaden (Entitäten)</h2>
+			<p><i>Alle Tabellen herunterladen und damit die Python-Skripe ausführen.</i></p>
 			<?php
 
-			$tables = array("subjects", "lecturers", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
+			$tables = array("subjects", "lecturers", "institutes", "modules");
 
 			foreach ($tables as $table) {
 				?>
-				<button onclick="Export('<?php echo $table ?>')" class="btn btn-default" style="margin:5px"><?php echo $table ?></button>
+				<button onclick="Export('<?php echo $table ?>')" class="btn btn-primary" style="margin:5px"><?php echo $table ?></button>
 				<?php
 			}
 			?>
@@ -1143,7 +1145,7 @@ if($userRow['admin']==0){
 				<div id="collapse1" class="panel-collapse collapse">
 					<?php
 
-					$tables = array("subjects", "lecturers", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
+					$tables = array("subjects", "lecturers", "institutes", "modules");
 
 					foreach ($tables as $table) {
 						?>
@@ -1156,16 +1158,12 @@ if($userRow['admin']==0){
 			</div>
 			-->
 			
-			<script>
-			function Export(table){
-				window.open("export.php?table_name="+table, '_blank');
-			}
-			</script>
-			
 			<!-- Upload SQL txt -->
+			<h2>Schritt 2: Änderungstabellen hochladen (Entitäten)</h2>
+			<p><i>Die Ausgaben der Python-Skripte hochladen. Dateien nicht umbenennen.</i></p>
 			<div style="border:solid 1px; border-radius:3px; border-color: lightgrey; padding:10px">
 				<input id="fileToUpload" type="file" name="fileToUpload" style="margin-top:10px; margin-bottom:10px;"/>
-				<button class="btn btn-primary" id="uploadButton">Hochladen</button>
+				<button class="btn btn-primary uploadButton">Hochladen</button>
 				<br>
 				<hr>
 				<p>Diese Dateien befinden sich derzeit auf dem Server:</p>
@@ -1180,68 +1178,29 @@ if($userRow['admin']==0){
 				?>
 			</div>
 			
-			<script>
-			$( document ).ready(function() {
-				$('#uploadButton').click(function(){
-
-					var file_data = $('#fileToUpload').prop('files')[0];   
-					var form_data = new FormData();                  
-					form_data.append('file', file_data);
-					
-					$.ajax({
-						url: 'upload.php', // point to server-side PHP script 
-						dataType: 'text',  // what to expect back from the PHP script, if anything
-						cache: false,
-						contentType: false,
-						processData: false,
-						data: form_data,                         
-						type: 'post',
-						success: function(data){
-							alert(data); // display response from the PHP script, if any
-							
-						}
-					});
-				});
-			});			
-			</script>
-			
-			<br>
-			<h2>Tabellen aktualisieren</h2>
+			<h2>Schritt 3: Tabellen aktualisieren (Entitäten)</h2>
 			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
 			<?php
 			foreach ($files as $file) {
-				$trimmedName = substr($file, 0, -4);
-				echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktulisieren</button>';
+				$validNames = array(
+					"ADDED_LECTURES.txt", "CHANGED_LECTURES.txt", "DELETED_LECTURES.txt",
+					"ADDED_MODULES.txt", "CHANGED_MODULES.txt", "DELETED_MODULES.txt",
+					"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
+					"ADDED_INSTITUTES.txt", "CHANGED_INSTITUTES.txt", "DELETED_INSTITUTES.txt",
+				);
+				if(in_array($file, $validNames)){
+					$trimmedName = substr($file, 0, -4);
+					echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktulisieren</button>';
+				}
 			}
 			?>
 			
-			<script>
-			$( document ).ready(function() {
-				$('.sqlUpdate').click(function(){
-					var table = $(this).data('table');
+			<h2>Schritt 4: Änderungen bestätigen (Entitäten)</h2>
+			<p><i>tbd</i></p>
+			
+			<a id="close-all">Alle Listen schließen</a>
 
-					$.ajax({
-						type: "POST",
-						url: "sqlUpdate.php",
-						data: "table=" + table,
-						success: function(data) {
-							alert(data);
-							//window.location.reload();
-						}
-					});
-				});
-			});
-			</script>
-			
-			<br>
-			
-			<div class="alert alert-danger">
-				<strong>Vorsicht!</strong> Diese Seite befindet sich noch im Aufbau - alle Daten sind Beispieldaten.
-			</div>
-			
-			<button type="button" class="btn btn-default" id="close-all">Alle Listen schließen</button>
-			
-			<h2>Vorlesungen</h2>
+			<h3>Vorlesungen</h3>
 			
 			<!-- Changed -->
 			<?php
@@ -1252,11 +1211,11 @@ if($userRow['admin']==0){
 			$result = mysqli_query($con,$sql);
 			?>
 			
-			<h3>
+			<h4>
 				<span>Geänderte</span>
 				<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
 				<a id="display_lectures_changed"><span id="display_lectures_changed_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
-			</h3>
+			</h4>
 			
 			<table class="table table-striped" id="table_lectures_changed" style="margin-top:15px; display:none">
 				<tr>
@@ -1460,11 +1419,11 @@ if($userRow['admin']==0){
 			$result = mysqli_query($con,$sql);
 			?>
 			
-			<h3>
+			<h4>
 				<span>Hinzugekommene</span>
 				<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
 				<a id="display_lectures_added"><span id="display_lectures_added_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
-			</h3>
+			</h4>
 			
 			<table class="table table-striped" id="table_lectures_added" style="margin-top:15px; display:none">
 				<tr>
@@ -1668,11 +1627,11 @@ if($userRow['admin']==0){
 			$result = mysqli_query($con,$sql);
 			?>
 			
-			<h3>
+			<h4>
 				<span>Gelöschte</span>
 				<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
 				<a id="display_lectures_deleted"><span id="display_lectures_deleted_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
-			</h3>
+			</h4>
 			
 			<table class="table table-striped" id="table_lectures_deleted" style="margin-top:15px; display:none">
 				<tr>
@@ -1813,6 +1772,112 @@ if($userRow['admin']==0){
 				}
 			});
 			</script>
+			
+			<h2>Schritt 5: Tabellen downloaden (Neue Entitäten, Matching)</h2>
+			<p><i>Tabellen herunterladen und damit die Python-Skripe ausführen.</i></p>
+			<?php
+
+			$tables = array("subjects", "lecturers", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
+
+			foreach ($tables as $table) {
+				?>
+				<button onclick="Export('<?php echo $table ?>')" class="btn btn-primary" style="margin:5px"><?php echo $table ?></button>
+				<?php
+			}
+			?>
+			
+			<script>
+			function Export(table){
+				window.open("export.php?table_name="+table, '_blank');
+			}
+			</script>
+			
+			<h2>Schritt 6: Änderungstabellen hochladen (Matching)</h2>
+			<p><i>Die Ausgaben der Python-Skripte hochladen. Dateien nicht umbenennen.</i></p>
+			<div style="border:solid 1px; border-radius:3px; border-color: lightgrey; padding:10px">
+				<input class="fileToUpload" type="file" name="fileToUpload" style="margin-top:10px; margin-bottom:10px;"/>
+				<button class="btn btn-primary uploadButton">Hochladen</button>
+				<br>
+				<hr>
+				<p>Diese Dateien befinden sich derzeit auf dem Server:</p>
+				<?php
+				$files = scandir("uploads/");
+				array_shift($files);
+				array_shift($files);
+				
+				foreach ($files as $file) {
+					echo "<li><b>$file</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime("uploads/$file")).")</li>";
+				}
+				?>
+			</div>
+			
+			<script>
+			$( document ).ready(function() {
+				$('.uploadButton').click(function(){
+
+					//var file_data = $('#fileToUpload').prop('files')[0];
+					var file_data = $(this).closest('div').find("input[name='fileToUpload']").prop('files')[0];				
+					var form_data = new FormData();                  
+					form_data.append('file', file_data);
+					
+					$.ajax({
+						url: 'upload.php', // point to server-side PHP script 
+						dataType: 'text',  // what to expect back from the PHP script, if anything
+						cache: false,
+						contentType: false,
+						processData: false,
+						data: form_data,                         
+						type: 'post',
+						success: function(data){
+							alert(data); // display response from the PHP script, if any
+							if(data.includes("erfolg")){
+								window.location.reload();
+							}else{
+								$('.fileToUpload').val("");
+							}							
+						}
+					});
+				});
+			});			
+			</script>
+			
+			<h2>Schritt 7: Tabellen aktualisieren (Matching)</h2>
+			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
+			<?php
+			foreach ($files as $file) {
+				$validNames = array(
+					"lecturers_institutes.txt", "modules_levels.txt", "subjects_lecturers.txt", "subjects_modules.txt"
+				);
+				if(in_array($file, $validNames)){
+					$trimmedName = substr($file, 0, -4);
+					echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktulisieren</button>';
+				}
+			}
+			?>
+			
+			<script>
+			$( document ).ready(function() {
+				$('.sqlUpdate').click(function(){
+					var table = $(this).data('table');
+					
+					if (confirm(table + ' wirklich aktualisieren?')){
+						$.ajax({
+							type: "POST",
+							url: "sqlUpdate.php",
+							data: "table=" + table,
+							success: function(data) {
+								alert(data);
+								//window.location.reload();
+							}
+						});
+					}
+				});
+			});
+			</script>
+			
+			<h2>Schritt 8: Änderungen bestätigen (Matching)</h2>
+			<p><i>tbd</i></p>
+			
 		</div>
 		
 		<?php if($userRow['super_admin'] == 1){ ?>

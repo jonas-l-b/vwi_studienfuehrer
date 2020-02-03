@@ -9,6 +9,49 @@ include "connect.php";
 include "dataPrivacy.php";
 
 ?>
+
+<!-- Backup Datenbank-->
+<?php
+$result=mysqli_query($con, "SELECT value FROM help WHERE name='lastDatabaseBackup'");
+$row=mysqli_fetch_assoc($result);
+$today = date("Ymd");
+if(($today - $row['value']) > 7){ //New backup if last older than 7 days
+	include "backupDatabase.php";
+
+	mysqli_query($con, "UPDATE help SET value=$today WHERE name='lastDatabaseBackup'");
+}
+?>
+<?php
+$result=mysqli_query($con, "SELECT value FROM help WHERE name='subjectOfTheDay'");
+$row=mysqli_fetch_assoc($result);
+$today = date("Ymd");
+if($row['value'] != $today){ //Update if necessary
+	$sql="
+		SELECT subjects.ID AS subject_ID, subject_name FROM subjects
+		ORDER BY RAND()
+		LIMIT 1
+	";
+	$result2=mysqli_query($con, $sql);
+	$row2=mysqli_fetch_assoc($result2);
+	$newSubjectId = $row2['subject_ID'];
+	
+	mysqli_query($con, "UPDATE help SET value=$today WHERE  name='subjectOfTheDay'");
+	
+	mysqli_query($con, "UPDATE help SET value2='$newSubjectId' WHERE name='subjectOfTheDay'");
+}
+
+$result=mysqli_query($con, "SELECT value2 FROM help WHERE name='subjectOfTheDay'");
+$row=mysqli_fetch_assoc($result);
+
+$s_id = $row['value2'];
+$sql="
+	SELECT subjects.ID AS subject_ID, subject_name FROM subjects
+	WHERE subjects.ID = $s_id
+";
+$result=mysqli_query($con, $sql);
+$row=mysqli_fetch_assoc($result);
+?>
+
 <body>
 
 <?php include "inc/nav.php" ?>
