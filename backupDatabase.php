@@ -32,10 +32,9 @@ $mysqlExportPath ='database_backup/databaseBackup-'.date("Y-m-d") . '_' . date("
 $command='mysqldump --opt -h' .$mysqlHostName .' -u' .$mysqlUserName .' -p' .$mysqlPassword .' ' .$mysqlDatabaseName .' > ' .$mysqlExportPath;
 exec($command,$output=array(),$worked);
 
-/*
 switch($worked){
 case 0:
-echo 'Die Datenbank <b>' .$mysqlDatabaseName .'</b> wurde erfolgreich im folgenden Pfad abgelegt '.getcwd().'/' .$mysqlExportPath .'</b>';
+echo 'Backup wurde erfolgreich im folgenden Pfad abgelegt: '.getcwd().'/' .$mysqlExportPath;
 break;
 case 1:
 echo 'Es ist ein Fehler aufgetreten beim Exportieren von <b>' .$mysqlDatabaseName .'</b> zu '.getcwd().'/' .$mysqlExportPath .'</b>';
@@ -44,6 +43,5 @@ case 2:
 echo 'Es ist ein Fehler beim Exportieren aufgetreten, bitte prüfen Sie die folgenden Angaben: <br/><br/><table><tr><td>MySQL Database Name:</td><td><b>' .$mysqlDatabaseName .'</b></td></tr><tr><td>MySQL User Name:</td><td><b>' .$mysqlUserName .'</b></td></tr><tr><td>MySQL Password:</td><td><b>NOTSHOWN</b></td></tr><tr><td>MySQL Host Name:</td><td><b>' .$mysqlHostName .'</b></td></tr></table>';
 break;
 }
-*/
 
 ?>

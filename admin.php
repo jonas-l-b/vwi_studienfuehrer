@@ -1121,6 +1121,24 @@ if($userRow['admin']==0){
 			<i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
 			<br><br>
 			
+			<h2>Schritt 0: Backup erstellen</h2>
+			<p><i>Backup des jetzigen Standes des Studienführers sicherheitshalber erstellen.</i></p>
+			<button class="btn btn-primary" id="backup-button">Backup jetzt erstellen</button>
+			
+			<script>
+			$( document ).ready(function() {	
+				$("#backup-button").click(function(){
+					$.ajax({
+						type: "POST",
+						url: "backupDatabase.php",
+						success: function(data) {
+							alert(data);
+						}
+					});
+				});
+			});
+			</script>
+			
 			<h2>Schritt 1: Tabellen downloaden (Entitäten)</h2>
 			<p><i>Alle Tabellen herunterladen und damit die Python-Skripe ausführen.</i></p>
 			<?php
@@ -1159,21 +1177,44 @@ if($userRow['admin']==0){
 			-->
 			
 			<!-- Upload SQL txt -->
+			<?php
+			$files = glob("uploads/*");
+			$now   = time();
+			
+			foreach ($files as $file) {
+				if (is_file($file)) {
+					if ($now - filemtime($file) >= 60 * 60 * 24 * 3) { // 3 days
+						unlink($file);
+					}
+				}
+			}
+			?> 
+			
 			<h2>Schritt 2: Änderungstabellen hochladen (Entitäten)</h2>
-			<p><i>Die Ausgaben der Python-Skripte hochladen. Dateien nicht umbenennen.</i></p>
+			<p><i>Die Ausgaben der Python-Skripte hochladen. Dateien nicht umbenennen. Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i></p>
 			<div style="border:solid 1px; border-radius:3px; border-color: lightgrey; padding:10px">
 				<input id="fileToUpload" type="file" name="fileToUpload" style="margin-top:10px; margin-bottom:10px;"/>
 				<button class="btn btn-primary uploadButton">Hochladen</button>
 				<br>
 				<hr>
-				<p>Diese Dateien befinden sich derzeit auf dem Server:</p>
+				<p>Diese (relevanten) Dateien befinden sich derzeit auf dem Server:</p>
 				<?php
-				$files = scandir("uploads/");
-				array_shift($files);
-				array_shift($files);
-				
+				$files = glob("uploads/*");
+				if (empty($files)){
+					echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
+				}
+				$validNames = array(
+					"ADDED_LECTURES.txt", "CHANGED_LECTURES.txt", "DELETED_LECTURES.txt",
+					"ADDED_MODULES.txt", "CHANGED_MODULES.txt", "DELETED_MODULES.txt",
+					"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
+					"ADDED_INSTITUTES.txt", "CHANGED_INSTITUTES.txt", "DELETED_INSTITUTES.txt",
+				);
 				foreach ($files as $file) {
-					echo "<li><b>$file</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime("uploads/$file")).")</li>";
+					if(in_array(basename($file), $validNames)){
+						if (is_file($file)) {
+							echo "<li><b>".basename($file)."</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime("uploads/$file")).")</li>";
+						}
+					}
 				}
 				?>
 			</div>
@@ -1793,20 +1834,27 @@ if($userRow['admin']==0){
 			</script>
 			
 			<h2>Schritt 6: Änderungstabellen hochladen (Matching)</h2>
-			<p><i>Die Ausgaben der Python-Skripte hochladen. Dateien nicht umbenennen.</i></p>
+			<p><i>Die Ausgaben der Python-Skripte hochladen. Dateien nicht umbenennen. Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i></p>
 			<div style="border:solid 1px; border-radius:3px; border-color: lightgrey; padding:10px">
 				<input class="fileToUpload" type="file" name="fileToUpload" style="margin-top:10px; margin-bottom:10px;"/>
 				<button class="btn btn-primary uploadButton">Hochladen</button>
 				<br>
 				<hr>
-				<p>Diese Dateien befinden sich derzeit auf dem Server:</p>
+				<p>Diese (relevanten) Dateien befinden sich derzeit auf dem Server:</p>
 				<?php
-				$files = scandir("uploads/");
-				array_shift($files);
-				array_shift($files);
-				
+				$files = glob("uploads/*");
+				if (empty($files)){
+					echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
+				}
+				$validNames = array(
+					"LECTURES_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+				);
 				foreach ($files as $file) {
-					echo "<li><b>$file</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime("uploads/$file")).")</li>";
+					if(in_array(basename($file), $validNames)){
+						if (is_file($file)) {
+							echo "<li><b>".basename($file)."</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime("uploads/$file")).")</li>";
+						}
+					}
 				}
 				?>
 			</div>
@@ -1841,7 +1889,29 @@ if($userRow['admin']==0){
 			});			
 			</script>
 			
-			<h2>Schritt 7: Tabellen aktualisieren (Matching)</h2>
+			<h2>Schritt 7: Änderungen bestätigen (Matching)</h2>
+			<p><i>Schwer bzw. zeitaufwendig zu überprüfen, ob Änderungen korrekt sind. Daher nur Prüfung auf Komisches, wie bspw. Nullen überall.</i></p>
+			
+			<?php
+			$files = glob("uploads/*");
+			if (empty($files)){
+				echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
+			}
+			$validNames = array(
+				"LECTURES_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+			);
+			foreach ($files as $file) {
+				if(in_array(basename($file), $validNames)){
+					if (is_file($file)) {
+						$myfile = fopen($file, "r") or die("Unable to open file!");
+						echo "<div style='border:solid'>".fread($myfile,filesize($file))."</div>";
+						fclose($myfile);
+					}
+				}
+			}
+			?>
+			
+			<h2>Schritt 8: Tabellen aktualisieren (Matching)</h2>
 			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
 			<?php
 			foreach ($files as $file) {
@@ -1874,9 +1944,7 @@ if($userRow['admin']==0){
 				});
 			});
 			</script>
-			
-			<h2>Schritt 8: Änderungen bestätigen (Matching)</h2>
-			<p><i>tbd</i></p>
+		
 			
 		</div>
 		
