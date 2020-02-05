@@ -1118,11 +1118,11 @@ if($userRow['admin']==0){
 		
 		<div id="update" class="tab-pane fade">
 			<br>
-			<i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i>
-			<br><br>
+			<p><i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i></p>
+			<p><i>Der Prozess ist leider etwas fehleranfällig, da einige Schritte manuell durchgeführt werden müssen. Nimm dir darum genügend Zeit, um die Schritte gewissenhaft abzuarbeiten.</i></p>
 			
 			<h2>Schritt 0: Backup erstellen</h2>
-			<p><i>Backup des jetzigen Standes des Studienführers sicherheitshalber erstellen.</i></p>
+			<p><i>Sicherheitshalber ein Backup des jetzigen Standes des Studienführers erstellen.</i></p>
 			<button class="btn btn-primary" id="backup-button">Backup jetzt erstellen</button>
 			
 			<script>
@@ -2297,6 +2297,19 @@ if($userRow['admin']==0){
 					});
 				});
 				</script>
+			</div>
+			
+			<br>
+			
+			<div class="grey-border">
+				<h3>Dozenten</h3>
+				
+			</div>
+			
+			<br>
+			
+			<div class="grey-border">
+				<h3>Institute</h3>
 				
 			</div>
 				
