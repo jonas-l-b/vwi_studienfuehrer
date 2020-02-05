@@ -1990,6 +1990,205 @@ if($userRow['admin']==0){
 					});
 				});
 				</script>
+				
+				<!-- Added -->
+				<?php
+				$sql = "SELECT * FROM `ADDED_MODULES`";
+				$result = mysqli_query($con,$sql);
+				?>
+				
+				<h4>
+					<span>Hinzugekommene</span>
+					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+					<a id="display_modules_added"><span id="display_modules_added_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+				</h4>
+				
+				<table class="table table-striped" id="table_modules_added" style="margin-top:15px; display:none">
+					<tr>
+						<th>Name</th>
+						<th>Kennung</th>
+						<th>Typ</th>
+						<th>ECTS</th>
+						<th>Bearbeiten</th>
+						<th>Hinzufügen</th>
+						<th>Löschen</th>
+					</tr>
+				
+				<?php
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<tr>
+						<td><?php echo $row['name'] ?></td>
+						<td><?php echo $row['code'] ?></td>
+						<td><?php echo $row['type'] ?></td>
+						<td><?php echo $row['ects'] ?></td>
+						<td>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAddedModuleModal"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+								data-code="<?php echo $row['code'] ?>"
+								data-type="<?php echo $row['type'] ?>"
+								data-ects="<?php echo $row['ects'] ?>"
+							>Bearbeiten</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-primary addModule_addButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+								data-code="<?php echo $row['code'] ?>"
+								data-type="<?php echo $row['type'] ?>"
+								data-ects="<?php echo $row['ects'] ?>"
+							>Hinzufügen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger addModule_deleteButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Löschen</button>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</table>
+				
+				<div class="modal fade" id="editAddedModuleModal" tabindex="-1" role="dialog" aria-labelledby="editAddedModuleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-body" id="addedModule_edit_modal-body">
+							<form id="addedModule_edit_form">
+								<div class="form-group" style="display:none">
+									<label class="col-form-label">id:</label>
+									<input type="text" class="form-control" name ="id" id="id">
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Name:</label>
+									<input type="text" class="form-control" name="name" id="name">
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Kennung:</label>
+									<input type="text" class="form-control" name="code" id="code">
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Typ:</label>
+									<input type="text" class="form-control" name="type" id="type">
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">ECTS:</label>
+									<input type="text" class="form-control" name="ects" id="ects">
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer" id="addedModule_edit_modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+							<button type="button" class="btn btn-primary" id="module-added_save-changes-button">Änderungen speichern</button>
+						</div>
+					</div>
+				  </div>
+				</div>
+				
+				<script>
+				$( document ).ready(function() {
+					//Show and hide
+					$("#display_modules_added").click(function() {
+						if($("#table_modules_added").is(":visible")){
+							$("#table_modules_added").hide();
+							$("#display_modules_added_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_modules_added_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=module_added&value=0"});
+						}else{
+							$("#table_modules_added").show();
+							$("#display_modules_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_modules_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=module_added&value=1"});
+						}
+						
+					});
+					
+					//show modal
+					$('#editAddedModuleModal').on('show.bs.modal', function (event) {
+						var button = $(event.relatedTarget) // Button that triggered the modal
+						
+						var id = button.data('id')
+						var name = button.data('name')
+						var code = button.data('code')
+						var type = button.data('type')
+						var ects = button.data('ects')
+						
+						var modal = $(this)
+						modal.find('.modal-body #id').val(id)
+						modal.find('.modal-body #name').val(name)
+						modal.find('.modal-body #code').val(code)
+						modal.find('.modal-body #type').val(type)
+						modal.find('.modal-body #ects').val(ects)
+					})
+					
+					//save changes
+					$('#module-added_save-changes-button').click(function() {
+						$.ajax({
+							type: "POST",
+							url: "admin_updateModuleAdded_edit_submit.php",
+							data: $("#addedModule_edit_form").serialize(),
+							success: function(data) {
+								//alert(data);
+								console.log(data);
+								if(data.includes("erfolg")){
+									$('#addedModule_edit_modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Änderungen erfolgreich gespeichert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen & Seite neu laden</button>");
+								}else{
+									$('#addedModule_edit_modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Speichern ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt).</div><button type=\"button\" class=\"btn btn-primary\" onClick=\"window.location.reload()\" data-dismiss=\"modal\">Schließen & Seite neu laden</button>");
+								}
+								$('#addedModule_edit_modal-footer').hide();
+							}
+						});
+					});
+					
+					//Add module
+					$('.addModule_addButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						var code = $(this).data('code')
+						var type = $(this).data('type')
+						var ects = $(this).data('ects')
+						
+						var result = confirm('Modul "' + name + '" wirklich hinzufügen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateModuleAdded_add_submit.php",
+								data: "id=" + id + "&name=" + name + "&code=" + code + "&type=" + type + "&ects=" + ects,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Modul wurde nicht hinzugefügt.");
+						}
+					});
+					
+					//Delete subject
+					$('.addModule_deleteButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Modul "' + name + '" wirklich löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateModuleAdded_delete_submit.php",
+								data: "id=" + id,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Veranstaltung wurde nicht gelöscht.");
+						}
+					});
+				});
+				</script>
+				
 			</div>
 				
 			<!-- Set table visabilities -->
@@ -2054,17 +2253,17 @@ if($userRow['admin']==0){
 					$("#display_modules_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
 					$("#display_modules_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
 				}
-				/*
-				if (<?php echo $subject_added ?> == 1){
-					$('#table_lectures_added').show();
-					$("#display_lectures_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
-					$("#display_lectures_added_glyph").addClass("glyphicon glyphicon-chevron-up");
-				}
 				
-				if (<?php echo $subject_deleted ?> == 1){
-					$('#table_lectures_deleted').show();
-					$("#display_lectures_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
-					$("#display_lectures_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+				if (<?php echo $module_added ?> == 1){
+					$('#table_modules_added').show();
+					$("#display_modules_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_modules_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+				/*
+				if (<?php echo $module_deleted ?> == 1){
+					$('#table_modules_deleted').show();
+					$("#display_modules_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_modules_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
 				}
 				*/
 			});
