@@ -172,10 +172,10 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 	//lecturers
 	$sql = "
-		SELECT DISTINCT lecturers.lecturer_ID, lecturers.last_name, lecturers.first_name
+		SELECT DISTINCT lecturers.lecturer_ID, lecturers.name
 		".$sqlBody."
 		WHERE subjects.ID = ".$subjects['ID']."
-		ORDER BY abbr, lecturers.last_name
+		ORDER BY abbr, lecturers.name
 	";
 	$result = mysqli_query($con,$sql);
 	$lecturers = "";
@@ -194,7 +194,7 @@ while($subjects = mysqli_fetch_assoc($allSubjects)){
 
 
 
-		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".substr($row['first_name'],0,1).". ".$row['last_name']."</a> (".$abbr.")<br>";
+		$lecturers .= "<a href=\"lecturer.php?lecturer_id=".$row['lecturer_ID']."\">".$row['name']."</a> (".$abbr.")<br>";
 	}
 	$lecturers = substr($lecturers, 0, -4);
 

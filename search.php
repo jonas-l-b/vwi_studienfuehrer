@@ -264,15 +264,15 @@ include "connect.php";
 					if (is_null($CachedString->get())) {
 						$lec_selection = "<option value=\"none\">(Keine Einschränkung)</option>";
 						$sql = "
-							SELECT *
+							SELECT *, lecturers.name AS lecturer_name
 							FROM lecturers
 							JOIN lecturers_institutes ON lecturers.lecturer_ID=lecturers_institutes.lecturer_ID
 							JOIN institutes ON lecturers_institutes.institute_ID=institutes.institute_ID
-							ORDER BY last_name, first_name
+							ORDER BY lecturers.name
 						";
 						$result = mysqli_query($con,$sql);
 						while($row = mysqli_fetch_assoc($result)){
-							$lec_selection .= "<option value=".$row['lecturer_ID'].">".$row['last_name'].", ".$row['first_name']." (".$row['abbr'].")</option>";
+							$lec_selection .= "<option value=".$row['lecturer_ID'].">".$row['lecturer_name']." (".$row['abbr'].")</option>";
 						}
 						$CachedString->set($lec_selection)->expiresAfter(3000000);//in seconds, also accepts Datetime
 						$InstanceCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
