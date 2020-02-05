@@ -2302,15 +2302,431 @@ if($userRow['admin']==0){
 			<br>
 			
 			<div class="grey-border">
+				<!-- Added -->
 				<h3>Dozenten</h3>
 				
+				<?php
+				$sql = "SELECT * FROM `ADDED_LECTURERS`";
+				$result = mysqli_query($con,$sql);
+				?>
+				
+				<h4>
+					<span>Hinzugekommene</span>
+					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+					<a id="display_lecturers_added"><span id="display_lecturers_added_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+				</h4>
+				
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_lecturers_added" style="margin-top:15px; display:none">
+					<tr>
+						<th>Name</th>
+						<th>Hinzufügen</th>
+						<th>Löschen</th>
+					</tr>
+				
+				<?php
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<tr>
+						<td><?php echo $row['name'] ?></td>
+						<td>
+							<button type="button" class="btn btn-primary addLecturer_addButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Hinzufügen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger addLecturer_deleteButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Löschen</button>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</table>
+				
+				<script>
+				$( document ).ready(function() {
+					//Show and hide
+					$("#display_lecturers_added").click(function() {
+						if($("#table_lecturers_added").is(":visible")){
+							$("#table_lecturers_added").hide();
+							$("#display_lecturers_added_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_lecturers_added_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=lecturer_added&value=0"});
+						}else{
+							$("#table_lecturers_added").show();
+							$("#display_lecturers_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_lecturers_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=lecturer_added&value=1"});
+						}
+						
+					});
+					
+					//Add lecturer
+					$('.addLecturer_addButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Dozent "' + name + '" wirklich hinzufügen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateLecturerAdded_add_submit.php",
+								data: "id=" + id + "&name=" + name,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Dozent wurde nicht hinzugefügt.");
+						}
+					});
+					
+					//Delete lecturer
+					$('.addLecturer_deleteButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Dozent "' + name + '" wirklich löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateLecturerAdded_delete_submit.php",
+								data: "id=" + id,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Dozent wurde nicht gelöscht.");
+						}
+					});
+				});
+				</script>
+				
+				<!-- Deleted -->
+				<?php
+				$sql = "SELECT * FROM `DELETED_LECTURERS`";
+				$result = mysqli_query($con,$sql);
+				?>
+				
+				<h4>
+					<span>Gelöschte</span>
+					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+					<a id="display_lecturers_deleted"><span id="display_lecturers_deleted_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+				</h4>
+				
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_lecturers_deleted" style="margin-top:15px; display:none">
+					<tr>
+						<th>Name</th>
+						<th>Aus Studi löschen</th>
+						<th>Hier löschen</th>
+					</tr>
+				
+				<?php
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<tr>
+						<td><?php echo $row['name'] ?></td>
+						<td>
+							<button type="button" class="btn btn-primary deleteLecturer_deleteInStudiButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Aus Studi löschen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger deleteLecturer_deleteButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Hier löschen</button>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</table>
+				
+				<script>
+				$( document ).ready(function() {
+					//Show and hide
+					$("#display_lecturers_deleted").click(function() {
+						if($("#table_lecturers_deleted").is(":visible")){
+							$("#table_lecturers_deleted").hide();
+							$("#display_lecturers_deleted_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_lecturers_deleted_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=lecturer_deleted&value=0"});
+						}else{
+							$("#table_lecturers_deleted").show();
+							$("#display_lecturers_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_lecturers_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=lecturer_deleted&value=1"});
+						}
+						
+					});
+					
+					//Delete subject in studi
+					$('.deleteLecturer_deleteInStudiButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Dozent "' + name + '" wirklich aus dem Studienführer löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateLecturerDeleted_deleteFromStudi_submit.php",
+								data: "id=" + id + "&name=" + name,
+								success: function(data) {
+									//console.log(data);
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Nichts ist passiert.");
+						}
+					});
+					
+					//Delete subject
+					$('.deleteLecturer_deleteButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Dozent "' + name + '" wirklich aus dieser Liste löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateLecturerDeleted_delete_submit.php",
+								data: "id=" + id,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Nichts ist passiert.");
+						}
+					});
+				});
+				</script>
 			</div>
 			
 			<br>
 			
 			<div class="grey-border">
+				<!-- Added -->
 				<h3>Institute</h3>
 				
+				<?php
+				$sql = "SELECT * FROM `ADDED_INSTITUTES`";
+				$result = mysqli_query($con,$sql);
+				?>
+				
+				<h4>
+					<span>Hinzugekommene</span>
+					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+					<a id="display_institutes_added"><span id="display_institutes_added_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+				</h4>
+				
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_institutes_added" style="margin-top:15px; display:none">
+					<tr>
+						<th>Name</th>
+						<th>Hinzufügen</th>
+						<th>Löschen</th>
+					</tr>
+				
+				<?php
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<tr>
+						<td><?php echo $row['name'] ?></td>
+						<td>
+							<button type="button" class="btn btn-primary addInstitute_addButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Hinzufügen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger addInstitute_deleteButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Löschen</button>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</table>
+				
+				<script>
+				$( document ).ready(function() {
+					//Show and hide
+					$("#display_institutes_added").click(function() {
+						if($("#table_institutes_added").is(":visible")){
+							$("#table_institutes_added").hide();
+							$("#display_institutes_added_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_institutes_added_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_added&value=0"});
+						}else{
+							$("#table_institutes_added").show();
+							$("#display_institutes_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_institutes_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_added&value=1"});
+						}
+						
+					});
+					
+					//Add lecturer
+					$('.addInstitute_addButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Institut "' + name + '" wirklich hinzufügen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateInstituteAdded_add_submit.php",
+								data: "id=" + id + "&name=" + name,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Institut wurde nicht hinzugefügt.");
+						}
+					});
+					
+					//Delete lecturer
+					$('.addInstitute_deleteButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Institut "' + name + '" wirklich löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateInstituteAdded_delete_submit.php",
+								data: "id=" + id,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Institut wurde nicht gelöscht.");
+						}
+					});
+				});
+				</script>
+				
+				<!-- Deleted -->
+				<?php
+				$sql = "SELECT * FROM `DELETED_INSTITUTES`";
+				$result = mysqli_query($con,$sql);
+				?>
+				
+				<h4>
+					<span>Gelöschte</span>
+					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+					<a id="display_institutes_deleted"><span id="display_institutes_deleted_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+				</h4>
+				
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_institutes_deleted" style="margin-top:15px; display:none">
+					<tr>
+						<th>Name</th>
+						<th>Aus Studi löschen</th>
+						<th>Hier löschen</th>
+					</tr>
+				
+				<?php
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<tr>
+						<td><?php echo $row['name'] ?></td>
+						<td>
+							<button type="button" class="btn btn-primary deleteInstitute_deleteInStudiButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Aus Studi löschen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger deleteInstitute_deleteButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Hier löschen</button>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</table>
+				
+				<script>
+				$( document ).ready(function() {
+					//Show and hide
+					$("#display_institutes_deleted").click(function() {
+						if($("#table_institutes_deleted").is(":visible")){
+							$("#table_institutes_deleted").hide();
+							$("#display_institutes_deleted_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_institutes_deleted_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_deleted&value=0"});
+						}else{
+							$("#table_institutes_deleted").show();
+							$("#display_institutes_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_institutes_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_deleted&value=1"});
+						}
+						
+					});
+					
+					//Delete subject in studi
+					$('.deleteInstitute_deleteInStudiButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Institut "' + name + '" wirklich aus dem Studienführer löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateInstituteDeleted_deleteFromStudi_submit.php",
+								data: "id=" + id + "&name=" + name,
+								success: function(data) {
+									//console.log(data);
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Nichts ist passiert.");
+						}
+					});
+					
+					//Delete subject
+					$('.deleteInstitute_deleteButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Dozent "' + name + '" wirklich aus dieser Liste löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateInstituteDeleted_delete_submit.php",
+								data: "id=" + id,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Nichts ist passiert.");
+						}
+					});
+				});
+				</script>
 			</div>
 				
 			<!-- Set table visabilities -->
@@ -2345,6 +2761,16 @@ if($userRow['admin']==0){
 			$result = mysqli_query($con, $sql);
 			$row = mysqli_fetch_array($result);
 			$module_deleted = $row['value'];
+			
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'lecturer_added'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$lecturer_added = $row['value'];
+			
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'lecturer_deleted'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$lecturer_deleted = $row['value'];
 			?>
 			<script>
 			$( document ).ready(function() {
@@ -2386,6 +2812,18 @@ if($userRow['admin']==0){
 					$('#table_modules_deleted').show();
 					$("#display_modules_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
 					$("#display_modules_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+				
+				if (<?php echo $lecturer_added ?> == 1){
+					$('#table_lecturers_added').show();
+					$("#display_lecturers_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_lecturers_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+				
+				if (<?php echo $lecturer_deleted ?> == 1){
+					$('#table_lecturers_deleted').show();
+					$("#display_lecturers_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_lecturers_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
 				}
 				
 			});
