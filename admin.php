@@ -1261,8 +1261,8 @@ if($userRow['admin']==0){
 					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
 					<a id="display_lectures_changed"><span id="display_lectures_changed_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
 				</h4>
-				
-				<table class="table table-striped" id="table_lectures_changed" style="margin-top:15px; display:none">
+
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_lectures_changed" style="margin-top:15px; display:none">
 					<tr>
 						<th>Name</th>
 						<th>Kennung</th>
@@ -1470,7 +1470,7 @@ if($userRow['admin']==0){
 					<a id="display_lectures_added"><span id="display_lectures_added_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
 				</h4>
 				
-				<table class="table table-striped" id="table_lectures_added" style="margin-top:15px; display:none">
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_lectures_added" style="margin-top:15px; display:none">
 					<tr>
 						<th>Name</th>
 						<th>Kennung</th>
@@ -1678,7 +1678,7 @@ if($userRow['admin']==0){
 					<a id="display_lectures_deleted"><span id="display_lectures_deleted_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
 				</h4>
 				
-				<table class="table table-striped" id="table_lectures_deleted" style="margin-top:15px; display:none">
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_lectures_deleted" style="margin-top:15px; display:none">
 					<tr>
 						<th>Name</th>
 						<th>Kennung</th>
@@ -1747,7 +1747,7 @@ if($userRow['admin']==0){
 								}
 							});
 						}else{
-							alert("Veranstaltung wurde nicht hinzugefügt.");
+							alert("Nichts ist passiert.");
 						}
 					});
 					
@@ -1768,7 +1768,7 @@ if($userRow['admin']==0){
 								}
 							});
 						}else{
-							alert("Veranstaltung wurde nicht gelöscht.");
+							alert("Nichts ist passiert.");
 						}
 					});
 				});
@@ -1795,7 +1795,7 @@ if($userRow['admin']==0){
 					<a id="display_modules_changed"><span id="display_modules_changed_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
 				</h4>
 				
-				<table class="table table-striped" id="table_modules_changed" style="margin-top:15px; display:none">
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_modules_changed" style="margin-top:15px; display:none">
 					<tr>
 						<th>Name</th>
 						<th>Kennung</th>
@@ -2003,7 +2003,7 @@ if($userRow['admin']==0){
 					<a id="display_modules_added"><span id="display_modules_added_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
 				</h4>
 				
-				<table class="table table-striped" id="table_modules_added" style="margin-top:15px; display:none">
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_modules_added" style="margin-top:15px; display:none">
 					<tr>
 						<th>Name</th>
 						<th>Kennung</th>
@@ -2189,6 +2189,115 @@ if($userRow['admin']==0){
 				});
 				</script>
 				
+				<!-- Deleted -->
+				<?php
+				$sql = "SELECT * FROM `DELETED_MODULES`";
+				$result = mysqli_query($con,$sql);
+				?>
+				
+				<h4>
+					<span>Gelöschte</span>
+					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+					<a id="display_modules_deleted"><span id="display_modules_deleted_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+				</h4>
+				
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_modules_deleted" style="margin-top:15px; display:none">
+					<tr>
+						<th>Name</th>
+						<th>Kennung</th>
+						<th>Aus Studi löschen</th>
+						<th>Hier löschen</th>
+					</tr>
+				
+				<?php
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<tr>
+						<td><?php echo $row['name'] ?></td>
+						<td><?php echo $row['identifier'] ?></td>
+						<td>
+							<button type="button" class="btn btn-primary deleteModule_deleteInStudiButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-identifier="<?php echo $row['identifier'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Aus Studi löschen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger deleteModule_deleteButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-name="<?php echo $row['name'] ?>"
+							>Hier löschen</button>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</table>
+				
+				<script>
+				$( document ).ready(function() {
+					//Show and hide
+					$("#display_modules_deleted").click(function() {
+						if($("#table_modules_deleted").is(":visible")){
+							$("#table_modules_deleted").hide();
+							$("#display_modules_deleted_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_modules_deleted_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=module_deleted&value=0"});
+						}else{
+							$("#table_modules_deleted").show();
+							$("#display_modules_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_modules_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=module_deleted&value=1"});
+						}
+						
+					});
+					
+					//Delete subject in studi
+					$('.deleteModule_deleteInStudiButton').click(function(){
+						var id = $(this).data('id')
+						var identifier = $(this).data('identifier')
+						var name = $(this).data('name')
+						
+						var result = confirm('Modul "' + name + '" wirklich aus dem Studienführer löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateModuleDeleted_deleteFromStudi_submit.php",
+								data: "id=" + id + "&identifier=" + identifier + "&name=" + name,
+								success: function(data) {
+									//console.log(data);
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Nichts ist passiert.");
+						}
+					});
+					
+					//Delete subject
+					$('.deleteModule_deleteButton').click(function(){
+						var id = $(this).data('id')
+						var name = $(this).data('name')
+						
+						var result = confirm('Modul "' + name + '" wirklich aus dieser Liste löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateModuleDeleted_delete_submit.php",
+								data: "id=" + id,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Nichts ist passiert.");
+						}
+					});
+				});
+				</script>
+				
 			</div>
 				
 			<!-- Set table visabilities -->
@@ -2259,13 +2368,13 @@ if($userRow['admin']==0){
 					$("#display_modules_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
 					$("#display_modules_added_glyph").addClass("glyphicon glyphicon-chevron-up");
 				}
-				/*
+				
 				if (<?php echo $module_deleted ?> == 1){
 					$('#table_modules_deleted').show();
 					$("#display_modules_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
 					$("#display_modules_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
 				}
-				*/
+				
 			});
 			</script>
 			
