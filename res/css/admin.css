@@ -95,3 +95,11 @@ div.tab button.active {
 .glyphicon-minus-sign {
   transition: color .3s;
 }
+
+/*Updates*/
+.grey-border{
+	border:solid 1px;
+	border-radius:3px;
+	border-color: lightgrey;
+	padding:10px
+}
