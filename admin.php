@@ -1122,7 +1122,37 @@ if($userRow['admin']==0){
 			<p><i>Der Prozess ist leider etwas fehleranfällig, da einige Schritte manuell durchgeführt werden müssen. Nimm dir darum genügend Zeit, um die Schritte gewissenhaft abzuarbeiten.</i></p>
 			
 			<h2>Schritt 0: Backup erstellen</h2>
-			<p><i>Sicherheitshalber ein Backup des jetzigen Standes des Studienführers erstellen.</i></p>
+			<p><i>Sicherheitshalber ein Backup des jetzigen Standes des Studienführers erstellen. <a data-toggle="modal" data-target="#howToBackupModal">Wie nutze ich ein Backup?</a></i></p>
+			
+			<div class="modal fade" id="howToBackupModal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Datenbank mit Backup zurücksetzen</h4>
+						</div>
+						<div class="modal-body">
+							<p>
+								Bisher gibt es keine Funktion im Studienführer, mit der man die Datenbank auf einen früheren Stand zurücksetzen kann.
+								Sollte tatsächlich ein Fall eintreten, der ein Zurücksetzen nötig macht, kannst du dich an diesen Schritten orientieren.
+								Falls du dich überhaupt nicht mit Datenbanken auskennst, hol dir am besten jemanden dazu, der dir hilft.
+							</p>
+							<ol style="margin-left:10px;">
+								<li>Mach am besten nochmal ein Backup der aktuellen Datenbank - man weiß ja nie.</li>
+								<li>Logge dich bei 1&1 ein: <i>https://mein.ionos.de/hosting-overview.</i></li>
+								<li>Lade im <b>Webspace</b> das Datenbank-Backup herunter, auf das du den Studienführer zurücksetzen willst. Du findest die Backups unter <b>studienfuehrer/database_backup</b>.</li>
+								<li>Rufe unter <b>Datenbanken</b> die Studienführer-Datenbank auf (db680704532).</li>
+								<li>Lösche alle Tabellen und erstelle sie erneut mit der Backup-Datei.</li>
+							</ol>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+						</div>
+					</div>
+				  
+				</div>
+			</div>
+			
 			<button class="btn btn-primary" id="backup-button">Backup jetzt erstellen</button>
 			
 			<script>
@@ -1200,21 +1230,23 @@ if($userRow['admin']==0){
 				<p>Diese (relevanten) Dateien befinden sich derzeit auf dem Server:</p>
 				<?php
 				$files = glob("uploads/*");
-				if (empty($files)){
-					echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
-				}
 				$validNames = array(
 					"ADDED_LECTURES.txt", "CHANGED_LECTURES.txt", "DELETED_LECTURES.txt",
 					"ADDED_MODULES.txt", "CHANGED_MODULES.txt", "DELETED_MODULES.txt",
 					"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
 					"ADDED_INSTITUTES.txt", "CHANGED_INSTITUTES.txt", "DELETED_INSTITUTES.txt",
 				);
+				$numFiles = 0;
 				foreach ($files as $file) {
 					if(in_array(basename($file), $validNames)){
 						if (is_file($file)) {
 							echo "<li><b>".basename($file)."</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime($file)).")</li>";
+							$numFiles++;
 						}
 					}
+				}
+				if ($numFiles == 0){
+					echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
 				}
 				?>
 			</div>
@@ -2882,18 +2914,20 @@ if($userRow['admin']==0){
 				<p>Diese (relevanten) Dateien befinden sich derzeit auf dem Server:</p>
 				<?php
 				$files = glob("uploads/*");
-				if (empty($files)){
-					echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
-				}
 				$validNames = array(
 					"LECTURES_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
 				);
+				$numFiles = 0;
 				foreach ($files as $file) {
 					if(in_array(basename($file), $validNames)){
 						if (is_file($file)) {
 							echo "<li><b>".basename($file)."</b> (letzte Änderung: ".date("d.m.y H:i:s", filemtime($file)).")</li>";
+							$numFiles++;
 						}
 					}
+				}
+				if ($numFiles == 0){
+					echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
 				}
 				?>
 			</div>
