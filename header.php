@@ -3,10 +3,10 @@
 <head>
 	<style>
 		@media (min-width: 768px) {
-		.row {
-		  display:flex;
-			align-items:center;
-		}
+			.row {
+				display:flex;
+				<!--align-items:center;-->
+			}
 		}
 	</style>
 	

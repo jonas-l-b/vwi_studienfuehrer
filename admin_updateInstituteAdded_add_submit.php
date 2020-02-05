@@ -6,10 +6,11 @@ include "connect.php";
 <?php
 $id = $_POST['id'];
 $name = $_POST['name'];
+$abbr = $_POST['abbr'];
 
 $sql1 = "
-	INSERT INTO `institutes`(`name`, `user_ID`, `time_stamp`, `active`)
-	VALUES ('$name', ".$userRow['user_ID'].", now(), 1)
+	INSERT INTO `institutes`(`name`, `abbr`, `user_ID`, `time_stamp`, `active`)
+	VALUES ('$name', '$abbr', ".$userRow['user_ID'].", now(), 1)
 ";
 $sql2 = "DELETE FROM `ADDED_INSTITUTES` WHERE `ID` = $id";
 

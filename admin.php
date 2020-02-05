@@ -1239,7 +1239,7 @@ if($userRow['admin']==0){
 			?>
 			
 			<h2>Schritt 4: Änderungen bestätigen (Entitäten)</h2>
-			<p><i>tbd</i></p>
+			<p><i>Jede einzelne Änderung durch Klick auf den jeweiligen Button bestätigen. Der <span style="color:red">rote</span> Button löscht die jeweilige Zeile aus dieser Tabelle, sodass die Änderung nicht in die Datenbank des Studienführers übertragen wird. Der <span style="color:blue">blaue</span> Button überträgt die Änderung in den Studienführer. Die Kennung kann bei Veranstaltungen und Modulen nicht geändert werden, da die jeweilige Entität damit identifiziert wird.</i></p>
 			
 			<button class="btn btn-basic" id="close-all">Alle Listen schließen</button>
 			<br><br>
@@ -1538,7 +1538,7 @@ if($userRow['admin']==0){
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Kennung:</label>
-									<input type="text" class="form-control" name="identifier" id="identifier">
+									<input type="text" class="form-control" name="identifier" id="identifier" disabled>
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">ECTS:</label>
@@ -2067,7 +2067,7 @@ if($userRow['admin']==0){
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Kennung:</label>
-									<input type="text" class="form-control" name="code" id="code">
+									<input type="text" class="form-control" name="code" id="code" disabled>
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Typ:</label>
@@ -2547,6 +2547,7 @@ if($userRow['admin']==0){
 							<button type="button" class="btn btn-primary addInstitute_addButton"
 								data-id="<?php echo $row['id'] ?>"
 								data-name="<?php echo $row['name'] ?>"
+								data-abbr="<?php echo $row['abbr'] ?>"
 							>Hinzufügen</button>
 						</td>
 						<td>
@@ -2579,17 +2580,18 @@ if($userRow['admin']==0){
 						
 					});
 					
-					//Add lecturer
+					//Add institute
 					$('.addInstitute_addButton').click(function(){
 						var id = $(this).data('id')
 						var name = $(this).data('name')
+						var abbr = $(this).data('abbr')
 						
 						var result = confirm('Institut "' + name + '" wirklich hinzufügen?');
 						if(result){
 							$.ajax({
 								type: "POST",
 								url: "admin_updateInstituteAdded_add_submit.php",
-								data: "id=" + id + "&name=" + name,
+								data: "id=" + id + "&name=" + name + "&abbr=" + abbr,
 								success: function(data) {
 									alert(data);
 									window.location.reload(true);
@@ -2600,7 +2602,7 @@ if($userRow['admin']==0){
 						}
 					});
 					
-					//Delete lecturer
+					//Delete institute
 					$('.addInstitute_deleteButton').click(function(){
 						var id = $(this).data('id')
 						var name = $(this).data('name')
@@ -2771,6 +2773,16 @@ if($userRow['admin']==0){
 			$result = mysqli_query($con, $sql);
 			$row = mysqli_fetch_array($result);
 			$lecturer_deleted = $row['value'];
+			
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'institute_added'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$institute_added = $row['value'];
+			
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'institute_deleted'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$institute_deleted = $row['value'];
 			?>
 			<script>
 			$( document ).ready(function() {
@@ -2826,6 +2838,17 @@ if($userRow['admin']==0){
 					$("#display_lecturers_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
 				}
 				
+				if (<?php echo $institute_added ?> == 1){
+					$('#table_institutes_added').show();
+					$("#display_institutes_added_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_institutes_added_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+				
+				if (<?php echo $institute_deleted ?> == 1){
+					$('#table_institutes_deleted').show();
+					$("#display_institutes_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_institutes_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
 			});
 			</script>
 			
