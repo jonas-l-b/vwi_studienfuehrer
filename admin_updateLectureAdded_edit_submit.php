@@ -12,7 +12,7 @@ $semester = $_POST['semester'];
 $language = $_POST['language'];
 
 $sql = "
-	UPDATE `ADDED_LECTURES` SET `subject_name`='$subject_name',`identifier`='$identifier', `ECTS`='$ECTS',`semester`='$semester',`language`='$language'
+	UPDATE `ADDED_SUBJECTS` SET `subject_name`='$subject_name',`identifier`='$identifier', `ECTS`='$ECTS',`semester`='$semester',`language`='$language'
 	WHERE ID = $id
 ";
 

@@ -15,7 +15,7 @@ $sql1 = "
 	INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `active`)
 	VALUES ('$subject_name', '$identifier', '$ECTS', '$semester', '$language', ".$userRow['user_ID'].", now(), 1)
 ";
-$sql2 = "DELETE FROM `ADDED_LECTURES` WHERE `ID` = $id";
+$sql2 = "DELETE FROM `ADDED_SUBJECTS` WHERE `ID` = $id";
 
 if(mysqli_query($con, $sql1)){
 	echo "Hinzufügen erfolgreich.";

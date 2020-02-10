@@ -8,7 +8,7 @@ $id = $_POST['id'];
 $value_new = $_POST['value_new'];
 
 $sql = "
-	UPDATE `CHANGED_LECTURES` SET `value_new`='$value_new'
+	UPDATE `CHANGED_SUBJECTS` SET `value_new`='$value_new'
 	WHERE ID = $id
 ";
 

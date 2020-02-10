@@ -1133,7 +1133,7 @@ if($userRow['admin']==0){
 						</div>
 						<div class="modal-body">
 							<p>
-								Bisher gibt es keine Funktion im Studienführer, mit der man die Datenbank auf einen früheren Stand zurücksetzen kann.
+								Bisher gibt es keine Funktion im Studienführer, mit der man die Datenbank auf einen früheren Stand zurücksetzen könnte.
 								Sollte tatsächlich ein Fall eintreten, der ein Zurücksetzen nötig macht, kannst du dich an diesen Schritten orientieren.
 								Falls du dich überhaupt nicht mit Datenbanken auskennst, hol dir am besten jemanden dazu, der dir hilft.
 							</p>
@@ -1231,7 +1231,7 @@ if($userRow['admin']==0){
 				<?php
 				$files = glob("uploads/*");
 				$validNames = array(
-					"ADDED_LECTURES.txt", "CHANGED_LECTURES.txt", "DELETED_LECTURES.txt",
+					"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
 					"ADDED_MODULES.txt", "CHANGED_MODULES.txt", "DELETED_MODULES.txt",
 					"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
 					"ADDED_INSTITUTES.txt", "CHANGED_INSTITUTES.txt", "DELETED_INSTITUTES.txt",
@@ -1255,7 +1255,7 @@ if($userRow['admin']==0){
 			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
 			<?php
 			$validNames = array(
-				"ADDED_LECTURES.txt", "CHANGED_LECTURES.txt", "DELETED_LECTURES.txt",
+				"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
 				"ADDED_MODULES.txt", "CHANGED_MODULES.txt", "DELETED_MODULES.txt",
 				"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
 				"ADDED_INSTITUTES.txt", "CHANGED_INSTITUTES.txt", "DELETED_INSTITUTES.txt",
@@ -1282,8 +1282,8 @@ if($userRow['admin']==0){
 				<!-- Changed -->
 				<?php
 				$sql = "
-					SELECT subjects.subject_name AS subject_name, CHANGED_LECTURES.id AS id, CHANGED_LECTURES.identifier AS identifier, CHANGED_LECTURES.changed_field AS changed_field, CHANGED_LECTURES.value_old AS value_old, CHANGED_LECTURES.value_new AS value_new  FROM `CHANGED_LECTURES`
-					JOIN subjects ON CHANGED_LECTURES.identifier = subjects.identifier
+					SELECT subjects.subject_name AS subject_name, CHANGED_SUBJECTS.id AS id, CHANGED_SUBJECTS.identifier AS identifier, CHANGED_SUBJECTS.changed_field AS changed_field, CHANGED_SUBJECTS.value_old AS value_old, CHANGED_SUBJECTS.value_new AS value_new  FROM `CHANGED_SUBJECTS`
+					JOIN subjects ON CHANGED_SUBJECTS.identifier = subjects.identifier
 				";
 				$result = mysqli_query($con,$sql);
 				?>
@@ -1492,7 +1492,7 @@ if($userRow['admin']==0){
 				
 				<!-- Added -->
 				<?php
-				$sql = "SELECT * FROM `ADDED_LECTURES`";
+				$sql = "SELECT * FROM `ADDED_SUBJECTS`";
 				$result = mysqli_query($con,$sql);
 				?>
 				
@@ -1700,7 +1700,7 @@ if($userRow['admin']==0){
 				
 				<!-- Deleted -->
 				<?php
-				$sql = "SELECT * FROM `DELETED_LECTURES`";
+				$sql = "SELECT * FROM `DELETED_SUBJECTS`";
 				$result = mysqli_query($con,$sql);
 				?>
 				
@@ -2915,7 +2915,7 @@ if($userRow['admin']==0){
 				<?php
 				$files = glob("uploads/*");
 				$validNames = array(
-					"LECTURES_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+					"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
 				);
 				$numFiles = 0;
 				foreach ($files as $file) {
@@ -2971,7 +2971,7 @@ if($userRow['admin']==0){
 				echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
 			}
 			$validNames = array(
-				"LECTURES_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+				"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
 			);
 			foreach ($files as $file) {
 				if(in_array(basename($file), $validNames)){
@@ -2991,7 +2991,7 @@ if($userRow['admin']==0){
 			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
 			<?php
 			$validNames = array(
-				"LECTURES_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+				"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
 			);
 			foreach ($files as $file) {
 				if(in_array(basename($file), $validNames)){

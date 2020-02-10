@@ -6,7 +6,7 @@ include "connect.php";
 <?php
 $id = $_POST['id'];
 
-$sql = "DELETE FROM `ADDED_LECTURES` WHERE `ID` = $id";
+$sql = "DELETE FROM `ADDED_SUBJECTS` WHERE `ID` = $id";
 
 if(mysqli_query($con, $sql)){
 	echo "Löschen erfolgreich.";

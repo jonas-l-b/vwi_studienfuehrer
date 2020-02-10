@@ -15,7 +15,7 @@ $sql1 = "
 	WHERE `identifier` = '$identifier'
 ";
 
-$sql2 = "DELETE FROM `CHANGED_LECTURES` WHERE `id` = $id";
+$sql2 = "DELETE FROM `CHANGED_SUBJECTS` WHERE `id` = $id";
 
 if(mysqli_query($con, $sql1)){
 	echo "Änderungen erfolgreich.";
