@@ -1233,7 +1233,7 @@ if($userRow['admin']==0){
 				$validNames = array(
 					"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
 					"ADDED_MODULES.txt", "CHANGED_MODULES.txt", "DELETED_MODULES.txt",
-					"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
+					"ADDED_LECTURERS.txt", "CHANGED_LECTURERS.txt", "DELETED_LECTURERS.txt",
 					"ADDED_INSTITUTES.txt", "CHANGED_INSTITUTES.txt", "DELETED_INSTITUTES.txt",
 				);
 				$numFiles = 0;
@@ -1252,26 +1252,27 @@ if($userRow['admin']==0){
 			</div>
 			
 			<h2>Schritt 3: Tabellen aktualisieren (Entitäten)</h2>
-			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
+			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde. Hierdruch wird nicht der Studienführer selbst aktualisiert, sondern es werden nur die vorgeschlagenen Änderungen geladen.</i></p>
 			<?php
 			$validNames = array(
 				"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
 				"ADDED_MODULES.txt", "CHANGED_MODULES.txt", "DELETED_MODULES.txt",
-				"ADDED_SUBJECTS.txt", "CHANGED_SUBJECTS.txt", "DELETED_SUBJECTS.txt",
+				"ADDED_LECTURERS.txt", "CHANGED_LECTURERS.txt", "DELETED_LECTURERS.txt",
 				"ADDED_INSTITUTES.txt", "CHANGED_INSTITUTES.txt", "DELETED_INSTITUTES.txt",
 			);
 			foreach ($files as $file) {
 				if(in_array(basename($file), $validNames)){
 					if (is_file($file)) {
 						$trimmedName = substr(basename($file), 0, -4);
-						echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktulisieren</button>';
+						echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktualisieren</button>';
 					}
 				}
 			}
 			?>
+			<button style="margin:5px" class="sqlUpdateAll btn btn-primary" data-type="entities">ALLE aktualisieren</button>
 			
 			<h2>Schritt 4: Änderungen bestätigen (Entitäten)</h2>
-			<p><i>Jede einzelne Änderung durch Klick auf den jeweiligen Button bestätigen. Der <span style="color:red">rote</span> Button löscht die jeweilige Zeile aus dieser Tabelle, sodass die Änderung nicht in die Datenbank des Studienführers übertragen wird. Der <span style="color:blue">blaue</span> Button überträgt die Änderung in den Studienführer. Die Kennung kann bei Veranstaltungen und Modulen nicht geändert werden, da die jeweilige Entität damit identifiziert wird.</i></p>
+			<p><i>Jede einzelne Änderung durch Klick auf den jeweiligen Button bestätigen. Der <span style="color:red">rote</span> Button löscht die jeweilige Zeile aus dieser Tabelle, sodass die Änderung nicht in die Datenbank des Studienführers übertragen wird. <span style="color:red">Das sollte eigentlich nicht vorkommen.</span> Der <span style="color:blue">blaue</span> Button überträgt die Änderung in den Studienführer. Die Kennung kann bei Veranstaltungen und Modulen nicht geändert werden, da die jeweilige Entität damit identifiziert wird.</i></p>
 			
 			<button class="btn btn-basic" id="close-all">Alle Listen schließen</button>
 			<br><br>
@@ -1282,7 +1283,7 @@ if($userRow['admin']==0){
 				<!-- Changed -->
 				<?php
 				$sql = "
-					SELECT subjects.subject_name AS subject_name, CHANGED_SUBJECTS.id AS id, CHANGED_SUBJECTS.identifier AS identifier, CHANGED_SUBJECTS.changed_field AS changed_field, CHANGED_SUBJECTS.value_old AS value_old, CHANGED_SUBJECTS.value_new AS value_new  FROM `CHANGED_SUBJECTS`
+					SELECT subjects.subject_name AS subject_name, CHANGED_SUBJECTS.id AS id, CHANGED_SUBJECTS.identifier AS identifier, CHANGED_SUBJECTS.changed_value AS changed_value, CHANGED_SUBJECTS.value_old AS value_old, CHANGED_SUBJECTS.value_new AS value_new  FROM `CHANGED_SUBJECTS`
 					JOIN subjects ON CHANGED_SUBJECTS.identifier = subjects.identifier
 				";
 				$result = mysqli_query($con,$sql);
@@ -1312,7 +1313,7 @@ if($userRow['admin']==0){
 					<tr>
 						<td><?php echo $row['subject_name'] ?></td>
 						<td><?php echo $row['identifier'] ?></td>
-						<td><?php echo $row['changed_field'] ?></td>
+						<td><?php echo $row['changed_value'] ?></td>
 						<td><?php echo $row['value_old'] ?></td>
 						<td><?php echo $row['value_new'] ?></td>
 						<td>
@@ -1320,7 +1321,7 @@ if($userRow['admin']==0){
 								data-id="<?php echo $row['id'] ?>"
 								data-subject_name="<?php echo $row['subject_name'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
-								data-changed_field="<?php echo $row['changed_field'] ?>"
+								data-changed_value="<?php echo $row['changed_value'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
 								data-value_new="<?php echo $row['value_new'] ?>"
 							>Bearbeiten</button>
@@ -1330,7 +1331,7 @@ if($userRow['admin']==0){
 								data-id="<?php echo $row['id'] ?>"
 								data-subject_name="<?php echo $row['subject_name'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
-								data-changed_field="<?php echo $row['changed_field'] ?>"
+								data-changed_value="<?php echo $row['changed_value'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
 								data-value_new="<?php echo $row['value_new'] ?>"
 							>Änderung bestätigen</button>
@@ -1366,7 +1367,7 @@ if($userRow['admin']==0){
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Geändertes Feld:</label>
-									<input type="text" class="form-control" name="changed_field" id="changed_field" disabled>
+									<input type="text" class="form-control" name="changed_value" id="changed_value" disabled>
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Alter Wert:</label>
@@ -1410,7 +1411,7 @@ if($userRow['admin']==0){
 						var id = button.data('id')
 						var subject_name = button.data('subject_name')
 						var identifier = button.data('identifier')
-						var changed_field = button.data('changed_field')
+						var changed_value = button.data('changed_value')
 						var value_old = button.data('value_old')
 						var value_new = button.data('value_new')
 						
@@ -1418,7 +1419,7 @@ if($userRow['admin']==0){
 						modal.find('.modal-body #id').val(id)
 						modal.find('.modal-body #subject_name').val(subject_name)
 						modal.find('.modal-body #identifier').val(identifier)
-						modal.find('.modal-body #changed_field').val(changed_field)
+						modal.find('.modal-body #changed_value').val(changed_value)
 						modal.find('.modal-body #value_old').val(value_old)
 						modal.find('.modal-body #value_new').val(value_new)
 					})
@@ -1447,16 +1448,16 @@ if($userRow['admin']==0){
 						var id = $(this).data('id')
 						var subject_name = $(this).data('subject_name')
 						var identifier = $(this).data('identifier')
-						var changed_field = $(this).data('changed_field')
+						var changed_value = $(this).data('changed_value')
 						var value_old = $(this).data('value_old')
 						var value_new = $(this).data('value_new')
 
-						var result = confirm('Bei Veranstaltung "'+subject_name+'" wirklich den Wert von '+changed_field+' von '+value_old+' zu '+value_new+' ändern?');
+						var result = confirm('Bei Veranstaltung "'+subject_name+'" wirklich den Wert von '+changed_value+' von '+value_old+' zu '+value_new+' ändern?');
 						if(result){
 							$.ajax({
 								type: "POST",
 								url: "admin_updateLectureChanged_confirm_submit.php",
-								data: "id=" + id + "&identifier=" + identifier + "&changed_field=" + changed_field + "&value_new=" + value_new,
+								data: "id=" + id + "&identifier=" + identifier + "&changed_value=" + changed_value + "&value_new=" + value_new,
 								success: function(data) {
 									alert(data);
 									window.location.reload(true);
@@ -1700,7 +1701,7 @@ if($userRow['admin']==0){
 				
 				<!-- Deleted -->
 				<?php
-				$sql = "SELECT * FROM `DELETED_SUBJECTS`";
+				$sql = "SELECT *, name AS subject_name FROM `DELETED_SUBJECTS`";
 				$result = mysqli_query($con,$sql);
 				?>
 				
@@ -1815,7 +1816,7 @@ if($userRow['admin']==0){
 				<!-- Changed -->
 				<?php
 				$sql = "
-					SELECT modules.name AS name, CHANGED_MODULES.id AS id, CHANGED_MODULES.identifier AS identifier, CHANGED_MODULES.changed_value AS changed_field, CHANGED_MODULES.value_old AS value_old, CHANGED_MODULES.value_new AS value_new FROM `CHANGED_MODULES`
+					SELECT modules.name AS name, CHANGED_MODULES.id AS id, CHANGED_MODULES.identifier AS identifier, CHANGED_MODULES.changed_value AS changed_value, CHANGED_MODULES.value_old AS value_old, CHANGED_MODULES.value_new AS value_new FROM `CHANGED_MODULES`
 					JOIN modules ON CHANGED_MODULES.identifier = modules.code COLLATE utf8_unicode_ci
 				";
 				$result = mysqli_query($con,$sql);
@@ -1845,7 +1846,7 @@ if($userRow['admin']==0){
 					<tr>
 						<td><?php echo $row['name'] ?></td>
 						<td><?php echo $row['identifier'] ?></td>
-						<td><?php echo $row['changed_field'] ?></td>
+						<td><?php echo $row['changed_value'] ?></td>
 						<td><?php echo $row['value_old'] ?></td>
 						<td><?php echo $row['value_new'] ?></td>
 						<td>
@@ -1853,7 +1854,7 @@ if($userRow['admin']==0){
 								data-id="<?php echo $row['id'] ?>"
 								data-name="<?php echo $row['name'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
-								data-changed_field="<?php echo $row['changed_field'] ?>"
+								data-changed_value="<?php echo $row['changed_value'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
 								data-value_new="<?php echo $row['value_new'] ?>"
 							>Bearbeiten</button>
@@ -1863,7 +1864,7 @@ if($userRow['admin']==0){
 								data-id="<?php echo $row['id'] ?>"
 								data-name="<?php echo $row['name'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
-								data-changed_field="<?php echo $row['changed_field'] ?>"
+								data-changed_value="<?php echo $row['changed_value'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
 								data-value_new="<?php echo $row['value_new'] ?>"
 							>Änderung bestätigen</button>
@@ -1899,7 +1900,7 @@ if($userRow['admin']==0){
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Geändertes Feld:</label>
-									<input type="text" class="form-control" name="changed_field" id="changed_field" disabled>
+									<input type="text" class="form-control" name="changed_value" id="changed_value" disabled>
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Alter Wert:</label>
@@ -1943,7 +1944,7 @@ if($userRow['admin']==0){
 						var id = button.data('id')
 						var name = button.data('name')
 						var identifier = button.data('identifier')
-						var changed_field = button.data('changed_field')
+						var changed_value = button.data('changed_value')
 						var value_old = button.data('value_old')
 						var value_new = button.data('value_new')
 						
@@ -1951,7 +1952,7 @@ if($userRow['admin']==0){
 						modal.find('.modal-body #id').val(id)
 						modal.find('.modal-body #name').val(name)
 						modal.find('.modal-body #identifier').val(identifier)
-						modal.find('.modal-body #changed_field').val(changed_field)
+						modal.find('.modal-body #changed_value').val(changed_value)
 						modal.find('.modal-body #value_old').val(value_old)
 						modal.find('.modal-body #value_new').val(value_new)
 					})
@@ -1980,16 +1981,16 @@ if($userRow['admin']==0){
 						var id = $(this).data('id')
 						var name = $(this).data('name')
 						var identifier = $(this).data('identifier')
-						var changed_field = $(this).data('changed_field')
+						var changed_value = $(this).data('changed_value')
 						var value_old = $(this).data('value_old')
 						var value_new = $(this).data('value_new')
 
-						var result = confirm('Bei Modul "'+name+'" wirklich den Wert von '+changed_field+' von '+value_old+' zu '+value_new+' ändern?');
+						var result = confirm('Bei Modul "'+name+'" wirklich den Wert von '+changed_value+' von '+value_old+' zu '+value_new+' ändern?');
 						if(result){
 							$.ajax({
 								type: "POST",
 								url: "admin_updateModuleChanged_confirm_submit.php",
-								data: "id=" + id + "&identifier=" + identifier + "&changed_field=" + changed_field + "&value_new=" + value_new,
+								data: "id=" + id + "&identifier=" + identifier + "&changed_value=" + changed_value + "&value_new=" + value_new,
 								success: function(data) {
 									alert(data);
 									window.location.reload(true);
@@ -2337,6 +2338,9 @@ if($userRow['admin']==0){
 				<!-- Added -->
 				<h3>Dozenten</h3>
 				
+				<h4>Geänderte (Gibt es nicht)</h4>
+					
+				
 				<?php
 				$sql = "SELECT * FROM `ADDED_LECTURERS`";
 				$result = mysqli_query($con,$sql);
@@ -2549,7 +2553,6 @@ if($userRow['admin']==0){
 			<br>
 			
 			<div class="grey-border">
-				<!-- Added -->
 				<h3>Institute</h3>
 				
 				<!-- Changed -->
@@ -2582,14 +2585,14 @@ if($userRow['admin']==0){
 					?>
 					<tr>
 						<td><?php echo $row['identifier'] ?></td>
-						<td><?php echo $row['changed_field'] ?></td>
+						<td><?php echo $row['changed_value'] ?></td>
 						<td><?php echo $row['value_old'] ?></td>
 						<td><?php echo $row['value_new'] ?></td>
 						<td>
 							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editChangedInstituteModal"
 								data-id="<?php echo $row['id'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
-								data-changed_field="<?php echo $row['changed_field'] ?>"
+								data-changed_value="<?php echo $row['changed_value'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
 								data-value_new="<?php echo $row['value_new'] ?>"
 							>Bearbeiten</button>
@@ -2598,7 +2601,7 @@ if($userRow['admin']==0){
 							<button type="button" class="btn btn-primary changeInstitute_confirmButton"
 								data-id="<?php echo $row['id'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
-								data-changed_field="<?php echo $row['changed_field'] ?>"
+								data-changed_value="<?php echo $row['changed_value'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
 								data-value_new="<?php echo $row['value_new'] ?>"
 							>Änderung bestätigen</button>
@@ -2630,7 +2633,7 @@ if($userRow['admin']==0){
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Geändertes Feld:</label>
-									<input type="text" class="form-control" name="changed_field" id="changed_field" disabled>
+									<input type="text" class="form-control" name="changed_value" id="changed_value" disabled>
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Alter Wert:</label>
@@ -2673,14 +2676,14 @@ if($userRow['admin']==0){
 						
 						var id = button.data('id')
 						var identifier = button.data('identifier')
-						var changed_field = button.data('changed_field')
+						var changed_value = button.data('changed_value')
 						var value_old = button.data('value_old')
 						var value_new = button.data('value_new')
 						
 						var modal = $(this)
 						modal.find('.modal-body #id').val(id)
 						modal.find('.modal-body #identifier').val(identifier)
-						modal.find('.modal-body #changed_field').val(changed_field)
+						modal.find('.modal-body #changed_value').val(changed_value)
 						modal.find('.modal-body #value_old').val(value_old)
 						modal.find('.modal-body #value_new').val(value_new)
 					})
@@ -2708,16 +2711,16 @@ if($userRow['admin']==0){
 						
 						var id = $(this).data('id')
 						var identifier = $(this).data('identifier')
-						var changed_field = $(this).data('changed_field')
+						var changed_value = $(this).data('changed_value')
 						var value_old = $(this).data('value_old')
 						var value_new = $(this).data('value_new')
 
-						var result = confirm('Bei Institut "'+identifier+'" wirklich den Wert von '+changed_field+' von '+value_old+' zu '+value_new+' ändern?');
+						var result = confirm('Bei Institut "'+identifier+'" wirklich den Wert von '+changed_value+' von '+value_old+' zu '+value_new+' ändern?');
 						if(result){
 							$.ajax({
 								type: "POST",
 								url: "admin_updateInstituteChanged_confirm_submit.php",
-								data: "id=" + id + "&identifier=" + identifier + "&changed_field=" + changed_field + "&value_new=" + value_new,
+								data: "id=" + id + "&identifier=" + identifier + "&changed_value=" + changed_value + "&value_new=" + value_new,
 								success: function(data) {
 									alert(data);
 									window.location.reload(true);
@@ -2745,12 +2748,13 @@ if($userRow['admin']==0){
 								}
 							});
 						}else{
-							alert("Modul wurde nicht gelöscht.");
+							alert("Institut wurde nicht gelöscht.");
 						}
 					});
 				});
 				</script>
 				
+				<!--Added-->
 				<?php
 				$sql = "SELECT * FROM `ADDED_INSTITUTES`";
 				$result = mysqli_query($con,$sql);
@@ -2765,6 +2769,7 @@ if($userRow['admin']==0){
 				<table class="table table-striped table-bordered table-condensed update-table" id="table_institutes_added" style="margin-top:15px; display:none">
 					<tr>
 						<th>Name</th>
+						<th>Abkürzung</th>
 						<th>Hinzufügen</th>
 						<th>Löschen</th>
 					</tr>
@@ -2774,6 +2779,7 @@ if($userRow['admin']==0){
 					?>
 					<tr>
 						<td><?php echo $row['name'] ?></td>
+						<td><?php echo $row['abbr'] ?></td>
 						<td>
 							<button type="button" class="btn btn-primary addInstitute_addButton"
 								data-id="<?php echo $row['id'] ?>"
@@ -3125,7 +3131,7 @@ if($userRow['admin']==0){
 				<?php
 				$files = glob("uploads/*");
 				$validNames = array(
-					"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+					"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURERS.txt", "SUBJECTS_MODULES.txt"
 				);
 				$numFiles = 0;
 				foreach ($files as $file) {
@@ -3181,7 +3187,7 @@ if($userRow['admin']==0){
 				echo "<i>Keine. Hinweis: Dateien, die vor mehr als 3 Tagen hochgeladen wurden, werden automatisch gelöscht.</i>";
 			}
 			$validNames = array(
-				"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+				"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURERS.txt", "SUBJECTS_MODULES.txt"
 			);
 			foreach ($files as $file) {
 				if(in_array(basename($file), $validNames)){
@@ -3201,32 +3207,51 @@ if($userRow['admin']==0){
 			<p><i>Es werden nur Buttons angezeigt, wenn eine entsprechende Datei hochgeladen wurde.</i></p>
 			<?php
 			$validNames = array(
-				"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURES.txt", "SUBJECTS_MODULES.txt"
+				"LECTURERS_INSTITUTES.txt", "MODULES_LEVELS.txt", "SUBJECTS_LECTURERS.txt", "SUBJECTS_MODULES.txt"
 			);
 			foreach ($files as $file) {
 				if(in_array(basename($file), $validNames)){
 					if (is_file($file)) {
 						$trimmedName = substr(basename($file), 0, -4);
-						echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktulisieren</button>';
+						echo '<button style="margin:5px" class="sqlUpdate btn btn-primary" data-table="'.$trimmedName.'">'.$trimmedName.' aktualisieren</button>';
 					}
 				}
 			}
-
 			?>
+			<button style="margin:5px" class="sqlUpdateAll btn btn-primary" data-type="matchings">ALLE aktualisieren</button>
 			
 			<script>
 			$( document ).ready(function() {
 				$('.sqlUpdate').click(function(){
 					var table = $(this).data('table');
 					
-					if (confirm(table + ' wirklich aktualisieren?')){
+					//if (confirm(table + ' wirklich aktualisieren?')){
 						$.ajax({
 							type: "POST",
 							url: "sqlUpdate.php",
 							data: "table=" + table,
 							success: function(data) {
+								console.log(data);
 								alert(data);
-								//window.location.reload();
+								window.location.reload();
+							}
+						});
+					//}
+				});
+				
+				$('.sqlUpdateAll').click(function(){
+					
+					var type = $(this).data('type');
+					
+					if (confirm('Wirklich alle aktualisieren?')){
+						$.ajax({
+							type: "POST",
+							url: "sqlUpdateAll.php",
+							data: "type=" + type,
+							success: function(data) {
+								console.log(data);
+								alert(data);
+								window.location.reload();
 							}
 						});
 					}

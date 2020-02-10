@@ -6,12 +6,12 @@ include "connect.php";
 <?php
 $id = $_POST['id'];
 $identifier = $_POST['identifier'];
-$changed_field = $_POST['changed_field'];
+$changed_value = $_POST['changed_value'];
 $value_new = $_POST['value_new'];
 
 $sql1 = "
 	UPDATE `subjects`
-	SET `$changed_field` = '$value_new'
+	SET `$changed_value` = '$value_new'
 	WHERE `identifier` = '$identifier'
 ";
 

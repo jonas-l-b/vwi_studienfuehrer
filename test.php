@@ -3,8 +3,7 @@
 				<!-- Changed -->
 				<?php
 				$sql = "
-					SELECT modules.name AS name, CHANGED_MODULES.id AS id, CHANGED_MODULES.identifier AS identifier, CHANGED_MODULES.changed_value AS changed_field, CHANGED_MODULES.value_old AS value_old, CHANGED_MODULES.value_new AS value_new FROM `CHANGED_MODULES`
-					JOIN modules ON CHANGED_MODULES.identifier = modules.code COLLATE utf8_unicode_ci
+					SELECT * FROM `CHANGED_INSTITUTES`
 				";
 				$result = mysqli_query($con,$sql);
 				?>
@@ -12,13 +11,12 @@
 				<h4>
 					<span>Geänderte</span>
 					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
-					<a id="display_modules_changed"><span id="display_modules_changed_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+					<a id="display_institutes_changed"><span id="display_institutes_changed_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
 				</h4>
 				
-				<table class="table table-striped table-bordered table-condensed update-table" id="table_modules_changed" style="margin-top:15px; display:none">
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_institutes_changed" style="margin-top:15px; display:none">
 					<tr>
 						<th>Name</th>
-						<th>Kennung</th>
 						<th>Geändertes Feld</th>
 						<th>Alter Wert</th>
 						<th>Neuer Wert</th>
@@ -31,15 +29,13 @@
 				while($row = mysqli_fetch_assoc($result)){
 					?>
 					<tr>
-						<td><?php echo $row['name'] ?></td>
 						<td><?php echo $row['identifier'] ?></td>
 						<td><?php echo $row['changed_field'] ?></td>
 						<td><?php echo $row['value_old'] ?></td>
 						<td><?php echo $row['value_new'] ?></td>
 						<td>
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editChangedModuleModal"
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editChangedInstituteModal"
 								data-id="<?php echo $row['id'] ?>"
-								data-name="<?php echo $row['name'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
 								data-changed_field="<?php echo $row['changed_field'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
@@ -47,9 +43,8 @@
 							>Bearbeiten</button>
 						</td>
 						<td>
-							<button type="button" class="btn btn-primary changeModule_confirmButton"
+							<button type="button" class="btn btn-primary changeInstitute_confirmButton"
 								data-id="<?php echo $row['id'] ?>"
-								data-name="<?php echo $row['name'] ?>"
 								data-identifier="<?php echo $row['identifier'] ?>"
 								data-changed_field="<?php echo $row['changed_field'] ?>"
 								data-value_old="<?php echo $row['value_old'] ?>"
@@ -57,9 +52,9 @@
 							>Änderung bestätigen</button>
 						</td>
 						<td>
-							<button type="button" class="btn btn-danger changeModule_deleteButton"
+							<button type="button" class="btn btn-danger changeInstitute_deleteButton"
 								data-id="<?php echo $row['id'] ?>"
-								data-name="<?php echo $row['name'] ?>"
+								data-identifier="<?php echo $row['identifier'] ?>"
 							>Löschen</button>
 						</td>
 					</tr>
@@ -68,21 +63,17 @@
 				?>
 				</table>
 				
-				<div class="modal fade" id="editChangedModuleModal" tabindex="-1" role="dialog" aria-labelledby="editChangedModuleModalLabel" aria-hidden="true">
+				<div class="modal fade" id="editChangedInstituteModal" tabindex="-1" role="dialog" aria-labelledby="editChangedInstituteModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
 					<div class="modal-content">
-						<div class="modal-body" id="changedModule_edit_modal-body">
-							<form id="changedModule_edit_form">
+						<div class="modal-body" id="changedInstitute_edit_modal-body">
+							<form id="changedInstitute_edit_form">
 								<div class="form-group" style="display:none">
 									<label class="col-form-label">ID:</label>
 									<input type="text" class="form-control" name ="id" id="id">
 								</div>
 								<div class="form-group">
 									<label class="col-form-label">Name:</label>
-									<input type="text" class="form-control" name="name" id="name" disabled>
-								</div>
-								<div class="form-group">
-									<label class="col-form-label">Kennung:</label>
 									<input type="text" class="form-control" name="identifier" id="identifier" disabled>
 								</div>
 								<div class="form-group">
@@ -99,9 +90,9 @@
 								</div>
 							</form>
 						</div>
-						<div class="modal-footer" id="changedModule_edit_modal-footer">
+						<div class="modal-footer" id="changedInstitute_edit_modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-							<button type="button" class="btn btn-primary" id="module-changed_save-changes-button">Änderungen speichern</button>
+							<button type="button" class="btn btn-primary" id="institute-changed_save-changes-button">Änderungen speichern</button>
 						</div>
 					</div>
 				  </div>
@@ -110,26 +101,25 @@
 				<script>
 				$( document ).ready(function() {
 					//Show and hide
-					$("#display_modules_changed").click(function() {
-						if($("#table_modules_changed").is(":visible")){
-							$("#table_modules_changed").hide();
-							$("#display_modules_changed_glyph").removeClass("glyphicon glyphicon-chevron-up");
-							$("#display_modules_changed_glyph").addClass("glyphicon glyphicon-chevron-down");
-							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=module_changed&value=0"});
+					$("#display_institutes_changed").click(function() {
+						if($("#table_institutes_changed").is(":visible")){
+							$("#table_institutes_changed").hide();
+							$("#display_institutes_changed_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_institutes_changed_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_changed&value=0"});
 						}else{
-							$("#table_modules_changed").show();
-							$("#display_modules_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
-							$("#display_modules_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
-							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=module_changed&value=1"});
+							$("#table_institutes_changed").show();
+							$("#display_institutes_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_institutes_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_changed&value=1"});
 						}
 					});
 					
 					//show modal
-					$('#editChangedModuleModal').on('show.bs.modal', function (event) {
+					$('#editChangedInstituteModal').on('show.bs.modal', function (event) {
 						var button = $(event.relatedTarget) // Button that triggered the modal
 						
 						var id = button.data('id')
-						var name = button.data('name')
 						var identifier = button.data('identifier')
 						var changed_field = button.data('changed_field')
 						var value_old = button.data('value_old')
@@ -137,7 +127,6 @@
 						
 						var modal = $(this)
 						modal.find('.modal-body #id').val(id)
-						modal.find('.modal-body #name').val(name)
 						modal.find('.modal-body #identifier').val(identifier)
 						modal.find('.modal-body #changed_field').val(changed_field)
 						modal.find('.modal-body #value_old').val(value_old)
@@ -145,38 +134,37 @@
 					})
 					
 					//save changes
-					$('#module-changed_save-changes-button').click(function() {
+					$('#institute-changed_save-changes-button').click(function() {
 						$.ajax({
 							type: "POST",
-							url: "admin_updateModuleChanged_edit_submit.php",
-							data: $("#changedModule_edit_form").serialize(),
+							url: "admin_updateInstituteChanged_edit_submit.php",
+							data: $("#changedInstitute_edit_form").serialize(),
 							success: function(data) {
 								//alert(data);
 								if(data.includes("erfolg")){
-									$('#changedModule_edit_modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Änderungen erfolgreich gespeichert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen & Seite neu laden</button>");
+									$('#changedInstitute_edit_modal-body').html("<div class=\'alert alert-success\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Änderungen erfolgreich gespeichert!</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\" onClick=\"window.location.reload()\">Schließen & Seite neu laden</button>");
 								}else{
-									$('#changedModule_edit_modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Speichern ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt).</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen & Seite neu laden</button>");
+									$('#changedInstitute_edit_modal-body').html("<div class=\'alert alert-danger\'><span class=\'glyphicon glyphicon-info-sign\'></span> &nbsp; Beim Speichern ist womöglich ein Fehler aufgetreten! Bitte probiere es erneut (oftmals liegt es am Server, sodass es beim zweiten Mal klappt).</div><button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Schließen & Seite neu laden</button>");
 								}
-								$('#changedModule_edit_modal-footer').hide();
+								$('#changedInstitute_edit_modal-footer').hide();
 							}
 						});
 					});
 					
 					//Change module
-					$('.changeModule_confirmButton').click(function(){
+					$('.changeInstitute_confirmButton').click(function(){
 						
 						var id = $(this).data('id')
-						var name = $(this).data('name')
 						var identifier = $(this).data('identifier')
 						var changed_field = $(this).data('changed_field')
 						var value_old = $(this).data('value_old')
 						var value_new = $(this).data('value_new')
 
-						var result = confirm('Bei Modul "'+name+'" wirklich den Wert von '+changed_field+' von '+value_old+' zu '+value_new+' ändern?');
+						var result = confirm('Bei Institut "'+identifier+'" wirklich den Wert von '+changed_field+' von '+value_old+' zu '+value_new+' ändern?');
 						if(result){
 							$.ajax({
 								type: "POST",
-								url: "admin_updateModuleChanged_confirm_submit.php",
+								url: "admin_updateInstituteChanged_confirm_submit.php",
 								data: "id=" + id + "&identifier=" + identifier + "&changed_field=" + changed_field + "&value_new=" + value_new,
 								success: function(data) {
 									alert(data);
@@ -189,15 +177,15 @@
 					});
 					
 					//Delete subject
-					$('.changeModule_deleteButton').click(function(){
+					$('.changeInstitute_deleteButton').click(function(){
 						var id = $(this).data('id')
-						var name = $(this).data('name')
+						var identifier = $(this).data('identifier')
 						
-						var result = confirm('Änderungen bei Modul "' + name + '" wirklich löschen?');
+						var result = confirm('Änderungen bei Institut "' + identifier + '" wirklich löschen?');
 						if(result){
 							$.ajax({
 								type: "POST",
-								url: "admin_updateModuleChanged_delete_submit.php",
+								url: "admin_updateInstituteChanged_delete_submit.php",
 								data: "id=" + id,
 								success: function(data) {
 									alert(data);
