@@ -1269,7 +1269,7 @@ if($userRow['admin']==0){
 				}
 			}
 			?>
-			<button style="margin:5px" class="sqlUpdateAll btn btn-primary" data-type="entities">ALLE aktualisieren</button>
+			<!--<button style="margin:5px" class="sqlUpdateAll btn btn-primary" data-type="entities">ALLE aktualisieren</button>-->
 			
 			<h2>Schritt 4: Änderungen bestätigen (Entitäten)</h2>
 			<p><i>Jede einzelne Änderung durch Klick auf den jeweiligen Button bestätigen. Der <span style="color:red">rote</span> Button löscht die jeweilige Zeile aus dieser Tabelle, sodass die Änderung nicht in die Datenbank des Studienführers übertragen wird. <span style="color:red">Das sollte eigentlich nicht vorkommen.</span> Der <span style="color:blue">blaue</span> Button überträgt die Änderung in den Studienführer. Die Kennung kann bei Veranstaltungen und Modulen nicht geändert werden, da die jeweilige Entität damit identifiziert wird.</i></p>
@@ -2338,7 +2338,15 @@ if($userRow['admin']==0){
 				<!-- Added -->
 				<h3>Dozenten</h3>
 				
-				<h4>Geänderte (Gibt es nicht)</h4>
+				<h4>
+					<s>Geänderte</s>
+					<a href="#" data-trigger="focus" data-toggle="changed_lecturer_popover" data-content="
+							Dozenten haben abgesehen von ihrem Key (der Name) kein weiteres Attribut. Wenn sich der Name eines Dozenten ändert, wird er darum hier als gelöscht und hinzugekommen geführt.
+						">
+						<span class="glyphicon glyphicon-question-sign"></span>
+					</a>
+					<script>$('[data-toggle="changed_lecturer_popover"]').popover();</script>
+				</h4>
 					
 				
 				<?php
@@ -3218,7 +3226,7 @@ if($userRow['admin']==0){
 				}
 			}
 			?>
-			<button style="margin:5px" class="sqlUpdateAll btn btn-primary" data-type="matchings">ALLE aktualisieren</button>
+			<!--<button style="margin:5px" class="sqlUpdateAll btn btn-primary" data-type="matchings">ALLE aktualisieren</button>-->
 			
 			<script>
 			$( document ).ready(function() {
