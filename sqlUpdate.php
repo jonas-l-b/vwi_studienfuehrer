@@ -9,7 +9,7 @@ $table = $_POST['table'];
 $myfile = fopen("uploads/$table.txt", "r") or die("Unable to open file!");
 
 $sql = fread($myfile,filesize("uploads/$table.txt"));
-//$sql = utf8_encode($sql); //Encode äöü, das ist sau wichtig!
+//$sql = utf8_encode($sql); //Encode äöü, das ist wichtig!
 //echo $sql;
 
 if(mysqli_multi_query($con, $sql)){

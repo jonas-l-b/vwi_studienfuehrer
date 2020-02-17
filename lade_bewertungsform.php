@@ -316,9 +316,9 @@ if (isset($_GET['subject'])){
 	</form>
 
 	<script>
-	//send to DP
+	//send to DB
 	$("#submitButton").click(function(){
-
+		
 		var lecture0 = $(".sliderLecture"+0).val();
 		var lecture1 = $(".sliderLecture"+1).val();
 		var lecture2 = $(".sliderLecture"+2).val();
@@ -338,6 +338,12 @@ if (isset($_GET['subject'])){
 
 		var recommendation = $('input:radio[name="recommendation"]:checked').val()
 		var comment = $('#ratingComment').val();
+		/*
+		if(comment.trim() === "" || comment.val() === null){
+			$('#commentWarning').html("Bitte gib nicht nur Leerzeichen ein.");
+			return;
+		}
+		*/
 
 		var subject = getUrlParameter('subject');
 

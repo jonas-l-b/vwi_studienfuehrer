@@ -41,7 +41,7 @@ include "sumVotes.php";
 		JOIN levels ON modules_levels.level_ID = levels.level_ID
 	";
 	$sql = "
-		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ID AS subject_id, identifier, subjects.ECTS AS subject_ECTS, semester, language, subjects.active AS active
+		SELECT DISTINCT subjects.ID as ID, subject_name, subjects.ID AS subject_id, identifier, exam_type, subjects.requirements AS subject_requirements, subjects.ECTS AS subject_ECTS, semester, language, subjects.active AS active
 		".$sqlBody."
 		WHERE subjects.ID = '".$subject."'
 	";
@@ -312,9 +312,38 @@ include "sumVotes.php";
 						<b>Dozent(en)</b><br />
 						<?php echo $lecturers; ?>
 					</div>
-				</div>		
+				</div>
+				
+				<div class="info-flex-item">
+					<div style="text-align:center">
+						<b>Prüfungsart</b><br />
+						<?php echo $subjectData['exam_type']; ?>
+					</div>
+				</div>
 
 			</div>
+			
+			<?php
+			if($subjectData['subject_requirements'] != ""){
+			?>
+				<hr>
+				<div class="alert alert-warning" style="text-align:center">
+					<strong>Aufgepasst!</strong> Um diese Veranstaltung zu belegen, musst du Voraussetzungen erfüllen.
+				</div>
+				<div style="text-align:center">
+					<b>
+					<?php
+					$req = $subjectData['subject_requirements'];
+					$req = str_replace(":", ":</b><br>", $req);
+					$req = str_replace(".", ".<br>", $req);
+					echo $req	
+					?>
+				</div>
+				
+
+			<?php
+			}
+			?>
 			
 			<!--
 			<div align="center">
