@@ -7,7 +7,7 @@ include "connect.php";
 $id = $_POST['id'];
 $subject_name = $_POST['subject_name'];
 $identifier = $_POST['identifier'];
-$ECTS = floatval($_POST['ECTS']);
+$ECTS = $_POST['ECTS'];
 $semester = $_POST['semester'];
 $language = $_POST['language'];
 $exam_type = $_POST['exam_type'];
