@@ -7,13 +7,15 @@ include "connect.php";
 $id = $_POST['id'];
 $subject_name = $_POST['subject_name'];
 $identifier = $_POST['identifier'];
-$ECTS = intval($_POST['ECTS']);
+$ECTS = floatval($_POST['ECTS']);
 $semester = $_POST['semester'];
 $language = $_POST['language'];
+$exam_type = $_POST['exam_type'];
+$requirements = $_POST['requirements'];
 
 $sql1 = "
-	INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `active`)
-	VALUES ('$subject_name', '$identifier', '$ECTS', '$semester', '$language', ".$userRow['user_ID'].", now(), 1)
+	INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `exam_type`, `requirements`, `createdBy_ID`, `time_stamp`, `active`)
+	VALUES ('$subject_name', '$identifier', '$ECTS', '$semester', '$language', '$exam_type', '$requirements', ".$userRow['user_ID'].", now(), 1)
 ";
 $sql2 = "DELETE FROM `ADDED_SUBJECTS` WHERE `ID` = $id";
 

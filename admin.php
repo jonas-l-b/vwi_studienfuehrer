@@ -1510,6 +1510,8 @@ if($userRow['admin']==0){
 						<th>ECTS</th>
 						<th>Semester</th>
 						<th>Sprache</th>
+						<th>Prüfungsart</th>
+						<th>Voraussetzungen</th>
 						<th>Bearbeiten</th>
 						<th>Hinzufügen</th>
 						<th>Löschen</th>
@@ -1528,6 +1530,8 @@ if($userRow['admin']==0){
 							$language = str_replace("nan", "k.A.", $language);
 							echo $language
 						?></td>
+						<td><?php echo $row['exam_type'] ?></td>
+						<td><?php echo $row['requirements'] ?></td>
 						<td>
 							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAddedSubjectModal"
 								data-id="<?php echo $row['ID'] ?>"
@@ -1536,6 +1540,8 @@ if($userRow['admin']==0){
 								data-ects="<?php echo $row['ECTS'] ?>"
 								data-semester="<?php echo $row['semester'] ?>"
 								data-language="<?php echo $language ?>"
+								data-exam_type="<?php echo $row['exam_type'] ?>"
+								data-requirements="<?php echo $row['requirements'] ?>"
 							>Bearbeiten</button>
 						</td>
 						<td>
@@ -1546,6 +1552,8 @@ if($userRow['admin']==0){
 								data-ects="<?php echo $row['ECTS'] ?>"
 								data-semester="<?php echo $row['semester'] ?>"
 								data-language="<?php echo $language ?>"
+								data-exam_type="<?php echo $row['exam_type'] ?>"
+								data-requirements="<?php echo $row['requirements'] ?>"
 							>Hinzufügen</button>
 						</td>
 						<td>
@@ -1589,6 +1597,14 @@ if($userRow['admin']==0){
 									<label class="col-form-label">Sprache:</label>
 									<input type="text" class="form-control" name="language" id="language">
 								</div>
+								<div class="form-group">
+									<label class="col-form-label">Prüfungsart:</label>
+									<input type="text" class="form-control" name="exam_type" id="exam_type">
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Voraussetzungen:</label>
+									<input type="text" class="form-control" name="requirements" id="requirements">
+								</div>
 							</form>
 						</div>
 						<div class="modal-footer" id="addedSubject_edit_modal-footer">
@@ -1627,6 +1643,8 @@ if($userRow['admin']==0){
 						var ECTS = button.data('ects')
 						var semester = button.data('semester')
 						var language = button.data('language')
+						var exam_type = button.data('exam_type')
+						var requirements = button.data('requirements')
 						
 						var modal = $(this)
 						modal.find('.modal-body #id').val(id)
@@ -1635,6 +1653,8 @@ if($userRow['admin']==0){
 						modal.find('.modal-body #ECTS').val(ECTS)
 						modal.find('.modal-body #semester').val(semester)
 						modal.find('.modal-body #language').val(language)
+						modal.find('.modal-body #exam_type').val(exam_type)
+						modal.find('.modal-body #requirements').val(requirements)
 					})
 					
 					//save changes
@@ -2046,6 +2066,7 @@ if($userRow['admin']==0){
 						<th>Kennung</th>
 						<th>Typ</th>
 						<th>ECTS</th>
+						<th>Voraussetzungen</th>
 						<th>Bearbeiten</th>
 						<th>Hinzufügen</th>
 						<th>Löschen</th>
@@ -2059,6 +2080,7 @@ if($userRow['admin']==0){
 						<td><?php echo $row['code'] ?></td>
 						<td><?php echo $row['type'] ?></td>
 						<td><?php echo $row['ects'] ?></td>
+						<td><?php echo $row['requirements'] ?></td>
 						<td>
 							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAddedModuleModal"
 								data-id="<?php echo $row['id'] ?>"
@@ -2066,6 +2088,7 @@ if($userRow['admin']==0){
 								data-code="<?php echo $row['code'] ?>"
 								data-type="<?php echo $row['type'] ?>"
 								data-ects="<?php echo $row['ects'] ?>"
+								data-requirements="<?php echo $row['requirements'] ?>"
 							>Bearbeiten</button>
 						</td>
 						<td>
@@ -2075,6 +2098,7 @@ if($userRow['admin']==0){
 								data-code="<?php echo $row['code'] ?>"
 								data-type="<?php echo $row['type'] ?>"
 								data-ects="<?php echo $row['ects'] ?>"
+								data-requirements="<?php echo $row['requirements'] ?>"
 							>Hinzufügen</button>
 						</td>
 						<td>
@@ -2114,6 +2138,10 @@ if($userRow['admin']==0){
 									<label class="col-form-label">ECTS:</label>
 									<input type="text" class="form-control" name="ects" id="ects">
 								</div>
+								<div class="form-group">
+									<label class="col-form-label">Voraussetzungen:</label>
+									<input type="text" class="form-control" name="requirements" id="requirements">
+								</div>
 							</form>
 						</div>
 						<div class="modal-footer" id="addedModule_edit_modal-footer">
@@ -2151,6 +2179,7 @@ if($userRow['admin']==0){
 						var code = button.data('code')
 						var type = button.data('type')
 						var ects = button.data('ects')
+						var requirements = button.data('requirements')
 						
 						var modal = $(this)
 						modal.find('.modal-body #id').val(id)
@@ -2158,6 +2187,7 @@ if($userRow['admin']==0){
 						modal.find('.modal-body #code').val(code)
 						modal.find('.modal-body #type').val(type)
 						modal.find('.modal-body #ects').val(ects)
+						modal.find('.modal-body #requirements').val(requirements)
 					})
 					
 					//save changes

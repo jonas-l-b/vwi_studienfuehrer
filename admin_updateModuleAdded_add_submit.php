@@ -9,10 +9,11 @@ $name = $_POST['name'];
 $code = $_POST['code'];
 $type = $_POST['type'];
 $ects = $_POST['ects'];
+$requirements = $_POST['requirements'];
 
 $sql1 = "
-	INSERT INTO `modules`(`name`, `code`, `type`, `ects`, `user_ID`, `time_stamp`, `active`)
-	VALUES ('$name', '$code', '$type', '$ects', ".$userRow['user_ID'].", now(), 1)
+	INSERT INTO `modules`(`name`, `code`, `type`, `ects`, `requirements`, `user_ID`, `time_stamp`, `active`)
+	VALUES ('$name', '$code', '$type', '$ects', '$requirements', ".$userRow['user_ID'].", now(), 1)
 ";
 $sql2 = "DELETE FROM `ADDED_MODULES` WHERE `ID` = $id";
 
