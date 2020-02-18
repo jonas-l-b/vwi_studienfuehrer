@@ -339,8 +339,6 @@ include "sumVotes.php";
 					echo $req	
 					?>
 				</div>
-				
-
 			<?php
 			}
 			?>
@@ -1143,7 +1141,7 @@ include "sumVotes.php";
 
 								<div class="form-group">
 									<label>Link zum ILIAS-Kurs:</label>
-									<input type="text" class="form-control" value="Automatisierte Umsetzung ist geplant, existiert aber noch nicht." name="ilias_link" disabled>
+									<input type="text" class="form-control" value="Wird automatisch eingefügt" name="ilias_link" disabled>
 								</div>
 								
 								<div class="form-group">
@@ -1153,7 +1151,7 @@ include "sumVotes.php";
 								
 								<div class="form-group">
 									<label>Link zum Modulhandbuch:</label>
-									<input type="text" class="form-control" value="Automatisierte Umsetzung ist geplant, existiert aber noch nicht." name="modulhandbuch_link" disabled>
+									<input type="text" class="form-control" value="Wird automatisch eingefügt" name="modulhandbuch_link" disabled>
 								</div>
 								
 								<div class="form-group">

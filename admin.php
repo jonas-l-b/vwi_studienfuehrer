@@ -1523,7 +1523,11 @@ if($userRow['admin']==0){
 						<td><?php echo $row['identifier'] ?></td>
 						<td><?php echo $row['ECTS'] ?></td>
 						<td><?php echo $row['semester'] ?></td>
-						<td><?php echo $row['language'] ?></td>
+						<td><?php
+							$language = $row['language'];
+							$language = str_replace("nan", "k.A.", $language);
+							echo $language
+						?></td>
 						<td>
 							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editAddedSubjectModal"
 								data-id="<?php echo $row['ID'] ?>"
@@ -1531,7 +1535,7 @@ if($userRow['admin']==0){
 								data-identifier="<?php echo $row['identifier'] ?>"
 								data-ects="<?php echo $row['ECTS'] ?>"
 								data-semester="<?php echo $row['semester'] ?>"
-								data-language="<?php echo $row['language'] ?>"
+								data-language="<?php echo $language ?>"
 							>Bearbeiten</button>
 						</td>
 						<td>
@@ -1541,7 +1545,7 @@ if($userRow['admin']==0){
 								data-identifier="<?php echo $row['identifier'] ?>"
 								data-ects="<?php echo $row['ECTS'] ?>"
 								data-semester="<?php echo $row['semester'] ?>"
-								data-language="<?php echo $row['language'] ?>"
+								data-language="<?php echo $language ?>"
 							>Hinzufügen</button>
 						</td>
 						<td>
@@ -3113,7 +3117,7 @@ if($userRow['admin']==0){
 			<p><i>Tabellen herunterladen und damit die Python-Skripe ausführen.</i></p>
 			<?php
 
-			$tables = array("subjects", "lecturers", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
+			$tables = array("subjects", "lecturers", "lecturers_neu", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
 
 			foreach ($tables as $table) {
 				?>

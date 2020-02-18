@@ -29,7 +29,7 @@ include "connect.php";
 	
 	//Moduldatensatz laden
 	$sql = "
-		SELECT code, modules.name AS module_name, type, ects, active
+		SELECT code, modules.name AS module_name, type, ects, requirements, active
 		FROM modules
 		WHERE modules.module_ID = '".$module_id."'
 	";
@@ -141,7 +141,17 @@ include "connect.php";
 			';
 		}
 		?>
-				
+		
+		<?php
+		if($moduleData['requirements'] != ""){
+		?>
+			<div class="alert alert-warning">
+				<strong>Aufgepasst!</strong> Um dieses Modul zu belegen, musst du Voraussetzungen erfüllen (siehe unten).
+			</div>
+		<?php
+		}
+		?>
+	
 		<div class="row">
 			<div class="col-md-8">			
 			
@@ -169,6 +179,17 @@ include "connect.php";
 								<?php echo $subjects?>
 							</td>
 						</tr>
+						
+						<?php
+						if($moduleData['requirements'] != ""){
+						?>
+							<tr>
+								<th>Voraussetzungen:</th>
+								<td><?php echo $moduleData['requirements']?></td>
+							</tr>
+						<?php
+						}
+						?>
 					</tbody>
 				</table>
 			</div>
