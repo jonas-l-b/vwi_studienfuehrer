@@ -585,6 +585,7 @@ $("#changeButton").click(function () {
 	if($row['value'] != $today){ //Update if necessary
 		$sql="
 			SELECT subjects.ID AS subject_ID, subject_name FROM subjects
+			WHERE active=1
 			ORDER BY RAND()
 			LIMIT 1
 		";
