@@ -3335,7 +3335,7 @@ if($userRow['admin']==0){
 			
 			<br>
 			<p>So wird das Ergebnis aussehen:</p>
-			<div style="border: 1px lightgrey solid; border-radius:3px; padding:15px">
+			<div style="border: 1px lightgrey solid; border-radius:3px; padding:15px; margin-bottom:15px;">
 				<?php echo "Stand der Informationen: " . $row['value']; ?>
 			</div>
 			
