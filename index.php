@@ -387,6 +387,21 @@ include "sumVotes.php";
 					
 				</div>
 			</div>
+			<hr>
+			<div align="right" style="font-size:90%;">
+				<?php
+				$result=mysqli_query($con, "SELECT value FROM help WHERE name='infoDate'");
+				$row=mysqli_fetch_assoc($result);
+				echo "Stand der Informationen: " . $row['value'];
+				?>	
+			
+				<a href="#" data-trigger="focus" data-toggle="dateOfInfo_popover" data-content="
+						Die Informationen aus diesem Kasten kommen direkt aus dem Modulhandbuch. Wir beziehen diese direkt von der KIT-Seite und verändern sie grundsätzlich nicht.
+					">
+					<span class="glyphicon glyphicon-question-sign"></span>
+				</a>
+				<script>$('[data-toggle="dateOfInfo_popover"]').popover();</script>
+			</div>
 		
 		</div>
 		<!--ENDE Infobox-->	
@@ -1373,6 +1388,10 @@ include "sumVotes.php";
 	
 	<div style="display:<?php echo $showFailedLoad?>">
 		Die Veranstaltung konnte nicht geladen werden, da die übergebene Veranstaltungs-ID nicht in unserer Datenbank existiert.
+		<br><br>
+		<div class="alert alert-warning">
+			<strong>Aufgepasst!</strong> Wir führen gerade ein Update des Studienführers durch. Auch die kann der Grund sein, warum deine gesuchte Veranstaltung nicht angezeigt werden kann. Wir arbeiten mit Hochdruck daran und sind überzeugt, dass heute Abend oder spätestens morgen wieder alles wie gewohnt funktioniert.
+		</div>
 	</div>
 </div>
 

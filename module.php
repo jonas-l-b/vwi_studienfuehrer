@@ -238,6 +238,21 @@ include "connect.php";
 		Das Modul konnte nicht geladen werden. Entweder wurde keine Modul-ID übergeben oder die übergebene Modul-ID existiert nicht in unserer Datenbank.
 	</div>
 	
+	<div align="right" style="font-size:90%;">
+		<?php
+		$result=mysqli_query($con, "SELECT value FROM help WHERE name='infoDate'");
+		$row=mysqli_fetch_assoc($result);
+		echo "Stand der Informationen: " . $row['value'];
+		?>	
+	
+		<a href="#" data-trigger="focus" data-toggle="dateOfInfo_popover" data-content="
+				Die Informationen auf dieser Seite kommen direkt aus dem Modulhandbuch. Wir beziehen diese direkt von der KIT-Seite und verändern sie grundsätzlich nicht.
+			">
+			<span class="glyphicon glyphicon-question-sign"></span>
+		</a>
+		<script>$('[data-toggle="dateOfInfo_popover"]').popover();</script>
+	</div>
+	
 </div>
 
 </body>

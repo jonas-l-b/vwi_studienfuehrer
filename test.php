@@ -2,7 +2,7 @@
 
 include "connect.php";
 
-/*
+
 $sql = "SELECT * FROM CHANGED_SUBJECTS";
 $result = mysqli_query($con, $sql);
 
@@ -14,7 +14,7 @@ while($row = mysqli_fetch_assoc($result)){
 		<br>
 	";
 }
-*/
+
 
 /*
 $sql = "SELECT * FROM ADDED_SUBJECTS";
@@ -45,7 +45,7 @@ while($row = mysqli_fetch_assoc($result)){
 }
 */
 
-
+/*
 $sql = "SELECT * FROM ADDED_LECTURERS";
 $result = mysqli_query($con, $sql);
 
@@ -58,5 +58,18 @@ while($row = mysqli_fetch_assoc($result)){
 		<br>
 	";
 }
+*/
 
+/*
+$sql = "SELECT * FROM DELETED_SUBJECTS";
+$result = mysqli_query($con, $sql);
+
+while($row = mysqli_fetch_assoc($result)){
+	echo "
+		UPDATE `subjects` SET `active`= 0
+		WHERE `identifier` = '".$row['identifier']."';
+		<br>
+	";
+}
+*/
 ?>

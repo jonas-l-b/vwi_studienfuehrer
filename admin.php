@@ -3147,7 +3147,7 @@ if($userRow['admin']==0){
 			<p><i>Tabellen herunterladen und damit die Python-Skripe ausführen.</i></p>
 			<?php
 
-			$tables = array("subjects", "lecturers", "lecturers_neu", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
+			$tables = array("subjects", "lecturers", "institutes", "modules", "lecturers_institutes", "modules_levels", "subjects_lecturers", "subjects_modules");
 
 			foreach ($tables as $table) {
 				?>
@@ -3301,6 +3301,43 @@ if($userRow['admin']==0){
 			});
 			</script>
 		
+			<h2>Schritt 9: Datum der Infos anpassen</h2>
+			<p><i>Im Studienführer wird angezeigt, aus welchem Modulhandbuch die Informationen stammen, die angezeigt werden. Gib hier das aktuelle Modulhandbuch an.</i></p>
+			
+			<form id="updateInfoDateForm">
+				<div class="form-group">
+					Das wird aktuell angezeigt:
+					<?php
+					$result=mysqli_query($con, "SELECT value FROM help WHERE name='infoDate'");
+					$row=mysqli_fetch_assoc($result);
+					?>
+					<input class="form-control" name="infoDate" value="<?php echo $row['value'] ?>">
+				</div>
+				<button id="updateInfoDateButton" class="btn btn-primary">Aktualisieren</button>
+			</form>
+			
+			<script>
+			$( document ).ready(function() {
+				$('#updateInfoDateButton').click(function(){
+					alert("klick geht");
+					$.ajax({
+						type: "POST",
+						url: "admin_updateInfo_submit.php",
+						data: $("#updateInfoDateForm").serialize(),
+						success: function(data) {
+							alert(data);
+							window.location.reload();
+						}
+					});
+				});
+			});
+			</script>
+			
+			<br>
+			<p>So wird das Ergebnis aussehen:</p>
+			<div style="border: 1px lightgrey solid; border-radius:3px; padding:15px">
+				<?php echo "Stand der Informationen: " . $row['value']; ?>
+			</div>
 			
 		</div>
 		
