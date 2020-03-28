@@ -1112,10 +1112,18 @@ include "sumVotes.php";
 				}else{
 					$modulebook_link = "";
 					$modulebook_disabled = "disabled";
+				}
+				//ilias
+				if($row['ilias'] != ""){
+					$ilias_link = "onClick=\"window.open('".$row['ilias']."')\"";
+					$ilias_disabled = "";
+				}else{
+					$ilias_link = "";
+					$ilias_disabled = "disabled";
 				}					
 				?>
 			
-				<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $modulebook_disabled ?>>ILIAS <span class="glyphicon glyphicon-new-window"></span></button>
+				<button <?php echo $ilias_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $ilias_disabled ?>>ILIAS <span class="glyphicon glyphicon-new-window"></span></button>
 				<button <?php echo $modulebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $modulebook_disabled ?>>Modulhandbuch <span class="glyphicon glyphicon-new-window"></span></button>
 				<button id="but" <?php echo $facebook_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $facebook_disabled ?>>Facebook-Gruppe <span class="glyphicon glyphicon-new-window"></span></button>
 				<button <?php echo $studydrive_link ?> class="btn btn-primary contenido" style="border-radius:0;" <?php echo $studydrive_disabled ?>>Studydrive <span class="glyphicon glyphicon-new-window"></span></button>

@@ -12,10 +12,12 @@ $semester = $_POST['semester'];
 $language = $_POST['language'];
 $exam_type = $_POST['exam_type'];
 $requirements = $_POST['requirements'];
+$ilias = $_POST['ilias'];
+$modulebook = $_POST['modulebook'];
 
 $sql1 = "
-	INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `exam_type`, `requirements`, `createdBy_ID`, `time_stamp`, `active`)
-	VALUES ('$subject_name', '$identifier', '$ECTS', '$semester', '$language', '$exam_type', '$requirements', ".$userRow['user_ID'].", now(), 1)
+	INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `exam_type`, `requirements`, `ilias`, `modulebook`, `createdBy_ID`, `time_stamp`, `active`)
+	VALUES ('$subject_name', '$identifier', '$ECTS', '$semester', '$language', '$exam_type', '$requirements', '$ilias', '$modulebook', ".$userRow['user_ID'].", now(), 1)
 ";
 $sql2 = "DELETE FROM `ADDED_SUBJECTS` WHERE `ID` = $id";
 

@@ -1554,6 +1554,8 @@ if($userRow['admin']==0){
 								data-language="<?php echo $language ?>"
 								data-exam_type="<?php echo $row['exam_type'] ?>"
 								data-requirements="<?php echo $row['requirements'] ?>"
+								data-ilias="<?php echo $row['ilias'] ?>"
+								data-modulebook="<?php echo $row['modulebook'] ?>"
 							>Hinzufügen</button>
 						</td>
 						<td>
@@ -1683,13 +1685,16 @@ if($userRow['admin']==0){
 						var ECTS = $(this).data('ects')
 						var semester = $(this).data('semester')
 						var language = $(this).data('language')
+						var exam_type = $(this).data('exam_type')
+						var ilias = $(this).data('ilias')
+						var modulebook = $(this).data('modulebook')
 						
 						var result = confirm('Veranstaltung "' + subject_name + '" wirklich hinzufügen?');
 						if(result){
 							$.ajax({
 								type: "POST",
 								url: "admin_updateLectureAdded_add_submit.php",
-								data: "id=" + id + "&subject_name=" + subject_name + "&identifier=" + identifier + "&ECTS=" + ECTS + "&semester=" + semester + "&language=" + language,
+								data: "id=" + id + "&subject_name=" + subject_name + "&identifier=" + identifier + "&ECTS=" + ECTS + "&semester=" + semester + "&language=" + language + "&exam_type=" + exam_type + "&ilias=" + ilias + "&modulebook=" + modulebook,
 								success: function(data) {
 									alert(data);
 									window.location.reload(true);
