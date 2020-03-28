@@ -2374,20 +2374,164 @@ if($userRow['admin']==0){
 			<br>
 			
 			<div class="grey-border">
-				<!-- Added -->
+			
+
 				<h3>Dozenten</h3>
 				
-				<h4>
-					<s>Geänderte</s>
-					<a href="#" data-trigger="focus" data-toggle="changed_lecturer_popover" data-content="
-							Dozenten haben abgesehen von ihrem Key (der Name) kein weiteres Attribut. Wenn sich der Name eines Dozenten ändert, wird er darum hier als gelöscht und hinzugekommen geführt.
-						">
-						<span class="glyphicon glyphicon-question-sign"></span>
-					</a>
-					<script>$('[data-toggle="changed_lecturer_popover"]').popover();</script>
-				</h4>
-					
+				<!-- Changed -->
+				<?php
+				$sql = "
+					SELECT * FROM `CHANGED_LECTURERS`
+				";
+				$result = mysqli_query($con,$sql);
+				?>
 				
+				<h4>
+					<span>Geänderte</span>
+					<span style="margin-left:5px; margin-right:5px" class="badge badge-pill badge-primary"><?php echo mysqli_num_rows($result) ?></span>
+					<a id="display_lecturers_changed"><span id="display_lecturers_changed_glyph" class="glyphicon glyphicon-chevron-down"></span></a>
+				</h4>
+				
+				<table class="table table-striped table-bordered table-condensed update-table" id="table_lecturers_changed" style="margin-top:15px; display:none">
+					<tr>
+						<th>Name</th>
+						<th>Geändertes Feld</th>
+						<th>Alter Wert</th>
+						<th>Neuer Wert</th>
+						<th>Ändern</th>
+						<th>Löschen</th>
+					</tr>
+				
+				<?php
+				while($row = mysqli_fetch_assoc($result)){
+					?>
+					<tr>
+						<td><?php echo $row['identifier'] ?></td>
+						<td><?php echo $row['changed_value'] ?></td>
+						<td><?php echo $row['value_old'] ?></td>
+						<td><?php echo $row['value_new'] ?></td>
+						<td>
+							<button type="button" class="btn btn-primary changeLecturer_confirmButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-identifier="<?php echo $row['identifier'] ?>"
+								data-changed_value="<?php echo $row['changed_value'] ?>"
+								data-value_old="<?php echo $row['value_old'] ?>"
+								data-value_new="<?php echo $row['value_new'] ?>"
+							>Änderung bestätigen</button>
+						</td>
+						<td>
+							<button type="button" class="btn btn-danger changeLecturer_deleteButton"
+								data-id="<?php echo $row['id'] ?>"
+								data-identifier="<?php echo $row['identifier'] ?>"
+							>Löschen</button>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
+				</table>
+				
+				<div class="modal fade" id="editChangedlecturerModal" tabindex="-1" role="dialog" aria-labelledby="editChangedlecturerModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-body" id="changedlecturer_edit_modal-body">
+							<form id="changedlecturer_edit_form">
+								<div class="form-group" style="display:none">
+									<label class="col-form-label">ID:</label>
+									<input type="text" class="form-control" name ="id" id="id">
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Name:</label>
+									<input type="text" class="form-control" name="identifier" id="identifier" disabled>
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Geändertes Feld:</label>
+									<input type="text" class="form-control" name="changed_value" id="changed_value" disabled>
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Alter Wert:</label>
+									<input type="text" class="form-control" name="value_old" id="value_old" disabled>
+								</div>
+								<div class="form-group">
+									<label class="col-form-label">Neuer Wert:</label>
+									<input type="text" class="form-control" name="value_new" id="value_new">
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer" id="changedlecturer_edit_modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+							<button type="button" class="btn btn-primary" id="lecturer-changed_save-changes-button">Änderungen speichern</button>
+						</div>
+					</div>
+				  </div>
+				</div>
+				
+				<script>
+				$( document ).ready(function() {
+					//Show and hide
+					$("#display_lecturers_changed").click(function() {
+						if($("#table_lecturers_changed").is(":visible")){
+							$("#table_lecturers_changed").hide();
+							$("#display_lecturers_changed_glyph").removeClass("glyphicon glyphicon-chevron-up");
+							$("#display_lecturers_changed_glyph").addClass("glyphicon glyphicon-chevron-down");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_changed&value=0"});
+						}else{
+							$("#table_lecturers_changed").show();
+							$("#display_lecturers_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
+							$("#display_lecturers_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
+							$.ajax({type: "POST", url: "admin_update_visibility.php", data: "name=institute_changed&value=1"});
+						}
+					});
+					
+					//Change module
+					$('.changeLecturer_confirmButton').click(function(){
+						
+						var id = $(this).data('id')
+						var identifier = $(this).data('identifier')
+						var changed_value = $(this).data('changed_value')
+						var value_old = $(this).data('value_old')
+						var value_new = $(this).data('value_new')
+
+						var result = confirm('Bei Dozent "'+identifier+'" wirklich den Wert von '+changed_value+' von '+value_old+' zu '+value_new+' ändern?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateLecturerChanged_confirm_submit.php",
+								data: "id=" + id + "&identifier=" + identifier + "&changed_value=" + changed_value + "&value_new=" + value_new,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Nichts wurde geändert.");
+						}
+					});
+					
+					//Delete subject
+					$('.changeLecturer_deleteButton').click(function(){
+						var id = $(this).data('id')
+						var identifier = $(this).data('identifier')
+						
+						var result = confirm('Änderungen bei Dozent "' + identifier + '" wirklich löschen?');
+						if(result){
+							$.ajax({
+								type: "POST",
+								url: "admin_updateLecturerChanged_delete_submit.php",
+								data: "id=" + id,
+								success: function(data) {
+									alert(data);
+									window.location.reload(true);
+								}
+							});
+						}else{
+							alert("Dozent wurde nicht gelöscht.");
+						}
+					});
+				});
+				</script>
+					
+				<!-- Added lecturers-->
 				<?php
 				$sql = "SELECT * FROM `ADDED_LECTURERS`";
 				$result = mysqli_query($con,$sql);
@@ -3048,6 +3192,11 @@ if($userRow['admin']==0){
 			$row = mysqli_fetch_array($result);
 			$module_deleted = $row['value'];
 			
+			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'lecturer_changed'";
+			$result = mysqli_query($con, $sql);
+			$row = mysqli_fetch_array($result);
+			$lecturer_changed = $row['value'];
+			
 			$sql = "SELECT * FROM `admin_update_settings` WHERE name = 'lecturer_added'";
 			$result = mysqli_query($con, $sql);
 			$row = mysqli_fetch_array($result);
@@ -3113,6 +3262,12 @@ if($userRow['admin']==0){
 					$('#table_modules_deleted').show();
 					$("#display_modules_deleted_glyph").removeClass("glyphicon glyphicon-chevron-down");
 					$("#display_modules_deleted_glyph").addClass("glyphicon glyphicon-chevron-up");
+				}
+				
+				if (<?php echo $lecturer_changed ?> == 1){
+					$('#table_lecturers_changed').show();
+					$("#display_lecturers_changed_glyph").removeClass("glyphicon glyphicon-chevron-down");
+					$("#display_lecturers_changed_glyph").addClass("glyphicon glyphicon-chevron-up");
 				}
 				
 				if (<?php echo $lecturer_added ?> == 1){
