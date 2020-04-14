@@ -12,6 +12,27 @@ include "connect.php";
 
 <br>
 
+<!--Anzahl Registrierungen-->
+<?php
+$sql="SELECT COUNT(*) FROM users";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+$registerCount = $row['COUNT(*)'];
+
+$sql="SELECT COUNT(*) FROM users WHERE active=0";
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+$registerCountNotActive = $row['COUNT(*)'];
+?>
+
+<h4>Anzahl registrierter Nutzer: <b><?php echo $registerCount?></b> (davon noch nicht aktiviert: <?php echo $registerCountNotActive?>)</h4>
+
+<br>
+<div style="border: solid lightgrey 1px; border-radius:3px">
+	<div id="chart_reg_div" style="width: 100%; height: 300px;"></div>
+</div>
+<br>
+
 <!--Anzahl Bewertungen-->
 <?php
 $sql="SELECT COUNT(*) FROM ratings";
