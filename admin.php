@@ -1348,6 +1348,28 @@ if($userRow['admin']==0){
 				?>
 				</table>
 				
+				<a href="#col_changed_subjects" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_changed_subjects" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM CHANGED_SUBJECTS";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `subjects`
+								SET `".$row['changed_value']."` = '".$row['value_new']."'
+								WHERE `identifier` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
+				
 				<div class="modal fade" id="editChangedSubjectModal" tabindex="-1" role="dialog" aria-labelledby="editChangedSubjectModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -1570,6 +1592,29 @@ if($userRow['admin']==0){
 				?>
 				</table>
 				
+				<a href="#col_added_subjects" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_added_subjects" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+							$sql = "SELECT * FROM ADDED_SUBJECTS";
+							$result = mysqli_query($con, $sql);
+
+							while($row = mysqli_fetch_assoc($result)){
+								$language = $row['language'];
+								$language = str_replace("nan", "k.A.", $language);
+								echo "
+									INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `active`)
+									VALUES ('".$row['subject_name']."', '".$row['identifier']."', '".$row['ECTS']."', '".$row['semester']."', '".$language."', 2, now(), 1);
+									<br>
+								";
+							}
+						?>
+					</div>
+				</div>
+				
 				<div class="modal fade" id="editAddedSubjectModal" tabindex="-1" role="dialog" aria-labelledby="editAddedSubjectModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -1773,6 +1818,27 @@ if($userRow['admin']==0){
 				?>
 				</table>
 				
+				<a href="#col_deleted_subjects" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_deleted_subjects" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM DELETED_SUBJECTS";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `subjects` SET `active`= 0
+								WHERE `identifier` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
+				
 				<script>
 				$( document ).ready(function() {
 					//Show and hide
@@ -1909,6 +1975,28 @@ if($userRow['admin']==0){
 				}
 				?>
 				</table>
+				
+				<a href="#col_changed_modules" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_changed_modules" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM CHANGED_MODULES";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `modules`
+								SET `".$row['changed_value']."` = '".$row['value_new']."'
+								WHERE `code` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
 				
 				<div class="modal fade" id="editChangedModuleModal" tabindex="-1" role="dialog" aria-labelledby="editChangedModuleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
@@ -2118,6 +2206,27 @@ if($userRow['admin']==0){
 				?>
 				</table>
 				
+				<a href="#col_added_modules" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_added_modules" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM ADDED_MODULES";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								INSERT INTO `modules`(`code`, `name`, `type`, `ects`, `requirements`, , `time_stamp`, `active`)
+								VALUES ('".$row['code']."', '".$row['name']."', '".$row['type']."', '".$row['ects']."', '".$row['requirements']."', now(), 1)
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
+				
 				<div class="modal fade" id="editAddedModuleModal" tabindex="-1" role="dialog" aria-labelledby="editAddedModuleModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -2306,6 +2415,28 @@ if($userRow['admin']==0){
 				?>
 				</table>
 				
+				<a href="#col_deleted_modules" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_deleted_modules" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM DELETED_MODULES";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `modules` SET `active`= 0
+								WHERE `code` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
+				
+				
 				<script>
 				$( document ).ready(function() {
 					//Show and hide
@@ -2430,6 +2561,28 @@ if($userRow['admin']==0){
 				}
 				?>
 				</table>
+				
+				<a href="#col_changed_lecturers" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_changed_lecturers" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM CHANGED_LECTURERS";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `lecturers`
+								SET `".$row['changed_value']."` = '".$row['value_new']."'
+								WHERE `identifier` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
 				
 				<div class="modal fade" id="editChangedlecturerModal" tabindex="-1" role="dialog" aria-labelledby="editChangedlecturerModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
@@ -2573,6 +2726,27 @@ if($userRow['admin']==0){
 				?>
 				</table>
 				
+				<a href="#col_added_lecturers" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_added_lecturers" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM ADDED_LECTURERS";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								INSERT INTO `lecturers`(`name`, `time_stamp`, `active`)
+								VALUES ('".$row['name']."', now(), 1)
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
+				
 				<script>
 				$( document ).ready(function() {
 					//Show and hide
@@ -2676,6 +2850,27 @@ if($userRow['admin']==0){
 				}
 				?>
 				</table>
+				
+				<a href="#col_deleted_lecturers" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_deleted_lecturers" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM DELETED_LECTURERS";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `lecturers` SET `active`= 0
+								WHERE `identifier` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
 				
 				<script>
 				$( document ).ready(function() {
@@ -2808,6 +3003,28 @@ if($userRow['admin']==0){
 				}
 				?>
 				</table>
+				
+				<a href="#col_changed_institutes" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_changed_institutes" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM CHANGED_INSTITUTES";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `institutes`
+								SET `".$row['changed_value']."` = '".$row['value_new']."'
+								WHERE `abbr` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
 				
 				<div class="modal fade" id="editChangedInstituteModal" tabindex="-1" role="dialog" aria-labelledby="editChangedInstituteModalLabel" aria-hidden="true">
 				  <div class="modal-dialog" role="document">
@@ -2990,6 +3207,27 @@ if($userRow['admin']==0){
 				?>
 				</table>
 				
+				<a href="#col_added_institutes" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_added_institutes" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM ADDED_INSTITUTES";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								INSERT INTO `institutes`(`name`, `abbr`, `user_ID`, `time_stamp`, `active`)
+								VALUES ('".$row['name']."', '".$row['abbr']."', ".$userRow['user_ID'].", now(), 1)
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
+				
 				<script>
 				$( document ).ready(function() {
 					//Show and hide
@@ -3094,6 +3332,27 @@ if($userRow['admin']==0){
 				}
 				?>
 				</table>
+				
+				<a href="#col_deleted_institutes" data-toggle="collapse">SQL-Befehle anzeigen / ausblenden</a>
+				<div id="col_deleted_institutes" class="collapse">
+					<p>
+						Diese SQL-Befehle können kopiert und direkt in der Datenbank auf einmal ausgeführt werden. Das ist eher nicht empfohlen. Nach der Ausführung muss die jeweilige Tabelle manuell geleert werden.
+					</p>
+					<div class="update-collapsable">
+						<?php
+						$sql = "SELECT * FROM DELETED_INSTITUTES";
+						$result = mysqli_query($con, $sql);
+
+						while($row = mysqli_fetch_assoc($result)){
+							echo "
+								UPDATE `institutes` SET `active`= 0
+								WHERE `abbr` = '".$row['identifier']."';
+								<br>
+							";
+						}
+						?>
+					</div>
+				</div>
 				
 				<script>
 				$( document ).ready(function() {
