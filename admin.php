@@ -1607,7 +1607,7 @@ if($userRow['admin']==0){
 								$language = str_replace("nan", "k.A.", $language);
 								echo "
 									INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `active`)
-									VALUES ('".$row['subject_name']."', '".$row['identifier']."', '".$row['ECTS']."', '".$row['semester']."', '".$language."', 2, now(), 1);
+									VALUES ('".$row['subject_name']."', '".$row['identifier']."', '".$row['ECTS']."', '".$row['semester']."', '".$language."', ".$userRow['user_ID'].", now(), 1);
 									<br>
 								";
 							}
@@ -2218,8 +2218,8 @@ if($userRow['admin']==0){
 
 						while($row = mysqli_fetch_assoc($result)){
 							echo "
-								INSERT INTO `modules`(`code`, `name`, `type`, `ects`, `requirements`, , `time_stamp`, `active`)
-								VALUES ('".$row['code']."', '".$row['name']."', '".$row['type']."', '".$row['ects']."', '".$row['requirements']."', now(), 1)
+								INSERT INTO `modules`(`code`, `name`, `type`, `ects`, `requirements`, `user_ID`, `time_stamp`, `active`)
+								VALUES ('".$row['code']."', '".$row['name']."', '".$row['type']."', '".$row['ects']."', '".$row['requirements']."', ".$userRow['user_ID'].", now(), 1)
 								<br>
 							";
 						}
@@ -2738,8 +2738,8 @@ if($userRow['admin']==0){
 
 						while($row = mysqli_fetch_assoc($result)){
 							echo "
-								INSERT INTO `lecturers`(`name`, `time_stamp`, `active`)
-								VALUES ('".$row['name']."', now(), 1)
+								INSERT INTO `lecturers`(`name`, `user_ID`, `time_stamp`, `active`)
+								VALUES ('".$row['name']."', ".$userRow['user_ID'].", now(), 1)
 								<br>
 							";
 						}
