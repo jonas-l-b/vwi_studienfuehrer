@@ -1087,7 +1087,7 @@ include "sumVotes.php";
 			<p class="contenedor">
 			
 				<?php
-				$result=mysqli_query($con, "SELECT ilias_pw, facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
+				$result=mysqli_query($con, "SELECT ilias, ilias_pw, facebook, studydrive, modulebook FROM subjects WHERE ID = ".$subject."");
 				$row = mysqli_fetch_assoc($result);
 				//facebook
 				if($row['facebook'] != ""){
