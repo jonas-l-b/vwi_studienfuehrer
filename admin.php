@@ -1121,7 +1121,7 @@ if($userRow['admin']==0){
 			<p><i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i></p>
 			<p><i>Der Prozess ist leider etwas fehleranfällig, da einige Schritte manuell durchgeführt werden müssen. Nimm dir darum genügend Zeit, um die Schritte gewissenhaft abzuarbeiten.</i></p>
 			
-			<h2>Schritt 0: Backup erstellen</h2>
+			<h2>	: Backup erstellen</h2>
 			<p><i>Sicherheitshalber ein Backup des jetzigen Standes des Studienführers erstellen. <a data-toggle="modal" data-target="#howToBackupModal">Wie nutze ich ein Backup?</a></i></p>
 			
 			<div class="modal fade" id="howToBackupModal" role="dialog">
@@ -1605,9 +1605,13 @@ if($userRow['admin']==0){
 							while($row = mysqli_fetch_assoc($result)){
 								$language = $row['language'];
 								$language = str_replace("nan", "k.A.", $language);
+								$requirements = $row['requirements'];
+								$requirements = str_replace("nan", "", $requirements);
+								$ilias = $row['ilias'];
+								$ilias = str_replace("nan", "", $ilias);
 								echo "
-									INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `createdBy_ID`, `time_stamp`, `active`)
-									VALUES ('".$row['subject_name']."', '".$row['identifier']."', '".$row['ECTS']."', '".$row['semester']."', '".$language."', ".$userRow['user_ID'].", now(), 1);
+									INSERT INTO `subjects`(`subject_name`, `identifier`, `ECTS`, `semester`, `language`, `exam_type`, `requirements`, `ilias`, `modulebook`, `createdBy_ID`, `time_stamp`, `active`)
+									VALUES ('".$row['subject_name']."', '".$row['identifier']."', '".$row['ECTS']."', '".$row['semester']."', '".$language."',  '".$row['exam_type']."', '".$requirements."', '".$ilias."', '".$row['modulebook']."',".$userRow['user_ID'].", now(), 1);
 									<br>
 								";
 							}
@@ -2864,7 +2868,7 @@ if($userRow['admin']==0){
 						while($row = mysqli_fetch_assoc($result)){
 							echo "
 								UPDATE `lecturers` SET `active`= 0
-								WHERE `identifier` = '".$row['identifier']."';
+								WHERE `name` = '".$row['identifier']."';
 								<br>
 							";
 						}
