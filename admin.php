@@ -1121,7 +1121,10 @@ if($userRow['admin']==0){
 			<p><i>Hier können automatisch ermittelte Änderungen des Modulhandbuches eingepflegt werden.</i></p>
 			<p><i>Der Prozess ist leider etwas fehleranfällig, da einige Schritte manuell durchgeführt werden müssen. Nimm dir darum genügend Zeit, um die Schritte gewissenhaft abzuarbeiten.</i></p>
 			
-			<h2>	: Backup erstellen</h2>
+			<h2>Schritt -1: Crawler durchlaufen lassen</h2>
+			<p><i>Bevor losgelegt wird, muss der Crawler einmal durchlaufen.</i></p>
+			
+			<h2>Schritt 0: Backup erstellen</h2>
 			<p><i>Sicherheitshalber ein Backup des jetzigen Standes des Studienführers erstellen. <a data-toggle="modal" data-target="#howToBackupModal">Wie nutze ich ein Backup?</a></i></p>
 			
 			<div class="modal fade" id="howToBackupModal" role="dialog">
