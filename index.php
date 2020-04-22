@@ -328,13 +328,10 @@ include "sumVotes.php";
 			?>
 				<hr>
 				<div class="alert alert-warning" style="text-align:center">
-					<strong>Aufgepasst!</strong> Um diese Veranstaltung zu belegen, musst du Voraussetzungen erfüllen.
-				</div>
-				<div style="text-align:center">
-					<b>
+					<strong>Aufgepasst!</strong>
 					<?php
 					$req = $subjectData['subject_requirements'];
-					$req = str_replace(":", ":</b><br>", $req);
+					$req = str_replace(":", ":<br>", $req);
 					$req = str_replace(".", ".<br>", $req);
 					echo $req	
 					?>
@@ -1396,10 +1393,6 @@ include "sumVotes.php";
 	
 	<div style="display:<?php echo $showFailedLoad?>">
 		Die Veranstaltung konnte nicht geladen werden, da die übergebene Veranstaltungs-ID nicht in unserer Datenbank existiert.
-		<br><br>
-		<div class="alert alert-warning">
-			<strong>Aufgepasst!</strong> Wir führen gerade ein Update des Studienführers durch. Auch die kann der Grund sein, warum deine gesuchte Veranstaltung nicht angezeigt werden kann. Wir arbeiten mit Hochdruck daran und sind überzeugt, dass heute Abend oder spätestens morgen wieder alles wie gewohnt funktioniert.
-		</div>
 	</div>
 </div>
 
