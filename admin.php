@@ -2226,7 +2226,7 @@ if($userRow['admin']==0){
 						while($row = mysqli_fetch_assoc($result)){
 							echo "
 								INSERT INTO `modules`(`code`, `name`, `type`, `ects`, `requirements`, `user_ID`, `time_stamp`, `active`)
-								VALUES ('".$row['code']."', '".$row['name']."', '".$row['type']."', '".$row['ects']."', '".$row['requirements']."', ".$userRow['user_ID'].", now(), 1)
+								VALUES ('".$row['code']."', '".$row['name']."', '".$row['type']."', '".$row['ects']."', '".$row['requirements']."', ".$userRow['user_ID'].", now(), 1);
 								<br>
 							";
 						}
@@ -2746,7 +2746,7 @@ if($userRow['admin']==0){
 						while($row = mysqli_fetch_assoc($result)){
 							echo "
 								INSERT INTO `lecturers`(`name`, `user_ID`, `time_stamp`, `active`)
-								VALUES ('".$row['name']."', ".$userRow['user_ID'].", now(), 1)
+								VALUES ('".$row['name']."', ".$userRow['user_ID'].", now(), 1);
 								<br>
 							";
 						}
@@ -3227,7 +3227,7 @@ if($userRow['admin']==0){
 						while($row = mysqli_fetch_assoc($result)){
 							echo "
 								INSERT INTO `institutes`(`name`, `abbr`, `user_ID`, `time_stamp`, `active`)
-								VALUES ('".$row['name']."', '".$row['abbr']."', ".$userRow['user_ID'].", now(), 1)
+								VALUES ('".$row['name']."', '".$row['abbr']."', ".$userRow['user_ID'].", now(), 1);
 								<br>
 							";
 						}
