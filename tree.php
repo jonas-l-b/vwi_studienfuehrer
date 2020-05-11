@@ -461,7 +461,9 @@ $("#changeButton").click(function () {
 						?>
 					</p>
 					<p>
-						<?php echo nl2br($next_event["event_text"])?>
+						<?php
+							echo preg_replace('#<br />(\s*<br />)+#', '<br /><br />', nl2br($next_event["event_text"])) //Replace multiple < /br>
+						?> 
 					</p>
 					<p style="margin-bottom:0">
 						Hier geht es zur Veranstaltungsseite von VWI-ESTIEM: <a href="https://www.vwi-karlsruhe.de/veranstaltungen" target="_blank">vwi-karlsuhe.de/veranstaltungen</a>
