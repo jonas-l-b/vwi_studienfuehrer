@@ -8,7 +8,7 @@ include "connect.php";
 <?php include "inc/nav.php" ?>
 
 <div class="container">
-	<h1>Studi-Recommender-System</h1>
+	<h1>Studi-Recommender</h1>
 	<p>
 		Der Studienführer bietet zwei Arten von Empfehlungen an.
 		Einerseits empfielt er jedem Nutzer auf der Startseite individuell, welche Veranstaltungen zu ihm passen könnten.
