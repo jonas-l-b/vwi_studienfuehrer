@@ -133,10 +133,12 @@ include "sumVotes.php";
 
 	$displayRatings = "";
 	$displayNoRatings = "style=\"display:none\"";
+	$displayRecommendatons = "";
 
 	if (mysqli_num_rows($result) == 0){ //Falls noch keine Bewertungen vorhanden
 		$displayRatings = "style=\"display:none\"";
 		$displayNoRatings = "";
+		$displayRecommendatons = "style=\"display:none\"";
 	}
 	?>
 
@@ -1236,6 +1238,35 @@ include "sumVotes.php";
 			
 		</div>
 		<!--ENDE Hilfreiche Links-->
+		
+		<!--START Recommender-->
+		<?php
+		if(isset($_GET['recommender']) && $_GET['recommender'] = 1){
+			?>		
+			<div <?php echo $displayRecommendatons ?> class="well" id="recommender">
+				<p style="font-size: 1.5em;font-weight:bold;">Diese veranstaltung wird oft besucht mit</p>
+				<div class="list-group">
+					<?php
+					$sql = "
+						SELECT recommendations_for_items.*, subjects.subject_name FROM `recommendations_for_items`
+						JOIN subjects ON recommendations_for_items.item_id = subjects.ID
+						WHERE base_item_id = ".$subject." AND item_id NOT IN (
+							SELECT subject_ID FROM `ratings`
+							WHERE user_ID = ".$userRow['user_ID'].")
+						LIMIT 5
+					";
+					$result = mysqli_query($con, $sql);
+					while($row = mysqli_fetch_assoc($result)){
+						echo '<a href=index.php?subject='.$row['item_id'].' class="list-group-item">'.$row['subject_name'].'</a>';
+					}
+					?>
+				</div>
+				<p>Wie die Empfehlungen erstellt werden, erfährst du <a href="recommender.php">hier</a>.</p>
+			</div>
+			<?php
+		}
+		 ?>
+		<!--ENDE Recommender-->
 		
 		<!--START Kommentare-->
 		<div <?php echo $displayRatings ?> class="well" id="commentsection">

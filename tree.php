@@ -327,6 +327,38 @@ $("#changeButton").click(function () {
 	</script>
 
 	<br>
+
+	<?php
+	if(isset($_GET['recommender']) && $_GET['recommender'] = 1){
+		?>
+		<div style="background-color:#F8F8F8; padding: 10px">
+			<h4 style="margin-botttom:0" align="center"><b>Veranstaltungsempfehlungen für dich!</b></h4>
+			<br>
+			
+			<div class="list-group">
+			<?php
+			$sql = "
+				SELECT recommendations_for_users.*, subjects.subject_name FROM `recommendations_for_users`
+				JOIN subjects ON recommendations_for_users.item_id = subjects.ID
+				WHERE recommendations_for_users.user_id = ".$userRow['user_ID']."
+				LIMIT 10
+			";
+			$result = mysqli_query($con, $sql);
+			if(mysqli_num_rows($result) = 0){
+				echo "Da du noch keine Veranstaltungen bewertet hast, können wir dir keine Empfehlungen anzeigen. Lese <a href="recommender.php">hier</a> nach, warum das so ist und warum du auch nach deiner ersten Bewertung nicht direkt Empfehlungen angezeigt bekommst."
+			}
+			while($row = mysqli_fetch_assoc($result)){
+				echo '<a href=index.php?subject='.$row['item_id'].' class="list-group-item">'.$row['subject_name'].'</a>';
+			}
+			?>
+			</div>
+			<p align="center">Wie die Empfehlungen erstellt werden und warum die Empfehlungen mit jeder deiner Veranstaltungsbewertungen besser werden, erfährst du <a href="recommender.php">hier</a>.</p>
+		</div>
+		
+		<br>
+		<?php
+	}
+	 ?>
 	
 	<!--Neuigkeiten-->
 	<?php
