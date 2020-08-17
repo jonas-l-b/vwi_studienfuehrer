@@ -344,8 +344,8 @@ $("#changeButton").click(function () {
 				LIMIT 10
 			";
 			$result = mysqli_query($con, $sql);
-			if(mysqli_num_rows($result) = 0){
-				echo "Du hast noch nicht genügend Veranstaltungen bewertet, als dass wir dir vernünftige Empfehlungen anzeigen könnten. Lese <a href='recommender.php'>hier</a> nach, warum das so ist und warum du auch nach deiner ersten Bewertung nicht direkt Empfehlungen angezeigt bekommst."
+			if(mysqli_num_rows($result) == 0){
+				echo "Du hast noch nicht genügend Veranstaltungen bewertet, als dass wir dir vernünftige Empfehlungen anzeigen könnten. Lese <a href='recommender.php'>hier</a> nach, warum das so ist und warum du auch nach deiner ersten Bewertung nicht direkt Empfehlungen angezeigt bekommst.";
 			}
 			while($row = mysqli_fetch_assoc($result)){
 				echo '<a href=index.php?subject='.$row['item_id'].' class="list-group-item">'.$row['subject_name'].'</a>';

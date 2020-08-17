@@ -1,4 +1,5 @@
-DELETE FROM recommendations_for_itemsINSERT INTO `recommendations_for_items`(`base_item_id`, `item_id`, `rank`) VALUES (118, 98, 1);
+DELETE FROM recommendations_for_items;
+INSERT INTO `recommendations_for_items`(`base_item_id`, `item_id`, `rank`) VALUES (118, 98, 1);
 INSERT INTO `recommendations_for_items`(`base_item_id`, `item_id`, `rank`) VALUES (118, 167, 2);
 INSERT INTO `recommendations_for_items`(`base_item_id`, `item_id`, `rank`) VALUES (118, 40, 3);
 INSERT INTO `recommendations_for_items`(`base_item_id`, `item_id`, `rank`) VALUES (118, 85, 4);

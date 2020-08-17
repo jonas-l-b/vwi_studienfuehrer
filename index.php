@@ -1256,7 +1256,7 @@ include "sumVotes.php";
 						LIMIT 5
 					";
 					$result = mysqli_query($con, $sql);
-					if(mysqli_num_rows(!result) > 0){
+					if(mysqli_num_rows($result) > 0){
 						while($row = mysqli_fetch_assoc($result)){
 							echo '<a href=index.php?subject='.$row['item_id'].' class="list-group-item">'.$row['subject_name'].'</a>';
 						}
