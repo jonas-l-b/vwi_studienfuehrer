@@ -1244,7 +1244,7 @@ include "sumVotes.php";
 		if(isset($_GET['recommender']) && $_GET['recommender'] = 1){
 			?>		
 			<div <?php echo $displayRecommendatons ?> class="well" id="recommender">
-				<p style="font-size: 1.5em;font-weight:bold;">Diese veranstaltung wird oft besucht mit</p>
+				<p style="font-size: 1.5em;font-weight:bold;">Dazu passende Veranstaltungen</p>
 				<div class="list-group">
 					<?php
 					$sql = "
@@ -1256,8 +1256,12 @@ include "sumVotes.php";
 						LIMIT 5
 					";
 					$result = mysqli_query($con, $sql);
-					while($row = mysqli_fetch_assoc($result)){
-						echo '<a href=index.php?subject='.$row['item_id'].' class="list-group-item">'.$row['subject_name'].'</a>';
+					if(mysqli_num_rows(!result) > 0){
+						while($row = mysqli_fetch_assoc($result)){
+							echo '<a href=index.php?subject='.$row['item_id'].' class="list-group-item">'.$row['subject_name'].'</a>';
+						}
+					}else{
+						echo "<i>Diese Veranstaltung wurde bisher noch nicht oft genug bewertet, sodass noch keine vernünftigen Empfehlungen angezeigt werden können.</i>";
 					}
 					?>
 				</div>
