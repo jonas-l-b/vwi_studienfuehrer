@@ -19,9 +19,14 @@ include "connect.php";
 	<h2>FAQs</h2>
 	<h3>Warum werden meine Veranstaltungsbewertungen nicht direkt im Recommender berücksichtigt?</h3>
 	<p>
+		Damit wir dir vernünftige Empfehlungen anzeigen können, musst du mindestens drei Bewertungen abgegeben haben - andernfalls wissen wir einfach zu wenig über deine Präferenzen.
+		Umso mehr Veranstaltungen bewertest (und auch umso mehr alle Nutzer des Studienführers bewerten), desto besser werden deine Empfehlungen.
+	</p>
+	<h3>Warum werden meine Veranstaltungsbewertungen nicht direkt im Recommender berücksichtigt?</h3>
+	<p>
 		Der Studi-Recommender wurde in Python mit dem <a href="https://making.lyst.com/lightfm/docs/home.html">LightFM-Package</a> implementiert.
 		Da unsere Server derzeit kein Python unterstützen, wird regelmäßig ein Abzug der Studienführer-Datenbank gemacht, um die Empfehlungen anderswo zu generieren und dann in der Studienführer-Datenbank abzulegen.
-		Da die Empfehlugnen also nicht in Echtzeit entstehen, werden Veranstaltungsbewertungen bis zu diesem Update nicht berücksichtigt.
+		Da die Empfehlungen also nicht in Echtzeit entstehen, werden Veranstaltungsbewertungen bis zu diesem Update nicht berücksichtigt.
 	</p>
 	<h3>Warum werden meine Empfehlungen umso besser je mehr Bewertungen ich abgebe?</h3>
 	<p>
@@ -84,6 +89,7 @@ include "connect.php";
 		Die fertige Empfehlungsliste kann noch gefiltert werden.
 		Der Studienführer filtert alle Veranstaltungen heraus, die der jeweilige Nutzer bereits besucht hat.
 		Das gilt sowohl für die idividuellen Filter auf der Startseite, als auch für die Veranstaltungsvorschläge auf der Veranstaltungsseite.
+		Darüber hinaus löschen wir aus der fertigen Empfehlungsliste alle Empfehlungen für Nutzer oder Veranstaltungen mit weniger als drei Bewertungen (da diese wahrscheinlich sowieso unbrauchbar sind).
 		Weitere Filter sind derzeit nicht aktiv.
 	</p>
 </div>

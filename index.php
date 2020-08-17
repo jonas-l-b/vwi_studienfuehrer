@@ -1261,7 +1261,7 @@ include "sumVotes.php";
 							echo '<a href=index.php?subject='.$row['item_id'].' class="list-group-item">'.$row['subject_name'].'</a>';
 						}
 					}else{
-						echo "<i>Diese Veranstaltung wurde bisher noch nicht oft genug bewertet, sodass noch keine vernünftigen Empfehlungen angezeigt werden können.</i>";
+						echo "<i>Diese Veranstaltung wurde noch nicht oft genug bewertet, sodass noch keine vernünftigen Empfehlungen angezeigt werden können.</i>";
 					}
 					?>
 				</div>
