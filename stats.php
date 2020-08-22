@@ -26,29 +26,34 @@ include "connect.php";
 // Load data for register chart
 $sql = "
 	SELECT 
-		 DATE_FORMAT(users.time_stamp_reg, '%d.%m.%y') as day, 
+		 DATE_FORMAT(users.time_stamp_reg, '%u/%y') AS yearweek_formatted,
+		 YEARWEEK(users.time_stamp_reg, 4) AS yearweek,
 		 count(*) AS numEvents 
 	FROM users
-	GROUP BY YEAR(users.time_stamp_reg), MONTH(users.time_stamp_reg), DAYOFMONTH(users.time_stamp_reg)
+    WHERE users.time_stamp_reg != ''
+	GROUP BY yearweek
+    ORDER BY yearweek
 ";
 $result = mysqli_query($con, $sql);
 $data_reg = "";
 while($row = mysqli_fetch_assoc($result)){
-	$data_reg = $data_reg . "['".$row["day"]."', ".$row["numEvents"]."],";
+	$data_reg = $data_reg . "['".$row['yearweek_formatted']."', ".$row["numEvents"]."],";
 }
 
 // Load data for ratings chart
 $sql = "
 	SELECT 
-		 DATE_FORMAT(ratings.time_stamp, '%d.%m.%y') as day, 
+		 DATE_FORMAT(ratings.time_stamp, '%u/%y') AS yearweek_formatted,
+		 YEARWEEK(ratings.time_stamp, 4) AS yearweek,
 		 count(*) AS numEvents 
 	FROM ratings
-	GROUP BY YEAR(ratings.time_stamp), MONTH(ratings.time_stamp), DAYOFMONTH(ratings.time_stamp)
+	GROUP BY yearweek
+    ORDER BY yearweek
 ";
 $result = mysqli_query($con, $sql);
 $data = "";
 while($row = mysqli_fetch_assoc($result)){
-	$data = $data . "['".$row["day"]."', ".$row["numEvents"]."],";
+	$data = $data . "['".$row["yearweek_formatted"]."', ".$row["numEvents"]."],";
 }
 ?>
 
@@ -72,7 +77,7 @@ $( document ).ready(function() {
 				]);
 
 				var options = {
-					title: 'Anzahl Neuregistrierungen im Zeitverlauf',
+					title: 'Anzahl Neuregistrierungen im Zeitverlauf (aggregiert auf Wochen)',
 					hAxis: {title: '',  titleTextStyle: {color: '#333'}},
 					vAxis: {minValue: 0},
 					//chartArea:{left:10,top:20,width:"100%",height:"100%"}
@@ -94,7 +99,7 @@ $( document ).ready(function() {
 				]);
 
 				var options = {
-					title: 'Anzahl abgegebener Bewertungen im Zeitverlauf',
+					title: 'Anzahl abgegebener Bewertungen im Zeitverlauf (aggregiert auf Wochen)',
 					hAxis: {title: '',  titleTextStyle: {color: '#333'}},
 					vAxis: {minValue: 0},
 					//chartArea:{left:10,top:20,width:"100%",height:"100%"}
