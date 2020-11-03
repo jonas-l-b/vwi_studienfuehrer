@@ -69,12 +69,12 @@ if (isset($_GET['query'])){
 		$counttotal += $count;
 		$count = 0;
 		
-		$statement4 = $con->prepare("SELECT first_name, last_name, lecturer_ID FROM lecturers WHERE CONCAT(first_name,' ',last_name) LIKE ? OR CONCAT(last_name,', ',first_name) LIKE ? ORDER BY last_name LIMIT 4");
-		$statement4->bind_param('ss', $query, $query);
+		$statement4 = $con->prepare("SELECT name, lecturer_ID FROM lecturers WHERE name LIKE ? ORDER BY name LIMIT 4");
+		$statement4->bind_param('s', $query);
 		$statement4->execute();
 		$lecturers = $statement4->get_result();
 		while(($row = mysqli_fetch_assoc($lecturers) )&& $count<2 && $counttotal<8){
-			$lecturer_result .= '{ "value" :"'.$row['last_name'].', '.$row['first_name'].'", "data": {"category" : "Dozenten", "dest":"lecturer.php?lecturer_id='.$row['lecturer_ID'].'" } },';
+			$lecturer_result .= '{ "value" :"'.$row['name'].'", "data": {"category" : "Dozenten", "dest":"lecturer.php?lecturer_id='.$row['lecturer_ID'].'" } },';
 			$anything = true;
 			$counttotal++;
 			$count++;
@@ -99,7 +99,7 @@ if (isset($_GET['query'])){
 		}
 		$count = 0;
 		while(($row = mysqli_fetch_assoc($lecturers) )&& $count<2 && $counttotal<8){
-			$lecturer_result .= '{ "value" :"'.$row['last_name'].', '.$row['first_name'].'", "data": {"category" : "Dozenten", "dest":"lecturer.php?lecturer_id='.$row['lecturer_ID'].'" } },';
+			$lecturer_result .= '{ "value" :"'.$row['name'].'", "data": {"category" : "Dozenten", "dest":"lecturer.php?lecturer_id='.$row['lecturer_ID'].'" } },';
 			$anything = true;
 			$counttotal++;
 			$count++;
