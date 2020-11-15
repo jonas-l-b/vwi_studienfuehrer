@@ -680,7 +680,9 @@ include "sumVotes.php";
 			<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
 				<div class="row align-items-sm-center">
 					<div class="col-sm-3">
-						<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">
+						<div class="align-self-center" style="display: flex; align-items:center; height:100%">
+							<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $row["event_picture"]?>">
+						</div>
 					</div>
 					<div class="col-sm-9">
 						<p>
@@ -695,7 +697,10 @@ include "sumVotes.php";
 						</p>
 						<p>
 							<?php 
-								echo preg_replace('#<br />(\s*<br />)+#', '<br /><br />', nl2br($row["event_text"])) //Replace multiple < /br>
+							$event_text = $row["event_text"];
+							//$event_text = preg_replace('#<br />(\s*<br />)+#', '<br /><br />', nl2br($event_text)); //Replace multiple < /br>
+							$event_text = preg_replace('<br />', '', $event_text); // Delete "< /br>"
+							echo $event_text;
 							?>
 						</p>
 						<p style="margin-bottom:0">
