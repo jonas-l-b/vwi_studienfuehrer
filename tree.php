@@ -477,7 +477,7 @@ $("#changeButton").click(function () {
 		<div style="border: 3px solid; border-color: #F8F8F8; padding: 10px">
 			<div class="row">
 				<div class="col-sm-3">
-					<div class="align-self-center" style="display: flex; align-items:center;">
+					<div class="align-self-center" style="display: flex; align-items:center; height:100%">
 						<img style="width:100%; padding: 10px;" src="https://www.vwi-karlsruhe.de/images/semesterprogramm/<?php echo $next_event["event_picture"]?>">
 					</div>
 				</div>
@@ -494,7 +494,10 @@ $("#changeButton").click(function () {
 					</p>
 					<p>
 						<?php
-							echo preg_replace('#<br />(\s*<br />)+#', '<br /><br />', nl2br($next_event["event_text"])) //Replace multiple < /br>
+							$event_text = $next_event["event_text"];
+							//$event_text = preg_replace('#<br />(\s*<br />)+#', '<br /><br />', nl2br($event_text)); //Replace multiple < /br>
+							$event_text = preg_replace('<br />', '', $event_text); // Delete "< /br>"
+							echo $event_text;
 						?> 
 					</p>
 					<p style="margin-bottom:0">
