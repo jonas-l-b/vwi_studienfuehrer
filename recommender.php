@@ -17,10 +17,10 @@ include "connect.php";
 	</p>
 	<br>
 	<h2>FAQs</h2>
-	<h3>Warum werden meine Veranstaltungsbewertungen nicht direkt im Recommender berücksichtigt?</h3>
+	<h3>Warum werden mir keine Veranstaltungsbewertungen angezeigt?</h3>
 	<p>
 		Damit wir dir vernünftige Empfehlungen anzeigen können, musst du mindestens drei Bewertungen abgegeben haben - andernfalls wissen wir einfach zu wenig über deine Präferenzen.
-		Umso mehr Veranstaltungen bewertest (und auch umso mehr alle Nutzer des Studienführers bewerten), desto besser werden deine Empfehlungen.
+		Umso mehr Veranstaltungen du bewertest (und auch umso mehr alle Nutzer des Studienführers bewerten), desto besser werden deine Empfehlungen.
 	</p>
 	<h3>Warum werden meine Veranstaltungsbewertungen nicht direkt im Recommender berücksichtigt?</h3>
 	<p>
@@ -76,7 +76,7 @@ include "connect.php";
 		Ein Nutzer hat beispielsweise einen hohen Wert bei Faktor 1 und einen niedrigen Wert bei Faktor 2.
 		Das gleiche gilt für eine bestimmte Veranstaltung, sodass diese Veranstaltung wahrscheinlich gut zu diesem Nutzer passt.
 		Alle latenten Faktoren spannen den latenten Raum auf - jeder Faktor entspricht einer Dimension.
-		Nutzer und Veranstaltungen, die sich nahme in diesem Raum aufhalten, passen vermutlich gut zusammen.
+		Nutzer und Veranstaltungen, die sich nahe in diesem Raum aufhalten, passen vermutlich gut zusammen.
 		Gleiches gilt auch für zwei Veranstaltungen oder zwei Nutzer, die nahe zusammen liegen.
 	</p>
 	<img src="pictures/recommender/rec_latenterRaum.png" style="max-width:100%; padding:5%">
